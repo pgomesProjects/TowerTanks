@@ -7,7 +7,6 @@ public class MultiplayerManager : MonoBehaviour
 {
     [SerializeField] private CinemachineTargetGroup targetGroup;
 
-    internal int numberOfPlayers = 0;
     private Color[] playerColors = { Color.red, Color.blue, Color.yellow, Color.green};
 
     // Start is called before the first frame update
@@ -20,14 +19,18 @@ public class MultiplayerManager : MonoBehaviour
     {
         //Add the new player to the camera's target group
         targetGroup.AddMember(playerInput.transform, 1, 1);
-        numberOfPlayers++;
 
-        SetColorOfPlayer(playerInput.transform);
+        //Generate the new player's index
+        int playerIndex = ConnectionController.CheckForIndex();
+        ConnectionController.connectedControllers[playerIndex] = true;
+        FindObjectOfType<CornerUIController>().OnPlayerJoined(playerIndex);
+
+        SetColorOfPlayer(playerInput.transform, playerIndex);
     }
 
-    private void SetColorOfPlayer(Transform player)
+    private void SetColorOfPlayer(Transform player, int playerIndex)
     {
         //Change color of player depending on which player number they are
-        player.GetComponent<Renderer>().material.color = playerColors[numberOfPlayers - 1];
+        player.GetComponent<Renderer>().material.color = playerColors[playerIndex];
     }
 }
