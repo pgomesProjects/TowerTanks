@@ -32,7 +32,7 @@ public class GoalProgressManager : MonoBehaviour
             if (percent >= 100)
             {
                 //Win Condition
-                Debug.Log("Goal Reached!");
+                //Debug.Log("Goal Reached!");
             }
             else
             {

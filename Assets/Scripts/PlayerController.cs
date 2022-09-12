@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     private float horizontal;
     private float speed = 8f;
     private Rigidbody2D rb;
+    internal InteractableController currentInteractableItem;
 
     // Start is called before the first frame update
     void Start()
@@ -24,5 +25,15 @@ public class PlayerController : MonoBehaviour
 
     //Send value from Move callback to the horizontal float
     public void OnMove(InputAction.CallbackContext ctx) => horizontal = ctx.ReadValue<Vector2>().x;
+
+    public void OnInteract(InputAction.CallbackContext ctx)
+    {
+        //If the player presses the interact button and there is something to interact with
+        if (ctx.started && currentInteractableItem != null)
+        {
+            //Call the interaction event
+            currentInteractableItem.OnInteraction();
+        }
+    }
 
 }
