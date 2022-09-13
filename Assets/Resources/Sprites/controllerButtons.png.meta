@@ -312,6 +312,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -2452,6 +2453,103 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      controllerButtons_57: 5359229241026341541
+      controllerButtons_74: 4915463165902223973
+      controllerButtons_83: 7627714091821545954
+      controllerButtons_61: 5708327238600636667
+      controllerButtons_91: 4741253511986125591
+      controllerButtons_43: 2687769063008514728
+      controllerButtons_25: -3359030758642227172
+      controllerButtons_89: 9090059203943803257
+      controllerButtons_39: -798816537574096952
+      controllerButtons_80: 1338509528402398919
+      controllerButtons_81: 4503696486701536580
+      controllerButtons_46: 5829265447836682489
+      controllerButtons_11: 5454034442603704523
+      controllerButtons_23: -6046647600136108487
+      controllerButtons_21: 4815088550173518388
+      controllerButtons_62: -8745452062285375937
+      controllerButtons_27: -3741176193527025907
+      controllerButtons_34: 6225015356222390427
+      controllerButtons_77: -6890148873299373393
+      controllerButtons_52: 5049171172273250765
+      controllerButtons_1: -208170771454307529
+      controllerButtons_95: 9103022958858575982
+      controllerButtons_32: -1541064681681599473
+      controllerButtons_49: -6521091171729930742
+      controllerButtons_3: 4005261604901691616
+      controllerButtons_14: 6583023113624617521
+      controllerButtons_22: 7644973917231602409
+      controllerButtons_38: -5652385378679919724
+      controllerButtons_35: -5386713289574654499
+      controllerButtons_71: 7802090102997035222
+      controllerButtons_82: 8945522224159952078
+      controllerButtons_31: 8898811493339827175
+      controllerButtons_50: 1811150668625199147
+      controllerButtons_44: 68747922707240928
+      controllerButtons_41: 9071425969492306125
+      controllerButtons_76: -900791538979937165
+      controllerButtons_68: 1519221035191700438
+      controllerButtons_47: 4938820925568135746
+      controllerButtons_79: 2789218916493133502
+      controllerButtons_64: 7447944000376001122
+      controllerButtons_72: 8303339889735849194
+      controllerButtons_90: 664345419429074773
+      controllerButtons_73: 7217021595600619179
+      controllerButtons_42: 3974674757623939488
+      controllerButtons_4: 1188104197809159723
+      controllerButtons_10: -2158147160329339836
+      controllerButtons_16: -2458743044706646003
+      controllerButtons_7: -5969411761667603349
+      controllerButtons_40: -4825740060555366567
+      controllerButtons_60: 4607247865620731659
+      controllerButtons_24: 5727898735615755185
+      controllerButtons_26: 2593724697971242913
+      controllerButtons_30: -1499784914835246414
+      controllerButtons_54: -9127768288291109552
+      controllerButtons_15: -5752036039941939481
+      controllerButtons_33: 1416848776155638223
+      controllerButtons_2: 2252440520486434370
+      controllerButtons_37: 8596901327143228120
+      controllerButtons_17: -6854454432427546358
+      controllerButtons_6: 6180479773511025465
+      controllerButtons_0: -7783586629661608857
+      controllerButtons_84: 7634200908897381498
+      controllerButtons_36: -1112513978858796392
+      controllerButtons_94: -6669406714770478226
+      controllerButtons_86: -7904808589740777460
+      controllerButtons_88: -4343360953768730034
+      controllerButtons_28: 3767115126033403838
+      controllerButtons_20: 7102546251708105363
+      controllerButtons_66: 4373124843376144586
+      controllerButtons_29: -3818525143661884025
+      controllerButtons_56: 1173877334084943261
+      controllerButtons_13: -3601224950594602457
+      controllerButtons_48: 6892159164624650074
+      controllerButtons_59: -1977312216472185985
+      controllerButtons_92: -1025348102951724494
+      controllerButtons_19: -6625827108831935863
+      controllerButtons_87: 3862310732260123862
+      controllerButtons_18: 3053745508797148086
+      controllerButtons_5: 5211498429553658465
+      controllerButtons_53: -8065210623081015980
+      controllerButtons_78: 8899675068544136596
+      controllerButtons_8: -5623081080087514871
+      controllerButtons_93: 6289854175300171261
+      controllerButtons_65: 2100056216085054207
+      controllerButtons_67: -1823209619914508809
+      controllerButtons_70: 9004656249662422765
+      controllerButtons_9: 4772489042797571090
+      controllerButtons_75: 2276816728403623890
+      controllerButtons_45: 3883408200787797900
+      controllerButtons_58: -6522860731689403654
+      controllerButtons_69: 1858836776828191411
+      controllerButtons_55: 4406686479972681017
+      controllerButtons_63: -1312620467989995458
+      controllerButtons_85: -7766006730283244312
+      controllerButtons_12: -8236199607376484587
+      controllerButtons_51: 1808940221500351809
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
