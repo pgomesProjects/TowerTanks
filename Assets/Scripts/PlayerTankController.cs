@@ -18,4 +18,17 @@ public class PlayerTankController : MonoBehaviour
     {
         
     }
+
+    public void DealDamage(int dmg)
+    {
+        health -= dmg;
+
+        Debug.Log("Player Tank Health: " + health);
+
+        //Check for Game Over
+        if(health <= 0)
+        {
+            Debug.Log("Tank Is Destroyed!");
+        }
+    }
 }
