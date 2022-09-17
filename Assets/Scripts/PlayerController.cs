@@ -36,4 +36,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void OnPause(InputAction.CallbackContext ctx)
+    {
+        //If the player presses the pause button
+        if (ctx.started)
+        {
+            //Pause the game
+            LevelManager.instance.PauseToggle();
+        }
+    }
+
 }
