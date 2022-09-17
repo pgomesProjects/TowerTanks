@@ -29,6 +29,7 @@ public class PlayerTankController : MonoBehaviour
         if(health <= 0)
         {
             Debug.Log("Tank Is Destroyed!");
+            LevelManager.instance.GameOver();
         }
     }
 }

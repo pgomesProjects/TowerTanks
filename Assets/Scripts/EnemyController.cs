@@ -36,8 +36,22 @@ public class EnemyController : MonoBehaviour
             Debug.Log("Enemy Is At Player!");
             inRangeOfPlayer = true;
             rb.velocity = new Vector2(0, 0);
-            //Deal Damage To Player Tank Every 0.5 Seconds
+            //Deal Damage To Player Tank Every 0.25 Seconds
             StartCoroutine(DealDamage());
+        }
+    }
+
+    public void DealDamage(int dmg)
+    {
+        health -= dmg;
+
+        Debug.Log("Enemy Tank Health: " + health);
+
+        //Check for Game Over
+        if (health <= 0)
+        {
+            Debug.Log("Enemy Tank Is Destroyed!");
+            Destroy(gameObject);
         }
     }
 
@@ -46,7 +60,7 @@ public class EnemyController : MonoBehaviour
         while (true)
         {
             player.DealDamage(5);
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.25f);
         }
     }
 }

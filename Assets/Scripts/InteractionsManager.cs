@@ -18,6 +18,11 @@ public class InteractionsManager : MonoBehaviour
     public void StartCannonFire()
     {
         Debug.Log("BAM! Weapon has been fired!");
+        //Example: deal 25 damage when firing weapon at enemy
+        if(FindObjectOfType<EnemyController>() != null)
+        {
+            FindObjectOfType<EnemyController>().DealDamage(25);
+        }
     }
 
     public void StartCoalFill()
