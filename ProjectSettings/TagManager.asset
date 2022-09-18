@@ -6,6 +6,7 @@ TagManager:
   tags:
   - JoinText
   - PlayerTank
+  - Ladder
   layers:
   - Default
   - TransparentFX
@@ -14,8 +15,8 @@ TagManager:
   - Water
   - UI
   - Tank
-  - 
-  - 
+  - Ladder
+  - Ground
   - 
   - Background
   - 

@@ -242,6 +242,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67f385c7fec67324cacb1fb18f86b2ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ladderMask:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!50 &4673326632306893225
 Rigidbody2D:
   serializedVersion: 4
@@ -257,12 +260,12 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 2
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 6
+  m_Constraints: 4
 --- !u!70 &3791678669084008336
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
