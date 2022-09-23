@@ -14,11 +14,15 @@ public class PlayerController : MonoBehaviour
     private bool isClimbing;
     private float defaultGravity;
 
+    private GameObject currentItem;
+    private bool isHoldingItem;
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         defaultGravity = rb.gravityScale;
+        isHoldingItem = false;
     }
 
     // Update is called once per frame
@@ -77,6 +81,43 @@ public class PlayerController : MonoBehaviour
         {
             //Pause the game
             LevelManager.instance.PauseToggle();
+        }
+    }
+
+
+    public void GivePlayerItem(GameObject item)
+    {
+        currentItem = item;
+    }
+
+    public void OnPickup(InputAction.CallbackContext ctx)
+    {
+        //If the player presses the pickup button
+        if (ctx.started)
+        {
+            if (!isHoldingItem)
+            {
+                //Make the current item the player's child
+                currentItem.transform.position = gameObject.transform.position;
+                currentItem.GetComponent<Rigidbody2D>().gravityScale = 0;
+                currentItem.GetComponent<Rigidbody2D>().isKinematic = true;
+                currentItem.transform.parent = gameObject.transform;
+
+                Debug.Log("Picked Up Item!");
+
+                foreach (var i in FindObjectsOfType<PlayerController>())
+                {
+                    if (i != null)
+                    {
+                        if (i != this)
+                        {
+                            i.GivePlayerItem(null);
+                        }
+                    }
+                }
+
+                isHoldingItem = true;
+            }
         }
     }
 

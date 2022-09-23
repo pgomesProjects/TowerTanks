@@ -18,10 +18,14 @@ public class InteractionsManager : MonoBehaviour
     }
 
     public void SpawnShell(){
+        if (!ShellMachine.IsShellActive())
+        {
+            GameObject newShell = Instantiate(cannonShell, new Vector3(spawnPos.x, spawnPos.y, 0), Quaternion.identity);
+            float randomX = Random.Range(0.25f, 0.4f);
+            newShell.GetComponent<Rigidbody2D>().AddForce(new Vector2(randomX, 1) * 1500);
 
-        GameObject newShell = Instantiate(cannonShell, new Vector3(spawnPos.x, spawnPos.y, 0), Quaternion.identity);
-        float randomX = Random.Range(0.25f, 0.4f);
-        newShell.GetComponent<Rigidbody2D>().AddForce(new Vector2(randomX, 1) * 1500);
+            ShellMachine.SetShellActive(true);
+        }
     }
 
     /// <summary>
