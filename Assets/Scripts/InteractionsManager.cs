@@ -39,12 +39,6 @@ public class InteractionsManager : MonoBehaviour
             Debug.Log("Cannon Found!");
             FindObjectOfType<CannonController>().Fire();
         }
-
-        //Example: deal 25 damage when firing weapon at enemy
-        if(FindObjectOfType<EnemyController>() != null)
-        {
-            FindObjectOfType<EnemyController>().DealDamage(25);
-        }
     }
 
     /// <summary>

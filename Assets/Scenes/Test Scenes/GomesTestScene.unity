@@ -3564,7 +3564,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e62f1f2641d032148893173b4a380bca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectile: {fileID: 7578090233616032331, guid: d5fd1874944530943aca4ae0373b0640, type: 3}
+  projectile: {fileID: 7578090233616032331, guid: 1a9426da801e3aa48a2ce64d5f72c966, type: 3}
   spawnPoint: {fileID: 1831231290}
 --- !u!1 &1742546808
 GameObject:
@@ -3912,7 +3912,7 @@ GameObject:
   - component: {fileID: 1911332465}
   m_Layer: 6
   m_Name: EnemyTank
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
