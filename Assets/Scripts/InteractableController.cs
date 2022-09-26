@@ -35,7 +35,7 @@ public class InteractableController : MonoBehaviour
     public void OnInteraction()
     {
         //If the object is interacted with, grab the function from the inspector that will decide what to do
-        if(canInteract)
+        if (canInteract)
             interactEvent.Invoke();
     }
 }

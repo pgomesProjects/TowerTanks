@@ -8,6 +8,7 @@ public class InteractionsManager : MonoBehaviour
 
     [SerializeField] private GameObject cannonShell;
     [SerializeField] private Vector2 spawnPos;
+    internal PlayerController currentPlayer;
 
     /// <summary>
     /// Test Interaction
@@ -31,13 +32,32 @@ public class InteractionsManager : MonoBehaviour
     /// <summary>
     /// Fires a cannon in the direction of the enemies
     /// </summary>
-    public void StartCannonFire()
+    public void StartCannonFire(CannonController cannon)
     {
-        Debug.Log("BAM! Weapon has been fired!");
+        //If there is a player
+        if(currentPlayer != null)
+        {
+            //If the player has an item
+            if (currentPlayer.GetPlayerItem() != null)
+            {
+                //If the player's item is a shell
+                if(currentPlayer.GetPlayerItem().GetComponent<ShellController>() != null)
+                {
 
-        if(FindObjectOfType<CannonController>() != null){
-            Debug.Log("Cannon Found!");
-            FindObjectOfType<CannonController>().Fire();
+                    //Get rid of the player's item
+                    Destroy(currentPlayer.GetPlayerItem());
+
+                    Debug.Log("BAM! Weapon has been fired!");
+
+                    //Fire the cannon
+                    if (cannon != null)
+                    {
+                        Debug.Log("Cannon Found!");
+                        cannon.Fire();
+                        ShellMachine.SetShellActive(false);
+                    }
+                }
+            }
         }
     }
 

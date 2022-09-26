@@ -18,4 +18,11 @@ public class DamageObject : MonoBehaviour
         }
     }
 
+
+    private void Update()
+    {
+        //If the item is passed the world's bounds, delete it
+        if(transform.position.y < -10)
+            Destroy(gameObject);
+    }
 }

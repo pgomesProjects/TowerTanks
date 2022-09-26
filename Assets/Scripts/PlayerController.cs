@@ -69,6 +69,8 @@ public class PlayerController : MonoBehaviour
         //If the player presses the interact button and there is something to interact with
         if (ctx.started && currentInteractableItem != null)
         {
+            FindObjectOfType<InteractionsManager>().currentPlayer = this;
+
             //Call the interaction event
             currentInteractableItem.OnInteraction();
         }
@@ -88,6 +90,11 @@ public class PlayerController : MonoBehaviour
     public void GivePlayerItem(GameObject item)
     {
         currentItem = item;
+    }
+
+    public GameObject GetPlayerItem()
+    {
+        return currentItem;
     }
 
     public void OnPickup(InputAction.CallbackContext ctx)
@@ -117,6 +124,15 @@ public class PlayerController : MonoBehaviour
                 }
 
                 isHoldingItem = true;
+            }
+            else
+            {
+                //Remove the item from the player and put it back in the level
+                currentItem.GetComponent<Rigidbody2D>().gravityScale = 2;
+                currentItem.GetComponent<Rigidbody2D>().isKinematic = false;
+                currentItem.transform.parent = null;
+
+                isHoldingItem = false;
             }
         }
     }
