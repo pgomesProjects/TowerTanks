@@ -8,6 +8,8 @@ TagManager:
   - PlayerTank
   - Ladder
   - Enemy
+  - Shell
+  - Cannon
   layers:
   - Default
   - TransparentFX

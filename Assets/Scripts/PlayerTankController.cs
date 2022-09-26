@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerTankController : MonoBehaviour
 {
     [SerializeField] private float health = 100;
-    [SerializeField] private float speed = 5;
+    //[SerializeField] private float speed = 5;
 
     // Start is called before the first frame update
     void Start()

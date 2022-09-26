@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     private Vector2 movement;
+    private float cannonMovement;
     private float speed = 8f;
     private Rigidbody2D rb;
     internal InteractableController currentInteractableItem;
@@ -14,7 +15,8 @@ public class PlayerController : MonoBehaviour
     private bool isClimbing;
     private float defaultGravity;
 
-    private GameObject currentItem;
+    private Item closestItem;
+    private Item itemHeld;
     private bool isHoldingItem;
 
     // Start is called before the first frame update
@@ -61,8 +63,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    //Send value from Move callback to the horizontal float
+    //Send value from Move callback to the horizontal Vector2
     public void OnMove(InputAction.CallbackContext ctx) => movement = ctx.ReadValue<Vector2>();
+
+    //Send value from Angle Cannon callback to the horizontal float
+    public void OnAngleCannon(InputAction.CallbackContext ctx) => cannonMovement = ctx.ReadValue<Vector2>().y;
+
+    public float GetCannonMovement()
+    {
+        return cannonMovement;
+    }
 
     public void OnInteract(InputAction.CallbackContext ctx)
     {
@@ -87,14 +97,26 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    public void GivePlayerItem(GameObject item)
+    public void MarkClosestItem(Item item)
     {
-        currentItem = item;
+        closestItem = item;
     }
 
-    public GameObject GetPlayerItem()
+    public bool IsPlayerHoldingItem()
     {
-        return currentItem;
+        return isHoldingItem;
+    }
+
+    public Item GetPlayerItem()
+    {
+        return itemHeld;
+    }
+
+    public void DestroyItem()
+    {
+        Destroy(itemHeld.gameObject);
+        itemHeld = null;
+        isHoldingItem = false;
     }
 
     public void OnPickup(InputAction.CallbackContext ctx)
@@ -102,37 +124,42 @@ public class PlayerController : MonoBehaviour
         //If the player presses the pickup button
         if (ctx.started)
         {
+            //If the player is not holding an item
             if (!isHoldingItem)
             {
-                //Make the current item the player's child
-                currentItem.transform.position = gameObject.transform.position;
-                currentItem.GetComponent<Rigidbody2D>().gravityScale = 0;
-                currentItem.GetComponent<Rigidbody2D>().isKinematic = true;
-                currentItem.transform.parent = gameObject.transform;
-
-                Debug.Log("Picked Up Item!");
-
-                foreach (var i in FindObjectsOfType<PlayerController>())
+                //If the closest item to the player exists and is not picked up
+                if (closestItem != null && !closestItem.IsItemPickedUp())
                 {
-                    if (i != null)
-                    {
-                        if (i != this)
-                        {
-                            i.GivePlayerItem(null);
-                        }
-                    }
-                }
+                    itemHeld = closestItem;
 
-                isHoldingItem = true;
+                    //Make the current item the player's child and stick it to the player
+                    itemHeld.transform.position = gameObject.transform.position;
+                    itemHeld.transform.rotation = Quaternion.identity;
+                    itemHeld.GetComponent<Rigidbody2D>().gravityScale = 0;
+                    itemHeld.GetComponent<Rigidbody2D>().isKinematic = true;
+                    itemHeld.transform.parent = gameObject.transform;
+
+                    Debug.Log("Picked Up Item!");
+
+                    itemHeld.SetPickUp(true);
+                    isHoldingItem = true;
+                    closestItem = null;
+                }
             }
             else
             {
-                //Remove the item from the player and put it back in the level
-                currentItem.GetComponent<Rigidbody2D>().gravityScale = 2;
-                currentItem.GetComponent<Rigidbody2D>().isKinematic = false;
-                currentItem.transform.parent = null;
+                //If the player is still holding an item
+                if (itemHeld != null)
+                {
+                    //Remove the item from the player and put it back in the level
+                    itemHeld.GetComponent<Rigidbody2D>().gravityScale = itemHeld.GetDefaultGravityScale();
+                    itemHeld.GetComponent<Rigidbody2D>().isKinematic = false;
+                    itemHeld.transform.parent = null;
 
-                isHoldingItem = false;
+                    itemHeld.SetPickUp(false);
+                    isHoldingItem = false;
+                    itemHeld = null;
+                }
             }
         }
     }

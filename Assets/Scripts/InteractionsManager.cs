@@ -7,7 +7,6 @@ public class InteractionsManager : MonoBehaviour
 
 
     [SerializeField] private GameObject cannonShell;
-    [SerializeField] private Vector2 spawnPos;
     internal PlayerController currentPlayer;
 
     /// <summary>
@@ -18,10 +17,14 @@ public class InteractionsManager : MonoBehaviour
         Debug.Log("This Is A Test Interaction!");
     }
 
-    public void SpawnShell(){
+    public void SpawnShell(GameObject shellStation){
+
+        //If there is not a shell currently active
         if (!ShellMachine.IsShellActive())
         {
-            GameObject newShell = Instantiate(cannonShell, new Vector3(spawnPos.x, spawnPos.y, 0), Quaternion.identity);
+            //Spawn a shell at the spawn point
+            Transform spawnPoint = shellStation.transform.Find("SpawnPoint");
+            GameObject newShell = Instantiate(cannonShell, new Vector3(spawnPoint.position.x, spawnPoint.position.y, 0), Quaternion.identity);
             float randomX = Random.Range(0.25f, 0.4f);
             newShell.GetComponent<Rigidbody2D>().AddForce(new Vector2(randomX, 1) * 1500);
 
@@ -41,18 +44,14 @@ public class InteractionsManager : MonoBehaviour
             if (currentPlayer.GetPlayerItem() != null)
             {
                 //If the player's item is a shell
-                if(currentPlayer.GetPlayerItem().GetComponent<ShellController>() != null)
+                if(currentPlayer.GetPlayerItem().CompareTag("Shell"))
                 {
-
-                    //Get rid of the player's item
-                    Destroy(currentPlayer.GetPlayerItem());
-
-                    Debug.Log("BAM! Weapon has been fired!");
-
                     //Fire the cannon
                     if (cannon != null)
                     {
-                        Debug.Log("Cannon Found!");
+                        //Get rid of the player's item
+                        Debug.Log("BAM! Weapon has been fired!");
+                        currentPlayer.DestroyItem();
                         cannon.Fire();
                         ShellMachine.SetShellActive(false);
                     }
@@ -64,8 +63,10 @@ public class InteractionsManager : MonoBehaviour
     /// <summary>
     /// Fills coal so that the tank can continue moving
     /// </summary>
-    public void StartCoalFill()
+    public void StartCoalFill(CoalController coalController)
     {
+        //Add 50% of the necessary coal to the furnace
         Debug.Log("Coal Has Been Added To The Furnace!");
+        coalController.AddCoal(50);
     }
 }
