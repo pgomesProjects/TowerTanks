@@ -98,6 +98,15 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Control Steering"",
+                    ""type"": ""Button"",
+                    ""id"": ""33b0e852-e502-4dab-a626-1d21f8cc8fa0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -496,6 +505,39 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""action"": ""Angle Cannon"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Left Stick"",
+                    ""id"": ""845ac626-bf4f-4b32-9529-fff794fd0a12"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Control Steering"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""d32838dd-6a7d-4f35-95a2-5cf7a30396d3"",
+                    ""path"": ""<Gamepad>/leftStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Control Steering"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""b4328ece-9d4c-4f60-b4b9-f3094788f5b8"",
+                    ""path"": ""<Gamepad>/leftStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Control Steering"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -1089,6 +1131,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
         m_Player_PickUp = m_Player.FindAction("Pick Up", throwIfNotFound: true);
         m_Player_AngleCannon = m_Player.FindAction("Angle Cannon", throwIfNotFound: true);
+        m_Player_ControlSteering = m_Player.FindAction("Control Steering", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1168,6 +1211,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Pause;
     private readonly InputAction m_Player_PickUp;
     private readonly InputAction m_Player_AngleCannon;
+    private readonly InputAction m_Player_ControlSteering;
     public struct PlayerActions
     {
         private @PlayerControlSystem m_Wrapper;
@@ -1180,6 +1224,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         public InputAction @Pause => m_Wrapper.m_Player_Pause;
         public InputAction @PickUp => m_Wrapper.m_Player_PickUp;
         public InputAction @AngleCannon => m_Wrapper.m_Player_AngleCannon;
+        public InputAction @ControlSteering => m_Wrapper.m_Player_ControlSteering;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1213,6 +1258,9 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @AngleCannon.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAngleCannon;
                 @AngleCannon.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAngleCannon;
                 @AngleCannon.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAngleCannon;
+                @ControlSteering.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnControlSteering;
+                @ControlSteering.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnControlSteering;
+                @ControlSteering.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnControlSteering;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1241,6 +1289,9 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @AngleCannon.started += instance.OnAngleCannon;
                 @AngleCannon.performed += instance.OnAngleCannon;
                 @AngleCannon.canceled += instance.OnAngleCannon;
+                @ControlSteering.started += instance.OnControlSteering;
+                @ControlSteering.performed += instance.OnControlSteering;
+                @ControlSteering.canceled += instance.OnControlSteering;
             }
         }
     }
@@ -1405,6 +1456,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         void OnPause(InputAction.CallbackContext context);
         void OnPickUp(InputAction.CallbackContext context);
         void OnAngleCannon(InputAction.CallbackContext context);
+        void OnControlSteering(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

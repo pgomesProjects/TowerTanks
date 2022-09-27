@@ -76,6 +76,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Control Steering",
+                    "type": "Button",
+                    "id": "33b0e852-e502-4dab-a626-1d21f8cc8fa0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -474,6 +483,39 @@
                     "action": "Angle Cannon",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "Left Stick",
+                    "id": "845ac626-bf4f-4b32-9529-fff794fd0a12",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Control Steering",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "d32838dd-6a7d-4f35-95a2-5cf7a30396d3",
+                    "path": "<Gamepad>/leftStick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Control Steering",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "b4328ece-9d4c-4f60-b4b9-f3094788f5b8",
+                    "path": "<Gamepad>/leftStick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Control Steering",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         },

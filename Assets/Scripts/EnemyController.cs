@@ -23,9 +23,12 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!inRangeOfPlayer){
-        //Move the enemy horizontally
-        rb.velocity = new Vector2(-speed, rb.velocity.y);
+        if(!inRangeOfPlayer)
+        {
+            float currentSpeed = -speed;
+
+            //Move the enemy horizontally
+            rb.velocity = new Vector2(currentSpeed, rb.velocity.y);
         }
     }
 

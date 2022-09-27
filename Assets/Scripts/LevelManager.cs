@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public enum TANKSPEED
+{
+    REVERSEFAST, REVERSE, STATIONARY, FORWARD, FORWARDFAST
+}
+
 public class LevelManager : MonoBehaviour
 {
     [SerializeField] private Canvas gameOverCanvas;
@@ -11,11 +16,28 @@ public class LevelManager : MonoBehaviour
     public static LevelManager instance;
 
     internal bool isPaused;
+    internal bool hasFuel;
+    internal bool isSteering;
+    internal float gameSpeed;
+    internal int speedIndex;
+    internal float[] currentSpeed = {-1.5f, -1f, 0f, 1, 1.5f};
 
     private void Awake()
     {
         instance = this;
         isPaused = false;
+        hasFuel = true;
+        isSteering = false;
+        speedIndex = (int)TANKSPEED.FORWARD;
+        gameSpeed = currentSpeed[speedIndex];
+    }
+
+    public void UpdateSpeed(int speedUpdate)
+    {
+        speedIndex += speedUpdate;
+        gameSpeed = currentSpeed[speedIndex];
+
+        Debug.Log("Tank Speed: " + gameSpeed);
     }
 
     public void PauseToggle()

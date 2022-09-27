@@ -1596,6 +1596,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4728784133398993885, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
+      propertyPath: lockPlayerIntoInteraction
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4728784133398993885, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
+      propertyPath: interactEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 796645374}
+    - target: {fileID: 4728784133398993885, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
+      propertyPath: interactEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ChangeSteering
+      objectReference: {fileID: 0}
+    - target: {fileID: 4728784133398993885, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
+      propertyPath: interactEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: InteractableController, Assembly-CSharp
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
 --- !u!4 &783624670 stripped
@@ -1603,6 +1619,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4728784133398993875, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
   m_PrefabInstance: {fileID: 783624669}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &796645374 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4728784133398993885, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
+  m_PrefabInstance: {fileID: 783624669}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77be36465c7aad645b95aa7b016bdb07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &815365860
 GameObject:
   m_ObjectHideFlags: 0
@@ -2658,7 +2685,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.777559, y: 1}
+    m_SensorSize: {x: 1.7782178, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -3697,7 +3724,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41e1b1abe987a2e48b763b758077f6de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parallaxSpeed: -5
+  parallaxSpeed: -4
 --- !u!1 &1603892791
 GameObject:
   m_ObjectHideFlags: 0

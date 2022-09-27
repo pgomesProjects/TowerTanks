@@ -43,6 +43,7 @@ public class CoalController : MonoBehaviour
         {
             Debug.Log("Coal Is Out!");
             hasCoal = false;
+            LevelManager.instance.hasFuel = false;
         }
     }
 
@@ -55,6 +56,7 @@ public class CoalController : MonoBehaviour
         if(coalPercentage > 0)
         {
             hasCoal = true;
+            LevelManager.instance.hasFuel = true;
         }
 
         //Make sure the coal percentage does not pass 100%

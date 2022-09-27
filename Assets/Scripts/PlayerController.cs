@@ -7,11 +7,13 @@ public class PlayerController : MonoBehaviour
 {
     private Vector2 movement;
     private float cannonMovement;
+    internal float steeringValue;
     private float speed = 8f;
     private Rigidbody2D rb;
     internal InteractableController currentInteractableItem;
     [SerializeField] private float distance = 3f;
     [SerializeField] private LayerMask ladderMask;
+    private bool canMove;
     private bool isClimbing;
     private float defaultGravity;
 
@@ -25,13 +27,17 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         defaultGravity = rb.gravityScale;
         isHoldingItem = false;
+        canMove = true;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
         //Move the player horizontally
-        rb.velocity = new Vector2(movement.x * speed, rb.velocity.y);
+        if (canMove)
+        {
+            rb.velocity = new Vector2(movement.x * speed, rb.velocity.y);
+        }
 
         //Check to see if the player is colliding with the ladder
         RaycastHit2D hitInfo = Physics2D.Raycast(transform.position, Vector2.up, distance, ladderMask);
@@ -69,6 +75,21 @@ public class PlayerController : MonoBehaviour
     //Send value from Angle Cannon callback to the horizontal float
     public void OnAngleCannon(InputAction.CallbackContext ctx) => cannonMovement = ctx.ReadValue<Vector2>().y;
 
+    public void OnControlSteering(InputAction.CallbackContext ctx)
+    {
+        //If the player presses the steering button
+        if (ctx.started)
+        {
+            if (LevelManager.instance.isSteering)
+            {
+                steeringValue = ctx.ReadValue<float>();
+            }
+        }
+
+        if (ctx.canceled)
+            steeringValue = 0;
+    }
+
     public float GetCannonMovement()
     {
         return cannonMovement;
@@ -96,6 +117,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void SetPlayerMove(bool movePlayer)
+    {
+        canMove = movePlayer;
+    }
 
     public void MarkClosestItem(Item item)
     {
