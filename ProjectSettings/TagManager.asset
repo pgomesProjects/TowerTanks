@@ -11,6 +11,7 @@ TagManager:
   - Shell
   - Cannon
   - Hammer
+  - Layer
   layers:
   - Default
   - TransparentFX

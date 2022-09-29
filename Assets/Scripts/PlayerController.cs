@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
     private Item closestItem;
     private Item itemHeld;
     private bool isHoldingItem;
+    private bool holdingHammer;
 
     // Start is called before the first frame update
     void Start()
@@ -101,13 +102,23 @@ public class PlayerController : MonoBehaviour
 
     public void OnInteract(InputAction.CallbackContext ctx)
     {
-        //If the player presses the interact button and there is something to interact with
-        if (ctx.started && currentInteractableItem != null)
+        //If the player presses the interact button
+        if (ctx.started)
         {
-            FindObjectOfType<InteractionsManager>().currentPlayer = this;
+            //If there is something to interact with
+            if (currentInteractableItem != null)
+            {
+                FindObjectOfType<InteractionsManager>().currentPlayer = this;
 
-            //Call the interaction event
-            currentInteractableItem.OnInteraction();
+                //Call the interaction event
+                currentInteractableItem.OnInteraction();
+            }
+
+            //If the player is holding the hammer and uses the interact button, attempt to add a new layer
+            if (holdingHammer)
+            {
+                LevelManager.instance.AddLayer(this);
+            }
         }
     }
 
@@ -170,6 +181,11 @@ public class PlayerController : MonoBehaviour
 
                     Debug.Log("Picked Up Item!");
 
+                    if (itemHeld.CompareTag("Hammer"))
+                    {
+                        holdingHammer = true;
+                    }
+
                     itemHeld.SetPickUp(true);
                     isHoldingItem = true;
                     closestItem = null;
@@ -184,6 +200,11 @@ public class PlayerController : MonoBehaviour
                     itemHeld.GetComponent<Rigidbody2D>().gravityScale = itemHeld.GetDefaultGravityScale();
                     itemHeld.GetComponent<Rigidbody2D>().isKinematic = false;
                     itemHeld.transform.parent = null;
+
+                    if (itemHeld.CompareTag("Hammer"))
+                    {
+                        holdingHammer = false;
+                    }
 
                     itemHeld.SetPickUp(false);
                     isHoldingItem = false;

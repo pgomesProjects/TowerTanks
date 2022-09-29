@@ -67,5 +67,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hammer
       objectReference: {fileID: 0}
+    - target: {fileID: 7578090233616032331, guid: 1a9426da801e3aa48a2ce64d5f72c966, type: 3}
+      propertyPath: m_TagString
+      value: Hammer
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1a9426da801e3aa48a2ce64d5f72c966, type: 3}

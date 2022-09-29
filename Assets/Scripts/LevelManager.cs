@@ -12,6 +12,8 @@ public class LevelManager : MonoBehaviour
 {
     [SerializeField] private Canvas gameOverCanvas;
     [SerializeField] private Canvas pauseGameCanvas;
+    [SerializeField] private GameObject playerTank;
+    [SerializeField] private GameObject layerPrefab;
 
     public static LevelManager instance;
 
@@ -40,6 +42,22 @@ public class LevelManager : MonoBehaviour
         gameSpeed = currentSpeed[speedIndex];
 
         Debug.Log("Tank Speed: " + gameSpeed);
+    }
+
+    public void AddLayer(PlayerController player)
+    {
+        //If the player is outside of the tank (in a layer that does not exist inside the tank)
+        if(player.currentLayer > totalLayers)
+        {
+            //Spawn a new layer and adjust it to go inside of the tank parent object
+            GameObject newLayer = Instantiate(layerPrefab);
+            newLayer.transform.parent = playerTank.transform;
+            newLayer.transform.localPosition = new Vector2(0, totalLayers);
+
+            //Add to the total number of layers and give the new layer an index
+            totalLayers++;
+            newLayer.GetComponentInChildren<LayerManager>().SetLayerIndex(totalLayers + 1);
+        }
     }
 
     public void PauseToggle()

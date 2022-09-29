@@ -19,7 +19,7 @@ public class LayerManager : MonoBehaviour
                 changeIndex = nextLayerIndex - 1;
             }
             //If player is coming from below, increase the layer number
-            else if(currentPlayer.transform.position.y > transform.position.y)
+            else if(currentPlayer.transform.position.y < transform.position.y)
             {
                 changeIndex = nextLayerIndex;
             }
@@ -42,7 +42,7 @@ public class LayerManager : MonoBehaviour
                 changeIndex = nextLayerIndex;
             }
             //If player is below, decrease the layer number
-            if (currentPlayer.transform.position.y > transform.position.y)
+            if (currentPlayer.transform.position.y < transform.position.y)
             {
                 changeIndex = nextLayerIndex - 1;
             }
