@@ -10,12 +10,16 @@ public class PlayerController : MonoBehaviour
     internal float steeringValue;
     private float speed = 8f;
     private Rigidbody2D rb;
-    internal InteractableController currentInteractableItem;
+
+    internal int currentLayer = 1;
+
     [SerializeField] private float distance = 3f;
     [SerializeField] private LayerMask ladderMask;
     private bool canMove;
     private bool isClimbing;
     private float defaultGravity;
+
+    internal InteractableController currentInteractableItem;
 
     private Item closestItem;
     private Item itemHeld;

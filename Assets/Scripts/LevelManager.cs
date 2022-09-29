@@ -16,6 +16,7 @@ public class LevelManager : MonoBehaviour
     public static LevelManager instance;
 
     internal bool isPaused;
+    internal int totalLayers;
     internal bool hasFuel;
     internal bool isSteering;
     internal float gameSpeed;
@@ -26,6 +27,7 @@ public class LevelManager : MonoBehaviour
     {
         instance = this;
         isPaused = false;
+        totalLayers = 2;
         hasFuel = true;
         isSteering = false;
         speedIndex = (int)TANKSPEED.FORWARD;

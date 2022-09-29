@@ -7,6 +7,7 @@ using Cinemachine;
 public class MultiplayerManager : MonoBehaviour
 {
     [SerializeField] private CinemachineTargetGroup targetGroup;
+    [SerializeField] private Transform spawnPoint;
 
     private Color[] playerColors = { Color.red, Color.blue, Color.yellow, Color.green };
 
@@ -23,6 +24,8 @@ public class MultiplayerManager : MonoBehaviour
     /// <param name="playerInput"></param>
     public void OnPlayerJoined(PlayerInput playerInput)
     {
+        playerInput.transform.position = spawnPoint.position;
+
         //Add the new player to the camera's target group
         targetGroup.AddMember(playerInput.transform, 1, 1);
 

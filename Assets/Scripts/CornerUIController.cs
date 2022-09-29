@@ -13,6 +13,6 @@ public class CornerUIController : MonoBehaviour
 
     public void OnPlayerJoined(int playerIndex)
     {
-        cornerUIObjects[playerIndex].Find("JoinText").gameObject.SetActive(false);
+        cornerUIObjects[playerIndex].gameObject.SetActive(false);
     }
 }
