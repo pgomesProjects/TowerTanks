@@ -79,7 +79,28 @@ public class LevelManager : MonoBehaviour
         pauseGameCanvas.gameObject.SetActive(isPaused);
     }
 
-    public void GameOver()
+    public void AdjustLayerSystem(int destroyedLayer)
+    {
+        //If there are no more layers, the game is over
+        if(totalLayers == 0)
+        {
+            Debug.Log("Tank Is Destroyed!");
+            GameOver();
+            return;
+        }
+
+        //Adjust the layer numbers for the layers above the one that got destroyed
+        foreach(var i in FindObjectsOfType<LayerHealthManager>())
+        {
+            int nextLayerIndex = i.GetComponentInChildren<LayerManager>().GetNextLayerIndex();
+
+            if (nextLayerIndex > destroyedLayer + 1)
+            {
+                i.GetComponentInChildren<LayerManager>().SetLayerIndex(nextLayerIndex - 1);
+            }
+        }
+    }
+    private void GameOver()
     {
         Time.timeScale = 0.0f;
         gameOverCanvas.gameObject.SetActive(true);

@@ -52,7 +52,7 @@ public class LayerManager : MonoBehaviour
         }
     }
 
-    public int GetLayerIndex()
+    public int GetNextLayerIndex()
     {
         return nextLayerIndex;
     }
