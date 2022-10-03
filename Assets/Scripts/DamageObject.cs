@@ -16,6 +16,13 @@ public class DamageObject : MonoBehaviour
             collision.collider.GetComponent<EnemyController>().DealDamage(damage);
             Destroy(gameObject);
         }
+
+        if (collision.collider.tag == "Layer")
+        {
+            //Deal damage and destroy self if colliding with a layer
+            collision.collider.GetComponentInParent<LayerHealthManager>().DealDamage(damage);
+            Destroy(gameObject);
+        }
     }
 
 

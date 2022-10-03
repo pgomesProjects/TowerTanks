@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ParallaxController : MonoBehaviour
 {
-    [SerializeField] internal float parallaxSpeed;
+    private float parallaxSpeed;
     private float currentParallaxSpeed;
 
     private Vector2 backgroundSize;
@@ -17,6 +17,9 @@ public class ParallaxController : MonoBehaviour
     {
         backgroundSize = GetComponent<SpriteRenderer>().bounds.size;
         GetComponent<SpriteRenderer>().size = new Vector2(backgroundSize.x * tileMultiplier, backgroundSize.y);
+
+        //Get the speed of the player tank
+        parallaxSpeed = -(FindObjectOfType<PlayerTankController>().GetPlayerSpeed());
         currentParallaxSpeed = parallaxSpeed;
     }
 

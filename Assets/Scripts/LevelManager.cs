@@ -42,6 +42,12 @@ public class LevelManager : MonoBehaviour
         gameSpeed = currentSpeed[speedIndex];
 
         Debug.Log("Tank Speed: " + gameSpeed);
+
+        //Update the enemy speed comparative to the player
+        foreach(var i in FindObjectsOfType<EnemyController>())
+        {
+            i.UpdateEnemySpeed();
+        }
     }
 
     public void AddLayer(PlayerController player)

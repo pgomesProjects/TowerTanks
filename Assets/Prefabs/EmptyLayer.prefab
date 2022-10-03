@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 7929275943195962110}
   m_Layer: 0
   m_Name: WallRight
-  m_TagString: Untagged
+  m_TagString: Layer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -208,7 +208,7 @@ GameObject:
   - component: {fileID: 7929275943333849342}
   m_Layer: 8
   m_Name: CeilingRight
-  m_TagString: Untagged
+  m_TagString: Layer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -430,7 +430,7 @@ GameObject:
   - component: {fileID: 7929275943555660199}
   m_Layer: 8
   m_Name: CeilingLeft
-  m_TagString: Untagged
+  m_TagString: Layer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -538,9 +538,10 @@ GameObject:
   m_Component:
   - component: {fileID: 7929275944220063584}
   - component: {fileID: 7929275944220063587}
+  - component: {fileID: 3346960881975818269}
   m_Layer: 0
   m_Name: EmptyLayer
-  m_TagString: Untagged
+  m_TagString: Layer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -589,6 +590,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 5
+--- !u!114 &3346960881975818269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7929275944220063585}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dd51f9e6a49fcb4284aab009ce56612, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
 --- !u!1 &7929275944342478627
 GameObject:
   m_ObjectHideFlags: 0
@@ -686,7 +700,7 @@ GameObject:
   - component: {fileID: 7929275944905800512}
   m_Layer: 0
   m_Name: WallLeft
-  m_TagString: Untagged
+  m_TagString: Layer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

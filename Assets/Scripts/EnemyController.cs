@@ -6,9 +6,10 @@ public class EnemyController : MonoBehaviour
 {
 
     [SerializeField] private float health = 100;
-    [SerializeField] private float speed = 5;
+    [SerializeField] private float speed = 1;
+    private float speedRelativeToPlayer;
 
-    private bool inRangeOfPlayer = false;
+    private bool enemyLockedIn = false;
 
     private Rigidbody2D rb;
     private PlayerTankController player;
@@ -18,17 +19,32 @@ public class EnemyController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         player = FindObjectOfType<PlayerTankController>();
+        UpdateEnemySpeed();
+    }
+
+    public void UpdateEnemySpeed()
+    {
+        speedRelativeToPlayer = (FindObjectOfType<PlayerTankController>().GetPlayerSpeed() * LevelManager.instance.gameSpeed) + speed;
+        Debug.Log("Enemy Speed: " + speedRelativeToPlayer);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(!inRangeOfPlayer)
+        if(!enemyLockedIn)
         {
-            float currentSpeed = -speed;
+            float currentSpeed = -speedRelativeToPlayer;
 
             //Move the enemy horizontally
             rb.velocity = new Vector2(currentSpeed, rb.velocity.y);
+        }
+        else
+        {
+            //If the player is moving backwards, don't lock the enemy
+            if(speedRelativeToPlayer < 0)
+            {
+                enemyLockedIn = false;
+            }
         }
     }
 
@@ -37,10 +53,21 @@ public class EnemyController : MonoBehaviour
         if (collision.CompareTag("PlayerTank"))
         {
             Debug.Log("Enemy Is At Player!");
-            inRangeOfPlayer = true;
+            enemyLockedIn = true;
             rb.velocity = new Vector2(0, 0);
-            //Deal Damage To Player Tank Every 2 Seconds
+            //Deal Damage To Player
             StartCoroutine(DealDamage());
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("PlayerTank"))
+        {
+            Debug.Log("Enemy Is No Longer At Player!");
+
+            //Deal Damage To Player
+            StopCoroutine(DealDamage());
         }
     }
 
@@ -62,7 +89,11 @@ public class EnemyController : MonoBehaviour
     {
         while (true)
         {
-            player.DealDamage(5);
+            //If the enemy has a cannon, fire the cannon
+            if(GetComponentInChildren<CannonController>() != null)
+            {
+                GetComponentInChildren<CannonController>().Fire();
+            }
             yield return new WaitForSeconds(2f);
         }
     }
