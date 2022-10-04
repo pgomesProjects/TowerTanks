@@ -33,30 +33,36 @@ public class CannonController : MonoBehaviour
         switch (currentCannonDirection)
         {
             case CANNONDIRECTION.LEFT:
-                direction = Vector2.left;
+                direction = -GetCannonVectorHorizontal(cannonRotation.z * Mathf.Deg2Rad);
                 break;
             case CANNONDIRECTION.RIGHT:
-                direction = Vector2.right;
+                direction = GetCannonVectorHorizontal(cannonRotation.z * Mathf.Deg2Rad);
                 break;
             case CANNONDIRECTION.UP:
-                direction = Vector2.up;
+                direction = GetCannonVectorVertical(cannonRotation.z * Mathf.Deg2Rad);
                 break;
             case CANNONDIRECTION.DOWN:
-                direction = Vector2.down;
+                direction = -GetCannonVectorVertical(cannonRotation.z * Mathf.Deg2Rad);
                 break;
         }
 
         //Shoot the project at the current angle and direction
-        currentProjectile.GetComponent<Rigidbody2D>().AddForce(direction * GetCannonVector(cannonRotation.z * Mathf.Deg2Rad) * cannonForce);
+        currentProjectile.GetComponent<Rigidbody2D>().AddForce(direction * cannonForce);
 
         //Add a damage component to the projectile
         currentProjectile.AddComponent<DamageObject>().damage = 25;
     }
 
-    private Vector2 GetCannonVector(float radians)
+    private Vector2 GetCannonVectorHorizontal(float radians)
     {
         //Trigonometric function to get the vector (hypotenuse) of the current cannon angle
         return new Vector2(Mathf.Cos(radians), Mathf.Sin(radians));
+    }
+
+    private Vector2 GetCannonVectorVertical(float radians)
+    {
+        //Trigonometric function to get the vector (hypotenuse) of the current cannon angle
+        return new Vector2(Mathf.Sin(radians), Mathf.Cos(radians));
     }
 
     private void Update()

@@ -384,7 +384,7 @@ RectTransform:
   m_Children:
   - {fileID: 2073250780}
   m_Father: {fileID: 1838359794}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1300,6 +1300,10 @@ PrefabInstance:
     - target: {fileID: 4728784133398993885, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
       propertyPath: interactEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 4728784133420198453, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
@@ -2567,7 +2571,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7774869, y: 1}
+    m_SensorSize: {x: 1.7783313, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -2928,7 +2932,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 748607301}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1541248286
 GameObject:
@@ -3137,7 +3141,7 @@ Transform:
   m_Children:
   - {fileID: 597928201}
   m_Father: {fileID: 1878716292}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1597178017
 GameObject:
@@ -3956,6 +3960,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4728784133420198453, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4728784133420198454, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
       propertyPath: m_Camera
       value: 
@@ -4279,6 +4287,10 @@ PrefabInstance:
     - target: {fileID: 4728784133398993885, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
       propertyPath: interactEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: CannonController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4728784133420198453, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4728784133420198454, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
       propertyPath: m_Camera

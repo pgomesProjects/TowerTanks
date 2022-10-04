@@ -204,19 +204,19 @@ MonoBehaviour:
   - m_ElementType: 2
     m_Unicode: 65534
     m_GlyphIndex: 27
-    m_Scale: 1
+    m_Scale: 2
     m_Name: controllerButtons_27
     m_HashCode: 1332155843
   - m_ElementType: 2
     m_Unicode: 65534
     m_GlyphIndex: 28
-    m_Scale: 1
+    m_Scale: 2
     m_Name: controllerButtons_28
     m_HashCode: 1332155852
   - m_ElementType: 2
     m_Unicode: 65534
     m_GlyphIndex: 29
-    m_Scale: 1
+    m_Scale: 2
     m_Name: controllerButtons_29
     m_HashCode: 1332155853
   - m_ElementType: 2
@@ -282,13 +282,13 @@ MonoBehaviour:
   - m_ElementType: 2
     m_Unicode: 65534
     m_GlyphIndex: 40
-    m_Scale: 1
+    m_Scale: 2
     m_Name: controllerButtons_40
     m_HashCode: 1332155778
   - m_ElementType: 2
     m_Unicode: 65534
     m_GlyphIndex: 41
-    m_Scale: 1
+    m_Scale: 2
     m_Name: controllerButtons_41
     m_HashCode: 1332155779
   - m_ElementType: 2
@@ -1025,8 +1025,8 @@ MonoBehaviour:
     m_Metrics:
       m_Width: 128
       m_Height: 128
-      m_HorizontalBearingX: -64
-      m_HorizontalBearingY: 64
+      m_HorizontalBearingX: 0
+      m_HorizontalBearingY: 100
       m_HorizontalAdvance: 128
     m_GlyphRect:
       m_X: 0
@@ -1040,8 +1040,8 @@ MonoBehaviour:
     m_Metrics:
       m_Width: 128
       m_Height: 128
-      m_HorizontalBearingX: -64
-      m_HorizontalBearingY: 64
+      m_HorizontalBearingX: 0
+      m_HorizontalBearingY: 100
       m_HorizontalAdvance: 128
     m_GlyphRect:
       m_X: 128
@@ -1055,8 +1055,8 @@ MonoBehaviour:
     m_Metrics:
       m_Width: 128
       m_Height: 128
-      m_HorizontalBearingX: -64
-      m_HorizontalBearingY: 64
+      m_HorizontalBearingX: 0
+      m_HorizontalBearingY: 100
       m_HorizontalAdvance: 128
     m_GlyphRect:
       m_X: 256
@@ -1220,8 +1220,8 @@ MonoBehaviour:
     m_Metrics:
       m_Width: 128
       m_Height: 128
-      m_HorizontalBearingX: -64
-      m_HorizontalBearingY: 64
+      m_HorizontalBearingX: 0
+      m_HorizontalBearingY: 100
       m_HorizontalAdvance: 128
     m_GlyphRect:
       m_X: 384
@@ -1235,8 +1235,8 @@ MonoBehaviour:
     m_Metrics:
       m_Width: 128
       m_Height: 128
-      m_HorizontalBearingX: -64
-      m_HorizontalBearingY: 64
+      m_HorizontalBearingX: 0
+      m_HorizontalBearingY: 100
       m_HorizontalAdvance: 128
     m_GlyphRect:
       m_X: 512

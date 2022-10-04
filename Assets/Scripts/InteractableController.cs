@@ -7,7 +7,6 @@ public class InteractableController : MonoBehaviour
 {
     public UnityEvent interactEvent;
 
-    [SerializeField] private GameObject hoverInteractable;
     private bool canInteract = false;
     private PlayerController currentPlayer;
     private bool interactionActive;
@@ -27,7 +26,7 @@ public class InteractableController : MonoBehaviour
         {
             canInteract = true;
             currentPlayer = collision.GetComponent<PlayerController>();
-            hoverInteractable.SetActive(true);
+            currentPlayer.DisplayInteractionPrompt("<sprite=30>");
             //Tell the player that this is the item that they can interact with
             collision.GetComponent<PlayerController>().currentInteractableItem = this;
         }
@@ -37,9 +36,9 @@ public class InteractableController : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
+            currentPlayer.HideInteractionPrompt();
             canInteract = false;
             currentPlayer = null;
-            hoverInteractable.SetActive(false);
             //Player can no longer interact with this item
             collision.GetComponent<PlayerController>().currentInteractableItem = null;
         }

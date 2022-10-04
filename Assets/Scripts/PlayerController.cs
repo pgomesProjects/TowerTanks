@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
@@ -26,6 +27,8 @@ public class PlayerController : MonoBehaviour
     private bool isHoldingItem;
     private bool holdingHammer;
 
+    private GameObject interactableHover;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,6 +36,7 @@ public class PlayerController : MonoBehaviour
         defaultGravity = rb.gravityScale;
         isHoldingItem = false;
         canMove = true;
+        interactableHover = transform.Find("HoverPrompt").gameObject;
     }
 
     // Update is called once per frame
@@ -120,6 +124,17 @@ public class PlayerController : MonoBehaviour
                 LevelManager.instance.AddLayer(this);
             }
         }
+    }
+
+    public void DisplayInteractionPrompt(string message)
+    {
+        interactableHover.transform.Find("Prompt").GetComponent<TextMeshProUGUI>().text = message;
+        interactableHover.SetActive(true);
+    }
+
+    public void HideInteractionPrompt()
+    {
+        interactableHover.SetActive(false);
     }
 
     public void OnPause(InputAction.CallbackContext ctx)
