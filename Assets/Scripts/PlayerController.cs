@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
     private bool holdingHammer;
 
     private GameObject interactableHover;
+    private RaycastHit2D ladderRaycast;
 
     // Start is called before the first frame update
     void Start()
@@ -49,28 +50,26 @@ public class PlayerController : MonoBehaviour
         }
 
         //Check to see if the player is colliding with the ladder
-        RaycastHit2D hitInfo = Physics2D.Raycast(transform.position, Vector2.up, distance, ladderMask);
+        ladderRaycast = Physics2D.Raycast(transform.position, Vector2.up, distance, ladderMask);
 
         //If the player is colliding with the ladder
-        if(hitInfo.collider != null)
+        if (ladderRaycast.collider != null)
         {
-            //If the player is trying to move up, they are climbing
-            if(movement.y > 0.25f)
-            {
-                isClimbing = true;
-            }
+            DisplayInteractionPrompt("<sprite=30>");
         }
         else
         {
             isClimbing = false;
+            HideInteractionPrompt();
         }
 
         //If the player is climbing, move up and get rid of gravity temporarily
         if (isClimbing)
         {
-            rb.velocity = new Vector2(rb.velocity.x, movement.y * speed);
+            rb.velocity = new Vector2(0, movement.y * speed);
             rb.gravityScale = 0;
         }
+
         //Once the player stops climbing, bring back gravity
         else
         {
@@ -122,6 +121,19 @@ public class PlayerController : MonoBehaviour
             if (holdingHammer)
             {
                 LevelManager.instance.AddLayer(this);
+            }
+
+
+            //If the player is already climbing, move them off of the ladder
+            if (isClimbing)
+            {
+                isClimbing = false;
+            }
+            //If the player is colliding with the ladder and wants to climb
+            else if (ladderRaycast.collider != null)
+            {
+                isClimbing = true;
+                transform.position = new Vector2(-1.5f, transform.position.y);
             }
         }
     }
