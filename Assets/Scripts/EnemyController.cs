@@ -94,7 +94,11 @@ public class EnemyController : MonoBehaviour
             {
                 GetComponentInChildren<CannonController>().Fire();
             }
-            yield return new WaitForSeconds(2f);
+
+            //Shoot at the player every 6 to 10 seconds
+            int timeWait = Random.Range(6, 10);
+
+            yield return new WaitForSeconds(timeWait);
         }
     }
 }
