@@ -58,7 +58,7 @@ public class LevelManager : MonoBehaviour
             //Spawn a new layer and adjust it to go inside of the tank parent object
             GameObject newLayer = Instantiate(layerPrefab);
             newLayer.transform.parent = playerTank.transform;
-            newLayer.transform.localPosition = new Vector2(0, totalLayers);
+            newLayer.transform.localPosition = new Vector2(0, totalLayers * 8);
 
             //Add to the total number of layers and give the new layer an index
             totalLayers++;
