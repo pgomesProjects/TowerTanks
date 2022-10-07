@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.UI;
 
 public enum TANKSPEED
 {
@@ -71,8 +73,10 @@ public class LevelManager : MonoBehaviour
 
     public void PauseToggle(int playerIndex)
     {
+        Debug.Log("Pausing: " + isPaused);
+
         //If the game is not paused, pause the game
-        if (!isPaused)
+        if (isPaused == false)
         {
             Time.timeScale = 0;
             currentPlayerPaused = playerIndex;
@@ -82,7 +86,7 @@ public class LevelManager : MonoBehaviour
             InputForOtherPlayers(currentPlayerPaused, true);
         }
         //If the game is paused, resume the game if the person that paused the game unpauses
-        else
+        else if(isPaused == true)
         {
             if (playerIndex == currentPlayerPaused)
             {
@@ -95,19 +99,42 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    private void InputForOtherPlayers(int currentActivePlayer, bool disableInput)
+    private void InputForOtherPlayers(int currentActivePlayer, bool disableInputForOthers)
     {
+        Debug.Log("Current Active Player: " + (currentActivePlayer + 1));
+
         foreach(var player in FindObjectsOfType<PlayerController>())
         {
             if(player.GetPlayerIndex() != currentActivePlayer)
             {
+                Debug.Log(player.GetPlayerIndex() + 1);
+
                 //Disable other player input
-                if(disableInput)
-                    player.GetComponent<PlayerInput>().DeactivateInput();
+                if (disableInputForOthers)
+                {
+                    Debug.Log("Deactivating Player " + (player.GetPlayerIndex() + 1) + " Controller Input...");
+                    player.GetComponent<PlayerInput>().actions.Disable();
+                }
                 //Enable other player input
                 else
-                    player.GetComponent<PlayerInput>().ActivateInput();
+                {
+                    Debug.Log("Activating Player " + (player.GetPlayerIndex() + 1) + " Controller Input...");
+                    player.GetComponent<PlayerInput>().actions.Enable();
+                }
             }
+            else
+            {
+                //Make sure the current player's action asset is tied to the EventSystem so they can use the menus
+                EventSystem.current.GetComponent<InputSystemUIInputModule>().actionsAsset = player.GetComponent<PlayerInput>().actions;
+            }
+        }
+    }
+
+    private void Update()
+    {
+        foreach (var player in FindObjectsOfType<PlayerController>())
+        {
+            Debug.Log("Player " + (player.GetPlayerIndex() + 1) + " Action Map: " + player.GetComponent<PlayerInput>().currentActionMap.name);
         }
     }
 

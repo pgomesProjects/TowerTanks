@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 using TMPro;
 
 public class PlayerController : MonoBehaviour
@@ -30,6 +31,10 @@ public class PlayerController : MonoBehaviour
     private bool holdingHammer;
 
     private GameObject interactableHover;
+    private GameObject progressBarCanvas;
+    private Slider progressBarSlider;
+    private bool taskInProgress;
+
     private RaycastHit2D ladderRaycast;
 
     // Start is called before the first frame update
@@ -40,6 +45,8 @@ public class PlayerController : MonoBehaviour
         isHoldingItem = false;
         canMove = true;
         interactableHover = transform.Find("HoverPrompt").gameObject;
+        progressBarCanvas = transform.Find("TaskProgressBar").gameObject;
+        progressBarSlider = progressBarCanvas.GetComponentInChildren<Slider>();
     }
 
     // Update is called once per frame
@@ -149,6 +156,42 @@ public class PlayerController : MonoBehaviour
     public void HideInteractionPrompt()
     {
         interactableHover.SetActive(false);
+    }
+
+    public void StartProgressBar(float secondsTillCompletion)
+    {
+        progressBarCanvas.SetActive(true);
+        progressBarSlider.value = 0;
+        taskInProgress = true;
+        StartCoroutine(ProgressBarLoad(secondsTillCompletion));
+    }
+
+    IEnumerator ProgressBarLoad(float secondsTillCompletion)
+    {
+        float currentPercentage = 0;
+        float completionRate = secondsTillCompletion / 100;
+
+        //While the task is in progress and the task bar is not full, fill the task bar
+        while(progressBarSlider.value < 100 && taskInProgress)
+        {
+            currentPercentage += (1 / completionRate) * Time.deltaTime;
+            progressBarSlider.value = currentPercentage;
+            yield return null;
+        }
+
+        HideProgressBar();
+    }
+
+    public void CancelProgressBar()
+    {
+        taskInProgress = false;
+        HideProgressBar();
+    }
+
+    public void HideProgressBar()
+    {
+        progressBarCanvas.SetActive(false);
+        progressBarSlider.value = 0;
     }
 
     public void OnPause(InputAction.CallbackContext ctx)

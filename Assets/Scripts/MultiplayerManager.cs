@@ -34,7 +34,6 @@ public class MultiplayerManager : MonoBehaviour
         ConnectionController.connectedControllers[playerIndex] = true;
         playerInput.GetComponent<PlayerController>().SetPlayerIndex(playerIndex);
         FindObjectOfType<CornerUIController>().OnPlayerJoined(playerIndex);
-
         SetColorOfPlayer(playerInput.transform, playerIndex);
     }
 

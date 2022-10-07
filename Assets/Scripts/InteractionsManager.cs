@@ -65,6 +65,12 @@ public class InteractionsManager : MonoBehaviour
     /// </summary>
     public void StartCoalFill(CoalController coalController)
     {
+        //If there is a player
+        if (currentPlayer != null)
+        {
+            currentPlayer.StartProgressBar(10);
+        }
+
         //Add 50% of the necessary coal to the furnace
         Debug.Log("Coal Has Been Added To The Furnace!");
         coalController.AddCoal(50);

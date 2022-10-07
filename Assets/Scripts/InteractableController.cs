@@ -17,6 +17,7 @@ public class InteractableController : MonoBehaviour
     private void Start()
     {
         steeringCoroutine = CheckForSteeringInput();
+        UpdateSteerLever();
         interactionActive = false;
     }
 
@@ -98,6 +99,7 @@ public class InteractableController : MonoBehaviour
                 if (LevelManager.instance.speedIndex > (int)TANKSPEED.REVERSEFAST)
                 {
                     LevelManager.instance.UpdateSpeed(-1);
+                    UpdateSteerLever();
                     yield return new WaitForSeconds(1);
                 }
             }
@@ -107,10 +109,21 @@ public class InteractableController : MonoBehaviour
                 if(LevelManager.instance.speedIndex < (int)TANKSPEED.FORWARDFAST)
                 {
                     LevelManager.instance.UpdateSpeed(1);
+                    UpdateSteerLever();
                     yield return new WaitForSeconds(1);
                 }
             }
             yield return null;
+        }
+    }
+
+    private void UpdateSteerLever()
+    {
+        Transform leverPivot = transform.Find("LeverPivot");
+
+        if (leverPivot != null)
+        {
+            leverPivot.localRotation = Quaternion.Euler(0, 0, -(20 * LevelManager.instance.gameSpeed));
         }
     }
 
