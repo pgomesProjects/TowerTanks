@@ -333,7 +333,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""4aadaef6-7b07-4ad6-b4a2-616ebd4db812"",
-                    ""path"": ""<Gamepad>/start"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -355,7 +355,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""954c25c1-4e6d-4e15-9ea0-bf615e7815e9"",
-                    ""path"": ""<Gamepad>/leftStickPress"",
+                    ""path"": ""<Gamepad>/start"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",

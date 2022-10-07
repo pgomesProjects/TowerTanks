@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public enum TANKSPEED
 {
@@ -18,6 +19,7 @@ public class LevelManager : MonoBehaviour
     public static LevelManager instance;
 
     internal bool isPaused;
+    private int currentPlayerPaused;
     internal int totalLayers;
     internal bool hasFuel;
     internal bool isSteering;
@@ -29,6 +31,7 @@ public class LevelManager : MonoBehaviour
     {
         instance = this;
         isPaused = false;
+        currentPlayerPaused = -1;
         totalLayers = 2;
         hasFuel = true;
         isSteering = false;
@@ -66,17 +69,46 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    public void PauseToggle()
+    public void PauseToggle(int playerIndex)
     {
         //If the game is not paused, pause the game
         if (!isPaused)
+        {
             Time.timeScale = 0;
-        //If the game is paused, resume the game
+            currentPlayerPaused = playerIndex;
+            isPaused = true;
+            pauseGameCanvas.GetComponent<PauseController>().UpdatePauseText(playerIndex);
+            pauseGameCanvas.gameObject.SetActive(true);
+            InputForOtherPlayers(currentPlayerPaused, true);
+        }
+        //If the game is paused, resume the game if the person that paused the game unpauses
         else
-            Time.timeScale = 1;
+        {
+            if (playerIndex == currentPlayerPaused)
+            {
+                Time.timeScale = 1;
+                isPaused = false;
+                pauseGameCanvas.gameObject.SetActive(false);
+                InputForOtherPlayers(currentPlayerPaused, false);
+                currentPlayerPaused = -1;
+            }
+        }
+    }
 
-        isPaused = !isPaused;
-        pauseGameCanvas.gameObject.SetActive(isPaused);
+    private void InputForOtherPlayers(int currentActivePlayer, bool disableInput)
+    {
+        foreach(var player in FindObjectsOfType<PlayerController>())
+        {
+            if(player.GetPlayerIndex() != currentActivePlayer)
+            {
+                //Disable other player input
+                if(disableInput)
+                    player.GetComponent<PlayerInput>().DeactivateInput();
+                //Enable other player input
+                else
+                    player.GetComponent<PlayerInput>().ActivateInput();
+            }
+        }
     }
 
     public void AdjustLayerSystem(int destroyedLayer)

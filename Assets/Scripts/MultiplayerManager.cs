@@ -32,6 +32,7 @@ public class MultiplayerManager : MonoBehaviour
         //Generate the new player's index
         int playerIndex = ConnectionController.CheckForIndex();
         ConnectionController.connectedControllers[playerIndex] = true;
+        playerInput.GetComponent<PlayerController>().SetPlayerIndex(playerIndex);
         FindObjectOfType<CornerUIController>().OnPlayerJoined(playerIndex);
 
         SetColorOfPlayer(playerInput.transform, playerIndex);

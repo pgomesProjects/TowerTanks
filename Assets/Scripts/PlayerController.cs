@@ -6,6 +6,8 @@ using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
+    private int playerIndex;
+
     private Vector2 movement;
     private float cannonMovement;
     internal float steeringValue;
@@ -155,7 +157,7 @@ public class PlayerController : MonoBehaviour
         if (ctx.started)
         {
             //Pause the game
-            LevelManager.instance.PauseToggle();
+            LevelManager.instance.PauseToggle(playerIndex);
         }
     }
 
@@ -241,4 +243,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public int GetPlayerIndex()
+    {
+        return playerIndex;
+    }
+
+    public void SetPlayerIndex(int index)
+    {
+        playerIndex = index;
+    }
 }
