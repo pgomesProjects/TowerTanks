@@ -10,14 +10,7 @@ public class DamageObject : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.tag == "Enemy")
-        {
-            //Deal damage and destroy self if colliding with the enemy
-            collision.collider.GetComponent<EnemyController>().DealDamage(damage);
-            Destroy(gameObject);
-        }
-
-        if (collision.collider.tag == "Layer")
+        if (collision.collider.tag == "Layer" || collision.collider.tag == "EnemyLayer")
         {
             //Deal damage and destroy self if colliding with a layer
             collision.collider.GetComponentInParent<LayerHealthManager>().DealDamage(damage);

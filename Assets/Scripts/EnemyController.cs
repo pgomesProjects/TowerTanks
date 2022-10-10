@@ -14,11 +14,14 @@ public class EnemyController : MonoBehaviour
     private Rigidbody2D rb;
     private PlayerTankController player;
 
+    private int totalEnemyLayers;
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         player = FindObjectOfType<PlayerTankController>();
+        totalEnemyLayers = 2;
         UpdateEnemySpeed();
     }
 
@@ -31,17 +34,19 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!enemyLockedIn)
+        if (!enemyLockedIn)
         {
             float currentSpeed = -speedRelativeToPlayer;
 
             //Move the enemy horizontally
-            rb.velocity = new Vector2(currentSpeed, rb.velocity.y);
+            //rb.velocity = new Vector2(currentSpeed, rb.velocity.y);
+
+            transform.position += new Vector3(currentSpeed, 0, 0) * Time.deltaTime;
         }
         else
         {
             //If the player is moving backwards, don't lock the enemy
-            if(speedRelativeToPlayer < 0)
+            if (speedRelativeToPlayer < 0)
             {
                 enemyLockedIn = false;
             }
@@ -90,7 +95,7 @@ public class EnemyController : MonoBehaviour
         while (true)
         {
             //If the enemy has a cannon, fire the cannon
-            if(GetComponentInChildren<CannonController>() != null)
+            if (GetComponentInChildren<CannonController>() != null)
             {
                 GetComponentInChildren<CannonController>().Fire();
             }
@@ -100,5 +105,25 @@ public class EnemyController : MonoBehaviour
 
             yield return new WaitForSeconds(timeWait);
         }
+    }
+
+    public void EnemyLayerDestroyed()
+    {
+        //Get rid of one of the layers
+        totalEnemyLayers--;
+
+        //If there are no more layers, destroy the tank
+        if(totalEnemyLayers == 0)
+            Destroy(gameObject);
+    }
+
+    public int GetEnemyLayers()
+    {
+        return totalEnemyLayers;
+    }
+
+    public void SetEnemyLayers(int enemyLayers)
+    {
+        totalEnemyLayers = enemyLayers;
     }
 }
