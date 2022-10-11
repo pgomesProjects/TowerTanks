@@ -115,7 +115,10 @@ public class EnemyController : MonoBehaviour
 
         //If there are no more layers, destroy the tank
         if(totalEnemyLayers == 0)
+        {
+            LevelManager.instance.AddResources(25);
             Destroy(gameObject);
+        }
     }
 
     public int GetEnemyLayers()

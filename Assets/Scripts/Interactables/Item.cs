@@ -13,7 +13,7 @@ public class Item : MonoBehaviour
     {
         canPickUp = false;
         isPickedUp = false;
-        defaultGravity = GetComponent<Rigidbody2D>().gravityScale;
+        defaultGravity = 2;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -21,7 +21,7 @@ public class Item : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             //If the player is not holding an item
-            if (!collision.GetComponent<PlayerController>().IsPlayerHoldingItem())
+            if (!collision.GetComponent<PlayerController>().IsPlayerHoldingItem() && !isPickedUp)
             {
                 canPickUp = true;
                 Debug.Log("Can Pick Up Item!");
@@ -36,7 +36,7 @@ public class Item : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             //If the player is not holding an item
-            if (!collision.GetComponent<PlayerController>().IsPlayerHoldingItem())
+            if (!collision.GetComponent<PlayerController>().IsPlayerHoldingItem() && !isPickedUp)
             {
                 canPickUp = true;
                 Debug.Log("Can Pick Up Item!");
@@ -50,7 +50,7 @@ public class Item : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             //If the player is not holding an item
-            if (!collision.GetComponent<PlayerController>().IsPlayerHoldingItem())
+            if (!collision.GetComponent<PlayerController>().IsPlayerHoldingItem() && !isPickedUp)
             {
                 canPickUp = false;
                 Debug.Log("Can No Longer Pick Up Item!");

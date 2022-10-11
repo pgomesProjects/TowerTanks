@@ -18,17 +18,20 @@ public class InteractionsManager : MonoBehaviour
     }
 
     public void SpawnShell(GameObject shellStation){
-
-        //If there is not a shell currently active
-        if (!ShellMachine.IsShellActive())
+        //If there is a player
+        if (currentPlayer != null)
         {
-            //Spawn a shell at the spawn point
-            Transform spawnPoint = shellStation.transform.Find("SpawnPoint");
-            GameObject newShell = Instantiate(cannonShell, new Vector3(spawnPoint.position.x, spawnPoint.position.y, 0), Quaternion.identity);
-            float randomX = Random.Range(0.25f, 0.4f);
-            newShell.GetComponent<Rigidbody2D>().AddForce(new Vector2(randomX, 1) * 1500);
+            //If the player does not have an item
+            if (currentPlayer.GetPlayerItem() == null)
+            {
+                //Spawn a shell at the spawn point
+                Transform spawnPoint = shellStation.transform.Find("SpawnPoint");
+                GameObject newShell = Instantiate(cannonShell, new Vector3(spawnPoint.position.x, spawnPoint.position.y, 0), Quaternion.identity);
 
-            ShellMachine.SetShellActive(true);
+                //Force the player to pick up the item
+                currentPlayer.MarkClosestItem(newShell.GetComponent<Item>());
+                currentPlayer.PickupItem();
+            }
         }
     }
 
@@ -53,7 +56,6 @@ public class InteractionsManager : MonoBehaviour
                         Debug.Log("BAM! Weapon has been fired!");
                         currentPlayer.DestroyItem();
                         cannon.Fire();
-                        ShellMachine.SetShellActive(false);
                     }
                 }
             }

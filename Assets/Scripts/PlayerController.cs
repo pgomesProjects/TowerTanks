@@ -236,56 +236,65 @@ public class PlayerController : MonoBehaviour
         //If the player presses the pickup button
         if (ctx.started)
         {
-            //If the player is not holding an item
-            if (!isHoldingItem)
-            {
-                //If the closest item to the player exists and is not picked up
-                if (closestItem != null && !closestItem.IsItemPickedUp())
-                {
-                    itemHeld = closestItem;
-
-                    //Make the current item the player's child and stick it to the player
-                    itemHeld.transform.position = gameObject.transform.position;
-                    itemHeld.transform.rotation = Quaternion.identity;
-                    itemHeld.GetComponent<Rigidbody2D>().gravityScale = 0;
-                    itemHeld.GetComponent<Rigidbody2D>().isKinematic = true;
-                    itemHeld.transform.parent = gameObject.transform;
-
-                    Debug.Log("Picked Up Item!");
-
-                    if (itemHeld.CompareTag("Hammer"))
-                    {
-                        holdingHammer = true;
-                    }
-
-                    itemHeld.SetPickUp(true);
-                    isHoldingItem = true;
-                    closestItem = null;
-                }
-            }
-            else
-            {
-                //If the player is still holding an item
-                if (itemHeld != null)
-                {
-                    //Remove the item from the player and put it back in the level
-                    itemHeld.GetComponent<Rigidbody2D>().gravityScale = itemHeld.GetDefaultGravityScale();
-                    itemHeld.GetComponent<Rigidbody2D>().isKinematic = false;
-                    itemHeld.transform.parent = null;
-
-                    if (itemHeld.CompareTag("Hammer"))
-                    {
-                        holdingHammer = false;
-                    }
-
-                    itemHeld.SetPickUp(false);
-                    isHoldingItem = false;
-                    itemHeld = null;
-                }
-            }
+            PickupItem();
         }
     }
 
+    public void PickupItem()
+    {
+        Debug.Log("Is Holding Item: " + isHoldingItem);
+
+        //If the player is not holding an item
+        if (!isHoldingItem)
+        {
+            //If the closest item to the player exists and is not picked up
+            if (closestItem != null && !closestItem.IsItemPickedUp())
+            {
+                itemHeld = closestItem;
+
+                //Make the current item the player's child and stick it to the player
+                itemHeld.transform.position = gameObject.transform.position;
+                itemHeld.transform.rotation = Quaternion.identity;
+                itemHeld.GetComponent<Rigidbody2D>().gravityScale = 0;
+                itemHeld.GetComponent<Rigidbody2D>().isKinematic = true;
+                itemHeld.transform.parent = gameObject.transform;
+
+                Debug.Log("Picked Up Item!");
+
+                if (itemHeld.CompareTag("Hammer"))
+                {
+                    holdingHammer = true;
+                }
+
+                itemHeld.SetPickUp(true);
+                isHoldingItem = true;
+                closestItem = null;
+            }
+        }
+        else
+        {
+            //If the player is still holding an item
+            if (itemHeld != null)
+            {
+                //Remove the item from the player and put it back in the level
+                itemHeld.GetComponent<Rigidbody2D>().gravityScale = itemHeld.GetDefaultGravityScale();
+                itemHeld.GetComponent<Rigidbody2D>().isKinematic = false;
+                itemHeld.transform.parent = null;
+
+                Debug.Log("Dropped Item!");
+
+                if (itemHeld.CompareTag("Hammer"))
+                {
+                    holdingHammer = false;
+                }
+
+                itemHeld.SetPickUp(false);
+                isHoldingItem = false;
+                itemHeld = null;
+            }
+        }
+    }
+    
     public int GetPlayerIndex()
     {
         return playerIndex;

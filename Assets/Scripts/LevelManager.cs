@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.UI;
+using TMPro;
 
 public enum TANKSPEED
 {
@@ -17,6 +18,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private Canvas pauseGameCanvas;
     [SerializeField] private GameObject playerTank;
     [SerializeField] private GameObject layerPrefab;
+    [SerializeField] private TextMeshProUGUI resourcesDisplay;
 
     public static LevelManager instance;
 
@@ -28,6 +30,7 @@ public class LevelManager : MonoBehaviour
     internal float gameSpeed;
     internal int speedIndex;
     internal float[] currentSpeed = {-1.5f, -1f, 0f, 1, 1.5f};
+    private int resourcesNum;
 
     private void Awake()
     {
@@ -39,6 +42,7 @@ public class LevelManager : MonoBehaviour
         isSteering = false;
         speedIndex = (int)TANKSPEED.FORWARD;
         gameSpeed = currentSpeed[speedIndex];
+        resourcesDisplay.text = "" + resourcesNum;
     }
 
     public void UpdateSpeed(int speedUpdate)
@@ -53,6 +57,12 @@ public class LevelManager : MonoBehaviour
         {
             i.UpdateEnemySpeed();
         }
+    }
+
+    public void AddResources(int resources)
+    {
+        resourcesNum += resources;
+        resourcesDisplay.text = ""+resourcesNum;
     }
 
     public void AddLayer(PlayerController player)
