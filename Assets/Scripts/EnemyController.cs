@@ -32,7 +32,7 @@ public class EnemyController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (!enemyLockedIn)
         {
@@ -97,6 +97,7 @@ public class EnemyController : MonoBehaviour
             //If the enemy has a cannon, fire the cannon
             if (GetComponentInChildren<CannonController>() != null)
             {
+                Debug.Log("Enemy Fire!");
                 GetComponentInChildren<CannonController>().Fire();
             }
 

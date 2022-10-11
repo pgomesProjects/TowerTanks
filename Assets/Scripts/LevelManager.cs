@@ -132,10 +132,10 @@ public class LevelManager : MonoBehaviour
 
     private void Update()
     {
-        foreach (var player in FindObjectsOfType<PlayerController>())
+/*        foreach (var player in FindObjectsOfType<PlayerController>())
         {
             Debug.Log("Player " + (player.GetPlayerIndex() + 1) + " Action Map: " + player.GetComponent<PlayerInput>().currentActionMap.name);
-        }
+        }*/
     }
 
     public void AdjustLayerSystem(int destroyedLayer)
@@ -149,7 +149,7 @@ public class LevelManager : MonoBehaviour
         }
 
         //Adjust the layer numbers for the layers above the one that got destroyed
-        foreach(var i in FindObjectsOfType<LayerHealthManager>())
+        foreach(var i in playerTank.GetComponentsInChildren<LayerHealthManager>())
         {
             int nextLayerIndex = i.GetComponentInChildren<LayerManager>().GetNextLayerIndex();
 
