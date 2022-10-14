@@ -1006,7 +1006,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 50
   orthographic: 1
   orthographic size: 10
   m_Depth: -1
@@ -2688,6 +2688,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1185314652}
   - component: {fileID: 1185314651}
+  - component: {fileID: 1185314653}
   m_Layer: 0
   m_Name: CM vcam1
   m_TagString: Untagged
@@ -2716,7 +2717,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 412909759}
   m_Lens:
-    FieldOfView: 60
+    FieldOfView: 50
     OrthographicSize: 10
     NearClipPlane: 0.3
     FarClipPlane: 1000
@@ -2749,6 +2750,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1185314653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1185314650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a97fbf3ed96a05b4aa541e1260f634ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1241040231
 GameObject:
   m_ObjectHideFlags: 0
