@@ -204,6 +204,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public bool IsPlayerClimbing()
+    {
+        return isClimbing;
+    }
+
     public void SetPlayerMove(bool movePlayer)
     {
         canMove = movePlayer;
