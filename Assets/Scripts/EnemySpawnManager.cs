@@ -19,6 +19,10 @@ public class EnemySpawnManager : MonoBehaviour
         //Pick a random enemy from the list of enemies and spawn it
         int enemyIndex = Random.Range(0, enemyPrefabs.Length);
         GameObject newEnemy = Instantiate(enemyPrefabs[enemyIndex], transform.position, transform.rotation);
+
+        Vector3 cameraZoomPos = FindObjectOfType<PlayerTankController>().transform.position;
+
+        StartCoroutine(CameraEventController.instance.ShowEnemyWithCamera(20, new Vector3(cameraZoomPos.x + 20, cameraZoomPos.y, cameraZoomPos.z), 3));
     }
 
     // Update is called once per frame
