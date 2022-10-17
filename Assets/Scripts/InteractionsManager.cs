@@ -5,7 +5,6 @@ using UnityEngine;
 public class InteractionsManager : MonoBehaviour
 {
 
-
     [SerializeField] private GameObject cannonShell;
     internal PlayerController currentPlayer;
 
@@ -56,6 +55,9 @@ public class InteractionsManager : MonoBehaviour
                         Debug.Log("BAM! Weapon has been fired!");
                         currentPlayer.DestroyItem();
                         cannon.Fire();
+
+                        //Shake the camera
+                        CameraEventController.instance.ShakeCamera(5f, 0.1f);
                     }
                 }
             }

@@ -9,14 +9,14 @@ public class CameraEventController : MonoBehaviour
 
     private CinemachineVirtualCamera _virtualCamera;
     private CinemachineTargetGroup _targetGroup;
+    private float shakeTimer, shakeTimerTotal, startingCamIntensity;
 
     private void Awake()
     {
         instance = this;
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         _virtualCamera = GetComponent<CinemachineVirtualCamera>();
         _targetGroup = FindObjectOfType<CinemachineTargetGroup>();
@@ -25,7 +25,17 @@ public class CameraEventController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Camera shake timer
+        if(shakeTimer > 0)
+        {
+            shakeTimer -= Time.deltaTime;
 
+            if(shakeTimer <= 0)
+            {
+                CinemachineBasicMultiChannelPerlin cinemachineBasicMultiChannelPerlin = _virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+                cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = Mathf.Lerp(startingCamIntensity, 0f, 1 - (shakeTimer / shakeTimerTotal));
+            }
+        }
     }
 
     public void EnableTargetGroup()
@@ -39,6 +49,18 @@ public class CameraEventController : MonoBehaviour
     public void DisableTargetGroup()
     {
         _virtualCamera.m_Follow = null;
+    }
+
+    public void ShakeCamera(float intensity, float seconds)
+    {
+        //Set the amplitude gain of the camera
+        CinemachineBasicMultiChannelPerlin cinemachineBasicMultiChannelPerlin = _virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+        cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = intensity;
+
+        //Set values so that the shaking can eventually stop
+        shakeTimer = seconds;
+        shakeTimerTotal = seconds;
+        startingCamIntensity = intensity;
     }
 
     public IEnumerator SmoothZoomCameraEvent(float startFOV, float endFOV, float seconds)
