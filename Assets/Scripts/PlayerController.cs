@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class PlayerController : MonoBehaviour
 {
@@ -36,6 +37,7 @@ public class PlayerController : MonoBehaviour
     private bool taskInProgress;
 
     private RaycastHit2D ladderRaycast;
+    private IEnumerator currentLoadAction;
 
     // Start is called before the first frame update
     void Start()
@@ -61,15 +63,10 @@ public class PlayerController : MonoBehaviour
         //Check to see if the player is colliding with the ladder
         ladderRaycast = Physics2D.Raycast(transform.position, Vector2.up, distance, ladderMask);
 
-        //If the player is colliding with the ladder
-        if (ladderRaycast.collider != null)
-        {
-            DisplayInteractionPrompt("<sprite=30>");
-        }
-        else
+        //If the player is not colliding with the ladder
+        if (ladderRaycast.collider == null)
         {
             isClimbing = false;
-            HideInteractionPrompt();
         }
 
         //If the player is climbing, move up and get rid of gravity temporarily
@@ -145,6 +142,15 @@ public class PlayerController : MonoBehaviour
                 transform.position = new Vector2(-1.5f, transform.position.y);
             }
         }
+
+        if (ctx.performed || ctx.canceled)
+        {
+            if (currentInteractableItem != null)
+            {
+                //Call the cancel interaction event
+                currentInteractableItem.OnCancel();
+            }
+        }
     }
 
     public void DisplayInteractionPrompt(string message)
@@ -155,18 +161,20 @@ public class PlayerController : MonoBehaviour
 
     public void HideInteractionPrompt()
     {
+        Debug.Log("Hide!");
         interactableHover.SetActive(false);
     }
 
-    public void StartProgressBar(float secondsTillCompletion)
+    public void StartProgressBar(float secondsTillCompletion, Action actionOnComplete)
     {
         progressBarCanvas.SetActive(true);
         progressBarSlider.value = 0;
         taskInProgress = true;
-        StartCoroutine(ProgressBarLoad(secondsTillCompletion));
+        currentLoadAction = ProgressBarLoad(secondsTillCompletion, actionOnComplete);
+        StartCoroutine(currentLoadAction);
     }
 
-    IEnumerator ProgressBarLoad(float secondsTillCompletion)
+    IEnumerator ProgressBarLoad(float secondsTillCompletion, Action actionOnComplete)
     {
         float currentPercentage = 0;
         float completionRate = secondsTillCompletion / 100;
@@ -179,11 +187,14 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
 
+        actionOnComplete.Invoke();
+
         HideProgressBar();
     }
 
     public void CancelProgressBar()
     {
+        StopCoroutine(currentLoadAction);
         taskInProgress = false;
         HideProgressBar();
     }

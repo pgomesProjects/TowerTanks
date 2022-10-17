@@ -65,4 +65,9 @@ public class CoalController : MonoBehaviour
             coalPercentage = 100;
         }
     }
+
+    public bool HasCoal()
+    {
+        return hasCoal;
+    }
 }

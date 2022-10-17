@@ -65,6 +65,13 @@ public class LevelManager : MonoBehaviour
         resourcesDisplay.text = ""+resourcesNum;
     }
 
+    public void AddCoalToTank(CoalController coalController, float amount)
+    {
+        //Add a percentage of the necessary coal to the furnace
+        Debug.Log("Coal Has Been Added To The Furnace!");
+        coalController.AddCoal(amount);
+    }
+
     public void AddLayer(PlayerController player)
     {
         //If the player is outside of the tank (in a layer that does not exist inside the tank)

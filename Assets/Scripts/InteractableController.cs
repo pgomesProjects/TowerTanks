@@ -6,6 +6,7 @@ using UnityEngine.Events;
 public class InteractableController : MonoBehaviour
 {
     public UnityEvent interactEvent;
+    public UnityEvent cancelEvent;
 
     private bool canInteract = false;
     private PlayerController currentPlayer;
@@ -52,7 +53,7 @@ public class InteractableController : MonoBehaviour
         {
             if (lockPlayerIntoInteraction)
             {
-                //If there is an interaction active
+                //If there is not an interaction active
                 if (!interactionActive)
                 {
                     interactionActive = true;
@@ -69,6 +70,24 @@ public class InteractableController : MonoBehaviour
             else
             {
                 interactEvent.Invoke();
+            }
+        }
+    }
+
+    public void OnCancel()
+    {
+        //If the object is interacted with, grab the function from the inspector that will decide what to do when canceling
+        if (canInteract)
+        {
+            if (lockPlayerIntoInteraction)
+            {
+                //If there is an interaction active
+                if (interactionActive)
+                {
+                    interactionActive = false;
+                    currentPlayer.SetPlayerMove(true);
+                    cancelEvent.Invoke();
+                }
             }
         }
     }

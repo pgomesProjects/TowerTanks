@@ -23,15 +23,15 @@ public class OneWayPlatformController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("OneWayPlatform"))
+        if (collision.collider.CompareTag("OneWayPlatform"))
         {
-            currentOneWayPlatform = collision.gameObject;
+            currentOneWayPlatform = collision.collider.gameObject;
         }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("OneWayPlatform"))
+        if (collision.collider.CompareTag("OneWayPlatform"))
         {
             currentOneWayPlatform = null;
         }

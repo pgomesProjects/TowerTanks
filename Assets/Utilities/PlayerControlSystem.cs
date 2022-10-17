@@ -69,7 +69,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""id"": ""5d998075-9008-4971-ac82-d89e9ee169d5"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Press"",
+                    ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
@@ -400,7 +400,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""3df3bf15-9b85-466e-8b41-9abbe2c4761a"",
                     ""path"": ""<Gamepad>/buttonNorth"",
-                    ""interactions"": """",
+                    ""interactions"": ""SlowTap"",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Interact"",

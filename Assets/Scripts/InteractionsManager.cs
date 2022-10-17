@@ -72,11 +72,33 @@ public class InteractionsManager : MonoBehaviour
         //If there is a player
         if (currentPlayer != null)
         {
-            currentPlayer.StartProgressBar(10);
-        }
+            float timeToFillCoal = 5;
 
-        //Add 50% of the necessary coal to the furnace
+            //If there is no coal in the furnace, make the task of refilling it twice as long
+            if (!coalController.HasCoal())
+                timeToFillCoal *= 2;
+
+            //Start a progress bar on the player
+            currentPlayer.StartProgressBar(timeToFillCoal, () => FillCoal(coalController, 50));
+        }
+    }
+
+    private void FillCoal(CoalController coalController, float percent)
+    {
+        //Add a percentage of the necessary coal to the furnace
         Debug.Log("Coal Has Been Added To The Furnace!");
-        coalController.AddCoal(50);
+        coalController.AddCoal(percent);
+    }
+
+    /// <summary>
+    /// Cancels the filling of coal when the player lets go of the interact button
+    /// </summary>
+    public void CancelCoalFill(CoalController coalController)
+    {
+        //If there is a player
+        if (currentPlayer != null)
+        {
+            currentPlayer.CancelProgressBar();
+        }
     }
 }
