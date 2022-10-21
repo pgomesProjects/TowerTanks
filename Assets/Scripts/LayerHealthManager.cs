@@ -15,7 +15,26 @@ public class LayerHealthManager : MonoBehaviour
             Debug.Log("Layer " + (GetComponentInChildren<LayerManager>().GetNextLayerIndex() - 1) + " Health: " + health);
         }
         
+        //Check to see if the layer will be destryoed
         CheckForDestroy();
+    }
+
+
+    public void CheckForFireSpawn(float chanceToCatchFire)
+    {
+        Debug.Log("Checking For Fire...");
+
+        //If the layer is already on fire, ignore everything else
+        if (GetComponentInChildren<FireBehavior>() != null && GetComponentInChildren<FireBehavior>().IsLayerOnFire())
+            return;
+
+        float percent = Random.Range(0, 100);
+
+        //If the chance to catch fire has been met, turn on the fire diegetics
+        if(percent < chanceToCatchFire)
+        {
+            transform.Find("FireDiegetics").gameObject.SetActive(true);
+        }
     }
 
     private void CheckForDestroy()

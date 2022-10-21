@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     internal float steeringValue;
     private float speed = 8f;
     private Rigidbody2D rb;
+    private PlayerTankController playerTank;
 
     internal int currentLayer = 1;
 
@@ -43,6 +44,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        playerTank = FindObjectOfType<PlayerTankController>();
         defaultGravity = rb.gravityScale;
         isHoldingItem = false;
         canMove = true;

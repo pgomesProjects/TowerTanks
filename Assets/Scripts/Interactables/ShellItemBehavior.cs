@@ -5,6 +5,7 @@ using UnityEngine;
 public class ShellItemBehavior : MonoBehaviour
 {
     [SerializeField] private float chanceToExplode = 80;
+    [SerializeField] private float chanceToCatchFire = 30;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -18,4 +19,6 @@ public class ShellItemBehavior : MonoBehaviour
             }
         }
     }
+
+    public float GetChanceToCatchFire() => chanceToCatchFire;
 }

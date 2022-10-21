@@ -101,7 +101,7 @@ MonoBehaviour:
   cannonSpeed: 0.25
   lowerAngleBound: -70
   upperAngleBound: 70
-  projectile: {fileID: 7578090233616032331, guid: 1a9426da801e3aa48a2ce64d5f72c966, type: 3}
+  projectile: {fileID: 4737827509279057301, guid: c7da71b2e77ef994ba9aa8d6241280ae, type: 3}
   spawnPoint: {fileID: 4582106216502727523}
   cannonForce: 4000
   currentCannonDirection: 0
