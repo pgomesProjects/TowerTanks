@@ -52,6 +52,17 @@ public class LevelManager : MonoBehaviour
 
         Debug.Log("Tank Speed: " + gameSpeed);
 
+        //If the current speed is stationary
+        if(gameSpeed == currentSpeed[(int)TANKSPEED.STATIONARY])
+        {
+            FindObjectOfType<AudioManager>().Stop("TankIdle");
+        }
+        //If the tank idle isn't already playing, play it
+        else if (!FindObjectOfType<AudioManager>().IsPlaying("TankIdle"))
+        {
+            FindObjectOfType<AudioManager>().Play("TankIdle", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+        }
+
         //Update the enemy speed comparative to the player
         foreach(var i in FindObjectsOfType<EnemyController>())
         {
@@ -85,6 +96,9 @@ public class LevelManager : MonoBehaviour
             //Add to the total number of layers and give the new layer an index
             totalLayers++;
             newLayer.GetComponentInChildren<LayerManager>().SetLayerIndex(totalLayers + 1);
+
+            //Play sound effect
+            FindObjectOfType<AudioManager>().PlayOneShot("WrenchSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
         }
     }
 
@@ -96,6 +110,7 @@ public class LevelManager : MonoBehaviour
         if (isPaused == false)
         {
             Time.timeScale = 0;
+            FindObjectOfType<AudioManager>().PauseAllSounds();
             currentPlayerPaused = playerIndex;
             isPaused = true;
             pauseGameCanvas.GetComponent<PauseController>().UpdatePauseText(playerIndex);
@@ -108,6 +123,7 @@ public class LevelManager : MonoBehaviour
             if (playerIndex == currentPlayerPaused)
             {
                 Time.timeScale = 1;
+                FindObjectOfType<AudioManager>().ResumeAllSounds();
                 isPaused = false;
                 pauseGameCanvas.gameObject.SetActive(false);
                 InputForOtherPlayers(currentPlayerPaused, false);

@@ -56,6 +56,7 @@ public class InteractableController : MonoBehaviour
                 //If there is not an interaction active
                 if (!interactionActive)
                 {
+                    Debug.Log("Locking Player Into Interaction...");
                     interactionActive = true;
                     currentPlayer.SetPlayerMove(false);
                     interactEvent.Invoke();
@@ -84,6 +85,7 @@ public class InteractableController : MonoBehaviour
                 //If there is an interaction active
                 if (interactionActive)
                 {
+                    Debug.Log("Canceling Interaction");
                     interactionActive = false;
                     currentPlayer.SetPlayerMove(true);
                     cancelEvent.Invoke();

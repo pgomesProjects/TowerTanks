@@ -1514,7 +1514,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 4
-  xBarrier: 12
+  tankBarrierRange: 12
 --- !u!1 &862922582
 GameObject:
   m_ObjectHideFlags: 0

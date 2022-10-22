@@ -59,6 +59,7 @@ public class PlayerController : MonoBehaviour
         //Move the player horizontally
         if (canMove)
         {
+            Debug.Log("Player Can Move!");
             rb.velocity = new Vector2(movement.x * speed, rb.velocity.y);
         }
 
@@ -147,7 +148,7 @@ public class PlayerController : MonoBehaviour
 
         if (ctx.performed || ctx.canceled)
         {
-            if (currentInteractableItem != null)
+            if (taskInProgress && currentInteractableItem != null)
             {
                 //Call the cancel interaction event
                 currentInteractableItem.OnCancel();
