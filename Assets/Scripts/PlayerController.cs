@@ -40,6 +40,7 @@ public class PlayerController : MonoBehaviour
     private RaycastHit2D ladderRaycast;
     private IEnumerator currentLoadAction;
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -329,5 +330,15 @@ public class PlayerController : MonoBehaviour
     public void SetPlayerIndex(int index)
     {
         playerIndex = index;
+    }
+
+    public void OnDeviceLost(PlayerInput playerInput)
+    {
+        Debug.Log("Player " + (playerIndex + 1) + " Controller Disconnected!");
+    }
+
+    public void OnDeviceRegained(PlayerInput playerInput)
+    {
+        Debug.Log("Player " + (playerIndex + 1) + " Controller Reconnected!");
     }
 }

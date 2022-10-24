@@ -14,8 +14,8 @@ public enum TANKSPEED
 
 public class LevelManager : MonoBehaviour
 {
-    [SerializeField] private Canvas gameOverCanvas;
-    [SerializeField] private Canvas pauseGameCanvas;
+    [SerializeField] private GameObject gameOverCanvas;
+    [SerializeField] private GameObject pauseGameCanvas;
     [SerializeField] private GameObject playerTank;
     [SerializeField] private GameObject layerPrefab;
     [SerializeField] private TextMeshProUGUI resourcesDisplay;
@@ -131,8 +131,8 @@ public class LevelManager : MonoBehaviour
             FindObjectOfType<AudioManager>().PauseAllSounds();
             currentPlayerPaused = playerIndex;
             isPaused = true;
+            pauseGameCanvas.SetActive(true);
             pauseGameCanvas.GetComponent<PauseController>().UpdatePauseText(playerIndex);
-            pauseGameCanvas.gameObject.SetActive(true);
             InputForOtherPlayers(currentPlayerPaused, true);
         }
         //If the game is paused, resume the game if the person that paused the game unpauses
@@ -143,7 +143,7 @@ public class LevelManager : MonoBehaviour
                 Time.timeScale = 1;
                 FindObjectOfType<AudioManager>().ResumeAllSounds();
                 isPaused = false;
-                pauseGameCanvas.gameObject.SetActive(false);
+                pauseGameCanvas.SetActive(false);
                 InputForOtherPlayers(currentPlayerPaused, false);
                 currentPlayerPaused = -1;
             }
@@ -221,7 +221,7 @@ public class LevelManager : MonoBehaviour
         StopAllCoroutines();
 
         Time.timeScale = 0.0f;
-        gameOverCanvas.gameObject.SetActive(true);
+        gameOverCanvas.SetActive(true);
         StartCoroutine(ReturnToMain());
     }
 

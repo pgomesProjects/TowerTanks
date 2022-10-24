@@ -10,13 +10,24 @@ public class MultiplayerManager : MonoBehaviour
     [SerializeField] private Transform spawnPoint;
     [SerializeField] private Transform playerParent;
 
+    private PlayerInputManager playerInputManager;
+
     private Color[] playerColors = { Color.red, Color.blue, Color.yellow, Color.green };
+
+    private void Awake()
+    {
+        playerInputManager = FindObjectOfType<PlayerInputManager>();
+        playerInputManager.EnableJoining();
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         //Delegate function to when the scene is unloaded
         SceneManager.sceneUnloaded += OnSceneUnloaded;
+
+        //Delegate join function
+        playerInputManager.onPlayerJoined += OnPlayerJoined;
     }
 
     /// <summary>
@@ -37,6 +48,8 @@ public class MultiplayerManager : MonoBehaviour
         FindObjectOfType<CornerUIController>().OnPlayerJoined(playerIndex);
         SetColorOfPlayer(playerInput.transform, playerIndex);
         playerInput.transform.parent = playerParent;
+        playerInput.onDeviceLost += OnDeviceLost;
+        playerInput.onDeviceRegained += OnDeviceRegained;
     }
 
     private void SetColorOfPlayer(Transform player, int playerIndex)
@@ -54,4 +67,13 @@ public class MultiplayerManager : MonoBehaviour
         }
     }
 
+    private void OnDeviceLost(PlayerInput playerInput)
+    {
+        playerInput.gameObject.SetActive(false);
+    }
+
+    private void OnDeviceRegained(PlayerInput playerInput)
+    {
+        playerInput.gameObject.SetActive(true);
+    }
 }
