@@ -71,6 +71,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3b80b42db552114588b24ddf16fa0f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyType: 0
   health: 100
   speed: 1
 --- !u!61 &794722079130261051
@@ -86,7 +87,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -17, y: 5}
+  m_Offset: {x: -15.42, y: 5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}

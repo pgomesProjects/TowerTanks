@@ -2,17 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ENEMYTYPE {NORMAL, DRILL}
+
 public class EnemyController : MonoBehaviour
 {
-
+    [SerializeField] private ENEMYTYPE enemyType;
     [SerializeField] private float health = 100;
     [SerializeField] private float speed = 1;
+    [SerializeField] private float collisionForce = 50;
+    [SerializeField] private float collisionForceSeconds = 0.1f;
     private float speedRelativeToPlayer;
 
-    private bool enemyLockedIn = false;
+    private bool enemyColliding = false;
 
     private Rigidbody2D rb;
-    private PlayerTankController player;
+    private PlayerTankController playerTank;
 
     private int totalEnemyLayers;
 
@@ -20,36 +24,32 @@ public class EnemyController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        player = FindObjectOfType<PlayerTankController>();
+        playerTank = GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>();
         totalEnemyLayers = 2;
         UpdateEnemySpeed();
     }
 
+    private void OnEnable()
+    {
+        //Deal Damage To Player
+        StartCoroutine(DealDamage());
+    }
+
     public void UpdateEnemySpeed()
     {
-        speedRelativeToPlayer = (FindObjectOfType<PlayerTankController>().GetPlayerSpeed() * LevelManager.instance.gameSpeed) + speed;
+        speedRelativeToPlayer = (playerTank.GetPlayerSpeed() * LevelManager.instance.gameSpeed) + speed;
         Debug.Log("Enemy Speed: " + speedRelativeToPlayer);
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!enemyLockedIn)
+        if (!enemyColliding)
         {
             float currentSpeed = -speedRelativeToPlayer;
 
             //Move the enemy horizontally
-            //rb.velocity = new Vector2(currentSpeed, rb.velocity.y);
-
             transform.position += new Vector3(currentSpeed, 0, 0) * Time.deltaTime;
-        }
-        else
-        {
-            //If the player is moving backwards, don't lock the enemy
-            if (speedRelativeToPlayer < 0)
-            {
-                enemyLockedIn = false;
-            }
         }
     }
 
@@ -58,22 +58,30 @@ public class EnemyController : MonoBehaviour
         if (collision.CompareTag("PlayerTank"))
         {
             Debug.Log("Enemy Is At Player!");
-            enemyLockedIn = true;
-            rb.velocity = new Vector2(0, 0);
-            //Deal Damage To Player
-            StartCoroutine(DealDamage());
+
+            DetermineCollisionForce();
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    private void DetermineCollisionForce()
     {
-        if (collision.CompareTag("PlayerTank"))
-        {
-            Debug.Log("Enemy Is No Longer At Player!");
+        float enemyForce = collisionForce;
+        float playerForce = collisionForce;
 
-            //Deal Damage To Player
-            StopCoroutine(DealDamage());
+        //If the player is going slower than the enemy, add extra force to the player
+        if(speedRelativeToPlayer > playerTank.GetPlayerSpeed() * LevelManager.instance.gameSpeed)
+        {
+            playerForce *= (playerTank.GetPlayerSpeed() * LevelManager.instance.gameSpeed) / speedRelativeToPlayer;
         }
+
+        //If the enemy is going slower than the player, add extra force to the enemy
+        else if(playerTank.GetPlayerSpeed() * LevelManager.instance.gameSpeed > speedRelativeToPlayer)
+        {
+            enemyForce *= (playerTank.GetPlayerSpeed() * LevelManager.instance.gameSpeed) / speedRelativeToPlayer;
+        }
+
+        StartCoroutine(CollideWithPlayerAni(enemyForce, collisionForceSeconds));
+        StartCoroutine(playerTank.CollideWithEnemyAni(playerForce, collisionForceSeconds));
     }
 
     public void DealDamage(int dmg)
@@ -88,6 +96,40 @@ public class EnemyController : MonoBehaviour
             Debug.Log("Enemy Tank Is Destroyed!");
             Destroy(gameObject);
         }
+    }
+
+    IEnumerator CollideWithPlayerAni(float collideVelocity, float seconds)
+    {
+        float timeElapsed = 0;
+        enemyColliding = true;
+
+        while (timeElapsed < seconds)
+        {
+            //Smooth lerp duration algorithm
+            float t = timeElapsed / seconds;
+            t = t * t * (3f - 2f * t);
+
+            transform.position += new Vector3(Mathf.Lerp(0, collideVelocity, t) * Time.deltaTime, 0, 0);
+            timeElapsed += Time.deltaTime;
+
+            yield return null;
+        }
+
+        timeElapsed = 0;
+
+        while (timeElapsed < seconds)
+        {
+            //Smooth lerp duration algorithm
+            float t = timeElapsed / seconds;
+            t = t * t * (3f - 2f * t);
+
+            transform.position += new Vector3(Mathf.Lerp(collideVelocity, 0, t) * Time.deltaTime, 0, 0);
+            timeElapsed += Time.deltaTime;
+
+            yield return null;
+        }
+
+        enemyColliding = false;
     }
 
     IEnumerator DealDamage()

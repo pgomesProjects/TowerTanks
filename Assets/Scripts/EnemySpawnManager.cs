@@ -20,7 +20,7 @@ public class EnemySpawnManager : MonoBehaviour
         int enemyIndex = Random.Range(0, enemyPrefabs.Length);
         GameObject newEnemy = Instantiate(enemyPrefabs[enemyIndex], transform.position, transform.rotation);
 
-        Vector3 cameraZoomPos = FindObjectOfType<PlayerTankController>().transform.position;
+        Vector3 cameraZoomPos = GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().transform.position;
 
         StartCoroutine(CameraEventController.instance.ShowEnemyWithCamera(20, new Vector3(cameraZoomPos.x + 20, cameraZoomPos.y, cameraZoomPos.z), 3));
     }

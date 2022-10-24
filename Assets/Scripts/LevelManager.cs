@@ -23,6 +23,7 @@ public class LevelManager : MonoBehaviour
     public static LevelManager instance;
 
     internal bool isPaused;
+    internal bool isGameActive;
     private int currentPlayerPaused;
     internal int totalLayers;
     internal bool hasFuel;
@@ -42,7 +43,7 @@ public class LevelManager : MonoBehaviour
         isSteering = false;
         speedIndex = (int)TANKSPEED.FORWARD;
         gameSpeed = currentSpeed[speedIndex];
-        resourcesDisplay.text = "" + resourcesNum;
+        resourcesDisplay.text = "Resources: " + resourcesNum;
     }
 
     public void UpdateSpeed(int speedUpdate)
@@ -72,8 +73,25 @@ public class LevelManager : MonoBehaviour
 
     public void AddResources(int resources)
     {
+        int originalValue = resourcesNum;
         resourcesNum += resources;
-        resourcesDisplay.text = ""+resourcesNum;
+
+        //Display the resources in a fancy way
+        StartCoroutine(ResourcesTextAnimation(originalValue, resourcesNum, 2));
+    }
+
+    private IEnumerator ResourcesTextAnimation(int startingVal, int endingVal, float seconds)
+    {
+        float elapsedTime = 0;
+        Vector3 startPosition = transform.position;
+        while (elapsedTime < seconds)
+        {
+            resourcesDisplay.text = "Resources: " + Mathf.RoundToInt(Mathf.Lerp(startingVal, endingVal, elapsedTime / seconds)).ToString();
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        resourcesDisplay.text = "Resources: " + endingVal.ToString();
     }
 
     public void AddCoalToTank(CoalController coalController, float amount)
@@ -177,6 +195,8 @@ public class LevelManager : MonoBehaviour
         if(totalLayers == 0)
         {
             Debug.Log("Tank Is Destroyed!");
+            //Destroy the tank
+            Destroy(GameObject.FindGameObjectWithTag("PlayerTank"));
             GameOver();
             return;
         }
@@ -194,6 +214,12 @@ public class LevelManager : MonoBehaviour
     }
     private void GameOver()
     {
+        //Stop the tank idle noise
+        FindObjectOfType<AudioManager>().Stop("TankIdle");
+
+        //Stop all coroutines
+        StopAllCoroutines();
+
         Time.timeScale = 0.0f;
         gameOverCanvas.gameObject.SetActive(true);
         StartCoroutine(ReturnToMain());

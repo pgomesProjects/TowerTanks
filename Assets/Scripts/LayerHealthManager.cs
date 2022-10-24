@@ -5,6 +5,7 @@ using UnityEngine;
 public class LayerHealthManager : MonoBehaviour
 {
     [SerializeField] private int health = 100;
+    [SerializeField] private int destroyResourcesValue = 80;
 
     public void DealDamage(int dmg)
     {
@@ -49,6 +50,9 @@ public class LayerHealthManager : MonoBehaviour
 
                 //Adjust the tank accordingly
                 LevelManager.instance.AdjustLayerSystem((GetComponentInChildren<LayerManager>().GetNextLayerIndex() - 1));
+
+                //Add to player resources
+                LevelManager.instance.AddResources(destroyResourcesValue);
             }
 
             //If an enemy layer is destroyed, tell the tank that the layer was destroyed

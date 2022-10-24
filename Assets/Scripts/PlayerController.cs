@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        playerTank = FindObjectOfType<PlayerTankController>();
+        playerTank = GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>();
         defaultGravity = rb.gravityScale;
         isHoldingItem = false;
         canMove = true;
@@ -61,6 +61,13 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("Player Can Move!");
             rb.velocity = new Vector2(movement.x * speed, rb.velocity.y);
+
+            //Clamp the player's position to be within the range of the tank
+            float playerRange = GameObject.FindGameObjectWithTag("PlayerTank").transform.position.x + 
+                GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().tankBarrierRange;
+            Vector3 playerPos = transform.position;
+            playerPos.x = Mathf.Clamp(playerPos.x, -playerRange, playerRange);
+            transform.position = playerPos;
         }
 
         //Check to see if the player is colliding with the ladder

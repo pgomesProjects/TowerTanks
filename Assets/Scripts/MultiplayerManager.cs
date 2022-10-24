@@ -8,6 +8,7 @@ public class MultiplayerManager : MonoBehaviour
 {
     [SerializeField] private CinemachineTargetGroup targetGroup;
     [SerializeField] private Transform spawnPoint;
+    [SerializeField] private Transform playerParent;
 
     private Color[] playerColors = { Color.red, Color.blue, Color.yellow, Color.green };
 
@@ -35,6 +36,7 @@ public class MultiplayerManager : MonoBehaviour
         playerInput.GetComponent<PlayerController>().SetPlayerIndex(playerIndex);
         FindObjectOfType<CornerUIController>().OnPlayerJoined(playerIndex);
         SetColorOfPlayer(playerInput.transform, playerIndex);
+        playerInput.transform.parent = playerParent;
     }
 
     private void SetColorOfPlayer(Transform player, int playerIndex)
