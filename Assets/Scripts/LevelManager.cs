@@ -18,6 +18,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private GameObject pauseGameCanvas;
     [SerializeField] private GameObject playerTank;
     [SerializeField] private GameObject layerPrefab;
+    [SerializeField] private GameObject ghostLayerPrefab;
     [SerializeField] private TextMeshProUGUI resourcesDisplay;
 
     public static LevelManager instance;
@@ -30,7 +31,7 @@ public class LevelManager : MonoBehaviour
     internal bool isSteering;
     internal float gameSpeed;
     internal int speedIndex;
-    internal float[] currentSpeed = {-1.5f, -1f, 0f, 1, 1.5f};
+    internal float[] currentSpeed = { -1.5f, -1f, 0f, 1, 1.5f };
     private int resourcesNum;
 
     private void Awake()
@@ -54,7 +55,7 @@ public class LevelManager : MonoBehaviour
         Debug.Log("Tank Speed: " + gameSpeed);
 
         //If the current speed is stationary
-        if(gameSpeed == currentSpeed[(int)TANKSPEED.STATIONARY])
+        if (gameSpeed == currentSpeed[(int)TANKSPEED.STATIONARY])
         {
             FindObjectOfType<AudioManager>().Stop("TankIdle");
         }
@@ -65,7 +66,7 @@ public class LevelManager : MonoBehaviour
         }
 
         //Update the enemy speed comparative to the player
-        foreach(var i in FindObjectsOfType<EnemyController>())
+        foreach (var i in FindObjectsOfType<EnemyController>())
         {
             i.UpdateEnemySpeed();
         }
@@ -104,7 +105,7 @@ public class LevelManager : MonoBehaviour
     public void AddLayer(PlayerController player)
     {
         //If the player is outside of the tank (in a layer that does not exist inside the tank)
-        if(player.currentLayer > totalLayers)
+        if (player.currentLayer > totalLayers)
         {
             //Spawn a new layer and adjust it to go inside of the tank parent object
             GameObject newLayer = Instantiate(layerPrefab);
@@ -118,6 +119,14 @@ public class LevelManager : MonoBehaviour
             //Play sound effect
             FindObjectOfType<AudioManager>().PlayOneShot("WrenchSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
         }
+    }
+
+    public void AddGhostLayer()
+    {
+        //Spawn a new layer and adjust it to go inside of the tank parent object
+        GameObject newLayer = Instantiate(ghostLayerPrefab);
+        newLayer.transform.parent = playerTank.transform;
+        newLayer.transform.localPosition = new Vector2(0, totalLayers * 8);
     }
 
     public void PauseToggle(int playerIndex)
@@ -136,7 +145,7 @@ public class LevelManager : MonoBehaviour
             InputForOtherPlayers(currentPlayerPaused, true);
         }
         //If the game is paused, resume the game if the person that paused the game unpauses
-        else if(isPaused == true)
+        else if (isPaused == true)
         {
             if (playerIndex == currentPlayerPaused)
             {
@@ -154,9 +163,9 @@ public class LevelManager : MonoBehaviour
     {
         Debug.Log("Current Active Player: " + (currentActivePlayer + 1));
 
-        foreach(var player in FindObjectsOfType<PlayerController>())
+        foreach (var player in FindObjectsOfType<PlayerController>())
         {
-            if(player.GetPlayerIndex() != currentActivePlayer)
+            if (player.GetPlayerIndex() != currentActivePlayer)
             {
                 Debug.Log(player.GetPlayerIndex() + 1);
 
@@ -183,16 +192,16 @@ public class LevelManager : MonoBehaviour
 
     private void Update()
     {
-/*        foreach (var player in FindObjectsOfType<PlayerController>())
-        {
-            Debug.Log("Player " + (player.GetPlayerIndex() + 1) + " Action Map: " + player.GetComponent<PlayerInput>().currentActionMap.name);
-        }*/
+        /*        foreach (var player in FindObjectsOfType<PlayerController>())
+                {
+                    Debug.Log("Player " + (player.GetPlayerIndex() + 1) + " Action Map: " + player.GetComponent<PlayerInput>().currentActionMap.name);
+                }*/
     }
 
     public void AdjustLayerSystem(int destroyedLayer)
     {
         //If there are no more layers, the game is over
-        if(totalLayers == 0)
+        if (totalLayers == 0)
         {
             Debug.Log("Tank Is Destroyed!");
             //Destroy the tank
@@ -202,7 +211,7 @@ public class LevelManager : MonoBehaviour
         }
 
         //Adjust the layer numbers for the layers above the one that got destroyed
-        foreach(var i in playerTank.GetComponentsInChildren<LayerHealthManager>())
+        foreach (var i in playerTank.GetComponentsInChildren<LayerHealthManager>())
         {
             int nextLayerIndex = i.GetComponentInChildren<LayerManager>().GetNextLayerIndex();
 
@@ -214,8 +223,8 @@ public class LevelManager : MonoBehaviour
     }
     private void GameOver()
     {
-        //Stop the tank idle noise
-        FindObjectOfType<AudioManager>().Stop("TankIdle");
+        //Stop all of the in-game sounds
+        FindObjectOfType<AudioManager>().StopAllSounds();
 
         //Stop all coroutines
         StopAllCoroutines();

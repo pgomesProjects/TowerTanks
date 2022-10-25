@@ -57,3 +57,8 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
+  - name: CombatOST
+    clip: {fileID: 8300000, guid: eae8b0d0ca9e327409ed93ef6fee4ed5, type: 3}
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}

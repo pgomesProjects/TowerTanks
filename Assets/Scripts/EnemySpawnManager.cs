@@ -23,11 +23,13 @@ public class EnemySpawnManager : MonoBehaviour
         Vector3 cameraZoomPos = GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().transform.position;
 
         StartCoroutine(CameraEventController.instance.ShowEnemyWithCamera(20, new Vector3(cameraZoomPos.x + 20, cameraZoomPos.y, cameraZoomPos.z), 3));
+
+        FindObjectOfType<AudioManager>().Play("CombatOST", PlayerPrefs.GetFloat("BGMVolume", 0.5f));
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

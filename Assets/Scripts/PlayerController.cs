@@ -246,6 +246,11 @@ public class PlayerController : MonoBehaviour
         return isHoldingItem;
     }
 
+    public bool IsPlayerHoldingHammer()
+    {
+        return holdingHammer;
+    }
+
     public Item GetPlayerItem()
     {
         return itemHeld;

@@ -62,7 +62,8 @@ public class PlayerTankController : MonoBehaviour
             yield return null;
         }
 
-        StartCoroutine(ReturnToPosition());
+        if(this != null)
+            StartCoroutine(ReturnToPosition());
     }
 
     private IEnumerator ReturnToPosition()

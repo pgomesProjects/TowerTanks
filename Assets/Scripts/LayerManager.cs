@@ -14,18 +14,23 @@ public class LayerManager : MonoBehaviour
             int changeIndex = 0;
 
             //If player is coming from above, decrease the layer number
-            if(currentPlayer.transform.position.y > transform.position.y)
+            if (currentPlayer.transform.position.y > transform.position.y)
             {
                 changeIndex = nextLayerIndex - 1;
             }
             //If player is coming from below, increase the layer number
-            else if(currentPlayer.transform.position.y < transform.position.y)
+            else if (currentPlayer.transform.position.y < transform.position.y)
             {
                 changeIndex = nextLayerIndex;
             }
 
             currentPlayer.currentLayer = changeIndex;
             Debug.Log("Player On Layer: " + currentPlayer.currentLayer);
+
+            if (currentPlayer.currentLayer > LevelManager.instance.totalLayers && currentPlayer.IsPlayerHoldingHammer())
+            {
+                LevelManager.instance.AddGhostLayer();
+            }
         }
     }
 
