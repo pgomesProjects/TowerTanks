@@ -15,7 +15,7 @@ public class DamageObject : MonoBehaviour
             collision.collider.GetComponentInParent<LayerHealthManager>().DealDamage(damage);
 
             //Check to see if current object is a shell. If so, check to see if the layer will catch fire
-            if (TryGetComponent<ShellItemBehavior>(out ShellItemBehavior shell))
+            if (TryGetComponent<ShellItemBehavior>(out ShellItemBehavior shell) && collision.collider.GetComponentInParent<LayerHealthManager>() != null)
             {
                 collision.collider.GetComponentInParent<LayerHealthManager>().CheckForFireSpawn(shell.GetChanceToCatchFire());
             }

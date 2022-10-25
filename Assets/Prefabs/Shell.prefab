@@ -91,4 +91,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chanceToExplode: 80
-  chanceToCatchFire: 30
+  chanceToCatchFire: 0
