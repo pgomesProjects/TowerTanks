@@ -46,11 +46,12 @@ public class CannonController : MonoBehaviour
                 break;
         }
 
-        //Shoot the project at the current angle and direction
-        currentProjectile.GetComponent<Rigidbody2D>().AddForce(direction * cannonForce);
-
         //Add a damage component to the projectile
         currentProjectile.AddComponent<DamageObject>().damage = 25;
+        currentProjectile.GetComponent<DamageObject>().StartRotation(-cannonPivot.eulerAngles.z - 90);
+
+        //Shoot the project at the current angle and direction
+        currentProjectile.GetComponent<Rigidbody2D>().AddForce(direction * cannonForce);
     }
 
     private Vector2 GetCannonVectorHorizontal(float radians)
