@@ -8,7 +8,7 @@ public class CameraEventController : MonoBehaviour
     public static CameraEventController instance;
 
     private CinemachineVirtualCamera _virtualCamera;
-    private CinemachineTargetGroup _targetGroup;
+    [SerializeField] private CinemachineTargetGroup _tanksTargetGroup;
     private float shakeTimer, shakeTimerTotal, startingCamIntensity;
 
     private void Awake()
@@ -19,7 +19,6 @@ public class CameraEventController : MonoBehaviour
     private void Start()
     {
         _virtualCamera = GetComponent<CinemachineVirtualCamera>();
-        _targetGroup = FindObjectOfType<CinemachineTargetGroup>();
     }
 
     // Update is called once per frame
@@ -38,11 +37,11 @@ public class CameraEventController : MonoBehaviour
         }
     }
 
-    public void EnableTargetGroup()
+    public void EnableTargetGroup(CinemachineTargetGroup newTargetGroup)
     {
-        if (_targetGroup != null)
+        if (newTargetGroup != null)
         {
-            _virtualCamera.m_Follow = _targetGroup.transform;
+            _virtualCamera.m_Follow = newTargetGroup.transform;
         }
     }
 
@@ -103,23 +102,26 @@ public class CameraEventController : MonoBehaviour
         _virtualCamera.transform.position = updatedEndPos;
     }
 
-    public IEnumerator ShowEnemyWithCamera(float endFOV, Vector3 enemyPos, float seconds)
+    public IEnumerator ShowEnemyWithCamera(float endFOV, Vector3 enemyPos, float seconds, GameObject newEnemy)
     {
         DisableTargetGroup();
 
         StartCoroutine(SmoothZoomCameraEvent(GetCameraFOV(), endFOV, seconds));
-        StartCoroutine(SmoothMoveCameraEvent(_targetGroup.transform.position, enemyPos, seconds));
+        StartCoroutine(SmoothMoveCameraEvent(_tanksTargetGroup.transform.position, enemyPos, seconds));
 
         yield return new WaitForSeconds(seconds);
 
-/*        float backToPlayerSeconds = 0.25f;
+        _tanksTargetGroup.AddMember(newEnemy.transform, 1, 0);
+        EnableTargetGroup(_tanksTargetGroup);
 
-        StartCoroutine(SmoothMoveCameraEvent(enemyPos, _targetGroup.transform.position, backToPlayerSeconds));
-        yield return new WaitForSeconds(backToPlayerSeconds);*/
+        /*        float backToPlayerSeconds = 0.25f;
+
+                StartCoroutine(SmoothMoveCameraEvent(enemyPos, _targetGroup.transform.position, backToPlayerSeconds));
+                yield return new WaitForSeconds(backToPlayerSeconds);*/
     }
 
     public float GetCameraFOV()
     {
-        return _virtualCamera.m_Lens.OrthographicSize;
+        return Camera.main.orthographicSize;
     }
 }

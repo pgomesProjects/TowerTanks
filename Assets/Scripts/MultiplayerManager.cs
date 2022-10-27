@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 using Cinemachine;
 public class MultiplayerManager : MonoBehaviour
 {
-    [SerializeField] private CinemachineTargetGroup targetGroup;
     [SerializeField] private Transform spawnPoint;
     [SerializeField] private Transform playerParent;
 
@@ -37,9 +36,6 @@ public class MultiplayerManager : MonoBehaviour
     public void OnPlayerJoined(PlayerInput playerInput)
     {
         playerInput.transform.position = spawnPoint.position;
-
-        //Add the new player to the camera's target group
-        targetGroup.AddMember(playerInput.transform, 1, 1);
 
         //Generate the new player's index
         int playerIndex = ConnectionController.CheckForIndex();

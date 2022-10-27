@@ -32,7 +32,7 @@ public class LevelManager : MonoBehaviour
     internal float gameSpeed;
     internal int speedIndex;
     internal float[] currentSpeed = { -1.5f, -1f, 0f, 1, 1.5f };
-    private int resourcesNum;
+    private int resourcesNum = 1000;
 
     private void Awake()
     {

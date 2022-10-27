@@ -7,11 +7,12 @@ public class EnemySpawnManager : MonoBehaviour
 {
     [SerializeField] private GameObject[] enemyPrefabs;
 
+    private IEnumerator enemyEncounterAni;
+
     // Start is called before the first frame update
     void Start()
     {
-        //Spawn an enemy initially
-        Invoke("SpawnRandomEnemy", 5);
+        GetReadyForEnemySpawn();
     }
 
     private void SpawnRandomEnemy()
@@ -22,7 +23,12 @@ public class EnemySpawnManager : MonoBehaviour
 
         Vector3 cameraZoomPos = GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().transform.position;
 
-        StartCoroutine(CameraEventController.instance.ShowEnemyWithCamera(20, new Vector3(cameraZoomPos.x + 20, cameraZoomPos.y, cameraZoomPos.z), 3));
+        if (enemyEncounterAni != null)
+            StopCoroutine(enemyEncounterAni);
+
+        enemyEncounterAni = CameraEventController.instance.ShowEnemyWithCamera(40, new Vector3(cameraZoomPos.x + 55, cameraZoomPos.y, cameraZoomPos.z), 3, newEnemy);
+
+        StartCoroutine(enemyEncounterAni);
 
         FindObjectOfType<AudioManager>().Play("CombatOST", PlayerPrefs.GetFloat("BGMVolume", 0.5f));
     }
@@ -31,5 +37,12 @@ public class EnemySpawnManager : MonoBehaviour
     void Update()
     {
 
+    }
+
+    public void GetReadyForEnemySpawn()
+    {
+        int randomTime = Random.Range(10, 15);
+
+        Invoke("SpawnRandomEnemy", randomTime);
     }
 }

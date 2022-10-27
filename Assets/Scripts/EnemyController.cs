@@ -143,8 +143,8 @@ public class EnemyController : MonoBehaviour
                 GetComponentInChildren<CannonController>().Fire();
             }
 
-            //Shoot at the player every 6 to 10 seconds
-            int timeWait = Random.Range(6, 10);
+            //Shoot at the player every 15 to 25 seconds
+            int timeWait = Random.Range(15, 25);
 
             yield return new WaitForSeconds(timeWait);
         }
@@ -155,10 +155,12 @@ public class EnemyController : MonoBehaviour
         //Get rid of one of the layers
         totalEnemyLayers--;
 
+        LevelManager.instance.AddResources(30);
+
         //If there are no more layers, destroy the tank
-        if(totalEnemyLayers == 0)
+        if (totalEnemyLayers == 0)
         {
-            LevelManager.instance.AddResources(25);
+            LevelManager.instance.AddResources(100);
             Destroy(gameObject);
         }
     }
@@ -171,5 +173,13 @@ public class EnemyController : MonoBehaviour
     public void SetEnemyLayers(int enemyLayers)
     {
         totalEnemyLayers = enemyLayers;
+    }
+
+    private void OnDestroy()
+    {
+        if (FindObjectOfType<EnemySpawnManager>() != null)
+        {
+            FindObjectOfType<EnemySpawnManager>().GetReadyForEnemySpawn();
+        }
     }
 }
