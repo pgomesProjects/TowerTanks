@@ -11,7 +11,6 @@ public class PlayerController : MonoBehaviour
     private int playerIndex;
 
     private Vector2 movement;
-    private float cannonMovement;
     internal float steeringValue;
     private float speed = 8f;
     private Rigidbody2D rb;
@@ -41,6 +40,18 @@ public class PlayerController : MonoBehaviour
     private IEnumerator currentLoadAction;
 
 
+    [Header("Joystick Spin Detection Options")]
+    [SerializeField] private float spinAngleCheckUpdateTimer = 0.1f;
+    [SerializeField][Range(0.0f, 180.0f)] private float spinValidAngleLimit = 30.0f;
+    [SerializeField] private int validSpinCheckRows = 1;
+
+    private Vector2 lastJoystickInput = Vector2.zero;
+    private bool isCheckingSpinInput = false;
+    private int validSpinCheckCounter = 0;
+
+    private bool isSpinningJoystick = false;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -55,17 +66,23 @@ public class PlayerController : MonoBehaviour
     }
 
     // Update is called once per frame
+    private void Update()
+    {
+        //Check to see if the joystick is spinning
+        CheckJoystickSpinning();
+    }
+
     void FixedUpdate()
     {
         //Move the player horizontally
         if (canMove)
         {
-            Debug.Log("Player Can Move!");
+            //Debug.Log("Player Can Move!");
             rb.velocity = new Vector2(movement.x * speed, rb.velocity.y);
 
             //Clamp the player's position to be within the range of the tank
-            float playerRange = GameObject.FindGameObjectWithTag("PlayerTank").transform.position.x + 
-                GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().tankBarrierRange;
+            float playerRange = playerTank.transform.position.x + 
+                playerTank.tankBarrierRange;
             Vector3 playerPos = transform.position;
             playerPos.x = Mathf.Clamp(playerPos.x, -playerRange, playerRange);
             transform.position = playerPos;
@@ -97,9 +114,6 @@ public class PlayerController : MonoBehaviour
     //Send value from Move callback to the horizontal Vector2
     public void OnMove(InputAction.CallbackContext ctx) => movement = ctx.ReadValue<Vector2>();
 
-    //Send value from Angle Cannon callback to the horizontal float
-    public void OnAngleCannon(InputAction.CallbackContext ctx) => cannonMovement = ctx.ReadValue<Vector2>().y;
-
     public void OnControlSteering(InputAction.CallbackContext ctx)
     {
         //If the player presses the steering button
@@ -117,7 +131,13 @@ public class PlayerController : MonoBehaviour
 
     public float GetCannonMovement()
     {
-        return cannonMovement;
+        //If the player is spinning the joystick and cannot move, send the cannon the player's joystick spin angle
+        if (isSpinningJoystick && !canMove)
+        {
+            return Vector2.SignedAngle(lastJoystickInput, movement);
+        }
+        else
+            return 0;
     }
 
     public void OnInteract(InputAction.CallbackContext ctx)
@@ -172,7 +192,7 @@ public class PlayerController : MonoBehaviour
 
     public void HideInteractionPrompt()
     {
-        Debug.Log("Hide!");
+        Debug.Log("Hide Interaction Prompt");
         interactableHover.SetActive(false);
     }
 
@@ -327,6 +347,54 @@ public class PlayerController : MonoBehaviour
         }
     }
     
+    private void CheckJoystickSpinning()
+    {
+        //If the current movement vector is different from the previous movement vector and spinning input is not being checked
+        if(movement != lastJoystickInput && !isCheckingSpinInput)
+        {
+            //Check for spin input
+            isCheckingSpinInput = true;
+            StartCoroutine(JoystickSpinningDetection());
+        }
+
+        //If the number of spin checks is equal to number of spins that are needed, the joystick has been properly spun
+        if(validSpinCheckCounter == validSpinCheckRows)
+        {
+            isSpinningJoystick = true;
+        }
+
+        //If not, the joystick is not spinning properly
+        else
+        {
+            isSpinningJoystick = false;
+        }
+    }
+
+    private IEnumerator JoystickSpinningDetection()
+    {
+        //Store the movement variable for later use
+        lastJoystickInput = movement;
+
+        //Wait for a bit to check for a spin angle
+        yield return new WaitForSeconds(spinAngleCheckUpdateTimer);
+
+        //If the angle between the last known movement vector and the current movement vector reaches a specified amount
+        if(Vector2.Angle(lastJoystickInput, movement) >= spinValidAngleLimit)
+        {
+            //Register this as a joystick spin
+            validSpinCheckCounter++;
+            validSpinCheckCounter = Mathf.Clamp(validSpinCheckCounter, 0, validSpinCheckRows);
+        }
+        //If not, there is not enough movement to consider the action a spin. Reset
+        else
+        {
+            validSpinCheckCounter = 0;
+        }
+
+        //End the check
+        isCheckingSpinInput = false;
+    }
+
     public int GetPlayerIndex()
     {
         return playerIndex;

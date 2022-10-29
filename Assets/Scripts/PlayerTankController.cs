@@ -6,17 +6,40 @@ public class PlayerTankController : MonoBehaviour
 {
     [SerializeField] private float speed = 4;
     private float currentSpeed;
+    [SerializeField] private float tankWeightMultiplier = 0.8f;
+    private float currentTankWeightMultiplier;
     [SerializeField] internal float tankBarrierRange = 12;
 
     private void Start()
     {
         FindObjectOfType<AudioManager>().Play("TankIdle", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
         currentSpeed = speed;
+        currentTankWeightMultiplier = 1;
     }
 
     public float GetPlayerSpeed()
     {
-        return currentSpeed;
+        return currentSpeed * currentTankWeightMultiplier;
+    }
+
+    public void AdjustTankWeight(int numberOfLayers)
+    {
+        float newTankWeight = 1;
+
+        //If the number of layers in the tank is 2 or less, there is no weight change
+        if (numberOfLayers <= 2)
+        {
+            currentTankWeightMultiplier = 1;
+            return;
+        }
+
+        //Add the multiplier to the tank weight for every additional layer the tank has gotten
+        for(int i = 0; i < numberOfLayers - 2; i++)
+        {
+            newTankWeight *= tankWeightMultiplier; 
+        }
+
+        currentTankWeightMultiplier = newTankWeight;
     }
 
     public IEnumerator CollideWithEnemyAni(float collideVelocity, float seconds)
@@ -70,11 +93,11 @@ public class PlayerTankController : MonoBehaviour
     {
         currentSpeed = speed;
 
-        Debug.Log("Current Speed: " + currentSpeed);
+        Debug.Log("Current Speed: " + currentSpeed * currentTankWeightMultiplier);
 
         while(transform.position.x < 0 && this != null)
         {
-            transform.position += new Vector3(currentSpeed, 0, 0) * Time.deltaTime;
+            transform.position += new Vector3(currentSpeed * currentTankWeightMultiplier, 0, 0) * Time.deltaTime;
             yield return null;
         }
 

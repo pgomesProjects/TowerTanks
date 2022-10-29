@@ -91,15 +91,6 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Angle Cannon"",
-                    ""type"": ""Value"",
-                    ""id"": ""269a69bb-9164-4952-bcda-cd731ecd42eb"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
                     ""name"": ""Control Steering"",
                     ""type"": ""Button"",
                     ""id"": ""33b0e852-e502-4dab-a626-1d21f8cc8fa0"",
@@ -316,50 +307,6 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Pick Up"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""b65a5586-0d87-45cb-bb2b-a14b1f97a72f"",
-                    ""path"": ""<Gamepad>/leftStick"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Angle Cannon"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""WASD"",
-                    ""id"": ""09fa443f-756a-412b-9f0e-6f6815ea4563"",
-                    ""path"": ""Dpad"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Angle Cannon"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""246732b0-7cd5-495c-b1b1-a21f1a041ef1"",
-                    ""path"": ""<XRController>/{Primary2DAxis}"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""XR"",
-                    ""action"": ""Angle Cannon"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""ae0d3a86-6da7-422d-8e86-54d0f45671a1"",
-                    ""path"": ""<Joystick>/stick"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Joystick"",
-                    ""action"": ""Angle Cannon"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -839,7 +786,6 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
         m_Player_PickUp = m_Player.FindAction("Pick Up", throwIfNotFound: true);
-        m_Player_AngleCannon = m_Player.FindAction("Angle Cannon", throwIfNotFound: true);
         m_Player_ControlSteering = m_Player.FindAction("Control Steering", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
@@ -919,7 +865,6 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Interact;
     private readonly InputAction m_Player_Pause;
     private readonly InputAction m_Player_PickUp;
-    private readonly InputAction m_Player_AngleCannon;
     private readonly InputAction m_Player_ControlSteering;
     public struct PlayerActions
     {
@@ -932,7 +877,6 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
         public InputAction @Pause => m_Wrapper.m_Player_Pause;
         public InputAction @PickUp => m_Wrapper.m_Player_PickUp;
-        public InputAction @AngleCannon => m_Wrapper.m_Player_AngleCannon;
         public InputAction @ControlSteering => m_Wrapper.m_Player_ControlSteering;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
@@ -964,9 +908,6 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @PickUp.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPickUp;
                 @PickUp.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPickUp;
                 @PickUp.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPickUp;
-                @AngleCannon.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAngleCannon;
-                @AngleCannon.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAngleCannon;
-                @AngleCannon.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAngleCannon;
                 @ControlSteering.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnControlSteering;
                 @ControlSteering.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnControlSteering;
                 @ControlSteering.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnControlSteering;
@@ -995,9 +936,6 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @PickUp.started += instance.OnPickUp;
                 @PickUp.performed += instance.OnPickUp;
                 @PickUp.canceled += instance.OnPickUp;
-                @AngleCannon.started += instance.OnAngleCannon;
-                @AngleCannon.performed += instance.OnAngleCannon;
-                @AngleCannon.canceled += instance.OnAngleCannon;
                 @ControlSteering.started += instance.OnControlSteering;
                 @ControlSteering.performed += instance.OnControlSteering;
                 @ControlSteering.canceled += instance.OnControlSteering;
@@ -1155,7 +1093,6 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         void OnInteract(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
         void OnPickUp(InputAction.CallbackContext context);
-        void OnAngleCannon(InputAction.CallbackContext context);
         void OnControlSteering(InputAction.CallbackContext context);
     }
     public interface IUIActions

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CannonController : MonoBehaviour
 {
-    public enum CANNONDIRECTION{LEFT, RIGHT, UP, DOWN};
+    public enum CANNONDIRECTION { LEFT, RIGHT, UP, DOWN };
 
     [SerializeField] private float cannonSpeed;
     [SerializeField] private float lowerAngleBound, upperAngleBound;
@@ -14,29 +14,35 @@ public class CannonController : MonoBehaviour
     [SerializeField] private CANNONDIRECTION currentCannonDirection;
     private InteractableController cannonInteractable;
     private Transform cannonPivot;
-    private Vector3 cannonRotation; 
+    private Vector3 cannonRotation;
 
     // Start is called before the first frame update
     void Start()
     {
-        cannonPivot = transform.parent;
         cannonInteractable = GetComponentInParent<InteractableController>();
+        cannonPivot = transform.parent;
     }
 
     public void Fire(){
+
+        cannonPivot = transform.parent;
+
         //Spawn projectile at cannon spawn point
         GameObject currentProjectile = Instantiate(projectile, new Vector3(spawnPoint.transform.position.x, spawnPoint.transform.position.y, 0), Quaternion.identity);
 
         //Determine the direction of the cannon
         Vector2 direction = Vector2.zero;
+        float startingShellRot = 0;
 
         switch (currentCannonDirection)
         {
             case CANNONDIRECTION.LEFT:
                 direction = -GetCannonVectorHorizontal(cannonRotation.z * Mathf.Deg2Rad);
+                startingShellRot = -cannonPivot.eulerAngles.z + 90;
                 break;
             case CANNONDIRECTION.RIGHT:
                 direction = GetCannonVectorHorizontal(cannonRotation.z * Mathf.Deg2Rad);
+                startingShellRot = -cannonPivot.eulerAngles.z - 90;
                 break;
             case CANNONDIRECTION.UP:
                 direction = GetCannonVectorVertical(cannonRotation.z * Mathf.Deg2Rad);
@@ -48,7 +54,8 @@ public class CannonController : MonoBehaviour
 
         //Add a damage component to the projectile
         currentProjectile.AddComponent<DamageObject>().damage = 25;
-        currentProjectile.GetComponent<DamageObject>().StartRotation(-cannonPivot.eulerAngles.z - 90);
+        DamageObject currentDamager = currentProjectile.GetComponent<DamageObject>();
+        currentDamager.StartRotation(startingShellRot);
 
         //Shoot the project at the current angle and direction
         currentProjectile.GetComponent<Rigidbody2D>().AddForce(direction * cannonForce);
@@ -73,7 +80,9 @@ public class CannonController : MonoBehaviour
         {
             if (cannonInteractable.CanInteract())
             {
-                cannonRotation += new Vector3(0, 0, cannonInteractable.GetCurrentPlayer().GetCannonMovement() * cannonSpeed);
+                //Debug.Log("Cannon Movement: " + cannonInteractable.GetCurrentPlayer().GetCannonMovement());
+
+                cannonRotation += new Vector3(0, 0, (cannonInteractable.GetCurrentPlayer().GetCannonMovement() / 100) * cannonSpeed);
 
                 //Make sure the cannon stays within the lower and upper bound
                 if (cannonRotation.z < lowerAngleBound)

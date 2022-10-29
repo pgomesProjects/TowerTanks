@@ -69,15 +69,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Angle Cannon",
-                    "type": "Value",
-                    "id": "269a69bb-9164-4952-bcda-cd731ecd42eb",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
                     "name": "Control Steering",
                     "type": "Button",
                     "id": "33b0e852-e502-4dab-a626-1d21f8cc8fa0",
@@ -294,50 +285,6 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Pick Up",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "b65a5586-0d87-45cb-bb2b-a14b1f97a72f",
-                    "path": "<Gamepad>/leftStick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Angle Cannon",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "WASD",
-                    "id": "09fa443f-756a-412b-9f0e-6f6815ea4563",
-                    "path": "Dpad",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Angle Cannon",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "246732b0-7cd5-495c-b1b1-a21f1a041ef1",
-                    "path": "<XRController>/{Primary2DAxis}",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "XR",
-                    "action": "Angle Cannon",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "ae0d3a86-6da7-422d-8e86-54d0f45671a1",
-                    "path": "<Joystick>/stick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Joystick",
-                    "action": "Angle Cannon",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

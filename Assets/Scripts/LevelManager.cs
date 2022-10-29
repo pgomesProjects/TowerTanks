@@ -112,12 +112,17 @@ public class LevelManager : MonoBehaviour
             newLayer.transform.parent = playerTank.transform;
             newLayer.transform.localPosition = new Vector2(0, totalLayers * 8);
 
+            playerTank.transform.Find("TankFollowTop").transform.localPosition = new Vector2(-13, (totalLayers * 8) + 4);
+
             //Add to the total number of layers and give the new layer an index
             totalLayers++;
             newLayer.GetComponentInChildren<LayerManager>().SetLayerIndex(totalLayers + 1);
 
             //Play sound effect
             FindObjectOfType<AudioManager>().PlayOneShot("WrenchSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+
+            //Adjust the weight of the tank
+            playerTank.GetComponent<PlayerTankController>().AdjustTankWeight(totalLayers);
         }
     }
 
@@ -220,6 +225,11 @@ public class LevelManager : MonoBehaviour
                 i.GetComponentInChildren<LayerManager>().SetLayerIndex(nextLayerIndex - 1);
             }
         }
+
+        playerTank.transform.Find("TankFollowTop").transform.localPosition = new Vector2(-13, (totalLayers * 8) + 4);
+
+        //Adjust the weight of the tank
+        playerTank.GetComponent<PlayerTankController>().AdjustTankWeight(totalLayers);
     }
     private void GameOver()
     {

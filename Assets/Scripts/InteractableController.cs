@@ -9,7 +9,8 @@ public class InteractableController : MonoBehaviour
     public UnityEvent cancelEvent;
 
     private bool canInteract = false;
-    private PlayerController currentPlayer;
+    private PlayerController currentPlayerColliding;
+    private PlayerController currentPlayerLockedIn;
     private bool interactionActive;
     [SerializeField]private bool lockPlayerIntoInteraction;
 
@@ -27,8 +28,8 @@ public class InteractableController : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             canInteract = true;
-            currentPlayer = collision.GetComponent<PlayerController>();
-            currentPlayer.DisplayInteractionPrompt("<sprite=30>");
+            currentPlayerColliding = collision.GetComponent<PlayerController>();
+            currentPlayerColliding.DisplayInteractionPrompt("<sprite=30>");
             //Tell the player that this is the item that they can interact with
             collision.GetComponent<PlayerController>().currentInteractableItem = this;
         }
@@ -38,9 +39,9 @@ public class InteractableController : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            currentPlayer.HideInteractionPrompt();
+            currentPlayerColliding.HideInteractionPrompt();
             canInteract = false;
-            currentPlayer = null;
+            currentPlayerColliding = null;
             //Player can no longer interact with this item
             collision.GetComponent<PlayerController>().currentInteractableItem = null;
         }
@@ -48,8 +49,8 @@ public class InteractableController : MonoBehaviour
 
     public void OnInteraction()
     {
-        //If the object is interacted with, grab the function from the inspector that will decide what to do
-        if (canInteract)
+        //If the object is interacted with and no one is locked in, grab the function from the inspector that will decide what to do
+        if (canInteract && currentPlayerLockedIn == null)
         {
             if (lockPlayerIntoInteraction)
             {
@@ -57,14 +58,12 @@ public class InteractableController : MonoBehaviour
                 if (!interactionActive)
                 {
                     Debug.Log("Locking Player Into Interaction...");
-                    interactionActive = true;
-                    currentPlayer.SetPlayerMove(false);
+                    LockPlayer(true);
                     interactEvent.Invoke();
                 }
                 else
                 {
-                    interactionActive = false;
-                    currentPlayer.SetPlayerMove(true);
+                    LockPlayer(false);
                     interactEvent.Invoke();
                 }
             }
@@ -87,7 +86,7 @@ public class InteractableController : MonoBehaviour
                 {
                     Debug.Log("Canceling Interaction");
                     interactionActive = false;
-                    currentPlayer.SetPlayerMove(true);
+                    currentPlayerColliding.SetPlayerMove(true);
                     cancelEvent.Invoke();
                 }
             }
@@ -112,10 +111,10 @@ public class InteractableController : MonoBehaviour
     {
         while (true)
         {
-            Debug.Log(currentPlayer.steeringValue);
+            Debug.Log(currentPlayerColliding.steeringValue);
 
             //Moving stick left
-            if(currentPlayer.steeringValue < -0.01f)
+            if(currentPlayerColliding.steeringValue < -0.01f)
             {
                 if (LevelManager.instance.speedIndex > (int)TANKSPEED.REVERSEFAST)
                 {
@@ -125,7 +124,7 @@ public class InteractableController : MonoBehaviour
                 }
             }
             //Moving stick right
-            else if (currentPlayer.steeringValue > 0.01f)
+            else if (currentPlayerColliding.steeringValue > 0.01f)
             {
                 if(LevelManager.instance.speedIndex < (int)TANKSPEED.FORWARDFAST)
                 {
@@ -155,6 +154,30 @@ public class InteractableController : MonoBehaviour
 
     public PlayerController GetCurrentPlayer()
     {
-        return currentPlayer;
+        return currentPlayerColliding;
+    }
+
+    public void LockPlayer(bool lockPlayer)
+    {
+        if (lockPlayer)
+        {
+            interactionActive = true;
+            currentPlayerColliding.SetPlayerMove(false);
+            currentPlayerLockedIn = currentPlayerColliding;
+        }
+        else
+        {
+            interactionActive = false;
+            currentPlayerColliding.SetPlayerMove(true);
+            currentPlayerLockedIn = null;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (currentPlayerColliding != null && lockPlayerIntoInteraction)
+        {
+            LockPlayer(false);
+        }
     }
 }

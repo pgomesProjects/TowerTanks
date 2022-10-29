@@ -45,6 +45,9 @@ public class InteractionsManager : MonoBehaviour
             //If the player has an item
             if (currentPlayer.GetPlayerItem() != null)
             {
+                //Unlock the player interaction (assumes the interactable controller is the grandparent)
+                cannon.transform.parent.parent.GetComponent<InteractableController>().LockPlayer(false);
+
                 //If the player's item is a shell
                 if(currentPlayer.GetPlayerItem().CompareTag("Shell"))
                 {
