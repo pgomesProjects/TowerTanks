@@ -49,8 +49,8 @@ public class DamageObject : MonoBehaviour
 
         float newRot = -(currentZRot - prevZRot);
 
-        Debug.Log("Prev Z Rot: " + prevZRot);
-        Debug.Log("Current Z Rot: " + currentZRot);
+        //Debug.Log("Prev Z Rot: " + prevZRot);
+        //Debug.Log("Current Z Rot: " + currentZRot);
 
         transform.rotation *= Quaternion.Euler(0, 0, newRot);
 

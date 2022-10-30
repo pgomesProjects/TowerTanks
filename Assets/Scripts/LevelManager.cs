@@ -33,6 +33,9 @@ public class LevelManager : MonoBehaviour
     internal int speedIndex;
     internal float[] currentSpeed = { -1.5f, -1f, 0f, 1, 1.5f };
     private int resourcesNum = 1000;
+    private GameObject currentGhostLayer;
+
+    private Dictionary<string, int> itemPrice;
 
     private void Awake()
     {
@@ -45,6 +48,17 @@ public class LevelManager : MonoBehaviour
         speedIndex = (int)TANKSPEED.FORWARD;
         gameSpeed = currentSpeed[speedIndex];
         resourcesDisplay.text = "Resources: " + resourcesNum;
+        itemPrice = new Dictionary<string, int>();
+        PopulateItemDictionary();
+    }
+
+    /// <summary>
+    /// Determines the price of the items the player can buy
+    /// </summary>
+    private void PopulateItemDictionary()
+    {
+        //Buy
+        itemPrice.Add("NewLayer", 250);
     }
 
     public void UpdateSpeed(int speedUpdate)
@@ -72,7 +86,7 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    public void AddResources(int resources)
+    public void UpdateResources(int resources)
     {
         int originalValue = resourcesNum;
         resourcesNum += resources;
@@ -102,36 +116,60 @@ public class LevelManager : MonoBehaviour
         coalController.AddCoal(amount);
     }
 
-    public void AddLayer(PlayerController player)
+    public void PurchaseLayer(PlayerController player)
     {
         //If the player is outside of the tank (in a layer that does not exist inside the tank)
         if (player.currentLayer > totalLayers)
         {
-            //Spawn a new layer and adjust it to go inside of the tank parent object
-            GameObject newLayer = Instantiate(layerPrefab);
-            newLayer.transform.parent = playerTank.transform;
-            newLayer.transform.localPosition = new Vector2(0, totalLayers * 8);
-
-            playerTank.transform.Find("TankFollowTop").transform.localPosition = new Vector2(-13, (totalLayers * 8) + 4);
-
-            //Add to the total number of layers and give the new layer an index
-            totalLayers++;
-            newLayer.GetComponentInChildren<LayerManager>().SetLayerIndex(totalLayers + 1);
-
-            //Play sound effect
-            FindObjectOfType<AudioManager>().PlayOneShot("WrenchSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
-
-            //Adjust the weight of the tank
-            playerTank.GetComponent<PlayerTankController>().AdjustTankWeight(totalLayers);
+            //If the players have enough money to purchase a layer
+            if (resourcesNum >= itemPrice["NewLayer"])
+            {
+                UpdateResources(-itemPrice["NewLayer"]);
+                AddLayer();
+                RemoveGhostLayer();
+            }
         }
+    }
+
+    private void AddLayer()
+    {
+        //Spawn a new layer and adjust it to go inside of the tank parent object
+        GameObject newLayer = Instantiate(layerPrefab);
+        newLayer.transform.parent = playerTank.transform;
+        newLayer.transform.localPosition = new Vector2(0, totalLayers * 8);
+
+        playerTank.transform.Find("TankFollowTop").transform.localPosition = new Vector2(-13, (totalLayers * 8) + 4);
+
+        //Add to the total number of layers and give the new layer an index
+        totalLayers++;
+        newLayer.GetComponentInChildren<LayerManager>().SetLayerIndex(totalLayers + 1);
+
+        //Play sound effect
+        FindObjectOfType<AudioManager>().PlayOneShot("WrenchSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+
+        //Adjust the weight of the tank
+        playerTank.GetComponent<PlayerTankController>().AdjustTankWeight(totalLayers);
     }
 
     public void AddGhostLayer()
     {
         //Spawn a new layer and adjust it to go inside of the tank parent object
-        GameObject newLayer = Instantiate(ghostLayerPrefab);
-        newLayer.transform.parent = playerTank.transform;
-        newLayer.transform.localPosition = new Vector2(0, totalLayers * 8);
+        currentGhostLayer = Instantiate(ghostLayerPrefab);
+        currentGhostLayer.transform.parent = playerTank.transform;
+        currentGhostLayer.transform.localPosition = new Vector2(0, totalLayers * 8);
+    }
+
+    public void HideGhostLayer()
+    {
+        if(currentGhostLayer != null)
+        {
+            currentGhostLayer.SetActive(false);
+        }
+    }
+
+    private void RemoveGhostLayer()
+    {
+        Destroy(currentGhostLayer);
     }
 
     public void PauseToggle(int playerIndex)

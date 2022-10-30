@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CoalController : MonoBehaviour
+public class CoalController : InteractableController
 {
     [SerializeField] [Tooltip("The amount of seconds it takes for the coal to fully deplete")] private float depletionSeconds;
     [SerializeField] private Slider coalPercentageIndicator;
@@ -27,6 +27,44 @@ public class CoalController : MonoBehaviour
         if (hasCoal)
         {
             CoalDepletion();
+        }
+    }
+
+    /// <summary>
+    /// Fills coal so that the tank can continue moving
+    /// </summary>
+    public void StartCoalFill()
+    {
+        //If there is a player
+        if (currentPlayer != null)
+        {
+            float timeToFillCoal = 5;
+
+            //If there is no coal in the furnace, make the task of refilling it twice as long
+            if (!HasCoal())
+                timeToFillCoal *= 2;
+
+            //Start a progress bar on the player
+            currentPlayer.StartProgressBar(timeToFillCoal, () => FillCoal(50));
+        }
+    }
+
+    private void FillCoal(float percent)
+    {
+        //Add a percentage of the necessary coal to the furnace
+        Debug.Log("Coal Has Been Added To The Furnace!");
+        AddCoal(percent);
+    }
+
+    /// <summary>
+    /// Cancels the filling of coal when the player lets go of the interact button
+    /// </summary>
+    public void CancelCoalFill()
+    {
+        //If there is a player
+        if (currentPlayer != null)
+        {
+            currentPlayer.CancelProgressBar();
         }
     }
 

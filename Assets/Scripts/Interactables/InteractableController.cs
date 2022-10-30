@@ -9,17 +9,14 @@ public class InteractableController : MonoBehaviour
     public UnityEvent cancelEvent;
 
     private bool canInteract = false;
-    private PlayerController currentPlayerColliding;
-    private PlayerController currentPlayerLockedIn;
-    private bool interactionActive;
-    [SerializeField]private bool lockPlayerIntoInteraction;
+    protected PlayerController currentPlayerColliding;
+    protected PlayerController currentPlayerLockedIn;
+    protected bool interactionActive;
+    [SerializeField]protected bool lockPlayerIntoInteraction;
 
-    private IEnumerator steeringCoroutine;
-
+    protected PlayerController currentPlayer;
     private void Start()
     {
-        steeringCoroutine = CheckForSteeringInput();
-        UpdateSteerLever();
         interactionActive = false;
     }
 
@@ -47,17 +44,17 @@ public class InteractableController : MonoBehaviour
         }
     }
 
-    public void OnInteraction()
+    public void OnInteraction(PlayerController playerInteracting)
     {
-        //If the object is interacted with and no one is locked in, grab the function from the inspector that will decide what to do
-        if (canInteract && currentPlayerLockedIn == null)
+        //If the object is interacted with and no one else is locked in, grab the function from the inspector that will decide what to do
+        if (canInteract && (currentPlayerLockedIn == null || playerInteracting == currentPlayerLockedIn))
         {
             if (lockPlayerIntoInteraction)
             {
+                Debug.Log("Interaction Active: " + interactionActive);
                 //If there is not an interaction active
                 if (!interactionActive)
                 {
-                    Debug.Log("Locking Player Into Interaction...");
                     LockPlayer(true);
                     interactEvent.Invoke();
                 }
@@ -93,60 +90,6 @@ public class InteractableController : MonoBehaviour
         }
     }
 
-    public void ChangeSteering()
-    {
-        if (interactionActive)
-        {
-            LevelManager.instance.isSteering = true;
-            StartCoroutine(steeringCoroutine);
-        }
-        else
-        {
-            LevelManager.instance.isSteering = false;
-            StopCoroutine(steeringCoroutine);
-        }
-    }
-
-    IEnumerator CheckForSteeringInput()
-    {
-        while (true)
-        {
-            Debug.Log(currentPlayerColliding.steeringValue);
-
-            //Moving stick left
-            if(currentPlayerColliding.steeringValue < -0.01f)
-            {
-                if (LevelManager.instance.speedIndex > (int)TANKSPEED.REVERSEFAST)
-                {
-                    LevelManager.instance.UpdateSpeed(-1);
-                    UpdateSteerLever();
-                    yield return new WaitForSeconds(1);
-                }
-            }
-            //Moving stick right
-            else if (currentPlayerColliding.steeringValue > 0.01f)
-            {
-                if(LevelManager.instance.speedIndex < (int)TANKSPEED.FORWARDFAST)
-                {
-                    LevelManager.instance.UpdateSpeed(1);
-                    UpdateSteerLever();
-                    yield return new WaitForSeconds(1);
-                }
-            }
-            yield return null;
-        }
-    }
-
-    private void UpdateSteerLever()
-    {
-        Transform leverPivot = transform.Find("LeverPivot");
-
-        if (leverPivot != null)
-        {
-            leverPivot.localRotation = Quaternion.Euler(0, 0, -(20 * LevelManager.instance.gameSpeed));
-        }
-    }
-
     public bool CanInteract()
     {
         return canInteract;
@@ -161,12 +104,14 @@ public class InteractableController : MonoBehaviour
     {
         if (lockPlayer)
         {
+            Debug.Log("Locking Player...");
             interactionActive = true;
             currentPlayerColliding.SetPlayerMove(false);
             currentPlayerLockedIn = currentPlayerColliding;
         }
         else
         {
+            Debug.Log("Unlocking Player...");
             interactionActive = false;
             currentPlayerColliding.SetPlayerMove(true);
             currentPlayerLockedIn = null;
@@ -179,5 +124,10 @@ public class InteractableController : MonoBehaviour
         {
             LockPlayer(false);
         }
+    }
+
+    public void SetCurrentActivePlayer(PlayerController player)
+    {
+        currentPlayer = player;
     }
 }

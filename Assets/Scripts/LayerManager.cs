@@ -54,7 +54,23 @@ public class LayerManager : MonoBehaviour
 
             currentPlayer.currentLayer = changeIndex;
             Debug.Log("Player On Layer: " + currentPlayer.currentLayer);
+
+            //If there are no players outside of the tank with a hammer, hide the ghost build layer
+            if (!AnyPlayersOutsideWithHammer())
+                LevelManager.instance.HideGhostLayer();
         }
+    }
+
+    private bool AnyPlayersOutsideWithHammer()
+    {
+        foreach(var i in FindObjectsOfType<PlayerController>())
+        {
+            //If there are any players outside with a hammer
+            if (i.currentLayer > LevelManager.instance.totalLayers && i.IsPlayerHoldingHammer())
+                return true;
+        }
+
+        return false;
     }
 
     public int GetNextLayerIndex()

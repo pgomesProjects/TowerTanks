@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CannonController : MonoBehaviour
+public class CannonController : InteractableController
 {
     public enum CANNONDIRECTION { LEFT, RIGHT, UP, DOWN };
 
@@ -13,20 +13,46 @@ public class CannonController : MonoBehaviour
     [SerializeField] private float cannonForce = 2000;
     [SerializeField] private CANNONDIRECTION currentCannonDirection;
     private InteractableController cannonInteractable;
-    private Transform cannonPivot;
+    [SerializeField] private Transform cannonPivot;
     private Vector3 cannonRotation;
 
     // Start is called before the first frame update
     void Start()
     {
         cannonInteractable = GetComponentInParent<InteractableController>();
-        cannonPivot = transform.parent;
     }
 
-    public void Fire(){
+    /// <summary>
+    /// Fires a cannon in the direction of the enemies
+    /// </summary>
+    public void StartCannonFire()
+    {
+        //If there is a player
+        if (currentPlayer != null)
+        {
+            //If the player has an item
+            if (currentPlayer.GetPlayerItem() != null)
+            {
+                //Unlock the player interaction (assumes the interactable controller is the grandparent)
+                LockPlayer(false);
 
-        cannonPivot = transform.parent;
+                //If the player's item is a shell
+                if (currentPlayer.GetPlayerItem().CompareTag("Shell"))
+                {
+                    //Get rid of the player's item and fire
+                    Debug.Log("BAM! Weapon has been fired!");
+                    currentPlayer.DestroyItem();
+                    Fire();
 
+                    //Shake the camera
+                    CameraEventController.instance.ShakeCamera(5f, 0.1f);
+                }
+            }
+        }
+    }
+
+    public void Fire()
+    {
         //Spawn projectile at cannon spawn point
         GameObject currentProjectile = Instantiate(projectile, new Vector3(spawnPoint.transform.position.x, spawnPoint.transform.position.y, 0), Quaternion.identity);
 

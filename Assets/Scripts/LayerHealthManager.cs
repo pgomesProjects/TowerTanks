@@ -52,7 +52,7 @@ public class LayerHealthManager : MonoBehaviour
                 LevelManager.instance.AdjustLayerSystem((GetComponentInChildren<LayerManager>().GetNextLayerIndex() - 1));
 
                 //Add to player resources
-                LevelManager.instance.AddResources(destroyResourcesValue);
+                LevelManager.instance.UpdateResources(destroyResourcesValue);
             }
 
             //If an enemy layer is destroyed, tell the tank that the layer was destroyed

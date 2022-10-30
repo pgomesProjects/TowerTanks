@@ -454,6 +454,10 @@ PrefabInstance:
       value: 8000
       objectReference: {fileID: 0}
     - target: {fileID: 8893318326833289303, guid: 5ba4ec03804bb4e43ac0761c7d3dc914, type: 3}
+      propertyPath: cannonPivot
+      value: 
+      objectReference: {fileID: 6880218084784257020}
+    - target: {fileID: 8893318326833289303, guid: 5ba4ec03804bb4e43ac0761c7d3dc914, type: 3}
       propertyPath: lowerAngleBound
       value: -30
       objectReference: {fileID: 0}
@@ -475,5 +479,10 @@ Transform:
 --- !u!1 &5985650514189916645 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4582106216502727523, guid: 5ba4ec03804bb4e43ac0761c7d3dc914, type: 3}
+  m_PrefabInstance: {fileID: 7820399865391581830}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6880218084784257020 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3746104128299154810, guid: 5ba4ec03804bb4e43ac0761c7d3dc914, type: 3}
   m_PrefabInstance: {fileID: 7820399865391581830}
   m_PrefabAsset: {fileID: 0}

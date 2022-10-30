@@ -148,16 +148,16 @@ public class PlayerController : MonoBehaviour
             //If there is something to interact with
             if (currentInteractableItem != null)
             {
-                FindObjectOfType<InteractionsManager>().currentPlayer = this;
+                currentInteractableItem.SetCurrentActivePlayer(this);
 
                 //Call the interaction event
-                currentInteractableItem.OnInteraction();
+                currentInteractableItem.OnInteraction(this);
             }
 
             //If the player is holding the hammer and uses the interact button, attempt to add a new layer
             if (holdingHammer)
             {
-                LevelManager.instance.AddLayer(this);
+                LevelManager.instance.PurchaseLayer(this);
             }
 
 
@@ -253,6 +253,7 @@ public class PlayerController : MonoBehaviour
 
     public void SetPlayerMove(bool movePlayer)
     {
+        Debug.Log("Wah");
         canMove = movePlayer;
     }
 
