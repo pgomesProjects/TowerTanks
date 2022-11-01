@@ -6,15 +6,18 @@ public class InteractableSpawner : MonoBehaviour
 {
     private int currentGhostIndex;
 
-    public void SpawnInteractable(GameObject interactable)
+    public GameObject SpawnInteractable(GameObject interactable)
     {
+        GameObject newInteractable = null;
         //If there is no existing interactable, spawn one
         if (!IsInteractableSpawned() || IsGhostInteractableSpawned())
         {
-            GameObject newInteractable = Instantiate(interactable, transform.position, interactable.transform.rotation);
+            newInteractable = Instantiate(interactable, transform.position, interactable.transform.rotation);
             newInteractable.transform.parent = transform;
             newInteractable.transform.localPosition = interactable.transform.localPosition;
         }
+
+        return newInteractable;
     }
 
     public bool IsGhostInteractableSpawned()

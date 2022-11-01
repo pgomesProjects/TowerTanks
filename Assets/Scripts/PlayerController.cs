@@ -204,7 +204,7 @@ public class PlayerController : MonoBehaviour
     public void OnPrevInteractable(InputAction.CallbackContext ctx)
     {
         //If the player presses the previous interactable button
-        if (ctx.started)
+        if (ctx.performed)
         {
             if (holdingHammer)
             {
@@ -219,7 +219,7 @@ public class PlayerController : MonoBehaviour
     public void OnNextInteractable(InputAction.CallbackContext ctx)
     {
         //If the player presses the next interactable button
-        if (ctx.started)
+        if (ctx.performed)
         {
             if (holdingHammer)
             {

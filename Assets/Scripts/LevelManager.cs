@@ -50,7 +50,7 @@ public class LevelManager : MonoBehaviour
         gameSpeed = currentSpeed[speedIndex];
         resourcesDisplay.text = "Resources: " + resourcesNum;
         itemPrice = new Dictionary<string, int>();
-        layers = new List<LayerHealthManager>();
+        layers = new List<LayerHealthManager>(2);
         PopulateItemDictionary();
         AdjustLayersInList();
     }
@@ -72,7 +72,7 @@ public class LevelManager : MonoBehaviour
         //Insert each layer at the appropriate index
         foreach(var i in FindObjectsOfType<LayerHealthManager>())
         {
-            layers.Insert(i.GetComponentInChildren<LayerManager>().GetNextLayerIndex() - 2, i);
+            layers.Add(i);
         }
 
         PrintLayerList();

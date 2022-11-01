@@ -11,10 +11,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Test Scenes/GomesTestScene.unity
     guid: a0da715090156f1479d04c36e766c8cc
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Test Scenes/NicholsTestScene.unity
     guid: 7ff241c8f4618274e825bbd634456aef
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Test Scenes/PrattTestScene.unity
     guid: f381ebd4cf27a6743b4cb41210b21725
   m_configObjects: {}

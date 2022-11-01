@@ -14,11 +14,18 @@ public class InteractableSpawnerManager : MonoBehaviour
 
     private void Start()
     {
+
     }
 
     public void SpawnCannon(InteractableSpawner currentSpawner)
     {
-        currentSpawner.SpawnInteractable(cannon);
+        GameObject cannonObject = currentSpawner.SpawnInteractable(cannon);
+        if(cannonObject.transform.position.x < GameObject.FindGameObjectWithTag("PlayerTank").transform.position.x)
+        {
+            //cannonObject.GetComponent<CannonController>().SetCannonDirection(CannonController.CANNONDIRECTION.LEFT);
+            GameObject pivot = cannonObject.transform.Find("CannonPivot").gameObject;
+            RotateObject(ref pivot);
+        }
     }
 
     public void SpawnEngine(InteractableSpawner currentSpawner)
@@ -41,6 +48,11 @@ public class InteractableSpawnerManager : MonoBehaviour
         GameObject newGhost = Instantiate(ghostInteractables[currentSpawner.GetCurrentGhostIndex()], ghostInteractables[currentSpawner.GetCurrentGhostIndex()].transform.position, currentSpawner.transform.rotation);
         newGhost.transform.parent = currentSpawner.transform;
         newGhost.transform.localPosition = ghostInteractables[currentSpawner.GetCurrentGhostIndex()].transform.localPosition;
+
+        if(currentSpawner.GetCurrentGhostIndex() == 0 && newGhost.transform.position.x < GameObject.FindGameObjectWithTag("PlayerTank").transform.position.x)
+        {
+            RotateObject(ref newGhost);
+        }
     }
 
     public void UpdateGhostInteractable(InteractableSpawner currentSpawner, int index)
@@ -48,5 +60,20 @@ public class InteractableSpawnerManager : MonoBehaviour
         Destroy(currentSpawner.transform.GetChild(0).gameObject);
         currentSpawner.UpdateGhostIndex(index, ghostInteractables.Length);
         ShowNewGhostInteractable(currentSpawner);
+    }
+
+    public void RotateObject(ref GameObject currentObject)
+    {
+        currentObject.transform.rotation = Quaternion.Euler(0, 0, -180);
+
+        //If the object has a price, rotate that as well
+        if (currentObject.transform.Find("InteractablePrice"))
+        {
+            currentObject.transform.Find("InteractablePrice").transform.GetComponent<RectTransform>().rotation = Quaternion.Euler(0, 0, 0);
+            currentObject.transform.Find("InteractablePrice").transform.GetComponent<RectTransform>().localPosition =
+                new Vector3(currentObject.transform.Find("InteractablePrice").transform.GetComponent<RectTransform>().localPosition.x,
+                -(currentObject.transform.Find("InteractablePrice").transform.GetComponent<RectTransform>().localPosition.y),
+                currentObject.transform.Find("InteractablePrice").transform.GetComponent<RectTransform>().localPosition.z);
+        }
     }
 }

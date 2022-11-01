@@ -123,4 +123,8 @@ public class CannonController : InteractableController
         }
     }
 
+    public void SetCannonDirection(CANNONDIRECTION direction)
+    {
+        currentCannonDirection = direction;
+    }
 }

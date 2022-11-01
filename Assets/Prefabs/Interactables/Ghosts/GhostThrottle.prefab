@@ -49,7 +49,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1647535281067600056, guid: c6016890e751f6d4b8844f647f069ef9, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 500
+      value: 525
       objectReference: {fileID: 0}
     - target: {fileID: 1647535281067600056, guid: c6016890e751f6d4b8844f647f069ef9, type: 3}
       propertyPath: m_SizeDelta.y
@@ -89,7 +89,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1647535281067600056, guid: c6016890e751f6d4b8844f647f069ef9, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 10.73
+      value: 4.25
       objectReference: {fileID: 0}
     - target: {fileID: 1647535281067600056, guid: c6016890e751f6d4b8844f647f069ef9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -106,6 +106,10 @@ PrefabInstance:
     - target: {fileID: 8805998543238088004, guid: c6016890e751f6d4b8844f647f069ef9, type: 3}
       propertyPath: m_Name
       value: InteractablePrice
+      objectReference: {fileID: 0}
+    - target: {fileID: 8805998543238088004, guid: c6016890e751f6d4b8844f647f069ef9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c6016890e751f6d4b8844f647f069ef9, type: 3}
@@ -124,6 +128,14 @@ PrefabInstance:
     - target: {fileID: 1365452245579392694, guid: c9af6f84cd78780498259d46afa0a554, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1507118897654031884, guid: c9af6f84cd78780498259d46afa0a554, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2009164566593304206, guid: c9af6f84cd78780498259d46afa0a554, type: 3}
+      propertyPath: m_Color.a
+      value: 0.23529412
       objectReference: {fileID: 0}
     - target: {fileID: 2619692125065639640, guid: c9af6f84cd78780498259d46afa0a554, type: 3}
       propertyPath: m_RootOrder
@@ -222,7 +234,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 3.33}
   serializedVersion: 2
-  m_Radius: 6
+  m_Radius: 4
 --- !u!114 &7937341949396734840
 MonoBehaviour:
   m_ObjectHideFlags: 0

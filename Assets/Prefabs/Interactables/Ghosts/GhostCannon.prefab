@@ -48,14 +48,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1647535281067600056, guid: c6016890e751f6d4b8844f647f069ef9, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 1647535281067600056, guid: c6016890e751f6d4b8844f647f069ef9, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 175
-      objectReference: {fileID: 0}
-    - target: {fileID: 1647535281067600056, guid: c6016890e751f6d4b8844f647f069ef9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -89,7 +81,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1647535281067600056, guid: c6016890e751f6d4b8844f647f069ef9, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1647535281067600056, guid: c6016890e751f6d4b8844f647f069ef9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -106,6 +98,10 @@ PrefabInstance:
     - target: {fileID: 8805998543238088004, guid: c6016890e751f6d4b8844f647f069ef9, type: 3}
       propertyPath: m_Name
       value: InteractablePrice
+      objectReference: {fileID: 0}
+    - target: {fileID: 8805998543238088004, guid: c6016890e751f6d4b8844f647f069ef9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c6016890e751f6d4b8844f647f069ef9, type: 3}
@@ -147,7 +143,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1414020637346964774, guid: 374e16267e1f54742b16c25d0884fd4f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.65
+      value: 0.65
       objectReference: {fileID: 0}
     - target: {fileID: 1414020637346964774, guid: 374e16267e1f54742b16c25d0884fd4f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -216,9 +212,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.99}
+  m_Offset: {x: 0, y: 0.5}
   serializedVersion: 2
-  m_Radius: 5
+  m_Radius: 4
 --- !u!114 &3118608541404025132
 MonoBehaviour:
   m_ObjectHideFlags: 0

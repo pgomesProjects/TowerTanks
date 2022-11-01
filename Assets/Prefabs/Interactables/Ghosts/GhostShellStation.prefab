@@ -49,7 +49,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1647535281067600056, guid: c6016890e751f6d4b8844f647f069ef9, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 500
+      value: 525
       objectReference: {fileID: 0}
     - target: {fileID: 1647535281067600056, guid: c6016890e751f6d4b8844f647f069ef9, type: 3}
       propertyPath: m_SizeDelta.y
@@ -89,7 +89,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1647535281067600056, guid: c6016890e751f6d4b8844f647f069ef9, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 6.45
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1647535281067600056, guid: c6016890e751f6d4b8844f647f069ef9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -106,6 +106,10 @@ PrefabInstance:
     - target: {fileID: 8805998543238088004, guid: c6016890e751f6d4b8844f647f069ef9, type: 3}
       propertyPath: m_Name
       value: InteractablePrice
+      objectReference: {fileID: 0}
+    - target: {fileID: 8805998543238088004, guid: c6016890e751f6d4b8844f647f069ef9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c6016890e751f6d4b8844f647f069ef9, type: 3}
@@ -124,6 +128,10 @@ PrefabInstance:
     - target: {fileID: 963951936228508776, guid: 0bf5313b1d7796942a37dad4934f7d8b, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4262464204434670680, guid: 0bf5313b1d7796942a37dad4934f7d8b, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4342291683894509028, guid: 0bf5313b1d7796942a37dad4934f7d8b, type: 3}
       propertyPath: m_Name
@@ -181,6 +189,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7072713655561304339, guid: 0bf5313b1d7796942a37dad4934f7d8b, type: 3}
+      propertyPath: m_Color.a
+      value: 0.23529412
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6143395208519200749, guid: 0bf5313b1d7796942a37dad4934f7d8b, type: 3}
     - {fileID: 4342291683894509031, guid: 0bf5313b1d7796942a37dad4934f7d8b, type: 3}
@@ -208,9 +220,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 1.34}
   serializedVersion: 2
-  m_Radius: 8
+  m_Radius: 4
 --- !u!114 &3773337560686674450
 MonoBehaviour:
   m_ObjectHideFlags: 0
