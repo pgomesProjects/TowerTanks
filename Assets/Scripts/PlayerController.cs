@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float distance = 3f;
     [SerializeField] private LayerMask ladderMask;
     private bool canMove;
+    private bool canClimb;
     private bool isClimbing;
     private float defaultGravity;
 
@@ -61,6 +62,7 @@ public class PlayerController : MonoBehaviour
         defaultGravity = rb.gravityScale;
         isHoldingItem = false;
         canMove = true;
+        canClimb = false;
         interactableHover = transform.Find("HoverPrompt").gameObject;
         progressBarCanvas = transform.Find("TaskProgressBar").gameObject;
         progressBarSlider = progressBarCanvas.GetComponentInChildren<Slider>();
@@ -88,6 +90,10 @@ public class PlayerController : MonoBehaviour
             playerPos.x = Mathf.Clamp(playerPos.x, -playerRange, playerRange);
             transform.position = playerPos;
         }
+        else
+        {
+            rb.velocity = Vector2.zero;
+        }
 
         //Check to see if the player is colliding with the ladder
         ladderRaycast = Physics2D.Raycast(transform.position, Vector2.up, distance, ladderMask);
@@ -114,6 +120,44 @@ public class PlayerController : MonoBehaviour
 
     //Send value from Move callback to the horizontal Vector2
     public void OnMove(InputAction.CallbackContext ctx) => movement = ctx.ReadValue<Vector2>();
+
+    public void OnLadderEnter(InputAction.CallbackContext ctx)
+    {
+        //If the player presses the ladder climb button
+        if (ctx.performed)
+        {
+            if (canClimb)
+            {
+                //If the player is not on a ladder
+                if (!isClimbing)
+                {
+                    //If the player is colliding with the ladder and wants to climb
+                    if (ladderRaycast.collider != null)
+                    {
+                        isClimbing = true;
+                        transform.position = new Vector2(0, transform.position.y);
+                    }
+                }
+            }
+        }
+    }
+
+    public void OnLadderExit(InputAction.CallbackContext ctx)
+    {
+        //If the player presses the ladder climb button
+        if (ctx.performed)
+        {
+            if (canClimb)
+            {
+                //If the player is on a ladder
+                if (isClimbing)
+                {
+                    //Move them off the ladder
+                    isClimbing = false;
+                }
+            }
+        }
+    }
 
     public void OnControlSteering(InputAction.CallbackContext ctx)
     {
@@ -153,18 +197,6 @@ public class PlayerController : MonoBehaviour
 
                 //Call the interaction event
                 currentInteractableItem.OnInteraction(this);
-            }
-
-            //If the player is already climbing, move them off of the ladder
-            if (isClimbing)
-            {
-                isClimbing = false;
-            }
-            //If the player is colliding with the ladder and wants to climb
-            else if (ladderRaycast.collider != null)
-            {
-                isClimbing = true;
-                transform.position = new Vector2(0, transform.position.y);
             }
         }
 
@@ -296,6 +328,11 @@ public class PlayerController : MonoBehaviour
     public bool IsPlayerClimbing()
     {
         return isClimbing;
+    }
+
+    public void SetPlayerClimb(bool climb)
+    {
+        canClimb = climb;
     }
 
     public void SetPlayerMove(bool movePlayer)

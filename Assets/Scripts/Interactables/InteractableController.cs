@@ -41,6 +41,7 @@ public class InteractableController : MonoBehaviour
             currentPlayerColliding = null;
             //Player can no longer interact with this item
             collision.GetComponent<PlayerController>().currentInteractableItem = null;
+            LockPlayer(false);
         }
     }
 
@@ -106,14 +107,16 @@ public class InteractableController : MonoBehaviour
         {
             Debug.Log("Locking Player...");
             interactionActive = true;
-            currentPlayerColliding.SetPlayerMove(false);
+            if (currentPlayerColliding != null)
+                currentPlayerColliding.SetPlayerMove(false);
             currentPlayerLockedIn = currentPlayerColliding;
         }
         else
         {
             Debug.Log("Unlocking Player...");
             interactionActive = false;
-            currentPlayerColliding.SetPlayerMove(true);
+            if(currentPlayerColliding != null)
+                currentPlayerColliding.SetPlayerMove(true);
             currentPlayerLockedIn = null;
         }
     }

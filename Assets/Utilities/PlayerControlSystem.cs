@@ -125,6 +125,24 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""OnLadderEnter"",
+                    ""type"": ""Button"",
+                    ""id"": ""5926d674-75a9-415b-9f62-15a4c5d8abda"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""OnLadderExit"",
+                    ""type"": ""Button"",
+                    ""id"": ""25f72e57-b44e-49f6-91a7-199bd2de2814"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -338,10 +356,10 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""Left Stick"",
+                    ""name"": ""D Pad"",
                     ""id"": ""845ac626-bf4f-4b32-9529-fff794fd0a12"",
                     ""path"": ""1DAxis"",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Control Steering"",
@@ -351,7 +369,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 {
                     ""name"": ""negative"",
                     ""id"": ""d32838dd-6a7d-4f35-95a2-5cf7a30396d3"",
-                    ""path"": ""<Gamepad>/leftStick/left"",
+                    ""path"": ""<Gamepad>/dpad/left"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -362,6 +380,39 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 {
                     ""name"": ""positive"",
                     ""id"": ""b4328ece-9d4c-4f60-b4b9-f3094788f5b8"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Control Steering"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Left Stick"",
+                    ""id"": ""70587522-5ee8-4ea8-85c2-c6d421debd33"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Control Steering"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""3614ae27-b353-47c4-a43b-37adf4c21401"",
+                    ""path"": ""<Gamepad>/leftStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Control Steering"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""61dda723-ef8e-4cef-94ab-b3ae0d279dd9"",
                     ""path"": ""<Gamepad>/leftStick/right"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -402,6 +453,72 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""action"": ""Prev Interactable"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Left Stick"",
+                    ""id"": ""1ccf85bf-3b45-4246-9614-97faa14d502e"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OnLadderEnter"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""a6f9ba0b-53e5-4c9b-a0c0-9003fedb9ef4"",
+                    ""path"": ""<Gamepad>/leftStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""OnLadderEnter"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""4c4acb5c-49b2-4b6b-b01b-36a8cfbcfedf"",
+                    ""path"": ""<Gamepad>/leftStick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""OnLadderEnter"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Left Stick"",
+                    ""id"": ""76c283e8-2049-4a54-99bf-c12262c8838c"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OnLadderExit"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""daa98283-bece-4366-972e-afb1509ddc9c"",
+                    ""path"": ""<Gamepad>/leftStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""OnLadderExit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""b99c95d5-9f8d-4e2c-ba9d-1c0dca7586b0"",
+                    ""path"": ""<Gamepad>/leftStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""OnLadderExit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -850,6 +967,8 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         m_Player_Build = m_Player.FindAction("Build", throwIfNotFound: true);
         m_Player_PrevInteractable = m_Player.FindAction("Prev Interactable", throwIfNotFound: true);
         m_Player_NextInteractable = m_Player.FindAction("Next Interactable", throwIfNotFound: true);
+        m_Player_OnLadderEnter = m_Player.FindAction("OnLadderEnter", throwIfNotFound: true);
+        m_Player_OnLadderExit = m_Player.FindAction("OnLadderExit", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -932,6 +1051,8 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Build;
     private readonly InputAction m_Player_PrevInteractable;
     private readonly InputAction m_Player_NextInteractable;
+    private readonly InputAction m_Player_OnLadderEnter;
+    private readonly InputAction m_Player_OnLadderExit;
     public struct PlayerActions
     {
         private @PlayerControlSystem m_Wrapper;
@@ -947,6 +1068,8 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         public InputAction @Build => m_Wrapper.m_Player_Build;
         public InputAction @PrevInteractable => m_Wrapper.m_Player_PrevInteractable;
         public InputAction @NextInteractable => m_Wrapper.m_Player_NextInteractable;
+        public InputAction @OnLadderEnter => m_Wrapper.m_Player_OnLadderEnter;
+        public InputAction @OnLadderExit => m_Wrapper.m_Player_OnLadderExit;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -989,6 +1112,12 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @NextInteractable.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnNextInteractable;
                 @NextInteractable.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnNextInteractable;
                 @NextInteractable.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnNextInteractable;
+                @OnLadderEnter.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOnLadderEnter;
+                @OnLadderEnter.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOnLadderEnter;
+                @OnLadderEnter.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOnLadderEnter;
+                @OnLadderExit.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOnLadderExit;
+                @OnLadderExit.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOnLadderExit;
+                @OnLadderExit.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOnLadderExit;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1026,6 +1155,12 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @NextInteractable.started += instance.OnNextInteractable;
                 @NextInteractable.performed += instance.OnNextInteractable;
                 @NextInteractable.canceled += instance.OnNextInteractable;
+                @OnLadderEnter.started += instance.OnOnLadderEnter;
+                @OnLadderEnter.performed += instance.OnOnLadderEnter;
+                @OnLadderEnter.canceled += instance.OnOnLadderEnter;
+                @OnLadderExit.started += instance.OnOnLadderExit;
+                @OnLadderExit.performed += instance.OnOnLadderExit;
+                @OnLadderExit.canceled += instance.OnOnLadderExit;
             }
         }
     }
@@ -1184,6 +1319,8 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         void OnBuild(InputAction.CallbackContext context);
         void OnPrevInteractable(InputAction.CallbackContext context);
         void OnNextInteractable(InputAction.CallbackContext context);
+        void OnOnLadderEnter(InputAction.CallbackContext context);
+        void OnOnLadderExit(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

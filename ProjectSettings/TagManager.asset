@@ -15,6 +15,7 @@ TagManager:
   - EnemyLayer
   - OneWayPlatform
   - GhostObject
+  - LadderZone
   layers:
   - Default
   - TransparentFX

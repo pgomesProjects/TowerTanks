@@ -19,6 +19,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private GameObject playerTank;
     [SerializeField] private GameObject layerPrefab;
     [SerializeField] private GameObject ghostLayerPrefab;
+    [SerializeField] private ParticleSystem explosionParticles;
     [SerializeField] private TextMeshProUGUI resourcesDisplay;
 
     public static LevelManager instance;
@@ -352,6 +353,12 @@ public class LevelManager : MonoBehaviour
         //Adjust the weight of the tank
         playerTank.GetComponent<PlayerTankController>().AdjustTankWeight(totalLayers);
     }
+
+    public void SpawnExplosion(Vector3 pos)
+    {
+        Instantiate(explosionParticles, pos, Quaternion.identity);
+    }
+
     private void GameOver()
     {
         //Stop all of the in-game sounds

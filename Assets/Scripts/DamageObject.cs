@@ -34,6 +34,7 @@ public class DamageObject : MonoBehaviour
                 collision.collider.GetComponentInParent<LayerHealthManager>().CheckForFireSpawn(shell.GetChanceToCatchFire());
             }
 
+            LevelManager.instance.SpawnExplosion(transform.position);
             Destroy(gameObject);
         }
     }
@@ -43,7 +44,10 @@ public class DamageObject : MonoBehaviour
     {
         //If the item is passed the world's bounds, delete it
         if(transform.position.y < -10)
+        {
+            LevelManager.instance.SpawnExplosion(transform.position);
             Destroy(gameObject);
+        }
 
         currentZRot = (rb.velocity.x - rb.velocity.y) - 90;
 

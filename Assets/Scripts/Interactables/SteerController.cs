@@ -42,7 +42,7 @@ public class SteerController : InteractableController
                 {
                     LevelManager.instance.UpdateSpeed(-1);
                     UpdateSteerLever();
-                    yield return new WaitForSeconds(1);
+                    yield return new WaitForSeconds(0.1f);
                 }
             }
             //Moving stick right
@@ -52,7 +52,7 @@ public class SteerController : InteractableController
                 {
                     LevelManager.instance.UpdateSpeed(1);
                     UpdateSteerLever();
-                    yield return new WaitForSeconds(1);
+                    yield return new WaitForSeconds(0.1f);
                 }
             }
             yield return null;
