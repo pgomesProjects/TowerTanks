@@ -163,7 +163,7 @@ public class PlayerController : MonoBehaviour
             else if (ladderRaycast.collider != null)
             {
                 isClimbing = true;
-                transform.position = new Vector2(-4.1f, transform.position.y);
+                transform.position = new Vector2(0, transform.position.y);
             }
         }
 
