@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class InteractableSpawnerManager : MonoBehaviour
 {
@@ -10,11 +11,9 @@ public class InteractableSpawnerManager : MonoBehaviour
     [SerializeField] private GameObject throttle;
 
     [SerializeField] private GameObject[] ghostInteractables;
-    private int currentGhostInteractable;
 
     private void Start()
     {
-        currentGhostInteractable = 0;
     }
 
     public void SpawnCannon(InteractableSpawner currentSpawner)
@@ -39,8 +38,15 @@ public class InteractableSpawnerManager : MonoBehaviour
 
     public void ShowNewGhostInteractable(InteractableSpawner currentSpawner)
     {
-        GameObject newGhost = Instantiate(ghostInteractables[currentGhostInteractable], ghostInteractables[currentGhostInteractable].transform.position, currentSpawner.transform.rotation);
+        GameObject newGhost = Instantiate(ghostInteractables[currentSpawner.GetCurrentGhostIndex()], ghostInteractables[currentSpawner.GetCurrentGhostIndex()].transform.position, currentSpawner.transform.rotation);
         newGhost.transform.parent = currentSpawner.transform;
-        newGhost.transform.localPosition = ghostInteractables[currentGhostInteractable].transform.localPosition;
+        newGhost.transform.localPosition = ghostInteractables[currentSpawner.GetCurrentGhostIndex()].transform.localPosition;
+    }
+
+    public void UpdateGhostInteractable(InteractableSpawner currentSpawner, int index)
+    {
+        Destroy(currentSpawner.transform.GetChild(0).gameObject);
+        currentSpawner.UpdateGhostIndex(index, ghostInteractables.Length);
+        ShowNewGhostInteractable(currentSpawner);
     }
 }

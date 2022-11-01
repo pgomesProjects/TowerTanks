@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class InteractableSpawner : MonoBehaviour
 {
+    private int currentGhostIndex;
+
     public void SpawnInteractable(GameObject interactable)
     {
         //If there is no existing interactable, spawn one
-        if (!IsInteractableSpawned())
+        if (!IsInteractableSpawned() || IsGhostInteractableSpawned())
         {
             GameObject newInteractable = Instantiate(interactable, transform.position, interactable.transform.rotation);
             newInteractable.transform.parent = transform;
@@ -15,10 +17,35 @@ public class InteractableSpawner : MonoBehaviour
         }
     }
 
+    public bool IsGhostInteractableSpawned()
+    {
+        if (transform.GetChild(0).CompareTag("GhostObject"))
+            return true;
+        return false;
+    }
+
     public bool IsInteractableSpawned()
     {
         if (transform.childCount == 0)
             return false;
         return true;
+    }
+
+    public int GetCurrentGhostIndex()
+    {
+        return currentGhostIndex;
+    }
+
+    public void UpdateGhostIndex(int index, int totalInteractables)
+    {
+        currentGhostIndex += index;
+
+        if(currentGhostIndex < 0)
+            currentGhostIndex = totalInteractables - 1;
+
+        if(currentGhostIndex >= totalInteractables)
+        {
+            currentGhostIndex = 0;
+        }
     }
 }

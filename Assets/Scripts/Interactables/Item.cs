@@ -82,4 +82,9 @@ public class Item : MonoBehaviour
     {
         return defaultGravity;
     }
+
+    public void SetRotateConstraint(bool canRotate)
+    {
+        GetComponent<Rigidbody2D>().freezeRotation = canRotate;
+    }
 }

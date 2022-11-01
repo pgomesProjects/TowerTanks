@@ -33,7 +33,7 @@ public class LevelManager : MonoBehaviour
     internal int speedIndex;
     internal float[] currentSpeed = { -1.5f, -1f, 0f, 1, 1.5f };
     private int resourcesNum = 1000;
-    private List<LayerHealthManager> layers = new List<LayerHealthManager>();
+    private List<LayerHealthManager> layers;
     private GameObject currentGhostLayer;
 
     private Dictionary<string, int> itemPrice;
@@ -50,6 +50,7 @@ public class LevelManager : MonoBehaviour
         gameSpeed = currentSpeed[speedIndex];
         resourcesDisplay.text = "Resources: " + resourcesNum;
         itemPrice = new Dictionary<string, int>();
+        layers = new List<LayerHealthManager>();
         PopulateItemDictionary();
         AdjustLayersInList();
     }
@@ -120,6 +121,13 @@ public class LevelManager : MonoBehaviour
         StartCoroutine(ResourcesTextAnimation(originalValue, resourcesNum, 2));
     }
 
+    public bool CanPlayerAfford(int price)
+    {
+        if (resourcesNum >= price)
+            return true;
+        return false;
+    }
+
     private IEnumerator ResourcesTextAnimation(int startingVal, int endingVal, float seconds)
     {
         float elapsedTime = 0;
@@ -147,7 +155,7 @@ public class LevelManager : MonoBehaviour
         if (player.currentLayer > totalLayers)
         {
             //If the players have enough money to purchase a layer
-            if (resourcesNum >= itemPrice["NewLayer"])
+            if (CanPlayerAfford(itemPrice["NewLayer"]))
             {
                 UpdateResources(-itemPrice["NewLayer"]);
                 AddLayer();
@@ -172,6 +180,9 @@ public class LevelManager : MonoBehaviour
         //Add layer to the list of layers
         layers.Insert(newLayer.GetComponentInChildren<LayerManager>().GetNextLayerIndex() - 2, newLayer.GetComponent<LayerHealthManager>());
         PrintLayerList();
+
+        //Check interactables on layer
+        CheckInteractablesOnLayer(newLayer.GetComponentInChildren<LayerManager>().GetNextLayerIndex() - 1);
 
         //Play sound effect
         FindObjectOfType<AudioManager>().PlayOneShot("WrenchSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
@@ -205,13 +216,38 @@ public class LevelManager : MonoBehaviour
     {
         Debug.Log("Checking Layer " + layers[index - 1].name);
 
-        //Check the interactable spawners
-        foreach(var i in layers[index - 1].GetComponentsInChildren<InteractableSpawner>())
+        if(index - 1 > 0)
         {
-            //If there is not an interactable spawned, show the ghost interactables
-            if (!i.IsInteractableSpawned())
+            //Check the interactable spawners
+            foreach (var i in layers[index - 1].GetComponentsInChildren<InteractableSpawner>())
             {
-                FindObjectOfType<InteractableSpawnerManager>().ShowNewGhostInteractable(i);
+                //If there is not an interactable spawned, show the ghost interactables
+                if (!i.IsInteractableSpawned())
+                {
+                    FindObjectOfType<InteractableSpawnerManager>().ShowNewGhostInteractable(i);
+                }
+            }
+        }
+    }
+
+    public void DestroyGhostInteractables(int index)
+    {
+        Debug.Log("Destroy Ghosts On Index " + (index - 2));
+
+        if(index - 2 > 0)
+        {
+            //Check the interactable spawners
+            foreach (var i in layers[index - 2].GetComponentsInChildren<InteractableSpawner>())
+            {
+                //If there is an interactable spawned
+                if (i.IsInteractableSpawned())
+                {
+                    //If there is a ghost interactable, destroy it
+                    if (i.transform.GetChild(0).CompareTag("GhostObject"))
+                    {
+                        Destroy(i.transform.GetChild(0).gameObject);
+                    }
+                }
             }
         }
     }

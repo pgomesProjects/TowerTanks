@@ -1326,6 +1326,7 @@ MonoBehaviour:
   - {fileID: 2821364168792765610, guid: 7e32d3d792609ba4498454bf87cf0402, type: 3}
   - {fileID: 5709783614165741963, guid: c7f02cab009730e4a956df07621d9ee7, type: 3}
   - {fileID: 2115458907587655635, guid: c20d5c6c1e082944e9ca0d8688c2f986, type: 3}
+  ghostPrices: c8000000960000006400000032000000
 --- !u!4 &1139998637
 Transform:
   m_ObjectHideFlags: 0

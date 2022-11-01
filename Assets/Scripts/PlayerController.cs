@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
     private float defaultGravity;
 
     internal InteractableController currentInteractableItem;
+    internal ToggleInteractBuy currentInteractableToBuy;
 
     private Item closestItem;
     private Item itemHeld;
@@ -186,6 +187,16 @@ public class PlayerController : MonoBehaviour
             if (holdingHammer)
             {
                 LevelManager.instance.PurchaseLayer(this);
+
+                //Try to buy an interactable
+                foreach(var i in GameObject.FindGameObjectsWithTag("GhostObject"))
+                {
+                    //If a player can purchase an interactable, try to purchase it
+                    if (i.GetComponent<ToggleInteractBuy>().PlayerCanPurchase())
+                    {
+                        i.GetComponent<ToggleInteractBuy>().PurchaseInteractable();
+                    }
+                }
             }
         }
     }
@@ -195,7 +206,13 @@ public class PlayerController : MonoBehaviour
         //If the player presses the previous interactable button
         if (ctx.started)
         {
-
+            if (holdingHammer)
+            {
+                if(currentInteractableToBuy != null)
+                {
+                    FindObjectOfType<InteractableSpawnerManager>().UpdateGhostInteractable(currentInteractableToBuy.transform.parent.GetComponent<InteractableSpawner>(), -1);
+                }
+            }
         }
     }
 
@@ -204,7 +221,13 @@ public class PlayerController : MonoBehaviour
         //If the player presses the next interactable button
         if (ctx.started)
         {
-
+            if (holdingHammer)
+            {
+                if (currentInteractableToBuy != null)
+                {
+                    FindObjectOfType<InteractableSpawnerManager>().UpdateGhostInteractable(currentInteractableToBuy.transform.parent.GetComponent<InteractableSpawner>(), 1);
+                }
+            }
         }
     }
 
@@ -335,12 +358,14 @@ public class PlayerController : MonoBehaviour
                 itemHeld.GetComponent<Rigidbody2D>().gravityScale = 0;
                 itemHeld.GetComponent<Rigidbody2D>().isKinematic = true;
                 itemHeld.transform.parent = gameObject.transform;
+                itemHeld.SetRotateConstraint(true);
 
                 Debug.Log("Picked Up Item!");
 
                 if (itemHeld.CompareTag("Hammer"))
                 {
                     holdingHammer = true;
+                    LevelManager.instance.CheckInteractablesOnLayer(currentLayer);
                 }
 
                 itemHeld.SetPickUp(true);
@@ -357,12 +382,17 @@ public class PlayerController : MonoBehaviour
                 itemHeld.GetComponent<Rigidbody2D>().gravityScale = itemHeld.GetDefaultGravityScale();
                 itemHeld.GetComponent<Rigidbody2D>().isKinematic = false;
                 itemHeld.transform.parent = null;
+                itemHeld.SetRotateConstraint(false);
 
                 Debug.Log("Dropped Item!");
 
                 if (itemHeld.CompareTag("Hammer"))
                 {
                     holdingHammer = false;
+                    foreach(var i in GameObject.FindGameObjectsWithTag("GhostObject"))
+                    {
+                        Destroy(i);
+                    }
                 }
 
                 itemHeld.SetPickUp(false);

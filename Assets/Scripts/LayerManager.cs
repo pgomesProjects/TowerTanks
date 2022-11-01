@@ -45,6 +45,12 @@ public class LayerManager : MonoBehaviour
             PlayerController currentPlayer = collision.GetComponent<PlayerController>();
             int changeIndex = 0;
 
+            if (currentPlayer.IsPlayerHoldingHammer())
+            {
+                //Destroy the ghost interactables from the previous layer, if any
+                LevelManager.instance.DestroyGhostInteractables(currentPlayer.currentLayer);
+            }
+
             //If player is above, make sure the layer number is the same
             if (currentPlayer.transform.position.y > transform.position.y)
             {
