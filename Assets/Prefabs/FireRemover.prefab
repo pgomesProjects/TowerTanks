@@ -7,17 +7,45 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -1771205955060545172, guid: 1a9426da801e3aa48a2ce64d5f72c966, type: 3}
+      propertyPath: m_Radius
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: -1771205955060545172, guid: 1a9426da801e3aa48a2ce64d5f72c966, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -1771205955060545172, guid: 1a9426da801e3aa48a2ce64d5f72c966, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.14
+      objectReference: {fileID: 0}
+    - target: {fileID: 5042576130432705698, guid: 1a9426da801e3aa48a2ce64d5f72c966, type: 3}
+      propertyPath: m_Size.x
+      value: 3.74
+      objectReference: {fileID: 0}
+    - target: {fileID: 5042576130432705698, guid: 1a9426da801e3aa48a2ce64d5f72c966, type: 3}
+      propertyPath: m_Size.y
+      value: 5.54
+      objectReference: {fileID: 0}
+    - target: {fileID: 5042576130432705698, guid: 1a9426da801e3aa48a2ce64d5f72c966, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 7578090233616032325, guid: 1a9426da801e3aa48a2ce64d5f72c966, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 0b7dd5abf840fe34aa31b1aea277e7db, type: 3}
     - target: {fileID: 7578090233616032325, guid: 1a9426da801e3aa48a2ce64d5f72c966, type: 3}
       propertyPath: m_Color.b
-      value: 0.10991552
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7578090233616032325, guid: 1a9426da801e3aa48a2ce64d5f72c966, type: 3}
       propertyPath: m_Color.g
-      value: 0.0035154943
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7578090233616032325, guid: 1a9426da801e3aa48a2ce64d5f72c966, type: 3}
       propertyPath: m_Color.r
-      value: 0.745283
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7578090233616032326, guid: 1a9426da801e3aa48a2ce64d5f72c966, type: 3}
       propertyPath: m_RootOrder
@@ -65,7 +93,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7578090233616032331, guid: 1a9426da801e3aa48a2ce64d5f72c966, type: 3}
       propertyPath: m_Name
-      value: FireExtinguisher
+      value: FireRemover
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1a9426da801e3aa48a2ce64d5f72c966, type: 3}
