@@ -154,13 +154,6 @@ public class PlayerController : MonoBehaviour
                 currentInteractableItem.OnInteraction(this);
             }
 
-            //If the player is holding the hammer and uses the interact button, attempt to add a new layer
-            if (holdingHammer)
-            {
-                LevelManager.instance.PurchaseLayer(this);
-            }
-
-
             //If the player is already climbing, move them off of the ladder
             if (isClimbing)
             {
@@ -170,7 +163,7 @@ public class PlayerController : MonoBehaviour
             else if (ladderRaycast.collider != null)
             {
                 isClimbing = true;
-                transform.position = new Vector2(-1.5f, transform.position.y);
+                transform.position = new Vector2(-4.1f, transform.position.y);
             }
         }
 
@@ -181,6 +174,37 @@ public class PlayerController : MonoBehaviour
                 //Call the cancel interaction event
                 currentInteractableItem.OnCancel();
             }
+        }
+    }
+
+    public void OnBuild(InputAction.CallbackContext ctx)
+    {
+        //If the player presses the build button
+        if (ctx.started)
+        {
+            //If the player is holding the hammer and uses the interact button, attempt to add a new layer
+            if (holdingHammer)
+            {
+                LevelManager.instance.PurchaseLayer(this);
+            }
+        }
+    }
+
+    public void OnPrevInteractable(InputAction.CallbackContext ctx)
+    {
+        //If the player presses the previous interactable button
+        if (ctx.started)
+        {
+
+        }
+    }
+
+    public void OnNextInteractable(InputAction.CallbackContext ctx)
+    {
+        //If the player presses the next interactable button
+        if (ctx.started)
+        {
+
         }
     }
 

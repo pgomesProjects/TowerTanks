@@ -33,6 +33,7 @@ public class LevelManager : MonoBehaviour
     internal int speedIndex;
     internal float[] currentSpeed = { -1.5f, -1f, 0f, 1, 1.5f };
     private int resourcesNum = 1000;
+    private List<LayerHealthManager> layers = new List<LayerHealthManager>();
     private GameObject currentGhostLayer;
 
     private Dictionary<string, int> itemPrice;
@@ -50,6 +51,7 @@ public class LevelManager : MonoBehaviour
         resourcesDisplay.text = "Resources: " + resourcesNum;
         itemPrice = new Dictionary<string, int>();
         PopulateItemDictionary();
+        AdjustLayersInList();
     }
 
     /// <summary>
@@ -59,6 +61,29 @@ public class LevelManager : MonoBehaviour
     {
         //Buy
         itemPrice.Add("NewLayer", 250);
+    }
+
+    private void AdjustLayersInList()
+    {
+        //Clear the list
+        layers.Clear();
+
+        //Insert each layer at the appropriate index
+        foreach(var i in FindObjectsOfType<LayerHealthManager>())
+        {
+            layers.Insert(i.GetComponentInChildren<LayerManager>().GetNextLayerIndex() - 2, i);
+        }
+
+        PrintLayerList();
+    }
+
+    private void PrintLayerList()
+    {
+
+        for (int i = 0; i < layers.Count; i++)
+        {
+            Debug.Log("Index " + i + ": " + layers[i].name);
+        }
     }
 
     public void UpdateSpeed(int speedUpdate)
@@ -144,6 +169,10 @@ public class LevelManager : MonoBehaviour
         totalLayers++;
         newLayer.GetComponentInChildren<LayerManager>().SetLayerIndex(totalLayers + 1);
 
+        //Add layer to the list of layers
+        layers.Insert(newLayer.GetComponentInChildren<LayerManager>().GetNextLayerIndex() - 2, newLayer.GetComponent<LayerHealthManager>());
+        PrintLayerList();
+
         //Play sound effect
         FindObjectOfType<AudioManager>().PlayOneShot("WrenchSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
 
@@ -170,6 +199,21 @@ public class LevelManager : MonoBehaviour
     private void RemoveGhostLayer()
     {
         Destroy(currentGhostLayer);
+    }
+
+    public void CheckInteractablesOnLayer(int index)
+    {
+        Debug.Log("Checking Layer " + layers[index - 1].name);
+
+        //Check the interactable spawners
+        foreach(var i in layers[index - 1].GetComponentsInChildren<InteractableSpawner>())
+        {
+            //If there is not an interactable spawned, show the ghost interactables
+            if (!i.IsInteractableSpawned())
+            {
+                FindObjectOfType<InteractableSpawnerManager>().ShowNewGhostInteractable(i);
+            }
+        }
     }
 
     public void PauseToggle(int playerIndex)
@@ -265,6 +309,9 @@ public class LevelManager : MonoBehaviour
         }
 
         playerTank.transform.Find("TankFollowTop").transform.localPosition = new Vector2(-13, (totalLayers * 8) + 4);
+
+        //Update the list of layers accordingly
+        AdjustLayersInList();
 
         //Adjust the weight of the tank
         playerTank.GetComponent<PlayerTankController>().AdjustTankWeight(totalLayers);

@@ -98,6 +98,33 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Press"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Build"",
+                    ""type"": ""Button"",
+                    ""id"": ""fe096cfd-c2cb-4a1e-8a90-f7987940ae6e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Prev Interactable"",
+                    ""type"": ""Button"",
+                    ""id"": ""6ccffdcc-d25d-49bb-be1d-0ae215101e0e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Next Interactable"",
+                    ""type"": ""Button"",
+                    ""id"": ""b1a15944-0bc5-4d78-939a-22dbb4f8bb09"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -342,6 +369,39 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""action"": ""Control Steering"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f08a9278-885c-4279-a46f-21e2f33d1fd6"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Build"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7cc581de-1f0e-4c02-aa75-5ecef3f4adc2"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Next Interactable"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2bcebc98-cb4b-4081-b810-a9ddc0b155a3"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Prev Interactable"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -787,6 +847,9 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
         m_Player_PickUp = m_Player.FindAction("Pick Up", throwIfNotFound: true);
         m_Player_ControlSteering = m_Player.FindAction("Control Steering", throwIfNotFound: true);
+        m_Player_Build = m_Player.FindAction("Build", throwIfNotFound: true);
+        m_Player_PrevInteractable = m_Player.FindAction("Prev Interactable", throwIfNotFound: true);
+        m_Player_NextInteractable = m_Player.FindAction("Next Interactable", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -866,6 +929,9 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Pause;
     private readonly InputAction m_Player_PickUp;
     private readonly InputAction m_Player_ControlSteering;
+    private readonly InputAction m_Player_Build;
+    private readonly InputAction m_Player_PrevInteractable;
+    private readonly InputAction m_Player_NextInteractable;
     public struct PlayerActions
     {
         private @PlayerControlSystem m_Wrapper;
@@ -878,6 +944,9 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         public InputAction @Pause => m_Wrapper.m_Player_Pause;
         public InputAction @PickUp => m_Wrapper.m_Player_PickUp;
         public InputAction @ControlSteering => m_Wrapper.m_Player_ControlSteering;
+        public InputAction @Build => m_Wrapper.m_Player_Build;
+        public InputAction @PrevInteractable => m_Wrapper.m_Player_PrevInteractable;
+        public InputAction @NextInteractable => m_Wrapper.m_Player_NextInteractable;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -911,6 +980,15 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @ControlSteering.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnControlSteering;
                 @ControlSteering.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnControlSteering;
                 @ControlSteering.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnControlSteering;
+                @Build.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBuild;
+                @Build.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBuild;
+                @Build.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBuild;
+                @PrevInteractable.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPrevInteractable;
+                @PrevInteractable.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPrevInteractable;
+                @PrevInteractable.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPrevInteractable;
+                @NextInteractable.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnNextInteractable;
+                @NextInteractable.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnNextInteractable;
+                @NextInteractable.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnNextInteractable;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -939,6 +1017,15 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @ControlSteering.started += instance.OnControlSteering;
                 @ControlSteering.performed += instance.OnControlSteering;
                 @ControlSteering.canceled += instance.OnControlSteering;
+                @Build.started += instance.OnBuild;
+                @Build.performed += instance.OnBuild;
+                @Build.canceled += instance.OnBuild;
+                @PrevInteractable.started += instance.OnPrevInteractable;
+                @PrevInteractable.performed += instance.OnPrevInteractable;
+                @PrevInteractable.canceled += instance.OnPrevInteractable;
+                @NextInteractable.started += instance.OnNextInteractable;
+                @NextInteractable.performed += instance.OnNextInteractable;
+                @NextInteractable.canceled += instance.OnNextInteractable;
             }
         }
     }
@@ -1094,6 +1181,9 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         void OnPause(InputAction.CallbackContext context);
         void OnPickUp(InputAction.CallbackContext context);
         void OnControlSteering(InputAction.CallbackContext context);
+        void OnBuild(InputAction.CallbackContext context);
+        void OnPrevInteractable(InputAction.CallbackContext context);
+        void OnNextInteractable(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

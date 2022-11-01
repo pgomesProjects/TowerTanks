@@ -31,6 +31,10 @@ public class LayerManager : MonoBehaviour
             {
                 LevelManager.instance.AddGhostLayer();
             }
+            else if(currentPlayer.currentLayer <= LevelManager.instance.totalLayers && currentPlayer.IsPlayerHoldingHammer())
+            {
+                LevelManager.instance.CheckInteractablesOnLayer(currentPlayer.currentLayer);
+            }
         }
     }
 
