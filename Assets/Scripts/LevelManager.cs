@@ -12,6 +12,11 @@ public enum TANKSPEED
     REVERSEFAST, REVERSE, STATIONARY, FORWARD, FORWARDFAST
 }
 
+public enum GAMESTATE
+{
+    TUTORIAL, GAMEACTIVE, GAMEOVER
+}
+
 public class LevelManager : MonoBehaviour
 {
     [SerializeField] private GameObject gameOverCanvas;
@@ -25,7 +30,7 @@ public class LevelManager : MonoBehaviour
     public static LevelManager instance;
 
     internal bool isPaused;
-    internal bool isGameActive;
+    internal GAMESTATE levelPhase = GAMESTATE.TUTORIAL; //Start the game with the tutorial
     private int currentPlayerPaused;
     internal int totalLayers;
     internal bool hasFuel;
@@ -54,6 +59,21 @@ public class LevelManager : MonoBehaviour
         layers = new List<LayerHealthManager>(2);
         PopulateItemDictionary();
         AdjustLayersInList();
+    }
+
+    private void Start()
+    {
+        if (GameSettings.skipTutorial)
+        {
+            speedIndex = (int)TANKSPEED.FORWARD;
+            TransitionGameState();
+        }
+        else
+        {
+            speedIndex = (int)TANKSPEED.STATIONARY;
+        }
+
+        gameSpeed = currentSpeed[speedIndex];
     }
 
     /// <summary>
@@ -330,7 +350,8 @@ public class LevelManager : MonoBehaviour
             Debug.Log("Tank Is Destroyed!");
             //Destroy the tank
             Destroy(GameObject.FindGameObjectWithTag("PlayerTank"));
-            GameOver();
+            //Switch from gameplay to game over
+            TransitionGameState();
             return;
         }
 
@@ -357,6 +378,23 @@ public class LevelManager : MonoBehaviour
     public void SpawnExplosion(Vector3 pos)
     {
         Instantiate(explosionParticles, pos, Quaternion.identity);
+    }
+
+    public void TransitionGameState()
+    {
+        switch (levelPhase)
+        {
+            //Tutorial to Gameplay
+            case GAMESTATE.TUTORIAL:
+                levelPhase = GAMESTATE.GAMEACTIVE;
+                FindObjectOfType<EnemySpawnManager>().GetReadyForEnemySpawn();
+                break;
+            //Gameplay to Game Over
+            case GAMESTATE.GAMEACTIVE:
+                levelPhase = GAMESTATE.GAMEOVER;
+                GameOver();
+                break;
+        }
     }
 
     private void GameOver()

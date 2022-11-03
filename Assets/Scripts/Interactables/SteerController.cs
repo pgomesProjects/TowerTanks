@@ -36,7 +36,7 @@ public class SteerController : InteractableController
             Debug.Log(currentPlayerColliding.steeringValue);
 
             //Moving stick left
-            if (currentPlayerColliding.steeringValue < -0.01f)
+            if (currentPlayerColliding.steeringValue < -0.01f && LevelManager.instance.levelPhase != GAMESTATE.TUTORIAL)
             {
                 if (LevelManager.instance.speedIndex > (int)TANKSPEED.REVERSEFAST)
                 {
@@ -51,6 +51,12 @@ public class SteerController : InteractableController
                 if (LevelManager.instance.speedIndex < (int)TANKSPEED.FORWARDFAST)
                 {
                     LevelManager.instance.UpdateSpeed(1);
+                    
+                    if(LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
+                    {
+                        LevelManager.instance.TransitionGameState();
+                    }
+
                     UpdateSteerLever();
                     yield return new WaitForSeconds(0.1f);
                 }

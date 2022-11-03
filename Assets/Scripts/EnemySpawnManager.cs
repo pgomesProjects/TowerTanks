@@ -9,12 +9,6 @@ public class EnemySpawnManager : MonoBehaviour
 
     private IEnumerator enemyEncounterAni;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        GetReadyForEnemySpawn();
-    }
-
     private void SpawnRandomEnemy()
     {
         //Pick a random enemy from the list of enemies and spawn it
@@ -31,12 +25,6 @@ public class EnemySpawnManager : MonoBehaviour
         StartCoroutine(enemyEncounterAni);
 
         FindObjectOfType<AudioManager>().Play("CombatOST", PlayerPrefs.GetFloat("BGMVolume", 0.5f));
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     public void GetReadyForEnemySpawn()
