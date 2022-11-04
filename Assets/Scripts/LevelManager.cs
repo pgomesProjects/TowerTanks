@@ -24,6 +24,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private GameObject playerTank;
     [SerializeField] private GameObject layerPrefab;
     [SerializeField] private GameObject ghostLayerPrefab;
+    [SerializeField] private GameObject tutorialPopup;
     [SerializeField] private ParticleSystem explosionParticles;
     [SerializeField] private TextMeshProUGUI resourcesDisplay;
 
@@ -110,7 +111,7 @@ public class LevelManager : MonoBehaviour
 
     public void UpdateSpeed(int speedUpdate)
     {
-        speedIndex += speedUpdate;
+        speedIndex = speedUpdate;
         gameSpeed = currentSpeed[speedIndex];
 
         Debug.Log("Tank Speed: " + gameSpeed);
@@ -125,6 +126,17 @@ public class LevelManager : MonoBehaviour
         {
             FindObjectOfType<AudioManager>().Play("TankIdle", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
         }
+
+        //Update the enemy speed comparative to the player
+        foreach (var i in FindObjectsOfType<EnemyController>())
+        {
+            i.UpdateEnemySpeed();
+        }
+    }
+
+    public void UpdateSpeed(float speed)
+    {
+        gameSpeed = speed;
 
         //Update the enemy speed comparative to the player
         foreach (var i in FindObjectsOfType<EnemyController>())
@@ -152,7 +164,6 @@ public class LevelManager : MonoBehaviour
     private IEnumerator ResourcesTextAnimation(int startingVal, int endingVal, float seconds)
     {
         float elapsedTime = 0;
-        Vector3 startPosition = transform.position;
         while (elapsedTime < seconds)
         {
             resourcesDisplay.text = "Resources: " + Mathf.RoundToInt(Mathf.Lerp(startingVal, endingVal, elapsedTime / seconds)).ToString();
@@ -387,7 +398,9 @@ public class LevelManager : MonoBehaviour
             //Tutorial to Gameplay
             case GAMESTATE.TUTORIAL:
                 levelPhase = GAMESTATE.GAMEACTIVE;
-                FindObjectOfType<EnemySpawnManager>().GetReadyForEnemySpawn();
+                if(FindObjectOfType<EnemySpawnManager>() != null)
+                    FindObjectOfType<EnemySpawnManager>().GetReadyForEnemySpawn();
+                tutorialPopup.SetActive(false);
                 break;
             //Gameplay to Game Over
             case GAMESTATE.GAMEACTIVE:

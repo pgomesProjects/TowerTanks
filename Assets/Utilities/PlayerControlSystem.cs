@@ -92,12 +92,12 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Control Steering"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""33b0e852-e502-4dab-a626-1d21f8cc8fa0"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": ""Press"",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""Build"",

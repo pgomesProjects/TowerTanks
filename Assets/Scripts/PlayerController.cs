@@ -159,20 +159,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void OnControlSteering(InputAction.CallbackContext ctx)
-    {
-        //If the player presses the steering button
-        if (ctx.started)
-        {
-            if (LevelManager.instance.isSteering)
-            {
-                steeringValue = ctx.ReadValue<float>();
-            }
-        }
-
-        if (ctx.canceled)
-            steeringValue = 0;
-    }
+    public void OnControlSteering(InputAction.CallbackContext ctx) => steeringValue = ctx.ReadValue<float>();
 
     public float GetCannonMovement()
     {
@@ -337,7 +324,6 @@ public class PlayerController : MonoBehaviour
 
     public void SetPlayerMove(bool movePlayer)
     {
-        Debug.Log("Wah");
         canMove = movePlayer;
     }
 
