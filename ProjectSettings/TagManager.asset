@@ -16,6 +16,9 @@ TagManager:
   - OneWayPlatform
   - GhostObject
   - LadderZone
+  - Engine
+  - Throttle
+  - ShellStation
   layers:
   - Default
   - TransparentFX

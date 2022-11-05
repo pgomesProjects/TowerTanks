@@ -24,11 +24,15 @@ public class EnemySpawnManager : MonoBehaviour
 
         StartCoroutine(enemyEncounterAni);
 
-        FindObjectOfType<AudioManager>().Play("CombatOST", PlayerPrefs.GetFloat("BGMVolume", 0.5f));
+        if(!FindObjectOfType<AudioManager>().IsPlaying("CombatOST"))
+            FindObjectOfType<AudioManager>().Play("CombatOST", PlayerPrefs.GetFloat("BGMVolume", 0.5f));
     }
 
     public void GetReadyForEnemySpawn()
     {
+        if (FindObjectOfType<AudioManager>().IsPlaying("CombatOST"))
+            FindObjectOfType<AudioManager>().Stop("CombatOST");
+
         int randomTime = Random.Range(10, 15);
 
         Invoke("SpawnRandomEnemy", randomTime);

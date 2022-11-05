@@ -34,7 +34,6 @@ public class LevelManager : MonoBehaviour
     internal GAMESTATE levelPhase = GAMESTATE.TUTORIAL; //Start the game with the tutorial
     private int currentPlayerPaused;
     internal int totalLayers;
-    internal bool hasFuel;
     internal bool isSteering;
     internal float gameSpeed;
     internal int speedIndex;
@@ -51,7 +50,6 @@ public class LevelManager : MonoBehaviour
         isPaused = false;
         currentPlayerPaused = -1;
         totalLayers = 2;
-        hasFuel = true;
         isSteering = false;
         speedIndex = (int)TANKSPEED.FORWARD;
         gameSpeed = currentSpeed[speedIndex];

@@ -142,6 +142,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ShellStation
       objectReference: {fileID: 0}
+    - target: {fileID: 4728784133398993873, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
+      propertyPath: m_TagString
+      value: ShellStation
+      objectReference: {fileID: 0}
     - target: {fileID: 4728784133398993874, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
       propertyPath: m_Size.x
       value: 8.0185

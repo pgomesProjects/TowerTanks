@@ -12,11 +12,6 @@ public class InteractableSpawnerManager : MonoBehaviour
 
     [SerializeField] private GameObject[] ghostInteractables;
 
-    private void Start()
-    {
-
-    }
-
     public void SpawnCannon(InteractableSpawner currentSpawner)
     {
         GameObject cannonObject = currentSpawner.SpawnInteractable(cannon);

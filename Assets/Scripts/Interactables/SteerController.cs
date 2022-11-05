@@ -89,7 +89,7 @@ public class SteerController : InteractableController
             //Animation curve to make the lever feel smoother
             float t = steerAniCurve.Evaluate(elapsedTime / seconds);
 
-            foreach(var i in FindObjectsOfType<SteerController>())
+            foreach(var i in GameObject.FindGameObjectsWithTag("Throttle"))
             {
                 i.transform.Find("LeverPivot").localRotation = Quaternion.Lerp(startingRot, endingRot, t);
             }
@@ -102,7 +102,7 @@ public class SteerController : InteractableController
 
         LevelManager.instance.UpdateSpeed(LevelManager.instance.speedIndex + direction);
 
-        foreach (var i in FindObjectsOfType<SteerController>())
+        foreach (var i in GameObject.FindGameObjectsWithTag("Throttle"))
         {
             i.transform.Find("LeverPivot").localRotation = endingRot;
         }

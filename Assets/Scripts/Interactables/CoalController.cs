@@ -18,6 +18,8 @@ public class CoalController : InteractableController
         depletionRate = depletionSeconds / coalPercentage;
         coalPercentageIndicator.value = coalPercentage;
         hasCoal = true;
+
+        FindObjectOfType<PlayerTankController>().AdjustEngineSpeedMultiplier();
     }
 
     // Update is called once per frame
@@ -87,7 +89,7 @@ public class CoalController : InteractableController
             {
                 Debug.Log("Coal Is Out!");
                 hasCoal = false;
-                LevelManager.instance.hasFuel = false;
+                GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().AdjustEngineSpeedMultiplier();
             }
         }
     }
@@ -101,7 +103,7 @@ public class CoalController : InteractableController
         if(coalPercentage > 0)
         {
             hasCoal = true;
-            LevelManager.instance.hasFuel = true;
+            GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().AdjustEngineSpeedMultiplier();
         }
 
         //Make sure the coal percentage does not pass 100%

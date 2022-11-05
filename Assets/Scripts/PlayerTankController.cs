@@ -7,18 +7,21 @@ public class PlayerTankController : MonoBehaviour
     [SerializeField] private float speed = 4;
     private float currentSpeed;
     [SerializeField] private float tankWeightMultiplier = 0.8f;
+    [SerializeField] private float tankEngineMultiplier = 1.5f;
     private float currentTankWeightMultiplier;
+    private float currentEngineMultiplier;
     [SerializeField] internal float tankBarrierRange = 12;
 
     private void Start()
     {
         currentSpeed = speed;
         currentTankWeightMultiplier = 1;
+        currentEngineMultiplier = 1;
     }
 
     public float GetPlayerSpeed()
     {
-        return currentSpeed * currentTankWeightMultiplier;
+        return (currentSpeed * currentEngineMultiplier) * currentTankWeightMultiplier;
     }
 
     public void AdjustTankWeight(int numberOfLayers)
@@ -39,6 +42,38 @@ public class PlayerTankController : MonoBehaviour
         }
 
         currentTankWeightMultiplier = newTankWeight;
+    }
+
+    private int GetNumberOfWorkingEngines()
+    {
+        int counter = 0;
+
+        foreach(var i in FindObjectsOfType<CoalController>())
+        {
+            if(i.HasCoal())
+                counter++;
+        }
+
+        return counter;
+    }
+
+    public void AdjustEngineSpeedMultiplier()
+    {
+        float newEngineSpeed = 1;
+
+        int numberOfEngines = GetNumberOfWorkingEngines();
+
+        Debug.Log("Working Engines: " + numberOfEngines);
+
+        for (int i = 1; i < numberOfEngines; i++)
+        {
+            newEngineSpeed *= tankEngineMultiplier;
+        }
+
+        if (numberOfEngines == 0)
+            newEngineSpeed = 0;
+
+        currentEngineMultiplier = newEngineSpeed;
     }
 
     public IEnumerator CollideWithEnemyAni(float collideVelocity, float seconds)

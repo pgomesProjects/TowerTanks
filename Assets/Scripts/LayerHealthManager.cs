@@ -23,18 +23,22 @@ public class LayerHealthManager : MonoBehaviour
 
     public void CheckForFireSpawn(float chanceToCatchFire)
     {
-        Debug.Log("Checking For Fire...");
-
-        //If the layer is already on fire, ignore everything else
-        if (GetComponentInChildren<FireBehavior>() != null && GetComponentInChildren<FireBehavior>().IsLayerOnFire())
-            return;
-
-        float percent = Random.Range(0, 100);
-
-        //If the chance to catch fire has been met, turn on the fire diegetics
-        if(percent < chanceToCatchFire)
+        //If the layer can catch fire
+        if(GetComponentInChildren<FireBehavior>() != null)
         {
-            transform.Find("FireDiegetics").gameObject.SetActive(true);
+            Debug.Log("Checking For Fire...");
+
+            //If the layer is already on fire, ignore everything else
+            if (GetComponentInChildren<FireBehavior>().IsLayerOnFire())
+                return;
+
+            float percent = Random.Range(0, 100);
+
+            //If the chance to catch fire has been met, turn on the fire diegetics
+            if (percent < chanceToCatchFire)
+            {
+                transform.Find("FireDiegetics").gameObject.SetActive(true);
+            }
         }
     }
 

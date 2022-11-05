@@ -37,32 +37,29 @@ public class ParallaxController : MonoBehaviour
 
         currentParallaxSpeed = parallaxSpeed * LevelManager.instance.gameSpeed;
 
-        if (LevelManager.instance.hasFuel)
+        //Moving backwards
+        if (currentParallaxSpeed > 0)
         {
-            //Moving backwards
-            if (currentParallaxSpeed > 0)
-            {
-                //Constantly move the background
-                transform.position += new Vector3(currentParallaxSpeed * Time.deltaTime, transform.position.y);
+            //Constantly move the background
+            transform.position += new Vector3(currentParallaxSpeed * Time.deltaTime, transform.position.y);
 
-                //If the background moves past the original background size, move the background back to its original position
-                if (transform.position.x > backgroundSize.x)
-                {
-                    transform.position = new Vector3(-backgroundSize.x, transform.position.y, transform.position.z);
-                }
+            //If the background moves past the original background size, move the background back to its original position
+            if (transform.position.x > backgroundSize.x)
+            {
+                transform.position = new Vector3(-backgroundSize.x, transform.position.y, transform.position.z);
             }
+        }
 
-            //Moving forwards
-            else
+        //Moving forwards
+        else
+        {
+            //Constantly move the background
+            transform.position += new Vector3(currentParallaxSpeed * Time.deltaTime, transform.position.y);
+
+            //If the background moves past the original background size, move the background back to its original position
+            if (transform.position.x < -backgroundSize.x)
             {
-                //Constantly move the background
-                transform.position += new Vector3(currentParallaxSpeed * Time.deltaTime, transform.position.y);
-
-                //If the background moves past the original background size, move the background back to its original position
-                if (transform.position.x < -backgroundSize.x)
-                {
-                    transform.position = new Vector3(backgroundSize.x, transform.position.y, transform.position.z);
-                }
+                transform.position = new Vector3(backgroundSize.x, transform.position.y, transform.position.z);
             }
         }
     }
