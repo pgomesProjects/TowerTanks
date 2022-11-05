@@ -117,4 +117,10 @@ public class CoalController : InteractableController
     {
         return hasCoal;
     }
+
+    private void OnDestroy()
+    {
+        hasCoal = false;
+        FindObjectOfType<PlayerTankController>().AdjustEngineSpeedMultiplier();
+    }
 }
