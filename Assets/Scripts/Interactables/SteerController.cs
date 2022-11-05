@@ -81,6 +81,9 @@ public class SteerController : InteractableController
 
         Quaternion endingRot = Quaternion.Euler(0, 0, -(20 * LevelManager.instance.currentSpeed[LevelManager.instance.speedIndex + direction]));
 
+        //Play sound effect
+        FindObjectOfType<AudioManager>().PlayOneShot("ThrottleClick", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+
         while (elapsedTime < seconds && direction != 0)
         {
             //Animation curve to make the lever feel smoother

@@ -284,7 +284,7 @@ RectTransform:
   - {fileID: 1854872067}
   - {fileID: 1241040232}
   m_Father: {fileID: 1793046958}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -322,7 +322,7 @@ RectTransform:
   m_Children:
   - {fileID: 2119438490}
   m_Father: {fileID: 1793046958}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
@@ -890,15 +890,15 @@ MonoBehaviour:
     <sprite=30>
 
 
-    Pick Up / Drop Item: <sprite=27>          Use Hammer: <sprite=29>
+    Pick Up / Drop Item: <sprite=27>          Use Hammer / Fire
+    Cannon: <sprite=29>
 
 
-    Angle
-    Cannon: Spin <sprite=37> Clockwise / Counterclockwise
+    Angle Cannon: Spin <sprite=37> Clockwise / Counterclockwise
 
 
-    Move The Throttle
-    To The Right To Begin The Game'
+    Move
+    The Throttle To The Right To Begin The Game'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1308,7 +1308,7 @@ GameObject:
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &862922583
 Transform:
   m_ObjectHideFlags: 0
@@ -1539,7 +1539,7 @@ RectTransform:
   - {fileID: 3128995724175909181}
   - {fileID: 3128995722482962874}
   m_Father: {fileID: 1793046958}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2689,9 +2689,9 @@ RectTransform:
   m_Children:
   - {fileID: 701447236}
   - {fileID: 810497425}
+  - {fileID: 121572918}
   - {fileID: 1110496616}
   - {fileID: 62108129}
-  - {fileID: 121572918}
   - {fileID: 1616654371}
   m_Father: {fileID: 0}
   m_RootOrder: 1

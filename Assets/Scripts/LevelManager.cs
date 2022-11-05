@@ -217,7 +217,7 @@ public class LevelManager : MonoBehaviour
         CheckInteractablesOnLayer(newLayer.GetComponentInChildren<LayerManager>().GetNextLayerIndex() - 1);
 
         //Play sound effect
-        FindObjectOfType<AudioManager>().PlayOneShot("WrenchSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+        FindObjectOfType<AudioManager>().PlayOneShot("UseSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
 
         //Adjust the weight of the tank
         playerTank.GetComponent<PlayerTankController>().AdjustTankWeight(totalLayers);
@@ -388,7 +388,9 @@ public class LevelManager : MonoBehaviour
 
     public void SpawnExplosion(Vector3 pos)
     {
+        //Spawn explosion particles and add sound effect
         Instantiate(explosionParticles, pos, Quaternion.identity);
+        FindObjectOfType<AudioManager>().PlayOneShot("ExplosionSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
     }
 
     public void TransitionGameState()

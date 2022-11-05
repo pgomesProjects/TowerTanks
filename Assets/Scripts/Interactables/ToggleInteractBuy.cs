@@ -67,6 +67,9 @@ public class ToggleInteractBuy : MonoBehaviour
                     break;
             }
 
+            //Play sound effect
+            FindObjectOfType<AudioManager>().PlayOneShot("UseSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+
             Destroy(gameObject);
         }
     }

@@ -47,18 +47,43 @@ MonoBehaviour:
   bgmMixer: {fileID: 5802316482864546721, guid: 0a7f42e58f78f644aa0eda82b00c01ed, type: 2}
   sfxMixer: {fileID: 4279340188021939522, guid: 1caf2312e44a0b94eac66396929631ce, type: 2}
   sounds:
-  - name: TankIdle
-    clip: {fileID: 8300000, guid: d8645516b48c97b4c86f0fb216b63e7d, type: 3}
-    pitch: 1
-    loop: 1
-    source: {fileID: 0}
-  - name: WrenchSFX
-    clip: {fileID: 8300000, guid: 2f150623b5f28c64bb29d3b6afc98e38, type: 3}
-    pitch: 1
-    loop: 0
-    source: {fileID: 0}
   - name: CombatOST
     clip: {fileID: 8300000, guid: eae8b0d0ca9e327409ed93ef6fee4ed5, type: 3}
     pitch: 1
     loop: 1
+    source: {fileID: 0}
+  - name: TankIdle
+    clip: {fileID: 8300000, guid: c8875f33f0d4b584bbf738f967b042f5, type: 3}
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: UseWrench
+    clip: {fileID: 8300000, guid: 8b68e88ef6863bc4b925c9675bf4d9bf, type: 3}
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: CannonReload
+    clip: {fileID: 8300000, guid: 733a9d61e6ae8974aa4ce419bf1bece3, type: 3}
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: CannonFire
+    clip: {fileID: 8300000, guid: ce8457eae39a6744aa0e0cccb834f3a3, type: 3}
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: ThrottleClick
+    clip: {fileID: 8300000, guid: 3bbb1ea9718ab6b459cde74e45b91c1e, type: 3}
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: UseSFX
+    clip: {fileID: 8300000, guid: 4577deec906dd8149a5c520e00a90603, type: 3}
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: ExplosionSFX
+    clip: {fileID: 8300000, guid: c1eb660999179a44795641dad92cfacf, type: 3}
+    pitch: 1
+    loop: 0
     source: {fileID: 0}

@@ -217,6 +217,20 @@ public class PlayerController : MonoBehaviour
                     }
                 }
             }
+            //If the player is near an interactable
+            else if(currentInteractableItem != null)
+            {
+                //If the interactable is a cannon
+                if(currentInteractableItem.GetComponent<CannonController>() != null)
+                {
+                    //If the player is interacting with the cannon
+                    if (currentInteractableItem.IsInteractionActive())
+                    {
+                        //Check to see if the player can fire the cannon
+                        currentInteractableItem.GetComponent<CannonController>().CheckForCannonFire();
+                    }
+                }
+            }
         }
     }
 

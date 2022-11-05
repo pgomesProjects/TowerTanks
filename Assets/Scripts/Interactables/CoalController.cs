@@ -46,6 +46,9 @@ public class CoalController : InteractableController
 
             //Start a progress bar on the player
             currentPlayer.StartProgressBar(timeToFillCoal, () => FillCoal(50));
+
+            //Play sound effect
+            //FindObjectOfType<AudioManager>().PlayOneShot("UseWrench", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
         }
     }
 

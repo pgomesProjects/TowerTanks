@@ -129,6 +129,11 @@ public class InteractableController : MonoBehaviour
         }
     }
 
+    public bool IsInteractionActive()
+    {
+         return interactionActive;
+    }
+
     public void SetCurrentActivePlayer(PlayerController player)
     {
         currentPlayer = player;

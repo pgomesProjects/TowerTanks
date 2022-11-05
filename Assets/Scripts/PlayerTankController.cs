@@ -12,7 +12,6 @@ public class PlayerTankController : MonoBehaviour
 
     private void Start()
     {
-        FindObjectOfType<AudioManager>().Play("TankIdle", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
         currentSpeed = speed;
         currentTankWeightMultiplier = 1;
     }
