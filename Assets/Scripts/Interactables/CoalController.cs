@@ -121,6 +121,9 @@ public class CoalController : InteractableController
     private void OnDestroy()
     {
         hasCoal = false;
-        FindObjectOfType<PlayerTankController>().AdjustEngineSpeedMultiplier();
+        if (GameObject.FindGameObjectWithTag("PlayerTank"))
+        {
+            GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().AdjustEngineSpeedMultiplier();
+        }
     }
 }

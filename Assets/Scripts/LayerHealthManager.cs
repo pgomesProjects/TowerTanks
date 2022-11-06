@@ -6,6 +6,50 @@ public class LayerHealthManager : MonoBehaviour
 {
     [SerializeField] private int health = 100;
     [SerializeField] private int destroyResourcesValue = 80;
+    private float gravity = 9.81f;
+
+    private Rigidbody2D rb;
+
+    private void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
+
+    private void FixedUpdate()
+    {
+        List<ContactPoint2D> contactPoints = new List<ContactPoint2D>();
+        rb.GetContacts(contactPoints);
+        string contactNames = "";
+        foreach(var i in contactPoints)
+        {
+            contactNames += i.collider.name + " | ";
+        }
+
+        if(transform.GetComponentInParent<EnemyController>() != null)
+            Debug.Log(contactNames);
+
+        if (!CollisionOnBottom(contactPoints))
+        {
+            transform.Translate(Vector2.down * gravity * Time.deltaTime);
+        }
+    }
+
+    private bool CollisionOnBottom(List<ContactPoint2D> contactPoints)
+    {
+        foreach(var i in contactPoints)
+        {
+            if (i.collider.CompareTag("Layer"))
+                return true;
+
+            if (i.collider.CompareTag("TankBottom"))
+                return true;
+
+            if (i.collider.CompareTag("EnemyLayer"))
+                return true;
+        }
+
+        return false;
+    }
 
     public void DealDamage(int dmg)
     {
@@ -67,6 +111,15 @@ public class LayerHealthManager : MonoBehaviour
 
             //Destroy the layer
             Destroy(gameObject);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if(transform.GetComponentInParent<PlayerTankController>() != null)
+        {
+            //Update the list of layers accordingly
+            transform.GetComponentInParent<PlayerTankController>().AdjustLayersInList();
         }
     }
 }

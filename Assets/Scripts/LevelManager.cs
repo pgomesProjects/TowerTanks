@@ -39,7 +39,6 @@ public class LevelManager : MonoBehaviour
     internal int speedIndex;
     internal float[] currentSpeed = { -1.5f, -1f, 0f, 1, 1.5f };
     private int resourcesNum = 1000;
-    private List<LayerHealthManager> layers;
     private GameObject currentGhostLayer;
 
     private Dictionary<string, int> itemPrice;
@@ -55,9 +54,7 @@ public class LevelManager : MonoBehaviour
         gameSpeed = currentSpeed[speedIndex];
         resourcesDisplay.text = "Resources: " + resourcesNum;
         itemPrice = new Dictionary<string, int>();
-        layers = new List<LayerHealthManager>(2);
         PopulateItemDictionary();
-        AdjustLayersInList();
     }
 
     private void Start()
@@ -82,29 +79,6 @@ public class LevelManager : MonoBehaviour
     {
         //Buy
         itemPrice.Add("NewLayer", 250);
-    }
-
-    private void AdjustLayersInList()
-    {
-        //Clear the list
-        layers.Clear();
-
-        //Insert each layer at the appropriate index
-        foreach(var i in FindObjectsOfType<LayerHealthManager>())
-        {
-            layers.Add(i);
-        }
-
-        PrintLayerList();
-    }
-
-    private void PrintLayerList()
-    {
-
-        for (int i = 0; i < layers.Count; i++)
-        {
-            Debug.Log("Index " + i + ": " + layers[i].name);
-        }
     }
 
     public void UpdateSpeed(int speedUpdate)
@@ -208,8 +182,7 @@ public class LevelManager : MonoBehaviour
         newLayer.GetComponentInChildren<LayerManager>().SetLayerIndex(totalLayers + 1);
 
         //Add layer to the list of layers
-        layers.Insert(newLayer.GetComponentInChildren<LayerManager>().GetNextLayerIndex() - 2, newLayer.GetComponent<LayerHealthManager>());
-        PrintLayerList();
+        playerTank.GetComponent<PlayerTankController>().GetLayers().Insert(newLayer.GetComponentInChildren<LayerManager>().GetNextLayerIndex() - 2, newLayer.GetComponent<LayerHealthManager>());
 
         //Check interactables on layer
         CheckInteractablesOnLayer(newLayer.GetComponentInChildren<LayerManager>().GetNextLayerIndex() - 1);
@@ -244,12 +217,12 @@ public class LevelManager : MonoBehaviour
 
     public void CheckInteractablesOnLayer(int index)
     {
-        Debug.Log("Checking Layer " + layers[index - 1].name);
+        Debug.Log("Checking Layer " + playerTank.GetComponent<PlayerTankController>().GetLayerAt(index - 1).name);
 
         if(index - 1 > 0)
         {
             //Check the interactable spawners
-            foreach (var i in layers[index - 1].GetComponentsInChildren<InteractableSpawner>())
+            foreach (var i in playerTank.GetComponent<PlayerTankController>().GetLayerAt(index - 1).GetComponentsInChildren<InteractableSpawner>())
             {
                 //If there is not an interactable spawned, show the ghost interactables
                 if (!i.IsInteractableSpawned())
@@ -267,7 +240,7 @@ public class LevelManager : MonoBehaviour
         if(index - 2 > 0)
         {
             //Check the interactable spawners
-            foreach (var i in layers[index - 2].GetComponentsInChildren<InteractableSpawner>())
+            foreach (var i in playerTank.GetComponent<PlayerTankController>().GetLayerAt(index - 2).GetComponentsInChildren<InteractableSpawner>())
             {
                 //If there is an interactable spawned
                 if (i.IsInteractableSpawned())
@@ -376,9 +349,6 @@ public class LevelManager : MonoBehaviour
         }
 
         playerTank.transform.Find("TankFollowTop").transform.localPosition = new Vector2(-13, (totalLayers * 8) + 4);
-
-        //Update the list of layers accordingly
-        AdjustLayersInList();
 
         //Adjust the weight of the tank
         playerTank.GetComponent<PlayerTankController>().AdjustTankWeight(totalLayers);

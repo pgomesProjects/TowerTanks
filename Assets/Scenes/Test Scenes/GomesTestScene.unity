@@ -1291,6 +1291,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 4
   tankWeightMultiplier: 0.8
+  tankEngineMultiplier: 1.5
   tankBarrierRange: 12
 --- !u!1 &862922582
 GameObject:
@@ -2314,7 +2315,7 @@ GameObject:
   - component: {fileID: 1631897203}
   m_Layer: 8
   m_Name: TankBottom
-  m_TagString: Untagged
+  m_TagString: TankBottom
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

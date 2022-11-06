@@ -15,7 +15,6 @@ public class EnemyController : MonoBehaviour
 
     private bool enemyColliding = false;
 
-    private Rigidbody2D rb;
     private PlayerTankController playerTank;
 
     private int totalEnemyLayers;
@@ -23,7 +22,6 @@ public class EnemyController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
         playerTank = GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>();
         totalEnemyLayers = 2;
         UpdateEnemySpeed();

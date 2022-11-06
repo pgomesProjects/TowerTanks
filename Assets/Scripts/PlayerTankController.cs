@@ -12,11 +12,42 @@ public class PlayerTankController : MonoBehaviour
     private float currentEngineMultiplier;
     [SerializeField] internal float tankBarrierRange = 12;
 
+    private List<LayerHealthManager> layers;
+
+    private void Awake()
+    {
+        layers = new List<LayerHealthManager>(2);
+        AdjustLayersInList();
+    }
+
     private void Start()
     {
         currentSpeed = speed;
         currentTankWeightMultiplier = 1;
         currentEngineMultiplier = 1;
+    }
+
+    public void AdjustLayersInList()
+    {
+        //Clear the list
+        layers.Clear();
+
+        //Insert each layer at the appropriate index
+        foreach (var i in GetComponentsInChildren<LayerHealthManager>())
+        {
+            layers.Add(i);
+        }
+
+        PrintLayerList();
+    }
+
+    private void PrintLayerList()
+    {
+
+        for (int i = 0; i < layers.Count; i++)
+        {
+            Debug.Log("Index " + i + ": " + layers[i].name);
+        }
     }
 
     public float GetPlayerSpeed()
@@ -81,11 +112,8 @@ public class PlayerTankController : MonoBehaviour
         float timeElapsed = 0;
         currentSpeed = 0;
 
-        //Deal damage to all layers
-        foreach(var i in GetComponentsInChildren<LayerHealthManager>())
-        {
-            i.DealDamage(10);
-        }
+        //Deal damage to bottom layer
+        GetLayerAt(0).DealDamage(10);
 
         //Shake camera on collision
         CameraEventController.instance.ShakeCamera(10f, seconds);
@@ -136,5 +164,15 @@ public class PlayerTankController : MonoBehaviour
         }
 
         transform.position = Vector3.zero;
+    }
+
+    public List<LayerHealthManager> GetLayers()
+    {
+        return layers;
+    }
+
+    public LayerHealthManager GetLayerAt(int index)
+    {
+        return layers[index];
     }
 }

@@ -30,8 +30,11 @@ public class EnemySpawnManager : MonoBehaviour
 
     public void GetReadyForEnemySpawn()
     {
-        if (FindObjectOfType<AudioManager>().IsPlaying("CombatOST"))
-            FindObjectOfType<AudioManager>().Stop("CombatOST");
+        if(FindObjectOfType<AudioManager>() != null)
+        {
+            if (FindObjectOfType<AudioManager>().IsPlaying("CombatOST"))
+                FindObjectOfType<AudioManager>().Stop("CombatOST");
+        }
 
         int randomTime = Random.Range(10, 15);
 

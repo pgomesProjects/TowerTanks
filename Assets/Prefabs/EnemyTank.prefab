@@ -226,7 +226,7 @@ GameObject:
   - component: {fileID: 7820399865683774498}
   m_Layer: 6
   m_Name: TankBottom
-  m_TagString: Enemy
+  m_TagString: TankBottom
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
