@@ -100,7 +100,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Build"",
+                    ""name"": ""Use"",
                     ""type"": ""Button"",
                     ""id"": ""fe096cfd-c2cb-4a1e-8a90-f7987940ae6e"",
                     ""expectedControlType"": ""Button"",
@@ -428,7 +428,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Build"",
+                    ""action"": ""Use"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -964,7 +964,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
         m_Player_PickUp = m_Player.FindAction("Pick Up", throwIfNotFound: true);
         m_Player_ControlSteering = m_Player.FindAction("Control Steering", throwIfNotFound: true);
-        m_Player_Build = m_Player.FindAction("Build", throwIfNotFound: true);
+        m_Player_Use = m_Player.FindAction("Use", throwIfNotFound: true);
         m_Player_PrevInteractable = m_Player.FindAction("Prev Interactable", throwIfNotFound: true);
         m_Player_NextInteractable = m_Player.FindAction("Next Interactable", throwIfNotFound: true);
         m_Player_OnLadderEnter = m_Player.FindAction("OnLadderEnter", throwIfNotFound: true);
@@ -1048,7 +1048,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Pause;
     private readonly InputAction m_Player_PickUp;
     private readonly InputAction m_Player_ControlSteering;
-    private readonly InputAction m_Player_Build;
+    private readonly InputAction m_Player_Use;
     private readonly InputAction m_Player_PrevInteractable;
     private readonly InputAction m_Player_NextInteractable;
     private readonly InputAction m_Player_OnLadderEnter;
@@ -1065,7 +1065,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         public InputAction @Pause => m_Wrapper.m_Player_Pause;
         public InputAction @PickUp => m_Wrapper.m_Player_PickUp;
         public InputAction @ControlSteering => m_Wrapper.m_Player_ControlSteering;
-        public InputAction @Build => m_Wrapper.m_Player_Build;
+        public InputAction @Use => m_Wrapper.m_Player_Use;
         public InputAction @PrevInteractable => m_Wrapper.m_Player_PrevInteractable;
         public InputAction @NextInteractable => m_Wrapper.m_Player_NextInteractable;
         public InputAction @OnLadderEnter => m_Wrapper.m_Player_OnLadderEnter;
@@ -1103,9 +1103,9 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @ControlSteering.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnControlSteering;
                 @ControlSteering.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnControlSteering;
                 @ControlSteering.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnControlSteering;
-                @Build.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBuild;
-                @Build.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBuild;
-                @Build.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBuild;
+                @Use.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUse;
+                @Use.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUse;
+                @Use.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUse;
                 @PrevInteractable.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPrevInteractable;
                 @PrevInteractable.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPrevInteractable;
                 @PrevInteractable.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPrevInteractable;
@@ -1146,9 +1146,9 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @ControlSteering.started += instance.OnControlSteering;
                 @ControlSteering.performed += instance.OnControlSteering;
                 @ControlSteering.canceled += instance.OnControlSteering;
-                @Build.started += instance.OnBuild;
-                @Build.performed += instance.OnBuild;
-                @Build.canceled += instance.OnBuild;
+                @Use.started += instance.OnUse;
+                @Use.performed += instance.OnUse;
+                @Use.canceled += instance.OnUse;
                 @PrevInteractable.started += instance.OnPrevInteractable;
                 @PrevInteractable.performed += instance.OnPrevInteractable;
                 @PrevInteractable.canceled += instance.OnPrevInteractable;
@@ -1316,7 +1316,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         void OnPause(InputAction.CallbackContext context);
         void OnPickUp(InputAction.CallbackContext context);
         void OnControlSteering(InputAction.CallbackContext context);
-        void OnBuild(InputAction.CallbackContext context);
+        void OnUse(InputAction.CallbackContext context);
         void OnPrevInteractable(InputAction.CallbackContext context);
         void OnNextInteractable(InputAction.CallbackContext context);
         void OnOnLadderEnter(InputAction.CallbackContext context);

@@ -36,7 +36,7 @@ public class EnemyController : MonoBehaviour
     public void UpdateEnemySpeed()
     {
         speedRelativeToPlayer = (playerTank.GetPlayerSpeed() * LevelManager.instance.gameSpeed) + speed;
-        Debug.Log("Enemy Speed: " + speedRelativeToPlayer);
+        //Debug.Log("Enemy Speed: " + speedRelativeToPlayer);
     }
 
     // Update is called once per frame

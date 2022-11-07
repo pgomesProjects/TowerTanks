@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private float distance = 3f;
     [SerializeField] private LayerMask ladderMask;
+
     private bool canMove;
     private bool canClimb;
     private bool isClimbing;
@@ -31,7 +32,6 @@ public class PlayerController : MonoBehaviour
     private Item closestItem;
     private Item itemHeld;
     private bool isHoldingItem;
-    private bool holdingHammer;
 
     private GameObject interactableHover;
     private GameObject progressBarCanvas;
@@ -197,26 +197,23 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void OnBuild(InputAction.CallbackContext ctx)
+    public void OnUse(InputAction.CallbackContext ctx)
     {
-        //If the player presses the build button
+        //If the player presses the use button
         if (ctx.started)
         {
-            //If the player is holding the hammer and uses the interact button, attempt to add a new layer
-            if (holdingHammer)
+            //If the player is holding the fire remover and uses the button, check for fire
+            if (PlayerHasItem("FireRemover"))
             {
-                LevelManager.instance.PurchaseLayer(this);
-
-                //Try to buy an interactable
-                foreach(var i in GameObject.FindGameObjectsWithTag("GhostObject"))
-                {
-                    //If a player can purchase an interactable, try to purchase it
-                    if (i.GetComponent<ToggleInteractBuy>().PlayerCanPurchase())
-                    {
-                        i.GetComponent<ToggleInteractBuy>().PurchaseInteractable();
-                    }
-                }
+                CheckForFireRemoverUse();
             }
+
+            //If the player is holding the hammer and uses the button, attempt to add a new layer
+            else if (PlayerHasItem("Hammer"))
+            {
+                CheckForHammerUse();
+            }
+
             //If the player is near an interactable
             else if(currentInteractableItem != null)
             {
@@ -232,6 +229,55 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+
+        if (ctx.canceled)
+        {
+            if (taskInProgress)
+            {
+                CancelProgressBar();
+            }
+        }
+    }
+
+    private void CheckForHammerUse()
+    {
+        //If the player is outside of the tank (in a layer that does not exist inside the tank) and can afford a new layer
+        if (IsPlayerOutsideTank() && LevelManager.instance.CanPlayerAfford("NewLayer"))
+        {
+            if (itemHeld.GetTimeToUse() > 0)
+                StartProgressBar(itemHeld.GetTimeToUse(), LevelManager.instance.PurchaseLayer);
+        }
+        else
+        {
+            //Try to buy an interactable
+            foreach (var i in GameObject.FindGameObjectsWithTag("GhostObject"))
+            {
+                //If a player can purchase an interactable, try to purchase it
+                if (i.GetComponent<ToggleInteractBuy>().PlayerCanPurchase())
+                {
+                    i.GetComponent<ToggleInteractBuy>().PurchaseInteractable();
+                }
+            }
+        }
+    }
+
+    private void CheckForFireRemoverUse()
+    {
+        FireBehavior fire = playerTank.GetLayerAt(currentLayer - 1).GetComponentInChildren<FireBehavior>();
+
+        //If the layer the player is on is on fire
+        if (fire != null && fire.IsLayerOnFire())
+        {
+            if (itemHeld.GetTimeToUse() > 0)
+                StartProgressBar(itemHeld.GetTimeToUse(), UseFireRemover);
+        }
+    }
+
+    private void UseFireRemover()
+    {
+        FireBehavior fire = playerTank.GetLayerAt(currentLayer - 1).GetComponentInChildren<FireBehavior>();
+        //Get rid of the fire
+        fire.gameObject.SetActive(false);
     }
 
     public void OnPrevInteractable(InputAction.CallbackContext ctx)
@@ -239,7 +285,7 @@ public class PlayerController : MonoBehaviour
         //If the player presses the previous interactable button
         if (ctx.performed)
         {
-            if (holdingHammer)
+            if (PlayerHasItem("Hammer"))
             {
                 if(currentInteractableToBuy != null)
                 {
@@ -254,7 +300,7 @@ public class PlayerController : MonoBehaviour
         //If the player presses the next interactable button
         if (ctx.performed)
         {
-            if (holdingHammer)
+            if (PlayerHasItem("Hammer"))
             {
                 if (currentInteractableToBuy != null)
                 {
@@ -326,6 +372,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public bool IsPlayerOutsideTank()
+    {
+        return currentLayer > LevelManager.instance.totalLayers;
+    }
+
     public bool IsPlayerClimbing()
     {
         return isClimbing;
@@ -351,14 +402,20 @@ public class PlayerController : MonoBehaviour
         return isHoldingItem;
     }
 
-    public bool IsPlayerHoldingHammer()
-    {
-        return holdingHammer;
-    }
-
     public Item GetPlayerItem()
     {
         return itemHeld;
+    }
+
+    public bool PlayerHasItem(string name)
+    {
+        if(itemHeld != null)
+        {
+            if (itemHeld.CompareTag(name))
+                return true;
+        }
+
+        return false;
     }
 
     public void DestroyItem()
@@ -399,9 +456,8 @@ public class PlayerController : MonoBehaviour
 
                 Debug.Log("Picked Up Item!");
 
-                if (itemHeld.CompareTag("Hammer"))
+                if (PlayerHasItem("Hammer") && !IsPlayerOutsideTank())
                 {
-                    holdingHammer = true;
                     LevelManager.instance.CheckInteractablesOnLayer(currentLayer);
                 }
 
@@ -423,9 +479,13 @@ public class PlayerController : MonoBehaviour
 
                 Debug.Log("Dropped Item!");
 
-                if (itemHeld.CompareTag("Hammer"))
+                if (taskInProgress)
                 {
-                    holdingHammer = false;
+                    CancelProgressBar();
+                }
+
+                if (PlayerHasItem("Hammer"))
+                {
                     foreach(var i in GameObject.FindGameObjectsWithTag("GhostObject"))
                     {
                         Destroy(i);

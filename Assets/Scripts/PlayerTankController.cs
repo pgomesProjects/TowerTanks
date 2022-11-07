@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerTankController : MonoBehaviour
@@ -37,6 +38,9 @@ public class PlayerTankController : MonoBehaviour
         {
             layers.Add(i);
         }
+
+        //Sort by y position
+        layers = layers.OrderBy(y => y.transform.position.y).ToList();
 
         PrintLayerList();
     }

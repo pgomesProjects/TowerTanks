@@ -34,8 +34,6 @@ public class SteerController : InteractableController
     {
         while (true)
         {
-            Debug.Log(currentPlayerColliding.steeringValue);
-
             //Moving stick left
             if (currentPlayerColliding.steeringValue < -0.5f && LevelManager.instance.levelPhase != GAMESTATE.TUTORIAL)
             {
@@ -73,8 +71,6 @@ public class SteerController : InteractableController
         float elapsedTime = 0;
 
         Quaternion startingRot = transform.Find("LeverPivot").localRotation;
-
-        Debug.Log("From " + (LevelManager.instance.speedIndex) + " to " + (LevelManager.instance.speedIndex + direction));
 
         float startGameSpeed = LevelManager.instance.currentSpeed[LevelManager.instance.speedIndex];
         float endGameSpeed = LevelManager.instance.currentSpeed[LevelManager.instance.speedIndex + direction];

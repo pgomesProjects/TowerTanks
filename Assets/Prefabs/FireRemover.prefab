@@ -19,6 +19,10 @@ PrefabInstance:
       propertyPath: m_Offset.x
       value: 0.14
       objectReference: {fileID: 0}
+    - target: {fileID: 3805451688760853086, guid: 1a9426da801e3aa48a2ce64d5f72c966, type: 3}
+      propertyPath: timeToUse
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5042576130432705698, guid: 1a9426da801e3aa48a2ce64d5f72c966, type: 3}
       propertyPath: m_Size.x
       value: 3.74
@@ -93,6 +97,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7578090233616032331, guid: 1a9426da801e3aa48a2ce64d5f72c966, type: 3}
       propertyPath: m_Name
+      value: FireRemover
+      objectReference: {fileID: 0}
+    - target: {fileID: 7578090233616032331, guid: 1a9426da801e3aa48a2ce64d5f72c966, type: 3}
+      propertyPath: m_TagString
       value: FireRemover
       objectReference: {fileID: 0}
     m_RemovedComponents: []

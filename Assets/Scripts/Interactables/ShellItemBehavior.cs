@@ -9,7 +9,7 @@ public class ShellItemBehavior : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.collider.tag == "Layer" || collision.collider.tag == "OneWayPlatform")
+        if((collision.collider.tag == "Layer" || collision.collider.tag == "OneWayPlatform") && GetComponent<DamageObject>() == null)
         {
             float generateChance = Random.Range(0, 100);
             if(generateChance < chanceToExplode)

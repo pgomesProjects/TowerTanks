@@ -68,12 +68,12 @@ public class LayerHealthManager : MonoBehaviour
     public void CheckForFireSpawn(float chanceToCatchFire)
     {
         //If the layer can catch fire
-        if(GetComponentInChildren<FireBehavior>() != null)
+        if(GetComponentInChildren<FireBehavior>(true) != null)
         {
             Debug.Log("Checking For Fire...");
 
             //If the layer is already on fire, ignore everything else
-            if (GetComponentInChildren<FireBehavior>().IsLayerOnFire())
+            if (GetComponentInChildren<FireBehavior>() != null && GetComponentInChildren<FireBehavior>().IsLayerOnFire())
                 return;
 
             float percent = Random.Range(0, 100);

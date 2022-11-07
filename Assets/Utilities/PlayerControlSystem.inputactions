@@ -78,7 +78,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Build",
+                    "name": "Use",
                     "type": "Button",
                     "id": "fe096cfd-c2cb-4a1e-8a90-f7987940ae6e",
                     "expectedControlType": "Button",
@@ -406,7 +406,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Build",
+                    "action": "Use",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

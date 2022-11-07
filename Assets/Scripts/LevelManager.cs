@@ -133,6 +133,13 @@ public class LevelManager : MonoBehaviour
         return false;
     }
 
+    public bool CanPlayerAfford(string itemName)
+    {
+        if (resourcesNum >= itemPrice[itemName])
+            return true;
+        return false;
+    }
+
     private IEnumerator ResourcesTextAnimation(int startingVal, int endingVal, float seconds)
     {
         float elapsedTime = 0;
@@ -153,19 +160,12 @@ public class LevelManager : MonoBehaviour
         coalController.AddCoal(amount);
     }
 
-    public void PurchaseLayer(PlayerController player)
+    public void PurchaseLayer()
     {
-        //If the player is outside of the tank (in a layer that does not exist inside the tank)
-        if (player.currentLayer > totalLayers)
-        {
-            //If the players have enough money to purchase a layer
-            if (CanPlayerAfford(itemPrice["NewLayer"]))
-            {
-                UpdateResources(-itemPrice["NewLayer"]);
-                AddLayer();
-                RemoveGhostLayer();
-            }
-        }
+        //Purchase a layer
+        UpdateResources(-itemPrice["NewLayer"]);
+        AddLayer();
+        RemoveGhostLayer();
     }
 
     private void AddLayer()

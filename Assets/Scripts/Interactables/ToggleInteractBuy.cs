@@ -23,7 +23,7 @@ public class ToggleInteractBuy : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            if (collision.GetComponent<PlayerController>().IsPlayerHoldingHammer())
+            if (collision.GetComponent<PlayerController>().GetPlayerItem().CompareTag("Hammer"))
             {
                 priceText.SetActive(true);
                 playerCanPurchase = true;
@@ -36,7 +36,7 @@ public class ToggleInteractBuy : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            if (collision.GetComponent<PlayerController>().IsPlayerHoldingHammer())
+            if (collision.GetComponent<PlayerController>().GetPlayerItem().CompareTag("Hammer"))
             {
                 priceText.SetActive(false);
                 playerCanPurchase = false;

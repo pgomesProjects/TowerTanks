@@ -27,11 +27,11 @@ public class LayerManager : MonoBehaviour
             currentPlayer.currentLayer = changeIndex;
             Debug.Log("Player On Layer: " + currentPlayer.currentLayer);
 
-            if (currentPlayer.currentLayer > LevelManager.instance.totalLayers && currentPlayer.IsPlayerHoldingHammer())
+            if (currentPlayer.currentLayer > LevelManager.instance.totalLayers && currentPlayer.PlayerHasItem("Hammer"))
             {
                 LevelManager.instance.AddGhostLayer();
             }
-            else if(currentPlayer.currentLayer <= LevelManager.instance.totalLayers && currentPlayer.IsPlayerHoldingHammer())
+            else if(currentPlayer.currentLayer <= LevelManager.instance.totalLayers && currentPlayer.PlayerHasItem("Hammer"))
             {
                 LevelManager.instance.CheckInteractablesOnLayer(currentPlayer.currentLayer);
             }
@@ -45,7 +45,7 @@ public class LayerManager : MonoBehaviour
             PlayerController currentPlayer = collision.GetComponent<PlayerController>();
             int changeIndex = 0;
 
-            if (currentPlayer.IsPlayerHoldingHammer())
+            if (currentPlayer.PlayerHasItem("Hammer"))
             {
                 //Destroy the ghost interactables from the previous layer, if any
                 LevelManager.instance.DestroyGhostInteractables(currentPlayer.currentLayer);
@@ -76,7 +76,7 @@ public class LayerManager : MonoBehaviour
         foreach(var i in FindObjectsOfType<PlayerController>())
         {
             //If there are any players outside with a hammer
-            if (i.currentLayer > LevelManager.instance.totalLayers && i.IsPlayerHoldingHammer())
+            if (i.currentLayer > LevelManager.instance.totalLayers && i.PlayerHasItem("Hammer"))
                 return true;
         }
 
