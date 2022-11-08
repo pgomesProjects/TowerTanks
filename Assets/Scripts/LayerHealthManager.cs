@@ -38,13 +38,13 @@ public class LayerHealthManager : MonoBehaviour
     {
         foreach(var i in contactPoints)
         {
-            if (i.collider.CompareTag("Layer"))
+            if (i.collider.CompareTag("Layer") && i.collider.gameObject.transform.position.y < transform.position.y)
                 return true;
 
             if (i.collider.CompareTag("TankBottom"))
                 return true;
 
-            if (i.collider.CompareTag("EnemyLayer"))
+            if (i.collider.CompareTag("EnemyLayer") && i.collider.gameObject.transform.position.y < transform.position.y)
                 return true;
         }
 

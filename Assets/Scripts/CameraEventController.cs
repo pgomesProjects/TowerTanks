@@ -9,6 +9,7 @@ public class CameraEventController : MonoBehaviour
 
     private CinemachineVirtualCamera _virtualCamera;
     [SerializeField] private CinemachineTargetGroup _tanksTargetGroup;
+    [SerializeField] private GameObject globalUI;
     private float shakeTimer, shakeTimerTotal, startingCamIntensity;
 
     private void Awake()
@@ -106,10 +107,14 @@ public class CameraEventController : MonoBehaviour
     {
         DisableTargetGroup();
 
+        globalUI.transform.Find("AlarmOverlay").gameObject.SetActive(true);
+
         StartCoroutine(SmoothZoomCameraEvent(GetCameraFOV(), endFOV, seconds));
         StartCoroutine(SmoothMoveCameraEvent(_tanksTargetGroup.transform.position, enemyPos, seconds));
 
         yield return new WaitForSeconds(seconds);
+
+        globalUI.transform.Find("AlarmOverlay").gameObject.SetActive(false);
 
         _tanksTargetGroup.AddMember(newEnemy.transform, 1, 0);
         EnableTargetGroup(_tanksTargetGroup);

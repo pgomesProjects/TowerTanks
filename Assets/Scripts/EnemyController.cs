@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ENEMYTYPE {NORMAL, DRILL}
+public enum ENEMYTYPE {NORMAL, DRILL, MORTAR}
+public enum ENEMYBEHAVIOR {AGGRESSIVE, CALCULATING}
 
 public class EnemyController : MonoBehaviour
 {
@@ -11,7 +12,13 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float speed = 1;
     [SerializeField] private float collisionForce = 50;
     [SerializeField] private float collisionForceSeconds = 0.1f;
+    private ENEMYBEHAVIOR enemyTrait;
+
+    private const float minCalcDist = 60;
+    private const float maxCalcDist = 85;
+
     private float speedRelativeToPlayer;
+    private float currentSpeed;
 
     private bool enemyColliding = false;
 
@@ -25,6 +32,28 @@ public class EnemyController : MonoBehaviour
         playerTank = GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>();
         totalEnemyLayers = 2;
         UpdateEnemySpeed();
+        DetermineBehavior();
+    }
+
+    private void DetermineBehavior()
+    {
+        switch (enemyType)
+        {
+            //Randomly choose between aggressive or calculating
+            case ENEMYTYPE.NORMAL:
+                //int randomBehavior = Random.Range(0, System.Enum.GetValues(typeof(ENEMYBEHAVIOR)).Length - 1);
+                int randomBehavior = 1;
+                enemyTrait = (ENEMYBEHAVIOR)randomBehavior;
+                break;
+            //Always aggressive
+            case ENEMYTYPE.DRILL:
+                enemyTrait = ENEMYBEHAVIOR.AGGRESSIVE;
+                break;
+            //Always calculating
+            case ENEMYTYPE.MORTAR:
+                enemyTrait = ENEMYBEHAVIOR.CALCULATING;
+                break;
+        }
     }
 
     private void OnEnable()
@@ -44,10 +73,38 @@ public class EnemyController : MonoBehaviour
     {
         if (!enemyColliding)
         {
-            float currentSpeed = -speedRelativeToPlayer;
+            currentSpeed = -speedRelativeToPlayer;
+
+            CheckBehaviorStates();
 
             //Move the enemy horizontally
             transform.position += new Vector3(currentSpeed, 0, 0) * Time.deltaTime;
+        }
+    }
+
+    private void CheckBehaviorStates()
+    {
+        switch (enemyTrait)
+        {
+            //Enemy aggressive behavior
+            case ENEMYBEHAVIOR.AGGRESSIVE:
+                break;
+
+            //Enemy calculating behavior
+            case ENEMYBEHAVIOR.CALCULATING:
+                float currentDistance = Vector2.Distance(transform.position, playerTank.transform.position);
+                Debug.Log("Distance From Player: " + currentDistance);
+                //If the tank is too close to the player, back up
+                if(currentDistance < minCalcDist)
+                {
+                    currentSpeed = -currentSpeed;
+                }
+                //If the tank is too far from the player, speed up
+                else if(currentDistance > maxCalcDist)
+                {
+                    currentSpeed *= 2f;
+                }
+                break;
         }
     }
 
