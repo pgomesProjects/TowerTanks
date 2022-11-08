@@ -19,6 +19,8 @@ public class EnemyController : MonoBehaviour
 
     private float speedRelativeToPlayer;
     private float currentSpeed;
+    private float currentRelativeSpeed;
+    private float directionMultiplier;
 
     private bool enemyColliding = false;
 
@@ -31,6 +33,8 @@ public class EnemyController : MonoBehaviour
     {
         playerTank = GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>();
         totalEnemyLayers = 2;
+        currentSpeed = speed;
+        directionMultiplier = 1;
         UpdateEnemySpeed();
         DetermineBehavior();
     }
@@ -64,7 +68,7 @@ public class EnemyController : MonoBehaviour
 
     public void UpdateEnemySpeed()
     {
-        speedRelativeToPlayer = (playerTank.GetPlayerSpeed() * LevelManager.instance.gameSpeed) + speed;
+        speedRelativeToPlayer = ((playerTank.GetPlayerSpeed() * LevelManager.instance.gameSpeed) + currentSpeed) * directionMultiplier;
         //Debug.Log("Enemy Speed: " + speedRelativeToPlayer);
     }
 
@@ -73,17 +77,19 @@ public class EnemyController : MonoBehaviour
     {
         if (!enemyColliding)
         {
-            currentSpeed = -speedRelativeToPlayer;
+            currentRelativeSpeed = -speedRelativeToPlayer;
 
             CheckBehaviorStates();
 
             //Move the enemy horizontally
-            transform.position += new Vector3(currentSpeed, 0, 0) * Time.deltaTime;
+            transform.position += new Vector3(currentRelativeSpeed, 0, 0) * Time.deltaTime;
         }
     }
 
     private void CheckBehaviorStates()
     {
+        directionMultiplier = 1;
+
         switch (enemyTrait)
         {
             //Enemy aggressive behavior
@@ -92,17 +98,19 @@ public class EnemyController : MonoBehaviour
 
             //Enemy calculating behavior
             case ENEMYBEHAVIOR.CALCULATING:
-                float currentDistance = Vector2.Distance(transform.position, playerTank.transform.position);
+                float currentDistance = transform.position.x - playerTank.transform.position.x;
                 Debug.Log("Distance From Player: " + currentDistance);
                 //If the tank is too close to the player, back up
                 if(currentDistance < minCalcDist)
                 {
-                    currentSpeed = -currentSpeed;
+                    directionMultiplier = -2;
+                    UpdateEnemySpeed();
                 }
                 //If the tank is too far from the player, speed up
                 else if(currentDistance > maxCalcDist)
                 {
-                    currentSpeed *= 2f;
+                    directionMultiplier = 2;
+                    UpdateEnemySpeed();
                 }
                 break;
         }
