@@ -25,8 +25,8 @@ public class LayerHealthManager : MonoBehaviour
             contactNames += i.collider.name + " | ";
         }
 
-        if(transform.GetComponentInParent<EnemyController>() != null)
-            Debug.Log(contactNames);
+/*        if(transform.GetComponentInParent<EnemyController>() != null)
+            Debug.Log(contactNames);*/
 
         if (!CollisionOnBottom(contactPoints))
         {

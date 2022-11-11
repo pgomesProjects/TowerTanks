@@ -74,8 +74,11 @@ MonoBehaviour:
   health: 100
   speed: 1
   collisionForce: 50
+  targetedDistance: 70
+  targetRange: 20
   collisionForceSeconds: 0.1
-  enemyTraits: 00000000
+  changeDirectionAccelerationSpeed: 0.75
+  maxAcceleration: 1.25
 --- !u!61 &794722079130261051
 BoxCollider2D:
   m_ObjectHideFlags: 0

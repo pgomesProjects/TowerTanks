@@ -7,15 +7,20 @@ public enum ENEMYBEHAVIOR {AGGRESSIVE, CALCULATING}
 
 public class EnemyController : MonoBehaviour
 {
+    private enum MOVEMENTDIRECTION { DECELERATE, NEUTRAL, ACCELERATE}
+
     [SerializeField] private ENEMYTYPE enemyType;
     [SerializeField] private float health = 100;
     [SerializeField] private float speed = 1;
     [SerializeField] private float collisionForce = 50;
+    [SerializeField] private float targetedDistance = 70;
+    [SerializeField] private float targetRange = 10;
     [SerializeField] private float collisionForceSeconds = 0.1f;
+    [SerializeField, Tooltip("The acceleration per second in which the tank changes direction.")] private float changeDirectionAccelerationSpeed = 0.1f;
+    [SerializeField] private float maxAcceleration = 1.25f;
     private ENEMYBEHAVIOR enemyTrait;
-
-    private const float minCalcDist = 60;
-    private const float maxCalcDist = 85;
+    private MOVEMENTDIRECTION currentDirection;
+    private MOVEMENTDIRECTION previousDirection;
 
     private float speedRelativeToPlayer;
     private float currentSpeed;
@@ -35,6 +40,8 @@ public class EnemyController : MonoBehaviour
         totalEnemyLayers = 2;
         currentSpeed = speed;
         directionMultiplier = 1;
+        previousDirection = MOVEMENTDIRECTION.NEUTRAL;
+        currentDirection = MOVEMENTDIRECTION.NEUTRAL;
         UpdateEnemySpeed();
         DetermineBehavior();
     }
@@ -69,7 +76,8 @@ public class EnemyController : MonoBehaviour
     public void UpdateEnemySpeed()
     {
         speedRelativeToPlayer = ((playerTank.GetPlayerSpeed() * LevelManager.instance.gameSpeed) + currentSpeed) * directionMultiplier;
-        //Debug.Log("Enemy Speed: " + speedRelativeToPlayer);
+
+        Debug.Log("Enemy Speed: " + speedRelativeToPlayer);
     }
 
     // Update is called once per frame
@@ -80,6 +88,7 @@ public class EnemyController : MonoBehaviour
             currentRelativeSpeed = -speedRelativeToPlayer;
 
             CheckBehaviorStates();
+            UpdateDirection();
 
             //Move the enemy horizontally
             transform.position += new Vector3(currentRelativeSpeed, 0, 0) * Time.deltaTime;
@@ -88,8 +97,6 @@ public class EnemyController : MonoBehaviour
 
     private void CheckBehaviorStates()
     {
-        directionMultiplier = 1;
-
         switch (enemyTrait)
         {
             //Enemy aggressive behavior
@@ -99,21 +106,80 @@ public class EnemyController : MonoBehaviour
             //Enemy calculating behavior
             case ENEMYBEHAVIOR.CALCULATING:
                 float currentDistance = transform.position.x - playerTank.transform.position.x;
-                Debug.Log("Distance From Player: " + currentDistance);
+               // Debug.Log("Distance From Player: " + currentDistance);
+
                 //If the tank is too close to the player, back up
-                if(currentDistance < minCalcDist)
+                if (currentDistance < targetedDistance - targetRange)
                 {
-                    directionMultiplier = -2;
-                    UpdateEnemySpeed();
+                    currentDirection = MOVEMENTDIRECTION.DECELERATE;
+                    previousDirection = MOVEMENTDIRECTION.DECELERATE;
                 }
                 //If the tank is too far from the player, speed up
-                else if(currentDistance > maxCalcDist)
+                else if (currentDistance > targetedDistance + targetRange)
                 {
-                    directionMultiplier = 2;
-                    UpdateEnemySpeed();
+                    currentDirection = MOVEMENTDIRECTION.ACCELERATE;
+                    previousDirection = MOVEMENTDIRECTION.ACCELERATE;
+                }
+                else
+                {
+                    currentDirection = MOVEMENTDIRECTION.NEUTRAL;
                 }
                 break;
         }
+
+        Debug.Log("Current Direction Multiplier: " + directionMultiplier);
+        Debug.Log("State: " + currentDirection);
+    }
+
+    private void UpdateDirection()
+    {
+        switch(currentDirection)
+        {
+            case MOVEMENTDIRECTION.DECELERATE:
+                directionMultiplier -= changeDirectionAccelerationSpeed * Time.deltaTime;
+
+                if (directionMultiplier < -maxAcceleration)
+                {
+                    directionMultiplier = -maxAcceleration;
+                }
+
+                if (directionMultiplier > maxAcceleration)
+                {
+                    directionMultiplier = maxAcceleration;
+                }
+                break;
+            case MOVEMENTDIRECTION.NEUTRAL:
+                if(previousDirection == MOVEMENTDIRECTION.ACCELERATE)
+                {
+                    if (Mathf.Abs(directionMultiplier - 1) < 0.05f)
+                        directionMultiplier = 1;
+                    else if(directionMultiplier != 1)
+                        directionMultiplier -= (changeDirectionAccelerationSpeed) * Time.deltaTime;
+                }
+                else if(previousDirection == MOVEMENTDIRECTION.DECELERATE)
+                {
+                    if (Mathf.Abs(directionMultiplier - (-1)) < 0.05f)
+                        directionMultiplier = -1;
+                    else if (directionMultiplier != -1)
+                        directionMultiplier += (changeDirectionAccelerationSpeed) * Time.deltaTime;
+                }
+                break;
+            case MOVEMENTDIRECTION.ACCELERATE:
+                directionMultiplier += changeDirectionAccelerationSpeed * Time.deltaTime;
+
+                if (directionMultiplier < -maxAcceleration)
+                {
+                    directionMultiplier = -maxAcceleration;
+                }
+
+                if (directionMultiplier > maxAcceleration)
+                {
+                    directionMultiplier = maxAcceleration;
+                }
+                break;
+        }
+
+        UpdateEnemySpeed();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
