@@ -140,11 +140,7 @@ public class CannonController : InteractableController
                 cannonRotation += new Vector3(0, 0, (cannonInteractable.GetCurrentPlayer().GetCannonMovement() / 100) * cannonSpeed);
 
                 //Make sure the cannon stays within the lower and upper bound
-                if (cannonRotation.z < lowerAngleBound)
-                    cannonRotation.z = lowerAngleBound;
-
-                if (cannonRotation.z > upperAngleBound)
-                    cannonRotation.z = upperAngleBound;
+                cannonRotation.z = Mathf.Clamp(cannonRotation.z, lowerAngleBound, upperAngleBound);
 
                 //Rotate cannon
                 cannonPivot.eulerAngles = cannonRotation;
@@ -155,5 +151,32 @@ public class CannonController : InteractableController
     public void SetCannonDirection(CANNONDIRECTION direction)
     {
         currentCannonDirection = direction;
+    }
+
+    public void CannonLookAt(Vector3 target)
+    {
+        // Get angle in Radians
+        float cannonAngleRad = Mathf.Atan2(target.y - cannonPivot.transform.position.y, target.x - cannonPivot.transform.position.x);
+        // Get angle in Degrees
+        float cannonAngleDeg = (180 / Mathf.PI) * cannonAngleRad;
+
+        switch (currentCannonDirection)
+        {
+            //Flip the cannon if facing left
+            case CANNONDIRECTION.LEFT:
+                cannonAngleDeg += 180;
+                break;
+        }
+
+        Debug.Log("Cannon Degree: " + cannonAngleDeg);
+
+        Quaternion lookAngle = Quaternion.Euler(0, 0, cannonAngleDeg);
+        Quaternion currentAngle = Quaternion.Slerp(cannonPivot.transform.rotation, lookAngle, Time.deltaTime);
+
+        //Clamp the angle of the cannon
+        currentAngle.z = Mathf.Clamp(currentAngle.z, lowerAngleBound, upperAngleBound);
+
+        // Rotate Object
+        cannonPivot.transform.rotation = currentAngle;
     }
 }

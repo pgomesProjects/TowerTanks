@@ -26,6 +26,10 @@ public class EnemySpawnManager : MonoBehaviour
 
         if(!FindObjectOfType<AudioManager>().IsPlaying("CombatOST"))
             FindObjectOfType<AudioManager>().Play("CombatOST", PlayerPrefs.GetFloat("BGMVolume", 0.5f));
+
+        LevelManager.instance.currentRound++;
+
+        Debug.Log("===ENEMY #" + LevelManager.instance.currentRound + " HAS SPAWNED!===");
     }
 
     public void GetReadyForEnemySpawn()

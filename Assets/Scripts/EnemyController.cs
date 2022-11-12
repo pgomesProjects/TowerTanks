@@ -18,6 +18,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float collisionForceSeconds = 0.1f;
     [SerializeField, Tooltip("The acceleration per second in which the tank changes direction.")] private float changeDirectionAccelerationSpeed = 0.1f;
     [SerializeField] private float maxAcceleration = 1.25f;
+    [SerializeField] private int onDestroyResources = 100;
     private ENEMYBEHAVIOR enemyTrait;
     private MOVEMENTDIRECTION currentDirection;
     private MOVEMENTDIRECTION previousDirection;
@@ -53,7 +54,7 @@ public class EnemyController : MonoBehaviour
             //Randomly choose between aggressive or calculating
             case ENEMYTYPE.NORMAL:
                 //int randomBehavior = Random.Range(0, System.Enum.GetValues(typeof(ENEMYBEHAVIOR)).Length - 1);
-                int randomBehavior = 1;
+                int randomBehavior = 0;
                 enemyTrait = (ENEMYBEHAVIOR)randomBehavior;
                 break;
             //Always aggressive
@@ -77,7 +78,7 @@ public class EnemyController : MonoBehaviour
     {
         speedRelativeToPlayer = ((playerTank.GetPlayerSpeed() * LevelManager.instance.gameSpeed) + currentSpeed) * directionMultiplier;
 
-        Debug.Log("Enemy Speed: " + speedRelativeToPlayer);
+        //Debug.Log("Enemy Speed: " + speedRelativeToPlayer);
     }
 
     // Update is called once per frame
@@ -89,6 +90,7 @@ public class EnemyController : MonoBehaviour
 
             CheckBehaviorStates();
             UpdateDirection();
+            UpdateCannons();
 
             //Move the enemy horizontally
             transform.position += new Vector3(currentRelativeSpeed, 0, 0) * Time.deltaTime;
@@ -101,6 +103,12 @@ public class EnemyController : MonoBehaviour
         {
             //Enemy aggressive behavior
             case ENEMYBEHAVIOR.AGGRESSIVE:
+                directionMultiplier += changeDirectionAccelerationSpeed * Time.deltaTime;
+
+                if (directionMultiplier > maxAcceleration)
+                {
+                    directionMultiplier = maxAcceleration;
+                }
                 break;
 
             //Enemy calculating behavior
@@ -127,8 +135,8 @@ public class EnemyController : MonoBehaviour
                 break;
         }
 
-        Debug.Log("Current Direction Multiplier: " + directionMultiplier);
-        Debug.Log("State: " + currentDirection);
+        //Debug.Log("Current Direction Multiplier: " + directionMultiplier);
+        //Debug.Log("State: " + currentDirection);
     }
 
     private void UpdateDirection()
@@ -182,13 +190,45 @@ public class EnemyController : MonoBehaviour
         UpdateEnemySpeed();
     }
 
+    private void UpdateCannons()
+    {
+        //Current target is the top layer
+        Vector3 currentTarget = playerTank.GetLayerAt(LevelManager.instance.totalLayers - 1).transform.position;
+
+        foreach(var i in GetComponentsInChildren<CannonController>())
+        {
+            i.CannonLookAt(currentTarget);
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("PlayerTank"))
         {
             Debug.Log("Enemy Is At Player!");
 
-            DetermineCollisionForce();
+            switch (enemyType)
+            {
+                case ENEMYTYPE.DRILL:
+                    enemyColliding = true;
+                    break;
+                default:
+                    DetermineCollisionForce();
+                    break;
+            }
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("PlayerTank"))
+        {
+            switch (enemyType)
+            {
+                case ENEMYTYPE.DRILL:
+                    enemyColliding = false;
+                    break;
+            }
         }
     }
 
@@ -289,9 +329,14 @@ public class EnemyController : MonoBehaviour
         //If there are no more layers, destroy the tank
         if (totalEnemyLayers == 0)
         {
-            LevelManager.instance.UpdateResources(100);
+            LevelManager.instance.UpdateResources(onDestroyResources);
             Destroy(gameObject);
         }
+    }
+
+    public bool IsEnemyCollidingWithPlayer()
+    {
+        return enemyColliding;
     }
 
     public int GetEnemyLayers()
