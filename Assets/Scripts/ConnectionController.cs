@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public static class ConnectionController
 {
     internal static bool[] connectedControllers = {false, false, false, false};
+
+    private static List<InputDevice> connectedDevices = new List<InputDevice>();
 
     public static int CheckForIndex()
     {
@@ -16,5 +19,30 @@ public static class ConnectionController
 
         //Return -1 if players are full
         return -1;
+    }
+
+    public static int NumberOfActivePlayers()
+    {
+        int activePlayers = 0;
+        foreach (var i in connectedControllers)
+        {
+            if (i)
+            {
+                activePlayers++;
+            }
+        }
+
+        return activePlayers;
+    }
+
+    public static bool PlayersFull()
+    {
+        foreach (var i in connectedControllers)
+        {
+            if (i == false)
+                return false;
+        }
+
+        return true;
     }
 }

@@ -11,7 +11,12 @@ public class CornerUIController : MonoBehaviour
     {
     }
 
-    public void OnPlayerJoined(int playerIndex)
+    public void OnDeviceLost(int playerIndex)
+    {
+        cornerUIObjects[playerIndex].gameObject.SetActive(true);
+    }
+
+    public void OnDeviceRegained(int playerIndex)
     {
         cornerUIObjects[playerIndex].gameObject.SetActive(false);
     }

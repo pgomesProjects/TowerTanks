@@ -560,10 +560,12 @@ public class PlayerController : MonoBehaviour
     public void OnDeviceLost(PlayerInput playerInput)
     {
         Debug.Log("Player " + (playerIndex + 1) + " Controller Disconnected!");
+        FindObjectOfType<CornerUIController>().OnDeviceLost(playerIndex);
     }
 
     public void OnDeviceRegained(PlayerInput playerInput)
     {
         Debug.Log("Player " + (playerIndex + 1) + " Controller Reconnected!");
+        FindObjectOfType<CornerUIController>().OnDeviceRegained(playerIndex);
     }
 }
