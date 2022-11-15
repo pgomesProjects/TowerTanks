@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private float distance = 3f;
     [SerializeField] private LayerMask ladderMask;
+    [SerializeField] private float timeToUseWrench = 3;
 
     private bool canMove;
     private bool canClimb;
@@ -228,6 +229,12 @@ public class PlayerController : MonoBehaviour
                     }
                 }
             }
+
+            //If nothing else applies, the player has no item. Use the wrench, if possible
+            else
+            {
+                CheckForWrenchUse();
+            }
         }
 
         if (ctx.canceled)
@@ -273,11 +280,35 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void CheckForWrenchUse()
+    {
+        LayerHealthManager layerHealth = playerTank.GetLayerAt(currentLayer - 1);
+
+        //If the layer the player is damaged
+        if (layerHealth.GetLayerHealth() < layerHealth.GetMaxHealth())
+        {
+            if (timeToUseWrench > 0)
+            {
+                //Play sound effect
+                FindObjectOfType<AudioManager>().PlayOneShot("UseWrench", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+
+                StartProgressBar(timeToUseWrench, UseWrench);
+            }
+        }
+    }
+
     private void UseFireRemover()
     {
         FireBehavior fire = playerTank.GetLayerAt(currentLayer - 1).GetComponentInChildren<FireBehavior>();
         //Get rid of the fire
         fire.gameObject.SetActive(false);
+    }
+
+    private void UseWrench()
+    {
+        //Restore the layer the player is on to max health
+        LayerHealthManager layerHealth = playerTank.GetLayerAt(currentLayer - 1);
+        layerHealth.RepairLayer();
     }
 
     public void OnPrevInteractable(InputAction.CallbackContext ctx)

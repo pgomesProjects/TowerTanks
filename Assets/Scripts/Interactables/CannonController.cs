@@ -13,9 +13,12 @@ public class CannonController : InteractableController
     [SerializeField] private GameObject spawnPoint;
     [SerializeField] private float cannonForce = 2000;
     [SerializeField] private CANNONDIRECTION currentCannonDirection;
+    private Vector3 initialVelocity;
     private InteractableController cannonInteractable;
     [SerializeField] private Transform cannonPivot;
     private Vector3 cannonRotation;
+    private LineRenderer lineRenderer;
+    private const int N_TRAJECTORY_POINTS = 10;
 
     private int currentAmmo;
 
@@ -23,6 +26,8 @@ public class CannonController : InteractableController
     void Start()
     {
         cannonInteractable = GetComponentInParent<InteractableController>();
+        lineRenderer = GetComponentInChildren<LineRenderer>();
+        lineRenderer.positionCount = N_TRAJECTORY_POINTS;
         currentAmmo = 0;
     }
 
@@ -108,7 +113,7 @@ public class CannonController : InteractableController
         }
 
         //Add a damage component to the projectile
-        currentProjectile.AddComponent<DamageObject>().damage = 25;
+        currentProjectile.AddComponent<DamageObject>().damage = currentProjectile.GetComponent<ShellItemBehavior>().GetDamage();
         DamageObject currentDamager = currentProjectile.GetComponent<DamageObject>();
         currentDamager.StartRotation(startingShellRot);
 
@@ -144,7 +149,36 @@ public class CannonController : InteractableController
 
                 //Rotate cannon
                 cannonPivot.eulerAngles = cannonRotation;
+
+                //lineRenderer.enabled = true;
+                UpdateLineRenderer();
             }
+            else
+            {
+                lineRenderer.enabled = false;
+            }
+        }
+
+        initialVelocity = new Vector3(0, 0, cannonForce) - spawnPoint.transform.position;
+    }
+
+    private void UpdateLineRenderer()
+    {
+        float g = Physics2D.gravity.magnitude;
+        float velocity = initialVelocity.magnitude;
+        float angle = Mathf.Atan2(initialVelocity.y, initialVelocity.x);
+
+        Vector3 start = spawnPoint.transform.position;
+
+        float timeStep = 0.1f;
+        float fTime = 0f;
+        for (int i = 0; i < N_TRAJECTORY_POINTS; i++)
+        {
+            float dx = velocity * fTime * Mathf.Cos(angle);
+            float dy = velocity * fTime * Mathf.Sin(angle) - (g * fTime * fTime / 2f);
+            Vector3 pos = new Vector3(start.x + dx, start.y + dy, 0);
+            lineRenderer.SetPosition(i, pos);
+            fTime += timeStep;
         }
     }
 

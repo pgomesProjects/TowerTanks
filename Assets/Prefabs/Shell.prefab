@@ -116,3 +116,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chanceToExplode: 80
   chanceToCatchFire: 100
+  explosionParticles: {fileID: 1317647647605995885, guid: 1724ad1c3bf5ab449a23c7f2d1d9e0bb, type: 3}

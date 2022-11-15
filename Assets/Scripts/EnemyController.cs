@@ -95,6 +95,12 @@ public class EnemyController : MonoBehaviour
             //Move the enemy horizontally
             transform.position += new Vector3(currentRelativeSpeed, 0, 0) * Time.deltaTime;
         }
+        else
+        {
+            //If the enemy is moving backwards, they are not colliding with the player tank
+            if (speedRelativeToPlayer < 0)
+                enemyColliding = false;
+        }
     }
 
     private void CheckBehaviorStates()

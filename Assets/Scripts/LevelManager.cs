@@ -25,7 +25,6 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private GameObject layerPrefab;
     [SerializeField] private GameObject ghostLayerPrefab;
     [SerializeField] private GameObject tutorialPopup;
-    [SerializeField] private ParticleSystem explosionParticles;
     [SerializeField] private TextMeshProUGUI resourcesDisplay;
 
     public static LevelManager instance;
@@ -54,7 +53,7 @@ public class LevelManager : MonoBehaviour
         isSteering = false;
         speedIndex = (int)TANKSPEED.FORWARD;
         gameSpeed = currentSpeed[speedIndex];
-        resourcesDisplay.text = "Resources: " + resourcesNum;
+        resourcesDisplay.text = resourcesNum.ToString();
         itemPrice = new Dictionary<string, int>();
         PopulateItemDictionary();
     }
@@ -147,12 +146,12 @@ public class LevelManager : MonoBehaviour
         float elapsedTime = 0;
         while (elapsedTime < seconds)
         {
-            resourcesDisplay.text = "Resources: " + Mathf.RoundToInt(Mathf.Lerp(startingVal, endingVal, elapsedTime / seconds)).ToString();
+            resourcesDisplay.text = Mathf.RoundToInt(Mathf.Lerp(startingVal, endingVal, elapsedTime / seconds)).ToString();
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
-        resourcesDisplay.text = "Resources: " + endingVal.ToString();
+        resourcesDisplay.text = endingVal.ToString();
     }
 
     public void AddCoalToTank(CoalController coalController, float amount)
@@ -350,17 +349,32 @@ public class LevelManager : MonoBehaviour
             }
         }
 
+        //Adjust the top view of the tank
         playerTank.transform.Find("TankFollowTop").transform.localPosition = new Vector2(-13, (totalLayers * 8) + 4);
+
+        //Adjust the ghost layer if active
+        if (currentGhostLayer != null)
+        {
+            currentGhostLayer.transform.localPosition = new Vector2(0, totalLayers * 8);
+        }
+
+        //Adjust the players's layer numbers
+        foreach (var player in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            //If the player is on or above the destroyed layer
+            if(player.GetComponent<PlayerController>().currentLayer >= destroyedLayer)
+            {
+                //If the player is not on the outside of the tank
+                if(player.GetComponent<PlayerController>().currentLayer != totalLayers)
+                {
+                    //Decrement the layer number
+                    player.GetComponent<PlayerController>().currentLayer--;
+                }
+            }
+        }
 
         //Adjust the weight of the tank
         playerTank.GetComponent<PlayerTankController>().AdjustTankWeight(totalLayers);
-    }
-
-    public void SpawnExplosion(Vector3 pos)
-    {
-        //Spawn explosion particles and add sound effect
-        Instantiate(explosionParticles, pos, Quaternion.identity);
-        FindObjectOfType<AudioManager>().PlayOneShot("ExplosionSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
     }
 
     public void TransitionGameState()

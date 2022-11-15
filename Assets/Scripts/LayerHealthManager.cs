@@ -7,12 +7,14 @@ public class LayerHealthManager : MonoBehaviour
     [SerializeField] private int health = 100;
     [SerializeField] private int destroyResourcesValue = 80;
     private float gravity = 9.81f;
+    private int maxHealth;
 
     private Rigidbody2D rb;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        maxHealth = health;
     }
 
     private void FixedUpdate()
@@ -64,6 +66,20 @@ public class LayerHealthManager : MonoBehaviour
         CheckForDestroy();
     }
 
+    public int GetLayerHealth()
+    {
+        return health;
+    }
+
+    public int GetMaxHealth()
+    {
+        return maxHealth;
+    }
+
+    public void RepairLayer()
+    {
+        health = maxHealth;
+    }
 
     public void CheckForFireSpawn(float chanceToCatchFire)
     {

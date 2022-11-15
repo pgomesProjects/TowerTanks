@@ -10,10 +10,13 @@ public class DamageObject : MonoBehaviour
     private Rigidbody2D rb;
     private float prevZRot;
     private float currentZRot;
+    private float lifeTimeSeconds = 10;
+    private float currentTimer;
 
     private void OnEnable()
     {
         rb = GetComponent<Rigidbody2D>();
+        currentTimer = 0;
     }
 
     public void StartRotation(float startingRot)
@@ -33,8 +36,6 @@ public class DamageObject : MonoBehaviour
             {
                 collision.collider.GetComponentInParent<LayerHealthManager>().CheckForFireSpawn(shell.GetChanceToCatchFire());
             }
-
-            LevelManager.instance.SpawnExplosion(transform.position);
             Destroy(gameObject);
         }
     }
@@ -45,7 +46,6 @@ public class DamageObject : MonoBehaviour
         //If the item is passed the world's bounds, delete it
         if(transform.position.y < -10)
         {
-            LevelManager.instance.SpawnExplosion(transform.position);
             Destroy(gameObject);
         }
 
@@ -59,5 +59,12 @@ public class DamageObject : MonoBehaviour
         transform.rotation *= Quaternion.Euler(0, 0, newRot);
 
         prevZRot = currentZRot;
+
+        currentTimer += Time.deltaTime;
+
+        if(currentTimer > lifeTimeSeconds)
+        {
+            Destroy(gameObject);
+        }
     }
 }
