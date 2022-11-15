@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
 
     private Vector2 movement;
     internal float steeringValue;
-    private float speed = 8f;
+    [SerializeField] private float speed = 8f;
     private Rigidbody2D rb;
     private PlayerTankController playerTank;
 
@@ -233,7 +233,7 @@ public class PlayerController : MonoBehaviour
             //If nothing else applies, the player has no item. Use the wrench, if possible
             else
             {
-                CheckForWrenchUse();
+                //CheckForWrenchUse();
             }
         }
 
