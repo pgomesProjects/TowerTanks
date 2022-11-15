@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class ParallaxController : MonoBehaviour
 {
-    private float parallaxSpeed;
+    [SerializeField] private float parallaxSpeed = 1;
+    private float relativeParallaxSpeed;
     private float currentParallaxSpeed;
 
     private Vector2 backgroundSize;
@@ -22,8 +23,8 @@ public class ParallaxController : MonoBehaviour
 
         //Get the speed of the player tank
         playerTankController = GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>();
-        parallaxSpeed = -(playerTankController.GetPlayerSpeed());
-        currentParallaxSpeed = parallaxSpeed;
+        relativeParallaxSpeed = -(playerTankController.GetPlayerSpeed()) * parallaxSpeed;
+        currentParallaxSpeed = relativeParallaxSpeed;
     }
 
     // Update is called once per frame
@@ -32,10 +33,10 @@ public class ParallaxController : MonoBehaviour
         //Get the speed of the player tank
         if(GameObject.FindGameObjectWithTag("PlayerTank") != null)
         {
-            parallaxSpeed = -(playerTankController.GetPlayerSpeed());
+            relativeParallaxSpeed = -(playerTankController.GetPlayerSpeed()) * parallaxSpeed;
         }
 
-        currentParallaxSpeed = parallaxSpeed * LevelManager.instance.gameSpeed;
+        currentParallaxSpeed = relativeParallaxSpeed * LevelManager.instance.gameSpeed;
 
         //Moving backwards
         if (currentParallaxSpeed > 0)
