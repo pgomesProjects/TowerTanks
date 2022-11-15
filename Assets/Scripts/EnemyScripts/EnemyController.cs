@@ -2,24 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ENEMYTYPE {NORMAL, DRILL, MORTAR}
 public enum ENEMYBEHAVIOR {AGGRESSIVE, CALCULATING}
 
 public class EnemyController : MonoBehaviour
 {
     private enum MOVEMENTDIRECTION { DECELERATE, NEUTRAL, ACCELERATE}
 
-    [SerializeField] private ENEMYTYPE enemyType;
-    [SerializeField] private float health = 100;
-    [SerializeField] private float speed = 1;
-    [SerializeField] private float collisionForce = 50;
-    [SerializeField] private float targetedDistance = 70;
-    [SerializeField] private float targetRange = 10;
-    [SerializeField] private float collisionForceSeconds = 0.1f;
-    [SerializeField, Tooltip("The acceleration per second in which the tank changes direction.")] private float changeDirectionAccelerationSpeed = 0.1f;
-    [SerializeField] private float maxAcceleration = 1.25f;
-    [SerializeField] private int onDestroyResources = 100;
-    private ENEMYBEHAVIOR enemyTrait;
+    [SerializeField] protected float health = 100;
+    [SerializeField] protected float speed = 1;
+    [SerializeField] protected float collisionForce = 50;
+    [SerializeField] protected float targetedDistance = 70;
+    [SerializeField] protected float targetRange = 10;
+    [SerializeField] protected float collisionForceSeconds = 0.1f;
+    [SerializeField, Tooltip("The acceleration per second in which the tank changes direction.")] protected float changeDirectionAccelerationSpeed = 0.1f;
+    [SerializeField] protected float maxAcceleration = 1.25f;
+    [SerializeField, Tooltip("The amount of waves for the enemy to increase the amount of layers")] protected int wavesMultiplier = 1;
+    [SerializeField] protected int onDestroyResources = 100;
+    protected ENEMYBEHAVIOR enemyTrait;
     private MOVEMENTDIRECTION currentDirection;
     private MOVEMENTDIRECTION previousDirection;
 
@@ -28,47 +27,38 @@ public class EnemyController : MonoBehaviour
     private float currentRelativeSpeed;
     private float directionMultiplier;
 
-    private bool enemyColliding = false;
+    protected bool enemyColliding = false;
 
-    private PlayerTankController playerTank;
+    protected PlayerTankController playerTank;
 
-    private int totalEnemyLayers;
+    protected int totalEnemyLayers;
 
     // Start is called before the first frame update
-    void Start()
+    protected void Start()
     {
         playerTank = GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>();
-        totalEnemyLayers = 2;
         currentSpeed = speed;
         directionMultiplier = 1;
         previousDirection = MOVEMENTDIRECTION.NEUTRAL;
         currentDirection = MOVEMENTDIRECTION.NEUTRAL;
+        CreateLayers();
         UpdateEnemySpeed();
         DetermineBehavior();
     }
 
-    private void DetermineBehavior()
+    protected virtual void CreateLayers()
     {
-        switch (enemyType)
-        {
-            //Randomly choose between aggressive or calculating
-            case ENEMYTYPE.NORMAL:
-                //int randomBehavior = Random.Range(0, System.Enum.GetValues(typeof(ENEMYBEHAVIOR)).Length - 1);
-                int randomBehavior = 0;
-                enemyTrait = (ENEMYBEHAVIOR)randomBehavior;
-                break;
-            //Always aggressive
-            case ENEMYTYPE.DRILL:
-                enemyTrait = ENEMYBEHAVIOR.AGGRESSIVE;
-                break;
-            //Always calculating
-            case ENEMYTYPE.MORTAR:
-                enemyTrait = ENEMYBEHAVIOR.CALCULATING;
-                break;
-        }
+        totalEnemyLayers = 2;
     }
 
-    private void OnEnable()
+    protected virtual void DetermineBehavior()
+    {
+        //int randomBehavior = Random.Range(0, System.Enum.GetValues(typeof(ENEMYBEHAVIOR)).Length - 1);
+        int randomBehavior = 0;
+        enemyTrait = (ENEMYBEHAVIOR)randomBehavior;
+    }
+
+    protected virtual void OnEnable()
     {
         //Deal Damage To Player
         StartCoroutine(DealDamage());
@@ -82,7 +72,7 @@ public class EnemyController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    protected void FixedUpdate()
     {
         if (!enemyColliding)
         {
@@ -207,34 +197,21 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("PlayerTank"))
         {
             Debug.Log("Enemy Is At Player!");
-
-            switch (enemyType)
-            {
-                case ENEMYTYPE.DRILL:
-                    enemyColliding = true;
-                    break;
-                default:
-                    DetermineCollisionForce();
-                    break;
-            }
+            enemyColliding = true;
+            DetermineCollisionForce();
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    protected virtual void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("PlayerTank"))
         {
-            switch (enemyType)
-            {
-                case ENEMYTYPE.DRILL:
-                    enemyColliding = false;
-                    break;
-            }
+            enemyColliding = false;
         }
     }
 
@@ -318,8 +295,8 @@ public class EnemyController : MonoBehaviour
                 GetComponentInChildren<CannonController>().Fire();
             }
 
-            //Shoot at the player every 15 to 25 seconds
-            int timeWait = Random.Range(15, 25);
+            //Shoot at the player every 7 to 12 seconds
+            int timeWait = Random.Range(7, 12);
 
             yield return new WaitForSeconds(timeWait);
         }

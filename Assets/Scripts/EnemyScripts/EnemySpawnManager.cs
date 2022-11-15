@@ -6,14 +6,20 @@ using Cinemachine;
 public class EnemySpawnManager : MonoBehaviour
 {
     [SerializeField] private GameObject[] enemyPrefabs;
+    private List<int> enemyTypeCounters;
+
+    private void Start()
+    {
+        enemyTypeCounters = new List<int>();
+    }
 
     private IEnumerator enemyEncounterAni;
-
     private void SpawnRandomEnemy()
     {
         //Pick a random enemy from the list of enemies and spawn it
         int enemyIndex = Random.Range(0, enemyPrefabs.Length);
         GameObject newEnemy = Instantiate(enemyPrefabs[enemyIndex], transform.position, transform.rotation);
+
 
         Vector3 cameraZoomPos = GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().transform.position;
 
@@ -40,7 +46,7 @@ public class EnemySpawnManager : MonoBehaviour
                 FindObjectOfType<AudioManager>().Stop("CombatOST");
         }
 
-        int randomTime = Random.Range(10, 15);
+        int randomTime = Random.Range(8, 13);
 
         Invoke("SpawnRandomEnemy", randomTime);
     }

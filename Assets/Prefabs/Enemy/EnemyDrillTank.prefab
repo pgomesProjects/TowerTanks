@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7820399864603157554}
   - component: {fileID: -4190667503839800369}
-  - component: {fileID: 7425274191114389260}
+  - component: {fileID: 5022411017331031529}
   - component: {fileID: 794722079130261051}
   m_Layer: 6
   m_Name: EnemyDrillTank
@@ -58,7 +58,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &7425274191114389260
+--- !u!114 &5022411017331031529
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -67,10 +67,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 7820399864603157553}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3b80b42db552114588b24ddf16fa0f3, type: 3}
+  m_Script: {fileID: 11500000, guid: e190eee1e790c44448f2237e1e6608fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyType: 1
   health: 100
   speed: 1.5
   collisionForce: 50
@@ -228,6 +227,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyDrillLayer
       objectReference: {fileID: 0}
+    - target: {fileID: 8650106930241385648, guid: c3ca7baaf8c4b8a43b6b5273416bc6f4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8650106930241385649, guid: c3ca7baaf8c4b8a43b6b5273416bc6f4, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -289,6 +292,10 @@ PrefabInstance:
     - target: {fileID: 6482326139534572548, guid: b860770024ecbb6419772b6308f06ea7, type: 3}
       propertyPath: m_Name
       value: EnemyLayer
+      objectReference: {fileID: 0}
+    - target: {fileID: 6482326139534572548, guid: b860770024ecbb6419772b6308f06ea7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6482326139534572549, guid: b860770024ecbb6419772b6308f06ea7, type: 3}
       propertyPath: m_RootOrder

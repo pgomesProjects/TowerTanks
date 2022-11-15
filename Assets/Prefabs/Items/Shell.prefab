@@ -114,6 +114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d71b1c4118d12749b4ae26c989b7fe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 40
   chanceToExplode: 80
-  chanceToCatchFire: 100
+  chanceToCatchFire: 30
   explosionParticles: {fileID: 1317647647605995885, guid: 1724ad1c3bf5ab449a23c7f2d1d9e0bb, type: 3}

@@ -4,15 +4,22 @@ using UnityEngine;
 
 public class DrillEnemyController : EnemyController
 {
-    // Start is called before the first frame update
-    void Start()
+    protected override void CreateLayers()
     {
-        
+        totalEnemyLayers = 2;
     }
 
-    // Update is called once per frame
-    void Update()
+    protected override void DetermineBehavior()
     {
-        
+        enemyTrait = ENEMYBEHAVIOR.AGGRESSIVE;
+    }
+
+    protected override void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("PlayerTank"))
+        {
+            Debug.Log("Enemy Is At Player!");
+            enemyColliding = true;
+        }
     }
 }

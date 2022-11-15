@@ -17,7 +17,7 @@ public class CannonController : InteractableController
     private InteractableController cannonInteractable;
     [SerializeField] private Transform cannonPivot;
     private Vector3 cannonRotation;
-    private LineRenderer lineRenderer;
+    //private LineRenderer lineRenderer;
     private const int N_TRAJECTORY_POINTS = 10;
 
     private int currentAmmo;
@@ -26,8 +26,8 @@ public class CannonController : InteractableController
     void Start()
     {
         cannonInteractable = GetComponentInParent<InteractableController>();
-        lineRenderer = GetComponentInChildren<LineRenderer>();
-        lineRenderer.positionCount = N_TRAJECTORY_POINTS;
+/*        lineRenderer = GetComponentInChildren<LineRenderer>();
+        lineRenderer.positionCount = N_TRAJECTORY_POINTS;*/
         currentAmmo = 0;
     }
 
@@ -155,7 +155,7 @@ public class CannonController : InteractableController
             }
             else
             {
-                lineRenderer.enabled = false;
+                //lineRenderer.enabled = false;
             }
         }
 
@@ -177,7 +177,7 @@ public class CannonController : InteractableController
             float dx = velocity * fTime * Mathf.Cos(angle);
             float dy = velocity * fTime * Mathf.Sin(angle) - (g * fTime * fTime / 2f);
             Vector3 pos = new Vector3(start.x + dx, start.y + dy, 0);
-            lineRenderer.SetPosition(i, pos);
+            //lineRenderer.SetPosition(i, pos);
             fTime += timeStep;
         }
     }
