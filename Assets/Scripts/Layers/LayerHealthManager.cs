@@ -62,6 +62,13 @@ public class LayerHealthManager : MonoBehaviour
             Debug.Log("Layer " + (GetComponentInChildren<LayerManager>().GetNextLayerIndex() - 1) + " Health: " + health);
         }
         
+        //Check to see if the layer's diegetics need to be updated
+        if(GetComponentInChildren<DamageDiegeticController>() != null)
+        {
+            float damagePercent = (float)health / maxHealth;
+            GetComponentInChildren<DamageDiegeticController>().UpdateDiegetic(damagePercent);
+        }
+
         //Check to see if the layer will be destryoed
         CheckForDestroy();
     }

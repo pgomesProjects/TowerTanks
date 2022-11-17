@@ -202,7 +202,7 @@ public class CannonController : InteractableController
                 break;
         }
 
-        Debug.Log("Cannon Degree: " + cannonAngleDeg);
+        //Debug.Log("Cannon Degree: " + cannonAngleDeg);
 
         Quaternion lookAngle = Quaternion.Euler(0, 0, cannonAngleDeg);
         Quaternion currentAngle = Quaternion.Slerp(cannonPivot.transform.rotation, lookAngle, Time.deltaTime);
