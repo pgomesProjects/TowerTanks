@@ -24,11 +24,14 @@ public class InteractableController : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            canInteract = true;
-            currentPlayerColliding = collision.GetComponent<PlayerController>();
-            currentPlayerColliding.DisplayInteractionPrompt("<sprite=30>");
-            //Tell the player that this is the item that they can interact with
-            collision.GetComponent<PlayerController>().currentInteractableItem = this;
+            if(currentPlayerLockedIn == null)
+            {
+                canInteract = true;
+                currentPlayerColliding = collision.GetComponent<PlayerController>();
+                currentPlayerColliding.DisplayInteractionPrompt("<sprite=30>");
+                //Tell the player that this is the item that they can interact with
+                collision.GetComponent<PlayerController>().currentInteractableItem = this;
+            }
         }
     }
 
@@ -36,12 +39,14 @@ public class InteractableController : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            currentPlayerColliding.HideInteractionPrompt();
-            canInteract = false;
-            currentPlayerColliding = null;
-            //Player can no longer interact with this item
-            collision.GetComponent<PlayerController>().currentInteractableItem = null;
-            LockPlayer(false);
+            if(currentPlayerLockedIn == null)
+            {
+                currentPlayerColliding.HideInteractionPrompt();
+                canInteract = false;
+                currentPlayerColliding = null;
+                //Player can no longer interact with this item
+                collision.GetComponent<PlayerController>().currentInteractableItem = null;;
+            }
         }
     }
 
@@ -50,6 +55,9 @@ public class InteractableController : MonoBehaviour
         //If the object is interacted with and no one else is locked in, grab the function from the inspector that will decide what to do
         if (canInteract && (currentPlayerLockedIn == null || playerInteracting == currentPlayerLockedIn))
         {
+            Debug.Log("Current Player Interacting: " + playerInteracting.name);
+            SetCurrentActivePlayer(playerInteracting);
+
             if (lockPlayerIntoInteraction)
             {
                 Debug.Log("Interaction Active: " + interactionActive);

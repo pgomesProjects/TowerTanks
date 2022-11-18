@@ -181,8 +181,6 @@ public class PlayerController : MonoBehaviour
             //If there is something to interact with
             if (currentInteractableItem != null)
             {
-                currentInteractableItem.SetCurrentActivePlayer(this);
-
                 //Call the interaction event
                 currentInteractableItem.OnInteraction(this);
             }
