@@ -168,7 +168,7 @@ RectTransform:
   m_Children:
   - {fileID: 5766431491592110375}
   m_Father: {fileID: 1362854724604262611}
-  m_RootOrder: 15
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -257,7 +257,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5905534867364113750, guid: ebaf71e98151f254aa3c0146e0054874, type: 3}
       propertyPath: m_RootOrder
-      value: 14
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 5955183962243835243, guid: ebaf71e98151f254aa3c0146e0054874, type: 3}
       propertyPath: m_Color.a
@@ -349,7 +349,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5955183963660477462, guid: ebaf71e98151f254aa3c0146e0054874, type: 3}
       propertyPath: m_RootOrder
-      value: 12
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 5955183963660477463, guid: ebaf71e98151f254aa3c0146e0054874, type: 3}
       propertyPath: m_TagString
@@ -389,11 +389,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7564060175518487889, guid: ebaf71e98151f254aa3c0146e0054874, type: 3}
       propertyPath: m_RootOrder
-      value: 13
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 7650887516858399751, guid: ebaf71e98151f254aa3c0146e0054874, type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8120947292720845586, guid: ebaf71e98151f254aa3c0146e0054874, type: 3}
       propertyPath: m_TagString
@@ -415,6 +415,10 @@ PrefabInstance:
     - {fileID: 5955183964094969558, guid: ebaf71e98151f254aa3c0146e0054874, type: 3}
     - {fileID: 5955183963594172303, guid: ebaf71e98151f254aa3c0146e0054874, type: 3}
     - {fileID: 5955183963660477457, guid: ebaf71e98151f254aa3c0146e0054874, type: 3}
+    - {fileID: 5046422317404355725, guid: ebaf71e98151f254aa3c0146e0054874, type: 3}
+    - {fileID: 8007591921711639990, guid: ebaf71e98151f254aa3c0146e0054874, type: 3}
+    - {fileID: 1287353749152088018, guid: ebaf71e98151f254aa3c0146e0054874, type: 3}
+    - {fileID: 4913277144449656399, guid: ebaf71e98151f254aa3c0146e0054874, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ebaf71e98151f254aa3c0146e0054874, type: 3}
 --- !u!4 &1362854724604262611 stripped
 Transform:
