@@ -346,6 +346,7 @@ public class LevelManager : MonoBehaviour
             if (nextLayerIndex > destroyedLayer + 1)
             {
                 i.GetComponentInChildren<LayerManager>().SetLayerIndex(nextLayerIndex - 1);
+                i.UnlockAllInteractables();
             }
         }
 

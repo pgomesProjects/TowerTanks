@@ -226,6 +226,17 @@ public class PlayerController : MonoBehaviour
                         currentInteractableItem.GetComponent<CannonController>().CheckForCannonFire();
                     }
                 }
+
+                //If the interactable is an engine
+                if (currentInteractableItem.GetComponent<CoalController>() != null)
+                {
+                    //If the player is interacting with the engine
+                    if (currentInteractableItem.IsInteractionActive())
+                    {
+                        //Progress the engine fill animation
+                        currentInteractableItem.GetComponent<CoalController>().ProgressCoalFill();
+                    }
+                }
             }
 
             //If nothing else applies, the player has no item. Use the wrench, if possible
@@ -353,11 +364,14 @@ public class PlayerController : MonoBehaviour
 
     public void StartProgressBar(float secondsTillCompletion, Action actionOnComplete)
     {
-        progressBarCanvas.SetActive(true);
-        progressBarSlider.value = 0;
-        taskInProgress = true;
-        currentLoadAction = ProgressBarLoad(secondsTillCompletion, actionOnComplete);
-        StartCoroutine(currentLoadAction);
+        if (!taskInProgress)
+        {
+            taskInProgress = true;
+            progressBarCanvas.SetActive(true);
+            progressBarSlider.value = 0;
+            currentLoadAction = ProgressBarLoad(secondsTillCompletion, actionOnComplete);
+            StartCoroutine(currentLoadAction);
+        }
     }
 
     IEnumerator ProgressBarLoad(float secondsTillCompletion, Action actionOnComplete)
@@ -390,6 +404,21 @@ public class PlayerController : MonoBehaviour
         progressBarCanvas.SetActive(false);
         progressBarSlider.value = 0;
     }
+
+    public void ShowProgressBar()
+    {
+        progressBarCanvas.SetActive(true);
+        progressBarSlider.value = 0;
+    }
+
+    public bool IsProgressBarActive() => progressBarCanvas.activeInHierarchy;
+
+    public void AddToProgressBar(float value)
+    {
+        progressBarSlider.value += value;
+    }
+
+    public bool IsProgressBarFull() => progressBarSlider.value >= 100;
 
     public void OnPause(InputAction.CallbackContext ctx)
     {

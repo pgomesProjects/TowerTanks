@@ -1906,7 +1906,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefabs:
-  - {fileID: 7820399864603157553, guid: fac2f88a97e9b2f4496ffe1ce458d3e1, type: 3}
   - {fileID: 7820399864603157553, guid: d63306c37658e0a4cbbe296e6cf32dde, type: 3}
 --- !u!1001 &964442149
 PrefabInstance:

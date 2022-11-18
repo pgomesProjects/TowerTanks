@@ -7,6 +7,7 @@ public class CoalController : InteractableController
 {
     [SerializeField] [Tooltip("The amount of seconds it takes for the coal to fully deplete")] private float depletionSeconds;
     [SerializeField] private Slider coalPercentageIndicator;
+    [SerializeField] private int framesForCoalFill = 5;
     private float depletionRate;
     private float coalPercentage;
     private bool hasCoal;
@@ -40,14 +41,29 @@ public class CoalController : InteractableController
         //If there is a player
         if (currentPlayer != null)
         {
-            float timeToFillCoal = 5;
+            if (currentPlayer.IsProgressBarActive())
+            {
+                currentPlayer.HideProgressBar();
+            }
+            else
+            {
+                currentPlayer.ShowProgressBar();
+            }
+        }
+    }
 
-            //If there is no coal in the furnace, make the task of refilling it twice as long
-            if (!HasCoal())
-                timeToFillCoal *= 2;
+    public void ProgressCoalFill()
+    {
+        //If there is a player
+        if (currentPlayer != null)
+        {
+            currentPlayer.AddToProgressBar(100 / framesForCoalFill);
 
-            //Start a progress bar on the player
-            currentPlayer.StartProgressBar(timeToFillCoal, () => FillCoal(50));
+            if (currentPlayer.IsProgressBarFull())
+            {
+                FillCoal(15);
+                currentPlayer.ShowProgressBar();
+            }
         }
     }
 
@@ -66,7 +82,7 @@ public class CoalController : InteractableController
         //If there is a player
         if (currentPlayer != null)
         {
-            currentPlayer.CancelProgressBar();
+            LockPlayer(false);
         }
     }
 

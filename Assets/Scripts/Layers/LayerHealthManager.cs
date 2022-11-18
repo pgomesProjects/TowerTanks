@@ -137,6 +137,17 @@ public class LayerHealthManager : MonoBehaviour
         }
     }
 
+    public void UnlockAllInteractables()
+    {
+        foreach(var i in GetComponentsInChildren<InteractableController>())
+        {
+            if (i.IsInteractionActive())
+            {
+                i.LockPlayer(false);
+            }
+        }
+    }
+
     private void OnDestroy()
     {
         if(transform.GetComponentInParent<PlayerTankController>() != null)
