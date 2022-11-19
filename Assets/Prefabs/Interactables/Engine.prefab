@@ -583,10 +583,56 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5264008659381658690, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5264008659381658690, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5264008659381658690, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5264008659381658690, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5264008659381658690, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7228422837651227282, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8081533534418561302, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8081533534418561302, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.92
+      objectReference: {fileID: 0}
+    - target: {fileID: 8954561444383294241, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4728784133398993885, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
     - {fileID: 4728784133398993872, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
+--- !u!212 &4045261144714319596 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 497899189391988315, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
+  m_PrefabInstance: {fileID: 4524784161370210487}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6529031425751826981 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7228422837651227282, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
+  m_PrefabInstance: {fileID: 4524784161370210487}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &9181510493138393956 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4728784133398993875, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
@@ -640,5 +686,8 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   lockPlayerIntoInteraction: 1
+  highlight: {fileID: 4045261144714319596}
+  lockedInteractionCanvas: {fileID: 6529031425751826981}
   depletionSeconds: 120
   coalPercentageIndicator: {fileID: 7064411900344003444}
+  framesForCoalFill: 5

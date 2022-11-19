@@ -89,7 +89,7 @@ public class CoalController : InteractableController
     private void CoalDepletion()
     {
         //If the player is not in the tutorial, deplete coal
-/*        if(LevelManager.instance.levelPhase != GAMESTATE.TUTORIAL)
+        if(LevelManager.instance.levelPhase != GAMESTATE.TUTORIAL)
         {
             //If the coal percentage is greater than 0, constantly deplete it
             if (coalPercentage > 0)
@@ -104,20 +104,6 @@ public class CoalController : InteractableController
                 hasCoal = false;
                 GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().AdjustEngineSpeedMultiplier();
             }
-        }*/
-
-        //If the coal percentage is greater than 0, constantly deplete it
-        if (coalPercentage > 0)
-        {
-            coalPercentage -= (1 / depletionRate) * Time.deltaTime;
-            coalPercentageIndicator.value = coalPercentage;
-            hasCoal = true;
-        }
-        else
-        {
-            Debug.Log("Coal Is Out!");
-            hasCoal = false;
-            GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().AdjustEngineSpeedMultiplier();
         }
     }
 

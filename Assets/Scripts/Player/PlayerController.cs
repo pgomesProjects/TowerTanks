@@ -72,50 +72,56 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        //Check to see if the joystick is spinning
-        CheckJoystickSpinning();
+        if (!LevelManager.instance.isPaused)
+        {
+            //Check to see if the joystick is spinning
+            CheckJoystickSpinning();
+        }
     }
 
     void FixedUpdate()
     {
-        //Move the player horizontally
-        if (canMove)
+        if (!LevelManager.instance.isPaused)
         {
-            //Debug.Log("Player Can Move!");
-            rb.velocity = new Vector2(movement.x * speed, rb.velocity.y);
+            //Move the player horizontally
+            if (canMove)
+            {
+                //Debug.Log("Player Can Move!");
+                rb.velocity = new Vector2(movement.x * speed, rb.velocity.y);
 
-            //Clamp the player's position to be within the range of the tank
-            float playerRange = playerTank.transform.position.x + 
-                playerTank.tankBarrierRange;
-            Vector3 playerPos = transform.position;
-            playerPos.x = Mathf.Clamp(playerPos.x, -playerRange, playerRange);
-            transform.position = playerPos;
-        }
-        else
-        {
-            rb.velocity = Vector2.zero;
-        }
+                //Clamp the player's position to be within the range of the tank
+                float playerRange = playerTank.transform.position.x +
+                    playerTank.tankBarrierRange;
+                Vector3 playerPos = transform.position;
+                playerPos.x = Mathf.Clamp(playerPos.x, -playerRange, playerRange);
+                transform.position = playerPos;
+            }
+            else
+            {
+                rb.velocity = Vector2.zero;
+            }
 
-        //Check to see if the player is colliding with the ladder
-        ladderRaycast = Physics2D.Raycast(transform.position, Vector2.up, distance, ladderMask);
+            //Check to see if the player is colliding with the ladder
+            ladderRaycast = Physics2D.Raycast(transform.position, Vector2.up, distance, ladderMask);
 
-        //If the player is not colliding with the ladder
-        if (ladderRaycast.collider == null)
-        {
-            isClimbing = false;
-        }
+            //If the player is not colliding with the ladder
+            if (ladderRaycast.collider == null)
+            {
+                isClimbing = false;
+            }
 
-        //If the player is climbing, move up and get rid of gravity temporarily
-        if (isClimbing)
-        {
-            rb.velocity = new Vector2(0, movement.y * speed);
-            rb.gravityScale = 0;
-        }
+            //If the player is climbing, move up and get rid of gravity temporarily
+            if (isClimbing)
+            {
+                rb.velocity = new Vector2(0, movement.y * speed);
+                rb.gravityScale = 0;
+            }
 
-        //Once the player stops climbing, bring back gravity
-        else
-        {
-            rb.gravityScale = defaultGravity;
+            //Once the player stops climbing, bring back gravity
+            else
+            {
+                rb.gravityScale = defaultGravity;
+            }
         }
     }
 
@@ -124,19 +130,22 @@ public class PlayerController : MonoBehaviour
 
     public void OnLadderEnter(InputAction.CallbackContext ctx)
     {
-        //If the player presses the ladder climb button
-        if (ctx.performed)
+        if (!LevelManager.instance.isPaused)
         {
-            if (canClimb)
+            //If the player presses the ladder climb button
+            if (ctx.performed)
             {
-                //If the player is not on a ladder
-                if (!isClimbing)
+                if (canClimb)
                 {
-                    //If the player is colliding with the ladder and wants to climb
-                    if (ladderRaycast.collider != null)
+                    //If the player is not on a ladder
+                    if (!isClimbing)
                     {
-                        isClimbing = true;
-                        transform.position = new Vector2(0, transform.position.y);
+                        //If the player is colliding with the ladder and wants to climb
+                        if (ladderRaycast.collider != null)
+                        {
+                            isClimbing = true;
+                            transform.position = new Vector2(0, transform.position.y);
+                        }
                     }
                 }
             }
@@ -145,16 +154,19 @@ public class PlayerController : MonoBehaviour
 
     public void OnLadderExit(InputAction.CallbackContext ctx)
     {
-        //If the player presses the ladder climb button
-        if (ctx.performed)
+        if (!LevelManager.instance.isPaused)
         {
-            if (canClimb)
+            //If the player presses the ladder climb button
+            if (ctx.performed)
             {
-                //If the player is on a ladder
-                if (isClimbing)
+                if (canClimb)
                 {
-                    //Move them off the ladder
-                    isClimbing = false;
+                    //If the player is on a ladder
+                    if (isClimbing)
+                    {
+                        //Move them off the ladder
+                        isClimbing = false;
+                    }
                 }
             }
         }
@@ -175,82 +187,88 @@ public class PlayerController : MonoBehaviour
 
     public void OnInteract(InputAction.CallbackContext ctx)
     {
-        //If the player presses the interact button
-        if (ctx.started)
+        if (!LevelManager.instance.isPaused)
         {
-            //If there is something to interact with
-            if (currentInteractableItem != null)
+            //If the player presses the interact button
+            if (ctx.started)
             {
-                //Call the interaction event
-                currentInteractableItem.OnInteraction(this);
+                //If there is something to interact with
+                if (currentInteractableItem != null)
+                {
+                    //Call the interaction event
+                    currentInteractableItem.OnInteraction(this);
+                }
             }
-        }
 
-        if (ctx.performed || ctx.canceled)
-        {
-            if (taskInProgress && currentInteractableItem != null)
+            if (ctx.performed || ctx.canceled)
             {
-                //Call the cancel interaction event
-                currentInteractableItem.OnCancel();
+                if (taskInProgress && currentInteractableItem != null)
+                {
+                    //Call the cancel interaction event
+                    currentInteractableItem.OnCancel();
+                }
             }
         }
     }
 
     public void OnUse(InputAction.CallbackContext ctx)
     {
-        //If the player presses the use button
-        if (ctx.started)
+        if (!LevelManager.instance.isPaused)
         {
-            //If the player is holding the fire remover and uses the button, check for fire
-            if (PlayerHasItem("FireRemover"))
+            //If the player presses the use button
+            if (ctx.started)
             {
-                CheckForFireRemoverUse();
-            }
-
-            //If the player is holding the hammer and uses the button, attempt to add a new layer
-            else if (PlayerHasItem("Hammer"))
-            {
-                CheckForHammerUse();
-            }
-
-            //If the player is near an interactable
-            else if(currentInteractableItem != null)
-            {
-                //If the interactable is a cannon
-                if(currentInteractableItem.GetComponent<CannonController>() != null)
+                //If the player is holding the fire remover and uses the button, check for fire
+                if (PlayerHasItem("FireRemover"))
                 {
-                    //If the player is interacting with the cannon
-                    if (currentInteractableItem.IsInteractionActive())
+                    CheckForFireRemoverUse();
+                }
+
+                //If the player is holding the hammer and uses the button, attempt to add a new layer
+                else if (PlayerHasItem("Hammer"))
+                {
+                    CheckForHammerUse();
+                }
+
+                //If the player is near an interactable
+                else if (currentInteractableItem != null)
+                {
+                    //If the interactable is a cannon
+                    if (currentInteractableItem.GetComponent<CannonController>() != null)
                     {
-                        //Check to see if the player can fire the cannon
-                        currentInteractableItem.GetComponent<CannonController>().CheckForCannonFire();
+                        //If the player is interacting with the cannon
+                        if (currentInteractableItem.IsInteractionActive())
+                        {
+                            //Check to see if the player can fire the cannon
+                            currentInteractableItem.GetComponent<CannonController>().CheckForCannonFire();
+                        }
+                    }
+
+                    //If the interactable is an engine
+                    if (currentInteractableItem.GetComponent<CoalController>() != null)
+                    {
+                        //If the player is interacting with the engine
+                        if (currentInteractableItem.IsInteractionActive())
+                        {
+                            //Progress the engine fill animation
+                            currentInteractableItem.GetComponent<CoalController>().ProgressCoalFill();
+                        }
                     }
                 }
 
-                //If the interactable is an engine
-                if (currentInteractableItem.GetComponent<CoalController>() != null)
+                //If nothing else applies, the player has no item. Use the wrench, if possible
+                else
                 {
-                    //If the player is interacting with the engine
-                    if (currentInteractableItem.IsInteractionActive())
-                    {
-                        //Progress the engine fill animation
-                        currentInteractableItem.GetComponent<CoalController>().ProgressCoalFill();
-                    }
+                    //CheckForWrenchUse();
                 }
             }
 
-            //If nothing else applies, the player has no item. Use the wrench, if possible
-            else
+            if (ctx.canceled)
             {
-                //CheckForWrenchUse();
-            }
-        }
-
-        if (ctx.canceled)
-        {
-            if (taskInProgress)
-            {
-                CancelProgressBar();
+                if (taskInProgress)
+                {
+                    CancelProgressBar();
+                }
             }
         }
     }
@@ -322,14 +340,17 @@ public class PlayerController : MonoBehaviour
 
     public void OnPrevInteractable(InputAction.CallbackContext ctx)
     {
-        //If the player presses the previous interactable button
-        if (ctx.performed)
+        if (!LevelManager.instance.isPaused)
         {
-            if (PlayerHasItem("Hammer"))
+            //If the player presses the previous interactable button
+            if (ctx.performed)
             {
-                if(currentInteractableToBuy != null)
+                if (PlayerHasItem("Hammer"))
                 {
-                    FindObjectOfType<InteractableSpawnerManager>().UpdateGhostInteractable(currentInteractableToBuy.transform.parent.GetComponent<InteractableSpawner>(), -1);
+                    if (currentInteractableToBuy != null)
+                    {
+                        FindObjectOfType<InteractableSpawnerManager>().UpdateGhostInteractable(currentInteractableToBuy.transform.parent.GetComponent<InteractableSpawner>(), -1);
+                    }
                 }
             }
         }
@@ -337,14 +358,17 @@ public class PlayerController : MonoBehaviour
 
     public void OnNextInteractable(InputAction.CallbackContext ctx)
     {
-        //If the player presses the next interactable button
-        if (ctx.performed)
+        if (!LevelManager.instance.isPaused)
         {
-            if (PlayerHasItem("Hammer"))
+            //If the player presses the next interactable button
+            if (ctx.performed)
             {
-                if (currentInteractableToBuy != null)
+                if (PlayerHasItem("Hammer"))
                 {
-                    FindObjectOfType<InteractableSpawnerManager>().UpdateGhostInteractable(currentInteractableToBuy.transform.parent.GetComponent<InteractableSpawner>(), 1);
+                    if (currentInteractableToBuy != null)
+                    {
+                        FindObjectOfType<InteractableSpawnerManager>().UpdateGhostInteractable(currentInteractableToBuy.transform.parent.GetComponent<InteractableSpawner>(), 1);
+                    }
                 }
             }
         }
@@ -614,6 +638,8 @@ public class PlayerController : MonoBehaviour
     {
         playerIndex = index;
     }
+
+    public Color GetPlayerColor() => transform.Find("Outline").GetComponent<Renderer>().material.color;
 
     public void OnDeviceLost(PlayerInput playerInput)
     {

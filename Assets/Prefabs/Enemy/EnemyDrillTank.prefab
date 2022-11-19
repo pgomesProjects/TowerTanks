@@ -78,6 +78,7 @@ MonoBehaviour:
   collisionForceSeconds: 0.1
   changeDirectionAccelerationSpeed: 0.75
   maxAcceleration: 1.25
+  wavesMultiplier: 1
   onDestroyResources: 50
 --- !u!61 &794722079130261051
 BoxCollider2D:
@@ -223,6 +224,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7820399864603157554}
     m_Modifications:
+    - target: {fileID: 8295357706706974258, guid: c3ca7baaf8c4b8a43b6b5273416bc6f4, type: 3}
+      propertyPath: m_TagString
+      value: EnemyLayer
+      objectReference: {fileID: 0}
     - target: {fileID: 8650106930241385648, guid: c3ca7baaf8c4b8a43b6b5273416bc6f4, type: 3}
       propertyPath: m_Name
       value: EnemyDrillLayer

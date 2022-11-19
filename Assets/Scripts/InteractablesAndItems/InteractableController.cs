@@ -14,6 +14,9 @@ public class InteractableController : MonoBehaviour
     protected bool interactionActive;
     [SerializeField]protected bool lockPlayerIntoInteraction;
 
+    [SerializeField] protected SpriteRenderer highlight;
+    [SerializeField] protected GameObject lockedInteractionCanvas;
+
     protected PlayerController currentPlayer;
     private void Start()
     {
@@ -118,6 +121,10 @@ public class InteractableController : MonoBehaviour
             if (currentPlayerColliding != null)
                 currentPlayerColliding.SetPlayerMove(false);
             currentPlayerLockedIn = currentPlayerColliding;
+
+            highlight.color = currentPlayerLockedIn.GetPlayerColor();
+            highlight.gameObject.SetActive(true);
+            lockedInteractionCanvas.SetActive(true);
         }
         else
         {
@@ -126,6 +133,9 @@ public class InteractableController : MonoBehaviour
             if(currentPlayerColliding != null)
                 currentPlayerColliding.SetPlayerMove(true);
             currentPlayerLockedIn = null;
+
+            highlight.gameObject.SetActive(false);
+            lockedInteractionCanvas.SetActive(false);
         }
     }
 

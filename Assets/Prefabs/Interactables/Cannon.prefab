@@ -399,6 +399,46 @@ PrefabInstance:
       propertyPath: interactEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 5264008659381658690, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5264008659381658690, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5264008659381658690, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5264008659381658690, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5264008659381658690, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 5264008659381658690, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7228422837651227282, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8081533534418561302, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8081533534418561302, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 2.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 8954561444383294241, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4728784133398993885, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
@@ -438,6 +478,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   lockPlayerIntoInteraction: 1
+  highlight: {fileID: 6113492419029313710}
+  lockedInteractionCanvas: {fileID: 3922384723093421159}
   maxShells: 1
   cannonSpeed: 0.25
   lowerAngleBound: -30
@@ -450,5 +492,15 @@ MonoBehaviour:
 --- !u!4 &1414020637346964774 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4728784133398993875, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
+  m_PrefabInstance: {fileID: 5926623148448628469}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3922384723093421159 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7228422837651227282, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
+  m_PrefabInstance: {fileID: 5926623148448628469}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &6113492419029313710 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 497899189391988315, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
   m_PrefabInstance: {fileID: 5926623148448628469}
   m_PrefabAsset: {fileID: 0}
