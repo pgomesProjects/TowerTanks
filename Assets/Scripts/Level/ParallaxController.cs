@@ -19,7 +19,8 @@ public class ParallaxController : MonoBehaviour
     void Start()
     {
         backgroundSize = GetComponent<SpriteRenderer>().bounds.size;
-        GetComponent<SpriteRenderer>().size = new Vector2(backgroundSize.x * tileMultiplier, backgroundSize.y);
+        Debug.Log("Background Size: " + backgroundSize);
+        GetComponent<SpriteRenderer>().size = new Vector2(backgroundSize.x * tileMultiplier, GetComponent<SpriteRenderer>().size.y);
 
         //Get the speed of the player tank
         playerTankController = GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>();

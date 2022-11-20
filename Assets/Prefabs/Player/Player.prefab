@@ -956,7 +956,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 7973947297216219181}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: OnMashButton
+        m_MethodName: OnThrow
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -966,8 +966,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 1078d82d-9d32-4359-9656-5ffac835eaf7
-    m_ActionName: Player/OnMashButton[/XInputControllerWindows/buttonWest,/DualSenseGamepadHID/buttonWest]
+    m_ActionId: 496db7f7-9411-45d4-b18e-9545be69c3b7
+    m_ActionName: Player/Throw[/XInputControllerWindows/buttonEast]
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player
@@ -987,6 +987,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 8
   distance: 0
+  throwAngle: 35
+  throwForce: 50
   ladderMask:
     serializedVersion: 2
     m_Bits: 128

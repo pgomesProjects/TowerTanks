@@ -7,10 +7,14 @@ public class CameraEventController : MonoBehaviour
 {
     public static CameraEventController instance;
 
-    private CinemachineVirtualCamera _virtualCamera;
+    private CinemachineVirtualCamera _currentActiveCamera;
+    [SerializeField] private CinemachineVirtualCamera _gameCamera;
+    [SerializeField] private CinemachineVirtualCamera _cinematicCamera;
     [SerializeField] private CinemachineTargetGroup _tanksTargetGroup;
     [SerializeField] private GameObject globalUI;
     private float shakeTimer, shakeTimerTotal, startingCamIntensity;
+
+    private bool inGame;
 
     private void Awake()
     {
@@ -19,7 +23,8 @@ public class CameraEventController : MonoBehaviour
 
     private void Start()
     {
-        _virtualCamera = GetComponent<CinemachineVirtualCamera>();
+        _currentActiveCamera = _gameCamera;
+        inGame = true;
     }
 
     // Update is called once per frame
@@ -32,7 +37,7 @@ public class CameraEventController : MonoBehaviour
 
             if(shakeTimer <= 0)
             {
-                CinemachineBasicMultiChannelPerlin cinemachineBasicMultiChannelPerlin = _virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+                CinemachineBasicMultiChannelPerlin cinemachineBasicMultiChannelPerlin = _currentActiveCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
                 cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = Mathf.Lerp(startingCamIntensity, 0f, 1 - (shakeTimer / shakeTimerTotal));
             }
         }
@@ -42,19 +47,19 @@ public class CameraEventController : MonoBehaviour
     {
         if (newTargetGroup != null)
         {
-            _virtualCamera.m_Follow = newTargetGroup.transform;
+            _currentActiveCamera.m_Follow = newTargetGroup.transform;
         }
     }
 
     public void DisableTargetGroup()
     {
-        _virtualCamera.m_Follow = null;
+        _currentActiveCamera.m_Follow = null;
     }
 
     public void ShakeCamera(float intensity, float seconds)
     {
         //Set the amplitude gain of the camera
-        CinemachineBasicMultiChannelPerlin cinemachineBasicMultiChannelPerlin = _virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+        CinemachineBasicMultiChannelPerlin cinemachineBasicMultiChannelPerlin = _currentActiveCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = intensity;
 
         //Set values so that the shaking can eventually stop
@@ -73,13 +78,18 @@ public class CameraEventController : MonoBehaviour
             float t = timeElapsed / seconds;
             t = t * t * (3f - 2f * t);
 
-            _virtualCamera.m_Lens.OrthographicSize = Mathf.Lerp(startFOV, endFOV, t);
+            _gameCamera.m_Lens.OrthographicSize = Mathf.Lerp(startFOV, endFOV, t);
+            _cinematicCamera.m_Lens.OrthographicSize = Mathf.Lerp(startFOV, endFOV, t);
+            _currentActiveCamera.m_Lens.OrthographicSize = Mathf.Lerp(startFOV, endFOV, t);
+
             timeElapsed += Time.deltaTime;
 
             yield return null;
         }
 
-        _virtualCamera.m_Lens.OrthographicSize = endFOV;
+        _gameCamera.m_Lens.OrthographicSize = endFOV;
+        _cinematicCamera.m_Lens.OrthographicSize = endFOV;
+        _currentActiveCamera.m_Lens.OrthographicSize = endFOV;
     }
 
     public IEnumerator SmoothMoveCameraEvent(Vector3 startPos, Vector3 endPos, float seconds)
@@ -94,17 +104,22 @@ public class CameraEventController : MonoBehaviour
             float t = timeElapsed / seconds;
             t = t * t * (3f - 2f * t);
 
-            _virtualCamera.transform.position = Vector3.Lerp(updatedStartPos, updatedEndPos, t);
+            _currentActiveCamera.transform.position = Vector3.Lerp(updatedStartPos, updatedEndPos, t);
             timeElapsed += Time.deltaTime;
 
             yield return null;
         }
 
-        _virtualCamera.transform.position = updatedEndPos;
+        _currentActiveCamera.transform.position = updatedEndPos;
     }
 
     public IEnumerator ShowEnemyWithCamera(float endFOV, Vector3 enemyPos, float seconds, GameObject newEnemy)
     {
+        float blendCamSeconds = 2;
+        SwitchCamera();
+        _currentActiveCamera = _cinematicCamera;
+        StartCoroutine(AddToGameCamTargetGroup(newEnemy, blendCamSeconds));
+
         DisableTargetGroup();
 
         globalUI.transform.Find("AlarmOverlay").gameObject.SetActive(true);
@@ -116,13 +131,41 @@ public class CameraEventController : MonoBehaviour
 
         globalUI.transform.Find("AlarmOverlay").gameObject.SetActive(false);
 
+        SwitchCamera();
+
+        yield return new WaitForSeconds(blendCamSeconds);
+
         _tanksTargetGroup.AddMember(newEnemy.transform, 1, 0);
         EnableTargetGroup(_tanksTargetGroup);
 
-        /*        float backToPlayerSeconds = 0.25f;
+        _currentActiveCamera = _gameCamera;
+    }
 
-                StartCoroutine(SmoothMoveCameraEvent(enemyPos, _targetGroup.transform.position, backToPlayerSeconds));
-                yield return new WaitForSeconds(backToPlayerSeconds);*/
+    private IEnumerator AddToGameCamTargetGroup(GameObject newEnemy, float waitSeconds)
+    {
+        yield return new WaitForSeconds(waitSeconds);
+
+        if (_tanksTargetGroup != null)
+        {
+            _tanksTargetGroup.AddMember(newEnemy.transform, 1, 0);
+            _gameCamera.m_Follow = _tanksTargetGroup.transform;
+        }
+    }
+
+    private void SwitchCamera()
+    {
+        if (inGame)
+        {
+            _gameCamera.Priority = 1;
+            _cinematicCamera.Priority = 2;
+            inGame = false;
+        }
+        else
+        {
+            _gameCamera.Priority = 2;
+            _cinematicCamera.Priority = 1;
+            inGame = true;
+        }
     }
 
     public float GetCameraFOV()

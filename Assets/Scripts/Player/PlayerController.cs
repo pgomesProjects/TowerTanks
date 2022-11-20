@@ -19,10 +19,13 @@ public class PlayerController : MonoBehaviour
     internal int currentLayer = 1;
 
     [SerializeField] private float distance = 3f;
+    [SerializeField, Range(0, 360)] private float throwAngle;
+    [SerializeField] private float throwForce;
     [SerializeField] private LayerMask ladderMask;
     [SerializeField] private float timeToUseWrench = 3;
 
     private bool canMove;
+    private bool isFacingRight;
     private bool canClimb;
     private bool isClimbing;
     private float defaultGravity;
@@ -54,7 +57,6 @@ public class PlayerController : MonoBehaviour
 
     private bool isSpinningJoystick = false;
 
-
     // Start is called before the first frame update
     void Start()
     {
@@ -64,6 +66,7 @@ public class PlayerController : MonoBehaviour
         isHoldingItem = false;
         canMove = true;
         canClimb = false;
+        isFacingRight = true;
         interactableHover = transform.Find("HoverPrompt").gameObject;
         progressBarCanvas = transform.Find("TaskProgressBar").gameObject;
         progressBarSlider = progressBarCanvas.GetComponentInChildren<Slider>();
@@ -95,6 +98,14 @@ public class PlayerController : MonoBehaviour
                 Vector3 playerPos = transform.position;
                 playerPos.x = Mathf.Clamp(playerPos.x, -playerRange, playerRange);
                 transform.position = playerPos;
+
+                //If the input is moving the player right and the player is facing left
+                if (movement.x > 0 && !isFacingRight)
+                    Flip();
+
+                //If the input is moving the player left and the player is facing right
+                else if (movement.x < 0 && isFacingRight)
+                    Flip();
             }
             else
             {
@@ -122,6 +133,23 @@ public class PlayerController : MonoBehaviour
             {
                 rb.gravityScale = defaultGravity;
             }
+        }
+    }
+
+    private void Flip()
+    {
+        // Switch the way the player is labelled as facing.
+        isFacingRight = !isFacingRight;
+
+        if (isFacingRight)
+        {
+            GetComponent<SpriteRenderer>().flipX = false;
+            transform.Find("Outline").GetComponent<SpriteRenderer>().flipX = false;
+        }
+        else
+        {
+            GetComponent<SpriteRenderer>().flipX = true;
+            transform.Find("Outline").GetComponent<SpriteRenderer>().flipX = true;
         }
     }
 
@@ -509,10 +537,29 @@ public class PlayerController : MonoBehaviour
 
     public void OnPickup(InputAction.CallbackContext ctx)
     {
-        //If the player presses the pickup button
-        if (ctx.started)
+        if (!LevelManager.instance.isPaused)
         {
-            PickupItem();
+            //If the player presses the pickup button
+            if (ctx.started)
+            {
+                PickupItem();
+            }
+        }
+    }
+
+    public void OnThrow(InputAction.CallbackContext ctx)
+    {
+        if (!LevelManager.instance.isPaused)
+        {
+            //If the player presses the throw button
+            if (ctx.started)
+            {
+                //If the player is still holding an item
+                if (itemHeld != null)
+                {
+                    DropItem(true);
+                }
+            }
         }
     }
 
@@ -526,26 +573,7 @@ public class PlayerController : MonoBehaviour
             //If the closest item to the player exists and is not picked up
             if (closestItem != null && !closestItem.IsItemPickedUp())
             {
-                itemHeld = closestItem;
-
-                //Make the current item the player's child and stick it to the player
-                itemHeld.transform.position = gameObject.transform.position;
-                itemHeld.transform.rotation = Quaternion.identity;
-                itemHeld.GetComponent<Rigidbody2D>().gravityScale = 0;
-                itemHeld.GetComponent<Rigidbody2D>().isKinematic = true;
-                itemHeld.transform.parent = gameObject.transform;
-                itemHeld.SetRotateConstraint(true);
-
-                Debug.Log("Picked Up Item!");
-
-                if (PlayerHasItem("Hammer") && !IsPlayerOutsideTank())
-                {
-                    LevelManager.instance.CheckInteractablesOnLayer(currentLayer);
-                }
-
-                itemHeld.SetPickUp(true);
-                isHoldingItem = true;
-                closestItem = null;
+                TakeItem();
             }
         }
         else
@@ -553,34 +581,86 @@ public class PlayerController : MonoBehaviour
             //If the player is still holding an item
             if (itemHeld != null)
             {
-                //Remove the item from the player and put it back in the level
-                itemHeld.GetComponent<Rigidbody2D>().gravityScale = itemHeld.GetDefaultGravityScale();
-                itemHeld.GetComponent<Rigidbody2D>().isKinematic = false;
-                itemHeld.transform.parent = null;
-                itemHeld.SetRotateConstraint(false);
-
-                Debug.Log("Dropped Item!");
-
-                if (taskInProgress)
-                {
-                    CancelProgressBar();
-                }
-
-                if (PlayerHasItem("Hammer"))
-                {
-                    foreach(var i in GameObject.FindGameObjectsWithTag("GhostObject"))
-                    {
-                        Destroy(i);
-                    }
-                }
-
-                itemHeld.SetPickUp(false);
-                isHoldingItem = false;
-                itemHeld = null;
+                DropItem(false);
             }
         }
     }
     
+    private void TakeItem()
+    {
+        itemHeld = closestItem;
+
+        //Make the current item the player's child and stick it to the player
+        itemHeld.transform.position = gameObject.transform.position;
+        itemHeld.transform.rotation = Quaternion.identity;
+        itemHeld.GetComponent<Rigidbody2D>().gravityScale = 0;
+        itemHeld.GetComponent<Rigidbody2D>().isKinematic = true;
+        itemHeld.transform.parent = gameObject.transform;
+        itemHeld.SetRotateConstraint(true);
+
+        Debug.Log("Picked Up Item!");
+
+        if (PlayerHasItem("Hammer") && !IsPlayerOutsideTank())
+        {
+            LevelManager.instance.CheckInteractablesOnLayer(currentLayer);
+        }
+
+        itemHeld.SetPickUp(true);
+        isHoldingItem = true;
+        closestItem = null;
+    }
+
+    private void DropItem(bool throwItem)
+    {
+        //Remove the item from the player and put it back in the level
+        itemHeld.GetComponent<Rigidbody2D>().gravityScale = itemHeld.GetDefaultGravityScale();
+        itemHeld.GetComponent<Rigidbody2D>().isKinematic = false;
+        itemHeld.transform.parent = null;
+        itemHeld.SetRotateConstraint(false);
+
+        Debug.Log("Dropped Item!");
+
+        if (taskInProgress)
+        {
+            CancelProgressBar();
+        }
+
+        if (PlayerHasItem("Hammer"))
+        {
+            foreach (var i in GameObject.FindGameObjectsWithTag("GhostObject"))
+            {
+                Destroy(i);
+            }
+        }
+
+        itemHeld.SetPickUp(false);
+        isHoldingItem = false;
+
+        //If the player is supposed to throw the item, add some force
+        if (throwItem)
+        {
+            //If the item is a shell, make it do damage
+            if(itemHeld.GetComponent<ShellItemBehavior>() != null)
+                itemHeld.gameObject.AddComponent<DamageObject>().damage = itemHeld.GetComponent<ShellItemBehavior>().GetDamage();
+
+            Vector2 throwVector = GetThrowVector(throwAngle * Mathf.Deg2Rad);
+
+            //If the player is facing left, flip the x
+            if (!isFacingRight)
+                throwVector = new Vector2(-throwVector.x, throwVector.y);
+
+            itemHeld.GetComponent<Rigidbody2D>().AddForce(throwVector * (throwForce * 100));
+        }
+
+        itemHeld = null;
+    }
+
+    private Vector2 GetThrowVector(float radians)
+    {
+        //Trigonometric function to get the vector (hypotenuse) of the current throw angle
+        return new Vector2(Mathf.Cos(radians), Mathf.Sin(radians));
+    }
+
     private void CheckJoystickSpinning()
     {
         //If the current movement vector is different from the previous movement vector and spinning input is not being checked
