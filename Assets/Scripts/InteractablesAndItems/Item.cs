@@ -5,9 +5,11 @@ using UnityEngine;
 public class Item : MonoBehaviour
 {
     [SerializeField] protected float timeToUse = 0;
+    [SerializeField] protected bool keepInsideTank = true;
     protected bool canPickUp;
     protected bool isPickedUp;
     private float defaultGravity;
+    private PlayerTankController playerTank;
 
     // Start is called before the first frame update
     void Start()
@@ -15,6 +17,18 @@ public class Item : MonoBehaviour
         canPickUp = false;
         isPickedUp = false;
         defaultGravity = 2;
+        playerTank = GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>();
+    }
+
+    private void Update()
+    {
+        if (keepInsideTank)
+        {
+            float itemRange = playerTank.transform.position.x + playerTank.tankBarrierRange;
+            Vector3 itemPos = transform.position;
+            itemPos.x = Mathf.Clamp(itemPos.x, -itemRange, itemRange);
+            transform.position = itemPos;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
