@@ -47,8 +47,6 @@ public class DrillEnemyController : EnemyController
             }
 
             SpawnLayer(randomLayer, i);
-
-            SpawnLayer(randomLayer, i);
         }
     }
 
