@@ -105,6 +105,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   lockPlayerIntoInteraction: 0
+  highlight: {fileID: 0}
+  lockedInteractionCanvas: {fileID: 0}
   maxShells: 0
   cannonSpeed: 0.25
   lowerAngleBound: -70
@@ -113,7 +115,7 @@ MonoBehaviour:
   spawnPoint: {fileID: 4582106216502727523}
   cannonForce: 4000
   currentCannonDirection: 0
-  cannonPivot: {fileID: 0}
+  cannonPivot: {fileID: 3746104128299154810}
 --- !u!1 &4582106216502727523
 GameObject:
   m_ObjectHideFlags: 0

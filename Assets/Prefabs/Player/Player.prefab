@@ -988,7 +988,7 @@ MonoBehaviour:
   speed: 8
   distance: 0
   throwAngle: 35
-  throwForce: 50
+  throwForce: 22
   ladderMask:
     serializedVersion: 2
     m_Bits: 128

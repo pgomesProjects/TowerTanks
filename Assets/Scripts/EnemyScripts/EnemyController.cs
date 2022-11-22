@@ -8,6 +8,9 @@ public class EnemyController : MonoBehaviour
 {
     private enum MOVEMENTDIRECTION { DECELERATE, NEUTRAL, ACCELERATE}
 
+    protected const float ENEMYLAYERSIZE = 7.65f;
+    protected const int MAXLAYERS = 7;
+
     [SerializeField] protected float health = 100;
     [SerializeField] protected float speed = 1;
     [SerializeField] protected float collisionForce = 50;
@@ -31,7 +34,9 @@ public class EnemyController : MonoBehaviour
 
     protected PlayerTankController playerTank;
 
+    [SerializeField] protected LayerHealthManager[] spawnableLayers; 
     protected int totalEnemyLayers;
+    protected float waveCounter;
 
     // Start is called before the first frame update
     protected void Start()
@@ -41,14 +46,53 @@ public class EnemyController : MonoBehaviour
         directionMultiplier = 1;
         previousDirection = MOVEMENTDIRECTION.NEUTRAL;
         currentDirection = MOVEMENTDIRECTION.NEUTRAL;
+        waveCounter = 1 / wavesMultiplier;
         CreateLayers();
         UpdateEnemySpeed();
         DetermineBehavior();
+        FindObjectOfType<EnemySpawnManager>().AddToEnemyCounter(this);
     }
 
     protected virtual void CreateLayers()
     {
-        totalEnemyLayers = 2;
+        totalEnemyLayers = 2 + Mathf.FloorToInt(FindObjectOfType<EnemySpawnManager>().GetEnemyCountAt(0) * waveCounter);
+        totalEnemyLayers = Mathf.Clamp(totalEnemyLayers, 2, MAXLAYERS);
+
+        bool specialLayerSpawned = false;
+
+        for(int i = 0; i < totalEnemyLayers; i++)
+        {
+            int randomLayer;
+            if (i % 2 == 1 && !specialLayerSpawned)
+            {
+                randomLayer = spawnableLayers.Length - 1;
+            }
+            else
+            {
+                if (i > 0 && i % 2 == 0)
+                {
+                    specialLayerSpawned = false;
+                }
+                if (specialLayerSpawned)
+                    randomLayer = 0;
+                else
+                {
+                    randomLayer = Random.Range(0, spawnableLayers.Length);
+                    if (randomLayer != 0)
+                        specialLayerSpawned = true;
+                }
+            }
+
+            SpawnLayer(randomLayer, i);
+        }
+    }
+
+    protected void SpawnLayer(int index, int layerNum)
+    {
+        GameObject newLayer = Instantiate(spawnableLayers[index].gameObject);
+        newLayer.transform.parent = transform;
+        newLayer.transform.localPosition = new Vector2(0, layerNum * ENEMYLAYERSIZE);
+        newLayer.transform.SetAsFirstSibling();
     }
 
     protected virtual void DetermineBehavior()

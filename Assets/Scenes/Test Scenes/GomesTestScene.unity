@@ -1343,15 +1343,15 @@ MonoBehaviour:
     <sprite=30>
 
 
-    Pick Up / Drop Item: <sprite=27>          Use Hammer / Fire
-    Cannon: <sprite=29>
+    Pick Up / Drop Item: <sprite=27>     Throw Item: <sprite=28>     
+    Use Hammer / Fire Cannon: <sprite=29>
 
 
-    Angle Cannon: Spin <sprite=37> Clockwise / Counterclockwise
+    Angle Cannon: Spin <sprite=37> Clockwise
+    / Counterclockwise
 
 
-    Move
-    The Throttle To The Right To Begin The Game'
+    Move The Throttle To The Right To Begin The Game'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1378,12 +1378,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25
+  m_fontSize: 21.7
   m_fontSizeBase: 25
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 24.9
+  m_fontSizeMax: 21.7
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -2010,6 +2010,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefabs:
+  - {fileID: 7820399864603157553, guid: fac2f88a97e9b2f4496ffe1ce458d3e1, type: 3}
   - {fileID: 7820399864603157553, guid: d63306c37658e0a4cbbe296e6cf32dde, type: 3}
 --- !u!1001 &964442149
 PrefabInstance:

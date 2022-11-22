@@ -11,6 +11,10 @@ public class EnemySpawnManager : MonoBehaviour
     private void Start()
     {
         enemyTypeCounters = new List<int>();
+        for(int i = 0; i < enemyPrefabs.Length; i++)
+        {
+            enemyTypeCounters.Add(2);
+        }
     }
 
     private IEnumerator enemyEncounterAni;
@@ -19,7 +23,6 @@ public class EnemySpawnManager : MonoBehaviour
         //Pick a random enemy from the list of enemies and spawn it
         int enemyIndex = Random.Range(0, enemyPrefabs.Length);
         GameObject newEnemy = Instantiate(enemyPrefabs[enemyIndex], transform.position, transform.rotation);
-
 
         Vector3 cameraZoomPos = GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().transform.position;
 
@@ -50,4 +53,20 @@ public class EnemySpawnManager : MonoBehaviour
 
         Invoke("SpawnRandomEnemy", randomTime);
     }
+
+    public void AddToEnemyCounter(Component component)
+    {
+        //Add to the enemy list counter based on the type of enemy
+        switch (component.GetType().ToString())
+        {
+            case "DrillEnemyController":
+                enemyTypeCounters[1] += 1;
+                break;
+            default:
+                enemyTypeCounters[0] += 1;
+                break;
+        }
+    }
+
+    public int GetEnemyCountAt(int i) => enemyTypeCounters[i];
 }
