@@ -6,7 +6,9 @@ public class DrillEnemyController : EnemyController
 {
     protected override void CreateLayers()
     {
-        totalEnemyLayers = 2 + Mathf.FloorToInt(FindObjectOfType<EnemySpawnManager>().GetEnemyCountAt(1) * waveCounter);
+        float extraLayers = FindObjectOfType<EnemySpawnManager>().GetEnemyCountAt(1) * waveCounter;
+        //Debug.Log("Extra Layers For Drill Tank #" + (FindObjectOfType<EnemySpawnManager>().GetEnemyCountAt(1) + 1).ToString() + ": " + extraLayers);
+        totalEnemyLayers = 2 + Mathf.FloorToInt(extraLayers);
         totalEnemyLayers = Mathf.Clamp(totalEnemyLayers, 2, MAXLAYERS);
 
         bool specialLayerSpawned = false;
@@ -30,6 +32,10 @@ public class DrillEnemyController : EnemyController
             }
             else
             {
+                if (i > 0 && i % 2 == 0)
+                {
+                    specialLayerSpawned = false;
+                }
                 if (specialLayerSpawned)
                     randomLayer = 0;
                 else
@@ -39,6 +45,8 @@ public class DrillEnemyController : EnemyController
                         specialLayerSpawned = true;
                 }
             }
+
+            SpawnLayer(randomLayer, i);
 
             SpawnLayer(randomLayer, i);
         }

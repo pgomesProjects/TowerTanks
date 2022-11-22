@@ -46,7 +46,7 @@ public class EnemyController : MonoBehaviour
         directionMultiplier = 1;
         previousDirection = MOVEMENTDIRECTION.NEUTRAL;
         currentDirection = MOVEMENTDIRECTION.NEUTRAL;
-        waveCounter = 1 / wavesMultiplier;
+        waveCounter = 1.0f / wavesMultiplier;
         CreateLayers();
         UpdateEnemySpeed();
         DetermineBehavior();
@@ -55,7 +55,9 @@ public class EnemyController : MonoBehaviour
 
     protected virtual void CreateLayers()
     {
-        totalEnemyLayers = 2 + Mathf.FloorToInt(FindObjectOfType<EnemySpawnManager>().GetEnemyCountAt(0) * waveCounter);
+        float extraLayers = FindObjectOfType<EnemySpawnManager>().GetEnemyCountAt(0) * waveCounter;
+        //Debug.Log("Extra Layers For Normal Tank #" + (FindObjectOfType<EnemySpawnManager>().GetEnemyCountAt(0) + 1).ToString() + ": " + extraLayers);
+        totalEnemyLayers = 2 + Mathf.FloorToInt(extraLayers);
         totalEnemyLayers = Mathf.Clamp(totalEnemyLayers, 2, MAXLAYERS);
 
         bool specialLayerSpawned = false;
@@ -333,10 +335,10 @@ public class EnemyController : MonoBehaviour
         while (true)
         {
             //If the enemy has a cannon, fire the cannon
-            if (GetComponentInChildren<CannonController>() != null)
+            foreach(var cannon in GetComponentsInChildren<CannonController>())
             {
                 Debug.Log("Enemy Fire!");
-                GetComponentInChildren<CannonController>().Fire();
+                cannon.Fire();
             }
 
             //Shoot at the player every 7 to 12 seconds

@@ -604,8 +604,18 @@ public class PlayerController : MonoBehaviour
         {
             LevelManager.instance.CheckInteractablesOnLayer(currentLayer);
         }
+        else if (PlayerHasItem("Hammer") && IsPlayerOutsideTank())
+        {
+            LevelManager.instance.AddGhostLayer();
+        }
 
-        itemHeld.SetPickUp(true);
+        //If the item can deal damage, remove that
+        if (itemHeld.GetComponent<DamageObject>() != null)
+        {
+            Destroy(itemHeld.GetComponent<DamageObject>());
+        }
+
+            itemHeld.SetPickUp(true);
         isHoldingItem = true;
         closestItem = null;
     }
@@ -631,6 +641,7 @@ public class PlayerController : MonoBehaviour
             {
                 Destroy(i);
             }
+            LevelManager.instance.RemoveGhostLayer();
         }
 
         itemHeld.SetPickUp(false);

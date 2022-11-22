@@ -211,7 +211,7 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    private void RemoveGhostLayer()
+    public void RemoveGhostLayer()
     {
         Destroy(currentGhostLayer);
     }
