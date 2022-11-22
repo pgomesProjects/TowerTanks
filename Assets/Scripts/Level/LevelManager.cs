@@ -352,6 +352,7 @@ public class LevelManager : MonoBehaviour
 
         //Adjust the top view of the tank
         playerTank.transform.Find("TankFollowTop").transform.localPosition = new Vector2(-13, (totalLayers * 8) + 4);
+        playerTank.transform.Find("TankTopFloor").transform.localPosition = new Vector2(-13, (totalLayers - 1) * 8);
 
         //Adjust the ghost layer if active
         if (currentGhostLayer != null)

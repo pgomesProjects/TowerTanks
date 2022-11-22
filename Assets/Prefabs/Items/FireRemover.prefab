@@ -23,6 +23,22 @@ PrefabInstance:
       propertyPath: timeToUse
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 4281858004933942340, guid: 1a9426da801e3aa48a2ce64d5f72c966, type: 3}
+      propertyPath: m_Size.x
+      value: 3.74
+      objectReference: {fileID: 0}
+    - target: {fileID: 4281858004933942340, guid: 1a9426da801e3aa48a2ce64d5f72c966, type: 3}
+      propertyPath: m_Size.y
+      value: 5.54
+      objectReference: {fileID: 0}
+    - target: {fileID: 4281858004933942340, guid: 1a9426da801e3aa48a2ce64d5f72c966, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 3.74
+      objectReference: {fileID: 0}
+    - target: {fileID: 4281858004933942340, guid: 1a9426da801e3aa48a2ce64d5f72c966, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 5.54
+      objectReference: {fileID: 0}
     - target: {fileID: 5042576130432705698, guid: 1a9426da801e3aa48a2ce64d5f72c966, type: 3}
       propertyPath: m_Size.x
       value: 3.74

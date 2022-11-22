@@ -27,13 +27,23 @@ public class LayerHealthManager : MonoBehaviour
             contactNames += i.collider.name + " | ";
         }
 
-/*        if(transform.GetComponentInParent<EnemyController>() != null)
-            Debug.Log(contactNames);*/
+        /*        if(transform.GetComponentInParent<EnemyController>() != null)
+                    Debug.Log(contactNames);*/
 
         if (!CollisionOnBottom(contactPoints))
         {
             transform.Translate(Vector2.down * gravity * Time.deltaTime);
         }
+        else
+            KeepYAtMultiple(4);
+    }
+
+    private void KeepYAtMultiple(int multiple)
+    {
+        float yPos = transform.position.y / multiple;
+        int closestInt = (int)Mathf.Round(yPos);
+        yPos = closestInt * multiple;
+        transform.position = new Vector3(transform.position.x, yPos, transform.position.z);
     }
 
     private bool CollisionOnBottom(List<ContactPoint2D> contactPoints)
