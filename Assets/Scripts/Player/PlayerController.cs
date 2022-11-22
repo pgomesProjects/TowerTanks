@@ -223,8 +223,15 @@ public class PlayerController : MonoBehaviour
                 //If there is something to interact with
                 if (currentInteractableItem != null)
                 {
-                    //Call the interaction event
-                    currentInteractableItem.OnInteraction(this);
+                    if (currentInteractableItem is CannonController && itemHeld != null && itemHeld.GetComponent<ShellItemBehavior>() != null)
+                    {
+                        currentInteractableItem.GetComponent<CannonController>().CheckForReload(this);
+                    }
+                    else
+                    {
+                        //Call the interaction event
+                        currentInteractableItem.OnInteraction(this);
+                    }
                 }
             }
 

@@ -13,6 +13,8 @@ public class CannonController : InteractableController
     [SerializeField] private GameObject spawnPoint;
     [SerializeField] private float cannonForce = 2000;
     [SerializeField] private CANNONDIRECTION currentCannonDirection;
+    [SerializeField] private Sprite unloadedCannonSprite;
+    [SerializeField] private Sprite loadedCannonSprite;
     private Vector3 initialVelocity;
     private InteractableController cannonInteractable;
     [SerializeField] private Transform cannonPivot;
@@ -34,38 +36,24 @@ public class CannonController : InteractableController
     /// <summary>
     /// Checks to see if the player can load ammo into the cannon
     /// </summary>
-    public void CheckForReload()
+    public void CheckForReload(PlayerController player)
     {
-        //If there is a player
-        if (currentPlayer != null)
+        //If the cannon can fit ammo
+        if (currentAmmo < maxShells)
         {
-            //If the cannon can fit ammo
-            if(currentAmmo < maxShells)
-            {
-                //If the player has an item
-                if (currentPlayer.GetPlayerItem() != null)
-                {
-                    //Unlock the player interaction (assumes the interactable controller is the grandparent)
-                    LockPlayer(false);
-
-                    //If the player's item is a shell
-                    if (currentPlayer.GetPlayerItem().CompareTag("Shell"))
-                    {
-                        LoadShell();
-                    }
-                }
-            }
+            LoadShell(player);
         }
     }
 
-    private void LoadShell()
+    private void LoadShell(PlayerController player)
     {
         //Get rid of the player's item and load
-        currentPlayer.DestroyItem();
+        player.DestroyItem();
 
         //Play sound effect
         FindObjectOfType<AudioManager>().PlayOneShot("CannonReload", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
         currentAmmo++;
+        UpdateCannonBody();
     }
 
     public void CheckForCannonFire()
@@ -75,6 +63,7 @@ public class CannonController : InteractableController
         {
             //Fire the cannon
             Fire();
+            UpdateCannonBody();
 
             //Shake the camera
             CameraEventController.instance.ShakeCamera(5f, 0.1f);
@@ -119,6 +108,24 @@ public class CannonController : InteractableController
 
         //Shoot the project at the current angle and direction
         currentProjectile.GetComponent<Rigidbody2D>().AddForce(direction * cannonForce);
+    }
+
+    private void UpdateCannonBody()
+    {
+        if (currentAmmo > 0)
+        {
+            if(loadedCannonSprite != null)
+            {
+                transform.Find("Body").GetComponent<SpriteRenderer>().sprite = loadedCannonSprite;
+            }
+        }
+        else
+        {
+            if (unloadedCannonSprite != null)
+            {
+                transform.Find("Body").GetComponent<SpriteRenderer>().sprite = unloadedCannonSprite;
+            }
+        }
     }
 
     private Vector2 GetCannonVectorHorizontal(float radians)

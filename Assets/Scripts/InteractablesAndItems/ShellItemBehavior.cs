@@ -31,7 +31,8 @@ public class ShellItemBehavior : MonoBehaviour
         if(GetComponent<DamageObject>() != null)
         {
             Instantiate(explosionParticles, transform.position, Quaternion.identity);
-            FindObjectOfType<AudioManager>().PlayOneShot("ExplosionSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+            if(FindObjectOfType<AudioManager>() != null)
+                FindObjectOfType<AudioManager>().PlayOneShot("ExplosionSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
         }
     }
 }
