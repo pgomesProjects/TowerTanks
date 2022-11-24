@@ -62,12 +62,13 @@ public class LevelManager : MonoBehaviour
     {
         if (GameSettings.skipTutorial)
         {
-            speedIndex = (int)TANKSPEED.FORWARD;
+            UpdateSpeed((int)TANKSPEED.FORWARD);
+
             TransitionGameState();
         }
         else
         {
-            speedIndex = (int)TANKSPEED.STATIONARY;
+            UpdateSpeed((int)TANKSPEED.STATIONARY);
         }
 
         gameSpeed = currentSpeed[speedIndex];

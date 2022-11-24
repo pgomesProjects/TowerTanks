@@ -4,6 +4,9 @@ using UnityEngine;
 
 public static class GameSettings
 {
+    public static bool mainMenuEntered = false;
     public static bool skipTutorial = false;
-    public static float screenShakeMultiplier = 1;
+
+    //0.5 = Easy, 1 = Normal, 1.5 = Hard
+    public static float difficulty = 1;
 }
