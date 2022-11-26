@@ -58,14 +58,18 @@ public class CameraEventController : MonoBehaviour
 
     public void ShakeCamera(float intensity, float seconds)
     {
-        //Set the amplitude gain of the camera
-        CinemachineBasicMultiChannelPerlin cinemachineBasicMultiChannelPerlin = _currentActiveCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-        cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = intensity;
+        //If the users have Screenshake turned on
+        if(PlayerPrefs.GetInt("Screenshake", 1) == 1)
+        {
+            //Set the amplitude gain of the camera
+            CinemachineBasicMultiChannelPerlin cinemachineBasicMultiChannelPerlin = _currentActiveCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+            cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = intensity;
 
-        //Set values so that the shaking can eventually stop
-        shakeTimer = seconds;
-        shakeTimerTotal = seconds;
-        startingCamIntensity = intensity;
+            //Set values so that the shaking can eventually stop
+            shakeTimer = seconds;
+            shakeTimerTotal = seconds;
+            startingCamIntensity = intensity;
+        }
     }
 
     public IEnumerator SmoothZoomCameraEvent(float startFOV, float endFOV, float seconds)
