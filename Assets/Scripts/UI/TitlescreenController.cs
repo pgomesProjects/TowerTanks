@@ -111,7 +111,7 @@ public class TitlescreenController : MonoBehaviour
     private void CancelAction()
     {
         //If the player is not in the main menu, go back to the main menu
-        if (currentMenuState != mainMenu)
+        if (currentMenuState != mainMenu && currentMenuState != startMenu)
         {
             //If the current menu is the skip tutorial box, go back to the difficulty menu
             if(currentMenuState == skipTutorialMenu)
@@ -123,9 +123,12 @@ public class TitlescreenController : MonoBehaviour
                 Back();
             }
         }
-        //If they are in the main menu, quit the game
+        //If they are in the main menu, go back to start
         else
-            QuitGame();
+        {
+            SwitchMenu(MenuState.START);
+            inMenu = false;
+        }
     }
 
     public void GoToMain()
@@ -156,6 +159,9 @@ public class TitlescreenController : MonoBehaviour
 
         switch (menu)
         {
+            case MenuState.START:
+                newMenu = startMenu;
+                break;
             case MenuState.MAIN:
                 newMenu = mainMenu;
                 SelectButtonOnMain(currentMenuState);

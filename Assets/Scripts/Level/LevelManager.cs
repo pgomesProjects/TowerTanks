@@ -259,7 +259,7 @@ public class LevelManager : MonoBehaviour
 
     public void PauseToggle(int playerIndex)
     {
-        Debug.Log("Pausing: " + isPaused);
+        //Debug.Log("Pausing: " + isPaused);
 
         //If the game is not paused, pause the game
         if (isPaused == false)
@@ -277,6 +277,7 @@ public class LevelManager : MonoBehaviour
         {
             if (playerIndex == currentPlayerPaused)
             {
+                EventSystem.current.SetSelectedGameObject(null);
                 Time.timeScale = 1;
                 FindObjectOfType<AudioManager>().ResumeAllSounds();
                 isPaused = false;
