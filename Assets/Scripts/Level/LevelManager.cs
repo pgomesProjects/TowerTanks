@@ -97,12 +97,12 @@ public class LevelManager : MonoBehaviour
         //If the current speed is stationary
         if (gameSpeed == currentSpeed[(int)TANKSPEED.STATIONARY])
         {
-            FindObjectOfType<AudioManager>().Stop("TankIdle");
+            FindObjectOfType<AudioManager>().Stop("TreadsRolling");
         }
         //If the tank idle isn't already playing, play it
-        else if (!FindObjectOfType<AudioManager>().IsPlaying("TankIdle"))
+        else if (!FindObjectOfType<AudioManager>().IsPlaying("TreadsRolling"))
         {
-            FindObjectOfType<AudioManager>().Play("TankIdle", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+            FindObjectOfType<AudioManager>().Play("TreadsRolling", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
         }
 
         //Update the enemy speed comparative to the player
@@ -404,18 +404,18 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    public void StartCombatMusic(int wave)
+    public void StartCombatMusic(int layers)
     {
         if (!FindObjectOfType<AudioManager>().IsPlaying("CombatLayer0"))
             FindObjectOfType<AudioManager>().Play("CombatLayer0", PlayerPrefs.GetFloat("BGMVolume", 0.5f));
 
-        if(wave >= 3)
+        if(layers >= 3)
         {
             if (!FindObjectOfType<AudioManager>().IsPlaying("CombatLayer1"))
                 FindObjectOfType<AudioManager>().Play("CombatLayer1", PlayerPrefs.GetFloat("BGMVolume", 0.5f));
         }
 
-        if(wave >= 7)
+        if(layers >= 5)
         {
             if (!FindObjectOfType<AudioManager>().IsPlaying("CombatLayer2"))
                 FindObjectOfType<AudioManager>().Play("CombatLayer2", PlayerPrefs.GetFloat("BGMVolume", 0.5f));

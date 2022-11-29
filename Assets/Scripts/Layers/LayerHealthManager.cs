@@ -69,9 +69,11 @@ public class LayerHealthManager : MonoBehaviour
         {
             Debug.Log("Layer " + (GetComponentInChildren<LayerManager>().GetNextLayerIndex() - 1) + " Health: " + health);
         }
-        
+
+        FindObjectOfType<AudioManager>().PlayOneShot("TankImpact", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+
         //Check to see if the layer's diegetics need to be updated
-        if(GetComponentInChildren<DamageDiegeticController>() != null)
+        if (GetComponentInChildren<DamageDiegeticController>() != null)
         {
             float damagePercent = (float)health / maxHealth;
             GetComponentInChildren<DamageDiegeticController>().UpdateDiegetic(damagePercent);
@@ -162,6 +164,7 @@ public class LayerHealthManager : MonoBehaviour
         {
             //Update the list of layers accordingly
             transform.GetComponentInParent<PlayerTankController>().AdjustLayersInList();
+            FindObjectOfType<AudioManager>().PlayOneShot("MedExplosionSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
         }
     }
 }

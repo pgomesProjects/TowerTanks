@@ -112,5 +112,7 @@ public class SteerController : InteractableController
         {
             i.transform.Find("LeverPivot").localRotation = endingRot;
         }
+
+        FindObjectOfType<AudioManager>().PlayOneShot("ThrottleShift", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
     }
 }

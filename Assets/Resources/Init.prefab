@@ -67,6 +67,11 @@ MonoBehaviour:
     pitch: 1
     loop: 1
     source: {fileID: 0}
+  - name: TreadsRolling
+    clip: {fileID: 8300000, guid: c8875f33f0d4b584bbf738f967b042f5, type: 3}
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
   - name: UseWrench
     clip: {fileID: 8300000, guid: 8b68e88ef6863bc4b925c9675bf4d9bf, type: 3}
     pitch: 1
@@ -122,11 +127,6 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
-  - name: TreadsRolling
-    clip: {fileID: 8300000, guid: c8875f33f0d4b584bbf738f967b042f5, type: 3}
-    pitch: 1
-    loop: 0
-    source: {fileID: 0}
   - name: TankImpact
     clip: {fileID: 8300000, guid: 57f27d0aef8b67a4cbb0a32ef81c6dd1, type: 3}
     pitch: 1
@@ -139,6 +139,11 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: ItemPickup
     clip: {fileID: 8300000, guid: 67e721c3f9372e6409739f4e0b42408e, type: 3}
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: TextBeep
+    clip: {fileID: 8300000, guid: fdef7f0676959c5468a4ccb80c8e183c, type: 3}
     pitch: 1
     loop: 0
     source: {fileID: 0}

@@ -19,6 +19,7 @@ public class PlayerTankController : MonoBehaviour
     {
         layers = new List<LayerHealthManager>(2);
         AdjustLayersInList();
+        FindObjectOfType<AudioManager>().Play("TankIdle", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
     }
 
     private void Start()
@@ -178,5 +179,19 @@ public class PlayerTankController : MonoBehaviour
     public LayerHealthManager GetLayerAt(int index)
     {
         return layers[index];
+    }
+
+    private void OnDestroy()
+    {
+        if(FindObjectOfType<AudioManager>() != null)
+        {
+            FindObjectOfType<AudioManager>().Stop("TankIdle");
+            if (FindObjectOfType<AudioManager>().IsPlaying("TreadsRolling"))
+            {
+                FindObjectOfType<AudioManager>().Stop("TreadsRolling");
+            }
+
+            FindObjectOfType<AudioManager>().PlayOneShot("LargeExplosionSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+        }
     }
 }

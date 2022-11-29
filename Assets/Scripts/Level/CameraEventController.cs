@@ -127,6 +127,7 @@ public class CameraEventController : MonoBehaviour
         DisableTargetGroup();
 
         globalUI.transform.Find("AlarmOverlay").gameObject.SetActive(true);
+        FindObjectOfType<AudioManager>().Play("EnemyAlarm", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
 
         StartCoroutine(SmoothZoomCameraEvent(GetCameraFOV(), endFOV, seconds));
         StartCoroutine(SmoothMoveCameraEvent(_tanksTargetGroup.transform.position, enemyPos, seconds));
@@ -134,6 +135,10 @@ public class CameraEventController : MonoBehaviour
         yield return new WaitForSeconds(seconds);
 
         globalUI.transform.Find("AlarmOverlay").gameObject.SetActive(false);
+        if (FindObjectOfType<AudioManager>().IsPlaying("EnemyAlarm"))
+        {
+            FindObjectOfType<AudioManager>().Stop("EnemyAlarm");
+        }
 
         SwitchCamera();
 

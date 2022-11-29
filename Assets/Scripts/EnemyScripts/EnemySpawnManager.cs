@@ -13,7 +13,7 @@ public class EnemySpawnManager : MonoBehaviour
         enemyTypeCounters = new List<int>();
         for(int i = 0; i < enemyPrefabs.Length; i++)
         {
-            enemyTypeCounters.Add(0);
+            enemyTypeCounters.Add(8);
         }
     }
 
@@ -29,7 +29,7 @@ public class EnemySpawnManager : MonoBehaviour
         if (enemyEncounterAni != null)
             StopCoroutine(enemyEncounterAni);
 
-        enemyEncounterAni = CameraEventController.instance.ShowEnemyWithCamera(40, new Vector3(cameraZoomPos.x + 55, cameraZoomPos.y, cameraZoomPos.z), 3, newEnemy);
+        enemyEncounterAni = CameraEventController.instance.ShowEnemyWithCamera(40, new Vector3(cameraZoomPos.x + 55, cameraZoomPos.y, cameraZoomPos.z), 4, newEnemy);
 
         StartCoroutine(enemyEncounterAni);
 

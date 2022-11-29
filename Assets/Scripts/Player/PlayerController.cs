@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float speed = 8f;
     private Rigidbody2D rb;
     private PlayerTankController playerTank;
+    private Animator playerAnimator;
 
     internal int currentLayer = 1;
 
@@ -62,6 +63,7 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         playerTank = GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>();
+        playerAnimator = GetComponent<Animator>();
         defaultGravity = rb.gravityScale;
         isHoldingItem = false;
         canMove = true;
@@ -89,6 +91,7 @@ public class PlayerController : MonoBehaviour
             //Move the player horizontally
             if (canMove)
             {
+                playerAnimator.SetFloat("PlayerX", MathF.Abs(movement.x));
                 //Debug.Log("Player Can Move!");
                 rb.velocity = new Vector2(movement.x * speed, rb.velocity.y);
 
@@ -109,6 +112,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
+                playerAnimator.SetFloat("PlayerX", 0);
                 rb.velocity = Vector2.zero;
             }
 
@@ -134,6 +138,8 @@ public class PlayerController : MonoBehaviour
                 rb.gravityScale = defaultGravity;
             }
         }
+        else
+            playerAnimator.SetFloat("PlayerX", 0);
     }
 
     private void Flip()
@@ -622,7 +628,9 @@ public class PlayerController : MonoBehaviour
             Destroy(itemHeld.GetComponent<DamageObject>());
         }
 
-            itemHeld.SetPickUp(true);
+        FindObjectOfType<AudioManager>().PlayOneShot("ItemPickup", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+
+        itemHeld.SetPickUp(true);
         isHoldingItem = true;
         closestItem = null;
     }

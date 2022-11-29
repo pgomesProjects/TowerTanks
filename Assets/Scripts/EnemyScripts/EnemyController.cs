@@ -55,12 +55,11 @@ public class EnemyController : MonoBehaviour
 
     protected virtual void CreateLayers()
     {
-        LevelManager.instance.StartCombatMusic(FindObjectOfType<EnemySpawnManager>().GetEnemyCountAt(0));
-
         float extraLayers = FindObjectOfType<EnemySpawnManager>().GetEnemyCountAt(0) * waveCounter;
         //Debug.Log("Extra Layers For Normal Tank #" + (FindObjectOfType<EnemySpawnManager>().GetEnemyCountAt(0) + 1).ToString() + ": " + extraLayers);
         totalEnemyLayers = 2 + Mathf.FloorToInt(extraLayers);
         totalEnemyLayers = Mathf.Clamp(totalEnemyLayers, 2, MAXLAYERS);
+        LevelManager.instance.StartCombatMusic(totalEnemyLayers);
 
         bool specialLayerSpawned = false;
 
@@ -386,5 +385,8 @@ public class EnemyController : MonoBehaviour
         {
             FindObjectOfType<EnemySpawnManager>().GetReadyForEnemySpawn();
         }
+
+        if(FindObjectOfType<AudioManager>() != null)
+            FindObjectOfType<AudioManager>().PlayOneShot("MedExplosionSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
     }
 }

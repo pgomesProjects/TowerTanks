@@ -44,7 +44,8 @@ public class InteractableController : MonoBehaviour
         {
             if(currentPlayerLockedIn == null)
             {
-                currentPlayerColliding.HideInteractionPrompt();
+                if(currentPlayerColliding != null)
+                    currentPlayerColliding.HideInteractionPrompt();
                 canInteract = false;
                 currentPlayerColliding = null;
                 //Player can no longer interact with this item

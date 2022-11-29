@@ -614,6 +614,7 @@ GameObject:
   - component: {fileID: 4673326632306893225}
   - component: {fileID: -4907505551727450805}
   - component: {fileID: 1748500621499198569}
+  - component: {fileID: 2916683744378271819}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -968,6 +969,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 496db7f7-9411-45d4-b18e-9545be69c3b7
     m_ActionName: Player/Throw[/XInputControllerWindows/buttonEast]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 71a5200b-b29c-4c30-8cc8-edc3c683f5ca
+    m_ActionName: Player/Advance Tutorial Text[/DualSenseGamepadHID/buttonSouth]
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player
@@ -1046,6 +1051,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerCollider: {fileID: -4907505551727450805}
+--- !u!95 &2916683744378271819
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6010253057530147535}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: af437f29bafa2b343be8bcb05e2b8015, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &6283422996513313583
 GameObject:
   m_ObjectHideFlags: 0

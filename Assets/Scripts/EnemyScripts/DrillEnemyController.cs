@@ -6,12 +6,11 @@ public class DrillEnemyController : EnemyController
 {
     protected override void CreateLayers()
     {
-        LevelManager.instance.StartCombatMusic(FindObjectOfType<EnemySpawnManager>().GetEnemyCountAt(1));
-
         float extraLayers = FindObjectOfType<EnemySpawnManager>().GetEnemyCountAt(1) * waveCounter;
         //Debug.Log("Extra Layers For Drill Tank #" + (FindObjectOfType<EnemySpawnManager>().GetEnemyCountAt(1) + 1).ToString() + ": " + extraLayers);
         totalEnemyLayers = 2 + Mathf.FloorToInt(extraLayers);
         totalEnemyLayers = Mathf.Clamp(totalEnemyLayers, 2, MAXLAYERS);
+        LevelManager.instance.StartCombatMusic(totalEnemyLayers);
 
         bool specialLayerSpawned = false;
 
