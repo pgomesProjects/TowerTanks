@@ -26,10 +26,12 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private GameObject ghostLayerPrefab;
     [SerializeField] private GameObject tutorialPopup;
     [SerializeField] private TextMeshProUGUI resourcesDisplay;
+    [SerializeField] private DialogEvent tutorialEvent;
 
     public static LevelManager instance;
 
     internal bool isPaused;
+    internal bool readingTutorial;
     internal GAMESTATE levelPhase = GAMESTATE.TUTORIAL; //Start the game with the tutorial
     private int currentPlayerPaused;
     internal int currentRound;
@@ -47,6 +49,7 @@ public class LevelManager : MonoBehaviour
     {
         instance = this;
         isPaused = false;
+        readingTutorial = false;
         currentPlayerPaused = -1;
         totalLayers = 2;
         currentRound = 0;
@@ -56,6 +59,7 @@ public class LevelManager : MonoBehaviour
         resourcesDisplay.text = resourcesNum.ToString();
         itemPrice = new Dictionary<string, int>();
         PopulateItemDictionary();
+        TutorialController.main.dialogEvent = tutorialEvent;
     }
 
     private void Start()

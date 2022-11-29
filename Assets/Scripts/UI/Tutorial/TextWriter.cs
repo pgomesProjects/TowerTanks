@@ -100,6 +100,19 @@ public class TextWriter : MonoBehaviour
                 charIndex++;
                 string text = dialog.Substring(0, charIndex);
 
+                if(dialog[charIndex - 1] == '<')
+                {
+                    string imageText = GetSpriteImage();
+                    text += imageText;
+                    charIndex += imageText.Length;
+                }
+
+                if (dialog[charIndex - 1] == 92)
+                {
+                    text += dialog[charIndex];
+                    charIndex++;
+                }
+
                 //Have invisible characters that make sure the text is aligned vertically
                 if (invisibleCharacters)
                     text += "<color=#00000000>" + dialog.Substring(charIndex) + "</color>";
@@ -117,6 +130,18 @@ public class TextWriter : MonoBehaviour
             }
 
             return false;
+        }
+
+        private string GetSpriteImage()
+        {
+            int posFrom = charIndex - 1;
+            int posTo = dialog.IndexOf(">", posFrom + 1);
+            if (posTo != -1) //if found char
+            {
+                return dialog.Substring(posFrom + 1, posTo - posFrom);
+            }
+
+            return string.Empty;
         }
 
         public TextMeshProUGUI GetUIText() { return uiText; }

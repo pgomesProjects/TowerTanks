@@ -492,6 +492,8 @@ GameObject:
   m_Component:
   - component: {fileID: 121572918}
   - component: {fileID: 121572919}
+  - component: {fileID: 121572921}
+  - component: {fileID: 121572920}
   m_Layer: 5
   m_Name: TutorialPopup
   m_TagString: Untagged
@@ -532,6 +534,32 @@ CanvasGroup:
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
+--- !u!114 &121572920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 121572917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a243ee7dbda0fb48a002e8f371e2480, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playOnStart: 1
+  textSpeed: 30
+--- !u!114 &121572921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 121572917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ef5e683dab3aff4797bf05877677f66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &236796187
 GameObject:
   m_ObjectHideFlags: 0
@@ -568,6 +596,7 @@ MonoBehaviour:
   ghostLayerPrefab: {fileID: 1362854724604262610, guid: f5ceebe7143a8944ba73657ee0a2fc33, type: 3}
   tutorialPopup: {fileID: 121572917}
   resourcesDisplay: {fileID: 701447237}
+  tutorialEvent: {fileID: 1005274065}
 --- !u!4 &236796189
 Transform:
   m_ObjectHideFlags: 0
@@ -1339,19 +1368,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Movement / Climbing Ladder: <sprite=37>          Interact With Machines:
-    <sprite=30>
-
-
-    Pick Up / Drop Item: <sprite=27>     Throw Item: <sprite=28>     
-    Use Hammer / Fire Cannon: <sprite=29>
-
-
-    Angle Cannon: Spin <sprite=37> Clockwise
-    / Counterclockwise
-
-
-    Move The Throttle To The Right To Begin The Game'
+  m_text: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque at laoreet
+    sapien, quis ultrices nunc. Nullam sit amet ultrices dui, tincidunt sollicitudin
+    dolor.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0c4f47840f679864da66aeaf5fee70e2, type: 2}
   m_sharedMaterial: {fileID: -6796894105817313763, guid: 9489daf95865bbd4ea0007cc10e49217, type: 2}
@@ -1378,7 +1397,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 22.2
+  m_fontSize: 32
   m_fontSizeBase: 25
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2260,6 +2279,75 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5367646789664393346, guid: 8600783d0e2ccad46b1ab7c1126ed935, type: 3}
   m_PrefabInstance: {fileID: 964442149}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1005274063
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1005274064}
+  - component: {fileID: 1005274065}
+  - component: {fileID: 1005274066}
+  m_Layer: 0
+  m_Name: TutorialHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1005274064
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1005274063}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1087749574}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1005274065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1005274063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2d23a13e2a535546ae0638cbe1f6d29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogLines:
+  - Welcome to the Tower Tanks Tutorial!
+  - 'Movement / Climbing Ladder: <sprite=37 tint=1>'
+  - 'Interact With Machines: <sprite=30 tint=1>'
+  - 'Pick Up / Drop Item: <sprite=27 tint=1>'
+  - 'Throw Item: <sprite=28 tint=1>'
+  - 'Use Hammer / Fire Cannon: <sprite=29 tint=1>'
+  - 'Angle Cannon: Spin <sprite=37 tint =1> Clockwise / Counterclockwise'
+  - Whenever You Are Ready, Move The Throttle To The Right To Begin The Game.
+  hasSeenLines: []
+  messageText: {fileID: 684981127}
+  continueObject: {fileID: 1463711429}
+--- !u!114 &1005274066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1005274063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7109834b56f1fd744b9262930d4f8e11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1016282328
 GameObject:
   m_ObjectHideFlags: 0
@@ -2469,6 +2557,7 @@ Transform:
   - {fileID: 522900646}
   - {fileID: 862922583}
   - {fileID: 1139998637}
+  - {fileID: 1005274064}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3272,6 +3361,162 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5367646789664393346, guid: 8600783d0e2ccad46b1ab7c1126ed935, type: 3}
   m_PrefabInstance: {fileID: 1448708148}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1463711429
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1463711430}
+  - component: {fileID: 1463711432}
+  - component: {fileID: 1463711431}
+  - component: {fileID: 1463711433}
+  m_Layer: 5
+  m_Name: ContinuePrompt
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1463711430
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1463711429}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2119438490}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 7.4999876}
+  m_SizeDelta: {x: 0, y: -15.000025}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1463711431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1463711429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: <sprite=27>
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 0c4f47840f679864da66aeaf5fee70e2, type: 2}
+  m_sharedMaterial: {fileID: -6796894105817313763, guid: 9489daf95865bbd4ea0007cc10e49217, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 11400000, guid: 36e4c98cbd6bb324aa92ba754da7377b, type: 2}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 32
+  m_fontSizeBase: 25
+  m_fontWeight: 400
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 18
+  m_fontSizeMax: 32
+  m_fontStyle: 0
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 1024
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1463711432
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1463711429}
+  m_CullTransparentMesh: 1
+--- !u!95 &1463711433
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1463711429}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: df170ecd52365284cbda15cf6b81b46c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1546441755
 GameObject:
   m_ObjectHideFlags: 0
@@ -4737,6 +4982,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 684981126}
+  - {fileID: 1463711430}
   m_Father: {fileID: 121572918}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

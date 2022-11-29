@@ -91,6 +91,15 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Advance Tutorial Text"",
+                    ""type"": ""Button"",
+                    ""id"": ""71a5200b-b29c-4c30-8cc8-edc3c683f5ca"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Throw"",
                     ""type"": ""Button"",
                     ""id"": ""496db7f7-9411-45d4-b18e-9545be69c3b7"",
@@ -539,6 +548,17 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""action"": ""Throw"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""15883bf4-bce8-4490-8697-0708709091ed"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Advance Tutorial Text"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -983,6 +1003,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
         m_Player_PickUp = m_Player.FindAction("Pick Up", throwIfNotFound: true);
+        m_Player_AdvanceTutorialText = m_Player.FindAction("Advance Tutorial Text", throwIfNotFound: true);
         m_Player_Throw = m_Player.FindAction("Throw", throwIfNotFound: true);
         m_Player_ControlSteering = m_Player.FindAction("Control Steering", throwIfNotFound: true);
         m_Player_Use = m_Player.FindAction("Use", throwIfNotFound: true);
@@ -1068,6 +1089,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Interact;
     private readonly InputAction m_Player_Pause;
     private readonly InputAction m_Player_PickUp;
+    private readonly InputAction m_Player_AdvanceTutorialText;
     private readonly InputAction m_Player_Throw;
     private readonly InputAction m_Player_ControlSteering;
     private readonly InputAction m_Player_Use;
@@ -1086,6 +1108,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
         public InputAction @Pause => m_Wrapper.m_Player_Pause;
         public InputAction @PickUp => m_Wrapper.m_Player_PickUp;
+        public InputAction @AdvanceTutorialText => m_Wrapper.m_Player_AdvanceTutorialText;
         public InputAction @Throw => m_Wrapper.m_Player_Throw;
         public InputAction @ControlSteering => m_Wrapper.m_Player_ControlSteering;
         public InputAction @Use => m_Wrapper.m_Player_Use;
@@ -1123,6 +1146,9 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @PickUp.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPickUp;
                 @PickUp.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPickUp;
                 @PickUp.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPickUp;
+                @AdvanceTutorialText.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAdvanceTutorialText;
+                @AdvanceTutorialText.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAdvanceTutorialText;
+                @AdvanceTutorialText.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAdvanceTutorialText;
                 @Throw.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnThrow;
                 @Throw.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnThrow;
                 @Throw.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnThrow;
@@ -1169,6 +1195,9 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @PickUp.started += instance.OnPickUp;
                 @PickUp.performed += instance.OnPickUp;
                 @PickUp.canceled += instance.OnPickUp;
+                @AdvanceTutorialText.started += instance.OnAdvanceTutorialText;
+                @AdvanceTutorialText.performed += instance.OnAdvanceTutorialText;
+                @AdvanceTutorialText.canceled += instance.OnAdvanceTutorialText;
                 @Throw.started += instance.OnThrow;
                 @Throw.performed += instance.OnThrow;
                 @Throw.canceled += instance.OnThrow;
@@ -1344,6 +1373,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         void OnInteract(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
         void OnPickUp(InputAction.CallbackContext context);
+        void OnAdvanceTutorialText(InputAction.CallbackContext context);
         void OnThrow(InputAction.CallbackContext context);
         void OnControlSteering(InputAction.CallbackContext context);
         void OnUse(InputAction.CallbackContext context);

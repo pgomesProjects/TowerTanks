@@ -13,7 +13,7 @@ public class TutorialDialogHandler : DialogEvent
 
     public override void OnDialogStart()
     {
-        throw new System.NotImplementedException();
+        //Any events to happen on the start of the tutorial go here
     }
 
     public override void CheckEvents(ref TextWriter.TextWriterSingle textWriterObj)
@@ -35,7 +35,7 @@ public class TutorialDialogHandler : DialogEvent
         //Hide the continue object while the text is being displayed
         continueObject.SetActive(false);
 
-        Debug.Log("Current Text Speed: " + TutorialController.main.currentTextSpeed);
+        //Debug.Log("Current Text Speed: " + TutorialController.main.currentTextSpeed);
 
         //Use the text writer class to write each character one by one
         textWriterObj = TextWriter.AddWriter_Static(null, messageText, message, 1 / TutorialController.main.currentTextSpeed, true, true, OnTextComplete);
@@ -45,7 +45,10 @@ public class TutorialDialogHandler : DialogEvent
 
     public void OnTextComplete()
     {
-        continueObject.SetActive(true);
+        if (!TutorialController.main.listenForInput)
+        {
+            continueObject.SetActive(true);
+        }
     }
 
     public override void OnEventComplete()

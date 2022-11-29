@@ -75,7 +75,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (!LevelManager.instance.isPaused)
+        if (UIAllowPlayerMovement())
         {
             //Check to see if the joystick is spinning
             CheckJoystickSpinning();
@@ -84,7 +84,7 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!LevelManager.instance.isPaused)
+        if (UIAllowPlayerMovement())
         {
             //Move the player horizontally
             if (canMove)
@@ -158,7 +158,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnLadderEnter(InputAction.CallbackContext ctx)
     {
-        if (!LevelManager.instance.isPaused)
+        if (UIAllowPlayerMovement())
         {
             //If the player presses the ladder climb button
             if (ctx.performed)
@@ -182,7 +182,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnLadderExit(InputAction.CallbackContext ctx)
     {
-        if (!LevelManager.instance.isPaused)
+        if (UIAllowPlayerMovement())
         {
             //If the player presses the ladder climb button
             if (ctx.performed)
@@ -215,7 +215,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnInteract(InputAction.CallbackContext ctx)
     {
-        if (!LevelManager.instance.isPaused)
+        if (UIAllowPlayerMovement())
         {
             //If the player presses the interact button
             if (ctx.started)
@@ -248,7 +248,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnUse(InputAction.CallbackContext ctx)
     {
-        if (!LevelManager.instance.isPaused)
+        if (UIAllowPlayerMovement())
         {
             //If the player presses the use button
             if (ctx.started)
@@ -375,7 +375,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnPrevInteractable(InputAction.CallbackContext ctx)
     {
-        if (!LevelManager.instance.isPaused)
+        if (UIAllowPlayerMovement())
         {
             //If the player presses the previous interactable button
             if (ctx.performed)
@@ -393,7 +393,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnNextInteractable(InputAction.CallbackContext ctx)
     {
-        if (!LevelManager.instance.isPaused)
+        if (UIAllowPlayerMovement())
         {
             //If the player presses the next interactable button
             if (ctx.performed)
@@ -544,7 +544,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnPickup(InputAction.CallbackContext ctx)
     {
-        if (!LevelManager.instance.isPaused)
+        if (UIAllowPlayerMovement())
         {
             //If the player presses the pickup button
             if (ctx.started)
@@ -556,7 +556,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnThrow(InputAction.CallbackContext ctx)
     {
-        if (!LevelManager.instance.isPaused)
+        if (UIAllowPlayerMovement())
         {
             //If the player presses the throw button
             if (ctx.started)
@@ -725,6 +725,11 @@ public class PlayerController : MonoBehaviour
 
         //End the check
         isCheckingSpinInput = false;
+    }
+
+    public bool UIAllowPlayerMovement()
+    {
+        return !LevelManager.instance.isPaused && !LevelManager.instance.readingTutorial;
     }
 
     public int GetPlayerIndex()

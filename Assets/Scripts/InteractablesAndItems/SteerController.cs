@@ -50,11 +50,21 @@ public class SteerController : InteractableController
                 {
                     if(LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
                     {
-                        LevelManager.instance.TransitionGameState();
-                    }
+                        //If the tutorial calls to move the throttle, move the throttle
+                        if(TutorialController.main.currentTutorialState == TUTORIALSTATE.MOVETHROTTLE)
+                        {
+                            UpdateSteerLever(1);
+                            yield return new WaitForSeconds(steeringAniSeconds);
 
-                    UpdateSteerLever(1);
-                    yield return new WaitForSeconds(steeringAniSeconds);
+                            //Tell tutorial that task is complete
+                            TutorialController.main.OnTutorialTaskCompletion();
+                        }
+                    }
+                    else
+                    {
+                        UpdateSteerLever(1);
+                        yield return new WaitForSeconds(steeringAniSeconds);
+                    }
                 }
             }
             yield return null;

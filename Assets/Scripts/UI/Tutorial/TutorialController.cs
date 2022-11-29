@@ -4,6 +4,21 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+public enum TUTORIALSTATE
+{
+    READING,
+    BUILDFIRSTLAYER,
+    BUILDSECONDLAYER,
+    BUILDSHELLSTATION,
+    BUILDCANNON,
+    GETSHELL,
+    FIRECANNON,
+    BUILDENGINE,
+    GIVEENGINEFUEL,
+    BUILDTHROTTLE,
+    MOVETHROTTLE
+}
+
 [RequireComponent(typeof(TextWriter))]
 public class TutorialController : MonoBehaviour
 {
@@ -19,11 +34,18 @@ public class TutorialController : MonoBehaviour
     public float textSpeed = 30;
     internal float currentTextSpeed;
 
+    internal bool listenForInput;
+
+    internal TUTORIALSTATE currentTutorialState;
+
     private void Awake()
     {
         main = this;
         isDialogActive = false;
+        listenForInput = false;
         playerControls = new PlayerControlSystem();
+        currentTextSpeed = textSpeed;
+        playerControls.Player.AdvanceTutorialText.performed += _ => AdvanceText();
     }
 
     public void AdvanceText()
@@ -31,25 +53,24 @@ public class TutorialController : MonoBehaviour
         //If the dialog is activated and not in the control / history menu
         if (isDialogActive)
         {
-
             //If there is text being written already, write everything
-            if (textWriterSingle != null && textWriterSingle.IsActive())
+            if (textWriterSingle != null && textWriterSingle.IsActive() && !listenForInput)
                 textWriterSingle.WriteAllAndDestroy();
 
             //If there is no text and there are still seen lines left, check for events needed to display the text
-            else if (dialogEvent.HasSeenCutscene() && dialogEvent.GetCurrentLine() < dialogEvent.GetSeenDialogLength())
+            else if (dialogEvent.HasSeenCutscene() && dialogEvent.GetCurrentLine() < dialogEvent.GetSeenDialogLength() && !listenForInput)
             {
                 dialogEvent.CheckEvents(ref textWriterSingle);
             }
 
             //If there is no text and there are still lines left, check for events needed to display the text
-            else if (!dialogEvent.HasSeenCutscene() && dialogEvent.GetCurrentLine() < dialogEvent.GetDialogLength())
+            else if (!dialogEvent.HasSeenCutscene() && dialogEvent.GetCurrentLine() < dialogEvent.GetDialogLength() && !listenForInput)
             {
                 dialogEvent.CheckEvents(ref textWriterSingle);
             }
 
             //If all of the text has been shown, call the event for when the text is complete
-            else
+            else if(!listenForInput)
             {
                 isDialogActive = false;
                 dialogEvent.OnEventComplete();
@@ -83,5 +104,12 @@ public class TutorialController : MonoBehaviour
     private void OnDisable()
     {
         playerControls.Disable();
+    }
+
+    public void OnTutorialTaskCompletion()
+    {
+        listenForInput = false;
+        AdvanceText();
+        currentTutorialState = TUTORIALSTATE.READING;
     }
 }

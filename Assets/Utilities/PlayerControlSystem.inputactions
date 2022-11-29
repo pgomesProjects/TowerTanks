@@ -69,6 +69,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Advance Tutorial Text",
+                    "type": "Button",
+                    "id": "71a5200b-b29c-4c30-8cc8-edc3c683f5ca",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Throw",
                     "type": "Button",
                     "id": "496db7f7-9411-45d4-b18e-9545be69c3b7",
@@ -515,6 +524,17 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Throw",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "15883bf4-bce8-4490-8697-0708709091ed",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Advance Tutorial Text",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
