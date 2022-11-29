@@ -688,6 +688,6 @@ MonoBehaviour:
   lockPlayerIntoInteraction: 1
   highlight: {fileID: 4045261144714319596}
   lockedInteractionCanvas: {fileID: 6529031425751826981}
-  depletionSeconds: 120
+  depletionSeconds: 45
   coalPercentageIndicator: {fileID: 7064411900344003444}
   framesForCoalFill: 5

@@ -2618,7 +2618,6 @@ MonoBehaviour:
   pauseMenuButtons:
   - {fileID: 3128995723536942488}
   - {fileID: 3128995724175909180}
-  - {fileID: 3128995722482962877}
   optionsMenuSelected: {fileID: 867794765}
   pauseText: {fileID: 3128995723203806793}
 --- !u!1 &1139998635
@@ -4450,7 +4449,7 @@ GameObject:
   - component: {fileID: 1834408015}
   m_Layer: 8
   m_Name: TankTreads
-  m_TagString: Untagged
+  m_TagString: TankBottom
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

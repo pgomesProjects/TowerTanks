@@ -36,6 +36,14 @@ public class LayerHealthManager : MonoBehaviour
         }
     }
 
+    private void KeepYAtMultiple(int multiple)
+    {
+        float yPos = transform.position.y / multiple;
+        int closestInt = (int)Mathf.Round(yPos);
+        yPos = closestInt * multiple;
+        transform.position = new Vector3(transform.position.x, yPos, transform.position.z);
+    }
+
     private bool CollisionOnBottom(List<ContactPoint2D> contactPoints)
     {
         foreach(var i in contactPoints)

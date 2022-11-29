@@ -109,6 +109,10 @@ public class TutorialController : MonoBehaviour
     public void OnTutorialTaskCompletion()
     {
         listenForInput = false;
+
+        if (textWriterSingle != null && textWriterSingle.IsActive())
+            textWriterSingle.WriteAllAndDestroy();
+
         AdvanceText();
         currentTutorialState = TUTORIALSTATE.READING;
     }

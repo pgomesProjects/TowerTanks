@@ -111,6 +111,7 @@ public class PauseController : MonoBehaviour
     {
         SceneManager.LoadScene("Title");
         Time.timeScale = 1.0f;
+        FindObjectOfType<AudioManager>().StopAllSounds();
     }
     
     public void UpdatePauseText(int playerIndex)

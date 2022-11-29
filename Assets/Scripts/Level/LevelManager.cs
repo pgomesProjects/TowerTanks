@@ -394,12 +394,46 @@ public class LevelManager : MonoBehaviour
                 if(FindObjectOfType<EnemySpawnManager>() != null)
                     FindObjectOfType<EnemySpawnManager>().GetReadyForEnemySpawn();
                 tutorialPopup.SetActive(false);
+                readingTutorial = false;
                 break;
             //Gameplay to Game Over
             case GAMESTATE.GAMEACTIVE:
                 levelPhase = GAMESTATE.GAMEOVER;
                 GameOver();
                 break;
+        }
+    }
+
+    public void StartCombatMusic(int wave)
+    {
+        if (!FindObjectOfType<AudioManager>().IsPlaying("CombatLayer0"))
+            FindObjectOfType<AudioManager>().Play("CombatLayer0", PlayerPrefs.GetFloat("BGMVolume", 0.5f));
+
+        if(wave >= 3)
+        {
+            if (!FindObjectOfType<AudioManager>().IsPlaying("CombatLayer1"))
+                FindObjectOfType<AudioManager>().Play("CombatLayer1", PlayerPrefs.GetFloat("BGMVolume", 0.5f));
+        }
+
+        if(wave >= 7)
+        {
+            if (!FindObjectOfType<AudioManager>().IsPlaying("CombatLayer2"))
+                FindObjectOfType<AudioManager>().Play("CombatLayer2", PlayerPrefs.GetFloat("BGMVolume", 0.5f));
+        }
+    }
+
+    public void StopCombatMusic()
+    {
+        if (FindObjectOfType<AudioManager>() != null)
+        {
+            if (FindObjectOfType<AudioManager>().IsPlaying("CombatLayer0"))
+                FindObjectOfType<AudioManager>().Stop("CombatLayer0");
+
+            if (FindObjectOfType<AudioManager>().IsPlaying("CombatLayer1"))
+                FindObjectOfType<AudioManager>().Stop("CombatLayer1");
+
+            if (FindObjectOfType<AudioManager>().IsPlaying("CombatLayer2"))
+                FindObjectOfType<AudioManager>().Stop("CombatLayer2");
         }
     }
 

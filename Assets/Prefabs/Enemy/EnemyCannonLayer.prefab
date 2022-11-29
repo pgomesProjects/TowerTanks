@@ -113,8 +113,10 @@ MonoBehaviour:
   upperAngleBound: 70
   projectile: {fileID: 4737827509279057301, guid: c7da71b2e77ef994ba9aa8d6241280ae, type: 3}
   spawnPoint: {fileID: 4582106216502727523}
-  cannonForce: 4000
+  cannonForce: 8000
   currentCannonDirection: 0
+  unloadedCannonSprite: {fileID: 0}
+  loadedCannonSprite: {fileID: 0}
   cannonPivot: {fileID: 3746104128299154810}
 --- !u!1 &4582106216502727523
 GameObject:
