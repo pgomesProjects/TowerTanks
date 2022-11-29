@@ -12,6 +12,8 @@ public class PlayerTankController : MonoBehaviour
     private float currentTankWeightMultiplier;
     private float currentEngineMultiplier;
     [SerializeField] internal float tankBarrierRange = 12;
+    [SerializeField] private float distanceUntilSpawn = 50;
+    private float currentDistance;
 
     private List<LayerHealthManager> layers;
 
@@ -58,6 +60,12 @@ public class PlayerTankController : MonoBehaviour
     public float GetPlayerSpeed()
     {
         return (currentSpeed * currentEngineMultiplier) * currentTankWeightMultiplier;
+    }
+
+    private void Update()
+    {
+        currentDistance += GetPlayerSpeed() * LevelManager.instance.gameSpeed * Time.deltaTime;
+        Debug.Log("Distance Travelled: " + currentDistance);
     }
 
     public void AdjustTankWeight(int numberOfLayers)
@@ -179,6 +187,13 @@ public class PlayerTankController : MonoBehaviour
     public LayerHealthManager GetLayerAt(int index)
     {
         return layers[index];
+    }
+
+    public float GetCurrentTankDistance() => currentDistance;
+
+    public void ResetTankDistance()
+    {
+        currentDistance = 0;
     }
 
     private void OnDestroy()

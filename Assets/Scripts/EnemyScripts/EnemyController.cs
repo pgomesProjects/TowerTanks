@@ -9,7 +9,7 @@ public class EnemyController : MonoBehaviour
     private enum MOVEMENTDIRECTION { DECELERATE, NEUTRAL, ACCELERATE}
 
     protected const float ENEMYLAYERSIZE = 7.65f;
-    protected const int MAXLAYERS = 7;
+    protected const int MAXLAYERS = 8;
 
     [SerializeField] protected float health = 100;
     [SerializeField] protected float speed = 1;

@@ -1873,6 +1873,7 @@ MonoBehaviour:
   tankWeightMultiplier: 0.8
   tankEngineMultiplier: 1.5
   tankBarrierRange: 12
+  distanceUntilSpawn: 50
 --- !u!1 &830699880
 GameObject:
   m_ObjectHideFlags: 0
