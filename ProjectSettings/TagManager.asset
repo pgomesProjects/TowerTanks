@@ -21,6 +21,7 @@ TagManager:
   - ShellStation
   - TankBottom
   - FireRemover
+  - GoPrompt
   layers:
   - Default
   - TransparentFX

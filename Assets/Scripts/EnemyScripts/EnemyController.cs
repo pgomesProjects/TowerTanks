@@ -383,7 +383,9 @@ public class EnemyController : MonoBehaviour
     {
         if (FindObjectOfType<EnemySpawnManager>() != null)
         {
-            FindObjectOfType<EnemySpawnManager>().GetReadyForEnemySpawn();
+            FindObjectOfType<EnemySpawnManager>().enemySpawnerActive = false;
+            if(GameObject.FindGameObjectWithTag("PlayerTank") != null)
+                GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().ResetTankDistance();
         }
 
         if(FindObjectOfType<AudioManager>() != null)

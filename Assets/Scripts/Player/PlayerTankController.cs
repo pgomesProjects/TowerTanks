@@ -64,8 +64,10 @@ public class PlayerTankController : MonoBehaviour
 
     private void Update()
     {
-        currentDistance += GetPlayerSpeed() * LevelManager.instance.gameSpeed * Time.deltaTime;
-        Debug.Log("Distance Travelled: " + currentDistance);
+        if(!SpawnDistanceReached())
+        {
+            currentDistance += GetPlayerSpeed() * LevelManager.instance.gameSpeed * Time.deltaTime;
+        }
     }
 
     public void AdjustTankWeight(int numberOfLayers)
@@ -191,9 +193,13 @@ public class PlayerTankController : MonoBehaviour
 
     public float GetCurrentTankDistance() => currentDistance;
 
+    public bool SpawnDistanceReached() => currentDistance >= distanceUntilSpawn;
+
     public void ResetTankDistance()
     {
+        LevelManager.instance.StopCombatMusic();
         currentDistance = 0;
+        LevelManager.instance.ShowGoPrompt();
     }
 
     private void OnDestroy()

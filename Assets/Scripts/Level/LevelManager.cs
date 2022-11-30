@@ -21,6 +21,7 @@ public class LevelManager : MonoBehaviour
 {
     [SerializeField] private GameObject gameOverCanvas;
     [SerializeField] private GameObject pauseGameCanvas;
+    [SerializeField] private GameObject goPrompt;
     [SerializeField] private GameObject playerTank;
     [SerializeField] private GameObject layerPrefab;
     [SerializeField] private GameObject ghostLayerPrefab;
@@ -67,7 +68,6 @@ public class LevelManager : MonoBehaviour
         if (GameSettings.skipTutorial)
         {
             UpdateSpeed((int)TANKSPEED.FORWARD);
-
             TransitionGameState();
         }
         else
@@ -384,6 +384,16 @@ public class LevelManager : MonoBehaviour
         playerTank.GetComponent<PlayerTankController>().AdjustTankWeight(totalLayers);
     }
 
+    public void ShowGoPrompt()
+    {
+        goPrompt.SetActive(true);
+    }
+
+    public void HideGoPrompt()
+    {
+        goPrompt.SetActive(false);
+    }
+
     public void TransitionGameState()
     {
         switch (levelPhase)
@@ -391,10 +401,9 @@ public class LevelManager : MonoBehaviour
             //Tutorial to Gameplay
             case GAMESTATE.TUTORIAL:
                 levelPhase = GAMESTATE.GAMEACTIVE;
-                if(FindObjectOfType<EnemySpawnManager>() != null)
-                    FindObjectOfType<EnemySpawnManager>().GetReadyForEnemySpawn();
                 tutorialPopup.SetActive(false);
                 readingTutorial = false;
+                GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().ResetTankDistance();
                 break;
             //Gameplay to Game Over
             case GAMESTATE.GAMEACTIVE:

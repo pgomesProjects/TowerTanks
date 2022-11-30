@@ -7,6 +7,7 @@ public class EnemySpawnManager : MonoBehaviour
 {
     [SerializeField] private GameObject[] enemyPrefabs;
     private List<int> enemyTypeCounters;
+    internal bool enemySpawnerActive = false;
 
     private void Start()
     {
@@ -38,13 +39,24 @@ public class EnemySpawnManager : MonoBehaviour
         Debug.Log("===ENEMY #" + LevelManager.instance.currentRound + " HAS SPAWNED!===");
     }
 
-    public void GetReadyForEnemySpawn()
+    private void Update()
     {
-        LevelManager.instance.StopCombatMusic();
+        if (!enemySpawnerActive)
+        {
+            if (GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().SpawnDistanceReached())
+            {
+                GetReadyForEnemySpawn();
+            }
+        }
+    }
 
-        int randomTime = Random.Range(8, 13);
-
+    private void GetReadyForEnemySpawn()
+    {
+        Debug.Log("Enemy Spawn Has Begun!");
+        enemySpawnerActive = true;
+        int randomTime = Random.Range(5, 8);
         Invoke("SpawnRandomEnemy", randomTime);
+        LevelManager.instance.HideGoPrompt();
     }
 
     public void AddToEnemyCounter(Component component)
