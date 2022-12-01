@@ -429,6 +429,12 @@ public class LevelManager : MonoBehaviour
             if (!FindObjectOfType<AudioManager>().IsPlaying("CombatLayer2"))
                 FindObjectOfType<AudioManager>().Play("CombatLayer2", PlayerPrefs.GetFloat("BGMVolume", 0.5f));
         }
+
+        if (layers >= 7)
+        {
+            if (!FindObjectOfType<AudioManager>().IsPlaying("CombatLayer3"))
+                FindObjectOfType<AudioManager>().Play("CombatLayer3", PlayerPrefs.GetFloat("BGMVolume", 0.5f));
+        }
     }
 
     public void StopCombatMusic()
@@ -443,6 +449,9 @@ public class LevelManager : MonoBehaviour
 
             if (FindObjectOfType<AudioManager>().IsPlaying("CombatLayer2"))
                 FindObjectOfType<AudioManager>().Stop("CombatLayer2");
+
+            if (FindObjectOfType<AudioManager>().IsPlaying("CombatLayer3"))
+                FindObjectOfType<AudioManager>().Stop("CombatLayer3");
         }
     }
 
