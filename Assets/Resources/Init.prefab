@@ -57,6 +57,11 @@ MonoBehaviour:
     pitch: 1
     loop: 1
     source: {fileID: 0}
+  - name: DeathStinger
+    clip: {fileID: 8300000, guid: eb5c8a41abb03e04792df995e5503140, type: 3}
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
   - name: CombatLayer2
     clip: {fileID: 8300000, guid: 8402cd5136d3fe340a64728b8b749262, type: 3}
     pitch: 1

@@ -28,13 +28,16 @@ public class DamageObject : MonoBehaviour
     {
         if (collision.collider.tag == "Layer" || collision.collider.tag == "EnemyLayer")
         {
-            //Deal damage and destroy self if colliding with a layer
-            collision.collider.GetComponentInParent<LayerHealthManager>().DealDamage(damage);
-
             //Check to see if current object is a shell. If so, check to see if the layer will catch fire
-            if (TryGetComponent<ShellItemBehavior>(out ShellItemBehavior shell) && collision.collider.GetComponentInParent<LayerHealthManager>() != null)
+            if(LevelManager.instance.levelPhase == GAMESTATE.GAMEACTIVE)
             {
-                collision.collider.GetComponentInParent<LayerHealthManager>().CheckForFireSpawn(shell.GetChanceToCatchFire());
+                //Deal damage and destroy self if colliding with a layer
+                collision.collider.GetComponentInParent<LayerHealthManager>().DealDamage(damage);
+
+                if (TryGetComponent<ShellItemBehavior>(out ShellItemBehavior shell) && collision.collider.GetComponentInParent<LayerHealthManager>() != null)
+                {
+                    collision.collider.GetComponentInParent<LayerHealthManager>().CheckForFireSpawn(shell.GetChanceToCatchFire());
+                }
             }
         }
 

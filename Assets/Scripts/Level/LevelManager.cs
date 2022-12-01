@@ -456,12 +456,13 @@ public class LevelManager : MonoBehaviour
 
         Time.timeScale = 0.0f;
         gameOverCanvas.SetActive(true);
+        FindObjectOfType<AudioManager>().Play("DeathStinger", PlayerPrefs.GetFloat("BGMVolume", 0.5f));
         StartCoroutine(ReturnToMain());
     }
 
     IEnumerator ReturnToMain()
     {
-        yield return new WaitForSecondsRealtime(3);
+        yield return new WaitForSecondsRealtime(9);
 
         SceneManager.LoadScene("Title");
         Time.timeScale = 1.0f;

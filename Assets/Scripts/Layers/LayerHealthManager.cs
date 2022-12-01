@@ -34,6 +34,10 @@ public class LayerHealthManager : MonoBehaviour
         {
             transform.Translate(Vector2.down * gravity * Time.deltaTime);
         }
+        else if(transform.tag == "Layer")
+        {
+            KeepYAtMultiple(8);
+        }
     }
 
     private void KeepYAtMultiple(int multiple)
