@@ -415,25 +415,29 @@ public class LevelManager : MonoBehaviour
 
     public void StartCombatMusic(int layers)
     {
-        if (!FindObjectOfType<AudioManager>().IsPlaying("CombatLayer0"))
-            FindObjectOfType<AudioManager>().Play("CombatLayer0", PlayerPrefs.GetFloat("BGMVolume", 0.5f));
-
-        if(layers >= 3)
-        {
-            if (!FindObjectOfType<AudioManager>().IsPlaying("CombatLayer1"))
-                FindObjectOfType<AudioManager>().Play("CombatLayer1", PlayerPrefs.GetFloat("BGMVolume", 0.5f));
-        }
-
-        if(layers >= 5)
-        {
-            if (!FindObjectOfType<AudioManager>().IsPlaying("CombatLayer2"))
-                FindObjectOfType<AudioManager>().Play("CombatLayer2", PlayerPrefs.GetFloat("BGMVolume", 0.5f));
-        }
 
         if (layers >= 7)
         {
             if (!FindObjectOfType<AudioManager>().IsPlaying("CombatLayer3"))
                 FindObjectOfType<AudioManager>().Play("CombatLayer3", PlayerPrefs.GetFloat("BGMVolume", 0.5f));
+        }
+
+        else if(layers >= 5)
+        {
+            if (!FindObjectOfType<AudioManager>().IsPlaying("CombatLayer2"))
+                FindObjectOfType<AudioManager>().Play("CombatLayer2", PlayerPrefs.GetFloat("BGMVolume", 0.5f));
+        }
+
+        else if (layers >= 3)
+        {
+            if (!FindObjectOfType<AudioManager>().IsPlaying("CombatLayer1"))
+                FindObjectOfType<AudioManager>().Play("CombatLayer1", PlayerPrefs.GetFloat("BGMVolume", 0.5f));
+        }
+
+        else
+        {
+            if (!FindObjectOfType<AudioManager>().IsPlaying("CombatLayer0"))
+                FindObjectOfType<AudioManager>().Play("CombatLayer0", PlayerPrefs.GetFloat("BGMVolume", 0.5f));
         }
     }
 
