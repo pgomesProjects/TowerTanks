@@ -20,6 +20,7 @@ public class CannonController : InteractableController
     private InteractableController cannonInteractable;
     [SerializeField] private Transform cannonPivot;
     private Vector3 cannonRotation;
+    private float playerCannonMovement;
     //private LineRenderer lineRenderer;
     private const int N_TRAJECTORY_POINTS = 10;
 
@@ -176,7 +177,25 @@ public class CannonController : InteractableController
             {
                 //Debug.Log("Cannon Movement: " + cannonInteractable.GetCurrentPlayer().GetCannonMovement());
 
-                cannonRotation += new Vector3(0, 0, (cannonInteractable.GetCurrentPlayer().GetCannonMovement() / 100) * cannonSpeed);
+                playerCannonMovement = cannonInteractable.GetCurrentPlayer().GetCannonMovement();
+
+                if(cannonInteractable.GetCurrentPlayer().IsPlayerSpinningCannon())
+                {
+                    if (!FindObjectOfType<AudioManager>().IsPlaying("CannonAimSFX"))
+                    {
+                        Debug.Log("Aiming...");
+                        FindObjectOfType<AudioManager>().Play("CannonAimSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+                    }
+                }
+                else if (FindObjectOfType<AudioManager>().IsPlaying("CannonAimSFX"))
+                {
+                    Debug.Log("Locked In!");
+                    FindObjectOfType<AudioManager>().Stop("CannonAimSFX");
+                    FindObjectOfType<AudioManager>().PlayOneShot("CannonLockSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+                }
+
+
+                cannonRotation += new Vector3(0, 0, (playerCannonMovement / 100) * cannonSpeed);
 
                 //Make sure the cannon stays within the lower and upper bound
                 cannonRotation.z = Mathf.Clamp(cannonRotation.z, lowerAngleBound, upperAngleBound);

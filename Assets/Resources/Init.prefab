@@ -157,3 +157,28 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
+  - name: CannonAimSFX
+    clip: {fileID: 8300000, guid: a7c0691734fc2314c9e73dfa32e81867, type: 3}
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: CannonLockSFX
+    clip: {fileID: 8300000, guid: 5306cda8b73238744978af040126dd04, type: 3}
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: EngineDyingSFX
+    clip: {fileID: 8300000, guid: 022b85378a9470245a79d7fed2ff534c, type: 3}
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: ProjectileInAirSFX
+    clip: {fileID: 8300000, guid: 8e91a73086112b243be89be30915b053, type: 3}
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: FireBurningSFX
+    clip: {fileID: 8300000, guid: f3e7f7d3b6f454d4c99656988e07ca42, type: 3}
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}

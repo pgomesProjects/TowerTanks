@@ -17,16 +17,15 @@ public class CoalController : InteractableController
     {
         if(LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
         {
-            coalPercentage = 0;
-            hasCoal = false;
+            coalPercentage = 0f;
         }
         else
         {
-            coalPercentage = 100;
+            coalPercentage = 100f;
             hasCoal = true;
         }
 
-        depletionRate = depletionSeconds / coalPercentage;
+        depletionRate = depletionSeconds / 100f;
         coalPercentageIndicator.value = coalPercentage;
 
         FindObjectOfType<PlayerTankController>().AdjustEngineSpeedMultiplier();
@@ -66,11 +65,11 @@ public class CoalController : InteractableController
         //If there is a player
         if (currentPlayer != null)
         {
-            currentPlayer.AddToProgressBar(100 / framesForCoalFill);
+            currentPlayer.AddToProgressBar(100f / framesForCoalFill);
 
             if (currentPlayer.IsProgressBarFull())
             {
-                FillCoal(15);
+                FillCoal(15f);
                 currentPlayer.ShowProgressBar();
             }
         }
@@ -98,12 +97,12 @@ public class CoalController : InteractableController
     private void CoalDepletion()
     {
         //If the player is not in the tutorial, deplete coal
-        if(LevelManager.instance.levelPhase != GAMESTATE.TUTORIAL)
+        if(LevelManager.instance.levelPhase == GAMESTATE.GAMEACTIVE)
         {
             //If the coal percentage is greater than 0, constantly deplete it
-            if (coalPercentage > 0)
+            if (coalPercentage > 0f)
             {
-                coalPercentage -= (1 / depletionRate) * Time.deltaTime;
+                coalPercentage -= (1f / depletionRate) * Time.deltaTime;
                 coalPercentageIndicator.value = coalPercentage;
                 hasCoal = true;
             }
@@ -112,6 +111,7 @@ public class CoalController : InteractableController
                 Debug.Log("Coal Is Out!");
                 hasCoal = false;
                 GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().AdjustEngineSpeedMultiplier();
+                FindObjectOfType<AudioManager>().PlayOneShot("EngineDyingSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
             }
         }
     }
@@ -122,16 +122,16 @@ public class CoalController : InteractableController
         coalPercentage += addToCoal;
 
         //If there is now coal, make sure to update the coal
-        if(coalPercentage > 0)
+        if(coalPercentage > 0f)
         {
             hasCoal = true;
             GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().AdjustEngineSpeedMultiplier();
         }
 
         //Make sure the coal percentage does not pass 100%
-        if(coalPercentage > 100)
+        if(coalPercentage > 100f)
         {
-            coalPercentage = 100;
+            coalPercentage = 100f;
         }
 
         if(LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
@@ -152,7 +152,7 @@ public class CoalController : InteractableController
         return hasCoal;
     }
 
-    public bool IsCoalFull() => coalPercentage >= 100;
+    public bool IsCoalFull() => coalPercentage >= 100f;
 
     private void OnDestroy()
     {

@@ -13,6 +13,7 @@ public class FireBehavior : MonoBehaviour
     {
         layerOnFire = true;
         currentTimer = 0;
+        FindObjectOfType<AudioManager>().Play("FireBurningSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
     }
 
     private void OnDisable()
@@ -25,6 +26,8 @@ public class FireBehavior : MonoBehaviour
                 TutorialController.main.OnTutorialTaskCompletion();
             }
         }
+
+        FindObjectOfType<AudioManager>().Stop("FireBurningSFX");
     }
 
     // Update is called once per frame

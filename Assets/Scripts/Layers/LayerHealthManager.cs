@@ -74,7 +74,7 @@ public class LayerHealthManager : MonoBehaviour
             Debug.Log("Layer " + (GetComponentInChildren<LayerManager>().GetNextLayerIndex() - 1) + " Health: " + health);
         }
 
-        FindObjectOfType<AudioManager>().PlayOneShot("TankImpact", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+        FindObjectOfType<AudioManager>().PlayAtRandomPitch("TankImpact", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
 
         //Check to see if the layer's diegetics need to be updated
         if (GetComponentInChildren<DamageDiegeticController>() != null)

@@ -17,6 +17,8 @@ public class DamageObject : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         currentTimer = 0;
+
+        FindObjectOfType<AudioManager>().Play("ProjectileInAirSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
     }
 
     public void StartRotation(float startingRot)
@@ -77,5 +79,10 @@ public class DamageObject : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    private void OnDestroy()
+    {
+        FindObjectOfType<AudioManager>().Stop("ProjectileInAirSFX");
     }
 }

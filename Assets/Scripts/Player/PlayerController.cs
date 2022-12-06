@@ -223,6 +223,8 @@ public class PlayerController : MonoBehaviour
             return 0;
     }
 
+    public bool IsPlayerSpinningCannon() => isSpinningJoystick && !canMove;
+
     public void OnInteract(InputAction.CallbackContext ctx)
     {
         if (UIAllowPlayerInteract())
