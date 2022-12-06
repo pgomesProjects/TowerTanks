@@ -39,6 +39,13 @@ public class DamageObject : MonoBehaviour
                     collision.collider.GetComponentInParent<LayerHealthManager>().CheckForFireSpawn(shell.GetChanceToCatchFire());
                 }
             }
+            else
+            {
+                if (TryGetComponent<ShellItemBehavior>(out ShellItemBehavior shell) && collision.collider.GetComponentInParent<LayerHealthManager>() != null)
+                {
+                    collision.collider.GetComponentInParent<LayerHealthManager>().CheckForFireSpawn(shell.GetChanceToCatchFire());
+                }
+            }
         }
 
         Destroy(gameObject);

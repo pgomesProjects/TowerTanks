@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum CANNONDIRECTION { LEFT, RIGHT, UP, DOWN };
+
 public class CannonController : InteractableController
 {
-    public enum CANNONDIRECTION { LEFT, RIGHT, UP, DOWN };
 
     [SerializeField] private int maxShells;
     [SerializeField] private float cannonSpeed;
@@ -41,7 +42,16 @@ public class CannonController : InteractableController
         //If the cannon can fit ammo
         if (currentAmmo < maxShells)
         {
-            LoadShell(player);
+            if(LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
+            {
+                if(TutorialController.main.currentTutorialState == TUTORIALSTATE.GRABSHELL)
+                {
+                    LoadShell(player);
+                    TutorialController.main.OnTutorialTaskCompletion();
+                }
+            }
+            else
+                LoadShell(player);
         }
     }
 
@@ -61,12 +71,29 @@ public class CannonController : InteractableController
         //If there is ammo
         if(currentAmmo > 0 || maxShells == 0)
         {
-            //Fire the cannon
-            Fire();
-            UpdateCannonBody();
+            if(LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
+            {
+                if(TutorialController.main.currentTutorialState == TUTORIALSTATE.FIRECANNON)
+                {
+                    //Fire the cannon
+                    Fire();
+                    UpdateCannonBody();
 
-            //Shake the camera
-            CameraEventController.instance.ShakeCamera(5f, 0.1f);
+                    //Shake the camera
+                    CameraEventController.instance.ShakeCamera(5f, 0.1f);
+
+                    TutorialController.main.OnTutorialTaskCompletion();
+                }
+            }
+            else
+            {
+                //Fire the cannon
+                Fire();
+                UpdateCannonBody();
+
+                //Shake the camera
+                CameraEventController.instance.ShakeCamera(5f, 0.1f);
+            }
         }
     }
 

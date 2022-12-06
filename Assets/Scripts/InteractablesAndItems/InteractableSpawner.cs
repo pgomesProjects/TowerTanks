@@ -5,6 +5,7 @@ using UnityEngine;
 public class InteractableSpawner : MonoBehaviour
 {
     private int currentGhostIndex;
+    [SerializeField] private GameObject tutorialIndicator;
 
     public GameObject SpawnInteractable(GameObject interactable)
     {
@@ -22,14 +23,14 @@ public class InteractableSpawner : MonoBehaviour
 
     public bool IsGhostInteractableSpawned()
     {
-        if (transform.GetChild(0).CompareTag("GhostObject"))
+        if (transform.GetChild(1).CompareTag("GhostObject"))
             return true;
         return false;
     }
 
     public bool IsInteractableSpawned()
     {
-        if (transform.childCount == 0)
+        if (transform.childCount == 1)
             return false;
         return true;
     }
@@ -50,5 +51,10 @@ public class InteractableSpawner : MonoBehaviour
         {
             currentGhostIndex = 0;
         }
+    }
+
+    public void ShowTutorialIndicator(bool showIndicator)
+    {
+        tutorialIndicator.SetActive(showIndicator);
     }
 }

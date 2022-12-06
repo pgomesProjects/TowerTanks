@@ -240,13 +240,13 @@ MonoBehaviour:
   - m_ElementType: 2
     m_Unicode: 65534
     m_GlyphIndex: 33
-    m_Scale: 1
+    m_Scale: 2
     m_Name: controllerButtons_33
     m_HashCode: 1332155942
   - m_ElementType: 2
     m_Unicode: 65534
     m_GlyphIndex: 34
-    m_Scale: 1
+    m_Scale: 2
     m_Name: controllerButtons_34
     m_HashCode: 1332155937
   - m_ElementType: 2
@@ -1115,8 +1115,8 @@ MonoBehaviour:
     m_Metrics:
       m_Width: 128
       m_Height: 128
-      m_HorizontalBearingX: -64
-      m_HorizontalBearingY: 64
+      m_HorizontalBearingX: 0
+      m_HorizontalBearingY: 100
       m_HorizontalAdvance: 128
     m_GlyphRect:
       m_X: 768
@@ -1130,8 +1130,8 @@ MonoBehaviour:
     m_Metrics:
       m_Width: 128
       m_Height: 128
-      m_HorizontalBearingX: -64
-      m_HorizontalBearingY: 64
+      m_HorizontalBearingX: 0
+      m_HorizontalBearingY: 100
       m_HorizontalAdvance: 128
     m_GlyphRect:
       m_X: 896

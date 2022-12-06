@@ -23,6 +23,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private GameObject pauseGameCanvas;
     [SerializeField] private GameObject goPrompt;
     [SerializeField] private GameObject playerTank;
+    [SerializeField] private Transform layerParent;
     [SerializeField] private GameObject layerPrefab;
     [SerializeField] private GameObject ghostLayerPrefab;
     [SerializeField] private GameObject tutorialPopup;
@@ -41,7 +42,8 @@ public class LevelManager : MonoBehaviour
     internal float gameSpeed;
     internal int speedIndex;
     internal float[] currentSpeed = { -1.5f, -1f, 0f, 1, 1.5f };
-    private int resourcesNum = 1000;
+    internal bool isSettingUpOnStart;
+    private int resourcesNum = 2000;
     private GameObject currentGhostLayer;
 
     private Dictionary<string, int> itemPrice;
@@ -52,7 +54,7 @@ public class LevelManager : MonoBehaviour
         isPaused = false;
         readingTutorial = false;
         currentPlayerPaused = -1;
-        totalLayers = 2;
+        totalLayers = 0;
         currentRound = 0;
         isSteering = false;
         speedIndex = (int)TANKSPEED.FORWARD;
@@ -65,17 +67,29 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
+        isSettingUpOnStart = true;
         if (GameSettings.skipTutorial)
         {
+            resourcesNum = 1000;
+            resourcesDisplay.text = resourcesNum.ToString();
             UpdateSpeed((int)TANKSPEED.FORWARD);
             TransitionGameState();
+
+            GameObject currentLayer = AddLayer();
+            FindObjectOfType<InteractableSpawnerManager>().SpawnEngine(currentLayer.transform.Find("InteractSpawnerLeft").GetComponent<InteractableSpawner>());
+            FindObjectOfType<InteractableSpawnerManager>().SpawnThrottle(currentLayer.transform.Find("InteractSpawnerRight").GetComponent<InteractableSpawner>());
+            currentLayer = AddLayer();
+            FindObjectOfType<InteractableSpawnerManager>().SpawnShellStation(currentLayer.transform.Find("InteractSpawnerLeft").GetComponent<InteractableSpawner>());
+            FindObjectOfType<InteractableSpawnerManager>().SpawnCannon(currentLayer.transform.Find("InteractSpawnerRight").GetComponent<InteractableSpawner>());
         }
         else
         {
+            GameObject.FindGameObjectWithTag("Resources").gameObject.SetActive(false);
             UpdateSpeed((int)TANKSPEED.STATIONARY);
         }
 
         gameSpeed = currentSpeed[speedIndex];
+        isSettingUpOnStart = false;
     }
 
     /// <summary>
@@ -174,30 +188,51 @@ public class LevelManager : MonoBehaviour
         RemoveGhostLayer();
     }
 
-    private void AddLayer()
+    private GameObject AddLayer()
     {
         //Spawn a new layer and adjust it to go inside of the tank parent object
         GameObject newLayer = Instantiate(layerPrefab);
-        newLayer.transform.parent = playerTank.transform;
+        newLayer.transform.parent = layerParent;
         newLayer.transform.localPosition = new Vector2(0, totalLayers * 8);
 
-        playerTank.transform.Find("TankFollowTop").transform.localPosition = new Vector2(-13, (totalLayers * 8) + 4);
+        if(totalLayers > 2)
+        {
+            playerTank.transform.Find("TankFollowTop").transform.localPosition = new Vector2(-13, (totalLayers * 8) + 4);
+        }
+        else
+        {
+            playerTank.transform.Find("TankFollowTop").transform.localPosition = new Vector2(-13, 12);
+        }
 
         //Add to the total number of layers and give the new layer an index
         totalLayers++;
+        newLayer.name = "TANK LAYER " + totalLayers;
         newLayer.GetComponentInChildren<LayerManager>().SetLayerIndex(totalLayers + 1);
 
         //Add layer to the list of layers
-        playerTank.GetComponent<PlayerTankController>().GetLayers().Insert(newLayer.GetComponentInChildren<LayerManager>().GetNextLayerIndex() - 2, newLayer.GetComponent<LayerHealthManager>());
+        playerTank.GetComponent<PlayerTankController>().GetLayers().Insert(totalLayers - 1, newLayer.GetComponent<LayerHealthManager>());
 
-        //Check interactables on layer
-        CheckInteractablesOnLayer(newLayer.GetComponentInChildren<LayerManager>().GetNextLayerIndex() - 1);
-
-        //Play sound effect
-        FindObjectOfType<AudioManager>().PlayOneShot("UseSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+        if (!isSettingUpOnStart)
+        {
+            //Check interactables on layer
+            CheckInteractablesOnLayer(totalLayers);
+            //Play sound effect
+            FindObjectOfType<AudioManager>().PlayOneShot("UseSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+        }
 
         //Adjust the weight of the tank
         playerTank.GetComponent<PlayerTankController>().AdjustTankWeight(totalLayers);
+
+        if (levelPhase == GAMESTATE.TUTORIAL)
+        {
+            if (TutorialController.main.currentTutorialState == TUTORIALSTATE.BUILDLAYERS && totalLayers >= 2)
+            {
+                //Tell tutorial that task is complete
+                TutorialController.main.OnTutorialTaskCompletion();
+            }
+        }
+
+        return newLayer;
     }
 
     public void AddGhostLayer()
@@ -223,9 +258,9 @@ public class LevelManager : MonoBehaviour
 
     public void CheckInteractablesOnLayer(int index)
     {
-        Debug.Log("Checking Layer " + playerTank.GetComponent<PlayerTankController>().GetLayerAt(index - 1).name);
+        Debug.Log("Checking Layer " + (index - 1) + " For Interactables");
 
-        if(index - 1 > 0)
+        if(index - 1 >= 0)
         {
             //Check the interactable spawners
             foreach (var i in playerTank.GetComponent<PlayerTankController>().GetLayerAt(index - 1).GetComponentsInChildren<InteractableSpawner>())
@@ -241,20 +276,20 @@ public class LevelManager : MonoBehaviour
 
     public void DestroyGhostInteractables(int index)
     {
-        Debug.Log("Destroy Ghosts On Index " + (index - 2));
+        Debug.Log("Destroy Ghosts On Index " + (index));
 
-        if(index - 2 > 0)
+        if(index >= 0)
         {
             //Check the interactable spawners
-            foreach (var i in playerTank.GetComponent<PlayerTankController>().GetLayerAt(index - 2).GetComponentsInChildren<InteractableSpawner>())
+            foreach (var i in playerTank.GetComponent<PlayerTankController>().GetLayerAt(index).GetComponentsInChildren<InteractableSpawner>())
             {
                 //If there is an interactable spawned
                 if (i.IsInteractableSpawned())
                 {
                     //If there is a ghost interactable, destroy it
-                    if (i.transform.GetChild(0).CompareTag("GhostObject"))
+                    if (i.transform.GetChild(1).CompareTag("GhostObject"))
                     {
-                        Destroy(i.transform.GetChild(0).gameObject);
+                        Destroy(i.transform.GetChild(1).gameObject);
                     }
                 }
             }
@@ -463,6 +498,10 @@ public class LevelManager : MonoBehaviour
     {
         //Stop all of the in-game sounds
         FindObjectOfType<AudioManager>().StopAllSounds();
+
+        //Destroy all particles
+        foreach (var particle in FindObjectsOfType<ParticleSystem>())
+            Destroy(particle.gameObject);
 
         //Stop all coroutines
         StopAllCoroutines();

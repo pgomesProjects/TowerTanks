@@ -7,14 +7,16 @@ using TMPro;
 public enum TUTORIALSTATE
 {
     READING,
-    BUILDFIRSTLAYER,
-    BUILDSECONDLAYER,
-    BUILDSHELLSTATION,
+    PLAYERMOVEMENT,
+    PICKUPHAMMER,
+    BUILDLAYERS,
     BUILDCANNON,
-    GETSHELL,
+    BUILDAMMOCRATE,
+    GRABSHELL,
     FIRECANNON,
     BUILDENGINE,
-    GIVEENGINEFUEL,
+    ADDFUEL,
+    PUTOUTFIRE,
     BUILDTHROTTLE,
     MOVETHROTTLE
 }
@@ -113,7 +115,43 @@ public class TutorialController : MonoBehaviour
         if (textWriterSingle != null && textWriterSingle.IsActive())
             textWriterSingle.WriteAllAndDestroy();
 
-        AdvanceText();
         currentTutorialState = TUTORIALSTATE.READING;
+        AdvanceText();
+    }
+
+    private bool tutorialCompleteWithDelay = true;
+
+    private void Update()
+    {
+        //Global tutorial listener
+        if (listenForInput)
+        {
+            switch (currentTutorialState)
+            {
+                case TUTORIALSTATE.PLAYERMOVEMENT:
+                    if (HaveAllPlayersMoved())
+                    {
+                        if (tutorialCompleteWithDelay)
+                        {
+                            tutorialCompleteWithDelay = false;
+                            Invoke("OnTutorialTaskCompletion", 4);
+                        }
+                    }
+                    break;
+            }
+        }
+    }
+
+    private bool HaveAllPlayersMoved()
+    {
+        //Check to make sure all players have moved
+        foreach(var player in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            //If any player has not moved, return false
+            if (!player.GetComponent<PlayerController>().HasPlayerMoved())
+                return false;
+        }
+
+        return true;
     }
 }

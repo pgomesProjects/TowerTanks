@@ -25,9 +25,21 @@ public class ToggleInteractBuy : MonoBehaviour
         {
             if (collision.GetComponent<PlayerController>().GetPlayerItem().CompareTag("Hammer"))
             {
-                priceText.SetActive(true);
-                playerCanPurchase = true;
-                collision.GetComponent<PlayerController>().currentInteractableToBuy = this;
+                if(LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
+                {
+                    if(TutorialController.main.currentTutorialState != TUTORIALSTATE.READING)
+                    {
+                        priceText.SetActive(true);
+                        playerCanPurchase = true;
+                        collision.GetComponent<PlayerController>().currentInteractableToBuy = this;
+                    }
+                }
+                else
+                {
+                    priceText.SetActive(true);
+                    playerCanPurchase = true;
+                    collision.GetComponent<PlayerController>().currentInteractableToBuy = this;
+                }
             }
         }
     }
@@ -47,30 +59,85 @@ public class ToggleInteractBuy : MonoBehaviour
 
     public void PurchaseInteractable()
     {
-        if (LevelManager.instance.CanPlayerAfford(price))
+        if(LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
         {
-            LevelManager.instance.UpdateResources(-price);
-
-            switch (interactableType)
+            if (transform.parent.transform.Find("Indicator").gameObject.activeInHierarchy)
             {
-                case INTERACTABLETYPE.CANNON:
-                    FindObjectOfType<InteractableSpawnerManager>().SpawnCannon(transform.parent.GetComponent<InteractableSpawner>());
-                    break;
-                case INTERACTABLETYPE.ENGINE:
-                    FindObjectOfType<InteractableSpawnerManager>().SpawnEngine(transform.parent.GetComponent<InteractableSpawner>());
-                    break;
-                case INTERACTABLETYPE.SHELLSTATION:
-                    FindObjectOfType<InteractableSpawnerManager>().SpawnShellStation(transform.parent.GetComponent<InteractableSpawner>());
-                    break;
-                case INTERACTABLETYPE.THROTTLE:
-                    FindObjectOfType<InteractableSpawnerManager>().SpawnThrottle(transform.parent.GetComponent<InteractableSpawner>());
-                    break;
+                if (LevelManager.instance.CanPlayerAfford(price))
+                {
+                    switch (interactableType)
+                    {
+                        case INTERACTABLETYPE.CANNON:
+                            if(TutorialController.main.currentTutorialState == TUTORIALSTATE.BUILDCANNON)
+                            {
+                                FindObjectOfType<InteractableSpawnerManager>().SpawnCannon(transform.parent.GetComponent<InteractableSpawner>());
+                                LevelManager.instance.UpdateResources(-price);
+                                //Play sound effect
+                                FindObjectOfType<AudioManager>().PlayOneShot("UseSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+                                Destroy(gameObject);
+                            }
+                            break;
+                        case INTERACTABLETYPE.ENGINE:
+                            if(TutorialController.main.currentTutorialState == TUTORIALSTATE.BUILDENGINE)
+                            {
+                                FindObjectOfType<InteractableSpawnerManager>().SpawnEngine(transform.parent.GetComponent<InteractableSpawner>());
+                                LevelManager.instance.UpdateResources(-price);
+                                //Play sound effect
+                                FindObjectOfType<AudioManager>().PlayOneShot("UseSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+                                Destroy(gameObject);
+                            }
+                            break;
+                        case INTERACTABLETYPE.SHELLSTATION:
+                            if(TutorialController.main.currentTutorialState == TUTORIALSTATE.BUILDAMMOCRATE)
+                            {
+                                FindObjectOfType<InteractableSpawnerManager>().SpawnShellStation(transform.parent.GetComponent<InteractableSpawner>());
+                                LevelManager.instance.UpdateResources(-price);
+                                //Play sound effect
+                                FindObjectOfType<AudioManager>().PlayOneShot("UseSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+                                Destroy(gameObject);
+                            }
+                            break;
+                        case INTERACTABLETYPE.THROTTLE:
+                            if(TutorialController.main.currentTutorialState == TUTORIALSTATE.BUILDTHROTTLE)
+                            {
+                                FindObjectOfType<InteractableSpawnerManager>().SpawnThrottle(transform.parent.GetComponent<InteractableSpawner>());
+                                LevelManager.instance.UpdateResources(-price);
+                                //Play sound effect
+                                FindObjectOfType<AudioManager>().PlayOneShot("UseSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+                                Destroy(gameObject);
+                            }
+                            break;
+                    }
+                }
             }
+        }
+        else
+        {
+            if (LevelManager.instance.CanPlayerAfford(price))
+            {
+                LevelManager.instance.UpdateResources(-price);
 
-            //Play sound effect
-            FindObjectOfType<AudioManager>().PlayOneShot("UseSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+                switch (interactableType)
+                {
+                    case INTERACTABLETYPE.CANNON:
+                        FindObjectOfType<InteractableSpawnerManager>().SpawnCannon(transform.parent.GetComponent<InteractableSpawner>());
+                        break;
+                    case INTERACTABLETYPE.ENGINE:
+                        FindObjectOfType<InteractableSpawnerManager>().SpawnEngine(transform.parent.GetComponent<InteractableSpawner>());
+                        break;
+                    case INTERACTABLETYPE.SHELLSTATION:
+                        FindObjectOfType<InteractableSpawnerManager>().SpawnShellStation(transform.parent.GetComponent<InteractableSpawner>());
+                        break;
+                    case INTERACTABLETYPE.THROTTLE:
+                        FindObjectOfType<InteractableSpawnerManager>().SpawnThrottle(transform.parent.GetComponent<InteractableSpawner>());
+                        break;
+                }
 
-            Destroy(gameObject);
+                //Play sound effect
+                FindObjectOfType<AudioManager>().PlayOneShot("UseSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+
+                Destroy(gameObject);
+            }
         }
     }
 

@@ -14,28 +14,60 @@ public class InteractableSpawnerManager : MonoBehaviour
 
     public void SpawnCannon(InteractableSpawner currentSpawner)
     {
-        GameObject cannonObject = currentSpawner.SpawnInteractable(cannon);
-        if(cannonObject.transform.position.x < GameObject.FindGameObjectWithTag("PlayerTank").transform.position.x)
+        currentSpawner.SpawnInteractable(cannon);
+/*        if(cannonObject.transform.position.x < GameObject.FindGameObjectWithTag("PlayerTank").transform.position.x)
         {
             //cannonObject.GetComponent<CannonController>().SetCannonDirection(CannonController.CANNONDIRECTION.LEFT);
             GameObject pivot = cannonObject.transform.Find("CannonPivot").gameObject;
             RotateObject(ref pivot);
+        }*/
+
+        if(LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
+        {
+            if(TutorialController.main.currentTutorialState == TUTORIALSTATE.BUILDCANNON)
+            {
+                TutorialController.main.OnTutorialTaskCompletion();
+            }
         }
     }
 
     public void SpawnEngine(InteractableSpawner currentSpawner)
     {
         currentSpawner.SpawnInteractable(engine);
+
+        if (LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
+        {
+            if (TutorialController.main.currentTutorialState == TUTORIALSTATE.BUILDENGINE)
+            {
+                TutorialController.main.OnTutorialTaskCompletion();
+            }
+        }
     }
 
     public void SpawnShellStation(InteractableSpawner currentSpawner)
     {
         currentSpawner.SpawnInteractable(shellStation);
+
+        if (LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
+        {
+            if (TutorialController.main.currentTutorialState == TUTORIALSTATE.BUILDAMMOCRATE)
+            {
+                TutorialController.main.OnTutorialTaskCompletion();
+            }
+        }
     }
 
     public void SpawnThrottle(InteractableSpawner currentSpawner)
     {
         currentSpawner.SpawnInteractable(throttle);
+
+        if (LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
+        {
+            if (TutorialController.main.currentTutorialState == TUTORIALSTATE.BUILDTHROTTLE)
+            {
+                TutorialController.main.OnTutorialTaskCompletion();
+            }
+        }
     }
 
     public void ShowNewGhostInteractable(InteractableSpawner currentSpawner)
@@ -52,7 +84,7 @@ public class InteractableSpawnerManager : MonoBehaviour
 
     public void UpdateGhostInteractable(InteractableSpawner currentSpawner, int index)
     {
-        Destroy(currentSpawner.transform.GetChild(0).gameObject);
+        Destroy(currentSpawner.transform.GetChild(1).gameObject);
         currentSpawner.UpdateGhostIndex(index, ghostInteractables.Length);
         ShowNewGhostInteractable(currentSpawner);
     }

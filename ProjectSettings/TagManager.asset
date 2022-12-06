@@ -22,6 +22,9 @@ TagManager:
   - TankBottom
   - FireRemover
   - GoPrompt
+  - LeftInteractSpawner
+  - RightInteractSpawner
+  - Resources
   layers:
   - Default
   - TransparentFX

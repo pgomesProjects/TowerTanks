@@ -88,6 +88,9 @@ public class MultiplayerManager : MonoBehaviour
         playerInput.onDeviceLost += OnDeviceLost;
         playerInput.onDeviceRegained += OnDeviceRegained;
 
+        if(LevelManager.instance.levelPhase == GAMESTATE.GAMEACTIVE || GameSettings.skipTutorial)
+        playerInput.GetComponent<PlayerController>().SetPlayerMove(true);
+
         //Create join animation
         if (!onStartJoin)
         {

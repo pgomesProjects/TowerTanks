@@ -25,7 +25,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask ladderMask;
     [SerializeField] private float timeToUseWrench = 3;
 
-    private bool canMove;
+    private bool canMove = false;
+    private bool hasMoved;
     private bool isFacingRight;
     private bool canClimb;
     private bool isClimbing;
@@ -66,7 +67,7 @@ public class PlayerController : MonoBehaviour
         playerAnimator = GetComponent<Animator>();
         defaultGravity = rb.gravityScale;
         isHoldingItem = false;
-        canMove = true;
+        hasMoved = false;
         canClimb = false;
         isFacingRight = true;
         interactableHover = transform.Find("HoverPrompt").gameObject;
@@ -77,7 +78,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (UIAllowPlayerMovement())
+        if (UIAllowPlayerInteract())
         {
             //Check to see if the joystick is spinning
             CheckJoystickSpinning();
@@ -86,11 +87,20 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (UIAllowPlayerMovement())
+        if (!LevelManager.instance.isPaused)
         {
             //Move the player horizontally
             if (canMove)
             {
+                if(LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
+                {
+                    //If the player has moved, tell the tutorial state
+                    if(MathF.Abs(movement.x) > 0)
+                    {
+                        hasMoved = true;
+                    }
+                }
+
                 playerAnimator.SetFloat("PlayerX", MathF.Abs(movement.x));
                 //Debug.Log("Player Can Move!");
                 rb.velocity = new Vector2(movement.x * speed, rb.velocity.y);
@@ -164,22 +174,19 @@ public class PlayerController : MonoBehaviour
 
     public void OnLadderEnter(InputAction.CallbackContext ctx)
     {
-        if (UIAllowPlayerMovement())
+        //If the player presses the ladder climb button
+        if (ctx.performed)
         {
-            //If the player presses the ladder climb button
-            if (ctx.performed)
+            if (canClimb)
             {
-                if (canClimb)
+                //If the player is not on a ladder
+                if (!isClimbing)
                 {
-                    //If the player is not on a ladder
-                    if (!isClimbing)
+                    //If the player is colliding with the ladder and wants to climb
+                    if (ladderRaycast.collider != null)
                     {
-                        //If the player is colliding with the ladder and wants to climb
-                        if (ladderRaycast.collider != null)
-                        {
-                            isClimbing = true;
-                            transform.position = new Vector2(0, transform.position.y);
-                        }
+                        isClimbing = true;
+                        transform.position = new Vector2(0, transform.position.y);
                     }
                 }
             }
@@ -188,19 +195,16 @@ public class PlayerController : MonoBehaviour
 
     public void OnLadderExit(InputAction.CallbackContext ctx)
     {
-        if (UIAllowPlayerMovement())
+        //If the player presses the ladder climb button
+        if (ctx.performed)
         {
-            //If the player presses the ladder climb button
-            if (ctx.performed)
+            if (canClimb)
             {
-                if (canClimb)
+                //If the player is on a ladder
+                if (isClimbing)
                 {
-                    //If the player is on a ladder
-                    if (isClimbing)
-                    {
-                        //Move them off the ladder
-                        isClimbing = false;
-                    }
+                    //Move them off the ladder
+                    isClimbing = false;
                 }
             }
         }
@@ -221,7 +225,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnInteract(InputAction.CallbackContext ctx)
     {
-        if (UIAllowPlayerMovement())
+        if (UIAllowPlayerInteract())
         {
             //If the player presses the interact button
             if (ctx.started)
@@ -254,7 +258,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnUse(InputAction.CallbackContext ctx)
     {
-        if (UIAllowPlayerMovement())
+        if (UIAllowPlayerInteract())
         {
             //If the player presses the use button
             if (ctx.started)
@@ -319,8 +323,19 @@ public class PlayerController : MonoBehaviour
         //If the player is outside of the tank (in a layer that does not exist inside the tank) and can afford a new layer
         if (IsPlayerOutsideTank() && LevelManager.instance.CanPlayerAfford("NewLayer"))
         {
-            if (itemHeld.GetTimeToUse() > 0)
-                StartProgressBar(itemHeld.GetTimeToUse(), LevelManager.instance.PurchaseLayer);
+            if(LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
+            {
+                if(LevelManager.instance.totalLayers < 2)
+                {
+                    if (itemHeld.GetTimeToUse() > 0)
+                        StartProgressBar(itemHeld.GetTimeToUse(), LevelManager.instance.PurchaseLayer);
+                }
+            }
+            else
+            {
+                if (itemHeld.GetTimeToUse() > 0)
+                    StartProgressBar(itemHeld.GetTimeToUse(), LevelManager.instance.PurchaseLayer);
+            }
         }
         else
         {
@@ -381,7 +396,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnPrevInteractable(InputAction.CallbackContext ctx)
     {
-        if (UIAllowPlayerMovement())
+        if (UIAllowPlayerInteract())
         {
             //If the player presses the previous interactable button
             if (ctx.performed)
@@ -399,7 +414,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnNextInteractable(InputAction.CallbackContext ctx)
     {
-        if (UIAllowPlayerMovement())
+        if (UIAllowPlayerInteract())
         {
             //If the player presses the next interactable button
             if (ctx.performed)
@@ -505,6 +520,8 @@ public class PlayerController : MonoBehaviour
         return isClimbing;
     }
 
+    public bool HasPlayerMoved() => hasMoved;
+
     public void SetPlayerClimb(bool climb)
     {
         canClimb = climb;
@@ -550,27 +567,59 @@ public class PlayerController : MonoBehaviour
 
     public void OnPickup(InputAction.CallbackContext ctx)
     {
-        if (UIAllowPlayerMovement())
+        if (UIAllowPlayerInteract())
         {
-            //If the player presses the pickup button
-            if (ctx.started)
+            if(LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
             {
-                PickupItem();
+                if((int)TutorialController.main.currentTutorialState >= (int)TUTORIALSTATE.PICKUPHAMMER)
+                {
+                    //If the player presses the pickup button
+                    if (ctx.started)
+                    {
+                        PickupItem();
+                    }
+                }
+            }
+            else
+            {
+                //If the player presses the pickup button
+                if (ctx.started)
+                {
+                    PickupItem();
+                }
             }
         }
     }
 
     public void OnThrow(InputAction.CallbackContext ctx)
     {
-        if (UIAllowPlayerMovement())
+        if (UIAllowPlayerInteract())
         {
-            //If the player presses the throw button
-            if (ctx.started)
+            if (LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
             {
-                //If the player is still holding an item
-                if (itemHeld != null)
+                if ((int)TutorialController.main.currentTutorialState >= (int)TUTORIALSTATE.PICKUPHAMMER)
                 {
-                    DropItem(true);
+                    //If the player presses the throw button
+                    if (ctx.started)
+                    {
+                        //If the player is still holding an item
+                        if (itemHeld != null)
+                        {
+                            DropItem(true);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                //If the player presses the throw button
+                if (ctx.started)
+                {
+                    //If the player is still holding an item
+                    if (itemHeld != null)
+                    {
+                        DropItem(true);
+                    }
                 }
             }
         }
@@ -622,13 +671,22 @@ public class PlayerController : MonoBehaviour
             LevelManager.instance.AddGhostLayer();
         }
 
+        if (LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
+        {
+            if (TutorialController.main.currentTutorialState == TUTORIALSTATE.PICKUPHAMMER && PlayerHasItem("Hammer"))
+            {
+                //Tell tutorial that task is complete
+                TutorialController.main.OnTutorialTaskCompletion();
+            }
+        }
+
         //If the item can deal damage, remove that
         if (itemHeld.GetComponent<DamageObject>() != null)
         {
             Destroy(itemHeld.GetComponent<DamageObject>());
         }
 
-        FindObjectOfType<AudioManager>().PlayOneShot("ItemPickup", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+        FindObjectOfType<AudioManager>().PlayAtRandomPitch("ItemPickup", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
 
         itemHeld.SetPickUp(true);
         isHoldingItem = true;
@@ -735,7 +793,7 @@ public class PlayerController : MonoBehaviour
         isCheckingSpinInput = false;
     }
 
-    public bool UIAllowPlayerMovement()
+    public bool UIAllowPlayerInteract()
     {
         return !LevelManager.instance.isPaused && !LevelManager.instance.readingTutorial;
     }

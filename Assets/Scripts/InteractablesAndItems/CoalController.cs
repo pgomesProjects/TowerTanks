@@ -15,10 +15,19 @@ public class CoalController : InteractableController
     // Start is called before the first frame update
     void Start()
     {
-        coalPercentage = 100;
+        if(LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
+        {
+            coalPercentage = 0;
+            hasCoal = false;
+        }
+        else
+        {
+            coalPercentage = 100;
+            hasCoal = true;
+        }
+
         depletionRate = depletionSeconds / coalPercentage;
         coalPercentageIndicator.value = coalPercentage;
-        hasCoal = true;
 
         FindObjectOfType<PlayerTankController>().AdjustEngineSpeedMultiplier();
     }
@@ -124,12 +133,26 @@ public class CoalController : InteractableController
         {
             coalPercentage = 100;
         }
+
+        if(LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
+        {
+            if(TutorialController.main.currentTutorialState == TUTORIALSTATE.ADDFUEL)
+            {
+                coalPercentageIndicator.value = coalPercentage;
+                if (IsCoalFull())
+                {
+                    TutorialController.main.OnTutorialTaskCompletion();
+                }
+            }
+        }
     }
 
     public bool HasCoal()
     {
         return hasCoal;
     }
+
+    public bool IsCoalFull() => coalPercentage >= 100;
 
     private void OnDestroy()
     {

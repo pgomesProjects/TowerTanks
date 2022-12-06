@@ -31,10 +31,6 @@ public class LayerManager : MonoBehaviour
             {
                 LevelManager.instance.AddGhostLayer();
             }
-            else if(currentPlayer.currentLayer <= LevelManager.instance.totalLayers && currentPlayer.PlayerHasItem("Hammer"))
-            {
-                LevelManager.instance.CheckInteractablesOnLayer(currentPlayer.currentLayer);
-            }
         }
     }
 
@@ -44,12 +40,6 @@ public class LayerManager : MonoBehaviour
         {
             PlayerController currentPlayer = collision.GetComponent<PlayerController>();
             int changeIndex = 0;
-
-            if (currentPlayer.PlayerHasItem("Hammer"))
-            {
-                //Destroy the ghost interactables from the previous layer, if any
-                LevelManager.instance.DestroyGhostInteractables(currentPlayer.currentLayer);
-            }
 
             //If player is above, make sure the layer number is the same
             if (currentPlayer.transform.position.y > transform.position.y)
@@ -68,6 +58,23 @@ public class LayerManager : MonoBehaviour
             //If there are no players outside of the tank with a hammer, hide the ghost build layer
             if (!AnyPlayersOutsideWithHammer())
                 LevelManager.instance.HideGhostLayer();
+
+            if (currentPlayer.PlayerHasItem("Hammer"))
+            {
+                for (int i = 0; i < LevelManager.instance.totalLayers; i++)
+                {
+                    if (i != currentPlayer.currentLayer - 1)
+                    {
+                        //Destroy the ghost interactables from the previous layer, if any
+                        LevelManager.instance.DestroyGhostInteractables(i);
+                    }
+                }
+
+                if (currentPlayer.currentLayer <= LevelManager.instance.totalLayers)
+                {
+                    LevelManager.instance.CheckInteractablesOnLayer(currentPlayer.currentLayer);
+                }
+            }
         }
     }
 

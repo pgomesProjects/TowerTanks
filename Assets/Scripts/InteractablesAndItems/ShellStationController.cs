@@ -12,18 +12,41 @@ public class ShellStationController : InteractableController
     /// </summary>
     public void SpawnShell()
     {
-        //If there is a player
-        if(currentPlayer != null)
+        if (LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
         {
-            //If the player does not have an item
-            if(currentPlayer.GetPlayerItem() == null)
+            if(TutorialController.main.currentTutorialState == TUTORIALSTATE.GRABSHELL)
             {
-                //Spawn a shell at the spawn point
-                GameObject newShell = Instantiate(shellPrefab, new Vector3(spawnPoint.position.x, spawnPoint.position.y, 0), Quaternion.identity);
+                //If there is a player
+                if (currentPlayer != null)
+                {
+                    //If the player does not have an item
+                    if (currentPlayer.GetPlayerItem() == null)
+                    {
+                        //Spawn a shell at the spawn point
+                        GameObject newShell = Instantiate(shellPrefab, new Vector3(spawnPoint.position.x, spawnPoint.position.y, 0), Quaternion.identity);
 
-                //Force the player to pick up the item
-                currentPlayer.MarkClosestItem(newShell.GetComponent<Item>());
-                currentPlayer.PickupItem();
+                        //Force the player to pick up the item
+                        currentPlayer.MarkClosestItem(newShell.GetComponent<Item>());
+                        currentPlayer.PickupItem();
+                    }
+                }
+            }
+        }
+        else
+        {
+            //If there is a player
+            if (currentPlayer != null)
+            {
+                //If the player does not have an item
+                if (currentPlayer.GetPlayerItem() == null)
+                {
+                    //Spawn a shell at the spawn point
+                    GameObject newShell = Instantiate(shellPrefab, new Vector3(spawnPoint.position.x, spawnPoint.position.y, 0), Quaternion.identity);
+
+                    //Force the player to pick up the item
+                    currentPlayer.MarkClosestItem(newShell.GetComponent<Item>());
+                    currentPlayer.PickupItem();
+                }
             }
         }
     }

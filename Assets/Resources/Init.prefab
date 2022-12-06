@@ -153,7 +153,7 @@ MonoBehaviour:
     loop: 0
     source: {fileID: 0}
   - name: TextBeep
-    clip: {fileID: 8300000, guid: fdef7f0676959c5468a4ccb80c8e183c, type: 3}
+    clip: {fileID: 8300000, guid: 9bf35fcc41310524a9a1f794b414d74c, type: 3}
     pitch: 1
     loop: 0
     source: {fileID: 0}

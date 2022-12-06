@@ -40,6 +40,16 @@ public class AudioManager : MonoBehaviour
         s.source.volume = audioVol;
     }
 
+    public void PlayAtRandomPitch(string name, float audioVol)
+    {
+        Sound s = Array.Find(sounds, sound => sound.name == name);
+        s.source.PlayOneShot(s.clip, audioVol);
+
+        float pitchRandom = UnityEngine.Random.Range(0.9f, 1.1f);
+
+        s.source.pitch = pitchRandom;
+    }
+
     public void PlayOneShot(string name, float audioVol)
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);
