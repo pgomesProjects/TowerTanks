@@ -42,7 +42,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -76,9 +76,222 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: FIXEDwalkanimsheet12-6_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 174.77777
+        height: 223
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a7e110cc990e71f4d97a374958781338
+      internalID: -146990961
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FIXEDwalkanimsheet12-6_1
+      rect:
+        serializedVersion: 2
+        x: 174
+        y: 0
+        width: 174.77777
+        height: 223
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 81a7ca3fdd32edf409ee084b0f327c2c
+      internalID: 565183629
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FIXEDwalkanimsheet12-6_2
+      rect:
+        serializedVersion: 2
+        x: 349
+        y: 0
+        width: 175
+        height: 223
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b0bf5e7e6a0293a49927c21695c84bd6
+      internalID: 1384988997
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FIXEDwalkanimsheet12-6_3
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 0
+        width: 175
+        height: 223
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 396dd634cc3dfa547b4324bf85961bc6
+      internalID: 159193712
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FIXEDwalkanimsheet12-6_4
+      rect:
+        serializedVersion: 2
+        x: 699
+        y: 0
+        width: 175
+        height: 223
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 76f1179e5b0f8d645a85803bd66dc023
+      internalID: -1033585126
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FIXEDwalkanimsheet12-6_5
+      rect:
+        serializedVersion: 2
+        x: 874
+        y: 0
+        width: 175
+        height: 223
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 51ae5ae4ed36ddf488ff3edbf5db1a1b
+      internalID: 584381520
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FIXEDwalkanimsheet12-6_6
+      rect:
+        serializedVersion: 2
+        x: 1048
+        y: 0
+        width: 175
+        height: 223
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0445087a55b29ef4d8551f66b05f73b8
+      internalID: 1153430887
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FIXEDwalkanimsheet12-6_7
+      rect:
+        serializedVersion: 2
+        x: 1223
+        y: 0
+        width: 175
+        height: 223
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3fdb8f59d43ef474dbf49aded1f74624
+      internalID: 444516414
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FIXEDwalkanimsheet12-6_8
+      rect:
+        serializedVersion: 2
+        x: 1399
+        y: 0
+        width: 174
+        height: 223
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bebbc45b910836749b72f015e2ab9cab
+      internalID: -1515703755
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -89,7 +302,16 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      FIXEDwalkanimsheet12-6_0: -146990961
+      FIXEDwalkanimsheet12-6_5: 584381520
+      FIXEDwalkanimsheet12-6_8: -1515703755
+      FIXEDwalkanimsheet12-6_1: 565183629
+      FIXEDwalkanimsheet12-6_6: 1153430887
+      FIXEDwalkanimsheet12-6_4: -1033585126
+      FIXEDwalkanimsheet12-6_3: 159193712
+      FIXEDwalkanimsheet12-6_7: 444516414
+      FIXEDwalkanimsheet12-6_2: 1384988997
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
