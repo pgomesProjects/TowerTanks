@@ -43,7 +43,7 @@ public class ParallaxController : MonoBehaviour
         if (currentParallaxSpeed > 0)
         {
             //Constantly move the background
-            transform.position += new Vector3(currentParallaxSpeed * Time.deltaTime, transform.position.y);
+            transform.position += new Vector3(currentParallaxSpeed * Time.deltaTime, 0);
 
             //If the background moves past the original background size, move the background back to its original position
             if (transform.position.x > backgroundSize.x)
@@ -56,7 +56,7 @@ public class ParallaxController : MonoBehaviour
         else
         {
             //Constantly move the background
-            transform.position += new Vector3(currentParallaxSpeed * Time.deltaTime, transform.position.y);
+            transform.position += new Vector3(currentParallaxSpeed * Time.deltaTime, 0);
 
             //If the background moves past the original background size, move the background back to its original position
             if (transform.position.x < -backgroundSize.x)

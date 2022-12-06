@@ -8,9 +8,13 @@ public class CoalController : InteractableController
     [SerializeField] [Tooltip("The amount of seconds it takes for the coal to fully deplete")] private float depletionSeconds;
     [SerializeField] private Slider coalPercentageIndicator;
     [SerializeField] private int framesForCoalFill = 5;
+    [SerializeField] private float angleRange = 102;
+    private float currentIndicatorAngle;
     private float depletionRate;
     private float coalPercentage;
     private bool hasCoal;
+
+    private Transform indicatorPivot;
 
     // Start is called before the first frame update
     void Start()
@@ -27,8 +31,11 @@ public class CoalController : InteractableController
 
         depletionRate = depletionSeconds / 100f;
         coalPercentageIndicator.value = coalPercentage;
+        indicatorPivot = transform.Find("IndicatorPivot");
 
         FindObjectOfType<PlayerTankController>().AdjustEngineSpeedMultiplier();
+
+        AdjustIndicatorAngle();
     }
 
     // Update is called once per frame
@@ -94,6 +101,14 @@ public class CoalController : InteractableController
         }
     }
 
+    private void AdjustIndicatorAngle()
+    {
+        currentIndicatorAngle = -angleRange + ((angleRange * 2f) - (angleRange * 2f * (coalPercentage / 100f)));
+        currentIndicatorAngle = Mathf.Clamp(currentIndicatorAngle, -angleRange, angleRange);
+
+        indicatorPivot.eulerAngles = new Vector3(0, 0, currentIndicatorAngle);
+    }
+
     private void CoalDepletion()
     {
         //If the player is not in the tutorial, deplete coal
@@ -103,7 +118,7 @@ public class CoalController : InteractableController
             if (coalPercentage > 0f)
             {
                 coalPercentage -= (1f / depletionRate) * Time.deltaTime;
-                coalPercentageIndicator.value = coalPercentage;
+                //coalPercentageIndicator.value = coalPercentage;
                 hasCoal = true;
             }
             else
@@ -113,6 +128,8 @@ public class CoalController : InteractableController
                 GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().AdjustEngineSpeedMultiplier();
                 FindObjectOfType<AudioManager>().PlayOneShot("EngineDyingSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
             }
+
+            AdjustIndicatorAngle();
         }
     }
 
@@ -134,11 +151,13 @@ public class CoalController : InteractableController
             coalPercentage = 100f;
         }
 
-        if(LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
+        AdjustIndicatorAngle();
+
+        if (LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
         {
             if(TutorialController.main.currentTutorialState == TUTORIALSTATE.ADDFUEL)
             {
-                coalPercentageIndicator.value = coalPercentage;
+                //coalPercentageIndicator.value = coalPercentage;
                 if (IsCoalFull())
                 {
                     TutorialController.main.OnTutorialTaskCompletion();

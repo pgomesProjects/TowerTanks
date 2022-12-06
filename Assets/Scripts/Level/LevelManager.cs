@@ -72,15 +72,11 @@ public class LevelManager : MonoBehaviour
         {
             resourcesNum = 1000;
             resourcesDisplay.text = resourcesNum.ToString();
-            UpdateSpeed((int)TANKSPEED.FORWARD);
+            UpdateSpeed((int)TANKSPEED.STATIONARY);
             TransitionGameState();
 
-            GameObject currentLayer = AddLayer();
-            FindObjectOfType<InteractableSpawnerManager>().SpawnEngine(currentLayer.transform.Find("InteractSpawnerLeft").GetComponent<InteractableSpawner>());
-            FindObjectOfType<InteractableSpawnerManager>().SpawnThrottle(currentLayer.transform.Find("InteractSpawnerRight").GetComponent<InteractableSpawner>());
-            currentLayer = AddLayer();
-            FindObjectOfType<InteractableSpawnerManager>().SpawnShellStation(currentLayer.transform.Find("InteractSpawnerLeft").GetComponent<InteractableSpawner>());
-            FindObjectOfType<InteractableSpawnerManager>().SpawnCannon(currentLayer.transform.Find("InteractSpawnerRight").GetComponent<InteractableSpawner>());
+            AddLayer();
+            AddLayer();
         }
         else
         {
@@ -188,7 +184,7 @@ public class LevelManager : MonoBehaviour
         RemoveGhostLayer();
     }
 
-    private GameObject AddLayer()
+    private void AddLayer()
     {
         //Spawn a new layer and adjust it to go inside of the tank parent object
         GameObject newLayer = Instantiate(layerPrefab);
@@ -231,8 +227,6 @@ public class LevelManager : MonoBehaviour
                 TutorialController.main.OnTutorialTaskCompletion();
             }
         }
-
-        return newLayer;
     }
 
     public void AddGhostLayer()
