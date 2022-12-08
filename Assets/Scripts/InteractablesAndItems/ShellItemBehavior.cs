@@ -13,13 +13,22 @@ public class ShellItemBehavior : MonoBehaviour
     {
         if((collision.collider.tag == "Layer" || collision.collider.tag == "OneWayPlatform") && GetComponent<DamageObject>() == null)
         {
-            float generateChance = Random.Range(0, 100);
-            if(generateChance < chanceToExplode)
+            //If nothing is holding the shell, let it explode
+            if(transform.parent == null)
             {
-                gameObject.AddComponent<DamageObject>().damage = damage;
-                Debug.Log("BOOM! Shell has exploded in tank.");
-                Destroy(gameObject);
+                ForceShellExplode();
             }
+        }
+    }
+
+    private void ForceShellExplode()
+    {
+        float generateChance = Random.Range(0, 100);
+        if (generateChance < chanceToExplode)
+        {
+            gameObject.AddComponent<DamageObject>().damage = damage;
+            Debug.Log("BOOM! Shell has exploded in tank.");
+            Destroy(gameObject);
         }
     }
 

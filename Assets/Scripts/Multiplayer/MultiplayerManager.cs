@@ -40,14 +40,22 @@ public class MultiplayerManager : MonoBehaviour
 
     private void Update()
     {
-        int gamepadCount = Gamepad.all.Count;
-
-        //If the number of gamepads is less than the number of active controllers
-        if(gamepadCount > ConnectionController.NumberOfActivePlayers())
+        if(LevelManager.instance.levelPhase != GAMESTATE.GAMEOVER)
         {
-            //If the join prompt is not already active, make it active
-            if(!joinPrompt.activeInHierarchy)
-                joinPrompt.SetActive(true);
+            int gamepadCount = Gamepad.all.Count;
+
+            //If the number of gamepads is less than the number of active controllers
+            if (gamepadCount > ConnectionController.NumberOfActivePlayers())
+            {
+                //If the join prompt is not already active, make it active
+                if (!joinPrompt.activeInHierarchy)
+                    joinPrompt.SetActive(true);
+            }
+        }
+        //If the game is over, disable joining
+        else
+        {
+            playerInputManager.DisableJoining();
         }
     }
 
