@@ -104,16 +104,7 @@ public class LevelManager : MonoBehaviour
 
         Debug.Log("Tank Speed: " + gameSpeed);
 
-        //If the current speed is stationary
-        if (gameSpeed == currentSpeed[(int)TANKSPEED.STATIONARY])
-        {
-            FindObjectOfType<AudioManager>().Stop("TreadsRolling");
-        }
-        //If the tank idle isn't already playing, play it
-        else if (!FindObjectOfType<AudioManager>().IsPlaying("TreadsRolling"))
-        {
-            FindObjectOfType<AudioManager>().Play("TreadsRolling", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
-        }
+        playerTank.GetComponent<PlayerTankController>().UpdateTreadsSFX();
 
         //Update the enemy speed comparative to the player
         foreach (var i in FindObjectsOfType<EnemyController>())
@@ -415,12 +406,14 @@ public class LevelManager : MonoBehaviour
 
     public void ShowGoPrompt()
     {
-        goPrompt.SetActive(true);
+        if(goPrompt != null)
+            goPrompt.SetActive(true);
     }
 
     public void HideGoPrompt()
     {
-        goPrompt.SetActive(false);
+        if (goPrompt != null)
+            goPrompt.SetActive(false);
     }
 
     public void TransitionGameState()

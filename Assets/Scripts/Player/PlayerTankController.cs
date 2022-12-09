@@ -28,7 +28,7 @@ public class PlayerTankController : MonoBehaviour
     {
         currentSpeed = speed;
         currentTankWeightMultiplier = 1;
-        currentEngineMultiplier = 1;
+        currentEngineMultiplier = 0;
     }
 
     public void AdjustLayersInList()
@@ -120,6 +120,22 @@ public class PlayerTankController : MonoBehaviour
             newEngineSpeed = 0;
 
         currentEngineMultiplier = newEngineSpeed;
+
+        UpdateTreadsSFX();
+    }
+
+    public void UpdateTreadsSFX()
+    {
+        //If the current speed is stationary
+        if (GetPlayerSpeed() * LevelManager.instance.gameSpeed == 0)
+        {
+            FindObjectOfType<AudioManager>().Stop("TreadsRolling");
+        }
+        //If the tank idle isn't already playing, play it
+        else if (!FindObjectOfType<AudioManager>().IsPlaying("TreadsRolling"))
+        {
+            FindObjectOfType<AudioManager>().Play("TreadsRolling", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+        }
     }
 
     public IEnumerator CollideWithEnemyAni(float collideVelocity, float seconds)
