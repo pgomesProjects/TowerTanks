@@ -134,8 +134,23 @@ public class CannonController : InteractableController
         DamageObject currentDamager = currentProjectile.GetComponent<DamageObject>();
         currentDamager.StartRotation(startingShellRot);
 
+        Debug.Log("Direction: " + direction);
+
         //Shoot the project at the current angle and direction
         currentProjectile.GetComponent<Rigidbody2D>().AddForce(direction * cannonForce);
+    }
+
+    public IEnumerator FireAtDelay()
+    {
+        while (true)
+        {
+            Debug.Log("Starting Fire Wait...");
+            int timeWait = Random.Range(7, 12);
+            yield return new WaitForSeconds(timeWait);
+
+            Debug.Log("Enemy Fire!");
+            Fire();
+        }
     }
 
     private void UpdateCannonBody()
@@ -265,5 +280,8 @@ public class CannonController : InteractableController
 
         // Rotate Object
         cannonPivot.transform.rotation = currentAngle;
+        cannonRotation = cannonPivot.eulerAngles;
+
+        //Debug.Log("Current Angle: " + cannonRotation);
     }
 }

@@ -13,12 +13,15 @@ public class CoalController : InteractableController
     private float depletionRate;
     private float coalPercentage;
     private bool hasCoal;
+    private Animator engineAnimator;
 
     private Transform indicatorPivot;
 
     // Start is called before the first frame update
     void Start()
     {
+        engineAnimator = GetComponentInChildren<Animator>();
+
         if(LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
         {
             coalPercentage = 0f;
@@ -41,6 +44,8 @@ public class CoalController : InteractableController
     // Update is called once per frame
     void Update()
     {
+        engineAnimator.SetFloat("Percentage", coalPercentage);
+
         //If there is coal, use it
         if (hasCoal)
         {

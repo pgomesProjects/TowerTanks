@@ -219,6 +219,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8393137488300477868}
   - component: {fileID: 5990894093022206538}
+  - component: {fileID: 6746966333030083151}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -293,6 +294,26 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &6746966333030083151
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4303393847940855921}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6e3b4c18b5041fe4996299c8f62ccb86, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &4711276496767139848
 GameObject:
   m_ObjectHideFlags: 0
@@ -891,3 +912,4 @@ MonoBehaviour:
   depletionSeconds: 45
   coalPercentageIndicator: {fileID: 7064411900344003444}
   framesForCoalFill: 5
+  angleRange: 102

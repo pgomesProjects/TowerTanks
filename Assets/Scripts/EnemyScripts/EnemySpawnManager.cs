@@ -13,7 +13,7 @@ public class EnemySpawnManager : MonoBehaviour
         enemyTypeCounters = new List<int>();
         for(int i = 0; i < enemyPrefabs.Length; i++)
         {
-            enemyTypeCounters.Add(0);
+            enemyTypeCounters.Add(20);
         }
     }
 

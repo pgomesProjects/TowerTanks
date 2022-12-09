@@ -88,6 +88,11 @@ public class EnemyController : MonoBehaviour
 
             SpawnLayer(randomLayer, i);
         }
+
+        foreach (var cannon in GetComponentsInChildren<CannonController>())
+        {
+            StartCoroutine(cannon.FireAtDelay());
+        }
     }
 
     protected void SpawnLayer(int index, int layerNum)
@@ -107,8 +112,7 @@ public class EnemyController : MonoBehaviour
 
     protected virtual void OnEnable()
     {
-        //Deal Damage To Player
-        StartCoroutine(DealDamage());
+
     }
 
     public void UpdateEnemySpeed()
@@ -329,24 +333,6 @@ public class EnemyController : MonoBehaviour
         }
 
         enemyColliding = false;
-    }
-
-    IEnumerator DealDamage()
-    {
-        while (true)
-        {
-            //If the enemy has a cannon, fire the cannon
-            foreach(var cannon in GetComponentsInChildren<CannonController>())
-            {
-                Debug.Log("Enemy Fire!");
-                cannon.Fire();
-            }
-
-            //Shoot at the player every 7 to 12 seconds
-            int timeWait = Random.Range(7, 12);
-
-            yield return new WaitForSeconds(timeWait);
-        }
     }
 
     public void EnemyLayerDestroyed()
