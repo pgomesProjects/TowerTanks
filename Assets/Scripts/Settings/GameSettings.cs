@@ -7,7 +7,7 @@ public static class GameSettings
     public static int[,] possibleResolutions = new int[,] { { 2560, 1440 }, { 1920, 1080 }, { 1280, 720 } };
 
     public static bool mainMenuEntered = false;
-    public static bool skipTutorial = true;
+    public static bool skipTutorial = false;
 
     //0.5 = Easy, 1 = Normal, 1.5 = Hard
     public static float difficulty = 1;

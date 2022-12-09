@@ -62,13 +62,13 @@ public class TutorialController : MonoBehaviour
             //If there is no text and there are still seen lines left, check for events needed to display the text
             else if (dialogEvent.HasSeenCutscene() && dialogEvent.GetCurrentLine() < dialogEvent.GetSeenDialogLength() && !listenForInput)
             {
-                dialogEvent.CheckEvents(ref textWriterSingle);
+                Invoke("OnTextAdvance", 0.1f);
             }
 
             //If there is no text and there are still lines left, check for events needed to display the text
             else if (!dialogEvent.HasSeenCutscene() && dialogEvent.GetCurrentLine() < dialogEvent.GetDialogLength() && !listenForInput)
             {
-                dialogEvent.CheckEvents(ref textWriterSingle);
+                Invoke("OnTextAdvance", 0.1f);
             }
 
             //If all of the text has been shown, call the event for when the text is complete
@@ -117,6 +117,11 @@ public class TutorialController : MonoBehaviour
 
         currentTutorialState = TUTORIALSTATE.READING;
         AdvanceText();
+    }
+
+    private void OnTextAdvance()
+    {
+        dialogEvent.CheckEvents(ref textWriterSingle);
     }
 
     private bool tutorialCompleteWithDelay = true;

@@ -5,6 +5,7 @@ using UnityEngine;
 public class TutorialEvents : CustomEvent
 {
     [SerializeField] private GameObject resourcesObject;
+    [SerializeField] private GameObject resourcesArrow;
 
     public override void CheckForCustomEvent(int indexNumber)
     {
@@ -49,9 +50,11 @@ public class TutorialEvents : CustomEvent
                     transform.Find("InteractSpawnerRight").GetComponent<InteractableSpawner>().ShowTutorialIndicator(false);
 
                 resourcesObject.SetActive(true);
+                resourcesArrow.SetActive(true);
                 break;
             //Build Ammo Crate Prompt
             case 10:
+                resourcesArrow.SetActive(false);
                 GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().GetLayerAt(1).
                     transform.Find("InteractSpawnerLeft").GetComponent<InteractableSpawner>().ShowTutorialIndicator(true);
                 TutorialController.main.currentTutorialState = TUTORIALSTATE.BUILDAMMOCRATE;
