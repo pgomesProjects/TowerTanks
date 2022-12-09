@@ -133,6 +133,7 @@ public class PlayerController : MonoBehaviour
             if (ladderRaycast.collider == null)
             {
                 isClimbing = false;
+                playerAnimator.SetBool("IsOnLadder", false);
             }
 
             //If the player is climbing, move up and get rid of gravity temporarily
@@ -186,6 +187,7 @@ public class PlayerController : MonoBehaviour
                     if (ladderRaycast.collider != null)
                     {
                         isClimbing = true;
+                        playerAnimator.SetBool("IsOnLadder", true);
                         transform.position = new Vector2(0, transform.position.y);
                     }
                 }
