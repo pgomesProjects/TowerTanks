@@ -141,12 +141,14 @@ public class PlayerController : MonoBehaviour
             {
                 rb.velocity = new Vector2(0, movement.y * speed);
                 rb.gravityScale = 0;
+                playerAnimator.SetFloat("PlayerY", MathF.Abs(movement.y));
             }
 
             //Once the player stops climbing, bring back gravity
             else
             {
                 rb.gravityScale = defaultGravity;
+                playerAnimator.SetFloat("PlayerY", 0);
             }
         }
         else

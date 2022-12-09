@@ -42,7 +42,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -76,9 +76,285 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: armfixedwalkanimsheet12-8_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 174.33333
+        height: 223
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d64666255d99dc24fa31aafafe2db0d1
+      internalID: 855535560
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: armfixedwalkanimsheet12-8_1
+      rect:
+        serializedVersion: 2
+        x: 175
+        y: 0
+        width: 174
+        height: 223
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 34490b3f35e9c0042832dab5b4980227
+      internalID: -242697947
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: armfixedwalkanimsheet12-8_2
+      rect:
+        serializedVersion: 2
+        x: 350
+        y: 0
+        width: 174
+        height: 223
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 46e0aeae5e6e1d54c81c507186755f5a
+      internalID: 1936068501
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: armfixedwalkanimsheet12-8_3
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 0
+        width: 174
+        height: 223
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3d13fb64c4bbff04fa685fec3cdd6a67
+      internalID: -1346683373
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: armfixedwalkanimsheet12-8_4
+      rect:
+        serializedVersion: 2
+        x: 698
+        y: 0
+        width: 174
+        height: 223
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 39570d80aaf59004fbb6bb0ee28956a2
+      internalID: 356232160
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: armfixedwalkanimsheet12-8_5
+      rect:
+        serializedVersion: 2
+        x: 872
+        y: 0
+        width: 174
+        height: 223
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b7649c8fb91a42d42a353e84d2407796
+      internalID: 148744659
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: armfixedwalkanimsheet12-8_6
+      rect:
+        serializedVersion: 2
+        x: 1046
+        y: 0
+        width: 174
+        height: 223
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aa4518e314eabe142ace15aa90ad9b49
+      internalID: -1295133976
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: armfixedwalkanimsheet12-8_7
+      rect:
+        serializedVersion: 2
+        x: 1222
+        y: 0
+        width: 174
+        height: 223
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 237410d02a79db446817cc0f8f2a9e04
+      internalID: -275628338
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: armfixedwalkanimsheet12-8_8
+      rect:
+        serializedVersion: 2
+        x: 1396
+        y: 0
+        width: 174
+        height: 223
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bbda48b6ca8f8e643b659e8e3099b87f
+      internalID: -1079899337
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: armfixedwalkanimsheet12-8_9
+      rect:
+        serializedVersion: 2
+        x: 1571
+        y: 0
+        width: 174
+        height: 223
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f92943516a160354dbc430f168c619b7
+      internalID: 1299627162
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: armfixedwalkanimsheet12-8_10
+      rect:
+        serializedVersion: 2
+        x: 1744
+        y: 0
+        width: 174
+        height: 223
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 514ac8f126b063d4f9e93e8b78a853c9
+      internalID: -1956845009
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: armfixedwalkanimsheet12-8_11
+      rect:
+        serializedVersion: 2
+        x: 1919
+        y: 0
+        width: 173
+        height: 223
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f9346b466d05db46b5dfaa55bf950c5
+      internalID: -731467867
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -89,7 +365,19 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      armfixedwalkanimsheet12-8_0: 855535560
+      armfixedwalkanimsheet12-8_11: -731467867
+      armfixedwalkanimsheet12-8_8: -1079899337
+      armfixedwalkanimsheet12-8_2: 1936068501
+      armfixedwalkanimsheet12-8_10: -1956845009
+      armfixedwalkanimsheet12-8_4: 356232160
+      armfixedwalkanimsheet12-8_3: -1346683373
+      armfixedwalkanimsheet12-8_7: -275628338
+      armfixedwalkanimsheet12-8_6: -1295133976
+      armfixedwalkanimsheet12-8_9: 1299627162
+      armfixedwalkanimsheet12-8_1: -242697947
+      armfixedwalkanimsheet12-8_5: 148744659
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
