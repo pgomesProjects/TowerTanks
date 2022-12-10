@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Cinemachine;
 
 public class CameraEventController : MonoBehaviour
@@ -70,6 +71,19 @@ public class CameraEventController : MonoBehaviour
             shakeTimerTotal = seconds;
             startingCamIntensity = intensity;
         }
+
+        StartCoroutine(PlayHapticsOnAllControllers(seconds));
+    }
+
+    private IEnumerator PlayHapticsOnAllControllers(float seconds)
+    {
+        foreach (var controller in Gamepad.all)
+            controller.SetMotorSpeeds(0.75f, 0.75f);
+
+        yield return new WaitForSecondsRealtime(seconds);
+
+        foreach (var controller in Gamepad.all)
+            controller.ResetHaptics();
     }
 
     public IEnumerator SmoothZoomCameraEvent(float startFOV, float endFOV, float seconds)
