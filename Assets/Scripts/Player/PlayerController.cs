@@ -799,6 +799,16 @@ public class PlayerController : MonoBehaviour
         isCheckingSpinInput = false;
     }
 
+    public void PlayFootstepSFX()
+    {
+        FindObjectOfType<AudioManager>().PlayAtRandomPitch("Footstep", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+    }
+
+    public void PlayLadderClimbSFX()
+    {
+        FindObjectOfType<AudioManager>().PlayAtRandomPitch("LadderClimb", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+    }
+
     public bool UIAllowPlayerInteract()
     {
         return !LevelManager.instance.isPaused && !LevelManager.instance.readingTutorial;

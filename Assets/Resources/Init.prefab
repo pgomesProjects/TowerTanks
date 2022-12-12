@@ -177,3 +177,13 @@ MonoBehaviour:
     pitch: 1
     loop: 1
     source: {fileID: 0}
+  - name: Footstep
+    clip: {fileID: 8300000, guid: 5fd2955b971392248ac4f4d1c3d57384, type: 3}
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: LadderClimb
+    clip: {fileID: 8300000, guid: 85ee0c79ba8dd3748868e39aaab9ca43, type: 3}
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
