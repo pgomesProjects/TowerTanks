@@ -9,11 +9,14 @@ public class CoalController : InteractableController
     [SerializeField] private Slider coalPercentageIndicator;
     [SerializeField] private int framesForCoalFill = 5;
     [SerializeField] private float angleRange = 102;
+    private int currentCoalFrame;
     private float currentIndicatorAngle;
     private float depletionRate;
     private float coalPercentage;
     private bool hasCoal;
     private Animator engineAnimator;
+
+    private float coalLoadAudioLength = 1.5f;
 
     private Transform indicatorPivot;
 
@@ -32,6 +35,7 @@ public class CoalController : InteractableController
             hasCoal = true;
         }
 
+        currentCoalFrame = 0;
         depletionRate = depletionSeconds / 100f;
         coalPercentageIndicator.value = coalPercentage;
         indicatorPivot = transform.Find("IndicatorPivot");
@@ -69,6 +73,8 @@ public class CoalController : InteractableController
             {
                 currentPlayer.ShowProgressBar();
             }
+
+            currentCoalFrame = 0;
         }
     }
 
@@ -78,12 +84,33 @@ public class CoalController : InteractableController
         if (currentPlayer != null)
         {
             currentPlayer.AddToProgressBar(100f / framesForCoalFill);
+            currentCoalFrame++;
+
+            AudioManager audio = FindObjectOfType<AudioManager>();
+            float totalAudioTime = audio.GetSoundLength("LoadingCoal");
+
+            float startAudioTime;
+            float endAudioTime;
+
+            startAudioTime = (coalLoadAudioLength / framesForCoalFill) * (currentCoalFrame - 1);
+            endAudioTime = (coalLoadAudioLength / framesForCoalFill) * currentCoalFrame;
+
+            Debug.Log("Total Audio Time: " + totalAudioTime);
+
+            Debug.Log("Start Audio Time: " + startAudioTime);
+            Debug.Log("End Audio Time: " + endAudioTime);
 
             if (currentPlayer.IsProgressBarFull())
             {
                 FillCoal(15f);
                 currentPlayer.ShowProgressBar();
+                currentCoalFrame = 0;
+
+                startAudioTime = coalLoadAudioLength;
+                endAudioTime = totalAudioTime;
             }
+
+            audio.PlayAtSection("LoadingCoal", PlayerPrefs.GetFloat("SFXVolume", 0.5f), startAudioTime, endAudioTime);
         }
     }
 
@@ -103,6 +130,7 @@ public class CoalController : InteractableController
         if (currentPlayer != null)
         {
             LockPlayer(false);
+            currentCoalFrame = 0;
         }
     }
 
@@ -181,6 +209,7 @@ public class CoalController : InteractableController
     private void OnDestroy()
     {
         hasCoal = false;
+        currentCoalFrame = 0;
         if (GameObject.FindGameObjectWithTag("PlayerTank"))
         {
             GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().AdjustEngineSpeedMultiplier();

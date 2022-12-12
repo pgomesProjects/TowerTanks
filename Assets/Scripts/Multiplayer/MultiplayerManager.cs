@@ -7,7 +7,7 @@ using Cinemachine;
 using TMPro;
 public class MultiplayerManager : MonoBehaviour
 {
-    [SerializeField] private Transform spawnPoint;
+    [SerializeField] private Transform[] spawnPoints;
     [SerializeField] private Transform playerParent;
     [SerializeField] private GameObject playerJoinObject;
     [SerializeField] private GameObject joinPrompt;
@@ -81,8 +81,6 @@ public class MultiplayerManager : MonoBehaviour
     /// <param name="playerInput"></param>
     public void OnPlayerJoined(PlayerInput playerInput)
     {
-        playerInput.transform.position = spawnPoint.position;
-
         //Disable the current join animation if active
         if (playerJoinObject.activeInHierarchy)
             playerJoinObject.SetActive(false);
@@ -90,6 +88,10 @@ public class MultiplayerManager : MonoBehaviour
         //Generate the new player's index
         int playerIndex = ConnectionController.CheckForIndex();
         ConnectionController.connectedControllers[playerIndex] = true;
+
+        //Move the player to the spawn point
+        playerInput.transform.position = spawnPoints[playerIndex].position;
+
         playerInput.GetComponent<PlayerController>().SetPlayerIndex(playerIndex);
         SetColorOfPlayer(playerInput.transform, playerIndex);
         playerInput.transform.parent = playerParent;

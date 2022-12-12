@@ -56,6 +56,7 @@ public class MenuController : MonoBehaviour
     private void OnDisable()
     {
         playerControlSystem.Disable();
+        OnDeselect();
     }
 
     private void Update()

@@ -35,14 +35,14 @@ public class AudioManager : MonoBehaviour
 
     public void Play(string name, float audioVol)
     {
-        Sound s = Array.Find(sounds, sound => sound.name == name);
+        Sound s = GetSound(name);
         s.source.Play();
         s.source.volume = audioVol;
     }
 
     public void PlayAtRandomPitch(string name, float audioVol)
     {
-        Sound s = Array.Find(sounds, sound => sound.name == name);
+        Sound s = GetSound(name);
         s.source.PlayOneShot(s.clip, audioVol);
 
         float pitchRandom = UnityEngine.Random.Range(0.9f, 1.1f);
@@ -50,33 +50,61 @@ public class AudioManager : MonoBehaviour
         s.source.pitch = pitchRandom;
     }
 
+    public void PlayAtSection(string name, float audioVol, float start, float stop)
+    {
+        Sound s = GetSound(name);
+
+        AudioClip subClip = MakeSubclip(s.clip, start, stop);
+
+        s.source.PlayOneShot(subClip, audioVol);
+
+        s.source.pitch = 1;
+    }
+
+    private AudioClip MakeSubclip(AudioClip clip, float start, float stop)
+    {
+        int frequency = clip.frequency;
+        int channels = clip.channels;
+
+        float timeLength = stop - start;
+        int samplesLength = (int)(frequency * timeLength);
+
+        AudioClip newClip = AudioClip.Create(clip.name + "-sub", samplesLength, channels, frequency, false);
+
+        float[] data = new float[samplesLength];
+        clip.GetData(data, (int)(frequency * start));
+        newClip.SetData(data, 0);
+
+        return newClip;
+    }
+
     public void PlayOneShot(string name, float audioVol)
     {
-        Sound s = Array.Find(sounds, sound => sound.name == name);
+        Sound s = GetSound(name);
         s.source.PlayOneShot(s.clip, audioVol);
     }
 
     public bool IsPlaying(string name) //Checks to see if the audio track is still playing
     {
-        Sound s = Array.Find(sounds, sound => sound.name == name);
+        Sound s = GetSound(name);
         return s.source.isPlaying;
     }//end of isPlaying
 
     public void ChangeVolume(string name, float audioVol)
     {
-        Sound s = Array.Find(sounds, sound => sound.name == name);
+        Sound s = GetSound(name);
         s.source.volume = audioVol;
     }
 
     public void ChangePitch(string name, float audioPitch)
     {
-        Sound s = Array.Find(sounds, sound => sound.name == name);
+        Sound s = GetSound(name);
         s.source.pitch = audioPitch;
     }
 
     public void Pause(string name) //Pauses audio
     {
-        Sound s = Array.Find(sounds, sound => sound.name == name);
+        Sound s = GetSound(name);
         s.source.Pause();
     }
 
@@ -115,4 +143,7 @@ public class AudioManager : MonoBehaviour
             s.source.Stop();
         }
     }
+
+    private Sound GetSound(string name) => Array.Find(sounds, sound => sound.name == name);
+    public float GetSoundLength(string name) => GetSound(name).clip.length;
 }

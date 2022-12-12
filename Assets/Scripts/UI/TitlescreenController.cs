@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -17,10 +18,13 @@ public class TitlescreenController : MonoBehaviour
     [SerializeField] private GameObject difficultySettingsMenu;
     [SerializeField] private GameObject skipTutorialMenu;
 
+    [Header("Menu Animators")]
+    [SerializeField] private Animator startScreenAnimator;
+    [SerializeField] private Animator mainMenuAnimator;
+
     [Header("Menu First Selected Items")]
     [SerializeField] private Selectable[] mainMenuButtons;
     [SerializeField] private Selectable optionsMenuSelected;
-    [SerializeField] private Selectable creditsMenuSelected;
     [SerializeField] private Selectable difficultySettingsMenuSelected;
     [SerializeField] private Selectable skipTutorialMenuSelected;
 
@@ -104,8 +108,11 @@ public class TitlescreenController : MonoBehaviour
 
     private IEnumerator WaitStartScreenToMain()
     {
+        startScreenAnimator.Play("StartScreenHide");
         yield return new WaitForSeconds(0.5f);
         GoToMain();
+        mainMenuAnimator.Play("MainMenuShow");
+        startMenu.GetComponent<RectTransform>().localPosition = Vector3.zero;
     }
 
     private void CancelAction()
@@ -145,7 +152,7 @@ public class TitlescreenController : MonoBehaviour
     public void Credits()
     {
         SwitchMenu(MenuState.CREDITS);
-        creditsMenuSelected.Select();
+        DeselectButton();
     }
 
     public void Back()
@@ -164,7 +171,6 @@ public class TitlescreenController : MonoBehaviour
                 break;
             case MenuState.MAIN:
                 newMenu = mainMenu;
-                SelectButtonOnMain(currentMenuState);
                 break;
             case MenuState.OPTIONS:
                 newMenu = optionsMenu;
@@ -180,15 +186,24 @@ public class TitlescreenController : MonoBehaviour
                 break;
             default:
                 newMenu = mainMenu;
-                SelectButtonOnMain(currentMenuState);
                 break;
         }
 
         if(menu != MenuState.SKIPTUTORIAL)
             currentMenuState.SetActive(false);
 
+        GameObject prevMenu = currentMenuState;
+
         currentMenuState = newMenu;
         currentMenuState.SetActive(true);
+
+        if(menu == MenuState.MAIN)
+            SelectButtonOnMain(prevMenu);
+    }
+
+    private void DeselectButton()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     private void SelectButtonOnMain(GameObject menu)
@@ -205,6 +220,17 @@ public class TitlescreenController : MonoBehaviour
         {
             mainMenuButtons[0].Select();
         }
+    }
+
+    public void ButtonOnSelectColor(Animator anim)
+    {
+        anim.SetBool("IsSelected", true);
+    }
+
+    public void ButtonOnDeselectColor(Animator anim)
+    {
+        anim.SetBool("IsSelected", false);
+
     }
 
     public void QuitGame()
