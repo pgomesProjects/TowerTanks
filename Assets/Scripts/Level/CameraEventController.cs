@@ -8,6 +8,7 @@ public class CameraEventController : MonoBehaviour
 {
     public static CameraEventController instance;
 
+    private CinemachineBrain cinemachineBrain;
     private CinemachineVirtualCamera _currentActiveCamera;
     [SerializeField] private CinemachineVirtualCamera _gameCamera;
     [SerializeField] private CinemachineVirtualCamera _cinematicCamera;
@@ -24,6 +25,7 @@ public class CameraEventController : MonoBehaviour
 
     private void Start()
     {
+        cinemachineBrain = Camera.main.GetComponent<CinemachineBrain>();
         _currentActiveCamera = _gameCamera;
         inGame = true;
     }
@@ -161,6 +163,27 @@ public class CameraEventController : MonoBehaviour
         _tanksTargetGroup.AddMember(newEnemy.transform, 1, 0);
         EnableTargetGroup(_tanksTargetGroup);
 
+        _currentActiveCamera = _gameCamera;
+    }
+
+    public IEnumerator BringCameraToPlayer(float seconds)
+    {
+        float blendCamSeconds = 2;
+
+        _cinematicCamera.m_Lens.OrthographicSize = _gameCamera.State.Lens.OrthographicSize;
+
+        SwitchCamera();
+        _currentActiveCamera = _cinematicCamera;
+
+        DisableTargetGroup();
+
+        yield return new WaitForSeconds(seconds);
+
+        SwitchCamera();
+
+        yield return new WaitForSeconds(blendCamSeconds);
+
+        EnableTargetGroup(_tanksTargetGroup);
         _currentActiveCamera = _gameCamera;
     }
 

@@ -101,43 +101,46 @@ public class CannonController : InteractableController
     public void Fire()
     {
         //Spawn projectile at cannon spawn point
-        GameObject currentProjectile = Instantiate(projectile, new Vector3(spawnPoint.transform.position.x, spawnPoint.transform.position.y, 0), Quaternion.identity);
-        currentAmmo--;
-
-        //Play sound effect
-        FindObjectOfType<AudioManager>().PlayOneShot("CannonFire", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
-
-        //Determine the direction of the cannon
-        Vector2 direction = Vector2.zero;
-        float startingShellRot = 0;
-
-        switch (currentCannonDirection)
+        if (spawnPoint != null)
         {
-            case CANNONDIRECTION.LEFT:
-                direction = -GetCannonVectorHorizontal(cannonRotation.z * Mathf.Deg2Rad);
-                startingShellRot = -cannonPivot.eulerAngles.z + 90;
-                break;
-            case CANNONDIRECTION.RIGHT:
-                direction = GetCannonVectorHorizontal(cannonRotation.z * Mathf.Deg2Rad);
-                startingShellRot = -cannonPivot.eulerAngles.z - 90;
-                break;
-            case CANNONDIRECTION.UP:
-                direction = GetCannonVectorVertical(cannonRotation.z * Mathf.Deg2Rad);
-                break;
-            case CANNONDIRECTION.DOWN:
-                direction = -GetCannonVectorVertical(cannonRotation.z * Mathf.Deg2Rad);
-                break;
+            GameObject currentProjectile = Instantiate(projectile, new Vector3(spawnPoint.transform.position.x, spawnPoint.transform.position.y, 0), Quaternion.identity);
+            currentAmmo--;
+
+            //Play sound effect
+            FindObjectOfType<AudioManager>().PlayOneShot("CannonFire", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+
+            //Determine the direction of the cannon
+            Vector2 direction = Vector2.zero;
+            float startingShellRot = 0;
+
+            switch (currentCannonDirection)
+            {
+                case CANNONDIRECTION.LEFT:
+                    direction = -GetCannonVectorHorizontal(cannonRotation.z * Mathf.Deg2Rad);
+                    startingShellRot = -cannonPivot.eulerAngles.z + 90;
+                    break;
+                case CANNONDIRECTION.RIGHT:
+                    direction = GetCannonVectorHorizontal(cannonRotation.z * Mathf.Deg2Rad);
+                    startingShellRot = -cannonPivot.eulerAngles.z - 90;
+                    break;
+                case CANNONDIRECTION.UP:
+                    direction = GetCannonVectorVertical(cannonRotation.z * Mathf.Deg2Rad);
+                    break;
+                case CANNONDIRECTION.DOWN:
+                    direction = -GetCannonVectorVertical(cannonRotation.z * Mathf.Deg2Rad);
+                    break;
+            }
+
+            //Add a damage component to the projectile
+            currentProjectile.AddComponent<DamageObject>().damage = currentProjectile.GetComponent<ShellItemBehavior>().GetDamage();
+            DamageObject currentDamager = currentProjectile.GetComponent<DamageObject>();
+            currentDamager.StartRotation(startingShellRot);
+
+            Debug.Log("Direction: " + direction);
+
+            //Shoot the project at the current angle and direction
+            currentProjectile.GetComponent<Rigidbody2D>().AddForce(direction * cannonForce);
         }
-
-        //Add a damage component to the projectile
-        currentProjectile.AddComponent<DamageObject>().damage = currentProjectile.GetComponent<ShellItemBehavior>().GetDamage();
-        DamageObject currentDamager = currentProjectile.GetComponent<DamageObject>();
-        currentDamager.StartRotation(startingShellRot);
-
-        Debug.Log("Direction: " + direction);
-
-        //Shoot the project at the current angle and direction
-        currentProjectile.GetComponent<Rigidbody2D>().AddForce(direction * cannonForce);
     }
 
     public IEnumerator FireAtDelay()

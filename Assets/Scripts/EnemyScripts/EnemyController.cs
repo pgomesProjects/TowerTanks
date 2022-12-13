@@ -296,14 +296,15 @@ public class EnemyController : MonoBehaviour
 
         Debug.Log("Enemy Tank Health: " + health);
 
-        //Check for Game Over
+/*        //Check for Game Over
         if (health <= 0)
         {
             Debug.Log("Enemy Tank Is Destroyed!");
             LevelManager.instance.currentSessionStats.wavesCleared += 1;
+            LevelManager.instance.ResetPlayerCamera();
             AddToList();
-            Destroy(gameObject);
-        }
+            Destroy(gameObject, 0.1f);
+        }*/
     }
 
     protected virtual void AddToList()
@@ -355,8 +356,12 @@ public class EnemyController : MonoBehaviour
         //If there are no more layers, destroy the tank
         if (totalEnemyLayers == 0)
         {
+            //Debug.Log("Enemy Tank Is Destroyed!");
             LevelManager.instance.UpdateResources(onDestroyResources);
-            Destroy(gameObject);
+            LevelManager.instance.currentSessionStats.wavesCleared += 1;
+            LevelManager.instance.ResetPlayerCamera();
+            AddToList();
+            Destroy(gameObject, 0.1f);
         }
     }
 

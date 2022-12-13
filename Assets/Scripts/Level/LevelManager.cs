@@ -414,6 +414,12 @@ public class LevelManager : MonoBehaviour
         playerTank.GetComponent<PlayerTankController>().AdjustTankWeight(totalLayers);
     }
 
+    public void ResetPlayerCamera()
+    {
+        Debug.Log("Resetting Camera...");
+        StartCoroutine(CameraEventController.instance.BringCameraToPlayer(2));
+    }
+
     public void ShowGoPrompt()
     {
         if(goPrompt != null)
