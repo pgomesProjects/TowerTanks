@@ -16,6 +16,7 @@ public class PlayerTankController : MonoBehaviour
     [SerializeField] internal float tankBarrierRange = 12;
     [SerializeField] private float distanceUntilSpawn = 50;
     private float currentDistance;
+    [SerializeField] private Transform itemContainer;
 
     private List<LayerHealthManager> layers;
 
@@ -23,7 +24,6 @@ public class PlayerTankController : MonoBehaviour
     {
         layers = new List<LayerHealthManager>(2);
         AdjustLayersInList();
-        FindObjectOfType<AudioManager>().Play("TankIdle", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
     }
 
     private void Start()
@@ -125,7 +125,24 @@ public class PlayerTankController : MonoBehaviour
 
         currentEngineMultiplier = newEngineSpeed;
 
+        UpdateEngineSFX(numberOfEngines);
         UpdateTreadsSFX();
+    }
+
+    private void UpdateEngineSFX(int numberOfEngines)
+    {
+        //If there is at least one engine running, play the engine sound effect
+        if(numberOfEngines > 0)
+        {
+            if(!FindObjectOfType<AudioManager>().IsPlaying("TankIdle"))
+                FindObjectOfType<AudioManager>().Play("TankIdle", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+        }
+        //If not, stop the sound effect if it's currently playing
+        else
+        {
+            if (FindObjectOfType<AudioManager>().IsPlaying("TankIdle"))
+                FindObjectOfType<AudioManager>().Stop("TankIdle");
+        }
     }
 
     public void UpdateTreadsSFX()
@@ -208,7 +225,7 @@ public class PlayerTankController : MonoBehaviour
 
     public LayerHealthManager GetLayerAt(int index)
     {
-        LayerHealthManager layer = null;
+        LayerHealthManager layer;
 
         try
         {
@@ -222,6 +239,8 @@ public class PlayerTankController : MonoBehaviour
 
         return layer;
     }
+
+    public Transform GetItemContainer() => itemContainer;
 
     public float GetCurrentTankDistance() => currentDistance;
 

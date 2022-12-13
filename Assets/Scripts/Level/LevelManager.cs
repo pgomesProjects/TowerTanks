@@ -473,6 +473,7 @@ public class LevelManager : MonoBehaviour
             //Gameplay to Game Over
             case GAMESTATE.GAMEACTIVE:
                 levelPhase = GAMESTATE.GAMEOVER;
+                CameraEventController.instance.FreezeCamera();
                 GameOver();
                 break;
         }
@@ -548,5 +549,12 @@ public class LevelManager : MonoBehaviour
 
         gameOverCanvas.SetActive(false);
         sessionStatsCanvas.SetActive(true);
+    }
+
+    private void OnDestroy()
+    {
+        //Scene cleanup
+        foreach (var particle in FindObjectsOfType<ParticleSystem>())
+            Destroy(particle);
     }
 }

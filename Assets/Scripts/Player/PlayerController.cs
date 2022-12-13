@@ -742,7 +742,7 @@ public class PlayerController : MonoBehaviour
         //Remove the item from the player and put it back in the level
         itemHeld.GetComponent<Rigidbody2D>().gravityScale = itemHeld.GetDefaultGravityScale();
         itemHeld.GetComponent<Rigidbody2D>().isKinematic = false;
-        itemHeld.transform.parent = null;
+        itemHeld.transform.parent = playerTank.GetItemContainer();
         itemHeld.SetRotateConstraint(false);
 
         Debug.Log("Dropped Item!");

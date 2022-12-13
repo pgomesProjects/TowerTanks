@@ -418,6 +418,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 62108129}
+  - component: {fileID: 62108130}
   m_Layer: 5
   m_Name: GameOverMenu
   m_TagString: Untagged
@@ -438,7 +439,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1854872067}
-  - {fileID: 1241040232}
   m_Father: {fileID: 1793046958}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -447,6 +447,26 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!95 &62108130
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 62108128}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1e8cf78086551ec4193c3c9bbed80540, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 2
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &94764304
 GameObject:
   m_ObjectHideFlags: 0
@@ -657,6 +677,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fa1c2abdf22b874ea941dcd4d57e50d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isEnemyTank: 0
 --- !u!1 &236796187
 GameObject:
   m_ObjectHideFlags: 0
@@ -841,6 +862,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fa1c2abdf22b874ea941dcd4d57e50d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isEnemyTank: 0
 --- !u!1 &287397817
 GameObject:
   m_ObjectHideFlags: 0
@@ -938,6 +960,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fa1c2abdf22b874ea941dcd4d57e50d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isEnemyTank: 0
 --- !u!1001 &314952508
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1402,6 +1425,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fa1c2abdf22b874ea941dcd4d57e50d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isEnemyTank: 0
 --- !u!1 &468702466
 GameObject:
   m_ObjectHideFlags: 0
@@ -2723,6 +2747,7 @@ MonoBehaviour:
   tankEngineMultiplier: 1.5
   tankBarrierRange: 12
   distanceUntilSpawn: 50
+  itemContainer: {fileID: 47243857}
 --- !u!1 &823464464
 GameObject:
   m_ObjectHideFlags: 0
@@ -2820,6 +2845,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fa1c2abdf22b874ea941dcd4d57e50d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isEnemyTank: 0
 --- !u!1 &830699880
 GameObject:
   m_ObjectHideFlags: 0
@@ -3420,6 +3446,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fa1c2abdf22b874ea941dcd4d57e50d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isEnemyTank: 0
 --- !u!1 &1005274063
 GameObject:
   m_ObjectHideFlags: 0
@@ -4443,13 +4470,13 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 62108129}
-  m_RootOrder: 1
+  m_Father: {fileID: 1854872067}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 700, y: 125}
+  m_SizeDelta: {x: 1400, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1241040233
 MonoBehaviour:
@@ -4500,8 +4527,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 100
-  m_fontSizeBase: 100
+  m_fontSize: 250
+  m_fontSizeBase: 250
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -6396,6 +6423,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fa1c2abdf22b874ea941dcd4d57e50d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isEnemyTank: 0
 --- !u!1 &1834408013
 GameObject:
   m_ObjectHideFlags: 0
@@ -6539,7 +6567,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1241040232}
   m_Father: {fileID: 62108129}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

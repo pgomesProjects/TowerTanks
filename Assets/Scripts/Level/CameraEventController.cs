@@ -170,12 +170,7 @@ public class CameraEventController : MonoBehaviour
     {
         float blendCamSeconds = 2;
 
-        _cinematicCamera.m_Lens.OrthographicSize = _gameCamera.State.Lens.OrthographicSize;
-
-        SwitchCamera();
-        _currentActiveCamera = _cinematicCamera;
-
-        DisableTargetGroup();
+        FreezeCamera();
 
         yield return new WaitForSeconds(seconds);
 
@@ -187,6 +182,16 @@ public class CameraEventController : MonoBehaviour
         _currentActiveCamera = _gameCamera;
     }
 
+
+    public void FreezeCamera()
+    {
+        _cinematicCamera.m_Lens.OrthographicSize = _gameCamera.State.Lens.OrthographicSize;
+
+        SwitchCamera();
+        _currentActiveCamera = _cinematicCamera;
+
+        DisableTargetGroup();
+    }
     private IEnumerator AddToGameCamTargetGroup(GameObject newEnemy, float waitSeconds)
     {
         yield return new WaitForSeconds(waitSeconds);
