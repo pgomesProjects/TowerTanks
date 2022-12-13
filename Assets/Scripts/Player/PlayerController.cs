@@ -141,7 +141,7 @@ public class PlayerController : MonoBehaviour
             {
                 rb.velocity = new Vector2(0, movement.y * speed);
                 rb.gravityScale = 0;
-                playerAnimator.SetFloat("PlayerY", MathF.Abs(movement.y));
+                playerAnimator.SetFloat("PlayerY", movement.y);
             }
 
             //Once the player stops climbing, bring back gravity
@@ -209,6 +209,7 @@ public class PlayerController : MonoBehaviour
                 {
                     //Move them off the ladder
                     isClimbing = false;
+                    playerAnimator.SetBool("IsOnLadder", false);
                 }
             }
         }
