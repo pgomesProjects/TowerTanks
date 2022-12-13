@@ -133,7 +133,7 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 3635
+        width: 1211.6666
         height: 250
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -144,6 +144,48 @@ TextureImporter:
       bones: []
       spriteID: bcdc7f09f0da3fd4c85a00d4af6d9981
       internalID: 1741156646
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tanktreadanimsheet12-6_1
+      rect:
+        serializedVersion: 2
+        x: 1211
+        y: 0
+        width: 1211.6666
+        height: 250
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c3e67877a5b866c4884b9a40a290e535
+      internalID: 1817635316
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tanktreadanimsheet12-6_2
+      rect:
+        serializedVersion: 2
+        x: 2422
+        y: 0
+        width: 1211.6666
+        height: 250
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 043e39e1ef3edd64093d45dfb327ead2
+      internalID: -398947963
       vertices: []
       indices: 
       edges: []
@@ -160,6 +202,8 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       tanktreadanimsheet12-6_0: 1741156646
+      tanktreadanimsheet12-6_2: -398947963
+      tanktreadanimsheet12-6_1: 1817635316
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

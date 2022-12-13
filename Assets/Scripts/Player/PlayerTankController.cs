@@ -7,6 +7,7 @@ public class PlayerTankController : MonoBehaviour
 {
     [SerializeField] private float speed = 4;
     private float currentSpeed;
+    public float displaySpeed = 0;
     [SerializeField] private float tankWeightMultiplier = 0.8f;
     [SerializeField] private float tankEngineMultiplier = 1.5f;
     private float currentTankWeightMultiplier;
@@ -68,6 +69,8 @@ public class PlayerTankController : MonoBehaviour
         {
             currentDistance += GetPlayerSpeed() * LevelManager.instance.gameSpeed * Time.deltaTime;
         }
+
+        displaySpeed = GetPlayerSpeed();
     }
 
     public void AdjustTankWeight(int numberOfLayers)
