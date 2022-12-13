@@ -155,7 +155,6 @@ public class TitlescreenController : MonoBehaviour
     public void Credits()
     {
         SwitchMenu(MenuState.CREDITS);
-        DeselectButton();
     }
 
     public void Back()
@@ -196,6 +195,8 @@ public class TitlescreenController : MonoBehaviour
             currentMenuState.SetActive(false);
 
         GameObject prevMenu = currentMenuState;
+
+        DeselectButton();
 
         currentMenuState = newMenu;
         currentMenuState.SetActive(true);
