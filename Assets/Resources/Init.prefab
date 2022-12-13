@@ -183,7 +183,7 @@ MonoBehaviour:
     loop: 0
     source: {fileID: 0}
   - name: LadderClimb
-    clip: {fileID: 8300000, guid: 85ee0c79ba8dd3748868e39aaab9ca43, type: 3}
+    clip: {fileID: 8300000, guid: ee110842331970f4882e6ebb203c9c55, type: 3}
     pitch: 1
     loop: 0
     source: {fileID: 0}

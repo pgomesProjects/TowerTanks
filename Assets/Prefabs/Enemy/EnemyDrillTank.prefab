@@ -75,7 +75,7 @@ MonoBehaviour:
   targetRange: 20
   collisionForceSeconds: 0.1
   changeDirectionAccelerationSpeed: 0.75
-  maxAcceleration: 1.25
+  maxAcceleration: 3
   wavesMultiplier: 2
   onDestroyResources: 50
   spawnableLayers:

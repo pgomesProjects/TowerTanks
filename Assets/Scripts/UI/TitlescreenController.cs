@@ -19,6 +19,7 @@ public class TitlescreenController : MonoBehaviour
     [SerializeField] private GameObject skipTutorialMenu;
 
     [Header("Menu Animators")]
+    [SerializeField] private GameObject levelFader;
     [SerializeField] private Animator startScreenAnimator;
     [SerializeField] private Animator mainMenuAnimator;
 
@@ -38,6 +39,8 @@ public class TitlescreenController : MonoBehaviour
         playerControlSystem = new PlayerControlSystem();
         playerControlSystem.UI.Submit.performed += _ => StartScreenToMain();
         playerControlSystem.UI.Cancel.performed += _ => CancelAction();
+
+        levelFader.SetActive(true);
     }
 
     // Start is called before the first frame update
@@ -64,7 +67,7 @@ public class TitlescreenController : MonoBehaviour
 
     private void StartGame()
     {
-        SceneManager.LoadScene(sceneToLoad);
+        LevelFader.instance.FadeToLevel(sceneToLoad);
     }
 
     public void ShowDifficulty()

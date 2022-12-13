@@ -64,4 +64,9 @@ public class DrillEnemyController : EnemyController
             enemyColliding = true;
         }
     }
+
+    protected override void AddToList()
+    {
+        LevelManager.instance.currentSessionStats.drillTanksDefeated += 1;
+    }
 }

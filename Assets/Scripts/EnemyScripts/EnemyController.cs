@@ -125,22 +125,25 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     protected void FixedUpdate()
     {
-        if (!enemyColliding)
+        if(LevelManager.instance.levelPhase != GAMESTATE.GAMEOVER)
         {
-            currentRelativeSpeed = -speedRelativeToPlayer;
+            if (!enemyColliding)
+            {
+                currentRelativeSpeed = -speedRelativeToPlayer;
 
-            CheckBehaviorStates();
-            UpdateDirection();
-            UpdateCannons();
+                CheckBehaviorStates();
+                UpdateDirection();
+                UpdateCannons();
 
-            //Move the enemy horizontally
-            transform.position += new Vector3(currentRelativeSpeed, 0, 0) * Time.deltaTime;
-        }
-        else
-        {
-            //If the enemy is moving backwards, they are not colliding with the player tank
-            if (speedRelativeToPlayer < 0)
-                enemyColliding = false;
+                //Move the enemy horizontally
+                transform.position += new Vector3(currentRelativeSpeed, 0, 0) * Time.deltaTime;
+            }
+            else
+            {
+                //If the enemy is moving backwards, they are not colliding with the player tank
+                if (speedRelativeToPlayer < 0)
+                    enemyColliding = false;
+            }
         }
     }
 
@@ -297,8 +300,15 @@ public class EnemyController : MonoBehaviour
         if (health <= 0)
         {
             Debug.Log("Enemy Tank Is Destroyed!");
+            LevelManager.instance.currentSessionStats.wavesCleared += 1;
+            AddToList();
             Destroy(gameObject);
         }
+    }
+
+    protected virtual void AddToList()
+    {
+        LevelManager.instance.currentSessionStats.normalTanksDefeated += 1;
     }
 
     IEnumerator CollideWithPlayerAni(float collideVelocity, float seconds)

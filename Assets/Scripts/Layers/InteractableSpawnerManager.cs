@@ -29,6 +29,8 @@ public class InteractableSpawnerManager : MonoBehaviour
                 TutorialController.main.OnTutorialTaskCompletion();
             }
         }
+
+        LevelManager.instance.currentSessionStats.numberOfCannons += 1;
     }
 
     public void SpawnEngine(InteractableSpawner currentSpawner)
@@ -42,6 +44,8 @@ public class InteractableSpawnerManager : MonoBehaviour
                 TutorialController.main.OnTutorialTaskCompletion();
             }
         }
+
+        LevelManager.instance.currentSessionStats.numberOfEngines += 1;
     }
 
     public void SpawnShellStation(InteractableSpawner currentSpawner)
@@ -55,6 +59,8 @@ public class InteractableSpawnerManager : MonoBehaviour
                 TutorialController.main.OnTutorialTaskCompletion();
             }
         }
+
+        LevelManager.instance.currentSessionStats.numberOfAmmoCrates += 1;
     }
 
     public void SpawnThrottle(InteractableSpawner currentSpawner)
@@ -68,6 +74,8 @@ public class InteractableSpawnerManager : MonoBehaviour
                 TutorialController.main.OnTutorialTaskCompletion();
             }
         }
+
+        LevelManager.instance.currentSessionStats.numberOfThrottles += 1;
     }
 
     public void ShowNewGhostInteractable(InteractableSpawner currentSpawner)
@@ -76,10 +84,10 @@ public class InteractableSpawnerManager : MonoBehaviour
         newGhost.transform.parent = currentSpawner.transform;
         newGhost.transform.localPosition = ghostInteractables[currentSpawner.GetCurrentGhostIndex()].transform.localPosition;
 
-        if(currentSpawner.GetCurrentGhostIndex() == 0 && newGhost.transform.position.x < GameObject.FindGameObjectWithTag("PlayerTank").transform.position.x)
+/*        if(currentSpawner.GetCurrentGhostIndex() == 0 && newGhost.transform.position.x < GameObject.FindGameObjectWithTag("PlayerTank").transform.position.x)
         {
             RotateObject(ref newGhost);
-        }
+        }*/
     }
 
     public void UpdateGhostInteractable(InteractableSpawner currentSpawner, int index)

@@ -40,6 +40,11 @@ public class InteractableSpawner : MonoBehaviour
         return currentGhostIndex;
     }
 
+    public void SetCurrentGhostIndex(int index)
+    {
+        currentGhostIndex = index;
+    }
+
     public void UpdateGhostIndex(int index, int totalInteractables)
     {
         currentGhostIndex += index;
@@ -51,6 +56,10 @@ public class InteractableSpawner : MonoBehaviour
         {
             currentGhostIndex = 0;
         }
+
+        //If the current interactable is the cannon and it is on the left side of the tank, skip to the next one
+        if (currentGhostIndex == 0 && transform.position.x < 0)
+            UpdateGhostIndex(index, totalInteractables);
     }
 
     public void ShowTutorialIndicator(bool showIndicator)

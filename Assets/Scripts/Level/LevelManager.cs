@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.UI;
@@ -19,8 +18,10 @@ public enum GAMESTATE
 
 public class LevelManager : MonoBehaviour
 {
+    [SerializeField] private GameObject levelFader;
     [SerializeField] private GameObject gameOverCanvas;
     [SerializeField] private GameObject pauseGameCanvas;
+    [SerializeField] private GameObject sessionStatsCanvas;
     [SerializeField] private GameObject goPrompt;
     [SerializeField] private GameObject playerTank;
     [SerializeField] private Transform layerParent;
@@ -38,6 +39,7 @@ public class LevelManager : MonoBehaviour
     private int currentPlayerPaused;
     internal int currentRound;
     internal int totalLayers;
+    internal SessionStats currentSessionStats;
     internal bool isSteering;
     internal float gameSpeed;
     internal int speedIndex;
@@ -51,6 +53,7 @@ public class LevelManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        levelFader.SetActive(true);
         isPaused = false;
         readingTutorial = false;
         currentPlayerPaused = -1;
@@ -63,6 +66,7 @@ public class LevelManager : MonoBehaviour
         itemPrice = new Dictionary<string, int>();
         PopulateItemDictionary();
         TutorialController.main.dialogEvent = tutorialEvent;
+        currentSessionStats = ScriptableObject.CreateInstance<SessionStats>();
     }
 
     private void Start()
@@ -218,6 +222,9 @@ public class LevelManager : MonoBehaviour
                 TutorialController.main.OnTutorialTaskCompletion();
             }
         }
+
+        if (totalLayers > currentSessionStats.maxHeight)
+            currentSessionStats.maxHeight = totalLayers;
     }
 
     public void AddGhostLayer()
@@ -253,6 +260,9 @@ public class LevelManager : MonoBehaviour
                 //If there is not an interactable spawned, show the ghost interactables
                 if (!i.IsInteractableSpawned())
                 {
+                    if (i.transform.position.x < 0)
+                        i.SetCurrentGhostIndex(1);
+
                     FindObjectOfType<InteractableSpawnerManager>().ShowNewGhostInteractable(i);
                 }
             }
@@ -503,7 +513,7 @@ public class LevelManager : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(9);
 
-        SceneManager.LoadScene("Title");
-        Time.timeScale = 1.0f;
+        gameOverCanvas.SetActive(false);
+        sessionStatsCanvas.SetActive(true);
     }
 }
