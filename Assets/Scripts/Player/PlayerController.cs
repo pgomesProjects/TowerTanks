@@ -377,7 +377,9 @@ public class PlayerController : MonoBehaviour
 
     private void CheckForFireRemoverUse()
     {
-        FireBehavior fire = playerTank.GetLayerAt(currentLayer - 1).GetComponentInChildren<FireBehavior>();
+        FireBehavior fire = null;
+        if (playerTank.GetLayerAt(currentLayer - 1) != null)
+            fire = playerTank.GetLayerAt(currentLayer - 1).GetComponentInChildren<FireBehavior>();
 
         //If the layer the player is on is on fire
         if (fire != null && fire.IsLayerOnFire())
@@ -387,6 +389,16 @@ public class PlayerController : MonoBehaviour
                 StartProgressBar(itemHeld.GetTimeToUse(), UseFireRemover);
                 ChangeItemTransparency(0.0f);
             }
+        }
+    }
+
+    public void CancelFireOnDestroy()
+    {
+        //Check to make sure the fire exists while trying to put out a fire
+        if(PlayerHasItem("FireRemover") && taskInProgress)
+        {
+            CancelProgressBar();
+            ChangeItemTransparency(1.0f);
         }
     }
 

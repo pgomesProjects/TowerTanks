@@ -188,19 +188,13 @@ public class LevelManager : MonoBehaviour
         newLayer.transform.parent = layerParent;
         newLayer.transform.localPosition = new Vector2(0, totalLayers * 8);
 
-        if(totalLayers > 2)
-        {
-            playerTank.transform.Find("TankFollowTop").transform.localPosition = new Vector2(-13, (totalLayers * 8) + 4);
-        }
-        else
-        {
-            playerTank.transform.Find("TankFollowTop").transform.localPosition = new Vector2(-13, 12);
-        }
-
         //Add to the total number of layers and give the new layer an index
         totalLayers++;
         newLayer.name = "TANK LAYER " + totalLayers;
         newLayer.GetComponentInChildren<LayerManager>().SetLayerIndex(totalLayers + 1);
+
+        //Adjust the top view of the tank
+        AdjustCameraPosition();
 
         //Add layer to the list of layers
         playerTank.GetComponent<PlayerTankController>().GetLayers().Insert(totalLayers - 1, newLayer.GetComponent<LayerHealthManager>());
@@ -227,6 +221,18 @@ public class LevelManager : MonoBehaviour
 
         if (totalLayers > currentSessionStats.maxHeight)
             currentSessionStats.maxHeight = totalLayers;
+    }
+
+    private void AdjustCameraPosition()
+    {
+        if (totalLayers > 2)
+        {
+            playerTank.transform.Find("TankFollowTop").transform.localPosition = new Vector2(-13, (totalLayers * 4) + 4 + ((totalLayers - 2) * 2.5f));
+        }
+        else
+        {
+            playerTank.transform.Find("TankFollowTop").transform.localPosition = new Vector2(-13, 12);
+        }
     }
 
     public void AddGhostLayer()
@@ -391,7 +397,7 @@ public class LevelManager : MonoBehaviour
         }
 
         //Adjust the top view of the tank
-        playerTank.transform.Find("TankFollowTop").transform.localPosition = new Vector2(-13, (totalLayers * 8) + 4);
+        AdjustCameraPosition();
 
         //Adjust the ghost layer if active
         if (currentGhostLayer != null)
@@ -412,6 +418,9 @@ public class LevelManager : MonoBehaviour
                     player.GetComponent<PlayerController>().currentLayer--;
                 }
             }
+
+            //If the player is trying to put out a fire on this layer, cancel the action
+            player.GetComponent<PlayerController>().CancelFireOnDestroy();
         }
 
         //Adjust the weight of the tank

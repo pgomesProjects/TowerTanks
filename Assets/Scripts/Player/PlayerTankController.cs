@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 using UnityEngine;
 
 public class PlayerTankController : MonoBehaviour
@@ -207,7 +208,19 @@ public class PlayerTankController : MonoBehaviour
 
     public LayerHealthManager GetLayerAt(int index)
     {
-        return layers[index];
+        LayerHealthManager layer = null;
+
+        try
+        {
+            layer = layers[index];
+        }
+        catch (Exception ex)
+        {
+            Debug.Log("Error: " + ex + " - Layer Could Not Be Found");
+            layer = null;
+        }
+
+        return layer;
     }
 
     public float GetCurrentTankDistance() => currentDistance;
