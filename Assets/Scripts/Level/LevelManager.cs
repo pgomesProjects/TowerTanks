@@ -136,6 +136,11 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    public float GetGameSpeed()
+    {
+        return -gameSpeed;
+    }
+
     public void UpdateResources(int resources)
     {
         //Display the resources in a fancy way
