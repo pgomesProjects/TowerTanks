@@ -90,6 +90,12 @@ public class LevelManager : MonoBehaviour
             UpdateSpeed((int)TANKSPEED.STATIONARY);
         }
 
+        if (GameSettings.debugMode)
+        {
+            resourcesNum = 99999;
+            resourcesDisplay.text = "Inf.";
+        }
+
         gameSpeed = currentSpeed[speedIndex];
         isSettingUpOnStart = false;
     }
@@ -132,11 +138,14 @@ public class LevelManager : MonoBehaviour
 
     public void UpdateResources(int resources)
     {
-        int originalValue = resourcesNum;
-        resourcesNum += resources;
-
         //Display the resources in a fancy way
-        StartCoroutine(ResourcesTextAnimation(originalValue, resourcesNum, 2));
+        if (!GameSettings.debugMode)
+        {
+            int originalValue = resourcesNum;
+            resourcesNum += resources;
+
+            StartCoroutine(ResourcesTextAnimation(originalValue, resourcesNum, 2));
+        }
     }
 
     public bool CanPlayerAfford(int price)

@@ -59,6 +59,11 @@ public class EnemyController : MonoBehaviour
         //Debug.Log("Extra Layers For Normal Tank #" + (FindObjectOfType<EnemySpawnManager>().GetEnemyCountAt(0) + 1).ToString() + ": " + extraLayers);
         totalEnemyLayers = 2 + Mathf.FloorToInt(extraLayers);
         totalEnemyLayers = Mathf.Clamp(totalEnemyLayers, 2, MAXLAYERS);
+
+        //If the game is on debug mode, override the enemy layers
+        if (GameSettings.debugMode)
+            LayerSpawnDebugMode();
+
         LevelManager.instance.StartCombatMusic(totalEnemyLayers);
 
         bool specialLayerSpawned = false;
@@ -92,6 +97,25 @@ public class EnemyController : MonoBehaviour
         foreach (var cannon in GetComponentsInChildren<CannonController>())
         {
             StartCoroutine(cannon.FireAtDelay());
+        }
+    }
+
+    protected void LayerSpawnDebugMode()
+    {
+        switch (LevelManager.instance.currentRound)
+        {
+            case 1:
+                totalEnemyLayers = 2;
+                break;
+            case 2:
+                totalEnemyLayers = 4;
+                break;
+            case 3:
+                totalEnemyLayers = 6;
+                break;
+            default:
+                totalEnemyLayers = 8;
+                break;
         }
     }
 

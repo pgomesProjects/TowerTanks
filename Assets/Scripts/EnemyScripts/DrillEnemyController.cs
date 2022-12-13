@@ -10,6 +10,11 @@ public class DrillEnemyController : EnemyController
         //Debug.Log("Extra Layers For Drill Tank #" + (FindObjectOfType<EnemySpawnManager>().GetEnemyCountAt(1) + 1).ToString() + ": " + extraLayers);
         totalEnemyLayers = 2 + Mathf.FloorToInt(extraLayers);
         totalEnemyLayers = Mathf.Clamp(totalEnemyLayers, 2, MAXLAYERS);
+
+        //If the game is on debug mode, override the enemy layers
+        if(GameSettings.debugMode)
+            LayerSpawnDebugMode();
+
         LevelManager.instance.StartCombatMusic(totalEnemyLayers);
 
         bool specialLayerSpawned = false;
