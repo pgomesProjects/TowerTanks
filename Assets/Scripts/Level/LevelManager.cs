@@ -41,6 +41,7 @@ public class LevelManager : MonoBehaviour
     internal int totalLayers;
     internal SessionStats currentSessionStats;
     internal bool isSteering;
+    internal bool steeringStickMoved;
     internal float gameSpeed;
     internal int speedIndex;
     internal float[] currentSpeed = { -1.5f, -1f, 0f, 1, 1.5f };
@@ -60,6 +61,7 @@ public class LevelManager : MonoBehaviour
         totalLayers = 0;
         currentRound = 0;
         isSteering = false;
+        steeringStickMoved = false;
         speedIndex = (int)TANKSPEED.FORWARD;
         gameSpeed = currentSpeed[speedIndex];
         resourcesDisplay.text = resourcesNum.ToString();
@@ -299,6 +301,7 @@ public class LevelManager : MonoBehaviour
         if (isPaused == false)
         {
             Time.timeScale = 0;
+
             FindObjectOfType<AudioManager>().PauseAllSounds();
             currentPlayerPaused = playerIndex;
             isPaused = true;
@@ -314,6 +317,7 @@ public class LevelManager : MonoBehaviour
                 EventSystem.current.SetSelectedGameObject(null);
                 Time.timeScale = 1;
                 FindObjectOfType<AudioManager>().ResumeAllSounds();
+                FindObjectOfType<AudioManager>().UpdateAllVolumes();
                 isPaused = false;
                 pauseGameCanvas.SetActive(false);
                 InputForOtherPlayers(currentPlayerPaused, false);

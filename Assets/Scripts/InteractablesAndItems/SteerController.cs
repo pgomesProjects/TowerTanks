@@ -34,36 +34,39 @@ public class SteerController : InteractableController
     {
         while (true)
         {
-            //Moving stick left
-            if (currentPlayerColliding.steeringValue < -0.5f && LevelManager.instance.levelPhase != GAMESTATE.TUTORIAL)
+            if (!LevelManager.instance.steeringStickMoved)
             {
-                if (LevelManager.instance.speedIndex > (int)TANKSPEED.REVERSEFAST)
+                //Moving stick left
+                if (currentPlayerColliding.steeringValue < -0.5f && LevelManager.instance.levelPhase != GAMESTATE.TUTORIAL)
                 {
-                    UpdateSteerLever(-1);
-                    yield return new WaitForSeconds(steeringAniSeconds);
-                }
-            }
-            //Moving stick right
-            else if (currentPlayerColliding.steeringValue > 0.5f)
-            {
-                if (LevelManager.instance.speedIndex < (int)TANKSPEED.FORWARDFAST)
-                {
-                    if(LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
+                    if (LevelManager.instance.speedIndex > (int)TANKSPEED.REVERSEFAST)
                     {
-                        //If the tutorial calls to move the throttle, move the throttle
-                        if(TutorialController.main.currentTutorialState == TUTORIALSTATE.MOVETHROTTLE)
+                        UpdateSteerLever(-1);
+                        yield return new WaitForSeconds(steeringAniSeconds);
+                    }
+                }
+                //Moving stick right
+                else if (currentPlayerColliding.steeringValue > 0.5f)
+                {
+                    if (LevelManager.instance.speedIndex < (int)TANKSPEED.FORWARDFAST)
+                    {
+                        if (LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
+                        {
+                            //If the tutorial calls to move the throttle, move the throttle
+                            if (TutorialController.main.currentTutorialState == TUTORIALSTATE.MOVETHROTTLE)
+                            {
+                                UpdateSteerLever(1);
+                                yield return new WaitForSeconds(steeringAniSeconds);
+
+                                //Tell tutorial that task is complete
+                                TutorialController.main.OnTutorialTaskCompletion();
+                            }
+                        }
+                        else
                         {
                             UpdateSteerLever(1);
                             yield return new WaitForSeconds(steeringAniSeconds);
-
-                            //Tell tutorial that task is complete
-                            TutorialController.main.OnTutorialTaskCompletion();
                         }
-                    }
-                    else
-                    {
-                        UpdateSteerLever(1);
-                        yield return new WaitForSeconds(steeringAniSeconds);
                     }
                 }
             }
@@ -78,6 +81,8 @@ public class SteerController : InteractableController
 
     private IEnumerator SteerLeverAnim(float seconds, int direction)
     {
+        LevelManager.instance.steeringStickMoved = true;
+
         float elapsedTime = 0;
 
         Quaternion startingRot = transform.Find("LeverPivot").localRotation;
@@ -114,5 +119,7 @@ public class SteerController : InteractableController
         }
 
         FindObjectOfType<AudioManager>().PlayOneShot("ThrottleShift", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+
+        LevelManager.instance.steeringStickMoved = false;
     }
 }

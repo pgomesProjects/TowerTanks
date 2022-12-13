@@ -1,10 +1,11 @@
 using UnityEngine.Audio;
 using UnityEngine;
 
+public enum SOUNDTYPE { BGM, SFX }
+
 [System.Serializable]
 public class Sound
 {
-
     public string name;
 
     public AudioClip clip;
@@ -13,6 +14,8 @@ public class Sound
     public float pitch = 1;
 
     public bool loop;
+
+    public SOUNDTYPE soundType;
 
     [HideInInspector]
     public AudioSource source;

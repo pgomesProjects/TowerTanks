@@ -17,7 +17,7 @@ public class MenuController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI controlText;
     private Image leftArrow;
     private Image rightArrow;
-    private int controlIndex;
+    private int controlIndex = 0;
     private bool isSelected;
 
     private Vector2 menuMovement;
@@ -49,7 +49,6 @@ public class MenuController : MonoBehaviour
         rightArrow = transform.Find("NextArrow").GetComponent<Image>();
         normalColor = controlText.color;
 
-        controlIndex = 0;
         isSelected = false;
     }
 
@@ -163,6 +162,7 @@ public class MenuController : MonoBehaviour
 
     private void NavigateRight()
     {
+        Debug.Log("Control Index: " + controlIndex);
         if (controlIndex < menuOptions.Length - 1)
         {
             controlIndex++;
@@ -179,7 +179,7 @@ public class MenuController : MonoBehaviour
             CheckDisabledArrows();
     }
 
-    private void CheckDisabledArrows()
+    public void CheckDisabledArrows()
     {
         if (controlIndex <= 0)
         {

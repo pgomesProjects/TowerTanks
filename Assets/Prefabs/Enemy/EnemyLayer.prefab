@@ -179,7 +179,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dd51f9e6a49fcb4284aab009ce56612, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 10
+  health: 100
   destroyResourcesValue: 80
 --- !u!61 &5835015112034780481
 BoxCollider2D:

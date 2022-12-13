@@ -65,15 +65,6 @@ public class CoalController : InteractableController
         //If there is a player
         if (currentPlayer != null)
         {
-            if (currentPlayer.IsProgressBarActive())
-            {
-                currentPlayer.HideProgressBar();
-            }
-            else
-            {
-                currentPlayer.ShowProgressBar();
-            }
-
             currentCoalFrame = 0;
         }
     }
@@ -132,6 +123,16 @@ public class CoalController : InteractableController
             LockPlayer(false);
             currentCoalFrame = 0;
         }
+    }
+
+    public override void LockPlayer(bool lockPlayer)
+    {
+        base.LockPlayer(lockPlayer);
+
+        if (lockPlayer)
+            currentPlayer.ShowProgressBar();
+        else
+            currentPlayer.HideProgressBar();
     }
 
     private void AdjustIndicatorAngle()
@@ -213,6 +214,11 @@ public class CoalController : InteractableController
         if (GameObject.FindGameObjectWithTag("PlayerTank"))
         {
             GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().AdjustEngineSpeedMultiplier();
+        }
+
+        if (currentPlayerColliding != null && lockPlayerIntoInteraction)
+        {
+            CancelCoalFill();
         }
     }
 }

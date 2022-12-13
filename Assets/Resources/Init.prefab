@@ -51,139 +51,167 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: eadcf49c28b7917468d2a4a984ccacf1, type: 3}
     pitch: 1
     loop: 1
+    soundType: 0
     source: {fileID: 0}
   - name: CombatLayer1
     clip: {fileID: 8300000, guid: 0ad9756c6ef06b9468dccb4603ffb692, type: 3}
     pitch: 1
     loop: 1
+    soundType: 0
     source: {fileID: 0}
   - name: CombatLayer2
     clip: {fileID: 8300000, guid: 8402cd5136d3fe340a64728b8b749262, type: 3}
     pitch: 1
     loop: 1
+    soundType: 0
     source: {fileID: 0}
   - name: CombatLayer3
     clip: {fileID: 8300000, guid: f2e3b787cd1d7974ba5b6028b9c84402, type: 3}
     pitch: 1
     loop: 1
+    soundType: 0
     source: {fileID: 0}
   - name: DeathStinger
     clip: {fileID: 8300000, guid: eb5c8a41abb03e04792df995e5503140, type: 3}
     pitch: 1
     loop: 0
+    soundType: 0
     source: {fileID: 0}
   - name: TankIdle
     clip: {fileID: 8300000, guid: bbdecf7a3f399744fbbb9888f1029b8c, type: 3}
     pitch: 1
     loop: 1
+    soundType: 1
     source: {fileID: 0}
   - name: TreadsRolling
     clip: {fileID: 8300000, guid: c8875f33f0d4b584bbf738f967b042f5, type: 3}
     pitch: 1
     loop: 1
+    soundType: 1
     source: {fileID: 0}
   - name: UseWrench
     clip: {fileID: 8300000, guid: 8b68e88ef6863bc4b925c9675bf4d9bf, type: 3}
     pitch: 1
     loop: 0
+    soundType: 1
     source: {fileID: 0}
   - name: LoadingCoal
     clip: {fileID: 8300000, guid: e85481bfbf7ca6f498a9345c32393bef, type: 3}
     pitch: 1
     loop: 0
+    soundType: 1
     source: {fileID: 0}
   - name: CannonReload
     clip: {fileID: 8300000, guid: 733a9d61e6ae8974aa4ce419bf1bece3, type: 3}
     pitch: 1
     loop: 0
+    soundType: 1
     source: {fileID: 0}
   - name: CannonFire
     clip: {fileID: 8300000, guid: ce8457eae39a6744aa0e0cccb834f3a3, type: 3}
     pitch: 1
     loop: 0
+    soundType: 1
     source: {fileID: 0}
   - name: ThrottleClick
     clip: {fileID: 8300000, guid: 3bbb1ea9718ab6b459cde74e45b91c1e, type: 3}
     pitch: 1
     loop: 0
+    soundType: 1
     source: {fileID: 0}
   - name: ThrottleShift
     clip: {fileID: 8300000, guid: e3bcb5163014efa49beb438726db1b5a, type: 3}
     pitch: 1
     loop: 0
+    soundType: 1
     source: {fileID: 0}
   - name: UseSFX
     clip: {fileID: 8300000, guid: 4577deec906dd8149a5c520e00a90603, type: 3}
     pitch: 1
     loop: 0
+    soundType: 1
     source: {fileID: 0}
   - name: ExplosionSFX
     clip: {fileID: 8300000, guid: c1eb660999179a44795641dad92cfacf, type: 3}
     pitch: 1
     loop: 0
+    soundType: 1
     source: {fileID: 0}
   - name: MedExplosionSFX
     clip: {fileID: 8300000, guid: 53102c9008226954aaae109eb55baae7, type: 3}
     pitch: 1
     loop: 0
+    soundType: 1
     source: {fileID: 0}
   - name: LargeExplosionSFX
     clip: {fileID: 8300000, guid: bc2a03b2b0824a44f8b42e8411825925, type: 3}
     pitch: 1
     loop: 0
+    soundType: 1
     source: {fileID: 0}
   - name: EnemyAlarm
     clip: {fileID: 8300000, guid: 2b4a3a876a95e8743892501ad4ea1314, type: 3}
     pitch: 1
     loop: 0
+    soundType: 1
     source: {fileID: 0}
   - name: TankImpact
     clip: {fileID: 8300000, guid: 57f27d0aef8b67a4cbb0a32ef81c6dd1, type: 3}
     pitch: 1
     loop: 0
+    soundType: 1
     source: {fileID: 0}
   - name: ItemPickup
     clip: {fileID: 8300000, guid: 67e721c3f9372e6409739f4e0b42408e, type: 3}
     pitch: 1
     loop: 0
+    soundType: 1
     source: {fileID: 0}
   - name: TextBeep
     clip: {fileID: 8300000, guid: 9bf35fcc41310524a9a1f794b414d74c, type: 3}
     pitch: 1
     loop: 0
+    soundType: 1
     source: {fileID: 0}
   - name: CannonAimSFX
     clip: {fileID: 8300000, guid: a7c0691734fc2314c9e73dfa32e81867, type: 3}
     pitch: 1
     loop: 1
+    soundType: 1
     source: {fileID: 0}
   - name: CannonLockSFX
     clip: {fileID: 8300000, guid: 5306cda8b73238744978af040126dd04, type: 3}
     pitch: 1
     loop: 0
+    soundType: 1
     source: {fileID: 0}
   - name: EngineDyingSFX
     clip: {fileID: 8300000, guid: 022b85378a9470245a79d7fed2ff534c, type: 3}
     pitch: 1
     loop: 0
+    soundType: 1
     source: {fileID: 0}
   - name: ProjectileInAirSFX
     clip: {fileID: 8300000, guid: 8e91a73086112b243be89be30915b053, type: 3}
     pitch: 1
     loop: 0
+    soundType: 1
     source: {fileID: 0}
   - name: FireBurningSFX
     clip: {fileID: 8300000, guid: f3e7f7d3b6f454d4c99656988e07ca42, type: 3}
     pitch: 1
     loop: 1
+    soundType: 1
     source: {fileID: 0}
   - name: Footstep
     clip: {fileID: 8300000, guid: 5fd2955b971392248ac4f4d1c3d57384, type: 3}
     pitch: 1
     loop: 0
+    soundType: 1
     source: {fileID: 0}
   - name: LadderClimb
     clip: {fileID: 8300000, guid: ee110842331970f4882e6ebb203c9c55, type: 3}
     pitch: 1
     loop: 0
+    soundType: 1
     source: {fileID: 0}

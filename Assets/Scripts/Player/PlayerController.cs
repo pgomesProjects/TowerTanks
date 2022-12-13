@@ -320,8 +320,19 @@ public class PlayerController : MonoBehaviour
                 if (taskInProgress)
                 {
                     CancelProgressBar();
+                    ChangeItemTransparency(1.0f);
                 }
             }
+        }
+    }
+
+    private void ChangeItemTransparency(float alpha)
+    {
+        if(itemHeld != null)
+        {
+            Color currentColor = itemHeld.GetComponent<SpriteRenderer>().color;
+            currentColor.a = alpha;
+            itemHeld.GetComponent<SpriteRenderer>().color = currentColor;
         }
     }
 
@@ -335,13 +346,19 @@ public class PlayerController : MonoBehaviour
                 if(LevelManager.instance.totalLayers < 2)
                 {
                     if (itemHeld.GetTimeToUse() > 0)
+                    {
                         StartProgressBar(itemHeld.GetTimeToUse(), LevelManager.instance.PurchaseLayer);
+                        ChangeItemTransparency(0.0f);
+                    }
                 }
             }
             else
             {
                 if (itemHeld.GetTimeToUse() > 0)
+                {
                     StartProgressBar(itemHeld.GetTimeToUse(), LevelManager.instance.PurchaseLayer);
+                    ChangeItemTransparency(0.0f);
+                }
             }
         }
         else
@@ -366,7 +383,10 @@ public class PlayerController : MonoBehaviour
         if (fire != null && fire.IsLayerOnFire())
         {
             if (itemHeld.GetTimeToUse() > 0)
+            {
                 StartProgressBar(itemHeld.GetTimeToUse(), UseFireRemover);
+                ChangeItemTransparency(0.0f);
+            }
         }
     }
 
@@ -475,6 +495,7 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
 
+        ChangeItemTransparency(1.0f);
         actionOnComplete.Invoke();
         playerAnimator.SetBool("IsBuilding", false);
         HideProgressBar();
@@ -665,6 +686,8 @@ public class PlayerController : MonoBehaviour
         itemHeld.transform.position = gameObject.transform.position;
         itemHeld.transform.rotation = Quaternion.identity;
         itemHeld.GetComponent<Rigidbody2D>().gravityScale = 0;
+        //itemHeld.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+        //itemHeld.GetComponent<Rigidbody2D>().angularVelocity = 0;
         itemHeld.GetComponent<Rigidbody2D>().isKinematic = true;
         itemHeld.transform.parent = gameObject.transform;
         itemHeld.SetRotateConstraint(true);

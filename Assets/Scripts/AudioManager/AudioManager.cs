@@ -18,17 +18,16 @@ public class AudioManager : MonoBehaviour
             s.source.pitch = s.pitch;
             s.source.loop = s.loop;
 
-            //If the sound does not loop, treat as a sound effect and give it a SFX audio mixer
-            if (!s.loop)
+            switch (s.soundType)
             {
-                if(sfxMixer != null)
-                    s.source.outputAudioMixerGroup = sfxMixer;
-            }
-            //If the sound loops, treat as background music and give it a BGM audio mixer
-            else
-            {
-                if(bgmMixer != null)
-                    s.source.outputAudioMixerGroup = bgmMixer;
+                case SOUNDTYPE.BGM:
+                    if (sfxMixer != null)
+                        s.source.outputAudioMixerGroup = sfxMixer;
+                    break;
+                case SOUNDTYPE.SFX:
+                    if (bgmMixer != null)
+                        s.source.outputAudioMixerGroup = bgmMixer;
+                    break;
             }
         }
     }
@@ -118,7 +117,7 @@ public class AudioManager : MonoBehaviour
 
     public void Resume(string name) //Resumes audio that was paused
     {
-        Sound s = Array.Find(sounds, sound => sound.name == name);
+        Sound s = GetSound(name);
         s.source.UnPause();
     }
 
@@ -132,7 +131,7 @@ public class AudioManager : MonoBehaviour
 
     public void Stop(string name) //Stops a sound
     {
-        Sound s = Array.Find(sounds, sound => sound.name == name);
+        Sound s = GetSound(name);
         s.source.Stop();
     }
 
@@ -141,6 +140,22 @@ public class AudioManager : MonoBehaviour
         foreach (Sound s in sounds)
         {
             s.source.Stop();
+        }
+    }
+
+    public void UpdateAllVolumes()
+    {
+        foreach (Sound s in sounds)
+        {
+            switch (s.soundType)
+            {
+                case SOUNDTYPE.BGM:
+                    s.source.volume = PlayerPrefs.GetFloat("BGMVolume", 0.5f);
+                    break;
+                case SOUNDTYPE.SFX:
+                    s.source.volume = PlayerPrefs.GetFloat("SFXVolume", 0.5f);
+                    break;
+            }
         }
     }
 

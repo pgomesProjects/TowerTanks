@@ -113,7 +113,7 @@ public class InteractableController : MonoBehaviour
         return currentPlayerColliding;
     }
 
-    public void LockPlayer(bool lockPlayer)
+    public virtual void LockPlayer(bool lockPlayer)
     {
         if (lockPlayer)
         {
