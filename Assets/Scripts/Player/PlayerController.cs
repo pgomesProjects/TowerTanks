@@ -458,6 +458,7 @@ public class PlayerController : MonoBehaviour
             progressBarSlider.value = 0;
             currentLoadAction = ProgressBarLoad(secondsTillCompletion, actionOnComplete);
             StartCoroutine(currentLoadAction);
+            playerAnimator.SetBool("IsBuilding", true);
         }
     }
 
@@ -475,7 +476,7 @@ public class PlayerController : MonoBehaviour
         }
 
         actionOnComplete.Invoke();
-
+        playerAnimator.SetBool("IsBuilding", false);
         HideProgressBar();
     }
 
@@ -483,6 +484,7 @@ public class PlayerController : MonoBehaviour
     {
         StopCoroutine(currentLoadAction);
         taskInProgress = false;
+        playerAnimator.SetBool("IsBuilding", false);
         HideProgressBar();
     }
 
@@ -808,6 +810,11 @@ public class PlayerController : MonoBehaviour
     public void PlayLadderClimbSFX()
     {
         FindObjectOfType<AudioManager>().PlayAtRandomPitch("LadderClimb", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+    }
+
+    public void PlayHammerSFX()
+    {
+        FindObjectOfType<AudioManager>().PlayAtRandomPitch("TankImpact", PlayerPrefs.GetFloat("SFXVolume", 0.75f));
     }
 
     public bool UIAllowPlayerInteract()
