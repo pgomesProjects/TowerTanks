@@ -48,7 +48,7 @@ MonoBehaviour:
   sfxMixer: {fileID: 4279340188021939522, guid: 1caf2312e44a0b94eac66396929631ce, type: 2}
   sounds:
   - name: MainMenuAmbience
-    clip: {fileID: 8300000, guid: 27fee403d17b9954aa153511c8591cf8, type: 3}
+    clip: {fileID: 8300000, guid: 49173fb78119ce54e8d7257f5cbd5757, type: 3}
     pitch: 1
     loop: 1
     soundType: 0
@@ -234,7 +234,7 @@ MonoBehaviour:
     soundType: 1
     source: {fileID: 0}
   - name: ButtonClick
-    clip: {fileID: 8300000, guid: ecf76bc46e3314645a0aa1ae3986d458, type: 3}
+    clip: {fileID: 8300000, guid: 57f27d0aef8b67a4cbb0a32ef81c6dd1, type: 3}
     pitch: 1
     loop: 0
     soundType: 1
