@@ -92,6 +92,7 @@ public class TutorialEvents : CustomEvent
                 break;
             case 19:
                 FindObjectOfType<FakeBulletSpawner>().SpawnFakeBullet();
+                LockPlayers();
                 break;
             //Put Out Fire Prompt
             case 22:

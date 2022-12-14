@@ -157,17 +157,18 @@ public class MenuController : MonoBehaviour
             controlIndex--;
             UpdateValue();
             OnValueChanged.Invoke(controlIndex);
+            PlayButtonSFX("Click");
         }
     }
 
     private void NavigateRight()
     {
-        Debug.Log("Control Index: " + controlIndex);
         if (controlIndex < menuOptions.Length - 1)
         {
             controlIndex++;
             UpdateValue();
             OnValueChanged.Invoke(controlIndex);
+            PlayButtonSFX("Click");
         }
     }
 
@@ -204,6 +205,7 @@ public class MenuController : MonoBehaviour
         rightArrow.color = highlightColor;
         CheckDisabledArrows();
         isSelected = true;
+        PlayButtonSFX("Hover");
     }
 
     public void OnDeselect()
@@ -222,5 +224,10 @@ public class MenuController : MonoBehaviour
     {
         controlIndex = index;
         UpdateValue();
+    }
+
+    public void PlayButtonSFX(string name)
+    {
+        FindObjectOfType<AudioManager>().PlayOneShot("Button" + name, PlayerPrefs.GetFloat("SFXVolume", 0.5f));
     }
 }

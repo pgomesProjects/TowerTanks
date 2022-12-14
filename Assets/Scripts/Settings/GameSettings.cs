@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class GameSettings
 {
-    public static bool debugMode = true;
+    public static bool debugMode = false;
 
     public static int[,] possibleResolutions = new int[,] { { 2560, 1440 }, { 1920, 1080 }, { 1280, 720 } };
 

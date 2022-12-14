@@ -7324,6 +7324,7 @@ GameObject:
   - component: {fileID: 3128995722482962879}
   - component: {fileID: 3128995722482962876}
   - component: {fileID: 3128995722482962877}
+  - component: {fileID: 3128995722482962880}
   m_Layer: 5
   m_Name: ReturnToMainButton
   m_TagString: Untagged
@@ -7417,6 +7418,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1110496617}
+        m_TargetAssemblyTypeName: PauseController, Assembly-CSharp
+        m_MethodName: PlayButtonSFX
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Click
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!222 &3128995722482962879
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7425,6 +7438,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3128995722482962875}
   m_CullTransparentMesh: 1
+--- !u!114 &3128995722482962880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3128995722482962875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 9
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1110496617}
+          m_TargetAssemblyTypeName: PauseController, Assembly-CSharp
+          m_MethodName: PlayButtonSFX
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: Hover
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!114 &3128995723176578152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7977,6 +8019,7 @@ GameObject:
   - component: {fileID: 3128995723536942490}
   - component: {fileID: 3128995723536942491}
   - component: {fileID: 3128995723536942488}
+  - component: {fileID: 3128995723536942492}
   m_Layer: 5
   m_Name: ResumeButton
   m_TagString: Untagged
@@ -8040,6 +8083,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1110496617}
+        m_TargetAssemblyTypeName: PauseController, Assembly-CSharp
+        m_MethodName: PlayButtonSFX
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Click
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!224 &3128995723536942489
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8099,6 +8154,35 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &3128995723536942492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3128995723536942438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 9
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1110496617}
+          m_TargetAssemblyTypeName: PauseController, Assembly-CSharp
+          m_MethodName: PlayButtonSFX
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: Hover
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!224 &3128995723909328112
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8246,6 +8330,7 @@ GameObject:
   - component: {fileID: 3128995724175909182}
   - component: {fileID: 3128995724175909183}
   - component: {fileID: 3128995724175909180}
+  - component: {fileID: 3128995724175909184}
   m_Layer: 5
   m_Name: OptionsButton
   m_TagString: Untagged
@@ -8309,6 +8394,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1110496617}
+        m_TargetAssemblyTypeName: PauseController, Assembly-CSharp
+        m_MethodName: PlayButtonSFX
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Click
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!224 &3128995724175909181
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8368,6 +8465,35 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &3128995724175909184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3128995724175909178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 9
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1110496617}
+          m_TargetAssemblyTypeName: PauseController, Assembly-CSharp
+          m_MethodName: PlayButtonSFX
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: Hover
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1001 &5367646789462148203
 PrefabInstance:
   m_ObjectHideFlags: 0

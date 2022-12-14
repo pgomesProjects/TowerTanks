@@ -41,6 +41,8 @@ public class TitlescreenController : MonoBehaviour
         playerControlSystem.UI.Cancel.performed += _ => CancelAction();
 
         levelFader.SetActive(true);
+
+        FindObjectOfType<AudioManager>().Play("MainMenuAmbience", PlayerPrefs.GetFloat("BGMVolume", 0.5f));
     }
 
     // Start is called before the first frame update
@@ -67,6 +69,7 @@ public class TitlescreenController : MonoBehaviour
 
     private void StartGame()
     {
+        FindObjectOfType<AudioManager>().Stop("MainMenuAmbience");
         LevelFader.instance.FadeToLevel(sceneToLoad);
     }
 
@@ -79,6 +82,7 @@ public class TitlescreenController : MonoBehaviour
     public void ShowDifficultyText(GameObject difficultyText)
     {
         difficultyText.SetActive(true);
+        PlayButtonSFX("Hover");
     }
 
     public void HideDifficultyText(GameObject difficultyText)
@@ -105,6 +109,7 @@ public class TitlescreenController : MonoBehaviour
         {
             inMenu = true;
             GameSettings.mainMenuEntered = true;
+            PlayButtonSFX("Click");
             StartCoroutine(WaitStartScreenToMain());
         }
     }
@@ -139,6 +144,8 @@ public class TitlescreenController : MonoBehaviour
             SwitchMenu(MenuState.START);
             inMenu = false;
         }
+
+        PlayButtonSFX("Cancel");
     }
 
     public void GoToMain()
@@ -212,6 +219,12 @@ public class TitlescreenController : MonoBehaviour
 
     private void SelectButtonOnMain(GameObject menu)
     {
+        foreach (var button in mainMenuButtons)
+        {
+            button.GetComponent<Animator>().Play("ButtonDeselectAni");
+            button.GetComponent<Animator>().CrossFade("ButtonDeselectAni", 0f, 0, 1f);
+        }
+
         if (menu == optionsMenu)
         {
             mainMenuButtons[1].Select();
@@ -229,12 +242,18 @@ public class TitlescreenController : MonoBehaviour
     public void ButtonOnSelectColor(Animator anim)
     {
         anim.SetBool("IsSelected", true);
+        PlayButtonSFX("Hover");
     }
 
     public void ButtonOnDeselectColor(Animator anim)
     {
         anim.SetBool("IsSelected", false);
 
+    }
+
+    public void PlayButtonSFX(string name)
+    {
+        FindObjectOfType<AudioManager>().PlayOneShot("Button" + name, PlayerPrefs.GetFloat("SFXVolume", 0.5f));
     }
 
     public void QuitGame()

@@ -46,12 +46,14 @@ public class OptionsMenuController : MonoBehaviour
     public void ChangeBGM(int val)
     {
         PlayerPrefs.SetFloat("BGMVolume", val * 0.1f);
+        FindObjectOfType<AudioManager>().UpdateAllVolumes();
         GameSettings.CheckBGM();
     }
 
     public void ChangeSFX(int val)
     {
         PlayerPrefs.SetFloat("SFXVolume", val * 0.1f);
+        FindObjectOfType<AudioManager>().UpdateAllVolumes();
         GameSettings.CheckSFX();
     }
 

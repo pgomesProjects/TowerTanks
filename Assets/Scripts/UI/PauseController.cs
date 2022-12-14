@@ -55,6 +55,7 @@ public class PauseController : MonoBehaviour
         {
             Resume();
         }
+        PlayButtonSFX("Cancel");
     }
 
     private void SwitchMenu(MenuState menu)
@@ -120,8 +121,14 @@ public class PauseController : MonoBehaviour
         currentPlayerPaused = playerIndex;
     }
 
+    public void PlayButtonSFX(string name)
+    {
+        FindObjectOfType<AudioManager>().PlayOneShot("Button" + name, PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+    }
+
     public void Back()
     {
         SwitchMenu(MenuState.PAUSE);
     }
+
 }

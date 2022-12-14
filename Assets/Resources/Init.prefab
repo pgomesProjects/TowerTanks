@@ -47,6 +47,12 @@ MonoBehaviour:
   bgmMixer: {fileID: 5802316482864546721, guid: 0a7f42e58f78f644aa0eda82b00c01ed, type: 2}
   sfxMixer: {fileID: 4279340188021939522, guid: 1caf2312e44a0b94eac66396929631ce, type: 2}
   sounds:
+  - name: MainMenuAmbience
+    clip: {fileID: 8300000, guid: 27fee403d17b9954aa153511c8591cf8, type: 3}
+    pitch: 1
+    loop: 1
+    soundType: 0
+    source: {fileID: 0}
   - name: CombatLayer0
     clip: {fileID: 8300000, guid: eadcf49c28b7917468d2a4a984ccacf1, type: 3}
     pitch: 1
@@ -109,6 +115,12 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: CannonFire
     clip: {fileID: 8300000, guid: ce8457eae39a6744aa0e0cccb834f3a3, type: 3}
+    pitch: 1
+    loop: 0
+    soundType: 1
+    source: {fileID: 0}
+  - name: MuffledCannonFire
+    clip: {fileID: 8300000, guid: db471f69126f0dd4390f47a8d9fb07cd, type: 3}
     pitch: 1
     loop: 0
     soundType: 1
@@ -211,6 +223,24 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: LadderClimb
     clip: {fileID: 8300000, guid: ee110842331970f4882e6ebb203c9c55, type: 3}
+    pitch: 1
+    loop: 0
+    soundType: 1
+    source: {fileID: 0}
+  - name: ButtonHover
+    clip: {fileID: 8300000, guid: bac99d7f8ba6cc64fb2899f878c22322, type: 3}
+    pitch: 1
+    loop: 0
+    soundType: 1
+    source: {fileID: 0}
+  - name: ButtonClick
+    clip: {fileID: 8300000, guid: ecf76bc46e3314645a0aa1ae3986d458, type: 3}
+    pitch: 1
+    loop: 0
+    soundType: 1
+    source: {fileID: 0}
+  - name: ButtonCancel
+    clip: {fileID: 8300000, guid: 45f0869f6d6f8064ca1677a9539e2201, type: 3}
     pitch: 1
     loop: 0
     soundType: 1
