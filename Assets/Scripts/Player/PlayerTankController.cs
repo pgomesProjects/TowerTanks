@@ -26,11 +26,7 @@ public class PlayerTankController : MonoBehaviour
     {
         layers = new List<LayerHealthManager>(2);
         AdjustLayersInList();
-<<<<<<< Updated upstream
-=======
         treadAnimator = GetComponentInChildren<Animator>();
-        FindObjectOfType<AudioManager>().Play("TankIdle", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
->>>>>>> Stashed changes
     }
 
     private void Start()

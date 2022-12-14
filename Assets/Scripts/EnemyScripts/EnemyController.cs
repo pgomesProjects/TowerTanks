@@ -377,6 +377,8 @@ public class EnemyController : MonoBehaviour
 
         LevelManager.instance.UpdateResources(30);
 
+        Debug.Log("Enemy Layers Left: " + totalEnemyLayers);
+
         //If there are no more layers, destroy the tank
         if (totalEnemyLayers == 0)
         {
