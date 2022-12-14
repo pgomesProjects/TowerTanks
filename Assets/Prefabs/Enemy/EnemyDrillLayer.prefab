@@ -158,10 +158,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1354904670928398087, guid: b860770024ecbb6419772b6308f06ea7, type: 3}
+      propertyPath: sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: d043184e3b9d30141b0500ecd41dd861, type: 3}
+    - target: {fileID: 1354904670928398087, guid: b860770024ecbb6419772b6308f06ea7, type: 3}
+      propertyPath: sprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: 76d5b86ed4c421142879a084d3e3c49d, type: 3}
+    - target: {fileID: 1354904670928398087, guid: b860770024ecbb6419772b6308f06ea7, type: 3}
+      propertyPath: sprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300000, guid: d8a9e3804a9fc424c8fabacc92ed155e, type: 3}
     - target: {fileID: 3165574615671679041, guid: b860770024ecbb6419772b6308f06ea7, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 343b83701ffae194f99cfcc87d50617a, type: 3}
+      objectReference: {fileID: 21300000, guid: d043184e3b9d30141b0500ecd41dd861, type: 3}
     - target: {fileID: 6482326139534572548, guid: b860770024ecbb6419772b6308f06ea7, type: 3}
       propertyPath: m_Name
       value: EnemyDrillLayer
@@ -213,6 +225,10 @@ PrefabInstance:
     - target: {fileID: 6873939307831485650, guid: b860770024ecbb6419772b6308f06ea7, type: 3}
       propertyPath: m_CollisionDetection
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7121978250798603588, guid: b860770024ecbb6419772b6308f06ea7, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b860770024ecbb6419772b6308f06ea7, type: 3}
