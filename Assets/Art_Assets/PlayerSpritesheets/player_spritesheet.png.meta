@@ -128,13 +128,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: player_spritesheet_0
+      name: playerIdle_01
       rect:
         serializedVersion: 2
         x: 0
-        y: 1440
+        y: 1682
         width: 240
-        height: 240
+        height: 238
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -149,11 +149,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_spritesheet_1
+      name: playerIdle_02
       rect:
         serializedVersion: 2
         x: 240
-        y: 1440
+        y: 1680
         width: 240
         height: 240
       alignment: 0
@@ -170,11 +170,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_spritesheet_2
+      name: playerIdle_03
       rect:
         serializedVersion: 2
         x: 480
-        y: 1440
+        y: 1680
         width: 240
         height: 240
       alignment: 0
@@ -191,11 +191,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_spritesheet_3
+      name: playerWalk_01
       rect:
         serializedVersion: 2
         x: 720
-        y: 1440
+        y: 1680
         width: 240
         height: 240
       alignment: 0
@@ -212,11 +212,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_spritesheet_4
+      name: playerWalk_02
       rect:
         serializedVersion: 2
         x: 960
-        y: 1440
+        y: 1680
         width: 240
         height: 240
       alignment: 0
@@ -233,11 +233,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_spritesheet_5
+      name: playerWalk_03
       rect:
         serializedVersion: 2
         x: 1200
-        y: 1440
+        y: 1680
         width: 240
         height: 240
       alignment: 0
@@ -254,11 +254,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_spritesheet_6
+      name: playerWalk_04
       rect:
         serializedVersion: 2
         x: 1440
-        y: 1440
+        y: 1680
         width: 240
         height: 240
       alignment: 0
@@ -275,11 +275,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_spritesheet_7
+      name: playerWalk_05
       rect:
         serializedVersion: 2
         x: 0
-        y: 1200
+        y: 1440
         width: 240
         height: 240
       alignment: 0
@@ -296,11 +296,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_spritesheet_8
+      name: playerWalk_06
       rect:
         serializedVersion: 2
         x: 240
-        y: 1200
+        y: 1440
         width: 240
         height: 240
       alignment: 0
@@ -317,11 +317,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_spritesheet_9
+      name: playerWalk_07
       rect:
         serializedVersion: 2
         x: 480
-        y: 1200
+        y: 1442
         width: 240
         height: 240
       alignment: 0
@@ -338,11 +338,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_spritesheet_10
+      name: playerWalk_08
       rect:
         serializedVersion: 2
         x: 720
-        y: 1200
+        y: 1440
         width: 240
         height: 240
       alignment: 0
@@ -359,11 +359,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_spritesheet_11
+      name: playerWalk_09
       rect:
         serializedVersion: 2
         x: 960
-        y: 1200
+        y: 1440
         width: 240
         height: 240
       alignment: 0
@@ -380,11 +380,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_spritesheet_12
+      name: playerWalk_10
       rect:
         serializedVersion: 2
         x: 1200
-        y: 1200
+        y: 1440
         width: 240
         height: 240
       alignment: 0
@@ -401,11 +401,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_spritesheet_13
+      name: playerWalk_11
       rect:
         serializedVersion: 2
         x: 1440
-        y: 1200
+        y: 1440
         width: 240
         height: 240
       alignment: 0
@@ -422,11 +422,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_spritesheet_14
+      name: playerWalk_12
       rect:
         serializedVersion: 2
         x: 0
-        y: 960
+        y: 1200
         width: 240
         height: 240
       alignment: 0
@@ -443,11 +443,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_spritesheet_15
+      name: playerLadderAscend_01
       rect:
         serializedVersion: 2
         x: 240
-        y: 960
+        y: 1200
         width: 240
         height: 240
       alignment: 0
@@ -464,11 +464,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_spritesheet_16
+      name: playerLadderAscend_02
       rect:
         serializedVersion: 2
         x: 480
-        y: 960
+        y: 1200
         width: 240
         height: 240
       alignment: 0
@@ -485,11 +485,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_spritesheet_17
+      name: playerLadderAscend_03
       rect:
         serializedVersion: 2
         x: 720
-        y: 960
+        y: 1200
         width: 240
         height: 240
       alignment: 0
@@ -506,11 +506,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_spritesheet_18
+      name: playerLadderDescend_01
       rect:
         serializedVersion: 2
         x: 960
-        y: 960
+        y: 1200
         width: 240
         height: 240
       alignment: 0
@@ -527,11 +527,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_spritesheet_19
+      name: playerLadderDescend_02
       rect:
         serializedVersion: 2
         x: 1200
-        y: 960
+        y: 1200
         width: 240
         height: 240
       alignment: 0
@@ -548,11 +548,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_spritesheet_20
+      name: playerLadderDescend_03
       rect:
         serializedVersion: 2
         x: 1440
-        y: 960
+        y: 1200
         width: 240
         height: 240
       alignment: 0
@@ -569,11 +569,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_spritesheet_21
+      name: playerBuild_01
       rect:
         serializedVersion: 2
         x: 0
-        y: 720
+        y: 960
         width: 480
         height: 240
       alignment: 0
@@ -590,11 +590,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_spritesheet_22
+      name: playerBuild_02
       rect:
         serializedVersion: 2
         x: 480
-        y: 720
+        y: 962
         width: 480
         height: 240
       alignment: 0
@@ -611,11 +611,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_spritesheet_23
+      name: playerBuild_03
       rect:
         serializedVersion: 2
         x: 960
-        y: 720
+        y: 960
         width: 480
         height: 240
       alignment: 0
@@ -632,11 +632,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_spritesheet_24
+      name: playerBuild_04
       rect:
         serializedVersion: 2
         x: 0
-        y: 480
+        y: 720
         width: 480
         height: 240
       alignment: 0
@@ -653,11 +653,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_spritesheet_25
+      name: playerBuild_05
       rect:
         serializedVersion: 2
         x: 480
-        y: 480
+        y: 720
         width: 480
         height: 240
       alignment: 0
@@ -674,11 +674,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_spritesheet_26
+      name: playerBuild_06
       rect:
         serializedVersion: 2
         x: 960
-        y: 480
+        y: 720
         width: 480
         height: 240
       alignment: 0
@@ -695,11 +695,11 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_spritesheet_27
+      name: playerBuild_07
       rect:
         serializedVersion: 2
         x: 0
-        y: 240
+        y: 480
         width: 480
         height: 240
       alignment: 0
@@ -715,6 +715,195 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: playerCannonAim_01
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 480
+        width: 240
+        height: 240
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 958631f366d10fc4ea93c2b1d883b8da
+      internalID: -1857337578
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerCannonAim_02
+      rect:
+        serializedVersion: 2
+        x: 720
+        y: 480
+        width: 240
+        height: 240
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ff196be47ee4dcc4482eeaff986a8282
+      internalID: 994320044
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerCannonAim_03
+      rect:
+        serializedVersion: 2
+        x: 960
+        y: 480
+        width: 240
+        height: 240
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5b35cabfe51c5ed4c9d6caab6745d7ac
+      internalID: 317127280
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerCannonAim_04
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 480
+        width: 240
+        height: 240
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 326966508d0f4e24099f2727cc39cd1e
+      internalID: 1875093503
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerLoadCannon_01
+      rect:
+        serializedVersion: 2
+        x: 1440
+        y: 480
+        width: 240
+        height: 240
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 712c85ee9585e084aa827cc0c0c224bd
+      internalID: 842229891
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerLoadCannon_02
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 240
+        width: 240
+        height: 240
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 98505d4d94f64b14a84d78ee9e68de0a
+      internalID: 2113860134
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerLoadCannon_03
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 242
+        width: 240
+        height: 240
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8499e2d417816dd48bb12c034f86a804
+      internalID: 1668786717
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerLoadCannon_04
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 240
+        width: 240
+        height: 240
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3210e0f7af3db614680705c502c05be1
+      internalID: -506119245
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerLoadCannon_05
+      rect:
+        serializedVersion: 2
+        x: 720
+        y: 240
+        width: 240
+        height: 240
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8c4c665a617893f4c9d7d897e94d047c
+      internalID: 2069115116
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -726,41 +915,43 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      player_spritesheet_6: -1405038777
-      player_spritesheet_16: 57164119
-      player_spritesheet_23: -2002068472
-      player_spritesheet_21: -1509063648
-      player_spritesheet_3: 432338718
-      player_spritesheet_22: -286393814
-      player_spritesheet_2: -1148792931
-      player_spritesheet_0: -821141371
-      player_spritesheet_11: 943478691
-      player_spritesheet_20: -1871154375
-      player_spritesheet_9: 189413826
-      player_spritesheet_24: -595262063
-      player_spritesheet_32: 842229891
-      player_spritesheet_30: 317127280
-      player_spritesheet_15: -147133391
-      player_spritesheet_17: -1023934423
-      player_spritesheet_27: 1447310682
-      player_spritesheet_7: -567336051
-      player_spritesheet_28: -1857337578
-      player_spritesheet_33: 2113860134
-      player_spritesheet_31: 1875093503
-      player_spritesheet_12: -603467858
-      player_spritesheet_1: -1926877741
-      player_spritesheet_13: -888798139
-      player_spritesheet_8: -1646416357
-      player_spritesheet_34: 1668786717
-      player_spritesheet_14: 1687461029
-      player_spritesheet_29: 994320044
-      player_spritesheet_4: -720170084
-      player_spritesheet_10: 1721429520
-      player_spritesheet_18: 1322408182
-      player_spritesheet_25: -2056947647
-      player_spritesheet_5: -1989144155
-      player_spritesheet_19: 463335612
-      player_spritesheet_26: -74854088
+      playerLadderAscend_02: 57164119
+      playerWalk_01: 432338718
+      playerLadderDescend_02: 463335612
+      playerWalk_09: 943478691
+      playerWalk_08: 1721429520
+      playerCannonAim_04: 1875093503
+      playerLadderAscend_01: -147133391
+      playerBuild_03: -2002068472
+      playerBuild_07: 1447310682
+      playerBuild_02: -286393814
+      playerLoadCannon_05: 2069115116
+      playerLoadCannon_01: 842229891
+      playerBuild_04: -595262063
+      playerWalk_06: -1646416357
+      playerIdle_02: -1926877741
+      playerWalk_02: -720170084
+      playerWalk_11: -888798139
+      playerBuild_06: -74854088
+      playerWalk_12: 1687461029
+      playerLadderDescend_01: 1322408182
+      playerIdle_03: -1148792931
+      playerLoadCannon_03: 1668786717
+      playerCannonAim_02: 994320044
+      playerBuild_05: -2056947647
+      playerWalk_05: -567336051
+      playerBuild_01: -1509063648
+      playerLadderAscend_03: -1023934423
+      playerWalk_03: -1989144155
+      playerLadderDescend_03: -1871154375
+      playerWalk_04: -1405038777
+      playerIdle_01: -821141371
+      playerWalk_10: -603467858
+      playerLoadCannon_04: -506119245
+      playerLoadCannon_02: 2113860134
+      playerCannonAim_03: 317127280
+      playerCannonAim_01: -1857337578
+      playerWalk_07: 189413826
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
