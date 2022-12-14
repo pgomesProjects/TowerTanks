@@ -132,9 +132,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 1682
+        y: 2160
         width: 240
-        height: 238
+        height: 240
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -153,7 +153,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 240
-        y: 1680
+        y: 2160
         width: 240
         height: 240
       alignment: 0
@@ -174,7 +174,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 480
-        y: 1680
+        y: 2160
         width: 240
         height: 240
       alignment: 0
@@ -195,7 +195,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 720
-        y: 1680
+        y: 2160
         width: 240
         height: 240
       alignment: 0
@@ -216,7 +216,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 960
-        y: 1680
+        y: 2160
         width: 240
         height: 240
       alignment: 0
@@ -237,7 +237,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1200
-        y: 1680
+        y: 2160
         width: 240
         height: 240
       alignment: 0
@@ -258,7 +258,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1440
-        y: 1680
+        y: 2160
         width: 240
         height: 240
       alignment: 0
@@ -279,7 +279,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 1440
+        y: 1920
         width: 240
         height: 240
       alignment: 0
@@ -300,7 +300,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 240
-        y: 1440
+        y: 1920
         width: 240
         height: 240
       alignment: 0
@@ -321,7 +321,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 480
-        y: 1442
+        y: 1920
         width: 240
         height: 240
       alignment: 0
@@ -342,7 +342,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 720
-        y: 1440
+        y: 1920
         width: 240
         height: 240
       alignment: 0
@@ -363,7 +363,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 960
-        y: 1440
+        y: 1920
         width: 240
         height: 240
       alignment: 0
@@ -384,7 +384,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1200
-        y: 1440
+        y: 1920
         width: 240
         height: 240
       alignment: 0
@@ -405,7 +405,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1440
-        y: 1440
+        y: 1920
         width: 240
         height: 240
       alignment: 0
@@ -426,7 +426,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 1200
+        y: 1680
         width: 240
         height: 240
       alignment: 0
@@ -447,7 +447,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 240
-        y: 1200
+        y: 1680
         width: 240
         height: 240
       alignment: 0
@@ -468,7 +468,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 480
-        y: 1200
+        y: 1680
         width: 240
         height: 240
       alignment: 0
@@ -489,7 +489,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 720
-        y: 1200
+        y: 1680
         width: 240
         height: 240
       alignment: 0
@@ -510,7 +510,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 960
-        y: 1200
+        y: 1680
         width: 240
         height: 240
       alignment: 0
@@ -531,7 +531,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1200
-        y: 1200
+        y: 1680
         width: 240
         height: 240
       alignment: 0
@@ -552,7 +552,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1440
-        y: 1200
+        y: 1680
         width: 240
         height: 240
       alignment: 0
@@ -573,7 +573,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 960
+        y: 1440
         width: 480
         height: 240
       alignment: 0
@@ -594,7 +594,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 480
-        y: 962
+        y: 1440
         width: 480
         height: 240
       alignment: 0
@@ -615,7 +615,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 960
-        y: 960
+        y: 1440
         width: 480
         height: 240
       alignment: 0
@@ -636,7 +636,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 720
+        y: 1200
         width: 480
         height: 240
       alignment: 0
@@ -657,7 +657,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 480
-        y: 720
+        y: 1200
         width: 480
         height: 240
       alignment: 0
@@ -678,7 +678,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 960
-        y: 720
+        y: 1200
         width: 480
         height: 240
       alignment: 0
@@ -699,7 +699,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 480
+        y: 962
         width: 480
         height: 240
       alignment: 0
@@ -720,7 +720,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 480
-        y: 480
+        y: 960
         width: 240
         height: 240
       alignment: 0
@@ -741,7 +741,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 720
-        y: 480
+        y: 960
         width: 240
         height: 240
       alignment: 0
@@ -762,7 +762,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 960
-        y: 480
+        y: 960
         width: 240
         height: 240
       alignment: 0
@@ -783,7 +783,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1200
-        y: 480
+        y: 960
         width: 240
         height: 240
       alignment: 0
@@ -804,7 +804,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1440
-        y: 480
+        y: 960
         width: 240
         height: 240
       alignment: 0
@@ -825,7 +825,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 240
+        y: 720
         width: 240
         height: 240
       alignment: 0
@@ -846,7 +846,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 240
-        y: 242
+        y: 720
         width: 240
         height: 240
       alignment: 0
@@ -867,7 +867,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 480
-        y: 240
+        y: 720
         width: 240
         height: 240
       alignment: 0
@@ -888,7 +888,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 720
-        y: 240
+        y: 720
         width: 240
         height: 240
       alignment: 0
@@ -900,6 +900,216 @@ TextureImporter:
       bones: []
       spriteID: 8c4c665a617893f4c9d7d897e94d047c
       internalID: 2069115116
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerCoalShovel_01
+      rect:
+        serializedVersion: 2
+        x: 960
+        y: 720
+        width: 480
+        height: 240
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 91a357e5d8f3f774ab493cd3afb0c77c
+      internalID: 1157007888
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerCoalShovel_02
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 483
+        width: 480
+        height: 240
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0e43c77bde0c8064fbb97cd074ec966a
+      internalID: 1982828121
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerCoalShovel_03
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 483
+        width: 480
+        height: 240
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b469baa99ac97f140871526c3fcba6cf
+      internalID: -556708699
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerCoalShovel_04
+      rect:
+        serializedVersion: 2
+        x: 960
+        y: 480
+        width: 480
+        height: 240
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8ef951849519ff4489f9950633f8d6f4
+      internalID: -190188494
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerCoalShovel_05
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 240
+        width: 480
+        height: 240
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 765041577f4113d47822faf91336c641
+      internalID: -1370149074
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerCoalShovel_06
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 240
+        width: 480
+        height: 240
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f4713287660898840ac62e14acc48d4a
+      internalID: 1297849543
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerCoalShovel_07
+      rect:
+        serializedVersion: 2
+        x: 960
+        y: 240
+        width: 480
+        height: 240
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 30e190eed33708442a94ee4cf238b1c5
+      internalID: 217824415
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerCoalShovel_08
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 480
+        height: 240
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 81fb424aeec0f45469a964e92a660eb0
+      internalID: 1412261386
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerCoalShovel_09
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 0
+        width: 480
+        height: 240
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fd721424465403f4f916df31aa469964
+      internalID: -874863634
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerCoalShovel_10
+      rect:
+        serializedVersion: 2
+        x: 960
+        y: 0
+        width: 480
+        height: 240
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3e62674edbb5fe34ca9b3ce4c1509c56
+      internalID: -1153186470
       vertices: []
       indices: 
       edges: []
@@ -916,42 +1126,52 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       playerLadderAscend_02: 57164119
-      playerWalk_01: 432338718
-      playerLadderDescend_02: 463335612
+      playerCoalShovel_06: 1297849543
       playerWalk_09: 943478691
       playerWalk_08: 1721429520
       playerCannonAim_04: 1875093503
-      playerLadderAscend_01: -147133391
-      playerBuild_03: -2002068472
-      playerBuild_07: 1447310682
       playerBuild_02: -286393814
-      playerLoadCannon_05: 2069115116
-      playerLoadCannon_01: 842229891
+      playerCoalShovel_02: 1982828121
       playerBuild_04: -595262063
       playerWalk_06: -1646416357
       playerIdle_02: -1926877741
       playerWalk_02: -720170084
-      playerWalk_11: -888798139
       playerBuild_06: -74854088
-      playerWalk_12: 1687461029
       playerLadderDescend_01: 1322408182
-      playerIdle_03: -1148792931
       playerLoadCannon_03: 1668786717
+      playerIdle_03: -1148792931
       playerCannonAim_02: 994320044
       playerBuild_05: -2056947647
-      playerWalk_05: -567336051
       playerBuild_01: -1509063648
       playerLadderAscend_03: -1023934423
-      playerWalk_03: -1989144155
       playerLadderDescend_03: -1871154375
       playerWalk_04: -1405038777
       playerIdle_01: -821141371
       playerWalk_10: -603467858
       playerLoadCannon_04: -506119245
-      playerLoadCannon_02: 2113860134
+      playerCoalShovel_04: -190188494
       playerCannonAim_03: 317127280
       playerCannonAim_01: -1857337578
       playerWalk_07: 189413826
+      playerWalk_01: 432338718
+      playerLadderDescend_02: 463335612
+      playerLadderAscend_01: -147133391
+      playerBuild_03: -2002068472
+      playerBuild_07: 1447310682
+      playerCoalShovel_07: 217824415
+      playerLoadCannon_05: 2069115116
+      playerLoadCannon_01: 842229891
+      playerCoalShovel_01: 1157007888
+      playerCoalShovel_10: -1153186470
+      playerWalk_11: -888798139
+      playerCoalShovel_03: -556708699
+      playerCoalShovel_08: 1412261386
+      playerCoalShovel_09: -874863634
+      playerWalk_12: 1687461029
+      playerCoalShovel_05: -1370149074
+      playerWalk_05: -567336051
+      playerWalk_03: -1989144155
+      playerLoadCannon_02: 2113860134
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
