@@ -23,22 +23,25 @@ public class ToggleInteractBuy : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            if (collision.GetComponent<PlayerController>().GetPlayerItem().CompareTag("Hammer"))
+            if(collision.GetComponent<PlayerController>().GetPlayerItem() != null)
             {
-                if(LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
+                if (collision.GetComponent<PlayerController>().GetPlayerItem().CompareTag("Hammer"))
                 {
-                    if(TutorialController.main.currentTutorialState != TUTORIALSTATE.READING)
+                    if (LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
+                    {
+                        if (TutorialController.main.currentTutorialState != TUTORIALSTATE.READING)
+                        {
+                            priceText.SetActive(true);
+                            playerCanPurchase = true;
+                            collision.GetComponent<PlayerController>().currentInteractableToBuy = this;
+                        }
+                    }
+                    else
                     {
                         priceText.SetActive(true);
                         playerCanPurchase = true;
                         collision.GetComponent<PlayerController>().currentInteractableToBuy = this;
                     }
-                }
-                else
-                {
-                    priceText.SetActive(true);
-                    playerCanPurchase = true;
-                    collision.GetComponent<PlayerController>().currentInteractableToBuy = this;
                 }
             }
         }
@@ -48,11 +51,14 @@ public class ToggleInteractBuy : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            if (collision.GetComponent<PlayerController>().GetPlayerItem().CompareTag("Hammer"))
+            if(collision.GetComponent<PlayerController>().GetPlayerItem() != null)
             {
-                priceText.SetActive(false);
-                playerCanPurchase = false;
-                collision.GetComponent<PlayerController>().currentInteractableToBuy = null;
+                if (collision.GetComponent<PlayerController>().GetPlayerItem().CompareTag("Hammer"))
+                {
+                    priceText.SetActive(false);
+                    playerCanPurchase = false;
+                    collision.GetComponent<PlayerController>().currentInteractableToBuy = null;
+                }
             }
         }
     }

@@ -8,7 +8,7 @@ public class InteractableController : MonoBehaviour
     public UnityEvent interactEvent;
     public UnityEvent cancelEvent;
 
-    private bool canInteract = false;
+    protected bool canInteract = false;
     protected PlayerController currentPlayerColliding;
     protected PlayerController currentPlayerLockedIn;
     protected bool interactionActive;
@@ -23,7 +23,7 @@ public class InteractableController : MonoBehaviour
         interactionActive = false;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
@@ -38,7 +38,7 @@ public class InteractableController : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    protected virtual void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
@@ -49,7 +49,7 @@ public class InteractableController : MonoBehaviour
                 canInteract = false;
                 currentPlayerColliding = null;
                 //Player can no longer interact with this item
-                collision.GetComponent<PlayerController>().currentInteractableItem = null;;
+                collision.GetComponent<PlayerController>().currentInteractableItem = null;
             }
         }
     }

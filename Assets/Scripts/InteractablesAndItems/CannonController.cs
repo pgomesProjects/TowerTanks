@@ -67,6 +67,39 @@ public class CannonController : InteractableController
         UpdateCannonBody();
     }
 
+    protected override void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            if (currentPlayerLockedIn == null)
+            {
+                canInteract = true;
+                currentPlayerColliding = collision.GetComponent<PlayerController>();
+                currentPlayerColliding.DisplayInteractionPrompt("<sprite=30>");
+            }
+
+            //Tell the player that this is the item that they can interact with
+            collision.GetComponent<PlayerController>().currentInteractableItem = this;
+        }
+    }
+
+    protected override void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            if (currentPlayerLockedIn == null)
+            {
+                if (currentPlayerColliding != null)
+                    currentPlayerColliding.HideInteractionPrompt();
+                canInteract = false;
+                currentPlayerColliding = null;
+            }
+
+            //Player can no longer interact with this item
+            collision.GetComponent<PlayerController>().currentInteractableItem = null;
+        }
+    }
+
     public void CheckForCannonFire()
     {
         //If there is ammo
