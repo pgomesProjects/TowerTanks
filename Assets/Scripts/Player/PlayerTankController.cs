@@ -74,7 +74,7 @@ public class PlayerTankController : MonoBehaviour
             currentDistance += GetPlayerSpeed() * LevelManager.instance.gameSpeed * Time.deltaTime;
         }
 
-        treadAnimator.speed = GetPlayerSpeed() * Mathf.Abs(LevelManager.instance.gameSpeed) * Time.deltaTime * 10f;
+        treadAnimator.speed = GetPlayerSpeed() * Mathf.Abs(LevelManager.instance.gameSpeed) * Time.deltaTime * 15f;
         treadAnimator.SetFloat("Direction", LevelManager.instance.gameSpeed);
         displaySpeed = GetPlayerSpeed();
     }

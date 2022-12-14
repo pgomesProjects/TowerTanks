@@ -839,7 +839,7 @@ public class PlayerController : MonoBehaviour
 
     public void PlayFootstepSFX()
     {
-        FindObjectOfType<AudioManager>().PlayAtRandomPitch("Footstep", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+        FindObjectOfType<AudioManager>().PlayAtRandomPitch("Footstep", PlayerPrefs.GetFloat("SFXVolume", 0.05f));
     }
 
     public void PlayLadderClimbSFX()
