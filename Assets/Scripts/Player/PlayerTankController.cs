@@ -18,12 +18,19 @@ public class PlayerTankController : MonoBehaviour
     private float currentDistance;
     [SerializeField] private Transform itemContainer;
 
+    private Animator treadAnimator;
+
     private List<LayerHealthManager> layers;
 
     private void Awake()
     {
         layers = new List<LayerHealthManager>(2);
         AdjustLayersInList();
+<<<<<<< Updated upstream
+=======
+        treadAnimator = GetComponentInChildren<Animator>();
+        FindObjectOfType<AudioManager>().Play("TankIdle", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+>>>>>>> Stashed changes
     }
 
     private void Start()
@@ -71,6 +78,8 @@ public class PlayerTankController : MonoBehaviour
             currentDistance += GetPlayerSpeed() * LevelManager.instance.gameSpeed * Time.deltaTime;
         }
 
+        treadAnimator.speed = GetPlayerSpeed() * Mathf.Abs(LevelManager.instance.gameSpeed) * Time.deltaTime * 10f;
+        treadAnimator.SetFloat("Direction", LevelManager.instance.gameSpeed);
         displaySpeed = GetPlayerSpeed();
     }
 
