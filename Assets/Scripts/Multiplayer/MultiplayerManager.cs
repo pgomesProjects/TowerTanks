@@ -118,7 +118,7 @@ public class MultiplayerManager : MonoBehaviour
     private void SetColorOfPlayer(Transform player, int playerIndex)
     {
         //Change color of player depending on which player number they are
-        player.transform.Find("Outline").GetComponent<Renderer>().material.color = playerColors[playerIndex];
+        player.transform.GetComponent<Renderer>().material.SetColor("_Color", playerColors[playerIndex]);
     }
 
     private void OnSceneUnloaded(Scene current)
