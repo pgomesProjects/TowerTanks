@@ -152,13 +152,13 @@ TextureImporter:
       name: explosionanim12-14_1
       rect:
         serializedVersion: 2
-        x: 964
+        x: 968
         y: 0
-        width: 454
+        width: 450
         height: 254
       alignment: 0
       pivot: {x: 0, y: 0}
-      border: {x: 8, y: 0, z: 0, w: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
