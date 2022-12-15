@@ -10,7 +10,6 @@ public class ToggleInteractBuy : MonoBehaviour
     [SerializeField] private int price;
     [SerializeField] private GameObject priceText;
     [SerializeField] private INTERACTABLETYPE interactableType;
-
     private bool playerCanPurchase;
 
     private void Start()
@@ -122,19 +121,25 @@ public class ToggleInteractBuy : MonoBehaviour
             if (LevelManager.instance.CanPlayerAfford(price))
             {
                 LevelManager.instance.UpdateResources(-price);
-
+                
                 switch (interactableType)
                 {
+
+                        
                     case INTERACTABLETYPE.CANNON:
+                        
                         FindObjectOfType<InteractableSpawnerManager>().SpawnCannon(transform.parent.GetComponent<InteractableSpawner>());
                         break;
                     case INTERACTABLETYPE.ENGINE:
+                        
                         FindObjectOfType<InteractableSpawnerManager>().SpawnEngine(transform.parent.GetComponent<InteractableSpawner>());
                         break;
                     case INTERACTABLETYPE.SHELLSTATION:
+                        
                         FindObjectOfType<InteractableSpawnerManager>().SpawnShellStation(transform.parent.GetComponent<InteractableSpawner>());
                         break;
                     case INTERACTABLETYPE.THROTTLE:
+                        
                         FindObjectOfType<InteractableSpawnerManager>().SpawnThrottle(transform.parent.GetComponent<InteractableSpawner>());
                         break;
                 }

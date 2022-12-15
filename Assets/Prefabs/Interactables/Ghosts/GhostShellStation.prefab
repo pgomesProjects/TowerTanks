@@ -129,9 +129,13 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 992393581321178915, guid: 0bf5313b1d7796942a37dad4934f7d8b, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 4262464204434670680, guid: 0bf5313b1d7796942a37dad4934f7d8b, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4342291683894509028, guid: 0bf5313b1d7796942a37dad4934f7d8b, type: 3}
       propertyPath: m_Name
@@ -238,3 +242,4 @@ MonoBehaviour:
   price: 100
   priceText: {fileID: 8182873934775639109}
   interactableType: 3
+  changeSmoke: {fileID: 8748987186402470367, guid: 26feb4c6b89765e4ea1fdd70f38ce78a, type: 3}

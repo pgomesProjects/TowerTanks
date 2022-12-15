@@ -262,3 +262,4 @@ MonoBehaviour:
   price: 200
   priceText: {fileID: 4832905665443005530}
   interactableType: 1
+  changeSmoke: {fileID: 8748987186402470367, guid: 26feb4c6b89765e4ea1fdd70f38ce78a, type: 3}

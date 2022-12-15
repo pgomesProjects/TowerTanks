@@ -131,7 +131,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1507118897654031884, guid: c9af6f84cd78780498259d46afa0a554, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1575239421232415773, guid: c9af6f84cd78780498259d46afa0a554, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2009164566593304206, guid: c9af6f84cd78780498259d46afa0a554, type: 3}
       propertyPath: m_Color.a
@@ -250,3 +254,4 @@ MonoBehaviour:
   price: 50
   priceText: {fileID: 6774619604723192150}
   interactableType: 4
+  changeSmoke: {fileID: 8748987186402470367, guid: 26feb4c6b89765e4ea1fdd70f38ce78a, type: 3}

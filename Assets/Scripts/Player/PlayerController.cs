@@ -61,6 +61,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private GameObject buildscrap;
     [SerializeField] private GameObject firefoam;
+    [SerializeField] private GameObject leftfirefoam;
     [SerializeField] private GameObject smabuildscraps;
 
     // Start is called before the first frame update
@@ -405,8 +406,7 @@ public class PlayerController : MonoBehaviour
                 else
                 {
                     
-                    //firefoam = Vector3 transform.rotate 180;
-                    Instantiate(firefoam, transform.position, Quaternion.identity);
+                    Instantiate(leftfirefoam, transform.position, Quaternion.identity);
                 }
                 ChangeItemTransparency(0.0f);
             }
