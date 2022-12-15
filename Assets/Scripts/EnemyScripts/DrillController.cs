@@ -11,6 +11,7 @@ public class DrillController : MonoBehaviour
     private float currentTimer;
 
     private Vector3 drawRayPos;
+    [SerializeField] private GameObject sparks;
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +31,7 @@ public class DrillController : MonoBehaviour
 
             foreach (var hit in hits)
             {
+                Instantiate(sparks, transform.position, Quaternion.identity);
                 //If the drill is hitting a layer of the tank, deal damage to that layer
                 if (hit.collider.CompareTag("Layer") && hit.collider.GetComponentInParent<LayerHealthManager>() != null)
                 {
