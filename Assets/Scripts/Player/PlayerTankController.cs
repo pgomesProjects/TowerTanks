@@ -19,6 +19,7 @@ public class PlayerTankController : MonoBehaviour
     [SerializeField] private Transform itemContainer;
 
     private Animator treadAnimator;
+    public GameObject[] dustParticles;
 
     private List<LayerHealthManager> layers;
 
@@ -27,6 +28,8 @@ public class PlayerTankController : MonoBehaviour
         layers = new List<LayerHealthManager>(2);
         AdjustLayersInList();
         treadAnimator = GetComponentInChildren<Animator>();
+        dustParticles[0].SetActive(false);
+        dustParticles[1].SetActive(false);
     }
 
     private void Start()
@@ -73,6 +76,18 @@ public class PlayerTankController : MonoBehaviour
         {
             currentDistance += GetPlayerSpeed() * LevelManager.instance.gameSpeed * Time.deltaTime;
         }
+
+        if (LevelManager.instance.gameSpeed > 0)
+        {
+            dustParticles[0].SetActive(true);
+        }
+        else dustParticles[0].SetActive(false);
+
+        if (LevelManager.instance.gameSpeed < 0)
+        {
+            dustParticles[1].SetActive(true);
+        }
+        else dustParticles[1].SetActive(false);
 
         treadAnimator.speed = GetPlayerSpeed() * Mathf.Abs(LevelManager.instance.gameSpeed) * Time.deltaTime * 15f;
         treadAnimator.SetFloat("Direction", LevelManager.instance.gameSpeed);

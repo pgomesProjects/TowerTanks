@@ -101,7 +101,7 @@ public class LayerHealthManager : MonoBehaviour
     public void DealDamage(int dmg, bool shakeCam)
     {
         health -= dmg;
-        Instantiate(scrapDamage, transform.position, Quaternion.identity);
+        //Instantiate(scrapDamage, transform.position, Quaternion.identity);
 
         if (transform.CompareTag("Layer"))
         {
