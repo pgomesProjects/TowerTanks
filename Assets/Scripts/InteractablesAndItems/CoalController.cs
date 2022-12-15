@@ -16,6 +16,7 @@ public class CoalController : InteractableController
     private bool hasCoal;
     private Animator engineAnimator;
 
+    public Sprite[] coalAnimationSprites;
     private float coalLoadAudioLength = 1.5f;
 
     private Transform indicatorPivot;
@@ -66,6 +67,8 @@ public class CoalController : InteractableController
         if (currentPlayer != null)
         {
             currentCoalFrame = 0;
+            currentPlayer.GetComponent<Animator>().SetBool("isShoveling", true);
+            currentPlayer.GetComponent<Animator>().enabled = false;
         }
     }
 
@@ -76,6 +79,7 @@ public class CoalController : InteractableController
         {
             currentPlayer.AddToProgressBar(100f / framesForCoalFill);
             currentCoalFrame++;
+            StartCoroutine(AnimateCoalFill());
 
             AudioManager audio = FindObjectOfType<AudioManager>();
             float totalAudioTime = audio.GetSoundLength("LoadingCoal");
@@ -125,6 +129,17 @@ public class CoalController : InteractableController
         }
     }
 
+    public IEnumerator AnimateCoalFill()
+    {
+        SpriteRenderer playerSprite = currentPlayer.GetComponent<SpriteRenderer>();
+        int frameToAnimate = currentCoalFrame;
+        playerSprite.sprite = coalAnimationSprites[2 * (frameToAnimate - 1)];
+        
+        yield return new WaitForSeconds(4f / 60f);
+        playerSprite.sprite = coalAnimationSprites[2 * (frameToAnimate - 1) + 1];
+        
+    }
+
     public override void LockPlayer(bool lockPlayer)
     {
         base.LockPlayer(lockPlayer);
@@ -132,7 +147,12 @@ public class CoalController : InteractableController
         if (lockPlayer)
             currentPlayer.ShowProgressBar();
         else
+        {
             currentPlayer.HideProgressBar();
+            currentPlayer.GetComponent<Animator>().enabled = true;
+            currentPlayer.GetComponent<Animator>().Play("PlayerIdle");
+            currentPlayer.GetComponent<Animator>().SetBool("isShoveling", false);
+        }
     }
 
     private void AdjustIndicatorAngle()

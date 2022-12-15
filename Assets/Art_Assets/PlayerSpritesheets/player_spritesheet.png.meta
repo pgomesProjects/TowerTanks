@@ -908,12 +908,12 @@ TextureImporter:
       name: playerCoalShovel_01
       rect:
         serializedVersion: 2
-        x: 960
+        x: 965
         y: 720
         width: 480
         height: 240
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -929,12 +929,12 @@ TextureImporter:
       name: playerCoalShovel_02
       rect:
         serializedVersion: 2
-        x: 0
+        x: 5
         y: 483
         width: 480
         height: 240
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -950,13 +950,13 @@ TextureImporter:
       name: playerCoalShovel_03
       rect:
         serializedVersion: 2
-        x: 480
+        x: 485
         y: 483
         width: 480
         height: 240
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 2, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -971,12 +971,12 @@ TextureImporter:
       name: playerCoalShovel_04
       rect:
         serializedVersion: 2
-        x: 960
+        x: 965
         y: 480
         width: 480
         height: 240
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -992,12 +992,12 @@ TextureImporter:
       name: playerCoalShovel_05
       rect:
         serializedVersion: 2
-        x: 0
+        x: 5
         y: 240
         width: 480
         height: 240
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1013,12 +1013,12 @@ TextureImporter:
       name: playerCoalShovel_06
       rect:
         serializedVersion: 2
-        x: 480
+        x: 485
         y: 240
         width: 480
         height: 240
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1034,12 +1034,12 @@ TextureImporter:
       name: playerCoalShovel_07
       rect:
         serializedVersion: 2
-        x: 960
+        x: 965
         y: 240
         width: 480
         height: 240
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1055,12 +1055,12 @@ TextureImporter:
       name: playerCoalShovel_08
       rect:
         serializedVersion: 2
-        x: 0
+        x: 5
         y: 0
         width: 480
         height: 240
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1076,12 +1076,12 @@ TextureImporter:
       name: playerCoalShovel_09
       rect:
         serializedVersion: 2
-        x: 480
+        x: 485
         y: 0
         width: 480
         height: 240
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1097,12 +1097,12 @@ TextureImporter:
       name: playerCoalShovel_10
       rect:
         serializedVersion: 2
-        x: 960
+        x: 965
         y: 0
         width: 480
         height: 240
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
