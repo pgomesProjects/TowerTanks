@@ -177,20 +177,23 @@ public class PlayerController : MonoBehaviour
 
     public void OnLadderEnter(InputAction.CallbackContext ctx)
     {
-        //If the player presses the ladder climb button
-        if (ctx.performed)
+        if (!LevelManager.instance.isPaused)
         {
-            if (canClimb)
+            //If the player presses the ladder climb button
+            if (ctx.performed)
             {
-                //If the player is not on a ladder
-                if (!isClimbing)
+                if (canClimb)
                 {
-                    //If the player is colliding with the ladder and wants to climb
-                    if (ladderRaycast.collider != null)
+                    //If the player is not on a ladder
+                    if (!isClimbing)
                     {
-                        isClimbing = true;
-                        playerAnimator.SetBool("IsOnLadder", true);
-                        transform.position = new Vector2(0, transform.position.y);
+                        //If the player is colliding with the ladder and wants to climb
+                        if (ladderRaycast.collider != null)
+                        {
+                            isClimbing = true;
+                            playerAnimator.SetBool("IsOnLadder", true);
+                            transform.position = new Vector2(0, transform.position.y);
+                        }
                     }
                 }
             }
@@ -199,17 +202,20 @@ public class PlayerController : MonoBehaviour
 
     public void OnLadderExit(InputAction.CallbackContext ctx)
     {
-        //If the player presses the ladder climb button
-        if (ctx.performed)
+        if (!LevelManager.instance.isPaused)
         {
-            if (canClimb)
+            //If the player presses the ladder climb button
+            if (ctx.performed)
             {
-                //If the player is on a ladder
-                if (isClimbing)
+                if (canClimb)
                 {
-                    //Move them off the ladder
-                    isClimbing = false;
-                    playerAnimator.SetBool("IsOnLadder", false);
+                    //If the player is on a ladder
+                    if (isClimbing)
+                    {
+                        //Move them off the ladder
+                        isClimbing = false;
+                        playerAnimator.SetBool("IsOnLadder", false);
+                    }
                 }
             }
         }
@@ -856,6 +862,8 @@ public class PlayerController : MonoBehaviour
     {
         return !LevelManager.instance.isPaused && !LevelManager.instance.readingTutorial;
     }
+
+    public float GetDefaultGravity() => defaultGravity;
 
     public int GetPlayerIndex()
     {

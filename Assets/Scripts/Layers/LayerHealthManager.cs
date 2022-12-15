@@ -11,6 +11,9 @@ public class LayerHealthManager : MonoBehaviour
 
     private Rigidbody2D rb;
 
+    private bool layerInPlace = false;
+    private bool layerFalling = false;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -27,17 +30,45 @@ public class LayerHealthManager : MonoBehaviour
             contactNames += i.collider.name + " | ";
         }
 
-/*        if(transform.GetComponentInParent<EnemyController>() != null)
-            Debug.Log(contactNames);*/
+        /*        if(transform.GetComponentInParent<EnemyController>() != null)
+                    Debug.Log(contactNames);*/
 
         if (!CollisionOnBottom(contactPoints))
         {
             transform.Translate(Vector2.down * gravity * Time.deltaTime);
+            if (layerInPlace)
+                layerFalling = true;
         }
-        else if(transform.tag == "Layer")
+        else
         {
-            KeepYAtMultiple(8);
+            if (layerFalling)
+            {
+                OnLayerCollision();
+            }
+            else
+            {
+                layerInPlace = true;
+            }
+
+            if (transform.tag == "Layer")
+                KeepYAtMultiple(8);
         }
+    }
+
+    private void OnLayerCollision()
+    {
+        //Player tank layer collision logic
+        if(transform.tag == "Layer")
+        {
+            Debug.Log("Player Tank Layer Collided!");
+        }
+        //Enemy tank layer collision logic
+        else
+        {
+            Debug.Log("Enemy Tank Layer Collided!");
+        }
+
+        layerFalling = false;
     }
 
     private void KeepYAtMultiple(int multiple)
@@ -166,6 +197,9 @@ public class LayerHealthManager : MonoBehaviour
 
                 //Add to player resources
                 LevelManager.instance.UpdateResources(destroyResourcesValue);
+
+                //Shake the camera
+                CameraEventController.instance.ShakeCamera(10f, 1f);
             }
 
             //If an enemy layer is destroyed, tell the tank that the layer was destroyed
@@ -173,6 +207,8 @@ public class LayerHealthManager : MonoBehaviour
             {
                 GetComponentInParent<EnemyController>().EnemyLayerDestroyed();
             }
+
+            FindObjectOfType<AudioManager>().PlayOneShot("LargeExplosionSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
 
             //Destroy the layer
             Destroy(gameObject);

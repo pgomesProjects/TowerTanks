@@ -42,9 +42,12 @@ public class EnemySpawnManager : MonoBehaviour
     {
         if (!enemySpawnerActive)
         {
-            if (GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().SpawnDistanceReached())
+            if(GameObject.FindGameObjectWithTag("PlayerTank") != null)
             {
-                GetReadyForEnemySpawn();
+                if (GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().SpawnDistanceReached())
+                {
+                    GetReadyForEnemySpawn();
+                }
             }
         }
     }

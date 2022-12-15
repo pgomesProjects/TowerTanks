@@ -34,13 +34,15 @@ public class CameraEventController : MonoBehaviour
         //Camera shake timer
         if(shakeTimer > 0)
         {
+            Debug.Log("Shake Timer: " + shakeTimer);
             shakeTimer -= Time.deltaTime;
 
-            if(shakeTimer <= 0)
-            {
-                CinemachineBasicMultiChannelPerlin cinemachineBasicMultiChannelPerlin = _currentActiveCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-                cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = Mathf.Lerp(startingCamIntensity, 0f, 1 - (shakeTimer / shakeTimerTotal));
-            }
+            CinemachineBasicMultiChannelPerlin cinemachineBasicMultiChannelPerlin = _currentActiveCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+            cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = Mathf.Lerp(startingCamIntensity, 0f, 1 - (shakeTimer / shakeTimerTotal));
+        }
+        else
+        {
+            _currentActiveCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = 0;
         }
     }
 

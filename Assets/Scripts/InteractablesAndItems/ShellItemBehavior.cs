@@ -16,7 +16,7 @@ public class ShellItemBehavior : MonoBehaviour
         if((collision.collider.tag == "Layer" || collision.collider.tag == "OneWayPlatform") && GetComponent<DamageObject>() == null)
         {
             //If nothing is holding the shell, let it explode
-            if(transform.parent == null)
+            if(transform.parent.CompareTag("ItemContainer"))
             {
                 ForceShellExplode();
                 Instantiate(smallboom, transform.position, Quaternion.identity);
@@ -31,6 +31,8 @@ public class ShellItemBehavior : MonoBehaviour
         {
             gameObject.AddComponent<DamageObject>().damage = damage;
             Debug.Log("BOOM! Shell has exploded in tank.");
+            if (FindObjectOfType<AudioManager>() != null)
+                FindObjectOfType<AudioManager>().PlayOneShot("ExplosionSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
             Destroy(gameObject);
         }
     }

@@ -730,6 +730,7 @@ MonoBehaviour:
   currentCannonDirection: 1
   unloadedCannonSprite: {fileID: 21300000, guid: b6028ddf4fcb93f488a9f7dc13245068, type: 3}
   loadedCannonSprite: {fileID: 21300000, guid: 143e470310fc069468c445d3f0fb8b79, type: 3}
+  chair: {fileID: 4184145040151640500}
   cannonPivot: {fileID: 5864187464502447846}
   cSmoke: {fileID: 5685215182269984755, guid: c46e4d1f99931154eb653843e9cf0c8e, type: 3}
 --- !u!4 &1414020637346964774 stripped

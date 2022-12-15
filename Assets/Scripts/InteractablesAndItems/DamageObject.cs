@@ -35,6 +35,7 @@ public class DamageObject : MonoBehaviour
             {
                 //Deal damage and destroy self if colliding with a layer
                 collision.collider.GetComponentInParent<LayerHealthManager>().DealDamage(damage, true);
+                FindObjectOfType<AudioManager>().PlayOneShot("MedExplosionSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
 
                 if (TryGetComponent<ShellItemBehavior>(out ShellItemBehavior shell) && collision.collider.GetComponentInParent<LayerHealthManager>() != null)
                 {
@@ -49,6 +50,26 @@ public class DamageObject : MonoBehaviour
                 }
             }
         }
+        else
+        {
+            if (FindObjectOfType<AudioManager>() != null)
+                FindObjectOfType<AudioManager>().PlayOneShot("ExplosionSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+        }
+
+        if(collision.collider.tag == "Player")
+        {
+            //Hit from left
+            if(transform.position.x < collision.collider.transform.position.x)
+            {
+                collision.collider.GetComponent<Rigidbody2D>().AddForce(new Vector2(0.5f, 0.3f) * 5000);
+            }
+
+            //Hit from right
+            else
+            {
+                collision.collider.GetComponent<Rigidbody2D>().AddForce(new Vector2(-0.5f, 0.3f) * 5000);
+            }
+        }
 
         Destroy(gameObject);
     }
@@ -59,6 +80,8 @@ public class DamageObject : MonoBehaviour
         //If the item is passed the world's bounds, delete it
         if(transform.position.y < -10)
         {
+            if (FindObjectOfType<AudioManager>() != null)
+                FindObjectOfType<AudioManager>().PlayOneShot("ExplosionSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
             Destroy(gameObject);
         }
 

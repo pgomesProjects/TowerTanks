@@ -25,6 +25,7 @@ TagManager:
   - LeftInteractSpawner
   - RightInteractSpawner
   - Resources
+  - ItemContainer
   layers:
   - Default
   - TransparentFX

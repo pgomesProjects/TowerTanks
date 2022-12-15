@@ -18,10 +18,12 @@ public class CannonController : InteractableController
     [SerializeField] private Sprite loadedCannonSprite;
     private Vector3 initialVelocity;
     private InteractableController cannonInteractable;
-    private GameObject chair;
+    [SerializeField] private GameObject chair;
     [SerializeField] private Transform cannonPivot;
     private Vector3 cannonRotation;
     private float playerCannonMovement;
+    private Vector3 playerPosition;
+
     //private LineRenderer lineRenderer;
     private const int N_TRAJECTORY_POINTS = 10;
 
@@ -31,7 +33,6 @@ public class CannonController : InteractableController
     // Start is called before the first frame update
     void Start()
     {
-        chair = transform.Find("Chair").gameObject;
         cannonInteractable = GetComponentInParent<InteractableController>();
 /*        lineRenderer = GetComponentInChildren<LineRenderer>();
         lineRenderer.positionCount = N_TRAJECTORY_POINTS;*/
@@ -117,7 +118,7 @@ public class CannonController : InteractableController
                     UpdateCannonBody();
 
                     //Shake the camera
-                    CameraEventController.instance.ShakeCamera(5f, 0.1f);
+                    CameraEventController.instance.ShakeCamera(5f, 0.2f);
 
                     TutorialController.main.OnTutorialTaskCompletion();
                 }
@@ -127,9 +128,8 @@ public class CannonController : InteractableController
                 //Fire the cannon
                 Fire();
                 UpdateCannonBody();
-                Instantiate(cSmoke, transform.position, Quaternion.identity);
                 //Shake the camera
-                CameraEventController.instance.ShakeCamera(5f, 0.1f);
+                CameraEventController.instance.ShakeCamera(5f, 0.2f);
             }
         }
     }
@@ -144,6 +144,8 @@ public class CannonController : InteractableController
 
             //Play sound effect
             FindObjectOfType<AudioManager>().PlayOneShot("CannonFire", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+
+            Instantiate(cSmoke, spawnPoint.transform.position, Quaternion.identity);
 
             //Determine the direction of the cannon
             Vector2 direction = Vector2.zero;
@@ -266,6 +268,16 @@ public class CannonController : InteractableController
             }
         }
 
+        if(currentPlayerLockedIn != null)
+        {
+            Vector3 chairPos = chair.transform.position;
+            //Offset to make the player match the chair
+            chairPos.x += 0.34f;
+            chairPos.y += 0.6f;
+            playerPosition = chairPos;
+            currentPlayerLockedIn.transform.position = playerPosition;
+        }
+
         initialVelocity = new Vector3(0, 0, cannonForce) - spawnPoint.transform.position;
     }
 
@@ -297,15 +309,19 @@ public class CannonController : InteractableController
         {
             //Move the player to the chair
             Vector3 chairPos = chair.transform.position;
-            //X offset to make the player match the chair
+            //Offset to make the player match the chair
             chairPos.x += 0.34f;
-            currentPlayer.transform.position = chairPos;
+            chairPos.y += 0.6f;
+            playerPosition = chairPos;
+            currentPlayer.GetComponent<Rigidbody2D>().gravityScale = 0f;
+            currentPlayer.transform.position = playerPosition;
             chair.GetComponent<SpriteRenderer>().sortingOrder = 15;
             currentPlayer.GetComponent<Animator>().SetBool("isManningCannon", true);
         }
         else
         {
             currentPlayer.GetComponent<Animator>().SetBool("isManningCannon", false);
+            currentPlayer.GetComponent<Rigidbody2D>().gravityScale = currentPlayer.GetDefaultGravity();
             chair.GetComponent<SpriteRenderer>().sortingOrder = 4;
         }
     }
