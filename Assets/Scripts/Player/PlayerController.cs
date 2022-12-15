@@ -766,6 +766,7 @@ public class PlayerController : MonoBehaviour
         itemHeld.GetComponent<Rigidbody2D>().isKinematic = false;
         itemHeld.transform.parent = playerTank.GetItemContainer();
         itemHeld.SetRotateConstraint(false);
+        ChangeItemTransparency(1);
 
         Debug.Log("Dropped Item!");
 
