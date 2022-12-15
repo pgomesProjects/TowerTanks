@@ -46,7 +46,7 @@ public class LevelManager : MonoBehaviour
     internal int speedIndex;
     internal float[] currentSpeed = { -1.5f, -1f, 0f, 1, 1.5f };
     internal bool isSettingUpOnStart;
-    private int resourcesNum = 2000;
+    private int resourcesNum;
     private GameObject currentGhostLayer;
 
     private Dictionary<string, int> itemPrice;
@@ -77,9 +77,22 @@ public class LevelManager : MonoBehaviour
 
         FindObjectOfType<AudioManager>().Play("MainMenuAmbience", PlayerPrefs.GetFloat("BGMVolume", 0.5f));
 
+        //Starting resources
+        switch (GameSettings.difficulty)
+        {
+            case 0.5f:
+                resourcesNum = 1500;
+                break;
+            case 1.5f:
+                resourcesNum = 500;
+                break;
+            default:
+                resourcesNum = 1000;
+                break;
+        }
+
         if (GameSettings.skipTutorial)
         {
-            resourcesNum = 1000;
             resourcesDisplay.text = resourcesNum.ToString();
             UpdateSpeed((int)TANKSPEED.STATIONARY);
             TransitionGameState();
@@ -89,6 +102,7 @@ public class LevelManager : MonoBehaviour
         }
         else
         {
+            resourcesNum += 200;
             GameObject.FindGameObjectWithTag("Resources").gameObject.SetActive(false);
             UpdateSpeed((int)TANKSPEED.STATIONARY);
         }

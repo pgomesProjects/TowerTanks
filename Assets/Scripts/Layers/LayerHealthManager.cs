@@ -20,6 +20,16 @@ public class LayerHealthManager : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         maxHealth = health;
+
+        switch (GameSettings.difficulty)
+        {
+            case 0.5f:
+                destroyResourcesValue = (int)(destroyResourcesValue * 1.5f);
+                break;
+            case 1.5f:
+                destroyResourcesValue = (int)(destroyResourcesValue * 0.5f);
+                break;
+        }
     }
 
     private void FixedUpdate()
@@ -176,6 +186,8 @@ public class LayerHealthManager : MonoBehaviour
                 return;
 
             float percent = Random.Range(0, 100);
+
+            chanceToCatchFire *= GameSettings.difficulty;
 
             //If the chance to catch fire has been met, turn on the fire diegetics
             if (percent < chanceToCatchFire)

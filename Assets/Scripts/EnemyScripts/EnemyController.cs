@@ -46,7 +46,7 @@ public class EnemyController : MonoBehaviour
         directionMultiplier = 1;
         previousDirection = MOVEMENTDIRECTION.NEUTRAL;
         currentDirection = MOVEMENTDIRECTION.NEUTRAL;
-        waveCounter = 1.0f / wavesMultiplier;
+        waveCounter = 1.0f / (wavesMultiplier * GameSettings.difficulty);
         CreateLayers();
         UpdateEnemySpeed();
         DetermineBehavior();
