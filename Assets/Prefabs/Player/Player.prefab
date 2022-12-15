@@ -1002,6 +1002,8 @@ MonoBehaviour:
   spinValidAngleLimit: 30
   validSpinCheckRows: 1
   buildscrap: {fileID: 3713183390885246315, guid: f84eb82306b44c642a0bb9387da466fa, type: 3}
+  firefoam: {fileID: 8317756643219714684, guid: f237cd1c639164c46bee172d0b41d55c, type: 3}
+  smabuildscraps: {fileID: 4607994134331774439, guid: 4570cdd7669993745bd1d5ffb6a1c956, type: 3}
 --- !u!50 &4673326632306893225
 Rigidbody2D:
   serializedVersion: 4

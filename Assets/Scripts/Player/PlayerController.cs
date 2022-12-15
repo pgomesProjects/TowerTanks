@@ -60,6 +60,8 @@ public class PlayerController : MonoBehaviour
     private bool isSpinningJoystick = false;
 
     [SerializeField] private GameObject buildscrap;
+    [SerializeField] private GameObject firefoam;
+    [SerializeField] private GameObject smabuildscraps;
 
     // Start is called before the first frame update
     void Start()
@@ -378,6 +380,7 @@ public class PlayerController : MonoBehaviour
                 if (i.GetComponent<ToggleInteractBuy>().PlayerCanPurchase())
                 {
                     i.GetComponent<ToggleInteractBuy>().PurchaseInteractable();
+                    Instantiate(smabuildscraps, transform.position, Quaternion.identity);
                 }
             }
         }
@@ -395,6 +398,16 @@ public class PlayerController : MonoBehaviour
             if (itemHeld.GetTimeToUse() > 0)
             {
                 StartProgressBar(itemHeld.GetTimeToUse(), UseFireRemover);
+                if (isFacingRight)
+                {
+                    Instantiate(firefoam, transform.position, Quaternion.identity);
+                }
+                else
+                {
+                    
+                    //firefoam = Vector3 transform.rotate 180;
+                    Instantiate(firefoam, transform.position, Quaternion.identity);
+                }
                 ChangeItemTransparency(0.0f);
             }
         }
