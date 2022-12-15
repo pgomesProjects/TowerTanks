@@ -5,20 +5,29 @@ using UnityEngine;
 public class particlecaller : MonoBehaviour
 {
     // Start is called before the first frame update
-
+      ParticleSystem pEffect;
     void Start()
     {
-        ParticleSystem part = GetComponent<ParticleSystem>();
-        part.Play(true);
-        //Destroy(gameObject, part.main.duration);
+         pEffect = GetComponent<ParticleSystem>();
+
 
     }
 
     // Update is called once per frame
     void Update()
     {
+        while () 
+        {
+
+                pEffect.Play(true);
+        }
         
-        
+
+        pEffect.Stop(true);
+ 
+
+      
+
 
     }
 }
