@@ -9,6 +9,8 @@ public class CoalController : InteractableController
     [SerializeField] private Slider coalPercentageIndicator;
     [SerializeField] private int framesForCoalFill = 5;
     [SerializeField] private float angleRange = 102;
+
+    [SerializeField] private GameObject sparks;
     private int currentCoalFrame;
     private float currentIndicatorAngle;
     private float depletionRate;
@@ -161,6 +163,7 @@ public class CoalController : InteractableController
                 hasCoal = false;
                 GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().AdjustEngineSpeedMultiplier();
                 FindObjectOfType<AudioManager>().PlayOneShot("EngineDyingSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+                Instantiate(sparks, transform.position, Quaternion.identity);
             }
 
             AdjustIndicatorAngle();

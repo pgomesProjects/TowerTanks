@@ -913,3 +913,4 @@ MonoBehaviour:
   coalPercentageIndicator: {fileID: 7064411900344003444}
   framesForCoalFill: 5
   angleRange: 80
+  sparks: {fileID: 1375059210048695933, guid: ef765cae20cc9d146aff3e791ee01ad1, type: 3}

@@ -16,7 +16,7 @@ public class particlecaller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        while () 
+/*        while () 
         {
 
                 pEffect.Play(true);
@@ -24,7 +24,7 @@ public class particlecaller : MonoBehaviour
         
 
         pEffect.Stop(true);
- 
+ */
 
       
 
