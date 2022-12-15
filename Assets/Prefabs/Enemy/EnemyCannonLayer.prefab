@@ -119,7 +119,7 @@ MonoBehaviour:
   loadedCannonSprite: {fileID: 0}
   chair: {fileID: 0}
   cannonPivot: {fileID: 3746104128299154810}
-  cSmoke: {fileID: 0}
+  cSmoke: {fileID: 5685215182269984755, guid: c46e4d1f99931154eb653843e9cf0c8e, type: 3}
 --- !u!1 &4582106216502727523
 GameObject:
   m_ObjectHideFlags: 0
