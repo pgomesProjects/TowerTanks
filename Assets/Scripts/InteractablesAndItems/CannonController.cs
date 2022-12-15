@@ -27,6 +27,7 @@ public class CannonController : InteractableController
 
     private int currentAmmo;
 
+    [SerializeField] private GameObject cSmoke;
     // Start is called before the first frame update
     void Start()
     {
@@ -126,7 +127,7 @@ public class CannonController : InteractableController
                 //Fire the cannon
                 Fire();
                 UpdateCannonBody();
-
+                Instantiate(cSmoke, transform.position, Quaternion.identity);
                 //Shake the camera
                 CameraEventController.instance.ShakeCamera(5f, 0.1f);
             }
