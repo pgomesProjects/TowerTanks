@@ -123,3 +123,5 @@ MonoBehaviour:
   chanceToExplode: 80
   chanceToCatchFire: 30
   explosionParticles: {fileID: 1317647647605995885, guid: 1724ad1c3bf5ab449a23c7f2d1d9e0bb, type: 3}
+  explosmoke: {fileID: 4601625908407266432, guid: 153a7637a35f4c4498e1d68fa6176e35, type: 3}
+  smallboom: {fileID: 5893089241104876350, guid: 378f939148b7cb44bb9adb980d0f0833, type: 3}

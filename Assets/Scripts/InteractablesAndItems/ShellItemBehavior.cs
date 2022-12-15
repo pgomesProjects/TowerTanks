@@ -8,6 +8,8 @@ public class ShellItemBehavior : MonoBehaviour
     [SerializeField] private float chanceToExplode = 80;
     [SerializeField] private float chanceToCatchFire = 30;
     [SerializeField] private ParticleSystem explosionParticles;
+    [SerializeField] private GameObject explosmoke;
+    [SerializeField] private GameObject smallboom;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -17,6 +19,7 @@ public class ShellItemBehavior : MonoBehaviour
             if(transform.parent == null)
             {
                 ForceShellExplode();
+                Instantiate(smallboom, transform.position, Quaternion.identity);
             }
         }
     }
@@ -40,7 +43,8 @@ public class ShellItemBehavior : MonoBehaviour
         if(GetComponent<DamageObject>() != null)
         {
             Instantiate(explosionParticles, transform.position, Quaternion.identity);
-            if(FindObjectOfType<AudioManager>() != null)
+            Instantiate(explosmoke, transform.position, Quaternion.identity);
+            if (FindObjectOfType<AudioManager>() != null)
                 FindObjectOfType<AudioManager>().PlayOneShot("ExplosionSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
         }
     }

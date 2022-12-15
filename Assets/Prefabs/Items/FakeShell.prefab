@@ -60,6 +60,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8112383214525272506, guid: c7da71b2e77ef994ba9aa8d6241280ae, type: 3}
+      propertyPath: smallboom
+      value: 
+      objectReference: {fileID: 5893089241104876350, guid: 378f939148b7cb44bb9adb980d0f0833, type: 3}
+    - target: {fileID: 8112383214525272506, guid: c7da71b2e77ef994ba9aa8d6241280ae, type: 3}
+      propertyPath: explosmoke
+      value: 
+      objectReference: {fileID: 4601625908407266432, guid: 153a7637a35f4c4498e1d68fa6176e35, type: 3}
+    - target: {fileID: 8112383214525272506, guid: c7da71b2e77ef994ba9aa8d6241280ae, type: 3}
       propertyPath: chanceToExplode
       value: 0
       objectReference: {fileID: 0}
