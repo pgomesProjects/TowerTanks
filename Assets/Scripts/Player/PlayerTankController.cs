@@ -170,7 +170,7 @@ public class PlayerTankController : MonoBehaviour
         currentSpeed = 0;
 
         //Deal damage to bottom layer
-        GetLayerAt(0).DealDamage(10);
+        GetLayerAt(0).DealDamage(10, false);
 
         //Shake camera on collision
         CameraEventController.instance.ShakeCamera(10f, seconds);

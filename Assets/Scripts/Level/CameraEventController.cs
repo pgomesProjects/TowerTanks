@@ -8,7 +8,6 @@ public class CameraEventController : MonoBehaviour
 {
     public static CameraEventController instance;
 
-    private CinemachineBrain cinemachineBrain;
     private CinemachineVirtualCamera _currentActiveCamera;
     [SerializeField] private CinemachineVirtualCamera _gameCamera;
     [SerializeField] private CinemachineVirtualCamera _cinematicCamera;
@@ -25,7 +24,6 @@ public class CameraEventController : MonoBehaviour
 
     private void Start()
     {
-        cinemachineBrain = Camera.main.GetComponent<CinemachineBrain>();
         _currentActiveCamera = _gameCamera;
         inGame = true;
     }

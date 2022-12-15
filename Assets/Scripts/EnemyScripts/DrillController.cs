@@ -39,7 +39,7 @@ public class DrillController : MonoBehaviour
                     if (currentTimer > drillTickSeconds)
                     {
                         Debug.Log("Drill Damaging " + hit.collider.transform.parent.name + "!");
-                        hit.collider.GetComponentInParent<LayerHealthManager>().DealDamage(damagePerTick);
+                        hit.collider.GetComponentInParent<LayerHealthManager>().DealDamage(damagePerTick, true, 3f);
                         hit.collider.GetComponentInParent<LayerHealthManager>().CheckForFireSpawn(chanceForFire);
                         currentTimer = 0;
                     }

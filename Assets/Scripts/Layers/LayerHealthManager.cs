@@ -65,14 +65,42 @@ public class LayerHealthManager : MonoBehaviour
         return false;
     }
 
-    public void DealDamage(int dmg)
+    public void DealDamage(int dmg, bool shakeCam)
     {
         health -= dmg;
 
         if (transform.CompareTag("Layer"))
         {
-            Debug.Log("Layer " + (GetComponentInChildren<LayerManager>().GetNextLayerIndex() - 1) + " Health: " + health);
+            Debug.Log("Layer " + (GetComponentInChildren<LayerManager>().GetNextLayerIndex() - 1) + " Health: " + health);;
         }
+
+        if (shakeCam)
+            CameraEventController.instance.ShakeCamera(5f, 0.1f);
+
+        FindObjectOfType<AudioManager>().PlayAtRandomPitch("TankImpact", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+
+        //Check to see if the layer's diegetics need to be updated
+        if (GetComponentInChildren<DamageDiegeticController>() != null)
+        {
+            float damagePercent = (float)health / maxHealth;
+            GetComponentInChildren<DamageDiegeticController>().UpdateDiegetic(damagePercent);
+        }
+
+        //Check to see if the layer will be destryoed
+        CheckForDestroy();
+    }
+
+    public void DealDamage(int dmg, bool shakeCam, float shakeIntensity)
+    {
+        health -= dmg;
+
+        if (transform.CompareTag("Layer"))
+        {
+            Debug.Log("Layer " + (GetComponentInChildren<LayerManager>().GetNextLayerIndex() - 1) + " Health: " + health); ;
+        }
+
+        if (shakeCam)
+            CameraEventController.instance.ShakeCamera(shakeIntensity, 0.1f);
 
         FindObjectOfType<AudioManager>().PlayAtRandomPitch("TankImpact", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
 

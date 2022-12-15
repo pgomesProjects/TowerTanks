@@ -34,7 +34,7 @@ public class DamageObject : MonoBehaviour
             if(LevelManager.instance.levelPhase == GAMESTATE.GAMEACTIVE)
             {
                 //Deal damage and destroy self if colliding with a layer
-                collision.collider.GetComponentInParent<LayerHealthManager>().DealDamage(damage);
+                collision.collider.GetComponentInParent<LayerHealthManager>().DealDamage(damage, true);
 
                 if (TryGetComponent<ShellItemBehavior>(out ShellItemBehavior shell) && collision.collider.GetComponentInParent<LayerHealthManager>() != null)
                 {

@@ -27,7 +27,8 @@ public class FireBehavior : MonoBehaviour
             }
         }
 
-        FindObjectOfType<AudioManager>().Stop("FireBurningSFX");
+        if(FindObjectOfType<AudioManager>() != null)
+            FindObjectOfType<AudioManager>().Stop("FireBurningSFX");
     }
 
     // Update is called once per frame
@@ -40,7 +41,7 @@ public class FireBehavior : MonoBehaviour
             if(currentTimer > fireTickSeconds)
             {
                 if(LevelManager.instance.levelPhase == GAMESTATE.GAMEACTIVE)
-                    GetComponentInParent<LayerHealthManager>().DealDamage(damagePerTick);
+                    GetComponentInParent<LayerHealthManager>().DealDamage(damagePerTick, false);
                 currentTimer = 0;
             }
         }

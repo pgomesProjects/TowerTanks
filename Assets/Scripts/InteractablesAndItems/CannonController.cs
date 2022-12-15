@@ -18,6 +18,7 @@ public class CannonController : InteractableController
     [SerializeField] private Sprite loadedCannonSprite;
     private Vector3 initialVelocity;
     private InteractableController cannonInteractable;
+    private GameObject chair;
     [SerializeField] private Transform cannonPivot;
     private Vector3 cannonRotation;
     private float playerCannonMovement;
@@ -29,6 +30,7 @@ public class CannonController : InteractableController
     // Start is called before the first frame update
     void Start()
     {
+        chair = transform.Find("Chair").gameObject;
         cannonInteractable = GetComponentInParent<InteractableController>();
 /*        lineRenderer = GetComponentInChildren<LineRenderer>();
         lineRenderer.positionCount = N_TRAJECTORY_POINTS;*/
@@ -283,6 +285,27 @@ public class CannonController : InteractableController
             Vector3 pos = new Vector3(start.x + dx, start.y + dy, 0);
             //lineRenderer.SetPosition(i, pos);
             fTime += timeStep;
+        }
+    }
+
+    public override void LockPlayer(bool lockPlayer)
+    {
+        base.LockPlayer(lockPlayer);
+
+        if (lockPlayer)
+        {
+            //Move the player to the chair
+            Vector3 chairPos = chair.transform.position;
+            //X offset to make the player match the chair
+            chairPos.x += 0.34f;
+            currentPlayer.transform.position = chairPos;
+            chair.GetComponent<SpriteRenderer>().sortingOrder = 15;
+            currentPlayer.GetComponent<Animator>().SetBool("isManningCannon", true);
+        }
+        else
+        {
+            currentPlayer.GetComponent<Animator>().SetBool("isManningCannon", false);
+            chair.GetComponent<SpriteRenderer>().sortingOrder = 4;
         }
     }
 

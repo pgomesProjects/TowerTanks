@@ -69,8 +69,6 @@ public class CoalController : InteractableController
         if (currentPlayer != null)
         {
             currentCoalFrame = 0;
-            currentPlayer.GetComponent<Animator>().SetBool("isShoveling", true);
-            currentPlayer.GetComponent<Animator>().enabled = false;
         }
     }
 
@@ -147,13 +145,15 @@ public class CoalController : InteractableController
         base.LockPlayer(lockPlayer);
 
         if (lockPlayer)
+        {
             currentPlayer.ShowProgressBar();
+            currentPlayer.gameObject.GetComponent<Animator>().enabled = false;
+            currentPlayer.gameObject.GetComponent<SpriteRenderer>().sprite = coalAnimationSprites[0];
+        }
         else
         {
             currentPlayer.HideProgressBar();
-            currentPlayer.GetComponent<Animator>().enabled = true;
-            currentPlayer.GetComponent<Animator>().Play("PlayerIdle");
-            currentPlayer.GetComponent<Animator>().SetBool("isShoveling", false);
+            currentPlayer.gameObject.GetComponent<Animator>().enabled = true;
         }
     }
 
