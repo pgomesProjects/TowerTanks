@@ -775,7 +775,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -829,6 +829,30 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 1070365773}
+          m_TargetAssemblyTypeName: TitlescreenController, Assembly-CSharp
+          m_MethodName: ButtonOnSelectColor
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 2137934316}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Animator, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1070365773}
+          m_TargetAssemblyTypeName: TitlescreenController, Assembly-CSharp
+          m_MethodName: ButtonBounce
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 97706937}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
   - eventID: 10
     callback:
       m_PersistentCalls:
@@ -840,6 +864,18 @@ MonoBehaviour:
           m_Arguments:
             m_ObjectArgument: {fileID: 628466472}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1070365773}
+          m_TargetAssemblyTypeName: TitlescreenController, Assembly-CSharp
+          m_MethodName: ButtonOnDeselectColor
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 2137934316}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Animator, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -2448,7 +2484,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2524,6 +2560,30 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 1070365773}
+          m_TargetAssemblyTypeName: TitlescreenController, Assembly-CSharp
+          m_MethodName: ButtonOnSelectColor
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 1436367859}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Animator, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1070365773}
+          m_TargetAssemblyTypeName: TitlescreenController, Assembly-CSharp
+          m_MethodName: ButtonBounce
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 683711417}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
   - eventID: 10
     callback:
       m_PersistentCalls:
@@ -2535,6 +2595,18 @@ MonoBehaviour:
           m_Arguments:
             m_ObjectArgument: {fileID: 2126590792}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1070365773}
+          m_TargetAssemblyTypeName: TitlescreenController, Assembly-CSharp
+          m_MethodName: ButtonOnDeselectColor
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 1436367859}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Animator, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -2688,7 +2760,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2761,6 +2833,46 @@ MonoBehaviour:
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: Hover
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1070365773}
+          m_TargetAssemblyTypeName: TitlescreenController, Assembly-CSharp
+          m_MethodName: ButtonOnSelectColor
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 1379445064}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Animator, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1070365773}
+          m_TargetAssemblyTypeName: TitlescreenController, Assembly-CSharp
+          m_MethodName: ButtonBounce
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 726812431}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 10
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1070365773}
+          m_TargetAssemblyTypeName: TitlescreenController, Assembly-CSharp
+          m_MethodName: ButtonOnDeselectColor
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 1379445064}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Animator, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
 --- !u!1 &745978160 stripped
@@ -4012,6 +4124,7 @@ GameObject:
   - component: {fileID: 1203822477}
   - component: {fileID: 1203822479}
   - component: {fileID: 1203822478}
+  - component: {fileID: 1203822480}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -4068,8 +4181,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -4136,6 +4249,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1203822476}
   m_CullTransparentMesh: 1
+--- !u!95 &1203822480
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1203822476}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 590f4842545d20043860134e404c1875, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1257045552
 GameObject:
   m_ObjectHideFlags: 0
@@ -4237,7 +4370,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4313,6 +4446,30 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 1070365773}
+          m_TargetAssemblyTypeName: TitlescreenController, Assembly-CSharp
+          m_MethodName: ButtonOnSelectColor
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 1203822480}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Animator, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1070365773}
+          m_TargetAssemblyTypeName: TitlescreenController, Assembly-CSharp
+          m_MethodName: ButtonBounce
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 1257045556}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
   - eventID: 10
     callback:
       m_PersistentCalls:
@@ -4324,6 +4481,18 @@ MonoBehaviour:
           m_Arguments:
             m_ObjectArgument: {fileID: 298137042}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1070365773}
+          m_TargetAssemblyTypeName: TitlescreenController, Assembly-CSharp
+          m_MethodName: ButtonOnDeselectColor
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 1203822480}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Animator, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -4450,6 +4619,7 @@ GameObject:
   - component: {fileID: 1324458804}
   - component: {fileID: 1324458806}
   - component: {fileID: 1324458805}
+  - component: {fileID: 1324458807}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -4506,8 +4676,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -4574,6 +4744,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1324458803}
   m_CullTransparentMesh: 1
+--- !u!95 &1324458807
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1324458803}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 590f4842545d20043860134e404c1875, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1329769533
 GameObject:
   m_ObjectHideFlags: 0
@@ -4707,6 +4897,7 @@ GameObject:
   - component: {fileID: 1379445061}
   - component: {fileID: 1379445063}
   - component: {fileID: 1379445062}
+  - component: {fileID: 1379445064}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -4763,8 +4954,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -4831,6 +5022,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1379445060}
   m_CullTransparentMesh: 1
+--- !u!95 &1379445064
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1379445060}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 590f4842545d20043860134e404c1875, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1386621541
 GameObject:
   m_ObjectHideFlags: 0
@@ -4953,7 +5164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -5007,6 +5218,46 @@ MonoBehaviour:
             m_StringArgument: Hover
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 1070365773}
+          m_TargetAssemblyTypeName: TitlescreenController, Assembly-CSharp
+          m_MethodName: ButtonOnSelectColor
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 1324458807}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Animator, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1070365773}
+          m_TargetAssemblyTypeName: TitlescreenController, Assembly-CSharp
+          m_MethodName: ButtonBounce
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 1386621542}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 10
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1070365773}
+          m_TargetAssemblyTypeName: TitlescreenController, Assembly-CSharp
+          m_MethodName: ButtonOnDeselectColor
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 1324458807}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Animator, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1436367855
 GameObject:
   m_ObjectHideFlags: 0
@@ -5018,6 +5269,7 @@ GameObject:
   - component: {fileID: 1436367856}
   - component: {fileID: 1436367858}
   - component: {fileID: 1436367857}
+  - component: {fileID: 1436367859}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -5074,8 +5326,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -5142,6 +5394,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1436367855}
   m_CullTransparentMesh: 1
+--- !u!95 &1436367859
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1436367855}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 590f4842545d20043860134e404c1875, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1504997981
 GameObject:
   m_ObjectHideFlags: 0
@@ -7445,6 +7717,7 @@ GameObject:
   - component: {fileID: 2137934313}
   - component: {fileID: 2137934315}
   - component: {fileID: 2137934314}
+  - component: {fileID: 2137934316}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -7501,8 +7774,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -7569,6 +7842,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2137934312}
   m_CullTransparentMesh: 1
+--- !u!95 &2137934316
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2137934312}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 590f4842545d20043860134e404c1875, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &1400260960709677655
 PrefabInstance:
   m_ObjectHideFlags: 0

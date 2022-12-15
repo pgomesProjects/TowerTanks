@@ -180,7 +180,7 @@ public class CannonController : InteractableController
     {
         while (true)
         {
-            Debug.Log("Starting Fire Wait...");
+            //Debug.Log("Starting Fire Wait...");
             int timeWait = Random.Range(7, 12);
             yield return new WaitForSeconds(timeWait);
 
@@ -242,7 +242,7 @@ public class CannonController : InteractableController
                 {
                     Debug.Log("Locked In!");
                     FindObjectOfType<AudioManager>().Stop("CannonAimSFX");
-                    FindObjectOfType<AudioManager>().PlayOneShot("CannonLockSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+                    FindObjectOfType<AudioManager>().Play("CannonLockSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
                 }
 
 

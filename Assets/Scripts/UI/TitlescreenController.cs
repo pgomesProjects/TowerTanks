@@ -239,6 +239,50 @@ public class TitlescreenController : MonoBehaviour
         }
     }
 
+    public void ButtonBounce(RectTransform rectTransform)
+    {
+        StartCoroutine(ButtonBounceAnimation(rectTransform));
+    }
+
+    private IEnumerator ButtonBounceAnimation(RectTransform rectTransform)
+    {
+        Vector3 startPos = rectTransform.localPosition;
+        Vector3 endPos = startPos;
+        endPos.y += 10;
+
+        float seconds = 0.067f;
+
+        float timeElapsed = 0;
+        while (timeElapsed < seconds)
+        {
+            //Smooth lerp duration algorithm
+            float t = timeElapsed / seconds;
+            t = t * t * (3f - 2f * t);
+
+            rectTransform.localPosition = Vector3.Lerp(startPos, endPos, t);
+            timeElapsed += Time.deltaTime;
+
+            yield return null;
+        }
+
+        rectTransform.localPosition = endPos;
+
+        timeElapsed = 0;
+        while (timeElapsed < seconds)
+        {
+            //Smooth lerp duration algorithm
+            float t = timeElapsed / seconds;
+            t = t * t * (3f - 2f * t);
+
+            rectTransform.localPosition = Vector3.Lerp(endPos, startPos, t);
+            timeElapsed += Time.deltaTime;
+
+            yield return null;
+        }
+
+        rectTransform.localPosition = startPos;
+    }
+
     public void ButtonOnSelectColor(Animator anim)
     {
         anim.SetBool("IsSelected", true);

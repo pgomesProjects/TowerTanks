@@ -42,15 +42,18 @@ public class InteractableController : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            if(currentPlayerLockedIn == null)
+            if (currentPlayerLockedIn == null)
             {
-                if(currentPlayerColliding != null)
+                if (currentPlayerColliding != null)
                     currentPlayerColliding.HideInteractionPrompt();
                 canInteract = false;
                 currentPlayerColliding = null;
                 //Player can no longer interact with this item
                 collision.GetComponent<PlayerController>().currentInteractableItem = null;
             }
+            //If the locked player leaves the trigger for the interactable, unlock them
+            else
+                LockPlayer(false);
         }
     }
 

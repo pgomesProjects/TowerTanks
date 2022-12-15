@@ -867,7 +867,7 @@ public class PlayerController : MonoBehaviour
         playerIndex = index;
     }
 
-    public Color GetPlayerColor() => transform.Find("Outline").GetComponent<Renderer>().material.color;
+    public Color GetPlayerColor() => GetComponent<Renderer>().material.color;
 
     public void OnDeviceLost(PlayerInput playerInput)
     {
