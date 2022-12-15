@@ -14,6 +14,8 @@ public class LayerHealthManager : MonoBehaviour
     private bool layerInPlace = false;
     private bool layerFalling = false;
 
+    [SerializeField] private GameObject scrapDamage;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -99,6 +101,7 @@ public class LayerHealthManager : MonoBehaviour
     public void DealDamage(int dmg, bool shakeCam)
     {
         health -= dmg;
+        Instantiate(scrapDamage, transform.position, Quaternion.identity);
 
         if (transform.CompareTag("Layer"))
         {
