@@ -315,6 +315,7 @@ public class CannonController : InteractableController
             playerPosition = chairPos;
             currentPlayer.GetComponent<Rigidbody2D>().gravityScale = 0f;
             currentPlayer.transform.position = playerPosition;
+            currentPlayer.GetComponent<SpriteRenderer>().flipX = false;
             chair.GetComponent<SpriteRenderer>().sortingOrder = 15;
             currentPlayer.GetComponent<Animator>().SetBool("isManningCannon", true);
         }
