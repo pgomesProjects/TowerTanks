@@ -106,7 +106,7 @@ public class LevelManager : MonoBehaviour
     private void PopulateItemDictionary()
     {
         //Buy
-        itemPrice.Add("NewLayer", 250);
+        itemPrice.Add("NewLayer", 100);
     }
 
     public void UpdateSpeed(int speedUpdate)
