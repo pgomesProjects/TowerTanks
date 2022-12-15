@@ -402,13 +402,12 @@ public class PlayerController : MonoBehaviour
                 if (isFacingRight)
                 {
                     Instantiate(firefoam, transform.position, Quaternion.identity);
+                    
                 }
                 else
                 {
-                    
                     Instantiate(leftfirefoam, transform.position, Quaternion.identity);
                 }
-                ChangeItemTransparency(0.0f);
             }
         }
     }
@@ -511,7 +510,7 @@ public class PlayerController : MonoBehaviour
             progressBarSlider.value = 0;
             currentLoadAction = ProgressBarLoad(secondsTillCompletion, actionOnComplete);
             StartCoroutine(currentLoadAction);
-            playerAnimator.SetBool("IsBuilding", true);
+            if (PlayerHasItem("Hammer")) playerAnimator.SetBool("IsBuilding", true);
             Instantiate(buildscrap, transform.position, Quaternion.identity);
         }
     }
