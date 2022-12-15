@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
@@ -29,14 +30,10 @@ public class PauseController : MonoBehaviour
         playerControlSystem.UI.Cancel.performed += _ => CancelAction();
     }
 
-    private void Start()
-    {
-        currentMenuState = pauseMenu;
-    }
-
     private void OnEnable()
     {
         playerControlSystem.Enable();
+        currentMenuState = pauseMenu;
         SwitchMenu(MenuState.REFRESH);
     }
 
@@ -66,23 +63,34 @@ public class PauseController : MonoBehaviour
         {
             case MenuState.PAUSE:
                 newMenu = pauseMenu;
-                SelectButtonOnPause(currentMenuState);
                 break;
             case MenuState.OPTIONS:
                 newMenu = optionsMenu;
                 break;
             default:
                 newMenu = pauseMenu;
-                SelectButtonOnPause(pauseMenu);
                 break;
         }
 
-        if(currentMenuState != null)
+        if (currentMenuState != null)
         {
             currentMenuState.SetActive(false);
+
+            GameObject prevMenu = currentMenuState;
+
+            DeselectButton();
+
             currentMenuState = newMenu;
             currentMenuState.SetActive(true);
+
+            if (menu == MenuState.PAUSE || menu == MenuState.REFRESH)
+                SelectButtonOnPause(prevMenu);
         }
+    }
+
+    private void DeselectButton()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     private void SelectButtonOnPause(GameObject menu)
@@ -161,7 +169,7 @@ public class PauseController : MonoBehaviour
             rectTransform.localPosition = Vector3.Lerp(startPos, endPos, t);
             timeElapsed += Time.deltaTime;
 
-            yield return null;
+            yield return new WaitForSecondsRealtime(0);
         }
 
         rectTransform.localPosition = endPos;
@@ -176,7 +184,7 @@ public class PauseController : MonoBehaviour
             rectTransform.localPosition = Vector3.Lerp(endPos, startPos, t);
             timeElapsed += Time.deltaTime;
 
-            yield return null;
+            yield return new WaitForSecondsRealtime(0);
         }
 
         rectTransform.localPosition = startPos;

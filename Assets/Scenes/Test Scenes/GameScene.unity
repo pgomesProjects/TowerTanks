@@ -7708,6 +7708,34 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 1110496617}
+          m_TargetAssemblyTypeName: PauseController, Assembly-CSharp
+          m_MethodName: ButtonOnSelectColor
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 3128995723176578167}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Animator, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 10
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1110496617}
+          m_TargetAssemblyTypeName: PauseController, Assembly-CSharp
+          m_MethodName: ButtonOnDeselectColor
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 3128995723176578167}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Animator, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!114 &3128995723176578152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7856,7 +7884,7 @@ Animator:
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 590f4842545d20043860134e404c1875, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 2
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
@@ -8147,7 +8175,7 @@ Animator:
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 590f4842545d20043860134e404c1875, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 2
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
@@ -8654,7 +8682,7 @@ Animator:
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 590f4842545d20043860134e404c1875, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 2
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
@@ -8845,6 +8873,34 @@ MonoBehaviour:
           m_Arguments:
             m_ObjectArgument: {fileID: 3128995724175909181}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.RectTransform, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1110496617}
+          m_TargetAssemblyTypeName: PauseController, Assembly-CSharp
+          m_MethodName: ButtonOnSelectColor
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 3128995723909328116}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Animator, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 10
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1110496617}
+          m_TargetAssemblyTypeName: PauseController, Assembly-CSharp
+          m_MethodName: ButtonOnDeselectColor
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 3128995723909328116}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Animator, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
