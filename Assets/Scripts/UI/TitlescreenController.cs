@@ -39,6 +39,7 @@ public class TitlescreenController : MonoBehaviour
         playerControlSystem = new PlayerControlSystem();
         playerControlSystem.UI.Submit.performed += _ => StartScreenToMain();
         playerControlSystem.UI.Cancel.performed += _ => CancelAction();
+        playerControlSystem.UI.DebugMode.performed += _ => DebugMode();
 
         levelFader.SetActive(true);
 
@@ -146,6 +147,16 @@ public class TitlescreenController : MonoBehaviour
         }
 
         PlayButtonSFX("Cancel");
+    }
+
+    private void DebugMode()
+    {
+        if (!inMenu && !GameSettings.debugMode)
+        {
+            GameSettings.debugMode = true;
+            DontDestroyOnLoad(Instantiate(Resources.Load("DebugCanvas")));
+            FindObjectOfType<AudioManager>().Play("DebugBeep", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+        }
     }
 
     public void GoToMain()

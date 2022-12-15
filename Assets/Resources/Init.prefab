@@ -245,3 +245,9 @@ MonoBehaviour:
     loop: 0
     soundType: 1
     source: {fileID: 0}
+  - name: DebugBeep
+    clip: {fileID: 8300000, guid: fdef7f0676959c5468a4ccb80c8e183c, type: 3}
+    pitch: 1
+    loop: 0
+    soundType: 1
+    source: {fileID: 0}
