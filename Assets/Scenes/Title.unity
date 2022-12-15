@@ -1915,7 +1915,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Enemies Are Stronger And Faster! A Challenge For Cadets!
+  m_text: Enemies Get Stronger Quicker And Less Resources Available!\nA Challenge
+    For Cadets!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9489daf95865bbd4ea0007cc10e49217, type: 2}
   m_sharedMaterial: {fileID: -6796894105817313763, guid: 9489daf95865bbd4ea0007cc10e49217, type: 2}
@@ -7629,7 +7630,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: For Our Newest Recruits! Enemies Are More Forgiving!
+  m_text: For Our Newest Recruits! More Resources And Less Chaos!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9489daf95865bbd4ea0007cc10e49217, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
