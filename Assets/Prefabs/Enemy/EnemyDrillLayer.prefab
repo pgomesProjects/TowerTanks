@@ -131,7 +131,7 @@ MonoBehaviour:
   drillLayerMask:
     serializedVersion: 2
     m_Bits: 65
-  sparks: {fileID: 1375059210048695933, guid: ef765cae20cc9d146aff3e791ee01ad1, type: 3}
+  sparks: {fileID: 7259772364615241705, guid: 16768f88792f3204f8a74c6ab483c458, type: 3}
 --- !u!95 &1240181094048757608
 Animator:
   serializedVersion: 4
