@@ -897,7 +897,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
-  destroyResourcesValue: 80
+  destroyResourcesValue: 60
   scrapDamage: {fileID: 3447509628083107344, guid: 468489efe652f3940964bc99b56536de, type: 3}
 --- !u!61 &6586515976610478640
 BoxCollider2D:
