@@ -1001,6 +1001,7 @@ MonoBehaviour:
   spinAngleCheckUpdateTimer: 0.1
   spinValidAngleLimit: 30
   validSpinCheckRows: 1
+  buildscrap: {fileID: 3713183390885246315, guid: f84eb82306b44c642a0bb9387da466fa, type: 3}
 --- !u!50 &4673326632306893225
 Rigidbody2D:
   serializedVersion: 4

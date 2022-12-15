@@ -59,6 +59,8 @@ public class PlayerController : MonoBehaviour
 
     private bool isSpinningJoystick = false;
 
+    [SerializeField] private GameObject buildscrap;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -497,6 +499,7 @@ public class PlayerController : MonoBehaviour
             currentLoadAction = ProgressBarLoad(secondsTillCompletion, actionOnComplete);
             StartCoroutine(currentLoadAction);
             playerAnimator.SetBool("IsBuilding", true);
+            Instantiate(buildscrap, transform.position, Quaternion.identity);
         }
     }
 
