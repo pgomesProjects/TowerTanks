@@ -74,6 +74,9 @@ public class LevelManager : MonoBehaviour
     private void Start()
     {
         isSettingUpOnStart = true;
+
+        FindObjectOfType<AudioManager>().Play("MainMenuAmbience", PlayerPrefs.GetFloat("BGMVolume", 0.5f));
+
         if (GameSettings.skipTutorial)
         {
             resourcesNum = 1000;

@@ -103,6 +103,7 @@ GameObject:
   - component: {fileID: 410176231620105473}
   - component: {fileID: 1698311102659779528}
   - component: {fileID: 3612570349832042970}
+  - component: {fileID: 2591026320521208464}
   m_Layer: 0
   m_Name: FireDiegetics
   m_TagString: Untagged
@@ -166,8 +167,8 @@ SpriteRenderer:
   m_SortingLayerID: -1960476501
   m_SortingLayer: 1
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: 21c5cd6c7d3577848ba9fc098bd4b058, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: c8f51123776badc4899a5bec6f96db63, type: 3}
+  m_Color: {r: 0.764151, g: 0.37458384, b: 0, a: 0.50980395}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -192,6 +193,26 @@ MonoBehaviour:
   fireTickSeconds: 1
   damagePerTick: 5
   fireParticle: {fileID: 6783311162016649496, guid: a853f1658ea91e544b88be4b2bd36866, type: 3}
+--- !u!95 &2591026320521208464
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2008953561669259281}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1ebeb36cbc27f6740a857e16cc3dc688, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &4076158897081024958
 GameObject:
   m_ObjectHideFlags: 0
