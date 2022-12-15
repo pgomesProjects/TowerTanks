@@ -19,9 +19,14 @@ public class WheelSpeed : MonoBehaviour
     {
         speed = (FindObjectOfType<PlayerTankController>().GetPlayerSpeed()) * 20f;
         direction = (FindObjectOfType<LevelManager>().GetGameSpeed());
-        if (direction != 0)
+        if (direction != 0 && isEnemyTank == false)
         {
             transform.Rotate(0f, 0f, speed * direction * Time.deltaTime, Space.Self);
+        }
+
+        if (isEnemyTank)
+        {
+            transform.Rotate(0f, 0f, 40f * Time.deltaTime, Space.Self);
         }
     }
 }
