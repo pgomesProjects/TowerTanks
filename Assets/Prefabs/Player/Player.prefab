@@ -973,6 +973,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 71a5200b-b29c-4c30-8cc8-edc3c683f5ca
     m_ActionName: Player/Advance Tutorial Text[/DualSenseGamepadHID/buttonSouth]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 0ef93d62-0895-45b4-82f1-95f7c4a8340b
+    m_ActionName: UI/DebugMode[/XInputControllerWindows/leftStickPress,/XInputControllerWindows/rightStickPress,/XInputControllerWindows/leftShoulder]
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player
@@ -990,7 +994,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67f385c7fec67324cacb1fb18f86b2ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 8
+  speed: 12
   distance: 0
   throwAngle: 35
   throwForce: 22
@@ -1003,6 +1007,7 @@ MonoBehaviour:
   validSpinCheckRows: 1
   buildscrap: {fileID: 3713183390885246315, guid: f84eb82306b44c642a0bb9387da466fa, type: 3}
   firefoam: {fileID: 8317756643219714684, guid: f237cd1c639164c46bee172d0b41d55c, type: 3}
+  leftfirefoam: {fileID: 0}
   smabuildscraps: {fileID: 4607994134331774439, guid: 4570cdd7669993745bd1d5ffb6a1c956, type: 3}
 --- !u!50 &4673326632306893225
 Rigidbody2D:
