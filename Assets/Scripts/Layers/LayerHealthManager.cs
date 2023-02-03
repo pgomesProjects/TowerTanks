@@ -236,7 +236,7 @@ public class LayerHealthManager : MonoBehaviour
         {
             if (i.IsInteractionActive())
             {
-                i.LockPlayer(false);
+                i.UnlockAllPlayers();
             }
         }
     }

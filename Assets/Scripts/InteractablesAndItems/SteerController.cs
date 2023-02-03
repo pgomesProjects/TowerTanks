@@ -37,7 +37,7 @@ public class SteerController : InteractableController
             if (!LevelManager.instance.steeringStickMoved)
             {
                 //Moving stick left
-                if (currentPlayerColliding.steeringValue < -0.5f && LevelManager.instance.levelPhase != GAMESTATE.TUTORIAL)
+                if (currentPlayerLockedIn.steeringValue < -0.5f && LevelManager.instance.levelPhase != GAMESTATE.TUTORIAL)
                 {
                     if (LevelManager.instance.speedIndex > (int)TANKSPEED.REVERSEFAST)
                     {
@@ -46,7 +46,7 @@ public class SteerController : InteractableController
                     }
                 }
                 //Moving stick right
-                else if (currentPlayerColliding.steeringValue > 0.5f)
+                else if (currentPlayerLockedIn.steeringValue > 0.5f)
                 {
                     if (LevelManager.instance.speedIndex < (int)TANKSPEED.FORWARDFAST)
                     {

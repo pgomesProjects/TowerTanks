@@ -124,7 +124,7 @@ public class CoalController : InteractableController
         //If there is a player
         if (currentPlayer != null)
         {
-            LockPlayer(false);
+            LockPlayer(currentPlayer, false);
             currentCoalFrame = 0;
         }
     }
@@ -140,9 +140,9 @@ public class CoalController : InteractableController
         
     }
 
-    public override void LockPlayer(bool lockPlayer)
+    public override void LockPlayer(PlayerController currentPlayer, bool lockPlayer)
     {
-        base.LockPlayer(lockPlayer);
+        base.LockPlayer(currentPlayer, lockPlayer);
 
         if (lockPlayer)
         {
@@ -239,7 +239,7 @@ public class CoalController : InteractableController
             GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().AdjustEngineSpeedMultiplier();
         }
 
-        if (currentPlayerColliding != null && lockPlayerIntoInteraction)
+        if (currentPlayerLockedIn != null && lockPlayerIntoInteraction)
         {
             CancelCoalFill();
         }

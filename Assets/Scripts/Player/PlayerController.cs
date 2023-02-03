@@ -322,7 +322,7 @@ public class PlayerController : MonoBehaviour
                 //If nothing else applies, the player has no item. Use the wrench, if possible
                 else
                 {
-                    //CheckForWrenchUse();
+                    CheckForWrenchUse();
                 }
             }
 

@@ -16,6 +16,10 @@ public class CannonController : InteractableController
     [SerializeField] private CANNONDIRECTION currentCannonDirection;
     [SerializeField] private Sprite unloadedCannonSprite;
     [SerializeField] private Sprite loadedCannonSprite;
+
+    [SerializeField] private float cannonCooldown;
+    private float currentCooldown;
+
     private Vector3 initialVelocity;
     private InteractableController cannonInteractable;
     [SerializeField] private GameObject chair;
@@ -71,39 +75,6 @@ public class CannonController : InteractableController
         UpdateCannonBody();
     }
 
-    protected override void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            if (currentPlayerLockedIn == null)
-            {
-                canInteract = true;
-                currentPlayerColliding = collision.GetComponent<PlayerController>();
-                currentPlayerColliding.DisplayInteractionPrompt("<sprite=30>");
-            }
-
-            //Tell the player that this is the item that they can interact with
-            collision.GetComponent<PlayerController>().currentInteractableItem = this;
-        }
-    }
-
-    protected override void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            if (currentPlayerLockedIn == null)
-            {
-                if (currentPlayerColliding != null)
-                    currentPlayerColliding.HideInteractionPrompt();
-                canInteract = false;
-                currentPlayerColliding = null;
-            }
-
-            //Player can no longer interact with this item
-            collision.GetComponent<PlayerController>().currentInteractableItem = null;
-        }
-    }
-
     public void CheckForCannonFire()
     {
         //If there is ammo
@@ -130,6 +101,8 @@ public class CannonController : InteractableController
                 UpdateCannonBody();
                 //Shake the camera
                 CameraEventController.instance.ShakeCamera(5f, 0.2f);
+                //Reset cooldown
+                currentCooldown = cannonCooldown;
             }
         }
     }
@@ -229,13 +202,13 @@ public class CannonController : InteractableController
         //If the cannon is linked to an interactable
         if (cannonInteractable != null)
         {
-            if (cannonInteractable.CanInteract())
+            if (cannonInteractable.GetLockedInPlayer() != null)
             {
                 //Debug.Log("Cannon Movement: " + cannonInteractable.GetCurrentPlayer().GetCannonMovement());
 
-                playerCannonMovement = cannonInteractable.GetCurrentPlayer().GetCannonMovement();
+                playerCannonMovement = cannonInteractable.GetLockedInPlayer().GetCannonMovement();
 
-                if(cannonInteractable.GetCurrentPlayer().IsPlayerSpinningCannon())
+                if(cannonInteractable.GetLockedInPlayer().IsPlayerSpinningCannon())
                 {
                     if (!FindObjectOfType<AudioManager>().IsPlaying("CannonAimSFX"))
                     {
@@ -279,6 +252,27 @@ public class CannonController : InteractableController
         }
 
         initialVelocity = new Vector3(0, 0, cannonForce) - spawnPoint.transform.position;
+
+        CheckForCooldown();
+    }
+
+    private void CheckForCooldown()
+    {
+        if (LevelManager.instance.levelPhase != GAMESTATE.TUTORIAL)
+        {
+            //If there is a cooldown, reduce the cooldown gradually
+            if (currentCooldown > 0)
+            {
+                currentCooldown -= Time.deltaTime;
+            }
+            //If there is no ammo, add ammo automatically and update the sprite
+            else if (currentAmmo == 0)
+            {
+                currentAmmo = 1;
+                FindObjectOfType<AudioManager>().PlayOneShot("CannonReload", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+                UpdateCannonBody();
+            }
+        }
     }
 
     private void UpdateLineRenderer()
@@ -301,9 +295,9 @@ public class CannonController : InteractableController
         }
     }
 
-    public override void LockPlayer(bool lockPlayer)
+    public override void LockPlayer(PlayerController currentPlayer, bool lockPlayer)
     {
-        base.LockPlayer(lockPlayer);
+        base.LockPlayer(currentPlayer, lockPlayer);
 
         if (lockPlayer)
         {
