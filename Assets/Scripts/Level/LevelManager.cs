@@ -134,6 +134,7 @@ public class LevelManager : MonoBehaviour
         Debug.Log("Tank Speed: " + gameSpeed);
 
         playerTank.GetComponent<PlayerTankController>().UpdateTreadsSFX();
+        playerTank.GetComponent<PlayerTankController>().UpdateTreadParticles();
 
         //Update the enemy speed comparative to the player
         foreach (var i in FindObjectsOfType<EnemyController>())

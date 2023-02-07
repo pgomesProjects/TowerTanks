@@ -82,6 +82,7 @@ public class InteractableController : MonoBehaviour
                 else
                 {
                     LockPlayer(playerInteracting, false);
+                    playersColliding.Add(playerInteracting.GetPlayerIndex());
                     interactEvent.Invoke();
                 }
             }

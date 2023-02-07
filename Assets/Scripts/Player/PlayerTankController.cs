@@ -28,8 +28,8 @@ public class PlayerTankController : MonoBehaviour
         layers = new List<LayerHealthManager>(2);
         AdjustLayersInList();
         treadAnimator = GetComponentInChildren<Animator>();
-        dustParticles[0].SetActive(false);
-        dustParticles[1].SetActive(false);
+        ShowLeftDustParticles(false);
+        ShowRightDustParticles(false);
     }
 
     private void Start()
@@ -76,18 +76,6 @@ public class PlayerTankController : MonoBehaviour
         {
             currentDistance += GetPlayerSpeed() * LevelManager.instance.gameSpeed * Time.deltaTime;
         }
-
-        if (LevelManager.instance.gameSpeed > 0)
-        {
-            dustParticles[0].SetActive(true);
-        }
-        else dustParticles[0].SetActive(false);
-
-        if (LevelManager.instance.gameSpeed < 0)
-        {
-            dustParticles[1].SetActive(true);
-        }
-        else dustParticles[1].SetActive(false);
 
         treadAnimator.speed = GetPlayerSpeed() * Mathf.Abs(LevelManager.instance.gameSpeed) * Time.deltaTime * 15f;
         treadAnimator.SetFloat("Direction", LevelManager.instance.gameSpeed);
@@ -176,6 +164,25 @@ public class PlayerTankController : MonoBehaviour
         else if (!FindObjectOfType<AudioManager>().IsPlaying("TreadsRolling"))
         {
             FindObjectOfType<AudioManager>().Play("TreadsRolling", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+        }
+    }
+
+    public void UpdateTreadParticles()
+    {
+        if(GetPlayerSpeed() * LevelManager.instance.gameSpeed > 0)
+        {
+            ShowLeftDustParticles(true);
+            ShowRightDustParticles(false);
+        }
+        else if (GetPlayerSpeed() * LevelManager.instance.gameSpeed < 0)
+        {
+            ShowLeftDustParticles(false);
+            ShowRightDustParticles(true);
+        }
+        else
+        {
+            ShowLeftDustParticles(false);
+            ShowRightDustParticles(false);
         }
     }
 
@@ -273,6 +280,9 @@ public class PlayerTankController : MonoBehaviour
         LevelManager.instance.ShowGoPrompt();
     }
 
+    public void ShowLeftDustParticles(bool showParticles) => dustParticles[0].SetActive(showParticles);
+    public void ShowRightDustParticles(bool showParticles) => dustParticles[1].SetActive(showParticles);
+
     private void OnDestroy()
     {
         if(FindObjectOfType<AudioManager>() != null)
@@ -281,6 +291,8 @@ public class PlayerTankController : MonoBehaviour
             if (FindObjectOfType<AudioManager>().IsPlaying("TreadsRolling"))
             {
                 FindObjectOfType<AudioManager>().Stop("TreadsRolling");
+                ShowLeftDustParticles(false);
+                ShowRightDustParticles(false);
             }
 
             FindObjectOfType<AudioManager>().PlayOneShot("LargeExplosionSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
