@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour
     private bool isFacingRight;
     private bool canClimb;
     private bool isClimbing;
+    private bool waitingToClimb;
     private float defaultGravity;
 
     internal InteractableController currentInteractableItem;
@@ -74,6 +75,7 @@ public class PlayerController : MonoBehaviour
         isHoldingItem = false;
         hasMoved = false;
         canClimb = false;
+        waitingToClimb = false;
         isFacingRight = true;
         interactableHover = transform.Find("HoverPrompt").gameObject;
         progressBarCanvas = transform.Find("TaskProgressBar").gameObject;
@@ -137,8 +139,12 @@ public class PlayerController : MonoBehaviour
             //If the player is not colliding with the ladder
             if (ladderRaycast.collider == null)
             {
-                isClimbing = false;
-                playerAnimator.SetBool("IsOnLadder", false);
+                ExitLadder();
+            }
+            //If the player is trying to climb and can climb, let them
+            else if (waitingToClimb)
+            {
+                EnterLadder();
             }
 
             //If the player is climbing, move up and get rid of gravity temporarily
@@ -195,14 +201,29 @@ public class PlayerController : MonoBehaviour
                         //If the player is colliding with the ladder and wants to climb
                         if (ladderRaycast.collider != null)
                         {
-                            isClimbing = true;
-                            playerAnimator.SetBool("IsOnLadder", true);
-                            transform.position = new Vector2(0, transform.position.y);
+                            EnterLadder();
+                            return;
                         }
                     }
                 }
+                waitingToClimb = true;
             }
         }
+    }
+
+    private void EnterLadder()
+    {
+        isClimbing = true;
+        playerAnimator.SetBool("IsOnLadder", true);
+        transform.position = new Vector2(0, transform.position.y);
+        waitingToClimb = false;
+    }
+
+    private void ExitLadder()
+    {
+        //Move them off the ladder
+        isClimbing = false;
+        playerAnimator.SetBool("IsOnLadder", false);
     }
 
     public void OnLadderExit(InputAction.CallbackContext ctx)
@@ -217,9 +238,7 @@ public class PlayerController : MonoBehaviour
                     //If the player is on a ladder
                     if (isClimbing)
                     {
-                        //Move them off the ladder
-                        isClimbing = false;
-                        playerAnimator.SetBool("IsOnLadder", false);
+                        ExitLadder();
                     }
                 }
             }
