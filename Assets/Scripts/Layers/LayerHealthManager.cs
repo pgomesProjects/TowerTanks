@@ -148,15 +148,20 @@ public class LayerHealthManager : MonoBehaviour
 
         FindObjectOfType<AudioManager>().PlayAtRandomPitch("TankImpact", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
 
+        UpdateLayerDamageDiegetic();
+
+        //Check to see if the layer will be destryoed
+        CheckForDestroy();
+    }
+
+    private void UpdateLayerDamageDiegetic()
+    {
         //Check to see if the layer's diegetics need to be updated
         if (GetComponentInChildren<DamageDiegeticController>() != null)
         {
             float damagePercent = (float)health / maxHealth;
             GetComponentInChildren<DamageDiegeticController>().UpdateDiegetic(damagePercent);
         }
-
-        //Check to see if the layer will be destryoed
-        CheckForDestroy();
     }
 
     public int GetLayerHealth()
@@ -172,6 +177,7 @@ public class LayerHealthManager : MonoBehaviour
     public void RepairLayer()
     {
         health = maxHealth;
+        UpdateLayerDamageDiegetic();
     }
 
     public void CheckForFireSpawn(float chanceToCatchFire)
