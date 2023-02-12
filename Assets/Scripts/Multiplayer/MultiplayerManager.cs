@@ -7,6 +7,9 @@ using Cinemachine;
 using TMPro;
 public class MultiplayerManager : MonoBehaviour
 {
+    internal static bool[] connectedControllers;
+
+    [SerializeField] private Color[] playerColors = { Color.red, Color.blue, Color.yellow, Color.green };
     [SerializeField] private Transform[] spawnPoints;
     [SerializeField] private Transform playerParent;
     [SerializeField] private GameObject playerJoinObject;
@@ -14,12 +17,14 @@ public class MultiplayerManager : MonoBehaviour
 
     private PlayerInputManager playerInputManager;
 
-    private Color[] playerColors = { Color.red, Color.blue, Color.yellow, Color.green };
     private bool onStartJoin;
 
     private void Awake()
     {
         playerInputManager = FindObjectOfType<PlayerInputManager>();
+        connectedControllers = new bool[playerInputManager.maxPlayerCount];
+        for (int i = 0; i < connectedControllers.Length; i++)
+            connectedControllers[i] = false;
         playerInputManager.EnableJoining();
     }
 
@@ -87,7 +92,7 @@ public class MultiplayerManager : MonoBehaviour
 
         //Generate the new player's index
         int playerIndex = ConnectionController.CheckForIndex();
-        ConnectionController.connectedControllers[playerIndex] = true;
+        connectedControllers[playerIndex] = true;
 
         //Move the player to the spawn point
         playerInput.transform.position = spawnPoints[playerIndex].position;
@@ -124,9 +129,9 @@ public class MultiplayerManager : MonoBehaviour
     private void OnSceneUnloaded(Scene current)
     {
         //Get rid of the controllers when the game is unloaded
-        for(int i = 0; i < ConnectionController.connectedControllers.Length; i++)
+        for(int i = 0; i < connectedControllers.Length; i++)
         {
-            ConnectionController.connectedControllers[i] = false;
+            connectedControllers[i] = false;
         }
     }
 

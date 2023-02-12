@@ -1674,11 +1674,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29a18151787262c41ae9e1a85511401b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerColors:
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 0, g: 0, b: 1, a: 1}
+  - {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  - {r: 0, g: 1, b: 0, a: 1}
+  - {r: 0.98823535, g: 0.6431373, b: 0.007843138, a: 1}
+  - {r: 0.24313727, g: 0.9960785, b: 1, a: 1}
+  - {r: 0.9843138, g: 0.003921569, b: 1, a: 1}
+  - {r: 0.10196079, g: 0.4431373, b: 0.47058827, a: 1}
+  - {r: 0.27450982, g: 0, b: 0.023529414, a: 1}
+  - {r: 0.49411768, g: 0, b: 0.49411768, a: 1}
   spawnPoints:
   - {fileID: 2043835625}
   - {fileID: 1314995828}
   - {fileID: 1742878530}
   - {fileID: 650630060}
+  - {fileID: 2043835625}
+  - {fileID: 1314995828}
+  - {fileID: 1742878530}
+  - {fileID: 650630060}
+  - {fileID: 2043835625}
+  - {fileID: 1314995828}
   playerParent: {fileID: 479502733}
   playerJoinObject: {fileID: 1311698911}
   joinPrompt: {fileID: 13982940}
@@ -1695,7 +1712,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_NotificationBehavior: 3
-  m_MaxPlayerCount: 4
+  m_MaxPlayerCount: 10
   m_AllowJoining: 0
   m_JoinBehavior: 1
   m_PlayerJoinedEvent:
