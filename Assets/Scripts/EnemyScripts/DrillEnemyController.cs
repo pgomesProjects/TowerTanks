@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DrillEnemyController : EnemyController
 {
+
     protected override void CreateLayers()
     {
         float extraLayers = FindObjectOfType<EnemySpawnManager>().GetEnemyCountAt(1) * waveCounter;
@@ -67,6 +68,16 @@ public class DrillEnemyController : EnemyController
         {
             Debug.Log("Enemy Is At Player!");
             enemyColliding = true;
+            canMove = false;
+        }
+    }
+    protected override void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("PlayerTank"))
+        {
+            Debug.Log("Enemy Is No Longer At Player!");
+            enemyColliding = false;
+            canMove = true;
         }
     }
 

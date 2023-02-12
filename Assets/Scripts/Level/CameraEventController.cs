@@ -77,6 +77,12 @@ public class CameraEventController : MonoBehaviour
         StartCoroutine(PlayHapticsOnAllControllers(seconds));
     }
 
+    public void ResetCameraShake()
+    {
+        shakeTimer = 0;
+        _currentActiveCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = 0;
+    }
+
     private IEnumerator PlayHapticsOnAllControllers(float seconds)
     {
         foreach (var controller in Gamepad.all)

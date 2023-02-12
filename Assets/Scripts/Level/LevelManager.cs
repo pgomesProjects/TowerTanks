@@ -137,10 +137,10 @@ public class LevelManager : MonoBehaviour
         playerTank.GetComponent<PlayerTankController>().UpdateTreadParticles();
 
         //Update the enemy speed comparative to the player
-        foreach (var i in FindObjectsOfType<EnemyController>())
+/*        foreach (var i in FindObjectsOfType<EnemyController>())
         {
             i.UpdateEnemySpeed();
-        }
+        }*/
     }
 
     public void UpdateSpeed(float speed)
@@ -148,10 +148,10 @@ public class LevelManager : MonoBehaviour
         gameSpeed = speed;
 
         //Update the enemy speed comparative to the player
-        foreach (var i in FindObjectsOfType<EnemyController>())
+/*        foreach (var i in FindObjectsOfType<EnemyController>())
         {
             i.UpdateEnemySpeed();
-        }
+        }*/
     }
 
     public float GetGameSpeed()
@@ -259,11 +259,11 @@ public class LevelManager : MonoBehaviour
     {
         if (totalLayers > 2)
         {
-            playerTank.transform.Find("TankFollowTop").transform.localPosition = new Vector2(-13, (totalLayers * 4) + 4 + ((totalLayers - 2) * 2.5f));
+            playerTank.transform.Find("TankFollowTop").transform.localPosition = new Vector2(0, 4 + (totalLayers * 4) + ((totalLayers - 2) * 1.5f));
         }
         else
         {
-            playerTank.transform.Find("TankFollowTop").transform.localPosition = new Vector2(-13, 12);
+            playerTank.transform.Find("TankFollowTop").transform.localPosition = new Vector2(0, 4);
         }
     }
 

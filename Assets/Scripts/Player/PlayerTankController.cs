@@ -23,6 +23,8 @@ public class PlayerTankController : MonoBehaviour
 
     private List<LayerHealthManager> layers;
 
+    private bool canMove;
+
     private void Awake()
     {
         layers = new List<LayerHealthManager>(2);
@@ -37,6 +39,7 @@ public class PlayerTankController : MonoBehaviour
         currentSpeed = speed;
         currentTankWeightMultiplier = 1;
         currentEngineMultiplier = 0;
+        canMove = true;
     }
 
     public void AdjustLayersInList()
@@ -79,7 +82,20 @@ public class PlayerTankController : MonoBehaviour
 
         treadAnimator.speed = GetPlayerSpeed() * Mathf.Abs(LevelManager.instance.gameSpeed) * Time.deltaTime * 15f;
         treadAnimator.SetFloat("Direction", LevelManager.instance.gameSpeed);
-        displaySpeed = GetPlayerSpeed();
+
+        MoveTank();
+    }
+
+    private void MoveTank()
+    {
+        if (canMove)
+        {
+            displaySpeed = GetPlayerSpeed();
+
+            Vector3 tankPosition = transform.position;
+            tankPosition.x += GetPlayerSpeed() * LevelManager.instance.gameSpeed * Time.deltaTime;
+            transform.position = tankPosition;
+        }
     }
 
     public void AdjustTankWeight(int numberOfLayers)
@@ -188,6 +204,7 @@ public class PlayerTankController : MonoBehaviour
 
     public IEnumerator CollideWithEnemyAni(float collideVelocity, float seconds)
     {
+        canMove = false;
         float timeElapsed = 0;
         currentSpeed = 0;
 
@@ -226,11 +243,13 @@ public class PlayerTankController : MonoBehaviour
             yield return null;
         }
 
+        canMove = true;
+/*
         if(this != null)
-            StartCoroutine(ReturnToPosition());
+            StartCoroutine(ReturnToPosition());*/
     }
 
-    private IEnumerator ReturnToPosition()
+/*    private IEnumerator ReturnToPosition()
     {
         currentSpeed = speed;
 
@@ -243,7 +262,7 @@ public class PlayerTankController : MonoBehaviour
         }
 
         transform.position = Vector3.zero;
-    }
+    }*/
 
     public List<LayerHealthManager> GetLayers()
     {

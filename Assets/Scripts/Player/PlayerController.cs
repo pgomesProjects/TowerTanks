@@ -112,12 +112,12 @@ public class PlayerController : MonoBehaviour
                 //Debug.Log("Player Can Move!");
                 rb.velocity = new Vector2(movement.x * speed, rb.velocity.y);
 
+
                 //Clamp the player's position to be within the range of the tank
-                float playerRange = playerTank.transform.position.x +
-                    playerTank.tankBarrierRange;
-                Vector3 playerPos = transform.position;
-                playerPos.x = Mathf.Clamp(playerPos.x, -playerRange, playerRange);
-                transform.position = playerPos;
+                Vector3 playerPos = transform.localPosition;
+
+                playerPos.x = Mathf.Clamp(playerPos.x, -playerTank.tankBarrierRange, playerTank.tankBarrierRange);
+                transform.localPosition = playerPos;
 
                 //If the input is moving the player right and the player is facing left
                 if (movement.x > 0 && !isFacingRight)
@@ -215,7 +215,7 @@ public class PlayerController : MonoBehaviour
     {
         isClimbing = true;
         playerAnimator.SetBool("IsOnLadder", true);
-        transform.position = new Vector2(0, transform.position.y);
+        transform.localPosition = new Vector2(0, transform.localPosition.y);
         waitingToClimb = false;
     }
 

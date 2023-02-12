@@ -32,7 +32,7 @@ public class SteerController : InteractableController
 
     IEnumerator CheckForSteeringInput()
     {
-        while (true)
+        while (true && currentPlayerLockedIn != null)
         {
             if (!LevelManager.instance.steeringStickMoved)
             {

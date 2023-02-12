@@ -13,18 +13,15 @@ public class EnemyController : MonoBehaviour
 
     [SerializeField] protected float health = 100;
     [SerializeField] protected float speed = 1;
+    [SerializeField] protected float maximumSpeed = 1.25f;
+    [SerializeField, Tooltip("The acceleration per second in which the enemy can gain speed.")] protected float accelerationRate;
     [SerializeField] protected float collisionForce = 50;
     [SerializeField] protected float targetedDistance = 70;
     [SerializeField] protected float targetRange = 10;
     [SerializeField] protected float collisionForceSeconds = 0.1f;
-    [SerializeField, Tooltip("The acceleration per second in which the tank changes direction.")] protected float changeDirectionAccelerationSpeed = 0.1f;
-    [SerializeField] protected float maxAcceleration = 1.25f;
     [SerializeField, Tooltip("The amount of waves for the enemy to increase the amount of layers")] protected int wavesMultiplier = 1;
     [SerializeField] protected int onDestroyResources = 100;
     protected ENEMYBEHAVIOR enemyTrait;
-    private MOVEMENTDIRECTION currentDirection;
-    private MOVEMENTDIRECTION previousDirection;
-
     private float speedRelativeToPlayer;
     private float currentSpeed;
     private float currentRelativeSpeed;
@@ -38,17 +35,18 @@ public class EnemyController : MonoBehaviour
     protected int totalEnemyLayers;
     protected float waveCounter;
 
+    protected bool canMove;
+
     // Start is called before the first frame update
     protected void Start()
     {
         playerTank = GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>();
         currentSpeed = speed;
+        canMove = true;
         directionMultiplier = 1;
-        previousDirection = MOVEMENTDIRECTION.NEUTRAL;
-        currentDirection = MOVEMENTDIRECTION.NEUTRAL;
         waveCounter = 1.0f / (wavesMultiplier * GameSettings.difficulty);
         CreateLayers();
-        UpdateEnemySpeed();
+        //UpdateEnemySpeed();
         DetermineBehavior();
         FindObjectOfType<EnemySpawnManager>().AddToEnemyCounter(this);
     }
@@ -129,8 +127,7 @@ public class EnemyController : MonoBehaviour
 
     protected virtual void DetermineBehavior()
     {
-        //int randomBehavior = Random.Range(0, System.Enum.GetValues(typeof(ENEMYBEHAVIOR)).Length - 1);
-        int randomBehavior = 0;
+        int randomBehavior = Random.Range(0, System.Enum.GetValues(typeof(ENEMYBEHAVIOR)).Length - 1);
         enemyTrait = (ENEMYBEHAVIOR)randomBehavior;
     }
 
@@ -139,12 +136,12 @@ public class EnemyController : MonoBehaviour
 
     }
 
-    public void UpdateEnemySpeed()
+/*    public void UpdateEnemySpeed()
     {
         speedRelativeToPlayer = ((playerTank.GetPlayerSpeed() * LevelManager.instance.gameSpeed) + currentSpeed) * directionMultiplier;
 
         //Debug.Log("Enemy Speed: " + speedRelativeToPlayer);
-    }
+    }*/
 
     // Update is called once per frame
     protected void FixedUpdate()
@@ -153,23 +150,33 @@ public class EnemyController : MonoBehaviour
         {
             if (!enemyColliding)
             {
-                currentRelativeSpeed = -speedRelativeToPlayer;
+                //currentRelativeSpeed = -speedRelativeToPlayer;
 
                 CheckBehaviorStates();
-                UpdateDirection();
                 UpdateCannons();
 
                 //Move the enemy horizontally
-                transform.position += new Vector3(currentRelativeSpeed, 0, 0) * Time.deltaTime;
+                transform.position += new Vector3(-GetDirectionalSpeed(), 0, 0) * Time.deltaTime;
             }
             else
             {
-                //If the enemy is moving backwards, they are not colliding with the player tank
+                if (!canMove)
+                {
+                    float playerSpeed = playerTank.GetPlayerSpeed() * LevelManager.instance.gameSpeed;
+                    Debug.Log("Player Speed While Enemy Attached: " + playerSpeed);
+                    if (currentSpeed >= -playerSpeed)
+                    {
+                        transform.position += new Vector3(playerSpeed, 0, 0) * Time.deltaTime;
+                    }
+                }
+/*                //If the enemy is moving backwards, they are not colliding with the player tank
                 if (speedRelativeToPlayer < 0)
-                    enemyColliding = false;
+                    enemyColliding = false;*/
             }
         }
     }
+
+    private float GetDirectionalSpeed() => currentSpeed * directionMultiplier;
 
     private void CheckBehaviorStates()
     {
@@ -177,12 +184,7 @@ public class EnemyController : MonoBehaviour
         {
             //Enemy aggressive behavior
             case ENEMYBEHAVIOR.AGGRESSIVE:
-                directionMultiplier += changeDirectionAccelerationSpeed * Time.deltaTime;
-
-                if (directionMultiplier > maxAcceleration)
-                {
-                    directionMultiplier = maxAcceleration;
-                }
+                AccelerateTank();
                 break;
 
             //Enemy calculating behavior
@@ -193,18 +195,21 @@ public class EnemyController : MonoBehaviour
                 //If the tank is too close to the player, back up
                 if (currentDistance < targetedDistance - targetRange)
                 {
-                    currentDirection = MOVEMENTDIRECTION.DECELERATE;
-                    previousDirection = MOVEMENTDIRECTION.DECELERATE;
+                    Debug.Log("Backing Up...");
+                    directionMultiplier = -1f;
+                    AccelerateTank();
                 }
                 //If the tank is too far from the player, speed up
-                else if (currentDistance > targetedDistance + targetRange)
+                else if(currentDistance > targetedDistance + targetRange)
                 {
-                    currentDirection = MOVEMENTDIRECTION.ACCELERATE;
-                    previousDirection = MOVEMENTDIRECTION.ACCELERATE;
+                    Debug.Log("Moving Forward...");
+                    directionMultiplier = 1f;
+                    AccelerateTank();
                 }
                 else
                 {
-                    currentDirection = MOVEMENTDIRECTION.NEUTRAL;
+                    Debug.Log("In Target Range...");
+                    DecelerateTank();
                 }
                 break;
         }
@@ -213,55 +218,24 @@ public class EnemyController : MonoBehaviour
         //Debug.Log("State: " + currentDirection);
     }
 
-    private void UpdateDirection()
+    private void AccelerateTank()
     {
-        switch(currentDirection)
+        if (currentSpeed >= maximumSpeed)
         {
-            case MOVEMENTDIRECTION.DECELERATE:
-                directionMultiplier -= changeDirectionAccelerationSpeed * Time.deltaTime;
-
-                if (directionMultiplier < -maxAcceleration)
-                {
-                    directionMultiplier = -maxAcceleration;
-                }
-
-                if (directionMultiplier > maxAcceleration)
-                {
-                    directionMultiplier = maxAcceleration;
-                }
-                break;
-            case MOVEMENTDIRECTION.NEUTRAL:
-                if(previousDirection == MOVEMENTDIRECTION.ACCELERATE)
-                {
-                    if (Mathf.Abs(directionMultiplier - 1) < 0.05f)
-                        directionMultiplier = 1;
-                    else if(directionMultiplier != 1)
-                        directionMultiplier -= (changeDirectionAccelerationSpeed) * Time.deltaTime;
-                }
-                else if(previousDirection == MOVEMENTDIRECTION.DECELERATE)
-                {
-                    if (Mathf.Abs(directionMultiplier - (-1)) < 0.05f)
-                        directionMultiplier = -1;
-                    else if (directionMultiplier != -1)
-                        directionMultiplier += (changeDirectionAccelerationSpeed) * Time.deltaTime;
-                }
-                break;
-            case MOVEMENTDIRECTION.ACCELERATE:
-                directionMultiplier += changeDirectionAccelerationSpeed * Time.deltaTime;
-
-                if (directionMultiplier < -maxAcceleration)
-                {
-                    directionMultiplier = -maxAcceleration;
-                }
-
-                if (directionMultiplier > maxAcceleration)
-                {
-                    directionMultiplier = maxAcceleration;
-                }
-                break;
+            currentSpeed = maximumSpeed;
         }
+        else
+            currentSpeed += accelerationRate * Time.deltaTime;
+    }
 
-        UpdateEnemySpeed();
+    private void DecelerateTank()
+    {
+        if (currentSpeed <= 0)
+        {
+            currentSpeed = 0;
+        }
+        else
+            currentSpeed -= accelerationRate * Time.deltaTime;
     }
 
     private void UpdateCannons()
@@ -299,15 +273,15 @@ public class EnemyController : MonoBehaviour
         float playerForce = collisionForce;
 
         //If the player is going slower than the enemy, add extra force to the player
-        if(speedRelativeToPlayer > playerTank.GetPlayerSpeed() * LevelManager.instance.gameSpeed)
+        if(currentSpeed > playerTank.GetPlayerSpeed() * LevelManager.instance.gameSpeed)
         {
-            playerForce *= (playerTank.GetPlayerSpeed() * LevelManager.instance.gameSpeed) / speedRelativeToPlayer;
+            playerForce *= (playerTank.GetPlayerSpeed() * LevelManager.instance.gameSpeed) / currentSpeed;
         }
 
         //If the enemy is going slower than the player, add extra force to the enemy
-        else if(playerTank.GetPlayerSpeed() * LevelManager.instance.gameSpeed > speedRelativeToPlayer)
+        else if(playerTank.GetPlayerSpeed() * LevelManager.instance.gameSpeed > currentSpeed)
         {
-            enemyForce *= (playerTank.GetPlayerSpeed() * LevelManager.instance.gameSpeed) / speedRelativeToPlayer;
+            enemyForce *= (playerTank.GetPlayerSpeed() * LevelManager.instance.gameSpeed) / currentSpeed;
         }
 
         StartCoroutine(CollideWithPlayerAni(enemyForce, collisionForceSeconds));
@@ -385,7 +359,11 @@ public class EnemyController : MonoBehaviour
             //Debug.Log("Enemy Tank Is Destroyed!");
             LevelManager.instance.UpdateResources(onDestroyResources);
             LevelManager.instance.currentSessionStats.wavesCleared += 1;
+            
+            CameraEventController.instance.ResetCameraShake();
             LevelManager.instance.ResetPlayerCamera();
+            CameraEventController.instance.ShakeCamera(10f, 1f);
+
             AddToList();
             Destroy(gameObject, 0.1f);
         }

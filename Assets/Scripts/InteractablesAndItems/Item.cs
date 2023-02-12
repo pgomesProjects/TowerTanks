@@ -26,10 +26,9 @@ public class Item : MonoBehaviour
         {
             if(playerTank != null)
             {
-                float itemRange = playerTank.transform.position.x + playerTank.tankBarrierRange;
-                Vector3 itemPos = transform.position;
-                itemPos.x = Mathf.Clamp(itemPos.x, -itemRange, itemRange);
-                transform.position = itemPos;
+                Vector3 itemPos = transform.localPosition;
+                itemPos.x = Mathf.Clamp(itemPos.x, -playerTank.tankBarrierRange, playerTank.tankBarrierRange);
+                transform.localPosition = itemPos;
             }
         }
     }
