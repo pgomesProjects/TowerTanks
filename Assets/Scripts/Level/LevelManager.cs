@@ -6,11 +6,6 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.UI;
 using TMPro;
 
-public enum TANKSPEED
-{
-    REVERSEFAST, REVERSE, STATIONARY, FORWARD, FORWARDFAST
-}
-
 public enum GAMESTATE
 {
     TUTORIAL, GAMEACTIVE, GAMEOVER
@@ -23,7 +18,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private GameObject pauseGameCanvas;
     [SerializeField] private GameObject sessionStatsCanvas;
     [SerializeField] private GameObject goPrompt;
-    [SerializeField] private GameObject playerTank;
+    [SerializeField] private PlayerTankController playerTank;
     [SerializeField] private Transform layerParent;
     [SerializeField] private GameObject layerPrefab;
     [SerializeField] private GameObject ghostLayerPrefab;
@@ -40,11 +35,6 @@ public class LevelManager : MonoBehaviour
     internal int currentRound;
     internal int totalLayers;
     internal SessionStats currentSessionStats;
-    internal bool isSteering;
-    internal bool steeringStickMoved;
-    internal float gameSpeed;
-    internal int speedIndex;
-    internal float[] currentSpeed = { -1.5f, -1f, 0f, 1, 1.5f };
     internal bool isSettingUpOnStart;
     private int resourcesNum;
     private GameObject currentGhostLayer;
@@ -60,10 +50,6 @@ public class LevelManager : MonoBehaviour
         currentPlayerPaused = -1;
         totalLayers = 0;
         currentRound = 0;
-        isSteering = false;
-        steeringStickMoved = false;
-        speedIndex = (int)TANKSPEED.FORWARD;
-        gameSpeed = currentSpeed[speedIndex];
         resourcesDisplay.text = resourcesNum.ToString();
         itemPrice = new Dictionary<string, int>();
         PopulateItemDictionary();
@@ -94,7 +80,6 @@ public class LevelManager : MonoBehaviour
         if (GameSettings.skipTutorial)
         {
             resourcesDisplay.text = resourcesNum.ToString();
-            UpdateSpeed((int)TANKSPEED.STATIONARY);
             TransitionGameState();
 
             AddLayer();
@@ -104,7 +89,6 @@ public class LevelManager : MonoBehaviour
         {
             resourcesNum += 200;
             GameObject.FindGameObjectWithTag("Resources").gameObject.SetActive(false);
-            UpdateSpeed((int)TANKSPEED.STATIONARY);
         }
 
         if (GameSettings.debugMode)
@@ -112,8 +96,6 @@ public class LevelManager : MonoBehaviour
             resourcesNum = 99999;
             resourcesDisplay.text = "Inf.";
         }
-
-        gameSpeed = currentSpeed[speedIndex];
         isSettingUpOnStart = false;
     }
 
@@ -128,35 +110,16 @@ public class LevelManager : MonoBehaviour
 
     public void UpdateSpeed(int speedUpdate)
     {
-        speedIndex = speedUpdate;
-        gameSpeed = currentSpeed[speedIndex];
+        playerTank.SetCurrentThrottleOption(speedUpdate);
+        playerTank.SetThrottleMultiplier(PlayerTankController.throttleSpeedOptions[speedUpdate]);
 
-        Debug.Log("Tank Speed: " + gameSpeed);
-
-        playerTank.GetComponent<PlayerTankController>().UpdateTreadsSFX();
-        playerTank.GetComponent<PlayerTankController>().UpdateTreadParticles();
-
-        //Update the enemy speed comparative to the player
-/*        foreach (var i in FindObjectsOfType<EnemyController>())
-        {
-            i.UpdateEnemySpeed();
-        }*/
+        playerTank.UpdateTreadsSFX();
+        playerTank.UpdateTreadParticles();
     }
 
     public void UpdateSpeed(float speed)
     {
-        gameSpeed = speed;
-
-        //Update the enemy speed comparative to the player
-/*        foreach (var i in FindObjectsOfType<EnemyController>())
-        {
-            i.UpdateEnemySpeed();
-        }*/
-    }
-
-    public float GetGameSpeed()
-    {
-        return -gameSpeed;
+        playerTank.SetThrottleMultiplier(speed);
     }
 
     public void UpdateResources(int resources)

@@ -717,7 +717,7 @@ MonoBehaviour:
   pauseGameCanvas: {fileID: 1110496615}
   sessionStatsCanvas: {fileID: 389324181}
   goPrompt: {fileID: 938037810}
-  playerTank: {fileID: 815365860}
+  playerTank: {fileID: 815365866}
   layerParent: {fileID: 1046574832}
   layerPrefab: {fileID: 5955183963202136393, guid: ebaf71e98151f254aa3c0146e0054874, type: 3}
   ghostLayerPrefab: {fileID: 1362854724604262610, guid: f5ceebe7143a8944ba73657ee0a2fc33, type: 3}
@@ -2866,7 +2866,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 4
-  displaySpeed: 0
   tankWeightMultiplier: 0.8
   tankEngineMultiplier: 1.5
   tankBarrierRange: 12
@@ -3130,7 +3129,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefabs:
   - {fileID: 7820399864603157553, guid: fac2f88a97e9b2f4496ffe1ce458d3e1, type: 3}
-  - {fileID: 7820399864603157553, guid: d63306c37658e0a4cbbe296e6cf32dde, type: 3}
+  - {fileID: 7820399864603157553, guid: fac2f88a97e9b2f4496ffe1ce458d3e1, type: 3}
 --- !u!1001 &867794764
 PrefabInstance:
   m_ObjectHideFlags: 0

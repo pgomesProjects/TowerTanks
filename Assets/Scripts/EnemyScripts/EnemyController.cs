@@ -8,49 +8,52 @@ public class EnemyController : MonoBehaviour
 {
     private enum MOVEMENTDIRECTION { DECELERATE, NEUTRAL, ACCELERATE}
 
-    protected const float ENEMYLAYERSIZE = 7.65f;
-    protected const int MAXLAYERS = 8;
+    protected const float ENEMYLAYERSIZE = 7.65f;   //The y spacing between enemy layers
+    protected const int MAXLAYERS = 8;  //The maximum amount of layers an enemy tank can have
 
-    [SerializeField] protected float health = 100;
-    [SerializeField] protected float speed = 1;
-    [SerializeField] protected float maximumSpeed = 1.25f;
+    [SerializeField, Tooltip("The base speed for the enemy tank.")] protected float speed = 1;
+    [SerializeField, Tooltip("The maximum speed for the enemy tank.")] protected float maximumSpeed = 1.25f;
     [SerializeField, Tooltip("The acceleration per second in which the enemy can gain speed.")] protected float accelerationRate;
-    [SerializeField] protected float collisionForce = 50;
-    [SerializeField] protected float targetedDistance = 70;
-    [SerializeField] protected float targetRange = 10;
-    [SerializeField] protected float collisionForceSeconds = 0.1f;
+    [SerializeField, Tooltip("The force provided when colliding with the player tank.")] protected float collisionForce = 50;
+    [SerializeField, Tooltip("The ideal distance for a calculated enemy tank to be from the player.")] protected float targetedDistance = 70;
+    [SerializeField, Tooltip("The range buffer of the targeted distance.")] protected float targetRange = 10;
+    [SerializeField, Tooltip("The elapsed amount of time it takes for a collision to start and end.")] protected float collisionForceSeconds = 0.1f;
     [SerializeField, Tooltip("The amount of waves for the enemy to increase the amount of layers")] protected int wavesMultiplier = 1;
-    [SerializeField] protected int onDestroyResources = 100;
-    protected ENEMYBEHAVIOR enemyTrait;
-    private float speedRelativeToPlayer;
-    private float currentSpeed;
-    private float currentRelativeSpeed;
-    private float directionMultiplier;
+    [SerializeField, Tooltip("The amount of resources given to the player when the entire tank is destroyed.")] protected int onDestroyResources = 100;
 
-    protected bool enemyColliding = false;
+    [SerializeField] protected LayerHealthManager[] spawnableLayers;    //The different types of layers that a potential enemy tank could spawn
 
-    protected PlayerTankController playerTank;
+    protected ENEMYBEHAVIOR enemyTrait; //the behavior trait of the enemy tank
+    private float currentSpeed; //The current speed of the enemy tank
+    private float directionMultiplier;  //Multiplies the distance to change the direction of the enemy tank's movement
 
-    [SerializeField] protected LayerHealthManager[] spawnableLayers; 
-    protected int totalEnemyLayers;
-    protected float waveCounter;
+    protected bool enemyColliding = false;  //If true, the enemy is colliding with a player tank. If false, they are not.
 
-    protected bool canMove;
+    protected PlayerTankController playerTank;  //The player tank
+
+    protected int totalEnemyLayers; //The total amount of enemy layers
+    protected float waveCounter;    //The current game wave
+
+    protected bool canMove; //If true, the enemy tank can move. If false, they cannot move.
 
     // Start is called before the first frame update
     protected void Start()
     {
         playerTank = GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>();
+
         currentSpeed = speed;
         canMove = true;
         directionMultiplier = 1;
         waveCounter = 1.0f / (wavesMultiplier * GameSettings.difficulty);
+
         CreateLayers();
-        //UpdateEnemySpeed();
         DetermineBehavior();
         FindObjectOfType<EnemySpawnManager>().AddToEnemyCounter(this);
     }
 
+    /// <summary>
+    /// Creates layers for the enemy tank.
+    /// </summary>
     protected virtual void CreateLayers()
     {
         float extraLayers = FindObjectOfType<EnemySpawnManager>().GetEnemyCountAt(0) * waveCounter;
@@ -98,6 +101,9 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Spawns enemies with a set amount of layers for debugging purposes.
+    /// </summary>
     protected void LayerSpawnDebugMode()
     {
         switch (LevelManager.instance.currentRound)
@@ -117,6 +123,11 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Spawns a layer on the enemy tank.
+    /// </summary>
+    /// <param name="index">The type of layer to spawn on the tank.</param>
+    /// <param name="layerNum">The current layer number being spawned.</param>
     protected void SpawnLayer(int index, int layerNum)
     {
         GameObject newLayer = Instantiate(spawnableLayers[index].gameObject);
@@ -125,6 +136,9 @@ public class EnemyController : MonoBehaviour
         newLayer.transform.SetAsFirstSibling();
     }
 
+    /// <summary>
+    /// Decides the behavior of the enemy tank.
+    /// </summary>
     protected virtual void DetermineBehavior()
     {
         int randomBehavior = Random.Range(0, System.Enum.GetValues(typeof(ENEMYBEHAVIOR)).Length - 1);
@@ -135,13 +149,6 @@ public class EnemyController : MonoBehaviour
     {
 
     }
-
-/*    public void UpdateEnemySpeed()
-    {
-        speedRelativeToPlayer = ((playerTank.GetPlayerSpeed() * LevelManager.instance.gameSpeed) + currentSpeed) * directionMultiplier;
-
-        //Debug.Log("Enemy Speed: " + speedRelativeToPlayer);
-    }*/
 
     // Update is called once per frame
     protected void FixedUpdate()
@@ -162,22 +169,22 @@ public class EnemyController : MonoBehaviour
             {
                 if (!canMove)
                 {
-                    float playerSpeed = playerTank.GetPlayerSpeed() * LevelManager.instance.gameSpeed;
+                    float playerSpeed = playerTank.GetPlayerSpeed();
                     Debug.Log("Player Speed While Enemy Attached: " + playerSpeed);
                     if (currentSpeed >= -playerSpeed)
                     {
                         transform.position += new Vector3(playerSpeed, 0, 0) * Time.deltaTime;
                     }
                 }
-/*                //If the enemy is moving backwards, they are not colliding with the player tank
-                if (speedRelativeToPlayer < 0)
-                    enemyColliding = false;*/
             }
         }
     }
 
     private float GetDirectionalSpeed() => currentSpeed * directionMultiplier;
 
+    /// <summary>
+    /// Checks to see how the enemy tank will behave based on its behavior.
+    /// </summary>
     private void CheckBehaviorStates()
     {
         switch (enemyTrait)
@@ -213,11 +220,11 @@ public class EnemyController : MonoBehaviour
                 }
                 break;
         }
-
-        //Debug.Log("Current Direction Multiplier: " + directionMultiplier);
-        //Debug.Log("State: " + currentDirection);
     }
 
+    /// <summary>
+    /// Accelerates the tank to its maximum speed.
+    /// </summary>
     private void AccelerateTank()
     {
         if (currentSpeed >= maximumSpeed)
@@ -228,6 +235,9 @@ public class EnemyController : MonoBehaviour
             currentSpeed += accelerationRate * Time.deltaTime;
     }
 
+    /// <summary>
+    /// Decelerates the tank until it stops.
+    /// </summary>
     private void DecelerateTank()
     {
         if (currentSpeed <= 0)
@@ -238,6 +248,9 @@ public class EnemyController : MonoBehaviour
             currentSpeed -= accelerationRate * Time.deltaTime;
     }
 
+    /// <summary>
+    /// Update any cannons on the enemy tank so that they point towards one of the player tank's layers
+    /// </summary>
     private void UpdateCannons()
     {
         //Current target is the top layer
@@ -267,42 +280,28 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Determines the collision force of the enemy and the player tank on the moment that they collide with each other.
+    /// </summary>
     private void DetermineCollisionForce()
     {
         float enemyForce = collisionForce;
         float playerForce = collisionForce;
 
         //If the player is going slower than the enemy, add extra force to the player
-        if(currentSpeed > playerTank.GetPlayerSpeed() * LevelManager.instance.gameSpeed)
+        if(currentSpeed > playerTank.GetPlayerSpeed())
         {
-            playerForce *= (playerTank.GetPlayerSpeed() * LevelManager.instance.gameSpeed) / currentSpeed;
+            playerForce *= playerTank.GetPlayerSpeed() / currentSpeed;
         }
 
         //If the enemy is going slower than the player, add extra force to the enemy
-        else if(playerTank.GetPlayerSpeed() * LevelManager.instance.gameSpeed > currentSpeed)
+        else if(playerTank.GetPlayerSpeed() > currentSpeed)
         {
-            enemyForce *= (playerTank.GetPlayerSpeed() * LevelManager.instance.gameSpeed) / currentSpeed;
+            enemyForce *= playerTank.GetPlayerSpeed() / currentSpeed;
         }
 
         StartCoroutine(CollideWithPlayerAni(enemyForce, collisionForceSeconds));
         StartCoroutine(playerTank.CollideWithEnemyAni(playerForce, collisionForceSeconds));
-    }
-
-    public void DealDamage(int dmg)
-    {
-        health -= dmg;
-
-        Debug.Log("Enemy Tank Health: " + health);
-
-/*        //Check for Game Over
-        if (health <= 0)
-        {
-            Debug.Log("Enemy Tank Is Destroyed!");
-            LevelManager.instance.currentSessionStats.wavesCleared += 1;
-            LevelManager.instance.ResetPlayerCamera();
-            AddToList();
-            Destroy(gameObject, 0.1f);
-        }*/
     }
 
     protected virtual void AddToList()
@@ -344,6 +343,9 @@ public class EnemyController : MonoBehaviour
         enemyColliding = false;
     }
 
+    /// <summary>
+    /// The event that occurs when an enemy layer is destroyed.
+    /// </summary>
     public void EnemyLayerDestroyed()
     {
         //Get rid of one of the layers

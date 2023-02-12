@@ -8,11 +8,14 @@ public class SteerController : InteractableController
     private IEnumerator steeringCoroutine;
     private const float steeringAniSeconds = 0.25f;
 
+    private PlayerTankController playerTank;
+
     // Start is called before the first frame update
     void Start()
     {
+        playerTank = GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>();
         steeringCoroutine = CheckForSteeringInput();
-        transform.Find("LeverPivot").localRotation = Quaternion.Euler(0, 0, -(20 * LevelManager.instance.gameSpeed));
+        transform.Find("LeverPivot").localRotation = Quaternion.Euler(0, 0, -(20 * playerTank.GetThrottleMultiplier()));
     }
 
 
@@ -20,12 +23,10 @@ public class SteerController : InteractableController
     {
         if (interactionActive)
         {
-            LevelManager.instance.isSteering = true;
             StartCoroutine(steeringCoroutine);
         }
         else
         {
-            LevelManager.instance.isSteering = false;
             StopCoroutine(steeringCoroutine);
         }
     }
@@ -34,12 +35,12 @@ public class SteerController : InteractableController
     {
         while (true && currentPlayerLockedIn != null)
         {
-            if (!LevelManager.instance.steeringStickMoved)
+            if (!playerTank.IsSteeringMoved())
             {
                 //Moving stick left
                 if (currentPlayerLockedIn.steeringValue < -0.5f && LevelManager.instance.levelPhase != GAMESTATE.TUTORIAL)
                 {
-                    if (LevelManager.instance.speedIndex > (int)TANKSPEED.REVERSEFAST)
+                    if (playerTank.GetCurrentThrottleOption() > (int)TANKSPEED.REVERSEFAST)
                     {
                         UpdateSteerLever(-1);
                         yield return new WaitForSeconds(steeringAniSeconds);
@@ -48,7 +49,7 @@ public class SteerController : InteractableController
                 //Moving stick right
                 else if (currentPlayerLockedIn.steeringValue > 0.5f)
                 {
-                    if (LevelManager.instance.speedIndex < (int)TANKSPEED.FORWARDFAST)
+                    if (playerTank.GetCurrentThrottleOption() < (int)TANKSPEED.FORWARDFAST)
                     {
                         if (LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
                         {
@@ -81,16 +82,16 @@ public class SteerController : InteractableController
 
     private IEnumerator SteerLeverAnim(float seconds, int direction)
     {
-        LevelManager.instance.steeringStickMoved = true;
+        playerTank.SetSteeringMoved(true);
 
         float elapsedTime = 0;
 
         Quaternion startingRot = transform.Find("LeverPivot").localRotation;
 
-        float startGameSpeed = LevelManager.instance.currentSpeed[LevelManager.instance.speedIndex];
-        float endGameSpeed = LevelManager.instance.currentSpeed[LevelManager.instance.speedIndex + direction];
+        float startGameSpeed = PlayerTankController.throttleSpeedOptions[playerTank.GetCurrentThrottleOption()];
+        float endGameSpeed = PlayerTankController.throttleSpeedOptions[playerTank.GetCurrentThrottleOption() + direction];
 
-        Quaternion endingRot = Quaternion.Euler(0, 0, -(20 * LevelManager.instance.currentSpeed[LevelManager.instance.speedIndex + direction]));
+        Quaternion endingRot = Quaternion.Euler(0, 0, -(20 * PlayerTankController.throttleSpeedOptions[playerTank.GetCurrentThrottleOption() + direction]));
 
         //Play sound effect
         FindObjectOfType<AudioManager>().PlayOneShot("ThrottleClick", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
@@ -111,7 +112,7 @@ public class SteerController : InteractableController
             yield return null;
         }
 
-        LevelManager.instance.UpdateSpeed(LevelManager.instance.speedIndex + direction);
+        LevelManager.instance.UpdateSpeed(playerTank.GetCurrentThrottleOption() + direction);
 
         foreach (var i in GameObject.FindGameObjectsWithTag("Throttle"))
         {
@@ -120,6 +121,6 @@ public class SteerController : InteractableController
 
         FindObjectOfType<AudioManager>().PlayOneShot("ThrottleShift", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
 
-        LevelManager.instance.steeringStickMoved = false;
+        playerTank.SetSteeringMoved(false);
     }
 }

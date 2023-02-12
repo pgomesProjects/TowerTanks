@@ -13,7 +13,7 @@ public class ParallaxController : MonoBehaviour
     //Tiles the width of the background to give it room to parallax
     private float tileMultiplier = 3;
 
-    private PlayerTankController playerTankController;
+    private PlayerTankController playerTank;
 
     // Start is called before the first frame update
     void Start()
@@ -23,8 +23,8 @@ public class ParallaxController : MonoBehaviour
         GetComponent<SpriteRenderer>().size = new Vector2(backgroundSize.x * tileMultiplier, GetComponent<SpriteRenderer>().size.y);
 
         //Get the speed of the player tank
-        playerTankController = GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>();
-        relativeParallaxSpeed = -(playerTankController.GetPlayerSpeed()) * parallaxSpeed;
+        playerTank = GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>();
+        relativeParallaxSpeed = -(playerTank.GetBasePlayerSpeed()) * parallaxSpeed;
         currentParallaxSpeed = relativeParallaxSpeed;
     }
 
@@ -34,10 +34,10 @@ public class ParallaxController : MonoBehaviour
         //Get the speed of the player tank
         if(GameObject.FindGameObjectWithTag("PlayerTank") != null)
         {
-            relativeParallaxSpeed = -(playerTankController.GetPlayerSpeed()) * parallaxSpeed;
+            relativeParallaxSpeed = -(playerTank.GetBasePlayerSpeed()) * parallaxSpeed;
         }
 
-        currentParallaxSpeed = relativeParallaxSpeed * LevelManager.instance.gameSpeed;
+        currentParallaxSpeed = relativeParallaxSpeed * playerTank.GetThrottleMultiplier();
 
         //Moving backwards
         if (currentParallaxSpeed > 0)
