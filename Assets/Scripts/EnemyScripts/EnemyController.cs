@@ -95,7 +95,7 @@ public class EnemyController : MonoBehaviour
             SpawnLayer(randomLayer, i);
         }
 
-        foreach (var cannon in GetComponentsInChildren<CannonController>())
+        foreach (var cannon in GetComponentsInChildren<EnemyCannonController>())
         {
             StartCoroutine(cannon.FireAtDelay());
         }
@@ -256,9 +256,9 @@ public class EnemyController : MonoBehaviour
         //Current target is the top layer
         Vector3 currentTarget = playerTank.GetLayerAt(LevelManager.instance.totalLayers - 1).transform.position;
 
-        foreach(var i in GetComponentsInChildren<CannonController>())
+        foreach(var i in GetComponentsInChildren<EnemyCannonController>())
         {
-            i.CannonLookAt(currentTarget);
+            i.AimAtTarget(currentTarget);
         }
     }
 

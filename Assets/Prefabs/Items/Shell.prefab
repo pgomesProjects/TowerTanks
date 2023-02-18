@@ -12,6 +12,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7578090233616032324, guid: 1a9426da801e3aa48a2ce64d5f72c966, type: 3}
+      propertyPath: m_Mass
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7578090233616032324, guid: 1a9426da801e3aa48a2ce64d5f72c966, type: 3}
+      propertyPath: m_UseAutoMass
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7578090233616032324, guid: 1a9426da801e3aa48a2ce64d5f72c966, type: 3}
       propertyPath: m_GravityScale
       value: 4
       objectReference: {fileID: 0}

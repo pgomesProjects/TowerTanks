@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7315946526415686077}
   - component: {fileID: 1462912728330336362}
-  - component: {fileID: 8893318326833289303}
+  - component: {fileID: 6757415312842701986}
   m_Layer: 6
   m_Name: Cannon
   m_TagString: Cannon
@@ -86,7 +86,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &8893318326833289303
+--- !u!114 &6757415312842701986
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -95,7 +95,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 668360561339154268}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e62f1f2641d032148893173b4a380bca, type: 3}
+  m_Script: {fileID: 11500000, guid: 021f8b30af1ed7343ad8d9593e17d4a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   interactEvent:
@@ -107,18 +107,17 @@ MonoBehaviour:
   lockPlayerIntoInteraction: 0
   highlight: {fileID: 0}
   lockedInteractionCanvas: {fileID: 0}
-  maxShells: 0
+  projectile: {fileID: 4737827509279057301, guid: c7da71b2e77ef994ba9aa8d6241280ae, type: 3}
+  cannonPivot: {fileID: 3746104128299154810}
+  spawnPoint: {fileID: 4582106216502727523}
+  layerToHit:
+    serializedVersion: 2
+    m_Bits: 64
   cannonSpeed: 0.25
   lowerAngleBound: -70
   upperAngleBound: 70
-  projectile: {fileID: 4737827509279057301, guid: c7da71b2e77ef994ba9aa8d6241280ae, type: 3}
-  spawnPoint: {fileID: 4582106216502727523}
-  cannonForce: 8000
   currentCannonDirection: 0
-  unloadedCannonSprite: {fileID: 0}
-  loadedCannonSprite: {fileID: 0}
-  chair: {fileID: 0}
-  cannonPivot: {fileID: 3746104128299154810}
+  range: 25
   cSmoke: {fileID: 5685215182269984755, guid: c46e4d1f99931154eb653843e9cf0c8e, type: 3}
 --- !u!1 &4582106216502727523
 GameObject:
@@ -206,6 +205,10 @@ PrefabInstance:
       propertyPath: sprites.Array.data[2]
       value: 
       objectReference: {fileID: 21300000, guid: d8a9e3804a9fc424c8fabacc92ed155e, type: 3}
+    - target: {fileID: 3165574615671679040, guid: b860770024ecbb6419772b6308f06ea7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3165574615671679041, guid: b860770024ecbb6419772b6308f06ea7, type: 3}
       propertyPath: m_Sprite
       value: 

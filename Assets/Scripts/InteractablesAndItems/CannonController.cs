@@ -6,106 +6,22 @@ public enum CANNONDIRECTION { LEFT, RIGHT, UP, DOWN };
 
 public class CannonController : InteractableController
 {
+    [SerializeField, Tooltip("The projectile GameObject.")] protected GameObject projectile;
+    [SerializeField, Tooltip("The cannon pivot position.")] protected Transform cannonPivot;
+    [SerializeField, Tooltip("The projectile spawn point position.")] protected GameObject spawnPoint;
 
-    [SerializeField] private int maxShells;
-    [SerializeField] private float cannonSpeed;
-    [SerializeField] private float lowerAngleBound, upperAngleBound;
-    [SerializeField] private GameObject projectile;
-    [SerializeField] private GameObject spawnPoint;
-    [SerializeField] private float cannonForce = 2000;
-    [SerializeField] private CANNONDIRECTION currentCannonDirection;
-    [SerializeField] private Sprite unloadedCannonSprite;
-    [SerializeField] private Sprite loadedCannonSprite;
+    [SerializeField, Tooltip("The layer(s) that the cannon can detect.")] protected LayerMask layerToHit;
 
-    [SerializeField] private float cannonCooldown;
-    private float currentCooldown;
+    [SerializeField, Tooltip("The speed of the cannon's rotation.")] protected float cannonSpeed;
+    [SerializeField, Tooltip("The lower and upper angle limitations for the cannon.")] protected float lowerAngleBound, upperAngleBound;
 
-    private Vector3 initialVelocity;
-    private InteractableController cannonInteractable;
-    [SerializeField] private GameObject chair;
-    [SerializeField] private Transform cannonPivot;
-    private Vector3 cannonRotation;
-    private float playerCannonMovement;
-    private Vector3 playerPosition;
+    [SerializeField, Tooltip("The direction that the cannon is facing.")] protected CANNONDIRECTION currentCannonDirection;
+    [SerializeField, Tooltip("The range that the cannon can shoot at.")] protected float range = 25f;
 
-    //private LineRenderer lineRenderer;
-    private const int N_TRAJECTORY_POINTS = 10;
+    protected Vector3 initialVelocity;  //The initial velocity of the project
+    protected Vector3 cannonRotation;   //The current rotation for the cannon
 
-    private int currentAmmo;
-
-    [SerializeField] private GameObject cSmoke;
-    // Start is called before the first frame update
-    void Start()
-    {
-        cannonInteractable = GetComponentInParent<InteractableController>();
-/*        lineRenderer = GetComponentInChildren<LineRenderer>();
-        lineRenderer.positionCount = N_TRAJECTORY_POINTS;*/
-        currentAmmo = 0;
-    }
-
-    /// <summary>
-    /// Checks to see if the player can load ammo into the cannon
-    /// </summary>
-    public void CheckForReload(PlayerController player)
-    {
-        //If the cannon can fit ammo
-        if (currentAmmo < maxShells)
-        {
-            if(LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
-            {
-                if(TutorialController.main.currentTutorialState == TUTORIALSTATE.GRABSHELL)
-                {
-                    LoadShell(player);
-                    TutorialController.main.OnTutorialTaskCompletion();
-                }
-            }
-            else
-                LoadShell(player);
-        }
-    }
-
-    private void LoadShell(PlayerController player)
-    {
-        //Get rid of the player's item and load
-        player.DestroyItem();
-
-        //Play sound effect
-        FindObjectOfType<AudioManager>().PlayOneShot("CannonReload", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
-        currentAmmo++;
-        UpdateCannonBody();
-    }
-
-    public void CheckForCannonFire()
-    {
-        //If there is ammo
-        if(currentAmmo > 0 || maxShells == 0)
-        {
-            if(LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
-            {
-                if(TutorialController.main.currentTutorialState == TUTORIALSTATE.FIRECANNON)
-                {
-                    //Fire the cannon
-                    Fire();
-                    UpdateCannonBody();
-
-                    //Shake the camera
-                    CameraEventController.instance.ShakeCamera(5f, 0.2f);
-
-                    TutorialController.main.OnTutorialTaskCompletion();
-                }
-            }
-            else
-            {
-                //Fire the cannon
-                Fire();
-                UpdateCannonBody();
-                //Shake the camera
-                CameraEventController.instance.ShakeCamera(5f, 0.2f);
-                //Reset cooldown
-                currentCooldown = cannonCooldown;
-            }
-        }
-    }
+    [SerializeField, Tooltip("The particle effect for the smoke that appears when the cannon is fired.")] protected GameObject cSmoke;
 
     public void Fire()
     {
@@ -113,7 +29,6 @@ public class CannonController : InteractableController
         if (spawnPoint != null)
         {
             GameObject currentProjectile = Instantiate(projectile, new Vector3(spawnPoint.transform.position.x, spawnPoint.transform.position.y, 0), Quaternion.identity);
-            currentAmmo--;
 
             //Play sound effect
             FindObjectOfType<AudioManager>().PlayOneShot("CannonFire", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
@@ -145,43 +60,14 @@ public class CannonController : InteractableController
             //Add a damage component to the projectile
             currentProjectile.AddComponent<DamageObject>().damage = currentProjectile.GetComponent<ShellItemBehavior>().GetDamage();
             DamageObject currentDamager = currentProjectile.GetComponent<DamageObject>();
-            currentDamager.StartRotation(startingShellRot);
+            //currentDamager.StartRotation(startingShellRot);
 
             Debug.Log("Direction: " + direction);
 
+            UpdateInitialVelocity();
+
             //Shoot the project at the current angle and direction
-            currentProjectile.GetComponent<Rigidbody2D>().AddForce(direction * cannonForce);
-        }
-    }
-
-    public IEnumerator FireAtDelay()
-    {
-        while (true)
-        {
-            //Debug.Log("Starting Fire Wait...");
-            int timeWait = Random.Range(7, 12);
-            yield return new WaitForSeconds(timeWait);
-
-            Debug.Log("Enemy Fire!");
-            Fire();
-        }
-    }
-
-    private void UpdateCannonBody()
-    {
-        if (currentAmmo > 0)
-        {
-            if(loadedCannonSprite != null)
-            {
-                transform.Find("Body").GetComponent<SpriteRenderer>().sprite = loadedCannonSprite;
-            }
-        }
-        else
-        {
-            if (unloadedCannonSprite != null)
-            {
-                transform.Find("Body").GetComponent<SpriteRenderer>().sprite = unloadedCannonSprite;
-            }
+            currentProjectile.GetComponent<Rigidbody2D>().AddForce(initialVelocity, ForceMode2D.Impulse);
         }
     }
 
@@ -197,162 +83,109 @@ public class CannonController : InteractableController
         return new Vector2(Mathf.Sin(radians), Mathf.Cos(radians));
     }
 
-    private void Update()
-    {
-        //If the cannon is linked to an interactable
-        if (cannonInteractable != null)
-        {
-            if (cannonInteractable.GetLockedInPlayer() != null)
-            {
-                //Debug.Log("Cannon Movement: " + cannonInteractable.GetCurrentPlayer().GetCannonMovement());
-
-                playerCannonMovement = cannonInteractable.GetLockedInPlayer().GetCannonMovement();
-
-                if(cannonInteractable.GetLockedInPlayer().IsPlayerSpinningCannon())
-                {
-                    if (!FindObjectOfType<AudioManager>().IsPlaying("CannonAimSFX"))
-                    {
-                        Debug.Log("Aiming...");
-                        FindObjectOfType<AudioManager>().Play("CannonAimSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
-                    }
-                }
-                else if (FindObjectOfType<AudioManager>().IsPlaying("CannonAimSFX"))
-                {
-                    Debug.Log("Locked In!");
-                    FindObjectOfType<AudioManager>().Stop("CannonAimSFX");
-                    FindObjectOfType<AudioManager>().Play("CannonLockSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
-                }
-
-
-                cannonRotation += new Vector3(0, 0, (playerCannonMovement / 100) * cannonSpeed);
-
-                //Make sure the cannon stays within the lower and upper bound
-                cannonRotation.z = Mathf.Clamp(cannonRotation.z, lowerAngleBound, upperAngleBound);
-
-                //Rotate cannon
-                cannonPivot.eulerAngles = cannonRotation;
-
-                //lineRenderer.enabled = true;
-                UpdateLineRenderer();
-            }
-            else
-            {
-                //lineRenderer.enabled = false;
-            }
-        }
-
-        if(currentPlayerLockedIn != null)
-        {
-            Vector3 chairPos = chair.transform.position;
-            //Offset to make the player match the chair
-            chairPos.x += 0.34f;
-            chairPos.y += 0.6f;
-            playerPosition = chairPos;
-            currentPlayerLockedIn.transform.position = playerPosition;
-        }
-
-        initialVelocity = new Vector3(0, 0, cannonForce) - spawnPoint.transform.position;
-
-        CheckForCooldown();
-    }
-
-    private void CheckForCooldown()
-    {
-        if (LevelManager.instance.levelPhase != GAMESTATE.TUTORIAL)
-        {
-            //If there is a cooldown, reduce the cooldown gradually
-            if (currentCooldown > 0)
-            {
-                currentCooldown -= Time.deltaTime;
-            }
-            //If there is no ammo, add ammo automatically and update the sprite
-            else if (currentAmmo == 0)
-            {
-                currentAmmo = 1;
-                FindObjectOfType<AudioManager>().PlayOneShot("CannonReload", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
-                UpdateCannonBody();
-            }
-        }
-    }
-
-    private void UpdateLineRenderer()
-    {
-        float g = Physics2D.gravity.magnitude;
-        float velocity = initialVelocity.magnitude;
-        float angle = Mathf.Atan2(initialVelocity.y, initialVelocity.x);
-
-        Vector3 start = spawnPoint.transform.position;
-
-        float timeStep = 0.1f;
-        float fTime = 0f;
-        for (int i = 0; i < N_TRAJECTORY_POINTS; i++)
-        {
-            float dx = velocity * fTime * Mathf.Cos(angle);
-            float dy = velocity * fTime * Mathf.Sin(angle) - (g * fTime * fTime / 2f);
-            Vector3 pos = new Vector3(start.x + dx, start.y + dy, 0);
-            //lineRenderer.SetPosition(i, pos);
-            fTime += timeStep;
-        }
-    }
-
-    public override void LockPlayer(PlayerController currentPlayer, bool lockPlayer)
-    {
-        base.LockPlayer(currentPlayer, lockPlayer);
-
-        if (lockPlayer)
-        {
-            //Move the player to the chair
-            Vector3 chairPos = chair.transform.position;
-            //Offset to make the player match the chair
-            chairPos.x += 0.34f;
-            chairPos.y += 0.6f;
-            playerPosition = chairPos;
-            currentPlayer.GetComponent<Rigidbody2D>().gravityScale = 0f;
-            currentPlayer.transform.position = playerPosition;
-            currentPlayer.GetComponent<SpriteRenderer>().flipX = false;
-            chair.GetComponent<SpriteRenderer>().sortingOrder = 15;
-            currentPlayer.GetComponent<Animator>().SetBool("isManningCannon", true);
-        }
-        else
-        {
-            currentPlayer.GetComponent<Animator>().SetBool("isManningCannon", false);
-            currentPlayer.GetComponent<Rigidbody2D>().gravityScale = currentPlayer.GetDefaultGravity();
-            chair.GetComponent<SpriteRenderer>().sortingOrder = 4;
-        }
-    }
-
     public void SetCannonDirection(CANNONDIRECTION direction)
     {
         currentCannonDirection = direction;
     }
 
-    public void CannonLookAt(Vector3 target)
+    /// <summary>
+    /// Gets the velocity of the cannon given the range that it has.
+    /// </summary>
+    protected void UpdateInitialVelocity()
     {
-        // Get angle in Radians
-        float cannonAngleRad = Mathf.Atan2(target.y - cannonPivot.transform.position.y, target.x - cannonPivot.transform.position.x);
-        // Get angle in Degrees
-        float cannonAngleDeg = (180 / Mathf.PI) * cannonAngleRad;
+        Vector3 shootingRange = (spawnPoint.transform.rotation * spawnPoint.transform.localPosition) * range;
+        initialVelocity = shootingRange - spawnPoint.transform.localPosition;
+    }
 
-        switch (currentCannonDirection)
+    /// <summary>
+    /// Checks to see if a specific tank layer is within the tank's current trajectory.
+    /// </summary>
+    /// <param name="tagName">The name of the layer's tag.</param>
+    protected void CheckForTargetInTrajectory(string tagName)
+    {
+        UpdateInitialVelocity();
+
+        float g = Physics2D.gravity.magnitude * projectile.GetComponent<Rigidbody2D>().gravityScale;
+
+        float velocity = initialVelocity.magnitude;
+        float angle = Mathf.Atan2(initialVelocity.y, initialVelocity.x);
+
+        Vector3 start = spawnPoint.transform.position;
+        Vector3 lastPos = start;
+        float timeStep = 0.1f;
+        float fTime = 0f;
+
+        bool canHitTarget = false;
+
+        //While the last position is higher than the ground and there is no target
+        while (lastPos.y > -16.4f && !canHitTarget)
         {
-            //Flip the cannon if facing left
-            case CANNONDIRECTION.LEFT:
-                cannonAngleDeg += 180;
-                break;
+            float dx = velocity * fTime * Mathf.Cos(angle);
+            float dy = velocity * fTime * Mathf.Sin(angle) - (g * fTime * fTime / 2f);
+            Vector3 pos = new Vector3(start.x + dx, start.y + dy, 0);
+
+            var result = Physics2D.Linecast(lastPos, pos, layerToHit);
+
+            if (result.collider != null)
+            {
+                if (result.collider.CompareTag(tagName))
+                {
+                    Debug.Log("Can Hit Target " + tagName + "!");
+                    canHitTarget = true;
+                }
+            }
+
+            Debug.DrawLine(lastPos, pos, Color.green, Time.deltaTime);
+
+            lastPos = pos;
+            fTime += timeStep;
         }
 
-        //Debug.Log("Cannon Degree: " + cannonAngleDeg);
+        if (!canHitTarget)
+            Debug.Log("No Target Available.");
+    }
 
-        Quaternion lookAngle = Quaternion.Euler(0, 0, cannonAngleDeg);
-        Quaternion currentAngle = Quaternion.Slerp(cannonPivot.transform.rotation, lookAngle, Time.deltaTime);
+    /// <summary>
+    /// Checks to see if a position is within the cannon's expected trajectory.
+    /// </summary>
+    /// <param name="target">The target position to check for.</param>
+    /// <param name="radius">The radius given to the target.</param>
+    protected void CheckForTargetInTrajectory(Vector3 target, float radius)
+    {
+        UpdateInitialVelocity();
 
-        //Clamp the angle of the cannon
-        currentAngle.z = Mathf.Clamp(currentAngle.z, lowerAngleBound, upperAngleBound);
+        float g = Physics2D.gravity.magnitude * projectile.GetComponent<Rigidbody2D>().gravityScale;
 
-        // Rotate Object
-        cannonPivot.transform.rotation = currentAngle;
-        cannonRotation = cannonPivot.eulerAngles;
+        float velocity = initialVelocity.magnitude;
+        float angle = Mathf.Atan2(initialVelocity.y, initialVelocity.x);
 
-        //Debug.Log("Current Angle: " + cannonRotation);
+        Vector3 start = spawnPoint.transform.position;
+        Vector3 lastPos = start;
+        float timeStep = 0.1f;
+        float fTime = 0f;
+
+        bool canHitTarget = false;
+
+        //While the last position is higher than the ground and there is no target
+        while (lastPos.y > -16.4f && !canHitTarget)
+        {
+            float dx = velocity * fTime * Mathf.Cos(angle);
+            float dy = velocity * fTime * Mathf.Sin(angle) - (g * fTime * fTime / 2f);
+            Vector3 pos = new Vector3(start.x + dx, start.y + dy, 0);
+
+            if(Vector3.Distance(pos, target) < radius)
+            {
+                Debug.Log("Can Hit Target " + target + "!");
+                canHitTarget = true;
+            }
+
+            Debug.DrawLine(lastPos, pos, Color.green, Time.deltaTime);
+
+            lastPos = pos;
+            fTime += timeStep;
+        }
+
+        if (!canHitTarget)
+            Debug.Log("No Target Available.");
     }
 }

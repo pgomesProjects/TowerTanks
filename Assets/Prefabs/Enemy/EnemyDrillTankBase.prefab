@@ -974,7 +974,7 @@ GameObject:
   - component: {fileID: 5022411017331031529}
   - component: {fileID: 794722079130261051}
   m_Layer: 6
-  m_Name: EnemyDrillTank
+  m_Name: EnemyDrillTankBase
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

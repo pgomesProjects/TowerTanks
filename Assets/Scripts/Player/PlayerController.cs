@@ -272,7 +272,7 @@ public class PlayerController : MonoBehaviour
                 {
                     if (currentInteractableItem is CannonController && itemHeld != null && itemHeld.GetComponent<ShellItemBehavior>() != null)
                     {
-                        currentInteractableItem.GetComponent<CannonController>().CheckForReload(this);
+                        currentInteractableItem.GetComponent<PlayerCannonController>().CheckForReload(this);
                     }
                     else
                     {
@@ -322,7 +322,7 @@ public class PlayerController : MonoBehaviour
                         if (currentInteractableItem.IsInteractionActive())
                         {
                             //Check to see if the player can fire the cannon
-                            currentInteractableItem.GetComponent<CannonController>().CheckForCannonFire();
+                            currentInteractableItem.GetComponent<PlayerCannonController>().CheckForCannonFire();
                         }
                     }
 
