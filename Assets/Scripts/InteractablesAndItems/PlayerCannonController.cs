@@ -145,7 +145,10 @@ public class PlayerCannonController : CannonController
                 cannonRotation += new Vector3(0, 0, (playerCannonMovement / 100) * cannonSpeed);    //Rotate the cannon
 
                 //Make sure the cannon stays within the lower and upper bound
-                cannonRotation.z = Mathf.Clamp(cannonRotation.z, lowerAngleBound, upperAngleBound);
+                if(lowerAngleBound > upperAngleBound)
+                    cannonRotation.z = Mathf.Clamp(cannonRotation.z, upperAngleBound, lowerAngleBound);
+                else
+                    cannonRotation.z = Mathf.Clamp(cannonRotation.z, lowerAngleBound, upperAngleBound);
 
                 //Rotate cannon
                 cannonPivot.eulerAngles = cannonRotation;

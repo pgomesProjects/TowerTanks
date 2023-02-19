@@ -20,8 +20,29 @@ public class CannonController : InteractableController
 
     protected Vector3 initialVelocity;  //The initial velocity of the project
     protected Vector3 cannonRotation;   //The current rotation for the cannon
+    protected Vector2 currentFirePosition;  //The current position that the cannon is aiming at
+    protected Vector3 closestPointToTarget;   //The closest point to the target in the trajectory
 
     [SerializeField, Tooltip("The particle effect for the smoke that appears when the cannon is fired.")] protected GameObject cSmoke;
+
+    private void Start()
+    {
+        UpdateCannonDirection();
+    }
+
+    /// <summary>
+    /// Updates the bounds of the cannon depending on the direction that it is facing.
+    /// </summary>
+    private void UpdateCannonDirection()
+    {
+        switch (currentCannonDirection)
+        {
+            case CANNONDIRECTION.LEFT:
+                lowerAngleBound *= -1;
+                upperAngleBound *= -1;
+                break;
+        }
+    }
 
     public void Fire()
     {
@@ -101,7 +122,8 @@ public class CannonController : InteractableController
     /// Checks to see if a specific tank layer is within the tank's current trajectory.
     /// </summary>
     /// <param name="tagName">The name of the layer's tag.</param>
-    protected void CheckForTargetInTrajectory(string tagName)
+    /// <returns>If true, the trajectory is colliding with a tank layer. If false, there is no target.</returns>
+    protected bool CheckForTargetInTrajectory(string tagName)
     {
         UpdateInitialVelocity();
 
@@ -115,34 +137,32 @@ public class CannonController : InteractableController
         float timeStep = 0.1f;
         float fTime = 0f;
 
-        bool canHitTarget = false;
-
         //While the last position is higher than the ground and there is no target
-        while (lastPos.y > -16.4f && !canHitTarget)
+        while (lastPos.y > -16.4f)
         {
             float dx = velocity * fTime * Mathf.Cos(angle);
             float dy = velocity * fTime * Mathf.Sin(angle) - (g * fTime * fTime / 2f);
             Vector3 pos = new Vector3(start.x + dx, start.y + dy, 0);
 
             var result = Physics2D.Linecast(lastPos, pos, layerToHit);
+            Debug.DrawLine(lastPos, pos, Color.magenta, Time.deltaTime);
 
             if (result.collider != null)
             {
-                if (result.collider.CompareTag(tagName))
+                Debug.Log("Cannon Hit " + result.collider.name + "!");
+                if (result.collider.CompareTag(tagName) || result.collider.CompareTag("TankBottom"))
                 {
                     Debug.Log("Can Hit Target " + tagName + "!");
-                    canHitTarget = true;
+                    return true;
                 }
             }
-
-            Debug.DrawLine(lastPos, pos, Color.green, Time.deltaTime);
 
             lastPos = pos;
             fTime += timeStep;
         }
 
-        if (!canHitTarget)
-            Debug.Log("No Target Available.");
+        Debug.Log("No Target Available.");
+        return false;
     }
 
     /// <summary>
@@ -150,7 +170,8 @@ public class CannonController : InteractableController
     /// </summary>
     /// <param name="target">The target position to check for.</param>
     /// <param name="radius">The radius given to the target.</param>
-    protected void CheckForTargetInTrajectory(Vector3 target, float radius)
+    /// <returns>If true, there is a target within the trajectory. If false, there is no target.</returns>
+    protected bool CheckForTargetInTrajectory(Vector3 target, float radius)
     {
         UpdateInitialVelocity();
 
@@ -164,28 +185,39 @@ public class CannonController : InteractableController
         float timeStep = 0.1f;
         float fTime = 0f;
 
-        bool canHitTarget = false;
+        closestPointToTarget = lastPos;
 
         //While the last position is higher than the ground and there is no target
-        while (lastPos.y > -16.4f && !canHitTarget)
+        while (lastPos.y > -16.4f)
         {
             float dx = velocity * fTime * Mathf.Cos(angle);
             float dy = velocity * fTime * Mathf.Sin(angle) - (g * fTime * fTime / 2f);
             Vector3 pos = new Vector3(start.x + dx, start.y + dy, 0);
 
-            if(Vector3.Distance(pos, target) < radius)
+            if (Vector3.Distance(pos, target) < Vector3.Distance(lastPos, target))
             {
-                Debug.Log("Can Hit Target " + target + "!");
-                canHitTarget = true;
+                closestPointToTarget = pos;
             }
 
             Debug.DrawLine(lastPos, pos, Color.green, Time.deltaTime);
+
+            currentFirePosition = pos;
+
+            if (Vector3.Distance(pos, target) < radius)
+            {
+                Debug.Log("Can Hit Target " + target + "!");
+                Debug.DrawCircle(closestPointToTarget, 1, 5, Color.yellow);
+                Debug.DrawCircle(currentFirePosition, 3, 10, Color.white);
+                return true;
+            }
 
             lastPos = pos;
             fTime += timeStep;
         }
 
-        if (!canHitTarget)
-            Debug.Log("No Target Available.");
+        Debug.Log("No Target Available.");
+        Debug.DrawCircle(closestPointToTarget, 1, 5, Color.yellow);
+        Debug.DrawCircle(currentFirePosition, 3, 10, Color.white);
+        return false;
     }
 }

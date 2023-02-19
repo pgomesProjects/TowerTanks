@@ -26,6 +26,7 @@ TagManager:
   - RightInteractSpawner
   - Resources
   - ItemContainer
+  - PlayerTankCollider
   layers:
   - Default
   - TransparentFX
@@ -40,7 +41,7 @@ TagManager:
   - Background
   - Weapon
   - Confiner
-  - 
+  - TankCollider
   - 
   - 
   - 

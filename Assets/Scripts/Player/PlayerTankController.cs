@@ -13,6 +13,8 @@ public class PlayerTankController : MonoBehaviour
 {
     public static float[] throttleSpeedOptions = { -1.5f, -1f, 0f, 1, 1.5f };   //The different options that the player tank's throttle has for speed
 
+    public static float PLAYER_TANK_LAYER_HEIGHT = 8f;
+
     [SerializeField, Tooltip("The base speed for the player tank.")] private float speed = 4;
     [SerializeField, Tooltip("The change in speed based on the number of layers the player tank has when it has more than 2 layers.")] private float tankWeightMultiplier = 0.8f;
     [SerializeField, Tooltip("The change in speed based on the number of working engines the player tank has.")] private float tankEngineMultiplier = 1.5f;

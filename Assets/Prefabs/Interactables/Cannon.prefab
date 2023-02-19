@@ -692,7 +692,7 @@ MonoBehaviour:
   spawnPoint: {fileID: 8293753279064574975}
   layerToHit:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 320
   cannonSpeed: 0.25
   lowerAngleBound: -30
   upperAngleBound: 30

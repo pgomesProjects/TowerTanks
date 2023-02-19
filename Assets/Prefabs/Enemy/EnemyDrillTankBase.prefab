@@ -1031,13 +1031,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e190eee1e790c44448f2237e1e6608fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
   speed: 3
   maximumSpeed: 5.5
   accelerationRate: 0.5
   collisionForce: 50
   targetedDistance: 70
-  targetRange: 20
+  targetRange: 50
   collisionForceSeconds: 0.1
   wavesMultiplier: 2
   onDestroyResources: 50

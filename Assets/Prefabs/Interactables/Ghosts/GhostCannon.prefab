@@ -220,6 +220,8 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 5837760992450943568, guid: 374e16267e1f54742b16c25d0884fd4f, type: 3}
     - {fileID: 1414020637346964775, guid: 374e16267e1f54742b16c25d0884fd4f, type: 3}
+    - {fileID: 2663575398406439616, guid: 374e16267e1f54742b16c25d0884fd4f, type: 3}
+    - {fileID: 7975430655033394574, guid: 374e16267e1f54742b16c25d0884fd4f, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 374e16267e1f54742b16c25d0884fd4f, type: 3}
 --- !u!4 &7699589954824796508 stripped
 Transform:
@@ -262,4 +264,3 @@ MonoBehaviour:
   price: 200
   priceText: {fileID: 4832905665443005530}
   interactableType: 1
-  changeSmoke: {fileID: 8748987186402470367, guid: 26feb4c6b89765e4ea1fdd70f38ce78a, type: 3}

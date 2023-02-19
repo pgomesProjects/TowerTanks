@@ -64,7 +64,7 @@ public class DrillEnemyController : EnemyController
 
     protected override void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("PlayerTank"))
+        if (collision.CompareTag("PlayerTankCollider"))
         {
             Debug.Log("Enemy Is At Player!");
             enemyColliding = true;
@@ -73,7 +73,7 @@ public class DrillEnemyController : EnemyController
     }
     protected override void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("PlayerTank"))
+        if (collision.CompareTag("PlayerTankCollider"))
         {
             Debug.Log("Enemy Is No Longer At Player!");
             enemyColliding = false;

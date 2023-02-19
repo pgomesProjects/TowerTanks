@@ -255,6 +255,7 @@ public class EnemyController : MonoBehaviour
     {
         //Current target is the top layer
         Vector3 currentTarget = playerTank.GetLayerAt(LevelManager.instance.totalLayers - 1).transform.position;
+        currentTarget.y -= PlayerTankController.PLAYER_TANK_LAYER_HEIGHT / 2f;
 
         foreach(var i in GetComponentsInChildren<EnemyCannonController>())
         {
@@ -264,7 +265,7 @@ public class EnemyController : MonoBehaviour
 
     protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("PlayerTank"))
+        if (collision.CompareTag("PlayerTankCollider"))
         {
             Debug.Log("Enemy Is At Player!");
             enemyColliding = true;
@@ -274,7 +275,7 @@ public class EnemyController : MonoBehaviour
 
     protected virtual void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("PlayerTank"))
+        if (collision.CompareTag("PlayerTankCollider"))
         {
             enemyColliding = false;
         }
