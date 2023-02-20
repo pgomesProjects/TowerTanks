@@ -79,7 +79,7 @@ public class LevelManager : MonoBehaviour
 
         if (GameSettings.skipTutorial)
         {
-            resourcesDisplay.text = resourcesNum.ToString();
+            resourcesDisplay.text = resourcesNum.ToString("n0");
             TransitionGameState();
 
             AddLayer();
@@ -153,12 +153,12 @@ public class LevelManager : MonoBehaviour
         float elapsedTime = 0;
         while (elapsedTime < seconds)
         {
-            resourcesDisplay.text = Mathf.RoundToInt(Mathf.Lerp(startingVal, endingVal, elapsedTime / seconds)).ToString();
+            resourcesDisplay.text = Mathf.RoundToInt(Mathf.Lerp(startingVal, endingVal, elapsedTime / seconds)).ToString("n0");
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
-        resourcesDisplay.text = endingVal.ToString();
+        resourcesDisplay.text = endingVal.ToString("n0");
     }
 
     public void AddCoalToTank(CoalController coalController, float amount)

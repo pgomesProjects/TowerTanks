@@ -360,9 +360,9 @@ public class PlayerController : MonoBehaviour
     {
         if(itemHeld != null)
         {
-            Color currentColor = itemHeld.GetComponent<SpriteRenderer>().color;
+            Color currentColor = itemHeld.GetComponentInChildren<SpriteRenderer>().color;
             currentColor.a = alpha;
-            itemHeld.GetComponent<SpriteRenderer>().color = currentColor;
+            itemHeld.GetComponentInChildren<SpriteRenderer>().color = currentColor;
         }
     }
 

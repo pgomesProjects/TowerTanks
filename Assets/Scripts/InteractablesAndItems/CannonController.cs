@@ -58,17 +58,14 @@ public class CannonController : InteractableController
 
             //Determine the direction of the cannon
             Vector2 direction = Vector2.zero;
-            float startingShellRot = 0;
 
             switch (currentCannonDirection)
             {
                 case CANNONDIRECTION.LEFT:
                     direction = -GetCannonVectorHorizontal(cannonRotation.z * Mathf.Deg2Rad);
-                    startingShellRot = -cannonPivot.eulerAngles.z + 90;
                     break;
                 case CANNONDIRECTION.RIGHT:
                     direction = GetCannonVectorHorizontal(cannonRotation.z * Mathf.Deg2Rad);
-                    startingShellRot = -cannonPivot.eulerAngles.z - 90;
                     break;
                 case CANNONDIRECTION.UP:
                     direction = GetCannonVectorVertical(cannonRotation.z * Mathf.Deg2Rad);
@@ -161,7 +158,7 @@ public class CannonController : InteractableController
             fTime += timeStep;
         }
 
-        Debug.Log("No Target Available.");
+        //Debug.Log("No Target Available.");
         return false;
     }
 
@@ -215,7 +212,7 @@ public class CannonController : InteractableController
             fTime += timeStep;
         }
 
-        Debug.Log("No Target Available.");
+        //Debug.Log("No Target Available.");
         Debug.DrawCircle(closestPointToTarget, 1, 5, Color.yellow);
         Debug.DrawCircle(currentFirePosition, 3, 10, Color.white);
         return false;

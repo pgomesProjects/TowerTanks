@@ -5,57 +5,52 @@ using UnityEngine;
 public class DamageObject : MonoBehaviour
 {
 
-    internal int damage;
+    internal int damage;    //The number of damage points that the damage object has 
 
-    private Rigidbody2D rb;
-    private float prevZRot;
-    private float currentZRot;
-    private float lifeTimeSeconds = 10;
-    private float currentTimer;
+    private Rigidbody2D rb; //The rigidbody component
+    private float lifeTimeSeconds = 10; //The amount of time the damage object should exist for (in seconds)
+    private float currentTimer; //The current amount of time the damage object has existed for
 
     private void OnEnable()
     {
         rb = GetComponent<Rigidbody2D>();
         currentTimer = 0;
 
+        //Spawn object with sound effect active
         FindObjectOfType<AudioManager>().Play("ProjectileInAirSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
-    }
-
-    public void StartRotation(float startingRot)
-    {
-        transform.rotation = Quaternion.Euler(0, 0, startingRot);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        //If the object has collided with a layer or an enemy layer
         if (collision.collider.tag == "Layer" || collision.collider.tag == "EnemyLayer")
         {
-            //Check to see if current object is a shell. If so, check to see if the layer will catch fire
-            if(LevelManager.instance.levelPhase == GAMESTATE.GAMEACTIVE)
+            //If there is a LayerHealthManager component
+            if(collision.collider.GetComponentInParent<LayerHealthManager>() != null)
             {
-                //Deal damage and destroy self if colliding with a layer
-                collision.collider.GetComponentInParent<LayerHealthManager>().DealDamage(damage, true);
-                FindObjectOfType<AudioManager>().PlayOneShot("MedExplosionSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
-
-                if (TryGetComponent<ShellItemBehavior>(out ShellItemBehavior shell) && collision.collider.GetComponentInParent<LayerHealthManager>() != null)
+                //If the level is active, deal damage to the layer
+                if (LevelManager.instance.levelPhase == GAMESTATE.GAMEACTIVE)
                 {
-                    collision.collider.GetComponentInParent<LayerHealthManager>().CheckForFireSpawn(shell.GetChanceToCatchFire());
+                    //Deal damage and destroy self if colliding with a layer
+                    collision.collider.GetComponentInParent<LayerHealthManager>().DealDamage(damage, true);
+                    FindObjectOfType<AudioManager>().PlayOneShot("MedExplosionSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
                 }
-            }
-            else
-            {
-                if (TryGetComponent<ShellItemBehavior>(out ShellItemBehavior shell) && collision.collider.GetComponentInParent<LayerHealthManager>() != null)
+
+                //If there is a ShellItemBehavior component on the damage object, check to see if there should be a fire
+                if (TryGetComponent<ShellItemBehavior>(out ShellItemBehavior shell))
                 {
                     collision.collider.GetComponentInParent<LayerHealthManager>().CheckForFireSpawn(shell.GetChanceToCatchFire());
                 }
             }
         }
+        //Just explode if the object hits anything else
         else
         {
             if (FindObjectOfType<AudioManager>() != null)
                 FindObjectOfType<AudioManager>().PlayOneShot("ExplosionSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
         }
 
+        //If the object hits the player, launch them in a specified direction
         if(collision.collider.tag == "Player")
         {
             //Hit from left
@@ -71,37 +66,38 @@ public class DamageObject : MonoBehaviour
             }
         }
 
-        Destroy(gameObject);
+        Destroy(gameObject);    //Destroy object after it collides with something
     }
 
 
     private void Update()
     {
         //If the item is passed the world's bounds, delete it
-        if(transform.position.y < -10)
+        if(transform.position.y < -14.4f)
         {
             if (FindObjectOfType<AudioManager>() != null)
                 FindObjectOfType<AudioManager>().PlayOneShot("ExplosionSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
             Destroy(gameObject);
         }
 
-        currentZRot = (rb.velocity.x - rb.velocity.y) - 90;
+        CheckLifetime();
+    }
 
-        float newRot = -(currentZRot - prevZRot);
-
-        //Debug.Log("Prev Z Rot: " + prevZRot);
-        //Debug.Log("Current Z Rot: " + currentZRot);
-
-        transform.rotation *= Quaternion.Euler(0, 0, newRot);
-
-        prevZRot = currentZRot;
-
+    /// <summary>
+    /// Checks how long the object should exist for.
+    /// </summary>
+    private void CheckLifetime()
+    {
         currentTimer += Time.deltaTime;
-
-        if(currentTimer > lifeTimeSeconds)
+        if (currentTimer > lifeTimeSeconds)
         {
             Destroy(gameObject);
         }
+    }
+
+    private void LateUpdate()
+    {
+        transform.right = rb.velocity.normalized;   //Rotate the transform in the direction of the velocity that it has
     }
 
     private void OnDestroy()

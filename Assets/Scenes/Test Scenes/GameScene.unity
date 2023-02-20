@@ -1827,7 +1827,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 552393523}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 50, y: 0, z: 0}
+  m_LocalPosition: {x: 50, y: 7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1849,7 +1849,7 @@ MonoBehaviour:
   fakeBullet: {fileID: 9138748120509643260, guid: a59b3e93607c0534cacc87e5906d27b6, type: 3}
   currentCannonDirection: 0
   cannonAngle: 335
-  cannonForce: 8000
+  range: 10
 --- !u!1 &554030486
 GameObject:
   m_ObjectHideFlags: 0
@@ -3120,7 +3120,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefabs:
   - {fileID: 7820399864603157553, guid: fac2f88a97e9b2f4496ffe1ce458d3e1, type: 3}
-  - {fileID: 7820399864603157553, guid: fac2f88a97e9b2f4496ffe1ce458d3e1, type: 3}
+  - {fileID: 7820399864603157553, guid: d63306c37658e0a4cbbe296e6cf32dde, type: 3}
 --- !u!1001 &867794764
 PrefabInstance:
   m_ObjectHideFlags: 0
