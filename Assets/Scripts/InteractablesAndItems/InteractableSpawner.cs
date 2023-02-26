@@ -57,9 +57,11 @@ public class InteractableSpawner : MonoBehaviour
             currentGhostIndex = 0;
         }
 
-        //If the current interactable is the cannon and it is on the left side of the tank, skip to the next one
+        //If the current interactable is the cannon and it is on the left side of the tank
         if (currentGhostIndex == 0 && transform.position.x < 0)
-            UpdateGhostIndex(index, totalInteractables);
+        {
+
+        }
     }
 
     public void ShowTutorialIndicator(bool showIndicator)

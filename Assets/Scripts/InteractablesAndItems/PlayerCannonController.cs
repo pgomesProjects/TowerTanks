@@ -28,42 +28,8 @@ public class PlayerCannonController : CannonController
 
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.positionCount = N_TRAJECTORY_POINTS;
-    }
 
-    /// <summary>
-    /// Checks to see if the player can load ammo into the cannon
-    /// </summary>
-    public void CheckForReload(PlayerController player)
-    {
-        //If the cannon can fit ammo
-        if (!cannonReady)
-        {
-            if (LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
-            {
-                if (TutorialController.main.currentTutorialState == TUTORIALSTATE.GRABSHELL)
-                {
-                    LoadShell(player);
-                    TutorialController.main.OnTutorialTaskCompletion();
-                }
-            }
-            else
-                LoadShell(player);
-        }
-    }
-
-    /// <summary>
-    /// Loads a shell into the player cannon.
-    /// </summary>
-    /// <param name="player">The player loading a shell into the cannon.</param>
-    private void LoadShell(PlayerController player)
-    {
-        //Get rid of the player's item and load
-        player.DestroyItem();
-
-        //Play sound effect
-        FindObjectOfType<AudioManager>().PlayOneShot("CannonReload", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
         cannonReady = true;
-        UpdateCannonBody();
     }
 
     /// <summary>
@@ -217,14 +183,22 @@ public class PlayerCannonController : CannonController
         //If the player is supposed to be in the chair, move them into the chair
         if (moveIntoChair)
         {
+            //Forcefully flip the player depending on the direction of the cannon
+            bool flipPlayer = currentCannonDirection == CANNONDIRECTION.LEFT ? true : false;
+            currentPlayer.GetComponent<SpriteRenderer>().flipX = flipPlayer;
+
             Vector3 chairPos = chair.transform.position;
             //Offset to make the player match the chair
-            chairPos.x = chair.transform.position.x + 0.34f;
+            if(flipPlayer)
+                chairPos.x = chair.transform.position.x - 0.34f;
+            else
+                chairPos.x = chair.transform.position.x + 0.34f;
             chairPos.y = chair.transform.position.y + 0.6f;
             playerPosition = chairPos;
-            currentPlayer.GetComponent<Rigidbody2D>().gravityScale = 0f;
             currentPlayer.transform.position = playerPosition;
-            currentPlayer.GetComponent<SpriteRenderer>().flipX = false;
+
+            //Remove gravity so that the player stays still
+            currentPlayer.GetComponent<Rigidbody2D>().gravityScale = 0f;
 
             chair.GetComponent<SpriteRenderer>().sortingOrder = 15; //Move the chair in front of the player
 

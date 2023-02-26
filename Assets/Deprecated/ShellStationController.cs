@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ShellStationController : InteractableController
 {
-    [SerializeField] private GameObject shellPrefab;
+ /*   [SerializeField] private GameObject shellPrefab;
     [SerializeField] private Transform spawnPoint;
 
     /// <summary>
@@ -49,5 +49,5 @@ public class ShellStationController : InteractableController
                 }
             }
         }
-    }
+    }*/
 }

@@ -5,7 +5,7 @@ using TMPro;
 
 public class ToggleInteractBuy : MonoBehaviour
 {
-    public enum INTERACTABLETYPE { NONE, CANNON, ENGINE, SHELLSTATION, THROTTLE  };
+    public enum INTERACTABLETYPE { CANNON, ENGINE, THROTTLE };
 
     [SerializeField] private int price;
     [SerializeField] private GameObject priceText;
@@ -92,16 +92,6 @@ public class ToggleInteractBuy : MonoBehaviour
                                 Destroy(gameObject);
                             }
                             break;
-                        case INTERACTABLETYPE.SHELLSTATION:
-                            if(TutorialController.main.currentTutorialState == TUTORIALSTATE.BUILDAMMOCRATE)
-                            {
-                                FindObjectOfType<InteractableSpawnerManager>().SpawnShellStation(transform.parent.GetComponent<InteractableSpawner>());
-                                LevelManager.instance.UpdateResources(-price);
-                                //Play sound effect
-                                FindObjectOfType<AudioManager>().PlayOneShot("UseSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
-                                Destroy(gameObject);
-                            }
-                            break;
                         case INTERACTABLETYPE.THROTTLE:
                             if(TutorialController.main.currentTutorialState == TUTORIALSTATE.BUILDTHROTTLE)
                             {
@@ -124,22 +114,13 @@ public class ToggleInteractBuy : MonoBehaviour
                 
                 switch (interactableType)
                 {
-
-                        
                     case INTERACTABLETYPE.CANNON:
-                        
                         FindObjectOfType<InteractableSpawnerManager>().SpawnCannon(transform.parent.GetComponent<InteractableSpawner>());
                         break;
                     case INTERACTABLETYPE.ENGINE:
-                        
                         FindObjectOfType<InteractableSpawnerManager>().SpawnEngine(transform.parent.GetComponent<InteractableSpawner>());
                         break;
-                    case INTERACTABLETYPE.SHELLSTATION:
-                        
-                        FindObjectOfType<InteractableSpawnerManager>().SpawnShellStation(transform.parent.GetComponent<InteractableSpawner>());
-                        break;
                     case INTERACTABLETYPE.THROTTLE:
-                        
                         FindObjectOfType<InteractableSpawnerManager>().SpawnThrottle(transform.parent.GetComponent<InteractableSpawner>());
                         break;
                 }

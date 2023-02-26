@@ -52,66 +52,52 @@ public class TutorialEvents : CustomEvent
                 resourcesObject.SetActive(true);
                 resourcesArrow.SetActive(true);
                 break;
-            //Build Ammo Crate Prompt
             case 10:
                 resourcesArrow.SetActive(false);
-                GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().GetLayerAt(1).
-                    transform.Find("InteractSpawnerLeft").GetComponent<InteractableSpawner>().ShowTutorialIndicator(true);
-                TutorialController.main.currentTutorialState = TUTORIALSTATE.BUILDAMMOCRATE;
-                UnlockPlayers();
-                break;
-            case 11:
-                GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().GetLayerAt(1).
-                    transform.Find("InteractSpawnerLeft").GetComponent<InteractableSpawner>().ShowTutorialIndicator(false);
-                break;
-            //Grab Shell Prompt
-            case 12:
-                TutorialController.main.currentTutorialState = TUTORIALSTATE.GRABSHELL;
-                UnlockPlayers();
                 break;
             //Fire Cannon Prompt
-            case 14:
+            case 11:
                 TutorialController.main.currentTutorialState = TUTORIALSTATE.FIRECANNON;
                 UnlockPlayers();
                 break;
             //Build Engine Prompt
-            case 16:
+            case 13:
                 GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().GetLayerAt(0).
                     transform.Find("InteractSpawnerLeft").GetComponent<InteractableSpawner>().ShowTutorialIndicator(true);
                 TutorialController.main.currentTutorialState = TUTORIALSTATE.BUILDENGINE;
                 UnlockPlayers();
                 break;
-            case 17:
+            case 14:
                 GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().GetLayerAt(0).
                     transform.Find("InteractSpawnerLeft").GetComponent<InteractableSpawner>().ShowTutorialIndicator(false);
                 break;
             //Add Fuel Prompt
-            case 18:
+            case 15:
                 TutorialController.main.currentTutorialState = TUTORIALSTATE.ADDFUEL;
                 UnlockPlayers();
                 break;
-            case 19:
+            case 16:
                 FindObjectOfType<FakeBulletSpawner>().SpawnFakeBullet();
                 LockPlayers();
                 break;
             //Put Out Fire Prompt
-            case 22:
+            case 19:
                 TutorialController.main.currentTutorialState = TUTORIALSTATE.PUTOUTFIRE;
                 UnlockPlayers();
                 break;
             //Build Throttle Prompt
-            case 24:
+            case 21:
                 GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().GetLayerAt(0).
                     transform.Find("InteractSpawnerRight").GetComponent<InteractableSpawner>().ShowTutorialIndicator(true);
                 TutorialController.main.currentTutorialState = TUTORIALSTATE.BUILDTHROTTLE;
                 UnlockPlayers();
                 break;
-            case 25:
+            case 22:
                 GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().GetLayerAt(0).
                     transform.Find("InteractSpawnerRight").GetComponent<InteractableSpawner>().ShowTutorialIndicator(false);
                 break;
             //Move Throttle Prompt
-            case 27:
+            case 24:
                 TutorialController.main.currentTutorialState = TUTORIALSTATE.MOVETHROTTLE;
                 UnlockPlayers();
                 break;

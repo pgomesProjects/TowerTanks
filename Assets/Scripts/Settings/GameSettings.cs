@@ -2,6 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum DIFFICULTYMODE { EASY, NORMAL, HARD }
+
+public struct Difficulty
+{
+    public DIFFICULTYMODE mode;
+    public float multiplier;
+}
+
 public static class GameSettings
 {
     public static bool debugMode = false;
@@ -12,7 +20,7 @@ public static class GameSettings
     public static bool skipTutorial = true;
 
     //0.5 = Easy, 1 = Normal, 1.5 = Hard
-    public static float difficulty = 1;
+    public static float difficulty = 1f;
 
     public static void CheckBGM()
     {

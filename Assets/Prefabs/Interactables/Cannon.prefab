@@ -105,7 +105,7 @@ SpriteRenderer:
   m_SortingLayerID: -1960476501
   m_SortingLayer: 1
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: b6028ddf4fcb93f488a9f7dc13245068, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 143e470310fc069468c445d3f0fb8b79, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -127,7 +127,7 @@ GameObject:
   - component: {fileID: 9172681242056509772}
   - component: {fileID: 1506844104636390952}
   m_Layer: 0
-  m_Name: Cannon
+  m_Name: Barrel
   m_TagString: Cannon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -229,7 +229,8 @@ Transform:
   m_LocalPosition: {x: 0.88, y: -1.38, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 6716353545484632279}
   m_Father: {fileID: 1414020637346964774}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -310,12 +311,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5457789565313524181}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.758, y: -1.065, z: 0}
+  m_LocalPosition: {x: 0.878, y: 0.31499994, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1414020637346964774}
-  m_RootOrder: 5
+  m_Father: {fileID: 5595470348911860969}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2639239164986928449
 SpriteRenderer:
@@ -407,6 +408,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4728784133398993872, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4728784133398993872, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -648,7 +653,7 @@ LineRenderer:
       ctime6: 0
       ctime7: 0
       atime0: 0
-      atime1: 65535
+      atime1: 13107
       atime2: 0
       atime3: 0
       atime4: 0
@@ -703,6 +708,23 @@ MonoBehaviour:
   chair: {fileID: 4184145040151640500}
   unloadedCannonSprite: {fileID: 21300000, guid: b6028ddf4fcb93f488a9f7dc13245068, type: 3}
   loadedCannonSprite: {fileID: 21300000, guid: 143e470310fc069468c445d3f0fb8b79, type: 3}
+--- !u!114 &7962322033099170975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1414020637346964772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e82a395b1f54dce429c6028842611acc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  barrel: {fileID: 9172681242056509772}
+  chair: {fileID: 5595470348911860969}
+  aimer: {fileID: 6716353545484632279}
+  cannonPivot: {fileID: 5864187464502447846}
+  spawnPoint: {fileID: 3735200754351827763}
 --- !u!4 &1414020637346964774 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4728784133398993875, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}

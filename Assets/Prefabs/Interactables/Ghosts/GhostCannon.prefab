@@ -101,7 +101,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8805998543238088004, guid: c6016890e751f6d4b8844f647f069ef9, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c6016890e751f6d4b8844f647f069ef9, type: 3}
@@ -136,6 +136,10 @@ PrefabInstance:
     - target: {fileID: 1414020637346964774, guid: 374e16267e1f54742b16c25d0884fd4f, type: 3}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1414020637346964774, guid: 374e16267e1f54742b16c25d0884fd4f, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1414020637346964774, guid: 374e16267e1f54742b16c25d0884fd4f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -263,4 +267,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   price: 200
   priceText: {fileID: 4832905665443005530}
-  interactableType: 1
+  interactableType: 0

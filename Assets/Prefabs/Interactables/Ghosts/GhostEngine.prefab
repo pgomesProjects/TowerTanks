@@ -278,5 +278,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   price: 150
   priceText: {fileID: 7657800713600233924}
-  interactableType: 2
-  changeSmoke: {fileID: 8748987186402470367, guid: 26feb4c6b89765e4ea1fdd70f38ce78a, type: 3}
+  interactableType: 1

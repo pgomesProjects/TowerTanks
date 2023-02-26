@@ -77,8 +77,6 @@ public class CannonController : InteractableController
 
             //Add a damage component to the projectile
             currentProjectile.AddComponent<DamageObject>().damage = currentProjectile.GetComponent<ShellItemBehavior>().GetDamage();
-            DamageObject currentDamager = currentProjectile.GetComponent<DamageObject>();
-            //currentDamager.StartRotation(startingShellRot);
 
             Debug.Log("Direction: " + direction);
 
@@ -101,9 +99,12 @@ public class CannonController : InteractableController
         return new Vector2(Mathf.Sin(radians), Mathf.Cos(radians));
     }
 
+    public CANNONDIRECTION GetCannonDirection() => currentCannonDirection;
+
     public void SetCannonDirection(CANNONDIRECTION direction)
     {
         currentCannonDirection = direction;
+        UpdateCannonDirection();
     }
 
     /// <summary>
