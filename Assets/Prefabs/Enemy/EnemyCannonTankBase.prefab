@@ -1040,9 +1040,8 @@ MonoBehaviour:
   collisionForceSeconds: 0.1
   wavesMultiplier: 1
   onDestroyResources: 100
-  spawnableLayers:
-  - {fileID: 1278547460383414149, guid: b860770024ecbb6419772b6308f06ea7, type: 3}
-  - {fileID: 848657639844210145, guid: 5ba4ec03804bb4e43ac0761c7d3dc914, type: 3}
+  spawnableLayer: {fileID: 1278547460383414149, guid: b860770024ecbb6419772b6308f06ea7, type: 3}
+  weaponContainer: {fileID: 0}
 --- !u!61 &794722079130261051
 BoxCollider2D:
   m_ObjectHideFlags: 0

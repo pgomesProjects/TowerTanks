@@ -21,11 +21,12 @@ public class EnemyController : MonoBehaviour
     [SerializeField, Tooltip("The amount of waves for the enemy to increase the amount of layers")] protected int wavesMultiplier = 1;
     [SerializeField, Tooltip("The amount of resources given to the player when the entire tank is destroyed.")] protected int onDestroyResources = 100;
 
-    [SerializeField] protected LayerHealthManager[] spawnableLayers;    //The different types of layers that a potential enemy tank could spawn
+    [SerializeField] protected LayerHealthManager spawnableLayer;    //The layer that a potential enemy tank could spawn
 
     protected ENEMYBEHAVIOR enemyTrait; //the behavior trait of the enemy tank
     private float currentSpeed; //The current speed of the enemy tank
     private float directionMultiplier;  //Multiplies the distance to change the direction of the enemy tank's movement
+    protected float combatDirectionMultiplier; //Multiplies the speed to change the global direction of the enemy tank's movement
 
     protected bool enemyColliding = false;  //If true, the enemy is colliding with a player tank. If false, they are not.
 
@@ -46,7 +47,6 @@ public class EnemyController : MonoBehaviour
         directionMultiplier = 1;
         waveCounter = 1.0f / (wavesMultiplier * GameSettings.difficulty);
 
-        CreateLayers();
         DetermineBehavior();
         FindObjectOfType<EnemySpawnManager>().AddToEnemyCounter(this);
     }
@@ -54,7 +54,7 @@ public class EnemyController : MonoBehaviour
     /// <summary>
     /// Creates layers for the enemy tank.
     /// </summary>
-    protected virtual void CreateLayers()
+    public virtual void CreateLayers(COMBATDIRECTION enemyDirection)
     {
         float extraLayers = FindObjectOfType<EnemySpawnManager>().GetEnemyCountAt(0) * waveCounter;
         //Debug.Log("Extra Layers For Normal Tank #" + (FindObjectOfType<EnemySpawnManager>().GetEnemyCountAt(0) + 1).ToString() + ": " + extraLayers);
@@ -74,7 +74,7 @@ public class EnemyController : MonoBehaviour
             int randomLayer;
             if (i % 2 == 1 && !specialLayerSpawned)
             {
-                randomLayer = spawnableLayers.Length - 1;
+                randomLayer = 1;
             }
             else
             {
@@ -86,19 +86,25 @@ public class EnemyController : MonoBehaviour
                     randomLayer = 0;
                 else
                 {
-                    randomLayer = Random.Range(0, spawnableLayers.Length);
+                    randomLayer = Random.Range(0, 1);
                     if (randomLayer != 0)
                         specialLayerSpawned = true;
                 }
             }
 
-            SpawnLayer(randomLayer, i);
+            SpawnLayer(randomLayer, i, enemyDirection);
         }
 
         foreach (var cannon in GetComponentsInChildren<EnemyCannonController>())
         {
             StartCoroutine(cannon.FireAtDelay());
         }
+
+        //If the enemy is to the left of the player, reverse the direction variable
+        if (enemyDirection == COMBATDIRECTION.Left)
+            combatDirectionMultiplier = -1f;
+        else
+            combatDirectionMultiplier = 1f;
     }
 
     /// <summary>
@@ -128,12 +134,34 @@ public class EnemyController : MonoBehaviour
     /// </summary>
     /// <param name="index">The type of layer to spawn on the tank.</param>
     /// <param name="layerNum">The current layer number being spawned.</param>
-    protected void SpawnLayer(int index, int layerNum)
+    /// <param name="enemyDirection">The direction that the enemy spawns at relative to the player.</param>
+    protected void SpawnLayer(int index, int layerNum, COMBATDIRECTION enemyDirection)
     {
-        GameObject newLayer = Instantiate(spawnableLayers[index].gameObject);
+        GameObject newLayer = Instantiate(spawnableLayer.gameObject);
         newLayer.transform.parent = transform;
         newLayer.transform.localPosition = new Vector2(0, layerNum * ENEMYLAYERSIZE);
         newLayer.transform.SetAsFirstSibling();
+
+        if (index == 1)
+            SpawnWeapon(newLayer.GetComponent<LayerHealthManager>(), enemyDirection);
+    }
+
+    /// <summary>
+    /// Spawns a weapon on the left or right of the enemy.
+    /// </summary>
+    protected virtual void SpawnWeapon(LayerHealthManager currentLayerManager, COMBATDIRECTION enemyDirection)
+    {
+        Debug.Log("Spawn Cannon!");
+
+        switch (enemyDirection)
+        {
+            case COMBATDIRECTION.Left:
+                currentLayerManager.GetCannons().GetChild(1).gameObject.SetActive(true);
+                break;
+            case COMBATDIRECTION.Right:
+                currentLayerManager.GetCannons().GetChild(0).gameObject.SetActive(true);
+                break;
+        }
     }
 
     /// <summary>
@@ -171,16 +199,16 @@ public class EnemyController : MonoBehaviour
                 {
                     float playerSpeed = playerTank.GetPlayerSpeed();
                     Debug.Log("Player Speed While Enemy Attached: " + playerSpeed);
-                    if (currentSpeed >= -playerSpeed)
+                    if (currentSpeed * combatDirectionMultiplier >= -playerSpeed)
                     {
-                        transform.position += new Vector3(playerSpeed, 0, 0) * Time.deltaTime;
+                        transform.position += new Vector3(playerSpeed * combatDirectionMultiplier, 0, 0) * Time.deltaTime;
                     }
                 }
             }
         }
     }
 
-    private float GetDirectionalSpeed() => currentSpeed * directionMultiplier;
+    private float GetDirectionalSpeed() => currentSpeed * directionMultiplier * combatDirectionMultiplier;
 
     /// <summary>
     /// Checks to see how the enemy tank will behave based on its behavior.
@@ -301,8 +329,8 @@ public class EnemyController : MonoBehaviour
             enemyForce *= playerTank.GetPlayerSpeed() / currentSpeed;
         }
 
-        StartCoroutine(CollideWithPlayerAni(enemyForce, collisionForceSeconds));
-        StartCoroutine(playerTank.CollideWithEnemyAni(playerForce, collisionForceSeconds));
+        StartCoroutine(CollideWithPlayerAni(enemyForce * combatDirectionMultiplier, collisionForceSeconds));
+        StartCoroutine(playerTank.CollideWithEnemyAni(playerForce * combatDirectionMultiplier, collisionForceSeconds));
     }
 
     protected virtual void AddToList()
@@ -386,6 +414,8 @@ public class EnemyController : MonoBehaviour
     {
         totalEnemyLayers = enemyLayers;
     }
+
+    public float GetCombatDirectionMultiplier() => combatDirectionMultiplier;
 
     private void OnDestroy()
     {

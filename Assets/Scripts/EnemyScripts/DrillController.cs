@@ -27,7 +27,7 @@ public class DrillController : MonoBehaviour
         if (GetComponentInParent<EnemyController>().IsEnemyCollidingWithPlayer())
         {
             //Check to see what the drill is hitting
-            RaycastHit2D[] hits = Physics2D.RaycastAll(drawRayPos, Vector3.left, float.MaxValue, drillLayerMask);
+            RaycastHit2D[] hits = Physics2D.RaycastAll(drawRayPos, Vector3.left * GetComponentInParent<EnemyController>().GetCombatDirectionMultiplier(), float.MaxValue, drillLayerMask);
 
             foreach (var hit in hits)
             {

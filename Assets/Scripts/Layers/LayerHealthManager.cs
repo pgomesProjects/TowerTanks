@@ -247,6 +247,21 @@ public class LayerHealthManager : MonoBehaviour
         }
     }
 
+    public Transform GetCannons() => transform.Find("Cannons");
+    public Transform GetDrills() => transform.Find("Drills");
+
+    public void HideCannons()
+    {
+        foreach (var cannon in GetCannons().GetComponentsInChildren<Transform>())
+            cannon.gameObject.SetActive(false);
+    }
+
+    public void HideDrills()
+    {
+        foreach (var drill in GetDrills().GetComponentsInChildren<Transform>())
+            drill.gameObject.SetActive(false);
+    }
+
     private void OnDestroy()
     {
         if(transform.GetComponentInParent<PlayerTankController>() != null)

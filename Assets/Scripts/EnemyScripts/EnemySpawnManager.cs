@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum COMBATDIRECTION { Left, Right };
+
 public class EnemySpawnManager : MonoBehaviour
 {
     [SerializeField] private GameObject[] enemyPrefabs;
     private List<int> enemyTypeCounters;
     internal bool enemySpawnerActive = false;
+    [SerializeField] private Transform [] spawnTransforms;
 
     private void Start()
     {
@@ -20,16 +23,28 @@ public class EnemySpawnManager : MonoBehaviour
     private IEnumerator enemyEncounterAni;
     private void SpawnRandomEnemy()
     {
-        //Pick a random enemy from the list of enemies and spawn it
+        //Pick a random enemy from the list of enemies and spawn it at a random spawner
         int enemyIndex = Random.Range(0, enemyPrefabs.Length);
-        GameObject newEnemy = Instantiate(enemyPrefabs[enemyIndex], transform.position, transform.rotation);
+        int spawnerIndex = Random.Range(0, spawnTransforms.Length);
+        GameObject newEnemy = Instantiate(enemyPrefabs[enemyIndex], spawnTransforms[spawnerIndex].position, spawnTransforms[spawnerIndex].rotation);
+        newEnemy.GetComponent<EnemyController>().CreateLayers((COMBATDIRECTION)spawnerIndex);
 
         Vector3 cameraZoomPos = GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().transform.position;
+
+        switch ((COMBATDIRECTION)spawnerIndex)
+        {
+            case COMBATDIRECTION.Left:
+                cameraZoomPos.x -= 55;
+                break;
+            case COMBATDIRECTION.Right:
+                cameraZoomPos.x += 55;
+                break;
+        }
 
         if (enemyEncounterAni != null)
             StopCoroutine(enemyEncounterAni);
 
-        enemyEncounterAni = CameraEventController.instance.ShowEnemyWithCamera(40, new Vector3(cameraZoomPos.x + 55, cameraZoomPos.y, cameraZoomPos.z), 4, newEnemy);
+        enemyEncounterAni = CameraEventController.instance.ShowEnemyWithCamera(40, cameraZoomPos, 4, newEnemy);
 
         StartCoroutine(enemyEncounterAni);
 
