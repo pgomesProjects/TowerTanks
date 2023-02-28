@@ -48,7 +48,13 @@ MonoBehaviour:
   sfxMixer: {fileID: 4279340188021939522, guid: 1caf2312e44a0b94eac66396929631ce, type: 2}
   sounds:
   - name: MainMenuAmbience
-    clip: {fileID: 8300000, guid: 8ee763616dd030d4d937af3c89cbcb1f, type: 3}
+    clip: {fileID: 8300000, guid: 949fcc1a90720be45bd20e938a7a1613, type: 3}
+    pitch: 1
+    loop: 0
+    soundType: 0
+    source: {fileID: 0}
+  - name: MainMenuWindAmbience
+    clip: {fileID: 8300000, guid: 27fee403d17b9954aa153511c8591cf8, type: 3}
     pitch: 1
     loop: 1
     soundType: 0

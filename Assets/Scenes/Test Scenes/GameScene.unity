@@ -3123,7 +3123,6 @@ MonoBehaviour:
   - {fileID: 7820399864603157553, guid: d63306c37658e0a4cbbe296e6cf32dde, type: 3}
   spawnTransforms:
   - {fileID: 1927552006}
-  - {fileID: 1966072505}
 --- !u!1001 &867794764
 PrefabInstance:
   m_ObjectHideFlags: 0

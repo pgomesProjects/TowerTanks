@@ -44,6 +44,7 @@ public class TitlescreenController : MonoBehaviour
         levelFader.SetActive(true);
 
         FindObjectOfType<AudioManager>().Play("MainMenuAmbience", PlayerPrefs.GetFloat("BGMVolume", 0.5f));
+        FindObjectOfType<AudioManager>().Play("MainMenuWindAmbience", PlayerPrefs.GetFloat("BGMVolume", 0.5f));
     }
 
     // Start is called before the first frame update
@@ -71,6 +72,7 @@ public class TitlescreenController : MonoBehaviour
     private void StartGame()
     {
         FindObjectOfType<AudioManager>().Stop("MainMenuAmbience");
+        FindObjectOfType<AudioManager>().Stop("MainMenuWindAmbience");
         LevelFader.instance.FadeToLevel(sceneToLoad);
     }
 
