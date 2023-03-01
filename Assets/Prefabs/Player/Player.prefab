@@ -609,7 +609,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6010253057530147534}
   - component: {fileID: 6010253057530147521}
-  - component: {fileID: 7432874128814120905}
+  - component: {fileID: 5677574690107233853}
   - component: {fileID: 7973947297216219181}
   - component: {fileID: 4673326632306893225}
   - component: {fileID: -4907505551727450805}
@@ -630,7 +630,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6010253057530147535}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -2.68, y: -7, z: 0}
   m_LocalScale: {x: 1.71, y: 1.71, z: 1.71}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -692,7 +692,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7432874128814120905
+--- !u!114 &5677574690107233853
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -977,6 +977,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 0ef93d62-0895-45b4-82f1-95f7c4a8340b
     m_ActionName: UI/DebugMode[/XInputControllerWindows/leftStickPress,/XInputControllerWindows/rightStickPress,/XInputControllerWindows/leftShoulder]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f8d9df6f-f2b1-45bd-a32a-d51fc5331f98
+    m_ActionName: UI/Start[/XInputControllerWindows/buttonSouth,/Keyboard/space]
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player

@@ -5,17 +5,19 @@ using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using Cinemachine;
 using TMPro;
+using System.Linq;
+
 public class MultiplayerManager : MonoBehaviour
 {
     internal static bool[] connectedControllers;
 
     [SerializeField] private Color[] playerColors = { Color.red, Color.blue, Color.yellow, Color.green };
-    [SerializeField] private Transform[] spawnPoints;
-    [SerializeField] private Transform playerParent;
-    [SerializeField] private GameObject playerJoinObject;
-    [SerializeField] private GameObject joinPrompt;
+
+    private Transform[] spawnPoints;
+    private Transform playerParent;
 
     private PlayerInputManager playerInputManager;
+    private MultiplayerUI currentMultiplayerUI;
 
     private bool onStartJoin;
 
@@ -31,50 +33,28 @@ public class MultiplayerManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //Delegate function to when the scene is unloaded
+        //Find any multiplayer UI available
+        currentMultiplayerUI = FindObjectOfType<MultiplayerUI>();
+
+        //Delegate functions to when the scene is loaded / unloaded
+        SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.sceneUnloaded += OnSceneUnloaded;
 
-        //Disconnect lost controllers
-
-        //Add players on start
-        AddPlayersOnStart();
+        OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
 
         //Delegate join function
         playerInputManager.onPlayerJoined += OnPlayerJoined;
     }
 
-    private void Update()
-    {
-        if(LevelManager.instance.levelPhase != GAMESTATE.GAMEOVER)
-        {
-            int gamepadCount = Gamepad.all.Count;
-
-            //If the number of gamepads is less than the number of active controllers
-            if (gamepadCount > ConnectionController.NumberOfActivePlayers())
-            {
-                //If the join prompt is not already active, make it active
-                if (!joinPrompt.activeInHierarchy)
-                    joinPrompt.SetActive(true);
-            }
-        }
-        //If the game is over, disable joining
-        else
-        {
-            playerInputManager.DisableJoining();
-        }
-    }
-
     private void AddPlayersOnStart()
     {
         onStartJoin = true;
-        
-        foreach(var i in Gamepad.all)
+
+        int playerIndex = 0;
+        foreach(var player in transform.GetComponentsInChildren<PlayerController>())
         {
-            if (i.enabled)
-            {
-                PlayerInput currentPlayer = PlayerInput.Instantiate(playerInputManager.playerPrefab, controlScheme: "Gamepad", pairWithDevice: i);
-                OnPlayerJoined(currentPlayer);
-            }
+            SetupPlayer(player.gameObject, playerIndex);
+            playerIndex++;
         }
 
         onStartJoin = false;
@@ -86,38 +66,42 @@ public class MultiplayerManager : MonoBehaviour
     /// <param name="playerInput"></param>
     public void OnPlayerJoined(PlayerInput playerInput)
     {
-        //Disable the current join animation if active
-        if (playerJoinObject.activeInHierarchy)
-            playerJoinObject.SetActive(false);
+        playerInput.transform.SetParent(transform);
+        playerInput.defaultControlScheme = playerInput.currentControlScheme;
+        playerInput.GetComponent<Rigidbody2D>().isKinematic = true;
 
         //Generate the new player's index
         int playerIndex = ConnectionController.CheckForIndex();
         connectedControllers[playerIndex] = true;
 
-        //Move the player to the spawn point
-        playerInput.transform.position = spawnPoints[playerIndex].position;
-
         playerInput.GetComponent<PlayerController>().SetPlayerIndex(playerIndex);
-        SetColorOfPlayer(playerInput.transform, playerIndex);
-        playerInput.transform.parent = playerParent;
+
+        playerInput.name = "Player " + (playerIndex + 1).ToString();
+
         playerInput.onDeviceLost += OnDeviceLost;
         playerInput.onDeviceRegained += OnDeviceRegained;
 
-        if(LevelManager.instance.levelPhase == GAMESTATE.GAMEACTIVE || GameSettings.skipTutorial)
-        playerInput.GetComponent<PlayerController>().SetPlayerMove(true);
-
-        //Create join animation
-        if (!onStartJoin)
+        //If the player is in a level
+        if (LevelManager.instance != null)
         {
-            playerJoinObject.SetActive(true);
-            playerJoinObject.GetComponentInChildren<TextMeshProUGUI>().text = "Player " + (playerIndex + 1) + " Joined";
+            SetupPlayer(playerInput.gameObject, playerIndex);
         }
 
-        //Check to see if the join prompt needs to be disabled
-        if(Gamepad.all.Count <= ConnectionController.NumberOfActivePlayers())
-        {
-            joinPrompt.SetActive(false);
-        }
+        if (currentMultiplayerUI != null && !onStartJoin)
+            currentMultiplayerUI.OnPlayerJoined(playerIndex, playerColors[playerIndex], playerInput.currentControlScheme);
+    }
+
+    private void SetupPlayer(GameObject currentPlayer, int playerIndex)
+    {
+        //Move the player to the spawn point
+        currentPlayer.GetComponent<Rigidbody2D>().isKinematic = false;
+        currentPlayer.transform.position = spawnPoints[playerIndex].position;
+        currentPlayer.transform.SetParent(playerParent);
+
+        SetColorOfPlayer(currentPlayer.transform, playerIndex);
+
+        if (LevelManager.instance.levelPhase == GAMESTATE.GAMEACTIVE || GameSettings.skipTutorial)
+            currentPlayer.GetComponent<PlayerController>().SetPlayerMove(true);
     }
 
     private void SetColorOfPlayer(Transform player, int playerIndex)
@@ -126,10 +110,35 @@ public class MultiplayerManager : MonoBehaviour
         player.transform.GetComponent<Renderer>().material.SetColor("_Color", playerColors[playerIndex]);
     }
 
+    private void OnSceneLoaded(Scene current, LoadSceneMode loadSceneMode)
+    {
+        currentMultiplayerUI = FindObjectOfType<MultiplayerUI>();
+
+        if (current.name == "GameScene")
+        {
+            playerParent = GameObject.FindGameObjectWithTag("PlayerContainer").transform;
+            spawnPoints = FindObjectOfType<SpawnPoints>().spawnPoints;
+
+            //Add players on start
+            AddPlayersOnStart();
+        }
+        else
+        {
+            playerParent = null;
+            spawnPoints = null;
+        }
+    }
+
+    public void ChildPlayerInput()
+    {
+        foreach (var player in playerParent.GetComponentsInChildren<PlayerController>())
+            player.transform.SetParent(transform);
+    }
+
     private void OnSceneUnloaded(Scene current)
     {
         //Get rid of the controllers when the game is unloaded
-        for(int i = 0; i < connectedControllers.Length; i++)
+        for (int i = 0; i < connectedControllers.Length; i++)
         {
             connectedControllers[i] = false;
         }
@@ -138,10 +147,22 @@ public class MultiplayerManager : MonoBehaviour
     private void OnDeviceLost(PlayerInput playerInput)
     {
         playerInput.gameObject.SetActive(false);
+        if (currentMultiplayerUI != null)
+            currentMultiplayerUI.OnPlayerLost(playerInput.playerIndex);
     }
 
     private void OnDeviceRegained(PlayerInput playerInput)
     {
         playerInput.gameObject.SetActive(true);
+        if (currentMultiplayerUI != null)
+            currentMultiplayerUI.OnPlayerRejoined(playerInput.playerIndex);
+    }
+
+    public PlayerInput[] GetPlayerInputs()
+    {
+        if (playerParent != null)
+            return playerParent.GetComponentsInChildren<PlayerInput>();
+
+        return transform.GetComponentsInChildren<PlayerInput>();
     }
 }

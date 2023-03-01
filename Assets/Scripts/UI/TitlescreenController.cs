@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class TitlescreenController : MonoBehaviour
@@ -37,7 +37,7 @@ public class TitlescreenController : MonoBehaviour
     private void Awake()
     {
         playerControlSystem = new PlayerControlSystem();
-        playerControlSystem.UI.Submit.performed += _ => StartScreenToMain();
+        playerControlSystem.UI.Start.performed += _ => StartScreenToMain();
         playerControlSystem.UI.Cancel.performed += _ => CancelAction();
         playerControlSystem.UI.DebugMode.performed += _ => DebugMode();
 

@@ -14,7 +14,6 @@ public class PlayerController : MonoBehaviour
     internal float steeringValue;
     [SerializeField] private float speed = 8f;
     private Rigidbody2D rb;
-    private PlayerTankController playerTank;
     private Animator playerAnimator;
 
     internal int currentLayer = 1;
@@ -69,7 +68,6 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        playerTank = GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>();
         playerAnimator = GetComponent<Animator>();
         defaultGravity = rb.gravityScale;
         isHoldingItem = false;
@@ -80,6 +78,11 @@ public class PlayerController : MonoBehaviour
         interactableHover = transform.Find("HoverPrompt").gameObject;
         progressBarCanvas = transform.Find("TaskProgressBar").gameObject;
         progressBarSlider = progressBarCanvas.GetComponentInChildren<Slider>();
+    }
+
+    private void OnDisable()
+    {
+        GetComponent<PlayerInput>().actions = null;
     }
 
     // Update is called once per frame
@@ -94,7 +97,7 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!LevelManager.instance.isPaused)
+        if (LevelManager.instance != null && !LevelManager.instance.isPaused)
         {
             //Move the player horizontally
             if (canMove)
@@ -116,7 +119,7 @@ public class PlayerController : MonoBehaviour
                 //Clamp the player's position to be within the range of the tank
                 Vector3 playerPos = transform.localPosition;
 
-                playerPos.x = Mathf.Clamp(playerPos.x, -playerTank.tankBarrierRange, playerTank.tankBarrierRange);
+                playerPos.x = Mathf.Clamp(playerPos.x, -LevelManager.instance.GetPlayerTank().tankBarrierRange, LevelManager.instance.GetPlayerTank().tankBarrierRange);
                 transform.localPosition = playerPos;
 
                 //If the input is moving the player right and the player is facing left
@@ -188,7 +191,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnLadderEnter(InputAction.CallbackContext ctx)
     {
-        if (!LevelManager.instance.isPaused)
+        if (LevelManager.instance != null && !LevelManager.instance.isPaused)
         {
             //If the player presses the ladder climb button
             if (ctx.performed)
@@ -228,7 +231,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnLadderExit(InputAction.CallbackContext ctx)
     {
-        if (!LevelManager.instance.isPaused)
+        if (LevelManager.instance != null && !LevelManager.instance.isPaused)
         {
             //If the player presses the ladder climb button
             if (ctx.performed)
@@ -402,8 +405,8 @@ public class PlayerController : MonoBehaviour
     private void CheckForFireRemoverUse()
     {
         FireBehavior fire = null;
-        if (playerTank.GetLayerAt(currentLayer - 1) != null)
-            fire = playerTank.GetLayerAt(currentLayer - 1).GetComponentInChildren<FireBehavior>();
+        if (LevelManager.instance.GetPlayerTank().GetLayerAt(currentLayer - 1) != null)
+            fire = LevelManager.instance.GetPlayerTank().GetLayerAt(currentLayer - 1).GetComponentInChildren<FireBehavior>();
 
         //If the layer the player is on is on fire
         if (fire != null && fire.IsLayerOnFire())
@@ -436,7 +439,7 @@ public class PlayerController : MonoBehaviour
 
     private void CheckForWrenchUse()
     {
-        LayerHealthManager layerHealth = playerTank.GetLayerAt(currentLayer - 1);
+        LayerHealthManager layerHealth = LevelManager.instance.GetPlayerTank().GetLayerAt(currentLayer - 1);
 
         //If the layer the player is damaged
         if (layerHealth.GetLayerHealth() < layerHealth.GetMaxHealth())
@@ -453,7 +456,7 @@ public class PlayerController : MonoBehaviour
 
     private void UseFireRemover()
     {
-        FireBehavior fire = playerTank.GetLayerAt(currentLayer - 1).GetComponentInChildren<FireBehavior>();
+        FireBehavior fire = LevelManager.instance.GetPlayerTank().GetLayerAt(currentLayer - 1).GetComponentInChildren<FireBehavior>();
         //Get rid of the fire
         fire.gameObject.SetActive(false);
     }
@@ -461,7 +464,7 @@ public class PlayerController : MonoBehaviour
     private void UseWrench()
     {
         //Restore the layer the player is on to max health
-        LayerHealthManager layerHealth = playerTank.GetLayerAt(currentLayer - 1);
+        LayerHealthManager layerHealth = LevelManager.instance.GetPlayerTank().GetLayerAt(currentLayer - 1);
         layerHealth.RepairLayer();
     }
 
@@ -775,7 +778,7 @@ public class PlayerController : MonoBehaviour
         //Remove the item from the player and put it back in the level
         itemHeld.GetComponent<Rigidbody2D>().gravityScale = itemHeld.GetDefaultGravityScale();
         itemHeld.GetComponent<Rigidbody2D>().isKinematic = false;
-        itemHeld.transform.parent = playerTank.GetItemContainer();
+        itemHeld.transform.parent = LevelManager.instance.GetPlayerTank().GetItemContainer();
         itemHeld.SetRotateConstraint(false);
         ChangeItemTransparency(1);
 
@@ -888,7 +891,10 @@ public class PlayerController : MonoBehaviour
 
     public bool UIAllowPlayerInteract()
     {
-        return !LevelManager.instance.isPaused && !LevelManager.instance.readingTutorial;
+        if(LevelManager.instance != null)
+            return !LevelManager.instance.isPaused && !LevelManager.instance.readingTutorial;
+
+        return false;
     }
 
     public float GetDefaultGravity() => defaultGravity;

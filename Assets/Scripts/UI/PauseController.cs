@@ -118,6 +118,7 @@ public class PauseController : MonoBehaviour
 
     public void ReturnToMain()
     {
+        FindObjectOfType<MultiplayerManager>().ChildPlayerInput();
         SceneManager.LoadScene("Title");
         Time.timeScale = 1.0f;
         FindObjectOfType<AudioManager>().StopAllSounds();

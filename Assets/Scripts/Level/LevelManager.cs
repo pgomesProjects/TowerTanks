@@ -532,6 +532,8 @@ public class LevelManager : MonoBehaviour
         sessionStatsCanvas.SetActive(true);
     }
 
+    public PlayerTankController GetPlayerTank() => playerTank;
+
     private void OnDestroy()
     {
         //Scene cleanup
