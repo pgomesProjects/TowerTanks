@@ -139,6 +139,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "CannonScroll",
+                    "type": "PassThrough",
+                    "id": "b0e82e15-fadf-4c3f-8977-8a29d21b549c",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -944,6 +953,17 @@
                     "action": "OnLadderExit",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "ef8d3f79-6e76-4ede-ae1b-e57d26be52be",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard and Mouse",
+                    "action": "CannonScroll",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },

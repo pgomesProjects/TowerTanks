@@ -37,7 +37,7 @@ public class TitlescreenController : MonoBehaviour
     private void Awake()
     {
         playerControlSystem = new PlayerControlSystem();
-        playerControlSystem.UI.Start.performed += _ => StartScreenToMain();
+        playerControlSystem.UI.Start.performed += StartScreenToMain;
         playerControlSystem.UI.Cancel.performed += _ => CancelAction();
         playerControlSystem.UI.DebugMode.performed += _ => DebugMode();
 
@@ -106,13 +106,14 @@ public class TitlescreenController : MonoBehaviour
         StartGame();
     }
 
-    private void StartScreenToMain()
+    private void StartScreenToMain(InputAction.CallbackContext ctx)
     {
         if(!inMenu)
         {
             inMenu = true;
             GameSettings.mainMenuEntered = true;
             PlayButtonSFX("Click");
+            FindObjectOfType<MultiplayerManager>().SetUIControlScheme();
             StartCoroutine(WaitStartScreenToMain());
         }
     }
@@ -123,7 +124,9 @@ public class TitlescreenController : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         GoToMain();
         mainMenuAnimator.Play("MainMenuShow");
+
         startMenu.GetComponent<RectTransform>().localPosition = Vector3.zero;
+
     }
 
     private void CancelAction()

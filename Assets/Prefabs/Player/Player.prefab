@@ -981,6 +981,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: f8d9df6f-f2b1-45bd-a32a-d51fc5331f98
     m_ActionName: UI/Start[/XInputControllerWindows/buttonSouth,/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7973947297216219181}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnCannonScroll
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: b0e82e15-fadf-4c3f-8977-8a29d21b549c
+    m_ActionName: Player/CannonScroll[/Mouse/delta/y]
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player

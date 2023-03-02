@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class TutorialDialogHandler : DialogEvent
 {
@@ -13,7 +14,50 @@ public class TutorialDialogHandler : DialogEvent
 
     public override void OnDialogStart()
     {
-        //Any events to happen on the start of the tutorial go here
+        UpdatePrompts();
+
+        //If the continue object has text, update the prompt on that as well
+        if (continueObject.GetComponent<TextMeshProUGUI>() != null)
+        {
+            string continueText = continueObject.GetComponent<TextMeshProUGUI>().text;
+            CheckStringForPrompt(ref continueText);
+            continueObject.GetComponent<TextMeshProUGUI>().text = continueText;
+        }
+    }
+
+    private void UpdatePrompts()
+    {
+        for(int i = 0; i < dialogLines.Length; i++)
+        {
+            CheckStringForPrompt(ref dialogLines[i]);
+        }
+    }
+
+    private void CheckStringForPrompt(ref string line)
+    {
+        for (int i = 0; i < line.Length; i++)
+        {
+            if (line[i] == '<')
+            {
+                string replaceCommand = CheckForControlDisplay(line, i);
+                string newCommandString = GetComponent<ControlSchemeUIUpdater>().UpdatePrompt(replaceCommand.Substring(1, (replaceCommand.Length - 2)));
+
+                line = line.Replace(replaceCommand, newCommandString);
+                continue;
+            }
+        }
+    }
+
+    private string CheckForControlDisplay(string line, int counter)
+    {
+        int posFrom = counter - 1;
+        int posTo = line.IndexOf(">", posFrom + 1);
+        if (posTo != -1) //if found char
+        {
+            return line.Substring(posFrom + 1, posTo - posFrom);
+        }
+
+        return string.Empty;
     }
 
     public override void CheckEvents(ref TextWriter.TextWriterSingle textWriterObj)

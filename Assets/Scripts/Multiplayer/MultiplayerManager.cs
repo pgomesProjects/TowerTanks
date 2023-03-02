@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
-using Cinemachine;
-using TMPro;
-using System.Linq;
 
 public class MultiplayerManager : MonoBehaviour
 {
@@ -36,9 +33,8 @@ public class MultiplayerManager : MonoBehaviour
         //Find any multiplayer UI available
         currentMultiplayerUI = FindObjectOfType<MultiplayerUI>();
 
-        //Delegate functions to when the scene is loaded / unloaded
+        //Delegate functions to when the scene is loaded
         SceneManager.sceneLoaded += OnSceneLoaded;
-        SceneManager.sceneUnloaded += OnSceneUnloaded;
 
         OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
 
@@ -124,24 +120,39 @@ public class MultiplayerManager : MonoBehaviour
         }
         else
         {
-            playerParent = null;
+            playerParent = transform;
             spawnPoints = null;
+
+            foreach (var player in playerParent.GetComponentsInChildren<PlayerController>())
+            {
+                player.GetComponent<Rigidbody2D>().isKinematic = true;
+                player.transform.position = Vector3.zero;
+            }
         }
     }
 
     public void ChildPlayerInput()
     {
         foreach (var player in playerParent.GetComponentsInChildren<PlayerController>())
+        {
             player.transform.SetParent(transform);
+        }
     }
 
-    private void OnSceneUnloaded(Scene current)
+    public void SetUIControlScheme()
     {
-        //Get rid of the controllers when the game is unloaded
+        GameSettings.controlSchemeUI = playerParent.GetComponentInChildren<PlayerInput>().currentControlScheme;
+    }
+
+    public void ClearAllPlayers()
+    {
+        //Destroy all players
+        foreach (var player in playerParent.GetComponentsInChildren<PlayerController>())
+            Destroy(player.gameObject);
+
+        //Set all connected controllers to false
         for (int i = 0; i < connectedControllers.Length; i++)
-        {
             connectedControllers[i] = false;
-        }
     }
 
     private void OnDeviceLost(PlayerInput playerInput)
@@ -158,11 +169,5 @@ public class MultiplayerManager : MonoBehaviour
             currentMultiplayerUI.OnPlayerRejoined(playerInput.playerIndex);
     }
 
-    public PlayerInput[] GetPlayerInputs()
-    {
-        if (playerParent != null)
-            return playerParent.GetComponentsInChildren<PlayerInput>();
-
-        return transform.GetComponentsInChildren<PlayerInput>();
-    }
+    public PlayerInput[] GetPlayerInputs() => playerParent.GetComponentsInChildren<PlayerInput>();
 }

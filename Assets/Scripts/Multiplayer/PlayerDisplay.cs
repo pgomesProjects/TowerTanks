@@ -23,6 +23,11 @@ public class PlayerDisplay : MonoBehaviour
         defaultBackgroundColor = playerIconBackground.color;
     }
 
+    private void OnDisable()
+    {
+        //HidePlayerInfo();
+    }
+
     public void ShowPlayerInfo()
     {
         playerIconBackground.color = currentPlayerColor;

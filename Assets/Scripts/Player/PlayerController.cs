@@ -52,12 +52,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float spinAngleCheckUpdateTimer = 0.1f;
     [SerializeField][Range(0.0f, 180.0f)] private float spinValidAngleLimit = 30.0f;
     [SerializeField] private int validSpinCheckRows = 1;
+    [SerializeField] private float cannonScrollSensitivity = 3f;
 
     private Vector2 lastJoystickInput = Vector2.zero;
     private bool isCheckingSpinInput = false;
     private int validSpinCheckCounter = 0;
+    private float cannonScroll;
 
-    private bool isSpinningJoystick = false;
+    private bool isSpinningCannon = false;
 
     [SerializeField] private GameObject buildscrap;
     [SerializeField] private GameObject firefoam;
@@ -90,8 +92,16 @@ public class PlayerController : MonoBehaviour
     {
         if (UIAllowPlayerInteract())
         {
-            //Check to see if the joystick is spinning
-            CheckJoystickSpinning();
+            if(GetComponent<PlayerInput>().currentControlScheme == "Gamepad")
+            {
+                //Check to see if the joystick is spinning
+                CheckJoystickSpinning();
+            }
+            else if (GetComponent<PlayerInput>().currentControlScheme == "Keyboard and Mouse")
+            {
+                //Check to see if the mouse scroll is scrolling
+                CheckMouseScroll();
+            }
         }
     }
 
@@ -188,6 +198,7 @@ public class PlayerController : MonoBehaviour
 
     //Send value from Move callback to the horizontal Vector2
     public void OnMove(InputAction.CallbackContext ctx) => movement = ctx.ReadValue<Vector2>();
+    public void OnCannonScroll(InputAction.CallbackContext ctx) => cannonScroll = ctx.ReadValue<float>();
 
     public void OnLadderEnter(InputAction.CallbackContext ctx)
     {
@@ -252,16 +263,26 @@ public class PlayerController : MonoBehaviour
 
     public float GetCannonMovement()
     {
-        //If the player is spinning the joystick and cannot move, send the cannon the player's joystick spin angle
-        if (isSpinningJoystick && !canMove)
+        if(GetComponent<PlayerInput>().currentControlScheme == "Gamepad")
         {
-            return Vector2.SignedAngle(lastJoystickInput, movement);
+            //If the player is spinning the joystick and cannot move, send the cannon the player's joystick spin angle
+            if (isSpinningCannon && !canMove)
+            {
+                return Vector2.SignedAngle(lastJoystickInput, movement);
+            }
         }
-        else
-            return 0;
+        else if(GetComponent<PlayerInput>().currentControlScheme == "Keyboard and Mouse")
+        {
+            if (isSpinningCannon && !canMove)
+            {
+                return cannonScroll * cannonScrollSensitivity;
+            }
+        }
+
+        return 0;
     }
 
-    public bool IsPlayerSpinningCannon() => isSpinningJoystick && !canMove;
+    public bool IsPlayerSpinningCannon() => isSpinningCannon && !canMove;
 
     public void OnInteract(InputAction.CallbackContext ctx)
     {
@@ -583,8 +604,11 @@ public class PlayerController : MonoBehaviour
         //If the player presses the pause button
         if (ctx.started)
         {
-            //Pause the game
-            LevelManager.instance.PauseToggle(playerIndex);
+            if(LevelManager.instance != null)
+            {
+                //Pause the game
+                LevelManager.instance.PauseToggle(playerIndex);
+            }
         }
     }
 
@@ -839,14 +863,22 @@ public class PlayerController : MonoBehaviour
         //If the number of spin checks is equal to number of spins that are needed, the joystick has been properly spun
         if(validSpinCheckCounter == validSpinCheckRows)
         {
-            isSpinningJoystick = true;
+            isSpinningCannon = true;
         }
 
         //If not, the joystick is not spinning properly
         else
         {
-            isSpinningJoystick = false;
+            isSpinningCannon = false;
         }
+    }
+
+    private void CheckMouseScroll()
+    {
+        if (cannonScroll != 0)
+            isSpinningCannon = true;
+        else
+            isSpinningCannon = false;
     }
 
     private IEnumerator JoystickSpinningDetection()

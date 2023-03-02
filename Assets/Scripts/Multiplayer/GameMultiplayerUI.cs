@@ -8,6 +8,13 @@ public class GameMultiplayerUI : MultiplayerUI
 {
     [SerializeField] private GameObject onJoinObject;
 
+    private PlayerInputManager playerInputManager;
+
+    private void Start()
+    {
+        playerInputManager = FindObjectOfType<PlayerInputManager>();
+    }
+
     public override void OnPlayerJoined(int playerIndex, Color playerColor, string controlScheme)
     {
         if (onJoinObject.activeInHierarchy)
@@ -28,20 +35,20 @@ public class GameMultiplayerUI : MultiplayerUI
         {
             if (LevelManager.instance.levelPhase != GAMESTATE.GAMEOVER)
             {
-                int playerCount = PlayerInput.all.Count;
+                int playerCount = Gamepad.all.Count + 1;
 
                 //If the number of gamepads is less than the number of active controllers
-                if (playerCount > ConnectionController.NumberOfActivePlayers())
+                if (ConnectionController.NumberOfActivePlayers() == 0 || playerCount > ConnectionController.NumberOfActivePlayers())
                 {
                     //If the join prompt is not already active, make it active
-                    if (!onJoinObject.activeInHierarchy)
-                        onJoinObject.SetActive(true);
+                    if (!joinPrompt.gameObject.activeInHierarchy)
+                        joinPrompt.gameObject.SetActive(true);
                 }
             }
             //If the game is over, disable joining
             else
             {
-                FindObjectOfType<PlayerInputManager>().DisableJoining();
+                playerInputManager.DisableJoining();
             }
         }
     }

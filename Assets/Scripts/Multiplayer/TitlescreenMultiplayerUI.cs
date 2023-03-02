@@ -12,11 +12,13 @@ public class TitlescreenMultiplayerUI : MultiplayerUI
         CheckForExistingPlayers();   
     }
 
-    private void CheckForExistingPlayers()
+    public void CheckForExistingPlayers()
     {
+        int counter = 0;
         foreach(var player in FindObjectOfType<MultiplayerManager>().GetPlayerInputs())
         {
             OnPlayerJoined(player.GetComponent<PlayerController>().GetPlayerIndex(), player.GetComponent<PlayerController>().GetPlayerColor(), player.currentControlScheme);
+            counter++;
         }
     }
 

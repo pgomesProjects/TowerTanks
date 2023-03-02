@@ -61,7 +61,7 @@ public class LevelManager : MonoBehaviour
     {
         isSettingUpOnStart = true;
 
-        FindObjectOfType<AudioManager>().Play("MainMenuAmbience", PlayerPrefs.GetFloat("BGMVolume", 0.5f));
+        FindObjectOfType<AudioManager>().Play("MainMenuWindAmbience", PlayerPrefs.GetFloat("BGMVolume", 0.5f));
 
         //Starting resources
         switch (GameSettings.difficulty)
@@ -325,6 +325,11 @@ public class LevelManager : MonoBehaviour
                 currentPlayerPaused = -1;
             }
         }
+    }
+
+    public void ReactivateAllInput()
+    {
+        InputForOtherPlayers(currentPlayerPaused, false);
     }
 
     private void InputForOtherPlayers(int currentActivePlayer, bool disableInputForOthers)

@@ -390,7 +390,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Press <sprite=27> to Join
+  m_text: Press <sprite=27> or [Space] to Join
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9489daf95865bbd4ea0007cc10e49217, type: 2}
   m_sharedMaterial: {fileID: -6796894105817313763, guid: 9489daf95865bbd4ea0007cc10e49217, type: 2}
@@ -3562,6 +3562,7 @@ GameObject:
   - component: {fileID: 1005274064}
   - component: {fileID: 1005274065}
   - component: {fileID: 1005274066}
+  - component: {fileID: 1005274067}
   m_Layer: 0
   m_Name: TutorialHandler
   m_TagString: Untagged
@@ -3601,40 +3602,39 @@ MonoBehaviour:
   - Our reports indicate enemy vehicles approaching your location, so we need to
     get a tank up and running!
   - Move your feet, cadets! That tank ain't gonna build itself! [Move Around With
-    The Left Stick <sprite=37 tint=1>.]
-  - Somebody pick up that hammer! [Pick Up / Drop Items With <sprite=27 tint=1>.
-    Throw Them With <sprite=28 tint=1>.]
+    <Movement>.]
+  - Somebody pick up that hammer! [Pick Up / Drop Items With <Pick Up>. Throw Them
+    With <Throw>.]
   - Your tank needs layers in order to be a true Tower Tank!
-  - Build 2 layers on the double! [While Holding The Hammer, Press and Hold <sprite=29
-    tint=1> To Build.]
+  - Build 2 layers on the double! [While Holding The Hammer, Press and Hold <Use>
+    To Build.]
   - Each layer has 2 slots for machinery!
   - We'll need to fill 'em up in order for this puppy to run properly!
   - Every good tank needs a cannon! Build one at the front, cadets! [While Holding
-    The Hammer, Cycle Through Buildable Machines With <sprite=33 tint=1> and <sprite=34
-    tint=1>. Find The Cannon And Build It With <sprite=29 tint=1>.]
+    The Hammer, Cycle Through Buildable Machines With <Cycle Left> and <Cycle Right>.
+    Find The Cannon And Build It With <Use>.]
   - Way to put that scrap to good use! Make sure you keep an eye on your total!
   - "Let\u2019s make sure that boomstick works! Would any of you like to do the honors?"
-  - '[Interact With The Cannon Without Carrying Any Items To Man It. Rotate <sprite=37
-    tint=1> To Aim And Press <sprite=29 tint=1> To Fire. Press Interact Again To
-    Exit The Cannon.]'
+  - '[Interact With The Cannon With <Interact> To Man It. Rotate <Rotate Cannon>
+    To Aim And Press <Use> To Fire. Press Interact Again To Exit The Cannon.]'
   - Nicely done, cadets! I think it's about time we get rolling!
   - Looks like you'll need an engine first! [Build An Engine.]
   - The tank won't move unless it's got fuel.
   - Someone get on it! Put your back into it! [Interact With The Engine And Rapidly
-    Press <sprite=29 tint=1> To Fuel It.]
+    Press <Use> To Fuel It.]
   - Incoming fire!
   - Everyone alright? Good!
   - That layer won't be there for long if that fire keeps burning!
   - Put it out with the dandy Fire...er..."Remover"! [Pick Up The Fire Remover And
-    Hold <sprite=29 tint=1> To Use It When At The Fire.]
+    Hold <Use> To Use It When At The Fire.]
   - Excellent. Listen to that baby purr!
   - 'We need one more thing before this hunk of metal will go anywhere: a Throttle!
     [Build A Throttle.]'
   - That's all from me, cadets! Your orders are to put that thing in gear and shoot
     down the source of that shell!
   - Good luck! Over and out!
-  - '[Interact With The Throttle And Move The Left Stick <sprite=37 tint=1> To The
-    Right To Start The Game.]'
+  - '[Interact With The Throttle And Move The Left Stick <Movement> To The Right
+    To Start The Game.]'
   hasSeenLines: []
   messageText: {fileID: 684981127}
   continueObject: {fileID: 1463711429}
@@ -3652,6 +3652,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resourcesObject: {fileID: 1961525136}
   resourcesArrow: {fileID: 1984669198}
+--- !u!114 &1005274067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1005274063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2c00becb86dd644c9c279cbcf3610f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1016282328
 GameObject:
   m_ObjectHideFlags: 0
@@ -5355,11 +5367,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5367646789664393346, guid: 8600783d0e2ccad46b1ab7c1126ed935, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: -172.5
       objectReference: {fileID: 0}
     - target: {fileID: 5367646789664393346, guid: 8600783d0e2ccad46b1ab7c1126ed935, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 5367646789664393346, guid: 8600783d0e2ccad46b1ab7c1126ed935, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -5376,6 +5388,10 @@ PrefabInstance:
     - target: {fileID: 5367646789664393347, guid: 8600783d0e2ccad46b1ab7c1126ed935, type: 3}
       propertyPath: m_Name
       value: Corner01
+      objectReference: {fileID: 0}
+    - target: {fileID: 5367646789664393347, guid: 8600783d0e2ccad46b1ab7c1126ed935, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8600783d0e2ccad46b1ab7c1126ed935, type: 3}
@@ -5443,7 +5459,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: <sprite=27>
+  m_text: <Continue>
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0c4f47840f679864da66aeaf5fee70e2, type: 2}
   m_sharedMaterial: {fileID: -6796894105817313763, guid: 9489daf95865bbd4ea0007cc10e49217, type: 2}
@@ -5650,11 +5666,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5367646789664393346, guid: 8600783d0e2ccad46b1ab7c1126ed935, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 981.25
       objectReference: {fileID: 0}
     - target: {fileID: 5367646789664393346, guid: 8600783d0e2ccad46b1ab7c1126ed935, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -100
       objectReference: {fileID: 0}
     - target: {fileID: 5367646789664393346, guid: 8600783d0e2ccad46b1ab7c1126ed935, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -5671,6 +5687,10 @@ PrefabInstance:
     - target: {fileID: 5367646789664393347, guid: 8600783d0e2ccad46b1ab7c1126ed935, type: 3}
       propertyPath: m_Name
       value: Corner04
+      objectReference: {fileID: 0}
+    - target: {fileID: 5367646789664393347, guid: 8600783d0e2ccad46b1ab7c1126ed935, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8600783d0e2ccad46b1ab7c1126ed935, type: 3}
@@ -6278,7 +6298,6 @@ MonoBehaviour:
   m_TrackedDeviceOrientationAction: {fileID: -3968122554378666225, guid: d50acc852d517574b9c227bb9d9871bf, type: 3}
   m_DeselectOnBackgroundClick: 0
   m_PointerBehavior: 0
-  m_CursorLockBehavior: 0
 --- !u!1 &1662994173
 GameObject:
   m_ObjectHideFlags: 0
@@ -6604,11 +6623,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5367646789664393346, guid: 8600783d0e2ccad46b1ab7c1126ed935, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 508.75
       objectReference: {fileID: 0}
     - target: {fileID: 5367646789664393346, guid: 8600783d0e2ccad46b1ab7c1126ed935, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 5367646789664393346, guid: 8600783d0e2ccad46b1ab7c1126ed935, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -6625,6 +6644,10 @@ PrefabInstance:
     - target: {fileID: 5367646789664393347, guid: 8600783d0e2ccad46b1ab7c1126ed935, type: 3}
       propertyPath: m_Name
       value: Corner02
+      objectReference: {fileID: 0}
+    - target: {fileID: 5367646789664393347, guid: 8600783d0e2ccad46b1ab7c1126ed935, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8600783d0e2ccad46b1ab7c1126ed935, type: 3}
@@ -7760,11 +7783,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5367646789664393346, guid: 8600783d0e2ccad46b1ab7c1126ed935, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 5367646789664393346, guid: 8600783d0e2ccad46b1ab7c1126ed935, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -100
       objectReference: {fileID: 0}
     - target: {fileID: 5367646789664393346, guid: 8600783d0e2ccad46b1ab7c1126ed935, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -7781,6 +7804,10 @@ PrefabInstance:
     - target: {fileID: 5367646789664393347, guid: 8600783d0e2ccad46b1ab7c1126ed935, type: 3}
       propertyPath: m_Name
       value: Corner03
+      objectReference: {fileID: 0}
+    - target: {fileID: 5367646789664393347, guid: 8600783d0e2ccad46b1ab7c1126ed935, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8600783d0e2ccad46b1ab7c1126ed935, type: 3}

@@ -14,6 +14,8 @@ public static class GameSettings
 {
     public static bool debugMode = false;
 
+    public static string controlSchemeUI = "Gamepad";
+
     public static int[,] possibleResolutions = new int[,] { { 2560, 1440 }, { 1920, 1080 }, { 1280, 720 } };
 
     public static bool mainMenuEntered = false;
