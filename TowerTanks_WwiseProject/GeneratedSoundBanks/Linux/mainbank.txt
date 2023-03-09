@@ -1,0 +1,6 @@
+Event	ID	Name			Wwise Object Path	Notes
+	155513425	cannon_fire			\Default Work Unit\cannon_fire	
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	806435377	TT_SFX_cannon-fires	C:\Users\Eli\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\TT_SFX_cannon-fires_10C4C929.wem		\Actor-Mixer Hierarchy\Default Work Unit\TT_SFX_cannon-fires		310972
+

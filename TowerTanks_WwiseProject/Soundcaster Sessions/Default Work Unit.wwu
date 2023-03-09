@@ -4,16 +4,6 @@
 		<WorkUnit Name="Default Work Unit" ID="{E6272D95-1FD4-4480-B624-8916B2190766}" PersistMode="Standalone">
 			<ChildrenList>
 				<SoundcasterSession Name="CannonSoundcaster" ID="{F18677EF-115D-4C72-A118-930C2E99F2B6}">
-					<ModuleList>
-						<Module>
-							<ObjectRef Name="PlayCannonFire" ID="{E29718B1-65CC-42A3-A9A5-7376B5C90188}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}"/>
-							<Position X="0" Y="0"/>
-						</Module>
-						<Module>
-							<ObjectRef Name="StopCannonFire" ID="{C94AEBBC-E942-4531-8E5A-DA3425D1DB55}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}"/>
-							<Position X="1" Y="0"/>
-						</Module>
-					</ModuleList>
 					<RTPCValueList ShowAll="true"/>
 					<CurrentStateList ShowAll="true"/>
 					<CurrentSwitchList ShowAll="true"/>

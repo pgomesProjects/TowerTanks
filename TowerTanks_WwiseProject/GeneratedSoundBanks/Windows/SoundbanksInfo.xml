@@ -2,7 +2,7 @@
 <SoundBanksInfo Platform="Windows" BasePlatform="Windows" SchemaVersion="16" SoundBankVersion="145">
 	<RootPaths>
 		<ProjectRoot>../..</ProjectRoot>
-		<SourceFilesRoot>../../.cache/Windows/</SourceFilesRoot>
+		<SourceFilesRoot>../../.cache/Windows</SourceFilesRoot>
 		<SoundBanksRoot>.</SoundBanksRoot>
 		<ExternalSourcesInputFile></ExternalSourcesInputFile>
 		<ExternalSourcesOutputRoot>.</ExternalSourcesOutputRoot>
@@ -22,10 +22,23 @@
 				<Bus Id="3803692087" Name="Master Audio Bus"/>
 			</Busses>
 		</SoundBank>
-		<SoundBank Id="3898083304" Type="User" Language="SFX" Hash="{D71B1821-E4E3-A464-923A-8414B2314BDC}">
-			<ShortName>SoundEffects</ShortName>
-			<Path>SoundEffects.bnk</Path>
+		<SoundBank Id="2880737896" Type="User" Language="SFX" Hash="{68FEE454-52DA-9B64-A5D8-11B9E088B5B0}">
+			<ShortName>mainbank</ShortName>
+			<Path>mainbank.bnk</Path>
+			<Media>
+				<File Id="806435377" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>TT_SFX_cannon-fires.wav</ShortName>
+					<CachePath>SFX/TT_SFX_cannon-fires_10C4C929.wem</CachePath>
+				</File>
+			</Media>
+			<Events>
+				<Event Id="155513425" Name="cannon_fire" DurationType="OneShot" DurationMin="1.6188124" DurationMax="1.6188124">
+					<MediaRefs>
+						<MediaRef Id="806435377"/>
+					</MediaRefs>
+				</Event>
+			</Events>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{C787A846-3C72-4780-E8B3-88C8B0B91ADB}</FileHash>
+	<FileHash>{3E4E9569-8700-B7C6-8176-20FB9B06465F}</FileHash>
 </SoundBanksInfo>

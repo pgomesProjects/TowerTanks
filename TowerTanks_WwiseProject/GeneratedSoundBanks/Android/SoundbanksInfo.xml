@@ -2,7 +2,7 @@
 <SoundBanksInfo Platform="Android" BasePlatform="Android" SchemaVersion="16" SoundBankVersion="145">
 	<RootPaths>
 		<ProjectRoot>../..</ProjectRoot>
-		<SourceFilesRoot>../../.cache/Android/</SourceFilesRoot>
+		<SourceFilesRoot>../../.cache/Android</SourceFilesRoot>
 		<SoundBanksRoot>.</SoundBanksRoot>
 		<ExternalSourcesInputFile></ExternalSourcesInputFile>
 		<ExternalSourcesOutputRoot>.</ExternalSourcesOutputRoot>
@@ -22,10 +22,23 @@
 				<Bus Id="3803692087" Name="Master Audio Bus"/>
 			</Busses>
 		</SoundBank>
-		<SoundBank Id="3898083304" Type="User" Language="SFX" Hash="{D71B1821-E4E3-A464-923A-8414B2314BDC}">
-			<ShortName>SoundEffects</ShortName>
-			<Path>SoundEffects.bnk</Path>
+		<SoundBank Id="2880737896" Type="User" Language="SFX" Hash="{68FEE454-52DA-9B64-A5D8-11B9E088B5B0}">
+			<ShortName>mainbank</ShortName>
+			<Path>mainbank.bnk</Path>
+			<Media>
+				<File Id="806435377" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>TT_SFX_cannon-fires.wav</ShortName>
+					<CachePath>SFX/TT_SFX_cannon-fires_10C4C929.wem</CachePath>
+				</File>
+			</Media>
+			<Events>
+				<Event Id="155513425" Name="cannon_fire" DurationType="OneShot" DurationMin="1.6188124" DurationMax="1.6188124">
+					<MediaRefs>
+						<MediaRef Id="806435377"/>
+					</MediaRefs>
+				</Event>
+			</Events>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{A367FB49-6AC5-B02A-7913-0337B773E3CB}</FileHash>
+	<FileHash>{5081E409-9905-4177-44FA-734FC5A199F2}</FileHash>
 </SoundBanksInfo>

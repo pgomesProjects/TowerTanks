@@ -1,6 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}" SchemaVersion="110">
 	<AudioObjects>
-		<WorkUnit Name="Default Work Unit" ID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}" PersistMode="Standalone">
+			<ChildrenList>
+				<Sound Name="TT_SFX_cannon-fires" ID="{0FD32079-BCEC-4F44-A946-CE747D14EA32}" ShortID="501759667">
+					<ReferenceList>
+						<Reference Name="Conversion">
+							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+						</Reference>
+						<Reference Name="OutputBus">
+							<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+						</Reference>
+					</ReferenceList>
+					<ChildrenList>
+						<AudioFileSource Name="TT_SFX_cannon-fires" ID="{E382D1DF-4480-4F0A-9AA7-9CCE5EAB4D67}">
+							<Language>SFX</Language>
+							<AudioFile>TT_SFX_cannon-fires.wav</AudioFile>
+							<MediaIDList>
+								<MediaID ID="806435377"/>
+							</MediaIDList>
+						</AudioFileSource>
+					</ChildrenList>
+					<ActiveSourceList>
+						<ActiveSource Name="TT_SFX_cannon-fires" ID="{E382D1DF-4480-4F0A-9AA7-9CCE5EAB4D67}" Platform="Linked"/>
+					</ActiveSourceList>
+				</Sound>
+			</ChildrenList>
+		</WorkUnit>
 	</AudioObjects>
 </WwiseDocument>

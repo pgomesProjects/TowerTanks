@@ -3,7 +3,7 @@
 	<Platform Name="Android" BasePlatform="Android" Generator="2022.1.2.8150"/>
 	<RootPaths>
 		<ProjectRoot>../..</ProjectRoot>
-		<SourceFilesRoot>../../.cache/Android/</SourceFilesRoot>
+		<SourceFilesRoot>../../.cache/Android</SourceFilesRoot>
 		<SoundBanksRoot>.</SoundBanksRoot>
 		<ExternalSourcesInputFile></ExternalSourcesInputFile>
 		<ExternalSourcesOutputRoot>.</ExternalSourcesOutputRoot>
@@ -28,5 +28,5 @@
 		<PrintObjectGuid>false</PrintObjectGuid>
 		<PrintObjectPath>false</PrintObjectPath>
 	</Settings>
-	<FileHash>{C43728E4-0E40-CA9E-4022-43AF63E3EA08}</FileHash>
+	<FileHash>{20CA1668-389C-9E91-3254-FF1A250BC4B5}</FileHash>
 </PlatformInfo>

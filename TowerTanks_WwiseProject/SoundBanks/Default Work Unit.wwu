@@ -3,8 +3,10 @@
 	<SoundBanks>
 		<WorkUnit Name="Default Work Unit" ID="{B8AF5FDF-2EB9-4294-90F5-318847F0E90D}" PersistMode="Standalone">
 			<ChildrenList>
-				<SoundBank Name="SoundEffects" ID="{BC387663-AC89-4D91-99E8-C00A34DE0136}">
-					<ObjectInclusionList/>
+				<SoundBank Name="mainbank" ID="{37497F3A-0B2B-421A-8CAB-0ADBE8B1C2B4}">
+					<ObjectInclusionList>
+						<ObjectRef Name="cannon_fire" ID="{D2DE6CE8-E7A4-4F5B-BE10-F2F5D8E3A2E2}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+					</ObjectInclusionList>
 					<ObjectExclusionList/>
 					<GameSyncExclusionList/>
 				</SoundBank>

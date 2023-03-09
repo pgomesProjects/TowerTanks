@@ -24,7 +24,7 @@ MonoBehaviour:
     ParentPath: Virtual Acoustics\Default Work Unit
     guid: 79d6e6cdcbdfcd4d9d052b236bc85600
     GuidInternal: 
-    m_lastTime: -8585233713800806062
+    m_lastTime: -8585233721575131554
     List: []
   AuxBusWwu:
   - PhysicalPath: Master-Mixer Hierarchy\Default Work Unit.wwu
@@ -38,7 +38,7 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy\Default Work Unit
     guid: 358467ebf0a09540b65ba3cce55d6389
     GuidInternal: 
-    m_lastTime: -8585233713801045290
+    m_lastTime: -8585233721575601546
     List:
     - name: Master Audio Bus
       guid: d8a41415a61d2a41a17e75ca0c2149f3
@@ -66,8 +66,22 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: df5fafb8b92e944290f5318847f0e90d
     GuidInternal: 
-    m_lastTime: -8585233713801005538
-    List: []
+    m_lastTime: -8585232193348179033
+    List:
+    - name: mainbank
+      guid: 3a7f49372b0b1a428cab0adbe8b1c2b4
+      id: 2880737896
+      PathAndIcons:
+      - ElementName: SoundBanks
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: df5fafb8b92e944290f5318847f0e90d
+      - ElementName: mainbank
+        ObjectType: 7
+        guid: 3a7f49372b0b1a428cab0adbe8b1c2b4
+      Path: SoundBanks\Default Work Unit\mainbank
   EventWwu:
   - PhysicalPath: Events\Default Work Unit.wwu
     PathAndIcons:
@@ -80,8 +94,25 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: 83957ce1e688d54e8b6b22beb20598dd
     GuidInternal: 
-    m_lastTime: -8585233713801065379
-    List: []
+    m_lastTime: -8585232193348244180
+    List:
+    - name: cannon_fire
+      guid: e86cded2a4e75b4fbe10f2f5d8e3a2e2
+      id: 155513425
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: cannon_fire
+        ObjectType: 3
+        guid: e86cded2a4e75b4fbe10f2f5d8e3a2e2
+      Path: Events\Default Work Unit\cannon_fire
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
   RtpcWwu:
   - PhysicalPath: Game Parameters\Default Work Unit.wwu
     PathAndIcons:
@@ -94,7 +125,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\Default Work Unit
     guid: 7fd26d170457f64b9c4075e46d49e907
     GuidInternal: 
-    m_lastTime: -8585233713801055340
+    m_lastTime: -8585233721574791579
     List: []
   StateWwu:
   - PhysicalPath: States\Default Work Unit.wwu
@@ -108,7 +139,7 @@ MonoBehaviour:
     ParentPath: States\Default Work Unit
     guid: a0b7341f178cca44b4803208de1bf889
     GuidInternal: 
-    m_lastTime: -8585233713800915765
+    m_lastTime: -8585233721574851566
     List: []
   SwitchWwu:
   - PhysicalPath: Switches\Default Work Unit.wwu
@@ -122,7 +153,7 @@ MonoBehaviour:
     ParentPath: Switches\Default Work Unit
     guid: 6d9d81080ab4cc4e872aa2d178ddb83f
     GuidInternal: 
-    m_lastTime: -8585233713800875692
+    m_lastTime: -8585233721575301503
     List: []
   TriggerWwu:
   - PhysicalPath: Triggers\Default Work Unit.wwu
@@ -136,10 +167,10 @@ MonoBehaviour:
     ParentPath: Triggers\Default Work Unit
     guid: 178f1c8b56862740bb45115316763d0e
     GuidInternal: 
-    m_lastTime: -8585233713800826013
+    m_lastTime: -8585233721574671589
     List: []
   ExpandedFileSystemItemIds: 
-  ExpandedWaapiItemIds: 
+  ExpandedWaapiItemIds: 0b000000
   AutoSyncSelection: 0
   autoPopulateEnabled: 1
   currentDataSource: 0
