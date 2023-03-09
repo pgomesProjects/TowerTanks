@@ -66,7 +66,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: df5fafb8b92e944290f5318847f0e90d
     GuidInternal: 
-    m_lastTime: -8585232191525126361
+    m_lastTime: -8585232173901823026
     List:
     - name: mainbank
       guid: 3a7f49372b0b1a428cab0adbe8b1c2b4
@@ -94,7 +94,7 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: 83957ce1e688d54e8b6b22beb20598dd
     GuidInternal: 
-    m_lastTime: -8585232191527260934
+    m_lastTime: -8585232173903498557
     List:
     - name: cannon_fire
       guid: e86cded2a4e75b4fbe10f2f5d8e3a2e2
@@ -169,9 +169,9 @@ MonoBehaviour:
     GuidInternal: 
     m_lastTime: -8585233647646032719
     List: []
-  ExpandedFileSystemItemIds: 090000000a000000
-  ExpandedWaapiItemIds: 090000000b000000
+  ExpandedFileSystemItemIds: 0200000003000000090000000a000000
+  ExpandedWaapiItemIds: 0200000003000000090000000a000000
   AutoSyncSelection: 1
   autoPopulateEnabled: 1
-  currentDataSource: 1
+  currentDataSource: 0
   CurrentPluginConfig: 

@@ -6,6 +6,10 @@ public enum CANNONDIRECTION { LEFT, RIGHT, UP, DOWN };
 
 public class CannonController : InteractableController
 {
+    [Header("Wwise Events")]
+    [SerializeField, Tooltip("The Wwise sound event for when the cannon fires.")] private AK.Wwise.Event cannonFireSFX;
+    [Space(10)]
+
     [SerializeField, Tooltip("The projectile GameObject.")] protected GameObject projectile;
     [SerializeField, Tooltip("The cannon pivot position.")] protected Transform cannonPivot;
     [SerializeField, Tooltip("The projectile spawn point position.")] protected GameObject spawnPoint;
@@ -52,7 +56,9 @@ public class CannonController : InteractableController
             GameObject currentProjectile = Instantiate(projectile, new Vector3(spawnPoint.transform.position.x, spawnPoint.transform.position.y, 0), Quaternion.identity);
 
             //Play sound effect
-            FindObjectOfType<AudioManager>().PlayOneShot("CannonFire", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+            cannonFireSFX.Post(gameObject);
+
+            //FindObjectOfType<AudioManager>().PlayOneShot("CannonFire", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
 
             Instantiate(cSmoke, spawnPoint.transform.position, Quaternion.identity);
 
