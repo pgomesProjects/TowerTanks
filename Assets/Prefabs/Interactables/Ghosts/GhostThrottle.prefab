@@ -253,4 +253,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   price: 50
   priceText: {fileID: 6774619604723192150}
-  interactableType: 2
+  interactableType: 3

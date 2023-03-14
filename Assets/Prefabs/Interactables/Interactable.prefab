@@ -144,7 +144,7 @@ MonoBehaviour:
   cancelEvent:
     m_PersistentCalls:
       m_Calls: []
-  lockPlayerIntoInteraction: 0
+  lockPlayerIntoInteraction: 1
   highlight: {fileID: 497899189391988315}
   lockedInteractionCanvas: {fileID: 7228422837651227282}
 --- !u!1 &6918198697986364278
@@ -242,7 +242,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8081533534418561302
 RectTransform:
   m_ObjectHideFlags: 0

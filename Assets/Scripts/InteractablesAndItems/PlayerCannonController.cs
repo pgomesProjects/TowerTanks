@@ -33,6 +33,15 @@ public class PlayerCannonController : CannonController
     }
 
     /// <summary>
+    /// Tries to fire the cannon when used.
+    /// </summary>
+    public override void OnUseInteractable()
+    {
+        if (IsInteractionActive())
+            CheckForCannonFire();
+    }
+
+    /// <summary>
     /// Checks the cannon to see if it can be fired.
     /// </summary>
     public void CheckForCannonFire()

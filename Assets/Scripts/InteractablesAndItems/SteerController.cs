@@ -106,13 +106,13 @@ public class SteerController : InteractableController
                 i.transform.Find("LeverPivot").localRotation = Quaternion.Lerp(startingRot, endingRot, t);
             }
 
-            LevelManager.instance.UpdateSpeed(Mathf.Lerp(startGameSpeed, endGameSpeed, t));
+            playerTank.UpdateSpeed(Mathf.Lerp(startGameSpeed, endGameSpeed, t));
 
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
-        LevelManager.instance.UpdateSpeed(playerTank.GetCurrentThrottleOption() + direction);
+        playerTank.UpdateSpeed(playerTank.GetCurrentThrottleOption() + direction);
 
         foreach (var i in GameObject.FindGameObjectsWithTag("Throttle"))
         {

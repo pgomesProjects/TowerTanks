@@ -93,6 +93,14 @@ public class InteractableController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Function called when the use button is pressed when locked into the interactable.
+    /// </summary>
+    public virtual void OnUseInteractable()
+    {
+
+    }
+
     public void OnCancel()
     {
         //If the object is interacted with, grab the function from the inspector that will decide what to do when canceling

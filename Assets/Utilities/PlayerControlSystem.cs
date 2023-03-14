@@ -127,22 +127,13 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Prev Interactable"",
-                    ""type"": ""Button"",
-                    ""id"": ""6ccffdcc-d25d-49bb-be1d-0ae215101e0e"",
-                    ""expectedControlType"": ""Button"",
+                    ""name"": ""Cycle Interactables"",
+                    ""type"": ""Value"",
+                    ""id"": ""a6864a68-0e91-4d51-83d8-ae98a2ca7926"",
+                    ""expectedControlType"": ""Axis"",
                     ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Next Interactable"",
-                    ""type"": ""Button"",
-                    ""id"": ""b1a15944-0bc5-4d78-939a-22dbb4f8bb09"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""OnLadderEnter"",
@@ -592,50 +583,6 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""33343eea-6e2b-47ef-b3b5-45911bd5aa6a"",
-                    ""path"": ""<Keyboard>/rightBracket"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard and Mouse"",
-                    ""action"": ""Next Interactable"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""7cc581de-1f0e-4c02-aa75-5ecef3f4adc2"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Next Interactable"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""2bcebc98-cb4b-4081-b810-a9ddc0b155a3"",
-                    ""path"": ""<Gamepad>/leftTrigger"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Prev Interactable"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""712f2ab2-4b45-4591-b793-f2a1129e1ca4"",
-                    ""path"": ""<Keyboard>/leftBracket"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard and Mouse"",
-                    ""action"": ""Prev Interactable"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
                     ""name"": ""Left Stick"",
                     ""id"": ""1ccf85bf-3b45-4246-9614-97faa14d502e"",
                     ""path"": ""1DAxis"",
@@ -986,6 +933,72 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""action"": ""CannonScroll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Gamepad"",
+                    ""id"": ""de92d0dd-acc6-4ac0-8df9-d24ce98410c4"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cycle Interactables"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""f38658d3-2a30-403f-8694-9578c44f108a"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Cycle Interactables"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""2a755e55-898a-4e2c-b5e8-d222c7936c15"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Cycle Interactables"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Keyboard"",
+                    ""id"": ""13a58f04-9ee2-406a-89bc-b7885ee573e8"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cycle Interactables"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""383a4658-1357-4af6-bf1f-0add6164e031"",
+                    ""path"": ""<Keyboard>/leftBracket"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Cycle Interactables"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""9e0857d0-e984-4ba4-867a-4720e2598398"",
+                    ""path"": ""<Keyboard>/rightBracket"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Cycle Interactables"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -1721,8 +1734,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         m_Player_Throw = m_Player.FindAction("Throw", throwIfNotFound: true);
         m_Player_ControlSteering = m_Player.FindAction("Control Steering", throwIfNotFound: true);
         m_Player_Use = m_Player.FindAction("Use", throwIfNotFound: true);
-        m_Player_PrevInteractable = m_Player.FindAction("Prev Interactable", throwIfNotFound: true);
-        m_Player_NextInteractable = m_Player.FindAction("Next Interactable", throwIfNotFound: true);
+        m_Player_CycleInteractables = m_Player.FindAction("Cycle Interactables", throwIfNotFound: true);
         m_Player_OnLadderEnter = m_Player.FindAction("OnLadderEnter", throwIfNotFound: true);
         m_Player_OnLadderExit = m_Player.FindAction("OnLadderExit", throwIfNotFound: true);
         m_Player_CannonScroll = m_Player.FindAction("CannonScroll", throwIfNotFound: true);
@@ -1810,8 +1822,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Throw;
     private readonly InputAction m_Player_ControlSteering;
     private readonly InputAction m_Player_Use;
-    private readonly InputAction m_Player_PrevInteractable;
-    private readonly InputAction m_Player_NextInteractable;
+    private readonly InputAction m_Player_CycleInteractables;
     private readonly InputAction m_Player_OnLadderEnter;
     private readonly InputAction m_Player_OnLadderExit;
     private readonly InputAction m_Player_CannonScroll;
@@ -1830,8 +1841,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         public InputAction @Throw => m_Wrapper.m_Player_Throw;
         public InputAction @ControlSteering => m_Wrapper.m_Player_ControlSteering;
         public InputAction @Use => m_Wrapper.m_Player_Use;
-        public InputAction @PrevInteractable => m_Wrapper.m_Player_PrevInteractable;
-        public InputAction @NextInteractable => m_Wrapper.m_Player_NextInteractable;
+        public InputAction @CycleInteractables => m_Wrapper.m_Player_CycleInteractables;
         public InputAction @OnLadderEnter => m_Wrapper.m_Player_OnLadderEnter;
         public InputAction @OnLadderExit => m_Wrapper.m_Player_OnLadderExit;
         public InputAction @CannonScroll => m_Wrapper.m_Player_CannonScroll;
@@ -1877,12 +1887,9 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @Use.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUse;
                 @Use.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUse;
                 @Use.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUse;
-                @PrevInteractable.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPrevInteractable;
-                @PrevInteractable.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPrevInteractable;
-                @PrevInteractable.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPrevInteractable;
-                @NextInteractable.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnNextInteractable;
-                @NextInteractable.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnNextInteractable;
-                @NextInteractable.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnNextInteractable;
+                @CycleInteractables.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCycleInteractables;
+                @CycleInteractables.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCycleInteractables;
+                @CycleInteractables.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCycleInteractables;
                 @OnLadderEnter.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOnLadderEnter;
                 @OnLadderEnter.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOnLadderEnter;
                 @OnLadderEnter.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOnLadderEnter;
@@ -1929,12 +1936,9 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @Use.started += instance.OnUse;
                 @Use.performed += instance.OnUse;
                 @Use.canceled += instance.OnUse;
-                @PrevInteractable.started += instance.OnPrevInteractable;
-                @PrevInteractable.performed += instance.OnPrevInteractable;
-                @PrevInteractable.canceled += instance.OnPrevInteractable;
-                @NextInteractable.started += instance.OnNextInteractable;
-                @NextInteractable.performed += instance.OnNextInteractable;
-                @NextInteractable.canceled += instance.OnNextInteractable;
+                @CycleInteractables.started += instance.OnCycleInteractables;
+                @CycleInteractables.performed += instance.OnCycleInteractables;
+                @CycleInteractables.canceled += instance.OnCycleInteractables;
                 @OnLadderEnter.started += instance.OnOnLadderEnter;
                 @OnLadderEnter.performed += instance.OnOnLadderEnter;
                 @OnLadderEnter.canceled += instance.OnOnLadderEnter;
@@ -2127,8 +2131,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         void OnThrow(InputAction.CallbackContext context);
         void OnControlSteering(InputAction.CallbackContext context);
         void OnUse(InputAction.CallbackContext context);
-        void OnPrevInteractable(InputAction.CallbackContext context);
-        void OnNextInteractable(InputAction.CallbackContext context);
+        void OnCycleInteractables(InputAction.CallbackContext context);
         void OnOnLadderEnter(InputAction.CallbackContext context);
         void OnOnLadderExit(InputAction.CallbackContext context);
         void OnCannonScroll(InputAction.CallbackContext context);

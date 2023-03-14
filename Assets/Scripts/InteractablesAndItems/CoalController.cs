@@ -72,7 +72,19 @@ public class CoalController : InteractableController
         }
     }
 
-    public void ProgressCoalFill()
+    /// <summary>
+    /// Progresses the coal fill when used.
+    /// </summary>
+    public override void OnUseInteractable()
+    {
+        if(IsInteractionActive())
+            ProgressCoalFill();
+    }
+
+    /// <summary>
+    /// Progresses the coal fill meter.
+    /// </summary>
+    private void ProgressCoalFill()
     {
         //If there is a player
         if (currentPlayer != null)

@@ -108,20 +108,6 @@ public class LevelManager : MonoBehaviour
         itemPrice.Add("NewLayer", 100);
     }
 
-    public void UpdateSpeed(int speedUpdate)
-    {
-        playerTank.SetCurrentThrottleOption(speedUpdate);
-        playerTank.SetThrottleMultiplier(PlayerTankController.throttleSpeedOptions[speedUpdate]);
-
-        playerTank.UpdateTreadsSFX();
-        playerTank.UpdateTreadParticles();
-    }
-
-    public void UpdateSpeed(float speed)
-    {
-        playerTank.SetThrottleMultiplier(speed);
-    }
-
     public void UpdateResources(int resources)
     {
         //Display the resources in a fancy way
@@ -218,16 +204,15 @@ public class LevelManager : MonoBehaviour
             currentSessionStats.maxHeight = totalLayers;
     }
 
+    /// <summary>
+    /// Moves the anchor on top of the tank so that the camera can view the entire tank.
+    /// </summary>
     private void AdjustCameraPosition()
     {
         if (totalLayers > 2)
-        {
             playerTank.transform.Find("TankFollowTop").transform.localPosition = new Vector2(0, 4 + (totalLayers * 4) + ((totalLayers - 2) * 1.5f));
-        }
         else
-        {
             playerTank.transform.Find("TankFollowTop").transform.localPosition = new Vector2(0, 4);
-        }
     }
 
     public void AddGhostLayer()
@@ -241,15 +226,10 @@ public class LevelManager : MonoBehaviour
     public void HideGhostLayer()
     {
         if(currentGhostLayer != null)
-        {
             currentGhostLayer.SetActive(false);
-        }
     }
 
-    public void RemoveGhostLayer()
-    {
-        Destroy(currentGhostLayer);
-    }
+    public void RemoveGhostLayer() => Destroy(currentGhostLayer);
 
     public void CheckInteractablesOnLayer(int index)
     {
@@ -363,14 +343,6 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        /*        foreach (var player in FindObjectsOfType<PlayerController>())
-                {
-                    Debug.Log("Player " + (player.GetPlayerIndex() + 1) + " Action Map: " + player.GetComponent<PlayerInput>().currentActionMap.name);
-                }*/
-    }
-
     public void AdjustLayerSystem(int destroyedLayer)
     {
         //If there are no more layers, the game is over
@@ -467,7 +439,6 @@ public class LevelManager : MonoBehaviour
 
     public void StartCombatMusic(int layers)
     {
-
         if (layers >= 7)
         {
             if (!FindObjectOfType<AudioManager>().IsPlaying("CombatLayer3"))

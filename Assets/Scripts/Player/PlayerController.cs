@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
     private float defaultGravity;
 
     internal InteractableController currentInteractableItem;
-    internal ToggleInteractBuy currentInteractableToBuy;
+    internal PriceIndicator currentInteractableToBuy;
 
     private Item closestItem;
     private Item itemHeld;
@@ -90,7 +90,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (UIAllowPlayerInteract())
+        if (PlayerCanInteract())
         {
             if(GetComponent<PlayerInput>().currentControlScheme == "Gamepad")
             {
@@ -286,7 +286,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnInteract(InputAction.CallbackContext ctx)
     {
-        if (UIAllowPlayerInteract())
+        if (PlayerCanInteract())
         {
             //If the player presses the interact button
             if (ctx.started)
@@ -312,7 +312,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnUse(InputAction.CallbackContext ctx)
     {
-        if (UIAllowPlayerInteract())
+        if (PlayerCanInteract())
         {
             //If the player presses the use button
             if (ctx.started)
@@ -332,27 +332,7 @@ public class PlayerController : MonoBehaviour
                 //If the player is near an interactable
                 else if (currentInteractableItem != null)
                 {
-                    //If the interactable is a cannon
-                    if (currentInteractableItem.GetComponent<CannonController>() != null)
-                    {
-                        //If the player is interacting with the cannon
-                        if (currentInteractableItem.IsInteractionActive())
-                        {
-                            //Check to see if the player can fire the cannon
-                            currentInteractableItem.GetComponent<PlayerCannonController>().CheckForCannonFire();
-                        }
-                    }
-
-                    //If the interactable is an engine
-                    if (currentInteractableItem.GetComponent<CoalController>() != null)
-                    {
-                        //If the player is interacting with the engine
-                        if (currentInteractableItem.IsInteractionActive())
-                        {
-                            //Progress the engine fill animation
-                            currentInteractableItem.GetComponent<CoalController>().ProgressCoalFill();
-                        }
-                    }
+                    currentInteractableItem.OnUseInteractable();
                 }
 
                 //If nothing else applies, the player has no item. Use the wrench, if possible
@@ -414,9 +394,9 @@ public class PlayerController : MonoBehaviour
             foreach (var i in GameObject.FindGameObjectsWithTag("GhostObject"))
             {
                 //If a player can purchase an interactable, try to purchase it
-                if (i.GetComponent<ToggleInteractBuy>().PlayerCanPurchase())
+                if (i.GetComponent<PriceIndicator>().PlayerCanPurchase())
                 {
-                    i.GetComponent<ToggleInteractBuy>().PurchaseInteractable();
+                    i.GetComponent<PriceIndicator>().PurchaseInteractable();
                     Instantiate(smabuildscraps, transform.position, Quaternion.identity);
                 }
             }
@@ -489,37 +469,16 @@ public class PlayerController : MonoBehaviour
         layerHealth.RepairLayer();
     }
 
-    public void OnPrevInteractable(InputAction.CallbackContext ctx)
+    public void OnCycleInteractable(InputAction.CallbackContext ctx)
     {
-        if (UIAllowPlayerInteract())
+        if (PlayerCanInteract())
         {
-            //If the player presses the previous interactable button
+            //If the player presses the cycle interactable button
             if (ctx.performed)
             {
-                if (PlayerHasItem("Hammer"))
+                if (PlayerHasItem("Hammer") && currentInteractableToBuy != null)
                 {
-                    if (currentInteractableToBuy != null)
-                    {
-                        FindObjectOfType<InteractableSpawnerManager>().UpdateGhostInteractable(currentInteractableToBuy.transform.parent.GetComponent<InteractableSpawner>(), -1);
-                    }
-                }
-            }
-        }
-    }
-
-    public void OnNextInteractable(InputAction.CallbackContext ctx)
-    {
-        if (UIAllowPlayerInteract())
-        {
-            //If the player presses the next interactable button
-            if (ctx.performed)
-            {
-                if (PlayerHasItem("Hammer"))
-                {
-                    if (currentInteractableToBuy != null)
-                    {
-                        FindObjectOfType<InteractableSpawnerManager>().UpdateGhostInteractable(currentInteractableToBuy.transform.parent.GetComponent<InteractableSpawner>(), 1);
-                    }
+                    FindObjectOfType<InteractableSpawnerManager>().UpdateGhostInteractable(currentInteractableToBuy.transform.parent.GetComponent<InteractableSpawner>(), (int)ctx.ReadValue<float>());
                 }
             }
         }
@@ -649,16 +608,7 @@ public class PlayerController : MonoBehaviour
         return itemHeld;
     }
 
-    public bool PlayerHasItem(string name)
-    {
-        if(itemHeld != null)
-        {
-            if (itemHeld.CompareTag(name))
-                return true;
-        }
-
-        return false;
-    }
+    public bool PlayerHasItem(string name) => itemHeld != null && itemHeld.CompareTag(name);
 
     public void DestroyItem()
     {
@@ -669,7 +619,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnPickup(InputAction.CallbackContext ctx)
     {
-        if (UIAllowPlayerInteract())
+        if (PlayerCanInteract())
         {
             if(LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
             {
@@ -695,7 +645,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnThrow(InputAction.CallbackContext ctx)
     {
-        if (UIAllowPlayerInteract())
+        if (PlayerCanInteract())
         {
             if (LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
             {
@@ -921,7 +871,7 @@ public class PlayerController : MonoBehaviour
         FindObjectOfType<AudioManager>().PlayAtRandomPitch("TankImpact", PlayerPrefs.GetFloat("SFXVolume", 0.75f));
     }
 
-    public bool UIAllowPlayerInteract()
+    public bool PlayerCanInteract()
     {
         if(LevelManager.instance != null)
             return !LevelManager.instance.isPaused && !LevelManager.instance.readingTutorial;

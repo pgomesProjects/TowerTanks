@@ -157,4 +157,12 @@ public class TutorialController : MonoBehaviour
 
         return true;
     }
+
+    public void CheckForTutorialCompletion(TUTORIALSTATE tutorialState)
+    {
+        if (IsTutorialStateActive(tutorialState))
+            OnTutorialTaskCompletion();
+    }
+
+    private bool IsTutorialStateActive(TUTORIALSTATE tutorialState) => LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL && currentTutorialState == tutorialState;
 }

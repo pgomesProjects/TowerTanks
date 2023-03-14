@@ -10,9 +10,10 @@ public class SessionStats : ScriptableObject
     public int wavesCleared;
     public int normalTanksDefeated;
     public int drillTanksDefeated;
+    public int mortarTanksDefeated;
 
     public int numberOfCannons;
-    public int numberOfAmmoCrates;
     public int numberOfEngines;
+    public int numberOfDumpsters;
     public int numberOfThrottles;
 }

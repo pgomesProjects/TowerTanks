@@ -168,6 +168,28 @@ public class PlayerTankController : MonoBehaviour
     }
 
     /// <summary>
+    /// Updates the speed of the tank.
+    /// </summary>
+    /// <param name="speedUpdate">The new speed of the tank.</param>
+    public void UpdateSpeed(int speedUpdate)
+    {
+        SetCurrentThrottleOption(speedUpdate);
+        SetThrottleMultiplier(throttleSpeedOptions[speedUpdate]);
+
+        UpdateTreadsSFX();
+        UpdateTreadParticles();
+    }
+
+    /// <summary>
+    /// Updates the speed of the tank.
+    /// </summary>
+    /// <param name="speed">The new speed of the tank.</param>
+    public void UpdateSpeed(float speed)
+    {
+        SetThrottleMultiplier(speed);
+    }
+
+    /// <summary>
     /// Adjust the tank's speed based on the number of engines it has.
     /// </summary>
     public void AdjustEngineSpeedMultiplier()

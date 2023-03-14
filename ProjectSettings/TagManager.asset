@@ -28,6 +28,8 @@ TagManager:
   - ItemContainer
   - PlayerTankCollider
   - PlayerContainer
+  - Dumpster
+  - Scrap
   layers:
   - Default
   - TransparentFX

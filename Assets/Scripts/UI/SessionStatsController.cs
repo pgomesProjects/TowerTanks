@@ -36,8 +36,8 @@ public class SessionStatsController : MonoBehaviour
             "Normal Tanks Defeated: " + sessionStats.normalTanksDefeated + "\n"+
             "Drill Tanks Defeated: " + sessionStats.drillTanksDefeated + "\n" +
             "Number Of Cannons Built: " + sessionStats.numberOfCannons + "\n" +
-            "Number Of Ammo Crates Built: " + sessionStats.numberOfAmmoCrates + "\n" +
             "Number Of Engines Built: " + sessionStats.numberOfEngines + "\n" +
+            "Number Of Dumpsters Built: " + sessionStats.numberOfDumpsters + "\n" +
             "Number Of Throttles Built: " + sessionStats.numberOfThrottles + "";
 
         sessionText.text = sessionsData;

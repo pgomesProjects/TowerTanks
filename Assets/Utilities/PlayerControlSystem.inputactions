@@ -105,22 +105,13 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Prev Interactable",
-                    "type": "Button",
-                    "id": "6ccffdcc-d25d-49bb-be1d-0ae215101e0e",
-                    "expectedControlType": "Button",
+                    "name": "Cycle Interactables",
+                    "type": "Value",
+                    "id": "a6864a68-0e91-4d51-83d8-ae98a2ca7926",
+                    "expectedControlType": "Axis",
                     "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Next Interactable",
-                    "type": "Button",
-                    "id": "b1a15944-0bc5-4d78-939a-22dbb4f8bb09",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
+                    "interactions": "Press",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "OnLadderEnter",
@@ -570,50 +561,6 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "",
-                    "id": "33343eea-6e2b-47ef-b3b5-45911bd5aa6a",
-                    "path": "<Keyboard>/rightBracket",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard and Mouse",
-                    "action": "Next Interactable",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "7cc581de-1f0e-4c02-aa75-5ecef3f4adc2",
-                    "path": "<Gamepad>/rightTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Next Interactable",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "2bcebc98-cb4b-4081-b810-a9ddc0b155a3",
-                    "path": "<Gamepad>/leftTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Prev Interactable",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "712f2ab2-4b45-4591-b793-f2a1129e1ca4",
-                    "path": "<Keyboard>/leftBracket",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard and Mouse",
-                    "action": "Prev Interactable",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
                     "name": "Left Stick",
                     "id": "1ccf85bf-3b45-4246-9614-97faa14d502e",
                     "path": "1DAxis",
@@ -964,6 +911,72 @@
                     "action": "CannonScroll",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "Gamepad",
+                    "id": "de92d0dd-acc6-4ac0-8df9-d24ce98410c4",
+                    "path": "1DAxis",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Cycle Interactables",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "f38658d3-2a30-403f-8694-9578c44f108a",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Cycle Interactables",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "2a755e55-898a-4e2c-b5e8-d222c7936c15",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Cycle Interactables",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Keyboard",
+                    "id": "13a58f04-9ee2-406a-89bc-b7885ee573e8",
+                    "path": "1DAxis",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Cycle Interactables",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "383a4658-1357-4af6-bf1f-0add6164e031",
+                    "path": "<Keyboard>/leftBracket",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard and Mouse",
+                    "action": "Cycle Interactables",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "9e0857d0-e984-4ba4-867a-4720e2598398",
+                    "path": "<Keyboard>/rightBracket",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard and Mouse",
+                    "action": "Cycle Interactables",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         },
