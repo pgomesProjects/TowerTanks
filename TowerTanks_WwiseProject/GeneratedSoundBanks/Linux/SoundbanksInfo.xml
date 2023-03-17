@@ -22,23 +22,239 @@
 				<Bus Id="3803692087" Name="Master Audio Bus"/>
 			</Busses>
 		</SoundBank>
-		<SoundBank Id="2880737896" Type="User" Language="SFX" Hash="{68FEE454-52DA-9B64-A5D8-11B9E088B5B0}">
+		<SoundBank Id="2880737896" Type="User" Language="SFX" Hash="{85C7ABF8-40CE-5D0B-10EC-20290D344509}">
 			<ShortName>mainbank</ShortName>
 			<Path>mainbank.bnk</Path>
 			<Media>
+				<File Id="3469524" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>TT_SFX_engine-dying-2.wav</ShortName>
+					<CachePath>SFX/TT_SFX_engine-dying-2_10C4C929.wem</CachePath>
+				</File>
+				<File Id="22366201" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>TT_SFX_cannon-reload.wav</ShortName>
+					<CachePath>SFX/TT_SFX_cannon-reload_10C4C929.wem</CachePath>
+				</File>
+				<File Id="188920233" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>button_cancel.wav</ShortName>
+					<CachePath>SFX/button_cancel_10C4C929.wem</CachePath>
+				</File>
+				<File Id="258066100" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>TT_SFX_tank-impact.wav</ShortName>
+					<CachePath>SFX/TT_SFX_tank-impact_10C4C929.wem</CachePath>
+				</File>
+				<File Id="401117418" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>TT_SFX_character-use.wav</ShortName>
+					<CachePath>SFX/TT_SFX_character-use_10C4C929.wem</CachePath>
+				</File>
+				<File Id="498551846" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>TT_SFX_engine-dying.wav</ShortName>
+					<CachePath>SFX/TT_SFX_engine-dying_10C4C929.wem</CachePath>
+				</File>
+				<File Id="544191574" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>TT_SFX_projectile-in-air.wav</ShortName>
+					<CachePath>SFX/TT_SFX_projectile-in-air_10C4C929.wem</CachePath>
+				</File>
+				<File Id="563431773" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>TT_SFX_small-explosion.wav</ShortName>
+					<CachePath>SFX/TT_SFX_small-explosion_10C4C929.wem</CachePath>
+				</File>
+				<File Id="575432004" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>TT_SFX_loading-coal.wav</ShortName>
+					<CachePath>SFX/TT_SFX_loading-coal_10C4C929.wem</CachePath>
+				</File>
+				<File Id="579595110" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>TT_SFX_fire-burning.wav</ShortName>
+					<CachePath>SFX/TT_SFX_fire-burning_10C4C929.wem</CachePath>
+				</File>
+				<File Id="608155079" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>updated_ladder_climb.wav</ShortName>
+					<CachePath>SFX/updated_ladder_climb_10C4C929.wem</CachePath>
+				</File>
+				<File Id="616062773" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>TT_SFX_throttle-click.wav</ShortName>
+					<CachePath>SFX/TT_SFX_throttle-click_10C4C929.wem</CachePath>
+				</File>
+				<File Id="652002572" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>metal_footstep.wav</ShortName>
+					<CachePath>SFX/metal_footstep_10C4C929.wem</CachePath>
+				</File>
+				<File Id="676306554" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>TT_SFX_cannon-lock-in-place.wav</ShortName>
+					<CachePath>SFX/TT_SFX_cannon-lock-in-place_10C4C929.wem</CachePath>
+				</File>
+				<File Id="680578571" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>muffled_cannon_fire.wav</ShortName>
+					<CachePath>SFX/muffled_cannon_fire_10C4C929.wem</CachePath>
+				</File>
+				<File Id="729628631" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>text_beep.wav</ShortName>
+					<CachePath>SFX/text_beep_10C4C929.wem</CachePath>
+				</File>
+				<File Id="763069168" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>TT_SFX_throttle-shift.wav</ShortName>
+					<CachePath>SFX/TT_SFX_throttle-shift_10C4C929.wem</CachePath>
+				</File>
 				<File Id="806435377" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_cannon-fires.wav</ShortName>
 					<CachePath>SFX/TT_SFX_cannon-fires_10C4C929.wem</CachePath>
 				</File>
+				<File Id="813749911" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>button_hover.wav</ShortName>
+					<CachePath>SFX/button_hover_10C4C929.wem</CachePath>
+				</File>
+				<File Id="835123090" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>TT_SFX_text-scroll.wav</ShortName>
+					<CachePath>SFX/TT_SFX_text-scroll_10C4C929.wem</CachePath>
+				</File>
+				<File Id="872036804" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>TT_SFX_tank-engine.wav</ShortName>
+					<CachePath>SFX/TT_SFX_tank-engine_10C4C929.wem</CachePath>
+				</File>
+				<File Id="882478931" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>TT_SFX_wrench.wav</ShortName>
+					<CachePath>SFX/TT_SFX_wrench_10C4C929.wem</CachePath>
+				</File>
+				<File Id="1046025241" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>TT_SFX_large-explosion.wav</ShortName>
+					<CachePath>SFX/TT_SFX_large-explosion_10C4C929.wem</CachePath>
+				</File>
+				<File Id="1049821619" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>TT_SFX_tank-rolling.wav</ShortName>
+					<CachePath>SFX/TT_SFX_tank-rolling_10C4C929.wem</CachePath>
+				</File>
+				<File Id="1065158661" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>TT_SFX_medium-explosion.wav</ShortName>
+					<CachePath>SFX/TT_SFX_medium-explosion_10C4C929.wem</CachePath>
+				</File>
 			</Media>
 			<Events>
+				<Event Id="3130542990" Name="button_cancel" DurationType="OneShot" DurationMin="0.311625" DurationMax="0.311625">
+					<MediaRefs>
+						<MediaRef Id="188920233"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1701177942" Name="button_hover" DurationType="OneShot" DurationMin="0.30254167" DurationMax="0.30254167">
+					<MediaRefs>
+						<MediaRef Id="813749911"/>
+					</MediaRefs>
+				</Event>
 				<Event Id="155513425" Name="cannon_fire" DurationType="OneShot" DurationMin="1.6188124" DurationMax="1.6188124">
 					<MediaRefs>
 						<MediaRef Id="806435377"/>
 					</MediaRefs>
 				</Event>
+				<Event Id="1967707158" Name="cannon_lock_in_place" DurationType="OneShot" DurationMin="1.3653333" DurationMax="1.3653333">
+					<MediaRefs>
+						<MediaRef Id="676306554"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3265936618" Name="cannon_reload" DurationType="OneShot" DurationMin="1.374" DurationMax="1.374">
+					<MediaRefs>
+						<MediaRef Id="22366201"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3289544510" Name="character_use" DurationType="OneShot" DurationMin="0.35539582" DurationMax="0.35539582">
+					<MediaRefs>
+						<MediaRef Id="401117418"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3121770429" Name="engine_dying" DurationType="OneShot" DurationMin="0.6927083" DurationMax="0.6927083">
+					<MediaRefs>
+						<MediaRef Id="498551846"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1498048058" Name="engine_dying_2" DurationType="OneShot" DurationMin="4.9838333" DurationMax="4.9838333">
+					<MediaRefs>
+						<MediaRef Id="3469524"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1318321645" Name="fire_burning" DurationType="OneShot" DurationMin="7.999979" DurationMax="7.999979">
+					<MediaRefs>
+						<MediaRef Id="579595110"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1707141479" Name="ladder_climb" DurationType="OneShot" DurationMin="0.39514583" DurationMax="0.39514583">
+					<MediaRefs>
+						<MediaRef Id="608155079"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="531217250" Name="large_explosion" DurationType="OneShot" DurationMin="8.200666" DurationMax="8.200666">
+					<MediaRefs>
+						<MediaRef Id="1046025241"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="164337995" Name="loading_coal" DurationType="OneShot" DurationMin="3.0376875" DurationMax="3.0376875">
+					<MediaRefs>
+						<MediaRef Id="575432004"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2121623384" Name="medium_explosion" DurationType="OneShot" DurationMin="5.6" DurationMax="5.6">
+					<MediaRefs>
+						<MediaRef Id="1065158661"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3615561815" Name="metal_footstep" DurationType="OneShot" DurationMin="0.30911565" DurationMax="0.30911565">
+					<MediaRefs>
+						<MediaRef Id="652002572"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3902994021" Name="muffled_cannon_fire" DurationType="OneShot" DurationMin="2.4096458" DurationMax="2.4096458">
+					<MediaRefs>
+						<MediaRef Id="680578571"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="137332291" Name="projectile_in_air" DurationType="OneShot" DurationMin="6" DurationMax="6">
+					<MediaRefs>
+						<MediaRef Id="544191574"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3519998062" Name="small_explosion" DurationType="OneShot" DurationMin="1.715625" DurationMax="1.715625">
+					<MediaRefs>
+						<MediaRef Id="563431773"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="212754890" Name="tank_engine" DurationType="OneShot" DurationMin="3.875" DurationMax="3.875">
+					<MediaRefs>
+						<MediaRef Id="872036804"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="70658946" Name="tank_impact" DurationType="OneShot" DurationMin="1.374" DurationMax="1.374">
+					<MediaRefs>
+						<MediaRef Id="258066100"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="299811467" Name="tank_rolling" DurationType="OneShot" DurationMin="7.75" DurationMax="7.75">
+					<MediaRefs>
+						<MediaRef Id="1049821619"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2012015775" Name="text_beep" DurationType="OneShot" DurationMin="0.05075" DurationMax="0.05075">
+					<MediaRefs>
+						<MediaRef Id="729628631"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3510154964" Name="text_scroll" DurationType="OneShot" DurationMin="0.041854165" DurationMax="0.041854165">
+					<MediaRefs>
+						<MediaRef Id="835123090"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1141416880" Name="throttle_click" DurationType="OneShot" DurationMin="0.47510415" DurationMax="0.47510415">
+					<MediaRefs>
+						<MediaRef Id="616062773"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1821032580" Name="throttle_shift" DurationType="OneShot" DurationMin="0.12495834" DurationMax="0.12495834">
+					<MediaRefs>
+						<MediaRef Id="763069168"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1797317650" Name="wrench" DurationType="OneShot" DurationMin="1.374" DurationMax="1.374">
+					<MediaRefs>
+						<MediaRef Id="882478931"/>
+					</MediaRefs>
+				</Event>
 			</Events>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{0798A4A9-2554-D11E-E17F-6B5CD8A820A6}</FileHash>
+	<FileHash>{B9F64949-24F6-52B2-DBC5-9FA2010ADC77}</FileHash>
 </SoundBanksInfo>
