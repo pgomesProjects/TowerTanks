@@ -35,6 +35,8 @@ public class PlayerController : MonoBehaviour
     internal InteractableController currentInteractableItem;
     internal PriceIndicator currentInteractableToBuy;
 
+    private Transform scrapHolder;
+
     private Item closestItem;
     private Item itemHeld;
     private bool isHoldingItem;
@@ -72,6 +74,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         playerAnimator = GetComponent<Animator>();
         defaultGravity = rb.gravityScale;
+        scrapHolder = transform.Find("ScrapHolder");
         isHoldingItem = false;
         hasMoved = false;
         canClimb = false;
@@ -442,8 +445,8 @@ public class PlayerController : MonoBehaviour
     {
         LayerHealthManager layerHealth = LevelManager.instance.GetPlayerTank().GetLayerAt(currentLayer - 1);
 
-        //If the layer the player is damaged
-        if (layerHealth.GetLayerHealth() < layerHealth.GetMaxHealth())
+        //If the layer the player is damaged and the player has scrap, use the wrench
+        if (layerHealth.GetLayerHealth() < layerHealth.GetMaxHealth() && scrapHolder.childCount > 0)
         {
             if (timeToUseWrench > 0)
             {
@@ -467,6 +470,9 @@ public class PlayerController : MonoBehaviour
         //Restore the layer the player is on to max health
         LayerHealthManager layerHealth = LevelManager.instance.GetPlayerTank().GetLayerAt(currentLayer - 1);
         layerHealth.RepairLayer();
+
+        //Remove scrap from the scrap holder
+        Destroy(scrapHolder.GetChild(0).gameObject);
     }
 
     public void OnCycleInteractable(InputAction.CallbackContext ctx)

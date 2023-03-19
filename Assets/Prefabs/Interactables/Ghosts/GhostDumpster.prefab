@@ -29,7 +29,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 211861659154876950, guid: d0446cf671e3fa4498cd2efde408dffc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 211861659154876950, guid: d0446cf671e3fa4498cd2efde408dffc, type: 3}
       propertyPath: m_LocalPosition.z
@@ -67,6 +67,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3939016758238544991, guid: d0446cf671e3fa4498cd2efde408dffc, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7616705898327960362, guid: d0446cf671e3fa4498cd2efde408dffc, type: 3}
+      propertyPath: m_Color.a
+      value: 0.23529412
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 211861659154876951, guid: d0446cf671e3fa4498cd2efde408dffc, type: 3}
     - {fileID: 211861659154876952, guid: d0446cf671e3fa4498cd2efde408dffc, type: 3}
@@ -90,7 +98,7 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 2.47}
+  m_Offset: {x: 0, y: 1.19}
   serializedVersion: 2
   m_Radius: 4
 --- !u!114 &4331324772229227575
@@ -194,7 +202,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1647535281067600056, guid: c6016890e751f6d4b8844f647f069ef9, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 5
+      value: 3.5
       objectReference: {fileID: 0}
     - target: {fileID: 1647535281067600056, guid: c6016890e751f6d4b8844f647f069ef9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

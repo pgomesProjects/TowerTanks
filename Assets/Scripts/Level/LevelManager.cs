@@ -414,7 +414,7 @@ public class LevelManager : MonoBehaviour
     public void HideGoPrompt()
     {
         if (goPrompt != null)
-            goPrompt.SetActive(false);
+            goPrompt.GetComponent<GoArrowAnimation>().EndAnimation();
     }
 
     public void TransitionGameState()

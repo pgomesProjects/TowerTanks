@@ -6352,6 +6352,7 @@ GameObject:
   - component: {fileID: 1550565004}
   - component: {fileID: 1550565006}
   - component: {fileID: 1550565005}
+  - component: {fileID: 1550565008}
   - component: {fileID: 1550565007}
   m_Layer: 5
   m_Name: StartPrompt
@@ -6477,26 +6478,33 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1550565003}
   m_CullTransparentMesh: 1
---- !u!95 &1550565007
-Animator:
-  serializedVersion: 4
+--- !u!114 &1550565007
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1550565003}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: df170ecd52365284cbda15cf6b81b46c, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9982f68966d59e441ab190eac961f5b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  endAlpha: 0.4
+  seconds: 1
+  loop: 1
+--- !u!225 &1550565008
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1550565003}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1001 &1564217317
 PrefabInstance:
   m_ObjectHideFlags: 0
