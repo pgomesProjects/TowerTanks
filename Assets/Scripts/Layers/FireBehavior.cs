@@ -16,7 +16,7 @@ public class FireBehavior : MonoBehaviour
         CreateFires(1);
         layerOnFire = true;
         currentTimer = 0;
-        FindObjectOfType<AudioManager>().Play("FireBurningSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+        FindObjectOfType<AudioManager>().Play("FireBurningSFX", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), gameObject);
     }
 
     private void OnDisable()
@@ -31,7 +31,7 @@ public class FireBehavior : MonoBehaviour
         }
 
         if(FindObjectOfType<AudioManager>() != null)
-            FindObjectOfType<AudioManager>().Stop("FireBurningSFX");
+            FindObjectOfType<AudioManager>().Stop("FireBurningSFX", gameObject);
     }
 
     private void CreateFires(int firesToCreate)

@@ -62,7 +62,7 @@ public class PriceIndicator : MonoBehaviour
                 LevelManager.instance.UpdateResources(-price);
                 FindObjectOfType<InteractableSpawnerManager>().CreateInteractable(transform.parent.GetComponent<InteractableSpawner>(), interactableType);
                 //Play sound effect
-                FindObjectOfType<AudioManager>().PlayOneShot("UseSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+                FindObjectOfType<AudioManager>().Play("UseSFX", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), gameObject);
 
                 //Destroy self
                 Destroy(gameObject);

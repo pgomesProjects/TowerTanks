@@ -103,18 +103,18 @@ public class PlayerCannonController : CannonController
                 //If the player is spinning the cannon, play the aim sound effect
                 if (cannonInteractable.GetLockedInPlayer().IsPlayerSpinningCannon())
                 {
-                    if (!FindObjectOfType<AudioManager>().IsPlaying("CannonAimSFX"))
+                    if (!FindObjectOfType<AudioManager>().IsPlaying("CannonAimSFX", gameObject))
                     {
                         Debug.Log("Aiming...");
-                        FindObjectOfType<AudioManager>().Play("CannonAimSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+                        FindObjectOfType<AudioManager>().Play("CannonAimSFX", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), gameObject);
                     }
                 }
                 //If the player is not spinning the cannon and the aim sound is playing, play the locked in sound effect
-                else if (FindObjectOfType<AudioManager>().IsPlaying("CannonAimSFX"))
+                else if (FindObjectOfType<AudioManager>().IsPlaying("CannonAimSFX", gameObject))
                 {
                     Debug.Log("Locked In!");
-                    FindObjectOfType<AudioManager>().Stop("CannonAimSFX");
-                    FindObjectOfType<AudioManager>().Play("CannonLockSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+                    FindObjectOfType<AudioManager>().Stop("CannonAimSFX", gameObject);
+                    FindObjectOfType<AudioManager>().Play("CannonLockSFX", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), gameObject);
                 }
 
                 cannonRotation += new Vector3(0, 0, (playerCannonMovement / 100) * cannonSpeed);    //Rotate the cannon
@@ -161,7 +161,7 @@ public class PlayerCannonController : CannonController
             else if (!cannonReady)
             {
                 cannonReady = true;
-                FindObjectOfType<AudioManager>().PlayOneShot("CannonReload", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+                FindObjectOfType<AudioManager>().Play("CannonReload", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), gameObject);
                 UpdateCannonBody();
             }
         }

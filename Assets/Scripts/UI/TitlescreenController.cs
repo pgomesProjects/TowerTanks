@@ -43,8 +43,8 @@ public class TitlescreenController : MonoBehaviour
 
         levelFader.SetActive(true);
 
-        FindObjectOfType<AudioManager>().Play("MainMenuAmbience", PlayerPrefs.GetFloat("BGMVolume", 0.5f));
-        FindObjectOfType<AudioManager>().Play("MainMenuWindAmbience", PlayerPrefs.GetFloat("BGMVolume", 0.5f));
+        FindObjectOfType<AudioManager>().Play("MainMenuAmbience", PlayerPrefs.GetFloat("BGMVolume", GameSettings.defaultBGMVolume));
+        FindObjectOfType<AudioManager>().Play("MainMenuWindAmbience", PlayerPrefs.GetFloat("BGMVolume", GameSettings.defaultBGMVolume));
     }
 
     // Start is called before the first frame update
@@ -160,7 +160,7 @@ public class TitlescreenController : MonoBehaviour
         {
             GameSettings.debugMode = true;
             DontDestroyOnLoad(Instantiate(Resources.Load("DebugCanvas")));
-            FindObjectOfType<AudioManager>().Play("DebugBeep", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+            FindObjectOfType<AudioManager>().Play("DebugBeep", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume));
         }
     }
 
@@ -313,7 +313,7 @@ public class TitlescreenController : MonoBehaviour
 
     public void PlayButtonSFX(string name)
     {
-        FindObjectOfType<AudioManager>().PlayOneShot("Button" + name, PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+        FindObjectOfType<AudioManager>().Play("Button" + name, PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume));
     }
 
     public void QuitGame()

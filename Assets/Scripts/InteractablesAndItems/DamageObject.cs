@@ -17,7 +17,7 @@ public class DamageObject : MonoBehaviour
         currentTimer = 0;
 
         //Spawn object with sound effect active
-        FindObjectOfType<AudioManager>().Play("ProjectileInAirSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+        FindObjectOfType<AudioManager>().Play("ProjectileInAirSFX", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), gameObject);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -33,7 +33,7 @@ public class DamageObject : MonoBehaviour
                 {
                     //Deal damage and destroy self if colliding with a layer
                     collision.collider.GetComponentInParent<LayerHealthManager>().DealDamage(damage, true);
-                    FindObjectOfType<AudioManager>().PlayOneShot("MedExplosionSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+                    FindObjectOfType<AudioManager>().Play("MedExplosionSFX", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), gameObject);
                 }
 
                 //If there is a ShellItemBehavior component on the damage object, check to see if there should be a fire
@@ -47,7 +47,7 @@ public class DamageObject : MonoBehaviour
         else
         {
             if (FindObjectOfType<AudioManager>() != null)
-                FindObjectOfType<AudioManager>().PlayOneShot("ExplosionSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+                FindObjectOfType<AudioManager>().Play("ExplosionSFX", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), gameObject);
         }
 
         //If the object hits the player, launch them in a specified direction
@@ -76,7 +76,7 @@ public class DamageObject : MonoBehaviour
         if(transform.position.y < -14.4f)
         {
             if (FindObjectOfType<AudioManager>() != null)
-                FindObjectOfType<AudioManager>().PlayOneShot("ExplosionSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+                FindObjectOfType<AudioManager>().Play("ExplosionSFX", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), gameObject);
             Destroy(gameObject);
         }
 
@@ -102,6 +102,6 @@ public class DamageObject : MonoBehaviour
 
     private void OnDestroy()
     {
-        FindObjectOfType<AudioManager>().Stop("ProjectileInAirSFX");
+        FindObjectOfType<AudioManager>().Stop("ProjectileInAirSFX", gameObject);
     }
 }

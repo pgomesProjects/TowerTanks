@@ -31,6 +31,6 @@ public class RandomNoise : MonoBehaviour
 
     private void PlaySound()
     {
-        FindObjectOfType<AudioManager>().PlayOneShot(soundName, PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+        FindObjectOfType<AudioManager>().Play(soundName, PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume));
     }
 }

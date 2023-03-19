@@ -451,7 +451,7 @@ public class PlayerController : MonoBehaviour
             if (timeToUseWrench > 0)
             {
                 //Play sound effect
-                FindObjectOfType<AudioManager>().PlayOneShot("UseWrench", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+                FindObjectOfType<AudioManager>().Play("UseWrench", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), gameObject);
 
                 StartProgressBar(timeToUseWrench, UseWrench);
             }
@@ -746,7 +746,7 @@ public class PlayerController : MonoBehaviour
             Destroy(itemHeld.GetComponent<DamageObject>());
         }
 
-        FindObjectOfType<AudioManager>().PlayAtRandomPitch("ItemPickup", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+        FindObjectOfType<AudioManager>().Play("ItemPickup", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume));
 
         itemHeld.SetPickUp(true);
         isHoldingItem = true;
@@ -864,17 +864,17 @@ public class PlayerController : MonoBehaviour
 
     public void PlayFootstepSFX()
     {
-        FindObjectOfType<AudioManager>().PlayAtRandomPitch("Footstep", PlayerPrefs.GetFloat("SFXVolume", 0.05f));
+        FindObjectOfType<AudioManager>().Play("Footstep", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), gameObject);
     }
 
     public void PlayLadderClimbSFX()
     {
-        FindObjectOfType<AudioManager>().PlayAtRandomPitch("LadderClimb", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+        FindObjectOfType<AudioManager>().Play("LadderClimb", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), gameObject);
     }
 
     public void PlayHammerSFX()
     {
-        FindObjectOfType<AudioManager>().PlayAtRandomPitch("TankImpact", PlayerPrefs.GetFloat("SFXVolume", 0.75f));
+        FindObjectOfType<AudioManager>().Play("TankImpact", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), gameObject);
     }
 
     public bool PlayerCanInteract()

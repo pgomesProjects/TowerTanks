@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a59c517d3a5f3984eb63c08dd427ef8a, type: 3}
+  m_Name: 1F1329A9-B5A7-4549-B2F0-97EE22BC9347
+  m_EditorClassIdentifier: 
+  objectName: metal_footstep
+  id: 3615561815
+  guid: 1F1329A9-B5A7-4549-B2F0-97EE22BC9347

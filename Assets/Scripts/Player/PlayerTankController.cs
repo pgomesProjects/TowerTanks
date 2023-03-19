@@ -226,14 +226,14 @@ public class PlayerTankController : MonoBehaviour
         //If there is at least one engine running, play the engine sound effect
         if(numberOfEngines > 0)
         {
-            if(!FindObjectOfType<AudioManager>().IsPlaying("TankIdle"))
-                FindObjectOfType<AudioManager>().Play("TankIdle", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+            if(!FindObjectOfType<AudioManager>().IsPlaying("TankIdle", gameObject))
+                FindObjectOfType<AudioManager>().Play("TankIdle", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), gameObject);
         }
         //If not, stop the sound effect if it's currently playing
         else
         {
-            if (FindObjectOfType<AudioManager>().IsPlaying("TankIdle"))
-                FindObjectOfType<AudioManager>().Stop("TankIdle");
+            if (FindObjectOfType<AudioManager>().IsPlaying("TankIdle", gameObject))
+                FindObjectOfType<AudioManager>().Stop("TankIdle", gameObject);
         }
     }
 
@@ -245,12 +245,12 @@ public class PlayerTankController : MonoBehaviour
         //If the current speed is stationary
         if (GetPlayerSpeed() == 0)
         {
-            FindObjectOfType<AudioManager>().Stop("TreadsRolling");
+            FindObjectOfType<AudioManager>().Stop("TreadsRolling", gameObject);
         }
         //If the tank idle isn't already playing, play it
-        else if (!FindObjectOfType<AudioManager>().IsPlaying("TreadsRolling"))
+        else if (!FindObjectOfType<AudioManager>().IsPlaying("TreadsRolling", gameObject))
         {
-            FindObjectOfType<AudioManager>().Play("TreadsRolling", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+            FindObjectOfType<AudioManager>().Play("TreadsRolling", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), gameObject);
         }
     }
 
@@ -406,7 +406,7 @@ public class PlayerTankController : MonoBehaviour
             }
 
             //Play explosion sound effect
-            FindObjectOfType<AudioManager>().PlayOneShot("LargeExplosionSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+            FindObjectOfType<AudioManager>().Play("LargeExplosionSFX", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), gameObject);
         }
     }
 }

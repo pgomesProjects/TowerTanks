@@ -121,7 +121,7 @@ public class LayerHealthManager : MonoBehaviour
         if (shakeCam)
             CameraEventController.instance.ShakeCamera(5f, 0.1f);
 
-        FindObjectOfType<AudioManager>().PlayAtRandomPitch("TankImpact", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+        FindObjectOfType<AudioManager>().Play("TankImpact", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume));
 
         //Check to see if the layer's diegetics need to be updated
         if (GetComponentInChildren<DamageDiegeticController>() != null)
@@ -146,7 +146,7 @@ public class LayerHealthManager : MonoBehaviour
         if (shakeCam)
             CameraEventController.instance.ShakeCamera(shakeIntensity, 0.1f);
 
-        FindObjectOfType<AudioManager>().PlayAtRandomPitch("TankImpact", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+        FindObjectOfType<AudioManager>().Play("TankImpact", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume));
 
         UpdateLayerDamageDiegetic();
 
@@ -229,7 +229,7 @@ public class LayerHealthManager : MonoBehaviour
                 GetComponentInParent<EnemyController>().EnemyLayerDestroyed();
             }
 
-            FindObjectOfType<AudioManager>().PlayOneShot("LargeExplosionSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+            FindObjectOfType<AudioManager>().Play("LargeExplosionSFX", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), gameObject);
 
             //Destroy the layer
             Destroy(gameObject);
@@ -268,7 +268,7 @@ public class LayerHealthManager : MonoBehaviour
         {
             //Update the list of layers accordingly
             transform.GetComponentInParent<PlayerTankController>().AdjustLayersInList();
-            FindObjectOfType<AudioManager>().PlayOneShot("MedExplosionSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+            FindObjectOfType<AudioManager>().Play("MedExplosionSFX", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), gameObject);
         }
     }
 }

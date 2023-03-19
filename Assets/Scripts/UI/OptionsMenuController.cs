@@ -26,11 +26,11 @@ public class OptionsMenuController : MonoBehaviour
         float setVal;
 
         //BGM Settings
-        setVal = PlayerPrefs.GetFloat("BGMVolume", 0.5f) * 10f;
+        setVal = PlayerPrefs.GetFloat("BGMVolume", GameSettings.defaultBGMVolume) * 10f;
         bgmController.SetIndex((int)setVal);
 
         //SFX Settings
-        setVal = PlayerPrefs.GetFloat("SFXVolume", 0.5f) * 10f;
+        setVal = PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume) * 10f;
         sfxController.SetIndex((int)setVal);
 
         //Res Settings

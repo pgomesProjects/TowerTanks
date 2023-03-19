@@ -121,7 +121,7 @@ public class TextWriter : MonoBehaviour
                 uiText.text = text;
 
                 if(FindObjectOfType<AudioManager>() != null)
-                    FindObjectOfType<AudioManager>().PlayOneShot("TextBeep", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+                    FindObjectOfType<AudioManager>().Play("TextBeep", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume));
 
                 //If the character index is the length of the dialog line
                 if (charIndex >= dialog.Length)

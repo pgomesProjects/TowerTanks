@@ -61,7 +61,7 @@ public class LevelManager : MonoBehaviour
     {
         isSettingUpOnStart = true;
 
-        FindObjectOfType<AudioManager>().Play("MainMenuWindAmbience", PlayerPrefs.GetFloat("BGMVolume", 0.5f));
+        FindObjectOfType<AudioManager>().Play("MainMenuWindAmbience", PlayerPrefs.GetFloat("BGMVolume", GameSettings.defaultBGMVolume));
 
         //Starting resources
         switch (GameSettings.difficulty)
@@ -185,7 +185,7 @@ public class LevelManager : MonoBehaviour
             //Check interactables on layer
             CheckInteractablesOnLayer(totalLayers);
             //Play sound effect
-            FindObjectOfType<AudioManager>().PlayOneShot("UseSFX", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+            FindObjectOfType<AudioManager>().Play("UseSFX", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), gameObject);
         }
 
         //Adjust the weight of the tank
@@ -442,25 +442,25 @@ public class LevelManager : MonoBehaviour
         if (layers >= 7)
         {
             if (!FindObjectOfType<AudioManager>().IsPlaying("CombatLayer3"))
-                FindObjectOfType<AudioManager>().Play("CombatLayer3", PlayerPrefs.GetFloat("BGMVolume", 0.5f));
+                FindObjectOfType<AudioManager>().Play("CombatLayer3", PlayerPrefs.GetFloat("BGMVolume", GameSettings.defaultBGMVolume));
         }
 
         else if(layers >= 5)
         {
             if (!FindObjectOfType<AudioManager>().IsPlaying("CombatLayer2"))
-                FindObjectOfType<AudioManager>().Play("CombatLayer2", PlayerPrefs.GetFloat("BGMVolume", 0.5f));
+                FindObjectOfType<AudioManager>().Play("CombatLayer2", PlayerPrefs.GetFloat("BGMVolume", GameSettings.defaultBGMVolume));
         }
 
         else if (layers >= 3)
         {
             if (!FindObjectOfType<AudioManager>().IsPlaying("CombatLayer1"))
-                FindObjectOfType<AudioManager>().Play("CombatLayer1", PlayerPrefs.GetFloat("BGMVolume", 0.5f));
+                FindObjectOfType<AudioManager>().Play("CombatLayer1", PlayerPrefs.GetFloat("BGMVolume", GameSettings.defaultBGMVolume));
         }
 
         else
         {
             if (!FindObjectOfType<AudioManager>().IsPlaying("CombatLayer0"))
-                FindObjectOfType<AudioManager>().Play("CombatLayer0", PlayerPrefs.GetFloat("BGMVolume", 0.5f));
+                FindObjectOfType<AudioManager>().Play("CombatLayer0", PlayerPrefs.GetFloat("BGMVolume", GameSettings.defaultBGMVolume));
         }
     }
 
@@ -496,7 +496,7 @@ public class LevelManager : MonoBehaviour
 
         Time.timeScale = 0.0f;
         gameOverCanvas.SetActive(true);
-        FindObjectOfType<AudioManager>().Play("DeathStinger", PlayerPrefs.GetFloat("BGMVolume", 0.5f));
+        FindObjectOfType<AudioManager>().Play("DeathStinger", PlayerPrefs.GetFloat("BGMVolume", GameSettings.defaultBGMVolume));
         StartCoroutine(ReturnToMain());
     }
 

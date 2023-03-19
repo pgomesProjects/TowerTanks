@@ -8,7 +8,7 @@ public class Sound
 {
     public string name;
 
-    public AudioClip clip;
+    public AK.Wwise.Event audioEvent;
 
     [Range(.1f, 3f)]
     public float pitch = 1;
@@ -17,7 +17,6 @@ public class Sound
 
     public SOUNDTYPE soundType;
 
-    [HideInInspector]
-    public AudioSource source;
+    //internal AudioSource source;
 
 }

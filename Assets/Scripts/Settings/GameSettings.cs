@@ -16,6 +16,9 @@ public static class GameSettings
 
     public static string controlSchemeUI = "Gamepad";
 
+    public static float defaultBGMVolume = 0.5f;
+    public static float defaultSFXVolume = 0.5f;
+
     public static int[,] possibleResolutions = new int[,] { { 2560, 1440 }, { 1920, 1080 }, { 1280, 720 } };
 
     public static bool mainMenuEntered = false;
@@ -26,12 +29,12 @@ public static class GameSettings
 
     public static void CheckBGM()
     {
-        Debug.Log("BGM Volume: " + PlayerPrefs.GetFloat("BGMVolume", 0.5f));
+        Debug.Log("BGM Volume: " + PlayerPrefs.GetFloat("BGMVolume", GameSettings.defaultBGMVolume));
     }
 
     public static void CheckSFX()
     {
-        Debug.Log("SFX Volume: " + PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+        Debug.Log("SFX Volume: " + PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume));
     }
 
     public static void CheckResolution()

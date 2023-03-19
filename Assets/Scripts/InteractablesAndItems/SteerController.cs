@@ -94,7 +94,7 @@ public class SteerController : InteractableController
         Quaternion endingRot = Quaternion.Euler(0, 0, -(20 * PlayerTankController.throttleSpeedOptions[playerTank.GetCurrentThrottleOption() + direction]));
 
         //Play sound effect
-        FindObjectOfType<AudioManager>().PlayOneShot("ThrottleClick", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+        FindObjectOfType<AudioManager>().Play("ThrottleClick", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), gameObject);
 
         while (elapsedTime < seconds && direction != 0)
         {
@@ -119,7 +119,7 @@ public class SteerController : InteractableController
             i.transform.Find("LeverPivot").localRotation = endingRot;
         }
 
-        FindObjectOfType<AudioManager>().PlayOneShot("ThrottleShift", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+        FindObjectOfType<AudioManager>().Play("ThrottleShift", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), gameObject);
 
         playerTank.SetSteeringMoved(false);
     }
