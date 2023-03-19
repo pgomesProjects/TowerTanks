@@ -30,10 +30,11 @@
 	<ValidationCacheItem File="C:\Users\Eli\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\Virtual Acoustics\Default Work Unit.wwu" DateLow="1678234727" DateHigh="0"/>
 	<ValidationCacheItem File="C:\Users\Eli\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\Triggers\Default Work Unit.wwu" DateLow="1678234728" DateHigh="0"/>
 	<ValidationCacheItem File="C:\Users\Eli\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\TowerTanks_WwiseProject.wproj" DateLow="1678234802" DateHigh="0"/>
+	<ValidationCacheItem File="C:\Users\Eli\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\TowerTanks_WwiseProject.Eli.wsettings" DateLow="1678387557" DateHigh="0"/>
 	<ValidationCacheItem File="C:\Users\Eli\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\Switches\Default Work Unit.wwu" DateLow="1678234727" DateHigh="0"/>
 	<ValidationCacheItem File="C:\Users\Eli\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\States\Default Work Unit.wwu" DateLow="1678234727" DateHigh="0"/>
-	<ValidationCacheItem File="C:\Users\Eli\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\Soundcaster Sessions\Default Work Unit.wwu" DateLow="1678385458" DateHigh="0"/>
-	<ValidationCacheItem File="C:\Users\Eli\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\SoundBanks\Default Work Unit.wwu" DateLow="1678385458" DateHigh="0"/>
+	<ValidationCacheItem File="C:\Users\Eli\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\Soundcaster Sessions\Default Work Unit.wwu" DateLow="1678387550" DateHigh="0"/>
+	<ValidationCacheItem File="C:\Users\Eli\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\SoundBanks\Default Work Unit.wwu" DateLow="1678387550" DateHigh="0"/>
 	<ValidationCacheItem File="C:\Users\Eli\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\Queries\Factory Queries.wwu" DateLow="1678224905" DateHigh="0"/>
 	<ValidationCacheItem File="C:\Users\Eli\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\Queries\Default Work Unit.wwu" DateLow="1678234727" DateHigh="0"/>
 	<ValidationCacheItem File="C:\Users\Eli\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\Presets\Factory Spatial Audio.wwu" DateLow="1678224905" DateHigh="0"/>
@@ -44,7 +45,7 @@
 	<ValidationCacheItem File="C:\Users\Eli\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\Master-Mixer Hierarchy\Default Work Unit.wwu" DateLow="1678234727" DateHigh="0"/>
 	<ValidationCacheItem File="C:\Users\Eli\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\Interactive Music Hierarchy\Default Work Unit.wwu" DateLow="1678385458" DateHigh="0"/>
 	<ValidationCacheItem File="C:\Users\Eli\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\Game Parameters\Default Work Unit.wwu" DateLow="1678234727" DateHigh="0"/>
-	<ValidationCacheItem File="C:\Users\Eli\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\Events\Default Work Unit.wwu" DateLow="1678385458" DateHigh="0"/>
+	<ValidationCacheItem File="C:\Users\Eli\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\Events\Default Work Unit.wwu" DateLow="1678387550" DateHigh="0"/>
 	<ValidationCacheItem File="C:\Users\Eli\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\Effects\Factory Effects.wwu" DateLow="1678224905" DateHigh="0"/>
 	<ValidationCacheItem File="C:\Users\Eli\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\Effects\Default Work Unit.wwu" DateLow="1678234727" DateHigh="0"/>
 	<ValidationCacheItem File="C:\Users\Eli\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\Dynamic Dialogue\Default Work Unit.wwu" DateLow="1678234728" DateHigh="0"/>
@@ -53,5 +54,5 @@
 	<ValidationCacheItem File="C:\Users\Eli\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\Control Surface Sessions\Default Work Unit.wwu" DateLow="1678385458" DateHigh="0"/>
 	<ValidationCacheItem File="C:\Users\Eli\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\Audio Devices\Default Work Unit.wwu" DateLow="1678234727" DateHigh="0"/>
 	<ValidationCacheItem File="C:\Users\Eli\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\Attenuations\Default Work Unit.wwu" DateLow="1678234727" DateHigh="0"/>
-	<ValidationCacheItem File="C:\Users\Eli\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\Actor-Mixer Hierarchy\Default Work Unit.wwu" DateLow="1678238657" DateHigh="0"/>
+	<ValidationCacheItem File="C:\Users\Eli\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\Actor-Mixer Hierarchy\Default Work Unit.wwu" DateLow="1678387550" DateHigh="0"/>
 </ValidationCache>

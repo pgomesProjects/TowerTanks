@@ -13,7 +13,31 @@ namespace AK
 {
     namespace EVENTS
     {
+        static const AkUniqueID BUTTON_CANCEL = 3130542990U;
+        static const AkUniqueID BUTTON_HOVER = 1701177942U;
         static const AkUniqueID CANNON_FIRE = 155513425U;
+        static const AkUniqueID CANNON_LOCK_IN_PLACE = 1967707158U;
+        static const AkUniqueID CANNON_RELOAD = 3265936618U;
+        static const AkUniqueID CHARACTER_USE = 3289544510U;
+        static const AkUniqueID ENGINE_DYING = 3121770429U;
+        static const AkUniqueID ENGINE_DYING_2 = 1498048058U;
+        static const AkUniqueID FIRE_BURNING = 1318321645U;
+        static const AkUniqueID LADDER_CLIMB = 1707141479U;
+        static const AkUniqueID LARGE_EXPLOSION = 531217250U;
+        static const AkUniqueID LOADING_COAL = 164337995U;
+        static const AkUniqueID MEDIUM_EXPLOSION = 2121623384U;
+        static const AkUniqueID METAL_FOOTSTEP = 3615561815U;
+        static const AkUniqueID MUFFLED_CANNON_FIRE = 3902994021U;
+        static const AkUniqueID PROJECTILE_IN_AIR = 137332291U;
+        static const AkUniqueID SMALL_EXPLOSION = 3519998062U;
+        static const AkUniqueID TANK_ENGINE = 212754890U;
+        static const AkUniqueID TANK_IMPACT = 70658946U;
+        static const AkUniqueID TANK_ROLLING = 299811467U;
+        static const AkUniqueID TEXT_BEEP = 2012015775U;
+        static const AkUniqueID TEXT_SCROLL = 3510154964U;
+        static const AkUniqueID THROTTLE_CLICK = 1141416880U;
+        static const AkUniqueID THROTTLE_SHIFT = 1821032580U;
+        static const AkUniqueID WRENCH = 1797317650U;
     } // namespace EVENTS
 
     namespace BANKS
