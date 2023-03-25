@@ -26,19 +26,24 @@ public class DumpsterController : InteractableController
         if (LevelManager.instance.CanPlayerAfford(scrapValue) && currentPlayerLockedIn != null)
         {
             Transform playerScrapHolder = currentPlayerLockedIn.transform.Find("ScrapHolder");
-            GameObject newScrap = Instantiate(scrapPrefab, playerScrapHolder);
 
-            //If the player has more than one scrap piece on them, add a small offset
-            if (playerScrapHolder.childCount > 1)
+            //If the player has less than the max amount of scrap on them, allow them to grab more scrap
+            if(playerScrapHolder.childCount < currentPlayerLockedIn.MaxScrapAmount())
             {
-                Vector2 scrapPos = newScrap.transform.localPosition;
-                scrapPos.x = Random.Range(-randomOffset.x, randomOffset.x);
-                scrapPos.y = Random.Range(0, randomOffset.y);
-                newScrap.transform.localPosition = scrapPos;
-            }
+                GameObject newScrap = Instantiate(scrapPrefab, playerScrapHolder);
 
-            //Update the resources accordingly
-            LevelManager.instance.UpdateResources(-scrapValue);
+                //If the player has more than one scrap piece on them, add a small offset
+                if (playerScrapHolder.childCount > 1)
+                {
+                    Vector2 scrapPos = newScrap.transform.localPosition;
+                    scrapPos.x = Random.Range(-randomOffset.x, randomOffset.x);
+                    scrapPos.y = Random.Range(0, randomOffset.y);
+                    newScrap.transform.localPosition = scrapPos;
+                }
+
+                //Update the resources accordingly
+                LevelManager.instance.UpdateResources(-scrapValue);
+            }
         }
     }
 }

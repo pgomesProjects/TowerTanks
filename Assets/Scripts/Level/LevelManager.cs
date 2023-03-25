@@ -298,7 +298,6 @@ public class LevelManager : MonoBehaviour
                 EventSystem.current.SetSelectedGameObject(null);
                 Time.timeScale = 1;
                 FindObjectOfType<AudioManager>().ResumeAllSounds();
-                FindObjectOfType<AudioManager>().UpdateAllVolumes();
                 isPaused = false;
                 pauseGameCanvas.SetActive(false);
                 InputForOtherPlayers(currentPlayerPaused, false);

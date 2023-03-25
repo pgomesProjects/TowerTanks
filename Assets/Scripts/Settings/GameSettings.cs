@@ -29,12 +29,12 @@ public static class GameSettings
 
     public static void CheckBGM()
     {
-        Debug.Log("BGM Volume: " + PlayerPrefs.GetFloat("BGMVolume", GameSettings.defaultBGMVolume));
+        Debug.Log("BGM Volume: " + PlayerPrefs.GetFloat("BGMVolume", defaultBGMVolume));
     }
 
     public static void CheckSFX()
     {
-        Debug.Log("SFX Volume: " + PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume));
+        Debug.Log("SFX Volume: " + PlayerPrefs.GetFloat("SFXVolume", defaultSFXVolume));
     }
 
     public static void CheckResolution()

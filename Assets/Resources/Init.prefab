@@ -46,6 +46,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bgmMixer: {fileID: 5802316482864546721, guid: 0a7f42e58f78f644aa0eda82b00c01ed, type: 2}
   sfxMixer: {fileID: 4279340188021939522, guid: 1caf2312e44a0b94eac66396929631ce, type: 2}
+  musicRTPC:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 00f243204c89c564fb18c2bcdc86bc09, type: 2}
+  sfxRTPC:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: a10eb48c1da42214eaa4a4c1ba82e11f, type: 2}
   sounds:
   - name: MainMenuAmbience
     audioEvent:

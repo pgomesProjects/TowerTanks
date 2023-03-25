@@ -201,7 +201,7 @@ MonoBehaviour:
   highlight: {fileID: 5023853069043599262}
   lockedInteractionCanvas: {fileID: 2810298217805534039}
   scrapPrefab: {fileID: 1122748863546453890, guid: e180f47ec24780646bb25af9d90805be, type: 3}
-  scrapValue: 10
+  scrapValue: 25
 --- !u!4 &211861659154876950 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4728784133398993875, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}

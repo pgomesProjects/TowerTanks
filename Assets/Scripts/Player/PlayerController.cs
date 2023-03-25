@@ -8,21 +8,42 @@ using System;
 
 public class PlayerController : MonoBehaviour
 {
-    private int playerIndex;
-
-    private Vector2 movement;
-    internal float steeringValue;
+    [Header("Movement Settings")]
     [SerializeField] private float speed = 8f;
-    private Rigidbody2D rb;
-    private Animator playerAnimator;
-
-    internal int currentLayer = 1;
-
     [SerializeField] private float distance = 3f;
     [SerializeField, Range(0, 360)] private float throwAngle;
     [SerializeField] private float throwForce;
     [SerializeField] private LayerMask ladderMask;
+    [Space(10)]
+
+    [Header("Technical Settings")]
     [SerializeField] private float timeToUseWrench = 3;
+    [SerializeField] private int maxAmountOfScrap = 8;
+    [Space(10)]
+
+    [Header("Joystick Spin Detection Options")]
+    [SerializeField] private float spinAngleCheckUpdateTimer = 0.1f;
+    [SerializeField][Range(0.0f, 180.0f)] private float spinValidAngleLimit = 30.0f;
+    [SerializeField] private int validSpinCheckRows = 1;
+    [SerializeField] private float cannonScrollSensitivity = 3f;
+    [Space(10)]
+
+    [Header("Particle Effects")]
+    [SerializeField] private GameObject buildscrap;
+    [SerializeField] private GameObject firefoam;
+    [SerializeField] private GameObject leftfirefoam;
+    [SerializeField] private GameObject smabuildscraps;
+
+    //Runtime Variables
+    private int playerIndex;
+
+    //Movement
+    private Vector2 movement;
+    internal float steeringValue;
+    private Rigidbody2D rb;
+    private Animator playerAnimator;
+
+    internal int currentLayer = 1;
 
     private bool canMove = false;
     private bool hasMoved;
@@ -31,42 +52,30 @@ public class PlayerController : MonoBehaviour
     private bool isClimbing;
     private bool waitingToClimb;
     private float defaultGravity;
+    private RaycastHit2D ladderRaycast;
 
+    //Interactables
     internal InteractableController currentInteractableItem;
     internal PriceIndicator currentInteractableToBuy;
-
-    private Transform scrapHolder;
-
-    private Item closestItem;
-    private Item itemHeld;
-    private bool isHoldingItem;
-
     private GameObject interactableHover;
     private GameObject progressBarCanvas;
     private Slider progressBarSlider;
     private bool taskInProgress;
-
-    private RaycastHit2D ladderRaycast;
     private IEnumerator currentLoadAction;
 
+    //Items
+    private Transform scrapHolder;
+    private Item closestItem;
+    private Item itemHeld;
+    private bool isHoldingItem;
 
-    [Header("Joystick Spin Detection Options")]
-    [SerializeField] private float spinAngleCheckUpdateTimer = 0.1f;
-    [SerializeField][Range(0.0f, 180.0f)] private float spinValidAngleLimit = 30.0f;
-    [SerializeField] private int validSpinCheckRows = 1;
-    [SerializeField] private float cannonScrollSensitivity = 3f;
-
+    //Joystick spin detection
     private Vector2 lastJoystickInput = Vector2.zero;
     private bool isCheckingSpinInput = false;
     private int validSpinCheckCounter = 0;
     private float cannonScroll;
 
     private bool isSpinningCannon = false;
-
-    [SerializeField] private GameObject buildscrap;
-    [SerializeField] private GameObject firefoam;
-    [SerializeField] private GameObject leftfirefoam;
-    [SerializeField] private GameObject smabuildscraps;
 
     // Start is called before the first frame update
     void Start()
@@ -577,45 +586,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public bool IsPlayerOutsideTank()
-    {
-        return currentLayer > LevelManager.instance.totalLayers;
-    }
-
-    public bool IsPlayerClimbing()
-    {
-        return isClimbing;
-    }
-
-    public bool HasPlayerMoved() => hasMoved;
-
-    public void SetPlayerClimb(bool climb)
-    {
-        canClimb = climb;
-    }
-
-    public void SetPlayerMove(bool movePlayer)
-    {
-        canMove = movePlayer;
-    }
-
-    public void MarkClosestItem(Item item)
-    {
-        closestItem = item;
-    }
-
-    public bool IsPlayerHoldingItem()
-    {
-        return isHoldingItem;
-    }
-
-    public Item GetPlayerItem()
-    {
-        return itemHeld;
-    }
-
-    public bool PlayerHasItem(string name) => itemHeld != null && itemHeld.CompareTag(name);
-
     public void DestroyItem()
     {
         Destroy(itemHeld.gameObject);
@@ -862,20 +832,9 @@ public class PlayerController : MonoBehaviour
         isCheckingSpinInput = false;
     }
 
-    public void PlayFootstepSFX()
-    {
-        FindObjectOfType<AudioManager>().Play("Footstep", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), gameObject);
-    }
-
-    public void PlayLadderClimbSFX()
-    {
-        FindObjectOfType<AudioManager>().Play("LadderClimb", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), gameObject);
-    }
-
-    public void PlayHammerSFX()
-    {
-        FindObjectOfType<AudioManager>().Play("TankImpact", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), gameObject);
-    }
+    public void PlayFootstepSFX() => FindObjectOfType<AudioManager>().Play("Footstep", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), gameObject);
+    public void PlayLadderClimbSFX() => FindObjectOfType<AudioManager>().Play("LadderClimb", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), gameObject);
+    public void PlayHammerSFX() => FindObjectOfType<AudioManager>().Play("TankImpact", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), gameObject);
 
     public bool PlayerCanInteract()
     {
@@ -885,17 +844,22 @@ public class PlayerController : MonoBehaviour
         return false;
     }
 
+    public bool IsPlayerOutsideTank() => currentLayer > LevelManager.instance.totalLayers;
+    public bool IsPlayerClimbing() => isClimbing;
+    public bool HasPlayerMoved() => hasMoved;
+    public void SetPlayerClimb(bool climb) => canClimb = climb;
+    public void SetPlayerMove(bool movePlayer) => canMove = movePlayer;
+    public int MaxScrapAmount() => maxAmountOfScrap;
+    public void MarkClosestItem(Item item) => closestItem = item;
+    public bool IsPlayerHoldingItem() => isHoldingItem;
+    public Item GetPlayerItem() => itemHeld;
+    public bool PlayerHasItem(string name) => itemHeld != null && itemHeld.CompareTag(name);
+
     public float GetDefaultGravity() => defaultGravity;
 
-    public int GetPlayerIndex()
-    {
-        return playerIndex;
-    }
+    public int GetPlayerIndex() => playerIndex;
 
-    public void SetPlayerIndex(int index)
-    {
-        playerIndex = index;
-    }
+    public void SetPlayerIndex(int index) => playerIndex = index;
 
     public Color GetPlayerColor() => GetComponent<Renderer>().material.color;
 

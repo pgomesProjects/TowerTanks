@@ -7,7 +7,15 @@ public class AudioManager : MonoBehaviour
 {
 
     public AudioMixerGroup bgmMixer, sfxMixer;
+    [SerializeField, Tooltip("RTPC call in Wwise for music volume.")] private AK.Wwise.RTPC musicRTPC;
+    [SerializeField, Tooltip("RTPC call in Wwise for SFX volume.")] private AK.Wwise.RTPC sfxRTPC;
+
     [Tooltip("The list of sounds that will be played in the game.")] public Sound[] sounds;
+
+    private void Awake()
+    {
+        AkSoundEngine.RegisterGameObj(gameObject);  //Registers the AudioManager as a GameObject for sound to play it
+    }
 
     /// <summary>
     /// Plays a sound using the Wwise Post event system.
@@ -19,7 +27,13 @@ public class AudioManager : MonoBehaviour
     {
         Sound s = GetSound(name);
         if(audioLocation != null)
+        {
+            //If this GameObject is not registered to play sounds, make sure its registered
+            if (!AkSoundEngine.IsGameObjectRegistered(audioLocation))
+                AkSoundEngine.RegisterGameObj(audioLocation);
+
             s.audioEvent.Post(audioLocation);
+        }
         else
             s.audioEvent.Post(gameObject);
     }
@@ -129,7 +143,7 @@ public class AudioManager : MonoBehaviour
     /// </summary>
     public void PauseAllSounds()
     {
-        AkSoundEngine.Suspend();
+        //AkSoundEngine.Suspend();
     }
 
     /// <summary>
@@ -146,7 +160,7 @@ public class AudioManager : MonoBehaviour
     /// </summary>
     public void ResumeAllSounds()
     {
-        AkSoundEngine.WakeupFromSuspend();
+        //AkSoundEngine.WakeupFromSuspend();
     }
 
     /// <summary>
@@ -171,26 +185,24 @@ public class AudioManager : MonoBehaviour
         AkSoundEngine.StopAll();
     }
 
-    /// <summary>
-    /// Updates the master volume of all sounds.
-    /// </summary>
-    public void UpdateAllVolumes()
+    public void UpdateMusicVolume()
     {
-/*        foreach (Sound s in sounds)
-        {
-            switch (s.soundType)
-            {
-                case SOUNDTYPE.BGM:
-                    s.source.volume = PlayerPrefs.GetFloat("BGMVolume", GameSettings.defaultBGMVolume);
-                    break;
-                case SOUNDTYPE.SFX:
-                    s.source.volume = PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume);
-                    break;
-            }
-        }*/
+        AkSoundEngine.SetRTPCValue(musicRTPC.Name, PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultBGMVolume) * 100f);
+        Debug.Log("Music RTPC Volume: " + musicRTPC.GetValue(null));
+    }
+
+    public void UpdateSFXVolume()
+    {
+        AkSoundEngine.SetRTPCValue(sfxRTPC.Name, PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume) * 100f);
+        Debug.Log("SFX RTPC Volume: " + sfxRTPC.GetValue(null));
     }
 
     private Sound GetSound(string name) => Array.Find(sounds, sound => sound.name == name);
     public string GetEventName(string name) => GetSound(name).audioEvent.Name;
     public float GetSoundLength(string name) => 0f;
+
+    private void OnDestroy()
+    {
+       AkSoundEngine.UnregisterAllGameObj();
+    }
 }
