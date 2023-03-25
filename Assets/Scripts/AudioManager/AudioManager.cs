@@ -143,7 +143,7 @@ public class AudioManager : MonoBehaviour
     /// </summary>
     public void PauseAllSounds()
     {
-        //AkSoundEngine.Suspend();
+        AkSoundEngine.Suspend();
     }
 
     /// <summary>
@@ -160,7 +160,7 @@ public class AudioManager : MonoBehaviour
     /// </summary>
     public void ResumeAllSounds()
     {
-        //AkSoundEngine.WakeupFromSuspend();
+        AkSoundEngine.WakeupFromSuspend();
     }
 
     /// <summary>
@@ -188,13 +188,13 @@ public class AudioManager : MonoBehaviour
     public void UpdateMusicVolume()
     {
         AkSoundEngine.SetRTPCValue(musicRTPC.Name, PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultBGMVolume) * 100f);
-        Debug.Log("Music RTPC Volume: " + musicRTPC.GetValue(null));
+        Debug.Log("Music RTPC Volume: " + musicRTPC.GetValue(gameObject));
     }
 
     public void UpdateSFXVolume()
     {
         AkSoundEngine.SetRTPCValue(sfxRTPC.Name, PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume) * 100f);
-        Debug.Log("SFX RTPC Volume: " + sfxRTPC.GetValue(null));
+        Debug.Log("SFX RTPC Volume: " + sfxRTPC.GetValue(gameObject));
     }
 
     private Sound GetSound(string name) => Array.Find(sounds, sound => sound.name == name);
