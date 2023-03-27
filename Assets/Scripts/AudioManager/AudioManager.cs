@@ -187,7 +187,7 @@ public class AudioManager : MonoBehaviour
 
     public void UpdateMusicVolume()
     {
-        AkSoundEngine.SetRTPCValue(musicRTPC.Name, PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultBGMVolume) * 100f);
+        AkSoundEngine.SetRTPCValue(musicRTPC.Name, PlayerPrefs.GetFloat("BGMVolume", GameSettings.defaultBGMVolume) * 100f);
         Debug.Log("Music RTPC Volume: " + musicRTPC.GetValue(gameObject));
     }
 
