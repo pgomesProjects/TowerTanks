@@ -38,7 +38,7 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy\Default Work Unit
     guid: 358467ebf0a09540b65ba3cce55d6389
     GuidInternal: 
-    m_lastTime: -8585224173815545769
+    m_lastTime: -8585218942619652553
     List:
     - name: Master Audio Bus
       guid: d8a41415a61d2a41a17e75ca0c2149f3
@@ -54,6 +54,41 @@ MonoBehaviour:
         ObjectType: 2
         guid: d8a41415a61d2a41a17e75ca0c2149f3
       Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus
+    - name: Music Audio Bus
+      guid: 5dd0812a6bcb9244b24b014ae8a4a0af
+      id: 493417818
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 358467ebf0a09540b65ba3cce55d6389
+      - ElementName: Master Audio Bus
+        ObjectType: 2
+        guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: Music Audio Bus
+        ObjectType: 2
+        guid: 5dd0812a6bcb9244b24b014ae8a4a0af
+      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\Music Audio
+        Bus
+    - name: SFX Audio Bus
+      guid: b1d330fbbe6b064cb3e811cb397ce826
+      id: 4084199202
+      PathAndIcons:
+      - ElementName: Master-Mixer Hierarchy
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 358467ebf0a09540b65ba3cce55d6389
+      - ElementName: Master Audio Bus
+        ObjectType: 2
+        guid: d8a41415a61d2a41a17e75ca0c2149f3
+      - ElementName: SFX Audio Bus
+        ObjectType: 2
+        guid: b1d330fbbe6b064cb3e811cb397ce826
+      Path: Master-Mixer Hierarchy\Default Work Unit\Master Audio Bus\SFX Audio Bus
   BankWwu:
   - PhysicalPath: SoundBanks\Default Work Unit.wwu
     PathAndIcons:
@@ -533,8 +568,36 @@ MonoBehaviour:
     ParentPath: Game Parameters\Default Work Unit
     guid: 7fd26d170457f64b9c4075e46d49e907
     GuidInternal: 
-    m_lastTime: -8585224173815760957
-    List: []
+    m_lastTime: -8585218949331651401
+    List:
+    - name: BGMVolume
+      guid: 6e5ac8f35ffb0749b153a5de22871e0e
+      id: 3043206523
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 7fd26d170457f64b9c4075e46d49e907
+      - ElementName: BGMVolume
+        ObjectType: 13
+        guid: 6e5ac8f35ffb0749b153a5de22871e0e
+      Path: Game Parameters\Default Work Unit\BGMVolume
+    - name: SFXVolume
+      guid: 3d76c802aa284648af4721d54013ea8e
+      id: 988953028
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 7fd26d170457f64b9c4075e46d49e907
+      - ElementName: SFXVolume
+        ObjectType: 13
+        guid: 3d76c802aa284648af4721d54013ea8e
+      Path: Game Parameters\Default Work Unit\SFXVolume
   StateWwu:
   - PhysicalPath: States\Default Work Unit.wwu
     PathAndIcons:
@@ -577,7 +640,7 @@ MonoBehaviour:
     GuidInternal: 
     m_lastTime: -8585224173815225771
     List: []
-  ExpandedFileSystemItemIds: 02000000030000002100000022000000
+  ExpandedFileSystemItemIds: 0200000021000000220000002500000026000000
   ExpandedWaapiItemIds: 0200000003000000
   AutoSyncSelection: 0
   autoPopulateEnabled: 1

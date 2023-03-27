@@ -29,7 +29,7 @@ public class PlayerTankController : MonoBehaviour
 
     private Animator treadAnimator; //The animator for the treads
 
-    private List<LayerHealthManager> layers;    //A list of information on all player tank layers
+    private List<LayerManager> layers;    //A list of information on all player tank layers
 
     private float currentSpeed; //The current speed of the player tank
     private float currentTankWeightMultiplier;  //The current tank weight multiplier of the player tank
@@ -43,7 +43,7 @@ public class PlayerTankController : MonoBehaviour
 
     private void Awake()
     {
-        layers = new List<LayerHealthManager>(2);   //Start the list with room for two layers
+        layers = new List<LayerManager>(2);   //Start the list with room for two layers
         AdjustLayersInList();
 
         treadAnimator = GetComponentInChildren<Animator>();
@@ -72,7 +72,7 @@ public class PlayerTankController : MonoBehaviour
         layers.Clear();
 
         //Insert each layer at the appropriate index
-        foreach (var i in GetComponentsInChildren<LayerHealthManager>())
+        foreach (var i in GetComponentsInChildren<LayerManager>())
         {
             layers.Add(i);
         }
@@ -334,7 +334,7 @@ public class PlayerTankController : MonoBehaviour
     }
 
 
-    public List<LayerHealthManager> GetLayers()
+    public List<LayerManager> GetLayers()
     {
         return layers;
     }
@@ -344,9 +344,9 @@ public class PlayerTankController : MonoBehaviour
     /// </summary>
     /// <param name="index">The layer number of the tank.</param>
     /// <returns></returns>
-    public LayerHealthManager GetLayerAt(int index)
+    public LayerManager GetLayerAt(int index)
     {
-        LayerHealthManager layer;
+        LayerManager layer;
 
         try
         {

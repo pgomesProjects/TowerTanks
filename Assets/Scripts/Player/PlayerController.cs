@@ -36,6 +36,7 @@ public class PlayerController : MonoBehaviour
 
     //Runtime Variables
     private int playerIndex;
+    private InputActionMap inputMap;
 
     //Movement
     private Vector2 movement;
@@ -43,7 +44,8 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private Animator playerAnimator;
 
-    internal int currentLayer = 1;
+    internal int previousLayer = 0;
+    internal int currentLayer = 0;
 
     private bool canMove = false;
     private bool hasMoved;
@@ -58,10 +60,13 @@ public class PlayerController : MonoBehaviour
     internal InteractableController currentInteractableItem;
     internal PriceIndicator currentInteractableToBuy;
     private GameObject interactableHover;
+    private GameObject scrapNumber;
+    private GameObject buildIndicator;
     private GameObject progressBarCanvas;
     private Slider progressBarSlider;
     private bool taskInProgress;
     private IEnumerator currentLoadAction;
+    private bool buildModeActive;
 
     //Items
     private Transform scrapHolder;
@@ -77,6 +82,40 @@ public class PlayerController : MonoBehaviour
 
     private bool isSpinningCannon = false;
 
+    private void Awake()
+    {
+        //Gets the player input action map so that events can be subscribed to it
+        inputMap = GetComponent<PlayerInput>().actions.FindActionMap("Player");
+        inputMap.actionTriggered += OnPlayerInput;
+
+        //Subscribes events for control lost / regained
+        GetComponent<PlayerInput>().onDeviceLost += OnDeviceLost;
+        GetComponent<PlayerInput>().onDeviceRegained += OnDeviceRegained;
+    }
+
+    /// <summary>
+    /// Calls events for the player.
+    /// </summary>
+    /// <param name="ctx">The context of the input that was triggered.</param>
+    private void OnPlayerInput(InputAction.CallbackContext ctx)
+    {
+        //Gets the name of the action and calls the appropriate events
+        switch (ctx.action.name)
+        {
+            case "Move": OnMove(ctx); break;
+            case "Repair": OnRepair(ctx); break;
+            case "Interact": OnInteract(ctx); break;
+            case "Build": OnBuild(ctx); break;
+            case "Cancel": OnCancel(ctx); break;
+            case "Pause": OnPause(ctx); break;
+            case "Control Steering": OnControlSteering(ctx); break;
+            case "Cycle Interactables": OnCycleInteractable(ctx); break;
+            case "On Ladder Enter": OnLadderEnter(ctx); break;
+            case "On Ladder Exit": OnLadderExit(ctx); break;
+            case "Cannon Scroll": OnCannonScroll(ctx); break;
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -84,12 +123,17 @@ public class PlayerController : MonoBehaviour
         playerAnimator = GetComponent<Animator>();
         defaultGravity = rb.gravityScale;
         scrapHolder = transform.Find("ScrapHolder");
+        previousLayer = 0;
+        currentLayer = 0;
         isHoldingItem = false;
         hasMoved = false;
         canClimb = false;
         waitingToClimb = false;
         isFacingRight = true;
+        buildModeActive = false;
         interactableHover = transform.Find("HoverPrompt").gameObject;
+        scrapNumber = transform.Find("ScrapNumber").gameObject;
+        buildIndicator = transform.Find("BuildIndicator").gameObject;
         progressBarCanvas = transform.Find("TaskProgressBar").gameObject;
         progressBarSlider = progressBarCanvas.GetComponentInChildren<Slider>();
     }
@@ -117,6 +161,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // For dealing with physics or movement related functionality
     void FixedUpdate()
     {
         if (LevelManager.instance != null && !LevelManager.instance.isPaused)
@@ -208,93 +253,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    #region OnInputFunctions
     //Send value from Move callback to the horizontal Vector2
     public void OnMove(InputAction.CallbackContext ctx) => movement = ctx.ReadValue<Vector2>();
-    public void OnCannonScroll(InputAction.CallbackContext ctx) => cannonScroll = ctx.ReadValue<float>();
-
-    public void OnLadderEnter(InputAction.CallbackContext ctx)
-    {
-        if (LevelManager.instance != null && !LevelManager.instance.isPaused)
-        {
-            //If the player presses the ladder climb button
-            if (ctx.performed)
-            {
-                if (canClimb)
-                {
-                    //If the player is not on a ladder
-                    if (!isClimbing)
-                    {
-                        //If the player is colliding with the ladder and wants to climb
-                        if (ladderRaycast.collider != null)
-                        {
-                            EnterLadder();
-                            return;
-                        }
-                    }
-                }
-                waitingToClimb = true;
-            }
-        }
-    }
-
-    private void EnterLadder()
-    {
-        isClimbing = true;
-        playerAnimator.SetBool("IsOnLadder", true);
-        transform.localPosition = new Vector2(0, transform.localPosition.y);
-        waitingToClimb = false;
-    }
-
-    private void ExitLadder()
-    {
-        //Move them off the ladder
-        isClimbing = false;
-        playerAnimator.SetBool("IsOnLadder", false);
-    }
-
-    public void OnLadderExit(InputAction.CallbackContext ctx)
-    {
-        if (LevelManager.instance != null && !LevelManager.instance.isPaused)
-        {
-            //If the player presses the ladder climb button
-            if (ctx.performed)
-            {
-                if (canClimb)
-                {
-                    //If the player is on a ladder
-                    if (isClimbing)
-                    {
-                        ExitLadder();
-                    }
-                }
-            }
-        }
-    }
-
-    public void OnControlSteering(InputAction.CallbackContext ctx) => steeringValue = ctx.ReadValue<float>();
-
-    public float GetCannonMovement()
-    {
-        if(GetComponent<PlayerInput>().currentControlScheme == "Gamepad")
-        {
-            //If the player is spinning the joystick and cannot move, send the cannon the player's joystick spin angle
-            if (isSpinningCannon && !canMove)
-            {
-                return Vector2.SignedAngle(lastJoystickInput, movement);
-            }
-        }
-        else if(GetComponent<PlayerInput>().currentControlScheme == "Keyboard and Mouse")
-        {
-            if (isSpinningCannon && !canMove)
-            {
-                return cannonScroll * cannonScrollSensitivity;
-            }
-        }
-
-        return 0;
-    }
-
-    public bool IsPlayerSpinningCannon() => isSpinningCannon && !canMove;
 
     public void OnInteract(InputAction.CallbackContext ctx)
     {
@@ -322,7 +283,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void OnUse(InputAction.CallbackContext ctx)
+    public void OnRepair(InputAction.CallbackContext ctx)
     {
         if (PlayerCanInteract())
         {
@@ -364,6 +325,236 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
+    public void OnBuild(InputAction.CallbackContext ctx)
+    {
+        if (PlayerCanInteract())
+        {
+
+            if (ctx.started)
+            {
+                //If the player is not in build mode, put them in build mode
+                if (!buildModeActive)
+                {
+                    SetBuildMode(true);
+                    return;
+                }
+
+                //Try to buy an interactable
+                foreach (var i in GameObject.FindGameObjectsWithTag("GhostObject"))
+                {
+                    //If a player can purchase an interactable, try to purchase it
+                    if (i.GetComponent<PriceIndicator>().PlayerCanPurchase())
+                    {
+                        i.GetComponent<PriceIndicator>().PurchaseInteractable();
+                        Instantiate(smabuildscraps, transform.position, Quaternion.identity);
+                    }
+                }
+            }
+
+/*            if (LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
+            {
+                if ((int)TutorialController.main.currentTutorialState >= (int)TUTORIALSTATE.PICKUPHAMMER)
+                {
+                    //If the player presses the pickup button
+                    if (ctx.started)
+                    {
+                        PickupItem();
+                    }
+                }
+            }
+            else
+            {
+                //If the player presses the pickup button
+                if (ctx.started)
+                {
+                    PickupItem();
+                }
+            }*/
+        }
+    }
+
+    public void OnCancel(InputAction.CallbackContext ctx)
+    {
+        if (PlayerCanInteract())
+        {
+            //If build mode is active, cancel it
+            if (buildModeActive)
+            {
+                SetBuildMode(false);
+                return;
+            }
+
+/*            if (LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
+            {
+                if ((int)TutorialController.main.currentTutorialState >= (int)TUTORIALSTATE.PICKUPHAMMER)
+                {
+                    //If the player presses the throw button
+                    if (ctx.started)
+                    {
+                        //If the player is still holding an item
+                        if (itemHeld != null)
+                        {
+                            DropItem(true);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                //If the player presses the throw button
+                if (ctx.started)
+                {
+                    //If the player is still holding an item
+                    if (itemHeld != null)
+                    {
+                        DropItem(true);
+                    }
+                }
+            }*/
+        }
+    }
+
+    public void OnCycleInteractable(InputAction.CallbackContext ctx)
+    {
+        if (PlayerCanInteract())
+        {
+            //If the player presses the cycle interactable button
+            if (ctx.performed)
+            {
+                if (IsHoldingScrap() && currentInteractableToBuy != null)
+                {
+                    FindObjectOfType<InteractableSpawnerManager>().UpdateGhostInteractable(currentInteractableToBuy.transform.parent.GetComponent<InteractableSpawner>(), (int)ctx.ReadValue<float>());
+                }
+            }
+        }
+    }
+
+    public void OnLadderEnter(InputAction.CallbackContext ctx)
+    {
+        if (LevelManager.instance != null && !LevelManager.instance.isPaused)
+        {
+            //If the player presses the ladder climb button
+            if (ctx.performed)
+            {
+                if (canClimb)
+                {
+                    //If the player is not on a ladder
+                    if (!isClimbing)
+                    {
+                        //If the player is colliding with the ladder and wants to climb
+                        if (ladderRaycast.collider != null)
+                        {
+                            EnterLadder();
+                            return;
+                        }
+                    }
+                }
+                waitingToClimb = true;
+            }
+        }
+    }
+
+    public void OnLadderExit(InputAction.CallbackContext ctx)
+    {
+        if (LevelManager.instance != null && !LevelManager.instance.isPaused)
+        {
+            //If the player presses the ladder climb button
+            if (ctx.performed)
+            {
+                if (canClimb)
+                {
+                    //If the player is on a ladder
+                    if (isClimbing)
+                    {
+                        ExitLadder();
+                    }
+                }
+            }
+        }
+    }
+
+    public void OnControlSteering(InputAction.CallbackContext ctx) => steeringValue = ctx.ReadValue<float>();
+    public void OnCannonScroll(InputAction.CallbackContext ctx) => cannonScroll = ctx.ReadValue<float>();
+
+    public void OnPause(InputAction.CallbackContext ctx)
+    {
+        //If the player presses the pause button
+        if (ctx.started)
+        {
+            if (LevelManager.instance != null)
+            {
+                //Pause the game
+                LevelManager.instance.PauseToggle(playerIndex);
+            }
+        }
+    }
+    #endregion
+
+    /// <summary>
+    /// Sets the build mode for the player.
+    /// </summary>
+    /// <param name="buildMode">If true, the player is in build mode. If false, the player is not in build mode.</param>
+    public void SetBuildMode(bool buildMode)
+    {
+        buildModeActive = buildMode;    //Sets the build mode for the player
+        buildIndicator.SetActive(buildMode);
+
+        //If build mode is active
+        if (buildModeActive)
+        {
+            Debug.Log("Build Mode For Player " + (playerIndex + 1) + ": On");
+            LevelManager.instance.GetPlayerTank().GetLayerAt(currentLayer).GetComponent<GhostInteractables>().CreateGhostInteractables(this);
+        }
+
+        //If build mode is not active
+        else
+        {
+            Debug.Log("Build Mode For Player " + (playerIndex + 1) + ": Off");
+            LevelManager.instance.GetPlayerTank().GetLayerAt(currentLayer).GetComponent<GhostInteractables>().DestroyGhostInteractables(this);
+
+            //Destroy any ghost layers in the scene
+            LevelManager.instance.RemoveGhostLayer();
+        }
+    }
+
+    private void EnterLadder()
+    {
+        isClimbing = true;
+        playerAnimator.SetBool("IsOnLadder", true);
+        transform.localPosition = new Vector2(0, transform.localPosition.y);
+        waitingToClimb = false;
+    }
+
+    private void ExitLadder()
+    {
+        //Move them off the ladder
+        isClimbing = false;
+        playerAnimator.SetBool("IsOnLadder", false);
+    }
+
+    public float GetCannonMovement()
+    {
+        if(GetComponent<PlayerInput>().currentControlScheme == "Gamepad")
+        {
+            //If the player is spinning the joystick and cannot move, send the cannon the player's joystick spin angle
+            if (isSpinningCannon && !canMove)
+            {
+                return Vector2.SignedAngle(lastJoystickInput, movement);
+            }
+        }
+        else if(GetComponent<PlayerInput>().currentControlScheme == "Keyboard and Mouse")
+        {
+            if (isSpinningCannon && !canMove)
+            {
+                return cannonScroll * cannonScrollSensitivity;
+            }
+        }
+
+        return 0;
+    }
+
+    public bool IsPlayerSpinningCannon() => isSpinningCannon && !canMove;
 
     private void ChangeItemTransparency(float alpha)
     {
@@ -409,6 +600,7 @@ public class PlayerController : MonoBehaviour
                 if (i.GetComponent<PriceIndicator>().PlayerCanPurchase())
                 {
                     i.GetComponent<PriceIndicator>().PurchaseInteractable();
+                    i.GetComponent<PriceIndicator>().PurchaseInteractable();
                     Instantiate(smabuildscraps, transform.position, Quaternion.identity);
                 }
             }
@@ -418,8 +610,8 @@ public class PlayerController : MonoBehaviour
     private void CheckForFireRemoverUse()
     {
         FireBehavior fire = null;
-        if (LevelManager.instance.GetPlayerTank().GetLayerAt(currentLayer - 1) != null)
-            fire = LevelManager.instance.GetPlayerTank().GetLayerAt(currentLayer - 1).GetComponentInChildren<FireBehavior>();
+        if (LevelManager.instance.GetPlayerTank().GetLayerAt(currentLayer) != null)
+            fire = LevelManager.instance.GetPlayerTank().GetLayerAt(currentLayer).GetComponentInChildren<FireBehavior>();
 
         //If the layer the player is on is on fire
         if (fire != null && fire.IsLayerOnFire())
@@ -452,7 +644,7 @@ public class PlayerController : MonoBehaviour
 
     private void CheckForWrenchUse()
     {
-        LayerHealthManager layerHealth = LevelManager.instance.GetPlayerTank().GetLayerAt(currentLayer - 1);
+        LayerManager layerHealth = LevelManager.instance.GetPlayerTank().GetLayerAt(currentLayer);
 
         //If the layer the player is damaged and the player has scrap, use the wrench
         if (layerHealth.GetLayerHealth() < layerHealth.GetMaxHealth() && scrapHolder.childCount > 0)
@@ -469,7 +661,7 @@ public class PlayerController : MonoBehaviour
 
     private void UseFireRemover()
     {
-        FireBehavior fire = LevelManager.instance.GetPlayerTank().GetLayerAt(currentLayer - 1).GetComponentInChildren<FireBehavior>();
+        FireBehavior fire = LevelManager.instance.GetPlayerTank().GetLayerAt(currentLayer).GetComponentInChildren<FireBehavior>();
         //Get rid of the fire
         fire.gameObject.SetActive(false);
     }
@@ -477,26 +669,11 @@ public class PlayerController : MonoBehaviour
     private void UseWrench()
     {
         //Restore the layer the player is on to max health
-        LayerHealthManager layerHealth = LevelManager.instance.GetPlayerTank().GetLayerAt(currentLayer - 1);
+        LayerManager layerHealth = LevelManager.instance.GetPlayerTank().GetLayerAt(currentLayer);
         layerHealth.RepairLayer();
 
         //Remove scrap from the scrap holder
         Destroy(scrapHolder.GetChild(0).gameObject);
-    }
-
-    public void OnCycleInteractable(InputAction.CallbackContext ctx)
-    {
-        if (PlayerCanInteract())
-        {
-            //If the player presses the cycle interactable button
-            if (ctx.performed)
-            {
-                if (PlayerHasItem("Hammer") && currentInteractableToBuy != null)
-                {
-                    FindObjectOfType<InteractableSpawnerManager>().UpdateGhostInteractable(currentInteractableToBuy.transform.parent.GetComponent<InteractableSpawner>(), (int)ctx.ReadValue<float>());
-                }
-            }
-        }
     }
 
     public void DisplayInteractionPrompt(string message)
@@ -573,84 +750,11 @@ public class PlayerController : MonoBehaviour
 
     public bool IsProgressBarFull() => progressBarSlider.value >= 100;
 
-    public void OnPause(InputAction.CallbackContext ctx)
-    {
-        //If the player presses the pause button
-        if (ctx.started)
-        {
-            if(LevelManager.instance != null)
-            {
-                //Pause the game
-                LevelManager.instance.PauseToggle(playerIndex);
-            }
-        }
-    }
-
     public void DestroyItem()
     {
         Destroy(itemHeld.gameObject);
         itemHeld = null;
         isHoldingItem = false;
-    }
-
-    public void OnPickup(InputAction.CallbackContext ctx)
-    {
-        if (PlayerCanInteract())
-        {
-            if(LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
-            {
-                if((int)TutorialController.main.currentTutorialState >= (int)TUTORIALSTATE.PICKUPHAMMER)
-                {
-                    //If the player presses the pickup button
-                    if (ctx.started)
-                    {
-                        PickupItem();
-                    }
-                }
-            }
-            else
-            {
-                //If the player presses the pickup button
-                if (ctx.started)
-                {
-                    PickupItem();
-                }
-            }
-        }
-    }
-
-    public void OnThrow(InputAction.CallbackContext ctx)
-    {
-        if (PlayerCanInteract())
-        {
-            if (LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
-            {
-                if ((int)TutorialController.main.currentTutorialState >= (int)TUTORIALSTATE.PICKUPHAMMER)
-                {
-                    //If the player presses the throw button
-                    if (ctx.started)
-                    {
-                        //If the player is still holding an item
-                        if (itemHeld != null)
-                        {
-                            DropItem(true);
-                        }
-                    }
-                }
-            }
-            else
-            {
-                //If the player presses the throw button
-                if (ctx.started)
-                {
-                    //If the player is still holding an item
-                    if (itemHeld != null)
-                    {
-                        DropItem(true);
-                    }
-                }
-            }
-        }
     }
 
     public void PickupItem()
@@ -694,7 +798,7 @@ public class PlayerController : MonoBehaviour
 
         if (PlayerHasItem("Hammer") && !IsPlayerOutsideTank())
         {
-            LevelManager.instance.CheckInteractablesOnLayer(currentLayer);
+            //LevelManager.instance.CheckInteractablesOnLayer(currentLayer);
         }
         else if (PlayerHasItem("Hammer") && IsPlayerOutsideTank())
         {
@@ -721,6 +825,30 @@ public class PlayerController : MonoBehaviour
         itemHeld.SetPickUp(true);
         isHoldingItem = true;
         closestItem = null;
+    }
+
+    /// <summary>
+    /// Function called when the player gains or loses scrap in their scrap holder.
+    /// </summary>
+    public void OnScrapUpdated()
+    {
+        //If the player is holding scrap
+        if (IsHoldingScrap())
+        {
+            //If the player is outside of the tank, add a ghost layer
+            if(IsPlayerOutsideTank())
+                LevelManager.instance.AddGhostLayer();
+
+            if (!scrapNumber.activeInHierarchy)
+                scrapNumber.SetActive(true);
+
+            scrapNumber.GetComponentInChildren<TextMeshProUGUI>().text = (scrapHolder.childCount * LevelManager.instance.GetScrapValue()).ToString();
+        }
+        else
+        {
+            if (!scrapNumber.activeInHierarchy)
+                scrapNumber.SetActive(false);
+        }
     }
 
     private void DropItem(bool throwItem)
@@ -849,6 +977,8 @@ public class PlayerController : MonoBehaviour
     public bool HasPlayerMoved() => hasMoved;
     public void SetPlayerClimb(bool climb) => canClimb = climb;
     public void SetPlayerMove(bool movePlayer) => canMove = movePlayer;
+    public bool InBuildMode() => buildModeActive;
+    public bool IsHoldingScrap() => scrapHolder.childCount > 0;
     public int MaxScrapAmount() => maxAmountOfScrap;
     public void MarkClosestItem(Item item) => closestItem = item;
     public bool IsPlayerHoldingItem() => isHoldingItem;

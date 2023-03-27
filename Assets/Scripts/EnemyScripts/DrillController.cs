@@ -33,7 +33,7 @@ public class DrillController : MonoBehaviour
             {
                 Instantiate(sparks, transform.position, Quaternion.identity);
                 //If the drill is hitting a layer of the tank, deal damage to that layer
-                if (hit.collider.CompareTag("Layer") && hit.collider.GetComponentInParent<LayerHealthManager>() != null)
+                if (hit.collider.CompareTag("Layer") && hit.collider.GetComponentInParent<LayerManager>() != null)
                 {
                     currentTimer += Time.deltaTime;
 
@@ -41,8 +41,8 @@ public class DrillController : MonoBehaviour
                     if (currentTimer > drillTickSeconds)
                     {
                         Debug.Log("Drill Damaging " + hit.collider.transform.parent.name + "!");
-                        hit.collider.GetComponentInParent<LayerHealthManager>().DealDamage(damagePerTick, true, 3f);
-                        hit.collider.GetComponentInParent<LayerHealthManager>().CheckForFireSpawn(chanceForFire);
+                        hit.collider.GetComponentInParent<LayerManager>().DealDamage(damagePerTick, true, 3f);
+                        hit.collider.GetComponentInParent<LayerManager>().CheckForFireSpawn(chanceForFire);
                         currentTimer = 0;
                     }
 

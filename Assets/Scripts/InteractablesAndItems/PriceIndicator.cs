@@ -8,6 +8,7 @@ public class PriceIndicator : MonoBehaviour
     [SerializeField, Tooltip("The price of the interactable.")] private int price;
     [SerializeField, Tooltip("The GameObject with the price text.")] private GameObject priceText;
     [SerializeField, Tooltip("The type of interactable.")] private INTERACTABLETYPE interactableType;
+    [SerializeField, Tooltip("Does the interactable require scrap to be built?")] private bool requiresScrap = true;
 
     private bool playerCanPurchase; //If true, the player can try to purchase the object. If false, they cannot.
 
@@ -24,7 +25,7 @@ public class PriceIndicator : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            if(collision.GetComponent<PlayerController>().PlayerHasItem("Hammer"))
+            if(collision.GetComponent<PlayerController>().IsHoldingScrap() || !requiresScrap)
             {
                 if (LevelManager.instance.levelPhase != GAMESTATE.TUTORIAL || TutorialController.main.currentTutorialState != TUTORIALSTATE.READING)
                 {
@@ -40,7 +41,7 @@ public class PriceIndicator : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            if(collision.GetComponent<PlayerController>().PlayerHasItem("Hammer"))
+            if(collision.GetComponent<PlayerController>().IsHoldingScrap() || !requiresScrap)
             {
                 priceText.SetActive(false);
                 playerCanPurchase = false;

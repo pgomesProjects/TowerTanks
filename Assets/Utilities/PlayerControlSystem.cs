@@ -64,9 +64,36 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Repair"",
+                    ""type"": ""Button"",
+                    ""id"": ""fe096cfd-c2cb-4a1e-8a90-f7987940ae6e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Interact"",
                     ""type"": ""Button"",
                     ""id"": ""5d998075-9008-4971-ac82-d89e9ee169d5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Build"",
+                    ""type"": ""Button"",
+                    ""id"": ""11cbd562-83ca-40da-b91a-5889ca182bd4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Cancel"",
+                    ""type"": ""Button"",
+                    ""id"": ""496db7f7-9411-45d4-b18e-9545be69c3b7"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -82,27 +109,9 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Pick Up"",
-                    ""type"": ""Button"",
-                    ""id"": ""11cbd562-83ca-40da-b91a-5889ca182bd4"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Advance Tutorial Text"",
                     ""type"": ""Button"",
                     ""id"": ""71a5200b-b29c-4c30-8cc8-edc3c683f5ca"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Throw"",
-                    ""type"": ""Button"",
-                    ""id"": ""496db7f7-9411-45d4-b18e-9545be69c3b7"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -118,15 +127,6 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Use"",
-                    ""type"": ""Button"",
-                    ""id"": ""fe096cfd-c2cb-4a1e-8a90-f7987940ae6e"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Cycle Interactables"",
                     ""type"": ""Value"",
                     ""id"": ""a6864a68-0e91-4d51-83d8-ae98a2ca7926"",
@@ -136,7 +136,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""OnLadderEnter"",
+                    ""name"": ""On Ladder Enter"",
                     ""type"": ""Button"",
                     ""id"": ""5926d674-75a9-415b-9f62-15a4c5d8abda"",
                     ""expectedControlType"": ""Button"",
@@ -145,7 +145,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""OnLadderExit"",
+                    ""name"": ""On Ladder Exit"",
                     ""type"": ""Button"",
                     ""id"": ""25f72e57-b44e-49f6-91a7-199bd2de2814"",
                     ""expectedControlType"": ""Button"",
@@ -154,7 +154,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""CannonScroll"",
+                    ""name"": ""Cannon Scroll"",
                     ""type"": ""PassThrough"",
                     ""id"": ""b0e82e15-fadf-4c3f-8977-8a29d21b549c"",
                     ""expectedControlType"": ""Axis"",
@@ -287,105 +287,6 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""143bb1cd-cc10-4eca-a2f0-a3664166fe91"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Gamepad"",
-                    ""action"": ""Fire"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""886e731e-7071-4ae4-95c0-e61739dad6fd"",
-                    ""path"": ""<Touchscreen>/primaryTouch/tap"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Touch"",
-                    ""action"": ""Fire"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""ee3d0cd2-254e-47a7-a8cb-bc94d9658c54"",
-                    ""path"": ""<Joystick>/trigger"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Joystick"",
-                    ""action"": ""Fire"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""8255d333-5683-4943-a58a-ccb207ff1dce"",
-                    ""path"": ""<XRController>/{PrimaryAction}"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""XR"",
-                    ""action"": ""Fire"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""8cfac0f5-ea52-4c49-8cee-53c59d978afd"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard and Mouse"",
-                    ""action"": ""Fire"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""4aadaef6-7b07-4ad6-b4a2-616ebd4db812"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Join"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""014756b2-6bb6-4b5a-bc64-d884c1ad048e"",
-                    ""path"": ""<Keyboard>/space"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard and Mouse"",
-                    ""action"": ""Join"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""3df3bf15-9b85-466e-8b41-9abbe2c4761a"",
-                    ""path"": ""<Gamepad>/buttonNorth"",
-                    ""interactions"": ""SlowTap"",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Interact"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""4fc1aaa0-35f0-430f-bdf8-bc07c4919cd3"",
-                    ""path"": ""<Keyboard>/e"",
-                    ""interactions"": ""SlowTap"",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard and Mouse"",
-                    ""action"": ""Interact"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""954c25c1-4e6d-4e15-9ea0-bf615e7815e9"",
                     ""path"": ""<Gamepad>/start"",
                     ""interactions"": """",
@@ -414,28 +315,6 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
                     ""action"": ""Pause"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""ce8b7fd7-d591-4bb7-a42f-76034417c0ef"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Pick Up"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""f8b9dca0-5cef-41d1-a3d2-0ba3a9121b3c"",
-                    ""path"": ""<Keyboard>/space"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard and Mouse"",
-                    ""action"": ""Pick Up"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -561,35 +440,13 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""f08a9278-885c-4279-a46f-21e2f33d1fd6"",
-                    ""path"": ""<Gamepad>/buttonWest"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Use"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""b27f01bf-7688-4824-b1f1-6b7ac153f022"",
-                    ""path"": ""<Mouse>/rightButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard and Mouse"",
-                    ""action"": ""Use"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
                     ""name"": ""Left Stick"",
                     ""id"": ""1ccf85bf-3b45-4246-9614-97faa14d502e"",
                     ""path"": ""1DAxis"",
                     ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""OnLadderEnter"",
+                    ""action"": ""On Ladder Enter"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -600,7 +457,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""OnLadderEnter"",
+                    ""action"": ""On Ladder Enter"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -611,7 +468,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""OnLadderEnter"",
+                    ""action"": ""On Ladder Enter"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -622,7 +479,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""OnLadderEnter"",
+                    ""action"": ""On Ladder Enter"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -633,7 +490,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
-                    ""action"": ""OnLadderEnter"",
+                    ""action"": ""On Ladder Enter"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -644,7 +501,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
-                    ""action"": ""OnLadderEnter"",
+                    ""action"": ""On Ladder Enter"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -655,7 +512,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""OnLadderEnter"",
+                    ""action"": ""On Ladder Enter"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -666,7 +523,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
-                    ""action"": ""OnLadderEnter"",
+                    ""action"": ""On Ladder Enter"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -677,7 +534,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
-                    ""action"": ""OnLadderEnter"",
+                    ""action"": ""On Ladder Enter"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -688,7 +545,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""OnLadderExit"",
+                    ""action"": ""On Ladder Exit"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -699,7 +556,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""OnLadderExit"",
+                    ""action"": ""On Ladder Exit"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -710,31 +567,9 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""OnLadderExit"",
+                    ""action"": ""On Ladder Exit"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""f8347421-ea68-42c7-a46a-29e5fa954464"",
-                    ""path"": ""<Gamepad>/buttonEast"",
-                    ""interactions"": ""Press"",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Throw"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""9ab3c459-b069-491e-9f7a-832d7c619e79"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard and Mouse"",
-                    ""action"": ""Throw"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
@@ -864,7 +699,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""OnLadderExit"",
+                    ""action"": ""On Ladder Exit"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -875,7 +710,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
-                    ""action"": ""OnLadderExit"",
+                    ""action"": ""On Ladder Exit"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -886,7 +721,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
-                    ""action"": ""OnLadderExit"",
+                    ""action"": ""On Ladder Exit"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -897,7 +732,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""OnLadderExit"",
+                    ""action"": ""On Ladder Exit"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -908,7 +743,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
-                    ""action"": ""OnLadderExit"",
+                    ""action"": ""On Ladder Exit"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -919,7 +754,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
-                    ""action"": ""OnLadderExit"",
+                    ""action"": ""On Ladder Exit"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -930,7 +765,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
-                    ""action"": ""CannonScroll"",
+                    ""action"": ""Cannon Scroll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -957,9 +792,31 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
+                    ""name"": ""negative"",
+                    ""id"": ""5ee88572-912c-4e1e-bae2-cafdf4675422"",
+                    ""path"": ""<Gamepad>/rightStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Cycle Interactables"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": ""positive"",
                     ""id"": ""2a755e55-898a-4e2c-b5e8-d222c7936c15"",
                     ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Cycle Interactables"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""ba685878-12d6-4244-8cc3-8a40ebb880bd"",
+                    ""path"": ""<Gamepad>/rightStick/right"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -999,6 +856,171 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""action"": ""Cycle Interactables"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3df3bf15-9b85-466e-8b41-9abbe2c4761a"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": ""SlowTap"",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4fc1aaa0-35f0-430f-bdf8-bc07c4919cd3"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": ""SlowTap"",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f8347421-ea68-42c7-a46a-29e5fa954464"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9ab3c459-b069-491e-9f7a-832d7c619e79"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f08a9278-885c-4279-a46f-21e2f33d1fd6"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Repair"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b27f01bf-7688-4824-b1f1-6b7ac153f022"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Repair"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ce8b7fd7-d591-4bb7-a42f-76034417c0ef"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Build"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f8b9dca0-5cef-41d1-a3d2-0ba3a9121b3c"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Build"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""143bb1cd-cc10-4eca-a2f0-a3664166fe91"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Fire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""886e731e-7071-4ae4-95c0-e61739dad6fd"",
+                    ""path"": ""<Touchscreen>/primaryTouch/tap"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Touch"",
+                    ""action"": ""Fire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ee3d0cd2-254e-47a7-a8cb-bc94d9658c54"",
+                    ""path"": ""<Joystick>/trigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Joystick"",
+                    ""action"": ""Fire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8255d333-5683-4943-a58a-ccb207ff1dce"",
+                    ""path"": ""<XRController>/{PrimaryAction}"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""XR"",
+                    ""action"": ""Fire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8cfac0f5-ea52-4c49-8cee-53c59d978afd"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Fire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4aadaef6-7b07-4ad6-b4a2-616ebd4db812"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Join"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""014756b2-6bb6-4b5a-bc64-d884c1ad048e"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Join"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -1727,17 +1749,17 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
         m_Player_Join = m_Player.FindAction("Join", throwIfNotFound: true);
+        m_Player_Repair = m_Player.FindAction("Repair", throwIfNotFound: true);
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
+        m_Player_Build = m_Player.FindAction("Build", throwIfNotFound: true);
+        m_Player_Cancel = m_Player.FindAction("Cancel", throwIfNotFound: true);
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
-        m_Player_PickUp = m_Player.FindAction("Pick Up", throwIfNotFound: true);
         m_Player_AdvanceTutorialText = m_Player.FindAction("Advance Tutorial Text", throwIfNotFound: true);
-        m_Player_Throw = m_Player.FindAction("Throw", throwIfNotFound: true);
         m_Player_ControlSteering = m_Player.FindAction("Control Steering", throwIfNotFound: true);
-        m_Player_Use = m_Player.FindAction("Use", throwIfNotFound: true);
         m_Player_CycleInteractables = m_Player.FindAction("Cycle Interactables", throwIfNotFound: true);
-        m_Player_OnLadderEnter = m_Player.FindAction("OnLadderEnter", throwIfNotFound: true);
-        m_Player_OnLadderExit = m_Player.FindAction("OnLadderExit", throwIfNotFound: true);
-        m_Player_CannonScroll = m_Player.FindAction("CannonScroll", throwIfNotFound: true);
+        m_Player_OnLadderEnter = m_Player.FindAction("On Ladder Enter", throwIfNotFound: true);
+        m_Player_OnLadderExit = m_Player.FindAction("On Ladder Exit", throwIfNotFound: true);
+        m_Player_CannonScroll = m_Player.FindAction("Cannon Scroll", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1815,13 +1837,13 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_Fire;
     private readonly InputAction m_Player_Join;
+    private readonly InputAction m_Player_Repair;
     private readonly InputAction m_Player_Interact;
+    private readonly InputAction m_Player_Build;
+    private readonly InputAction m_Player_Cancel;
     private readonly InputAction m_Player_Pause;
-    private readonly InputAction m_Player_PickUp;
     private readonly InputAction m_Player_AdvanceTutorialText;
-    private readonly InputAction m_Player_Throw;
     private readonly InputAction m_Player_ControlSteering;
-    private readonly InputAction m_Player_Use;
     private readonly InputAction m_Player_CycleInteractables;
     private readonly InputAction m_Player_OnLadderEnter;
     private readonly InputAction m_Player_OnLadderExit;
@@ -1834,13 +1856,13 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @Fire => m_Wrapper.m_Player_Fire;
         public InputAction @Join => m_Wrapper.m_Player_Join;
+        public InputAction @Repair => m_Wrapper.m_Player_Repair;
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
+        public InputAction @Build => m_Wrapper.m_Player_Build;
+        public InputAction @Cancel => m_Wrapper.m_Player_Cancel;
         public InputAction @Pause => m_Wrapper.m_Player_Pause;
-        public InputAction @PickUp => m_Wrapper.m_Player_PickUp;
         public InputAction @AdvanceTutorialText => m_Wrapper.m_Player_AdvanceTutorialText;
-        public InputAction @Throw => m_Wrapper.m_Player_Throw;
         public InputAction @ControlSteering => m_Wrapper.m_Player_ControlSteering;
-        public InputAction @Use => m_Wrapper.m_Player_Use;
         public InputAction @CycleInteractables => m_Wrapper.m_Player_CycleInteractables;
         public InputAction @OnLadderEnter => m_Wrapper.m_Player_OnLadderEnter;
         public InputAction @OnLadderExit => m_Wrapper.m_Player_OnLadderExit;
@@ -1866,27 +1888,27 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @Join.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJoin;
                 @Join.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJoin;
                 @Join.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJoin;
+                @Repair.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRepair;
+                @Repair.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRepair;
+                @Repair.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRepair;
                 @Interact.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
                 @Interact.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
                 @Interact.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
+                @Build.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBuild;
+                @Build.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBuild;
+                @Build.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBuild;
+                @Cancel.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCancel;
+                @Cancel.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCancel;
+                @Cancel.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCancel;
                 @Pause.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
                 @Pause.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
                 @Pause.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
-                @PickUp.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPickUp;
-                @PickUp.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPickUp;
-                @PickUp.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPickUp;
                 @AdvanceTutorialText.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAdvanceTutorialText;
                 @AdvanceTutorialText.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAdvanceTutorialText;
                 @AdvanceTutorialText.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAdvanceTutorialText;
-                @Throw.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnThrow;
-                @Throw.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnThrow;
-                @Throw.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnThrow;
                 @ControlSteering.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnControlSteering;
                 @ControlSteering.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnControlSteering;
                 @ControlSteering.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnControlSteering;
-                @Use.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUse;
-                @Use.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUse;
-                @Use.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUse;
                 @CycleInteractables.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCycleInteractables;
                 @CycleInteractables.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCycleInteractables;
                 @CycleInteractables.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCycleInteractables;
@@ -1915,27 +1937,27 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @Join.started += instance.OnJoin;
                 @Join.performed += instance.OnJoin;
                 @Join.canceled += instance.OnJoin;
+                @Repair.started += instance.OnRepair;
+                @Repair.performed += instance.OnRepair;
+                @Repair.canceled += instance.OnRepair;
                 @Interact.started += instance.OnInteract;
                 @Interact.performed += instance.OnInteract;
                 @Interact.canceled += instance.OnInteract;
+                @Build.started += instance.OnBuild;
+                @Build.performed += instance.OnBuild;
+                @Build.canceled += instance.OnBuild;
+                @Cancel.started += instance.OnCancel;
+                @Cancel.performed += instance.OnCancel;
+                @Cancel.canceled += instance.OnCancel;
                 @Pause.started += instance.OnPause;
                 @Pause.performed += instance.OnPause;
                 @Pause.canceled += instance.OnPause;
-                @PickUp.started += instance.OnPickUp;
-                @PickUp.performed += instance.OnPickUp;
-                @PickUp.canceled += instance.OnPickUp;
                 @AdvanceTutorialText.started += instance.OnAdvanceTutorialText;
                 @AdvanceTutorialText.performed += instance.OnAdvanceTutorialText;
                 @AdvanceTutorialText.canceled += instance.OnAdvanceTutorialText;
-                @Throw.started += instance.OnThrow;
-                @Throw.performed += instance.OnThrow;
-                @Throw.canceled += instance.OnThrow;
                 @ControlSteering.started += instance.OnControlSteering;
                 @ControlSteering.performed += instance.OnControlSteering;
                 @ControlSteering.canceled += instance.OnControlSteering;
-                @Use.started += instance.OnUse;
-                @Use.performed += instance.OnUse;
-                @Use.canceled += instance.OnUse;
                 @CycleInteractables.started += instance.OnCycleInteractables;
                 @CycleInteractables.performed += instance.OnCycleInteractables;
                 @CycleInteractables.canceled += instance.OnCycleInteractables;
@@ -2124,13 +2146,13 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         void OnLook(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
         void OnJoin(InputAction.CallbackContext context);
+        void OnRepair(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
+        void OnBuild(InputAction.CallbackContext context);
+        void OnCancel(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
-        void OnPickUp(InputAction.CallbackContext context);
         void OnAdvanceTutorialText(InputAction.CallbackContext context);
-        void OnThrow(InputAction.CallbackContext context);
         void OnControlSteering(InputAction.CallbackContext context);
-        void OnUse(InputAction.CallbackContext context);
         void OnCycleInteractables(InputAction.CallbackContext context);
         void OnOnLadderEnter(InputAction.CallbackContext context);
         void OnOnLadderExit(InputAction.CallbackContext context);

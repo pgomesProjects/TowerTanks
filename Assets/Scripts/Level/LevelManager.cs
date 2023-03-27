@@ -25,6 +25,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private GameObject tutorialPopup;
     [SerializeField] private TextMeshProUGUI resourcesDisplay;
     [SerializeField] private DialogEvent tutorialEvent;
+    [SerializeField] private int scrapValue;
 
     public static LevelManager instance;
 
@@ -172,24 +173,24 @@ public class LevelManager : MonoBehaviour
         //Add to the total number of layers and give the new layer an index
         totalLayers++;
         newLayer.name = "TANK LAYER " + totalLayers;
-        newLayer.GetComponentInChildren<LayerManager>().SetLayerIndex(totalLayers + 1);
+        newLayer.GetComponentInChildren<LayerTransitionManager>().SetLayerIndex(totalLayers);
 
         //Adjust the top view of the tank
         AdjustCameraPosition();
 
         //Add layer to the list of layers
-        playerTank.GetComponent<PlayerTankController>().GetLayers().Insert(totalLayers - 1, newLayer.GetComponent<LayerHealthManager>());
+        playerTank.GetLayers().Insert(totalLayers - 1, newLayer.GetComponent<LayerManager>());
 
         if (!isSettingUpOnStart)
         {
             //Check interactables on layer
-            CheckInteractablesOnLayer(totalLayers);
+            //CheckInteractablesOnLayer(totalLayers);
             //Play sound effect
-            FindObjectOfType<AudioManager>().Play("UseSFX", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), gameObject);
+            FindObjectOfType<AudioManager>().Play("UseSFX", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume));
         }
 
         //Adjust the weight of the tank
-        playerTank.GetComponent<PlayerTankController>().AdjustTankWeight(totalLayers);
+        playerTank.AdjustTankWeight(totalLayers);
 
         if (levelPhase == GAMESTATE.TUTORIAL)
         {
@@ -230,49 +231,6 @@ public class LevelManager : MonoBehaviour
     }
 
     public void RemoveGhostLayer() => Destroy(currentGhostLayer);
-
-    public void CheckInteractablesOnLayer(int index)
-    {
-        Debug.Log("Checking Layer " + (index - 1) + " For Interactables");
-
-        if(index - 1 >= 0)
-        {
-            //Check the interactable spawners
-            foreach (var i in playerTank.GetComponent<PlayerTankController>().GetLayerAt(index - 1).GetComponentsInChildren<InteractableSpawner>())
-            {
-                //If there is not an interactable spawned, show the ghost interactables
-                if (!i.IsInteractableSpawned())
-                {
-                    if (i.transform.position.x < 0)
-                        i.SetCurrentGhostIndex(1);
-
-                    FindObjectOfType<InteractableSpawnerManager>().ShowNewGhostInteractable(i);
-                }
-            }
-        }
-    }
-
-    public void DestroyGhostInteractables(int index)
-    {
-        Debug.Log("Destroy Ghosts On Index " + (index));
-
-        if(index >= 0)
-        {
-            //Check the interactable spawners
-            foreach (var i in playerTank.GetComponent<PlayerTankController>().GetLayerAt(index).GetComponentsInChildren<InteractableSpawner>())
-            {
-                //If there is an interactable spawned
-                if (i.IsInteractableSpawned())
-                {
-                    //If there is a ghost interactable, destroy it
-                    if (i.transform.GetChild(1).CompareTag("GhostObject"))
-                    {
-                        Destroy(i.transform.GetChild(1).gameObject);
-                    }
-                }
-            }
-        }
-    }
 
     public void PauseToggle(int playerIndex)
     {
@@ -349,20 +307,20 @@ public class LevelManager : MonoBehaviour
         {
             Debug.Log("Tank Is Destroyed!");
             //Destroy the tank
-            Destroy(GameObject.FindGameObjectWithTag("PlayerTank"));
+            Destroy(playerTank.gameObject);
             //Switch from gameplay to game over
             TransitionGameState();
             return;
         }
 
         //Adjust the layer numbers for the layers above the one that got destroyed
-        foreach (var i in playerTank.GetComponentsInChildren<LayerHealthManager>())
+        foreach (var i in playerTank.GetComponentsInChildren<LayerManager>())
         {
-            int nextLayerIndex = i.GetComponentInChildren<LayerManager>().GetNextLayerIndex();
+            int nextLayerIndex = i.GetComponentInChildren<LayerTransitionManager>().GetNextLayerIndex();
 
             if (nextLayerIndex > destroyedLayer + 1)
             {
-                i.GetComponentInChildren<LayerManager>().SetLayerIndex(nextLayerIndex - 1);
+                i.GetComponentInChildren<LayerTransitionManager>().SetLayerIndex(nextLayerIndex - 1);
                 i.UnlockAllInteractables();
             }
         }
@@ -395,7 +353,7 @@ public class LevelManager : MonoBehaviour
         }
 
         //Adjust the weight of the tank
-        playerTank.GetComponent<PlayerTankController>().AdjustTankWeight(totalLayers);
+        playerTank.AdjustTankWeight(totalLayers);
     }
 
     public void ResetPlayerCamera()
@@ -425,7 +383,7 @@ public class LevelManager : MonoBehaviour
                 levelPhase = GAMESTATE.GAMEACTIVE;
                 tutorialPopup.SetActive(false);
                 readingTutorial = false;
-                GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().ResetTankDistance();
+                playerTank.ResetTankDistance();
                 break;
             //Gameplay to Game Over
             case GAMESTATE.GAMEACTIVE:
@@ -507,6 +465,7 @@ public class LevelManager : MonoBehaviour
         sessionStatsCanvas.SetActive(true);
     }
 
+    public int GetScrapValue() => scrapValue;
     public PlayerTankController GetPlayerTank() => playerTank;
 
     private void OnDestroy()

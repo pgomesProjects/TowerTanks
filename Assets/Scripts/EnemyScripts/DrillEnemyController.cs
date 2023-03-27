@@ -66,7 +66,7 @@ public class DrillEnemyController : EnemyController
     /// <summary>
     /// Spawns a weapon on the left or right of the enemy.
     /// </summary>
-    protected override void SpawnWeapon(LayerHealthManager currentLayerManager, COMBATDIRECTION enemyDirection)
+    protected override void SpawnWeapon(LayerManager currentLayerManager, COMBATDIRECTION enemyDirection)
     {
         Debug.Log("Spawn Drill!");
 

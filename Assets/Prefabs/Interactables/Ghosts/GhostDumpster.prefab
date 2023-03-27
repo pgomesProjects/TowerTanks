@@ -116,6 +116,7 @@ MonoBehaviour:
   price: 0
   priceText: {fileID: 3074362444274383516}
   interactableType: 2
+  requiresScrap: 0
 --- !u!4 &755932061982937735 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 211861659154876950, guid: d0446cf671e3fa4498cd2efde408dffc, type: 3}

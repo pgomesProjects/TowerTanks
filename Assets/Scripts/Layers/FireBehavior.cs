@@ -56,7 +56,7 @@ public class FireBehavior : MonoBehaviour
             if(currentTimer > fireTickSeconds)
             {
                 if(LevelManager.instance.levelPhase == GAMESTATE.GAMEACTIVE)
-                    GetComponentInParent<LayerHealthManager>().DealDamage(damagePerTick, false);
+                    GetComponentInParent<LayerManager>().DealDamage(damagePerTick, false);
                 currentTimer = 0;
             }
         }

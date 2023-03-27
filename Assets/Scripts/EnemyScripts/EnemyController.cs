@@ -21,7 +21,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField, Tooltip("The amount of waves for the enemy to increase the amount of layers")] protected int wavesMultiplier = 1;
     [SerializeField, Tooltip("The amount of resources given to the player when the entire tank is destroyed.")] protected int onDestroyResources = 100;
 
-    [SerializeField] protected LayerHealthManager spawnableLayer;    //The layer that a potential enemy tank could spawn
+    [SerializeField] protected LayerManager spawnableLayer;    //The layer that a potential enemy tank could spawn
 
     protected ENEMYBEHAVIOR enemyTrait; //the behavior trait of the enemy tank
     private float currentSpeed; //The current speed of the enemy tank
@@ -143,13 +143,13 @@ public class EnemyController : MonoBehaviour
         newLayer.transform.SetAsFirstSibling();
 
         if (index == 1)
-            SpawnWeapon(newLayer.GetComponent<LayerHealthManager>(), enemyDirection);
+            SpawnWeapon(newLayer.GetComponent<LayerManager>(), enemyDirection);
     }
 
     /// <summary>
     /// Spawns a weapon on the left or right of the enemy.
     /// </summary>
-    protected virtual void SpawnWeapon(LayerHealthManager currentLayerManager, COMBATDIRECTION enemyDirection)
+    protected virtual void SpawnWeapon(LayerManager currentLayerManager, COMBATDIRECTION enemyDirection)
     {
         Debug.Log("Spawn Cannon!");
 

@@ -235,7 +235,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &47243857
 Transform:
   m_ObjectHideFlags: 0
@@ -842,6 +842,7 @@ MonoBehaviour:
   tutorialPopup: {fileID: 121572917}
   resourcesDisplay: {fileID: 701447237}
   tutorialEvent: {fileID: 1005274065}
+  scrapValue: 25
 --- !u!4 &236796189
 Transform:
   m_ObjectHideFlags: 0

@@ -5,7 +5,6 @@ using UnityEngine;
 public class DumpsterController : InteractableController
 {
     [SerializeField, Tooltip("The GameObject for scrap.")] private GameObject scrapPrefab;
-    [SerializeField, Tooltip("Value of scrap piece.")] private int scrapValue = 10;
 
     private Vector2 randomOffset = new Vector2(1, 1);
 
@@ -23,7 +22,7 @@ public class DumpsterController : InteractableController
     private void GrabScrap()
     {
         //If the player can afford to grab scrap, grab scrap
-        if (LevelManager.instance.CanPlayerAfford(scrapValue) && currentPlayerLockedIn != null)
+        if (LevelManager.instance.CanPlayerAfford(LevelManager.instance.GetScrapValue()) && currentPlayerLockedIn != null)
         {
             Transform playerScrapHolder = currentPlayerLockedIn.transform.Find("ScrapHolder");
 
@@ -42,7 +41,8 @@ public class DumpsterController : InteractableController
                 }
 
                 //Update the resources accordingly
-                LevelManager.instance.UpdateResources(-scrapValue);
+                LevelManager.instance.UpdateResources(-LevelManager.instance.GetScrapValue());
+                currentPlayerLockedIn.OnScrapUpdated();
             }
         }
     }
