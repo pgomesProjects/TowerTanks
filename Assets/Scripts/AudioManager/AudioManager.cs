@@ -188,13 +188,13 @@ public class AudioManager : MonoBehaviour
     public void UpdateMusicVolume()
     {
         AkSoundEngine.SetRTPCValue(musicRTPC.Name, PlayerPrefs.GetFloat("BGMVolume", GameSettings.defaultBGMVolume) * 100f);
-        Debug.Log("Music RTPC Volume: " + musicRTPC.GetValue(gameObject));
+        Debug.Log(musicRTPC.Name + " Volume: " + musicRTPC.GetValue(gameObject));
     }
 
     public void UpdateSFXVolume()
     {
         AkSoundEngine.SetRTPCValue(sfxRTPC.Name, PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume) * 100f);
-        Debug.Log("SFX RTPC Volume: " + sfxRTPC.GetValue(gameObject));
+        Debug.Log(sfxRTPC.Name + " Volume: " + sfxRTPC.GetValue(gameObject));
     }
 
     private Sound GetSound(string name) => Array.Find(sounds, sound => sound.name == name);

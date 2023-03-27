@@ -482,7 +482,7 @@ public class PlayerController : MonoBehaviour
         //If the player presses the pause button
         if (ctx.started)
         {
-            if (LevelManager.instance != null)
+            if (LevelManager.instance != null && !LevelManager.instance.isPaused)
             {
                 //Pause the game
                 LevelManager.instance.PauseToggle(playerIndex);

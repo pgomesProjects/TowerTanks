@@ -28,6 +28,7 @@ public class PauseController : MonoBehaviour
     {
         playerControlSystem = new PlayerControlSystem();
         playerControlSystem.UI.Cancel.performed += _ => CancelAction();
+        currentMenuState = pauseMenu;
     }
 
     private void OnEnable()
@@ -46,10 +47,12 @@ public class PauseController : MonoBehaviour
     {
         if (currentMenuState == optionsMenu)
         {
+            Debug.Log("Back...");
             Back();
         }
         else
         {
+            Debug.Log("Resume...");
             Resume();
         }
         PlayButtonSFX("Cancel");
