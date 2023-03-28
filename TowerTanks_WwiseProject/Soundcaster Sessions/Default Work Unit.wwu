@@ -8,6 +8,26 @@
 					<CurrentStateList ShowAll="true"/>
 					<CurrentSwitchList ShowAll="true"/>
 				</SoundcasterSession>
+				<SoundcasterSession Name="New Soundcaster Session" ID="{69EB41D0-085F-4A61-9FFC-CD811DC20F2B}">
+					<ModuleList>
+						<Module>
+							<ObjectRef Name="TT_SFX_blaring-alarm" ID="{5CF46254-3ADA-45CB-9DFA-487914AC47A1}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+							<Position X="0" Y="0"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="TT_SFX_item_pickup" ID="{14AFAD6C-BA5B-4D4C-899C-CF944170430E}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+							<Position X="1" Y="0"/>
+						</Module>
+					</ModuleList>
+					<RTPCValueList ShowAll="true">
+						<RTPCValue>
+							<GameParameterRef Name="Master_Volume" ID="{6882660C-11FF-464F-BBF1-7490B0339A44}"/>
+							<Value>50.8582677165354</Value>
+						</RTPCValue>
+					</RTPCValueList>
+					<CurrentStateList ShowAll="true"/>
+					<CurrentSwitchList ShowAll="true"/>
+				</SoundcasterSession>
 			</ChildrenList>
 		</WorkUnit>
 	</SoundcasterSessions>
