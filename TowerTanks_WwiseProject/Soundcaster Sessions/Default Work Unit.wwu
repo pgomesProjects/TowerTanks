@@ -19,12 +19,7 @@
 							<Position X="1" Y="0"/>
 						</Module>
 					</ModuleList>
-					<RTPCValueList ShowAll="true">
-						<RTPCValue>
-							<GameParameterRef Name="Master_Volume" ID="{6882660C-11FF-464F-BBF1-7490B0339A44}"/>
-							<Value>50.8582677165354</Value>
-						</RTPCValue>
-					</RTPCValueList>
+					<RTPCValueList ShowAll="true"/>
 					<CurrentStateList ShowAll="true"/>
 					<CurrentSwitchList ShowAll="true"/>
 				</SoundcasterSession>

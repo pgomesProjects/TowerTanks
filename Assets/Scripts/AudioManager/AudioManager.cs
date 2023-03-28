@@ -7,8 +7,6 @@ public class AudioManager : MonoBehaviour
 {
 
     public AudioMixerGroup bgmMixer, sfxMixer;
-    [SerializeField, Tooltip("RTPC call in Wwise for music volume.")] private AK.Wwise.RTPC musicRTPC;
-    [SerializeField, Tooltip("RTPC call in Wwise for SFX volume.")] private AK.Wwise.RTPC sfxRTPC;
 
     [Tooltip("The list of sounds that will be played in the game.")] public Sound[] sounds;
 
@@ -143,7 +141,7 @@ public class AudioManager : MonoBehaviour
     /// </summary>
     public void PauseAllSounds()
     {
-        AkSoundEngine.Suspend();
+        //AkSoundEngine.Suspend();
     }
 
     /// <summary>
@@ -160,7 +158,7 @@ public class AudioManager : MonoBehaviour
     /// </summary>
     public void ResumeAllSounds()
     {
-        AkSoundEngine.WakeupFromSuspend();
+        //AkSoundEngine.WakeupFromSuspend();
     }
 
     /// <summary>
@@ -187,14 +185,12 @@ public class AudioManager : MonoBehaviour
 
     public void UpdateMusicVolume()
     {
-        AkSoundEngine.SetRTPCValue(musicRTPC.Name, PlayerPrefs.GetFloat("BGMVolume", GameSettings.defaultBGMVolume) * 100f);
-        Debug.Log(musicRTPC.Name + " Volume: " + musicRTPC.GetValue(gameObject));
+        AkSoundEngine.SetRTPCValue("MusicVolume", PlayerPrefs.GetFloat("BGMVolume", GameSettings.defaultBGMVolume) * 100f);
     }
 
     public void UpdateSFXVolume()
     {
-        AkSoundEngine.SetRTPCValue(sfxRTPC.Name, PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume) * 100f);
-        Debug.Log(sfxRTPC.Name + " Volume: " + sfxRTPC.GetValue(gameObject));
+        AkSoundEngine.SetRTPCValue("SFXVolume", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume) * 100f);
     }
 
     private Sound GetSound(string name) => Array.Find(sounds, sound => sound.name == name);

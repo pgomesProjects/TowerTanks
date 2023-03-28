@@ -3,7 +3,8 @@
 	<GameParameters>
 		<WorkUnit Name="Default Work Unit" ID="{176DD27F-5704-4BF6-9C40-75E46D49E907}" PersistMode="Standalone">
 			<ChildrenList>
-				<GameParameter Name="Master_Volume" ID="{6882660C-11FF-464F-BBF1-7490B0339A44}"/>
+				<GameParameter Name="SFXVolume" ID="{25CD284C-DD00-4B43-AA92-DA149FFC67FE}"/>
+				<GameParameter Name="MusicVolume" ID="{8DF6A26C-6613-43E2-8BC4-629F3F26B67D}"/>
 			</ChildrenList>
 		</WorkUnit>
 	</GameParameters>
