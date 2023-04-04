@@ -6,7 +6,8 @@ public class DumpsterController : InteractableController
 {
     [SerializeField, Tooltip("The GameObject for scrap.")] private GameObject scrapPrefab;
 
-    private Vector2 randomOffset = new Vector2(1, 1);
+    private float scrapXOffset = 0.2f;  //The slight x offset of each scrap piece
+    private float scrapHeight = 0.5f;   //The height of a scrap piece
 
     /// <summary>
     /// Tries to grab scrap from the dumpster when used.
@@ -31,14 +32,14 @@ public class DumpsterController : InteractableController
             {
                 GameObject newScrap = Instantiate(scrapPrefab, playerScrapHolder);
 
-                //If the player has more than one scrap piece on them, add a small offset
-                if (playerScrapHolder.childCount > 1)
-                {
-                    Vector2 scrapPos = newScrap.transform.localPosition;
-                    scrapPos.x = Random.Range(-randomOffset.x, randomOffset.x);
-                    scrapPos.y = Random.Range(0, randomOffset.y);
-                    newScrap.transform.localPosition = scrapPos;
-                }
+                Vector2 scrapPos = newScrap.transform.localPosition;
+                
+                //Adds a slight x offset to any pieces that are added to the scrap tower
+                if(playerScrapHolder.childCount > 1)
+                    scrapPos.x = Random.Range(-scrapXOffset, scrapXOffset);
+
+                scrapPos.y = scrapHeight * (playerScrapHolder.childCount - 1);
+                newScrap.transform.localPosition = scrapPos;
 
                 //Update the resources accordingly
                 LevelManager.instance.UpdateResources(-LevelManager.instance.GetScrapValue());

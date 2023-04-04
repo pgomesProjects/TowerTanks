@@ -1276,6 +1276,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   timeToUseWrench: 3
+  timeToBuild: 3
   maxAmountOfScrap: 8
   spinAngleCheckUpdateTimer: 0.1
   spinValidAngleLimit: 30

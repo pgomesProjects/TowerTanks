@@ -136,7 +136,7 @@ public class PauseController : MonoBehaviour
 
     public void PlayButtonSFX(string name)
     {
-        FindObjectOfType<AudioManager>().Play("Button" + name, PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume));
+        FindObjectOfType<AudioManager>().Play("Button" + name);
     }
 
     public void ButtonOnSelectColor(Animator anim)

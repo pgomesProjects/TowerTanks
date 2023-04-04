@@ -34,7 +34,7 @@ public class AlarmAnimation : MonoBehaviour
     /// </summary>
     private void PlayAlarmAnimation()
     {
-        FindObjectOfType<AudioManager>().Play("EnemyAlarm", PlayerPrefs.GetFloat("SFXVolume", 0.5f));
+        FindObjectOfType<AudioManager>().Play("EnemyAlarm");
 
         //Warning label animation
         LeanTween.scale(warningLabel, Vector3.one, warningLabelDuration).setEase(startingAnimationCurve);

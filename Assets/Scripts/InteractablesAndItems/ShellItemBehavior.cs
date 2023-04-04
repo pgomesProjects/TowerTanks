@@ -32,7 +32,7 @@ public class ShellItemBehavior : MonoBehaviour
             gameObject.AddComponent<DamageObject>().damage = damage;
             Debug.Log("BOOM! Shell has exploded in tank.");
             if (FindObjectOfType<AudioManager>() != null)
-                FindObjectOfType<AudioManager>().Play("ExplosionSFX", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), gameObject);
+                FindObjectOfType<AudioManager>().Play("ExplosionSFX", gameObject);
             Destroy(gameObject);
         }
     }
@@ -47,7 +47,7 @@ public class ShellItemBehavior : MonoBehaviour
             Instantiate(explosionParticles, transform.position, Quaternion.identity);
             Instantiate(explosmoke, transform.position, Quaternion.identity);
             if (FindObjectOfType<AudioManager>() != null)
-                FindObjectOfType<AudioManager>().Play("ExplosionSFX", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), gameObject);
+                FindObjectOfType<AudioManager>().Play("ExplosionSFX", gameObject);
         }
     }
 }

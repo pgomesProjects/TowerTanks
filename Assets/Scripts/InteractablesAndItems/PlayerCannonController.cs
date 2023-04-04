@@ -106,7 +106,7 @@ public class PlayerCannonController : CannonController
                     if (!FindObjectOfType<AudioManager>().IsPlaying("CannonAimSFX", gameObject))
                     {
                         Debug.Log("Aiming...");
-                        FindObjectOfType<AudioManager>().Play("CannonAimSFX", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), gameObject);
+                        FindObjectOfType<AudioManager>().Play("CannonAimSFX", gameObject);
                     }
                 }
                 //If the player is not spinning the cannon and the aim sound is playing, play the locked in sound effect
@@ -114,7 +114,7 @@ public class PlayerCannonController : CannonController
                 {
                     Debug.Log("Locked In!");
                     FindObjectOfType<AudioManager>().Stop("CannonAimSFX", gameObject);
-                    FindObjectOfType<AudioManager>().Play("CannonLockSFX", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), gameObject);
+                    FindObjectOfType<AudioManager>().Play("CannonLockSFX", gameObject);
                 }
 
                 cannonRotation += new Vector3(0, 0, (playerCannonMovement / 100) * cannonSpeed);    //Rotate the cannon
@@ -161,7 +161,7 @@ public class PlayerCannonController : CannonController
             else if (!cannonReady)
             {
                 cannonReady = true;
-                FindObjectOfType<AudioManager>().Play("CannonReload", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), gameObject);
+                FindObjectOfType<AudioManager>().Play("CannonReload", gameObject);
                 UpdateCannonBody();
             }
         }

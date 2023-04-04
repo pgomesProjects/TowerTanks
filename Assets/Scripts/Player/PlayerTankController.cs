@@ -227,7 +227,7 @@ public class PlayerTankController : MonoBehaviour
         if(numberOfEngines > 0)
         {
             if(!FindObjectOfType<AudioManager>().IsPlaying("TankIdle", gameObject))
-                FindObjectOfType<AudioManager>().Play("TankIdle", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), gameObject);
+                FindObjectOfType<AudioManager>().Play("TankIdle", gameObject);
         }
         //If not, stop the sound effect if it's currently playing
         else
@@ -250,7 +250,7 @@ public class PlayerTankController : MonoBehaviour
         //If the tank idle isn't already playing, play it
         else if (!FindObjectOfType<AudioManager>().IsPlaying("TreadsRolling", gameObject))
         {
-            FindObjectOfType<AudioManager>().Play("TreadsRolling", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), gameObject);
+            FindObjectOfType<AudioManager>().Play("TreadsRolling", gameObject);
         }
     }
 
@@ -406,7 +406,7 @@ public class PlayerTankController : MonoBehaviour
             }
 
             //Play explosion sound effect
-            FindObjectOfType<AudioManager>().Play("LargeExplosionSFX", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), gameObject);
+            FindObjectOfType<AudioManager>().Play("LargeExplosionSFX", gameObject);
         }
     }
 }

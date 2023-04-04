@@ -117,7 +117,7 @@ public class CoalController : InteractableController
                 endAudioTime = totalAudioTime;
             }
 
-            audio.PlayAtSection("LoadingCoal", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), startAudioTime, endAudioTime);
+            audio.PlayAtSection("LoadingCoal", startAudioTime, endAudioTime);
         }
     }
 
@@ -194,7 +194,7 @@ public class CoalController : InteractableController
                 Debug.Log("Coal Is Out!");
                 hasCoal = false;
                 GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().AdjustEngineSpeedMultiplier();
-                FindObjectOfType<AudioManager>().Play("EngineDyingSFX", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), gameObject);
+                FindObjectOfType<AudioManager>().Play("EngineDyingSFX", gameObject);
                 Instantiate(sparks, transform.position, Quaternion.identity);
             }
 

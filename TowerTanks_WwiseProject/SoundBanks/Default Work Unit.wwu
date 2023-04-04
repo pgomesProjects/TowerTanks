@@ -5,6 +5,7 @@
 			<ChildrenList>
 				<SoundBank Name="mainbank" ID="{37497F3A-0B2B-421A-8CAB-0ADBE8B1C2B4}">
 					<ObjectInclusionList>
+						<ObjectRef Name="Global_Unpause" ID="{D2E5F99E-C066-40B3-A904-1D343DC49DA9}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="ladder_climb" ID="{D9B8CBC5-2F10-40B6-A6C5-14C2BB9FEAD7}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="button_cancel" ID="{AEEA5AB5-3C7D-40DE-8036-F16A9C2F48EC}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="wrench" ID="{8E5DA4BE-911D-4180-8475-AB50D5E117E0}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
@@ -24,6 +25,7 @@
 						<ObjectRef Name="muffled_cannon_fire" ID="{19CE2F4C-A2EC-47FD-B2A4-D4F519A72B95}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="character_use" ID="{1B81058F-C12F-4937-8329-6958F1C3820A}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="text_beep" ID="{046075E0-D4E9-494D-B0D5-6CF418F4F4BD}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Global_Pause" ID="{802B3562-B902-49B6-A6A7-97296444FA72}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="medium_explosion" ID="{6AB4C6D4-D5C0-49C2-BD18-76D449821BDB}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="tank_engine" ID="{6ACD2F28-CECC-4A3E-8ED6-193E19E045D8}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="throttle_click" ID="{962427E6-A262-4AF1-B8BD-1B92B5B07A12}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>

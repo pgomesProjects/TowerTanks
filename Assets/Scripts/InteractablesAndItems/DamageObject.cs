@@ -17,7 +17,7 @@ public class DamageObject : MonoBehaviour
         currentTimer = 0;
 
         //Spawn object with sound effect active
-        FindObjectOfType<AudioManager>().Play("ProjectileInAirSFX", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), gameObject);
+        FindObjectOfType<AudioManager>().Play("ProjectileInAirSFX", gameObject);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -33,7 +33,7 @@ public class DamageObject : MonoBehaviour
                 {
                     //Deal damage and destroy self if colliding with a layer
                     collision.collider.GetComponentInParent<LayerManager>().DealDamage(damage, true);
-                    FindObjectOfType<AudioManager>().Play("MedExplosionSFX", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), gameObject);
+                    FindObjectOfType<AudioManager>().Play("MedExplosionSFX", gameObject);
                 }
 
                 //If there is a ShellItemBehavior component on the damage object, check to see if there should be a fire
@@ -47,7 +47,7 @@ public class DamageObject : MonoBehaviour
         else
         {
             if (FindObjectOfType<AudioManager>() != null)
-                FindObjectOfType<AudioManager>().Play("ExplosionSFX", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), gameObject);
+                FindObjectOfType<AudioManager>().Play("ExplosionSFX", gameObject);
         }
 
         //If the object hits the player, launch them in a specified direction
@@ -76,7 +76,7 @@ public class DamageObject : MonoBehaviour
         if(transform.position.y < -14.4f)
         {
             if (FindObjectOfType<AudioManager>() != null)
-                FindObjectOfType<AudioManager>().Play("ExplosionSFX", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), gameObject);
+                FindObjectOfType<AudioManager>().Play("ExplosionSFX", gameObject);
             Destroy(gameObject);
         }
 

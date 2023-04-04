@@ -10,9 +10,12 @@ public class AudioManager : MonoBehaviour
 
     [Tooltip("The list of sounds that will be played in the game.")] public Sound[] sounds;
 
+    List<GameObject> registeredGameObjects = new List<GameObject>();    //A list of all registered game objects in Wwise
+
     private void Awake()
     {
         AkSoundEngine.RegisterGameObj(gameObject);  //Registers the AudioManager as a GameObject for sound to play it
+        registeredGameObjects.Add(gameObject);
     }
 
     /// <summary>
@@ -21,14 +24,17 @@ public class AudioManager : MonoBehaviour
     /// <param name="name">The name of the sound.</param>
     /// <param name="audioVol">The volume of the sound.</param>
     /// <param name="audioLocation">The game object that the event will be played on.</param>
-    public void Play(string name, float audioVol, GameObject audioLocation = null)
+    public void Play(string name, GameObject audioLocation = null)
     {
         Sound s = GetSound(name);
         if(audioLocation != null)
         {
             //If this GameObject is not registered to play sounds, make sure its registered
             if (!AkSoundEngine.IsGameObjectRegistered(audioLocation))
+            {
                 AkSoundEngine.RegisterGameObj(audioLocation);
+                registeredGameObjects.Add(audioLocation);
+            }
 
             s.audioEvent.Post(audioLocation);
         }
@@ -43,7 +49,7 @@ public class AudioManager : MonoBehaviour
     /// <param name="audioVol">The volume of the sound.</param>
     /// <param name="start">The start position for the sound to be played at (in seconds).</param>
     /// <param name="stop">The end position for the sound to be played at (in seconds).</param>
-    public void PlayAtSection(string name, float audioVol, float start, float stop)
+    public void PlayAtSection(string name, float start, float stop)
     {
         Sound s = GetSound(name);
 
@@ -199,6 +205,7 @@ public class AudioManager : MonoBehaviour
 
     private void OnDestroy()
     {
-       AkSoundEngine.UnregisterAllGameObj();
+        AkSoundEngine.UnregisterAllGameObj();
+        registeredGameObjects.Clear();
     }
 }

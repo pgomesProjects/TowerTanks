@@ -62,7 +62,7 @@ public class LevelManager : MonoBehaviour
     {
         isSettingUpOnStart = true;
 
-        FindObjectOfType<AudioManager>().Play("MainMenuWindAmbience", PlayerPrefs.GetFloat("BGMVolume", GameSettings.defaultBGMVolume));
+        FindObjectOfType<AudioManager>().Play("MainMenuWindAmbience");
 
         //Starting resources
         switch (GameSettings.difficulty)
@@ -135,6 +135,8 @@ public class LevelManager : MonoBehaviour
         return false;
     }
 
+    public int GetItemPrice(string itemName) => itemPrice[itemName];
+
     private IEnumerator ResourcesTextAnimation(int startingVal, int endingVal, float seconds)
     {
         float elapsedTime = 0;
@@ -158,7 +160,6 @@ public class LevelManager : MonoBehaviour
     public void PurchaseLayer()
     {
         //Purchase a layer
-        UpdateResources(-itemPrice["NewLayer"]);
         AddLayer();
         RemoveGhostLayer();
     }
@@ -186,7 +187,7 @@ public class LevelManager : MonoBehaviour
             //Check interactables on layer
             //CheckInteractablesOnLayer(totalLayers);
             //Play sound effect
-            FindObjectOfType<AudioManager>().Play("UseSFX", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume));
+            FindObjectOfType<AudioManager>().Play("UseSFX");
         }
 
         //Adjust the weight of the tank
@@ -219,9 +220,15 @@ public class LevelManager : MonoBehaviour
     public void AddGhostLayer()
     {
         //Spawn a new layer and adjust it to go inside of the tank parent object
-        currentGhostLayer = Instantiate(ghostLayerPrefab);
-        currentGhostLayer.transform.parent = playerTank.transform;
-        currentGhostLayer.transform.localPosition = new Vector2(0, totalLayers * 8);
+        if(currentGhostLayer == null)
+        {
+            currentGhostLayer = Instantiate(ghostLayerPrefab);
+            currentGhostLayer.transform.parent = playerTank.transform;
+            currentGhostLayer.transform.localPosition = new Vector2(0, totalLayers * 8);
+        }
+        //If there's already a ghost layer but it's inactive, activate it
+        else if (!currentGhostLayer.activeInHierarchy)
+            currentGhostLayer.SetActive(true);
     }
 
     public void HideGhostLayer()
@@ -399,25 +406,25 @@ public class LevelManager : MonoBehaviour
         if (layers >= 7)
         {
             if (!FindObjectOfType<AudioManager>().IsPlaying("CombatLayer3"))
-                FindObjectOfType<AudioManager>().Play("CombatLayer3", PlayerPrefs.GetFloat("BGMVolume", GameSettings.defaultBGMVolume));
+                FindObjectOfType<AudioManager>().Play("CombatLayer3");
         }
 
         else if(layers >= 5)
         {
             if (!FindObjectOfType<AudioManager>().IsPlaying("CombatLayer2"))
-                FindObjectOfType<AudioManager>().Play("CombatLayer2", PlayerPrefs.GetFloat("BGMVolume", GameSettings.defaultBGMVolume));
+                FindObjectOfType<AudioManager>().Play("CombatLayer2");
         }
 
         else if (layers >= 3)
         {
             if (!FindObjectOfType<AudioManager>().IsPlaying("CombatLayer1"))
-                FindObjectOfType<AudioManager>().Play("CombatLayer1", PlayerPrefs.GetFloat("BGMVolume", GameSettings.defaultBGMVolume));
+                FindObjectOfType<AudioManager>().Play("CombatLayer1");
         }
 
         else
         {
             if (!FindObjectOfType<AudioManager>().IsPlaying("CombatLayer0"))
-                FindObjectOfType<AudioManager>().Play("CombatLayer0", PlayerPrefs.GetFloat("BGMVolume", GameSettings.defaultBGMVolume));
+                FindObjectOfType<AudioManager>().Play("CombatLayer0");
         }
     }
 
@@ -453,7 +460,7 @@ public class LevelManager : MonoBehaviour
 
         Time.timeScale = 0.0f;
         gameOverCanvas.SetActive(true);
-        FindObjectOfType<AudioManager>().Play("DeathStinger", PlayerPrefs.GetFloat("BGMVolume", GameSettings.defaultBGMVolume));
+        FindObjectOfType<AudioManager>().Play("DeathStinger");
         StartCoroutine(ReturnToMain());
     }
 

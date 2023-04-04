@@ -16,7 +16,7 @@ public class FireBehavior : MonoBehaviour
         CreateFires(1);
         layerOnFire = true;
         currentTimer = 0;
-        FindObjectOfType<AudioManager>().Play("FireBurningSFX", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), gameObject);
+        FindObjectOfType<AudioManager>().Play("FireBurningSFX", gameObject);
     }
 
     private void OnDisable()

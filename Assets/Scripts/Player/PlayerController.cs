@@ -8,6 +8,8 @@ using System;
 
 public class PlayerController : MonoBehaviour
 {
+    public enum PlayerActions { NONE, BUILDING };
+
     [Header("Movement Settings")]
     [SerializeField] private float speed = 8f;
     [SerializeField] private float distance = 3f;
@@ -18,6 +20,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Technical Settings")]
     [SerializeField] private float timeToUseWrench = 3;
+    [SerializeField] private float timeToBuild = 3;
     [SerializeField] private int maxAmountOfScrap = 8;
     [Space(10)]
 
@@ -61,6 +64,7 @@ public class PlayerController : MonoBehaviour
     internal PriceIndicator currentInteractableToBuy;
     private GameObject interactableHover;
     private GameObject scrapNumber;
+    private int scrapValue;
     private GameObject buildIndicator;
     private GameObject progressBarCanvas;
     private Slider progressBarSlider;
@@ -207,7 +211,7 @@ public class PlayerController : MonoBehaviour
             ladderRaycast = Physics2D.Raycast(transform.position, Vector2.up, distance, ladderMask);
 
             //If the player is not colliding with the ladder
-            if (ladderRaycast.collider == null)
+            if (ladderRaycast.collider == null && isClimbing)
             {
                 ExitLadder();
             }
@@ -350,6 +354,10 @@ public class PlayerController : MonoBehaviour
                         Instantiate(smabuildscraps, transform.position, Quaternion.identity);
                     }
                 }
+
+                //If the player is outside of the tank, try to build a layer
+                if (IsPlayerOutsideTank())
+                    BuildLayer();
             }
 
 /*            if (LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
@@ -500,21 +508,27 @@ public class PlayerController : MonoBehaviour
         buildModeActive = buildMode;    //Sets the build mode for the player
         buildIndicator.SetActive(buildMode);
 
+        Debug.Log("Player Layer: " + currentLayer);
+        Debug.Log("Outside Tank: " + IsPlayerOutsideTank());
+
         //If build mode is active
         if (buildModeActive)
         {
             Debug.Log("Build Mode For Player " + (playerIndex + 1) + ": On");
-            LevelManager.instance.GetPlayerTank().GetLayerAt(currentLayer).GetComponent<GhostInteractables>().CreateGhostInteractables(this);
+            if (!IsPlayerOutsideTank())
+                LevelManager.instance.GetPlayerTank().GetLayerAt(currentLayer).GetComponent<GhostInteractables>().CreateGhostInteractables(this);
+            else if(IsHoldingScrap())
+                LevelManager.instance.AddGhostLayer();
         }
 
         //If build mode is not active
         else
         {
             Debug.Log("Build Mode For Player " + (playerIndex + 1) + ": Off");
-            LevelManager.instance.GetPlayerTank().GetLayerAt(currentLayer).GetComponent<GhostInteractables>().DestroyGhostInteractables(this);
-
-            //Destroy any ghost layers in the scene
-            LevelManager.instance.RemoveGhostLayer();
+            if(!IsPlayerOutsideTank())
+                LevelManager.instance.GetPlayerTank().GetLayerAt(currentLayer).GetComponent<GhostInteractables>().DestroyGhostInteractables(this);
+            else
+                LevelManager.instance.RemoveGhostLayer();
         }
     }
 
@@ -524,6 +538,7 @@ public class PlayerController : MonoBehaviour
         playerAnimator.SetBool("IsOnLadder", true);
         transform.localPosition = new Vector2(0, transform.localPosition.y);
         waitingToClimb = false;
+        ShowScrap(false);
     }
 
     private void ExitLadder()
@@ -531,6 +546,7 @@ public class PlayerController : MonoBehaviour
         //Move them off the ladder
         isClimbing = false;
         playerAnimator.SetBool("IsOnLadder", false);
+        ShowScrap(true);
     }
 
     public float GetCannonMovement()
@@ -568,7 +584,7 @@ public class PlayerController : MonoBehaviour
 
     private void CheckForHammerUse()
     {
-        //If the player is outside of the tank (in a layer that does not exist inside the tank) and can afford a new layer
+/*        //If the player is outside of the tank (in a layer that does not exist inside the tank) and can afford a new layer
         if (IsPlayerOutsideTank() && LevelManager.instance.CanPlayerAfford("NewLayer"))
         {
             if(LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
@@ -604,7 +620,32 @@ public class PlayerController : MonoBehaviour
                     Instantiate(smabuildscraps, transform.position, Quaternion.identity);
                 }
             }
+        }*/
+    }
+
+    /// <summary>
+    /// Starts the process of building a layer if the player has the resources to do so.
+    /// </summary>
+    private void BuildLayer()
+    {
+        //If the player is outside of the tank and can afford a new layer
+        if (IsPlayerOutsideTank() && scrapValue >= LevelManager.instance.GetItemPrice("NewLayer"))
+        {
+            if (LevelManager.instance.levelPhase != GAMESTATE.TUTORIAL || LevelManager.instance.totalLayers < 2)
+            {
+                if (timeToBuild > 0)
+                    StartProgressBar(timeToBuild, PurchaseLayer, PlayerActions.BUILDING);
+            }
         }
+    }
+
+    /// <summary>
+    /// Purchases a new layer using the player's scrap.
+    /// </summary>
+    private void PurchaseLayer()
+    {
+        UseScrap(LevelManager.instance.GetItemPrice("NewLayer"));
+        LevelManager.instance.PurchaseLayer();
     }
 
     private void CheckForFireRemoverUse()
@@ -644,6 +685,8 @@ public class PlayerController : MonoBehaviour
 
     private void CheckForWrenchUse()
     {
+        if (IsPlayerOutsideTank()) return;  //If the player is outside of the tank, return
+
         LayerManager layerHealth = LevelManager.instance.GetPlayerTank().GetLayerAt(currentLayer);
 
         //If the layer the player is damaged and the player has scrap, use the wrench
@@ -652,7 +695,7 @@ public class PlayerController : MonoBehaviour
             if (timeToUseWrench > 0)
             {
                 //Play sound effect
-                FindObjectOfType<AudioManager>().Play("UseWrench", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), gameObject);
+                FindObjectOfType<AudioManager>().Play("UseWrench", gameObject);
 
                 StartProgressBar(timeToUseWrench, UseWrench);
             }
@@ -688,7 +731,7 @@ public class PlayerController : MonoBehaviour
         interactableHover.SetActive(false);
     }
 
-    public void StartProgressBar(float secondsTillCompletion, Action actionOnComplete)
+    public void StartProgressBar(float secondsTillCompletion, Action actionOnComplete, PlayerActions currentPlayerAction = PlayerActions.NONE)
     {
         if (!taskInProgress)
         {
@@ -697,7 +740,16 @@ public class PlayerController : MonoBehaviour
             progressBarSlider.value = 0;
             currentLoadAction = ProgressBarLoad(secondsTillCompletion, actionOnComplete);
             StartCoroutine(currentLoadAction);
-            if (PlayerHasItem("Hammer")) playerAnimator.SetBool("IsBuilding", true);
+
+            ShowScrap(false);
+
+            //Player an animation based on the action that the player is performing
+            switch (currentPlayerAction)
+            {
+                case PlayerActions.BUILDING:
+                    playerAnimator.SetBool("IsBuilding", true);
+                    break;
+            }
             Instantiate(buildscrap, transform.position, Quaternion.identity);
         }
     }
@@ -719,12 +771,14 @@ public class PlayerController : MonoBehaviour
         actionOnComplete.Invoke();
         playerAnimator.SetBool("IsBuilding", false);
         HideProgressBar();
+        ShowScrap(true);
     }
 
     public void CancelProgressBar()
     {
         StopCoroutine(currentLoadAction);
         taskInProgress = false;
+        ShowScrap(true);
         playerAnimator.SetBool("IsBuilding", false);
         HideProgressBar();
     }
@@ -820,7 +874,7 @@ public class PlayerController : MonoBehaviour
             Destroy(itemHeld.GetComponent<DamageObject>());
         }
 
-        FindObjectOfType<AudioManager>().Play("ItemPickup", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume));
+        FindObjectOfType<AudioManager>().Play("ItemPickup");
 
         itemHeld.SetPickUp(true);
         isHoldingItem = true;
@@ -830,10 +884,11 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// Function called when the player gains or loses scrap in their scrap holder.
     /// </summary>
-    public void OnScrapUpdated()
+    /// <param name="newScrapChildCount">The new child count of the scrap holder.</param>
+    public void OnScrapUpdated(int newScrapChildCount = -1)
     {
         //If the player is holding scrap
-        if (IsHoldingScrap())
+        if (IsHoldingScrap() || newScrapChildCount != 0)
         {
             //If the player is outside of the tank, add a ghost layer
             if(IsPlayerOutsideTank())
@@ -842,13 +897,55 @@ public class PlayerController : MonoBehaviour
             if (!scrapNumber.activeInHierarchy)
                 scrapNumber.SetActive(true);
 
-            scrapNumber.GetComponentInChildren<TextMeshProUGUI>().text = (scrapHolder.childCount * LevelManager.instance.GetScrapValue()).ToString();
+            if(newScrapChildCount == -1)
+                scrapValue = scrapHolder.childCount * LevelManager.instance.GetScrapValue();
+            else
+                scrapValue = newScrapChildCount * LevelManager.instance.GetScrapValue();
+
+            scrapNumber.GetComponentInChildren<TextMeshProUGUI>().text = scrapValue.ToString();
         }
+        //If the player has no more scrap
         else
         {
-            if (!scrapNumber.activeInHierarchy)
+            if (scrapNumber.activeInHierarchy)
+            {
                 scrapNumber.SetActive(false);
+                //Make sure that they cannot try to buy anything
+                foreach (var priceIndicator in FindObjectsOfType<PriceIndicator>())
+                    priceIndicator.ReleasePlayerFromBuying(this, false);
+            }
         }
+    }
+
+    /// <summary>
+    /// Sets whether the scrap should be shown or not.
+    /// </summary>
+    /// <param name="showScrap">If true, the scrap is shown. If false, the scrap is hidden.</param>
+    public void ShowScrap(bool showScrap)
+    {
+        if(!IsHoldingScrap()) return; //If the player has no scrap, return
+
+        foreach (var scrap in scrapHolder.GetComponentsInChildren<Transform>())
+            scrap.GetComponentInChildren<SpriteRenderer>().enabled = showScrap;
+    }
+
+    /// <summary>
+    /// Uses the players scrap for an action.
+    /// </summary>
+    /// <param name="price">The price of the action that uses scrap.</param>
+    public void UseScrap(int price)
+    {
+        int numberOfScrapsUsed = price / LevelManager.instance.GetScrapValue();
+
+        Debug.Log("Destroying " + numberOfScrapsUsed + " Scrap");
+
+        int initialScrapCount = scrapHolder.childCount - 1;
+
+        //Destroys the scrap in increments of their value
+        for(int i = 0; i < numberOfScrapsUsed; i++)
+            Destroy(scrapHolder.GetChild(initialScrapCount - i).gameObject);
+
+        OnScrapUpdated(initialScrapCount - numberOfScrapsUsed + 1);
     }
 
     private void DropItem(bool throwItem)
@@ -960,9 +1057,9 @@ public class PlayerController : MonoBehaviour
         isCheckingSpinInput = false;
     }
 
-    public void PlayFootstepSFX() => FindObjectOfType<AudioManager>().Play("Footstep", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), gameObject);
-    public void PlayLadderClimbSFX() => FindObjectOfType<AudioManager>().Play("LadderClimb", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), gameObject);
-    public void PlayHammerSFX() => FindObjectOfType<AudioManager>().Play("TankImpact", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), gameObject);
+    public void PlayFootstepSFX() => FindObjectOfType<AudioManager>().Play("Footstep", gameObject);
+    public void PlayLadderClimbSFX() => FindObjectOfType<AudioManager>().Play("LadderClimb", gameObject);
+    public void PlayHammerSFX() => FindObjectOfType<AudioManager>().Play("TankImpact", gameObject);
 
     public bool PlayerCanInteract()
     {
@@ -972,13 +1069,14 @@ public class PlayerController : MonoBehaviour
         return false;
     }
 
-    public bool IsPlayerOutsideTank() => currentLayer > LevelManager.instance.totalLayers;
+    public bool IsPlayerOutsideTank() => currentLayer >= LevelManager.instance.totalLayers;
     public bool IsPlayerClimbing() => isClimbing;
     public bool HasPlayerMoved() => hasMoved;
     public void SetPlayerClimb(bool climb) => canClimb = climb;
     public void SetPlayerMove(bool movePlayer) => canMove = movePlayer;
     public bool InBuildMode() => buildModeActive;
     public bool IsHoldingScrap() => scrapHolder.childCount > 0;
+    public int GetScrapValue() => scrapValue;
     public int MaxScrapAmount() => maxAmountOfScrap;
     public void MarkClosestItem(Item item) => closestItem = item;
     public bool IsPlayerHoldingItem() => isHoldingItem;

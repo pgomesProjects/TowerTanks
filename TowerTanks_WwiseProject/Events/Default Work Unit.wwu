@@ -282,6 +282,29 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="Global_Pause" ID="{802B3562-B902-49B6-A6A7-97296444FA72}">
+					<ChildrenList>
+						<Action Name="" ID="{D3298FD2-F338-473C-9218-A144584B4903}" ShortID="951757064">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="8"/>
+								<Property Name="Scope" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList/>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Global_Unpause" ID="{D2E5F99E-C066-40B3-A904-1D343DC49DA9}">
+					<ChildrenList>
+						<Action Name="" ID="{6310805F-F040-415C-B6F4-68D4534EB7C5}" ShortID="68808927">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="10"/>
+								<Property Name="MasterResume" Type="bool" Value="True"/>
+								<Property Name="Scope" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList/>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

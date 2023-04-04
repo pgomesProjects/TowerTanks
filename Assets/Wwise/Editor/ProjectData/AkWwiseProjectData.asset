@@ -38,7 +38,7 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy\Default Work Unit
     guid: 358467ebf0a09540b65ba3cce55d6389
     GuidInternal: 
-    m_lastTime: -8585216326732318138
+    m_lastTime: -8585216320608951632
     List:
     - name: Master Audio Bus
       guid: d8a41415a61d2a41a17e75ca0c2149f3
@@ -101,7 +101,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: df5fafb8b92e944290f5318847f0e90d
     GuidInternal: 
-    m_lastTime: -8585224172872580293
+    m_lastTime: -8585210338001653521
     List:
     - name: mainbank
       guid: 3a7f49372b0b1a428cab0adbe8b1c2b4
@@ -129,7 +129,7 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: 83957ce1e688d54e8b6b22beb20598dd
     GuidInternal: 
-    m_lastTime: -8585224172877895446
+    m_lastTime: -8585210340494890822
     List:
     - name: button_cancel
       guid: b55aeaae7d3cde408036f16a9c2f48ec
@@ -281,6 +281,40 @@ MonoBehaviour:
         ObjectType: 3
         guid: 96551da30e72944c85a842220eb03011
       Path: Events\Default Work Unit\fire_burning
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Global_Pause
+      guid: 62352b8002b9b649a6a797296444fa72
+      id: 1469012939
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: Global_Pause
+        ObjectType: 3
+        guid: 62352b8002b9b649a6a797296444fa72
+      Path: Events\Default Work Unit\Global_Pause
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Global_Unpause
+      guid: 9ef9e5d266c0b340a9041d343dc49da9
+      id: 2496259136
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: Global_Unpause
+        ObjectType: 3
+        guid: 9ef9e5d266c0b340a9041d343dc49da9
+      Path: Events\Default Work Unit\Global_Unpause
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -568,7 +602,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\Default Work Unit
     guid: 7fd26d170457f64b9c4075e46d49e907
     GuidInternal: 
-    m_lastTime: -8585216352688218328
+    m_lastTime: -8585216320608961629
     List:
     - name: MusicVolume
       guid: 6ca2f68d1366e2438bc4629f3f26b67d
@@ -641,8 +675,8 @@ MonoBehaviour:
     m_lastTime: -8585224173815225771
     List: []
   ExpandedFileSystemItemIds: 
-  ExpandedWaapiItemIds: 01000000030000000400000005000000060000000700000021000000230000002400000026000000280000002a0000002b000000
-  AutoSyncSelection: 1
+  ExpandedWaapiItemIds: 050000000600000007000000
+  AutoSyncSelection: 0
   autoPopulateEnabled: 1
-  currentDataSource: 0
+  currentDataSource: 1
   CurrentPluginConfig: 

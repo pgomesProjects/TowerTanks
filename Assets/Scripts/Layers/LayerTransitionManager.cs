@@ -30,7 +30,7 @@ public class LayerTransitionManager : MonoBehaviour
             Debug.Log("Previous Layer: " + (currentPlayer.previousLayer + 1));
             Debug.Log("Player On Layer: " + (currentPlayer.currentLayer + 1));
 
-            if (currentPlayer.currentLayer > LevelManager.instance.totalLayers && currentPlayer.InBuildMode())
+            if (currentPlayer.IsPlayerOutsideTank() && currentPlayer.InBuildMode() && currentPlayer.IsHoldingScrap())
             {
                 LevelManager.instance.AddGhostLayer();
             }
@@ -63,8 +63,7 @@ public class LayerTransitionManager : MonoBehaviour
             Debug.Log("Previous Layer: " + (currentPlayer.previousLayer + 1));
             Debug.Log("Player On Layer: " + (currentPlayer.currentLayer + 1));
 
-            //If there are no players outside of the tank with a hammer, hide the ghost build layer
-            if (!AnyPlayersOutsideWithHammer())
+            if (!AnyPlayersOutsideInBuildMode())
                 LevelManager.instance.HideGhostLayer();
 
             //Destroy the ghost interactables from the previous layer, if any
@@ -77,25 +76,17 @@ public class LayerTransitionManager : MonoBehaviour
         }
     }
 
-    private bool AnyPlayersOutsideWithHammer()
+    private bool AnyPlayersOutsideInBuildMode()
     {
-        foreach(var i in FindObjectsOfType<PlayerController>())
+        foreach (var player in FindObjectsOfType<PlayerController>())
         {
-            //If there are any players outside with a hammer
-            if (i.currentLayer > LevelManager.instance.totalLayers && i.PlayerHasItem("Hammer"))
+            //If there are any players outside in build mode
+            if (player.IsPlayerOutsideTank() && player.InBuildMode())
                 return true;
         }
-
         return false;
     }
 
-    public int GetNextLayerIndex()
-    {
-        return nextLayerIndex;
-    }
-
-    public void SetLayerIndex(int index)
-    {
-        nextLayerIndex = index;
-    }
+    public int GetNextLayerIndex() => nextLayerIndex;
+    public void SetLayerIndex(int index) => nextLayerIndex = index;
 }

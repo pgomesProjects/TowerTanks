@@ -12,6 +12,8 @@ public class PriceIndicator : MonoBehaviour
 
     private bool playerCanPurchase; //If true, the player can try to purchase the object. If false, they cannot.
 
+    private PlayerController currentPlayerBuying;   //The current player trying to purchase an interactable
+
     private void Start()
     {
         playerCanPurchase = false;
@@ -27,6 +29,7 @@ public class PriceIndicator : MonoBehaviour
         {
             if(collision.GetComponent<PlayerController>().IsHoldingScrap() || !requiresScrap)
             {
+                currentPlayerBuying = collision.GetComponent<PlayerController>();
                 if (LevelManager.instance.levelPhase != GAMESTATE.TUTORIAL || TutorialController.main.currentTutorialState != TUTORIALSTATE.READING)
                 {
                     priceText.SetActive(true);
@@ -43,10 +46,24 @@ public class PriceIndicator : MonoBehaviour
         {
             if(collision.GetComponent<PlayerController>().IsHoldingScrap() || !requiresScrap)
             {
-                priceText.SetActive(false);
-                playerCanPurchase = false;
-                collision.GetComponent<PlayerController>().currentInteractableToBuy = null;
+                ReleasePlayerFromBuying(currentPlayerBuying);
             }
+        }
+    }
+
+    /// <summary>
+    /// Removes the player from being able to buy scrap. 
+    /// </summary>
+    /// <param name="currentPlayer">The player to remove from the price indicator.</param>
+    /// <param name="exitingTrigger">If true, the player is exiting the trigger for the price indicator.</param>
+    public void ReleasePlayerFromBuying(PlayerController currentPlayer, bool exitingTrigger = true)
+    {
+        if(currentPlayer == currentPlayerBuying && (requiresScrap || exitingTrigger))
+        {
+            currentPlayerBuying.currentInteractableToBuy = null;
+            currentPlayerBuying = null;
+            priceText.SetActive(false);
+            playerCanPurchase = false;
         }
     }
 
@@ -55,15 +72,15 @@ public class PriceIndicator : MonoBehaviour
     /// </summary>
     public void PurchaseInteractable()
     {
-        if (LevelManager.instance.CanPlayerAfford(price))
+        if (currentPlayerBuying.GetScrapValue() >= price)
         {
             if(LevelManager.instance.levelPhase != GAMESTATE.TUTORIAL || transform.parent.transform.Find("Indicator").gameObject.activeInHierarchy)
             {
                 //Purchase interactable
-                LevelManager.instance.UpdateResources(-price);
+                currentPlayerBuying.UseScrap(price);
                 FindObjectOfType<InteractableSpawnerManager>().CreateInteractable(transform.parent.GetComponent<InteractableSpawner>(), interactableType);
                 //Play sound effect
-                FindObjectOfType<AudioManager>().Play("UseSFX", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), gameObject);
+                FindObjectOfType<AudioManager>().Play("UseSFX", gameObject);
 
                 //Destroy self
                 Destroy(gameObject);

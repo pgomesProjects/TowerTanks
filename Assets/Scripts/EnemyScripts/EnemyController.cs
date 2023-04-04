@@ -427,6 +427,6 @@ public class EnemyController : MonoBehaviour
         }
 
         if(FindObjectOfType<AudioManager>() != null)
-            FindObjectOfType<AudioManager>().Play("MedExplosionSFX", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume), gameObject);
+            FindObjectOfType<AudioManager>().Play("MedExplosionSFX", gameObject);
     }
 }
