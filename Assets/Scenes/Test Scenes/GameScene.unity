@@ -507,6 +507,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 5929519606088563379}
   - {fileID: 1331340006}
   - {fileID: 1546441756}
   - {fileID: 830699881}
@@ -3404,7 +3405,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 94764305}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &830699882
 BoxCollider2D:
@@ -5217,7 +5218,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 94764305}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1331340007
 BoxCollider2D:
@@ -5739,7 +5740,8 @@ GameObject:
   - component: {fileID: 1463711430}
   - component: {fileID: 1463711432}
   - component: {fileID: 1463711431}
-  - component: {fileID: 1463711433}
+  - component: {fileID: 1463711435}
+  - component: {fileID: 1463711434}
   m_Layer: 5
   m_Name: ContinuePrompt
   m_TagString: Untagged
@@ -5864,26 +5866,33 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1463711429}
   m_CullTransparentMesh: 1
---- !u!95 &1463711433
-Animator:
-  serializedVersion: 4
+--- !u!114 &1463711434
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1463711429}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: df170ecd52365284cbda15cf6b81b46c, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9982f68966d59e441ab190eac961f5b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  endAlpha: 0.4
+  seconds: 1
+  loop: 1
+--- !u!225 &1463711435
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1463711429}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1528774435
 GameObject:
   m_ObjectHideFlags: 0
@@ -6058,7 +6067,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 94764305}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1546441757
 BoxCollider2D:
@@ -6174,7 +6183,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 94764305}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1580981763
 BoxCollider2D:
@@ -8460,6 +8469,7 @@ GameObject:
   - component: {fileID: 3128995722482962876}
   - component: {fileID: 3128995722482962877}
   - component: {fileID: 3128995722482962880}
+  - component: {fileID: 3128995722482962881}
   m_Layer: 5
   m_Name: ReturnToMainButton
   m_TagString: Untagged
@@ -8614,34 +8624,20 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 1110496617}
-          m_TargetAssemblyTypeName: PauseController, Assembly-CSharp
-          m_MethodName: ButtonOnSelectColor
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: 3128995723176578167}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Animator, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 10
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1110496617}
-          m_TargetAssemblyTypeName: PauseController, Assembly-CSharp
-          m_MethodName: ButtonOnDeselectColor
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: 3128995723176578167}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Animator, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+--- !u!114 &3128995722482962881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3128995722482962875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1f0e95a71d430045b82fadf8c7453e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashSpeed: 0.1
+  onFlashColor: {r: 0.90588236, g: 0.8156863, b: 0.7490196, a: 1}
 --- !u!114 &3128995723176578152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8770,7 +8766,6 @@ GameObject:
   - component: {fileID: 3128995723176578153}
   - component: {fileID: 3128995723176578155}
   - component: {fileID: 3128995723176578152}
-  - component: {fileID: 3128995723176578167}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -8778,26 +8773,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!95 &3128995723176578167
-Animator:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3128995723176578166}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 590f4842545d20043860134e404c1875, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 2
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!222 &3128995723203806792
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8944,7 +8919,6 @@ GameObject:
   - component: {fileID: 3128995723484164653}
   - component: {fileID: 3128995723484164655}
   - component: {fileID: 3128995723484164652}
-  - component: {fileID: 3128995723484164656}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -9069,26 +9043,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3128995723484164650}
   m_CullTransparentMesh: 1
---- !u!95 &3128995723484164656
-Animator:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3128995723484164650}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 590f4842545d20043860134e404c1875, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 2
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!224 &3128995723508505618
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9237,6 +9191,7 @@ GameObject:
   - component: {fileID: 3128995723536942491}
   - component: {fileID: 3128995723536942488}
   - component: {fileID: 3128995723536942492}
+  - component: {fileID: 3128995723536942493}
   m_Layer: 5
   m_Name: ResumeButton
   m_TagString: Untagged
@@ -9412,34 +9367,20 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 1110496617}
-          m_TargetAssemblyTypeName: PauseController, Assembly-CSharp
-          m_MethodName: ButtonOnSelectColor
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: 3128995723484164656}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Animator, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 10
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1110496617}
-          m_TargetAssemblyTypeName: PauseController, Assembly-CSharp
-          m_MethodName: ButtonOnDeselectColor
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: 3128995723484164656}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Animator, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+--- !u!114 &3128995723536942493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3128995723536942438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1f0e95a71d430045b82fadf8c7453e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashSpeed: 0.1
+  onFlashColor: {r: 0.90588236, g: 0.8156863, b: 0.7490196, a: 1}
 --- !u!224 &3128995723909328112
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9471,7 +9412,6 @@ GameObject:
   - component: {fileID: 3128995723909328112}
   - component: {fileID: 3128995723909328114}
   - component: {fileID: 3128995723909328115}
-  - component: {fileID: 3128995723909328116}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -9576,26 +9516,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!95 &3128995723909328116
-Animator:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3128995723909328113}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 590f4842545d20043860134e404c1875, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 2
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &3128995724175909178
 GameObject:
   m_ObjectHideFlags: 0
@@ -9609,6 +9529,7 @@ GameObject:
   - component: {fileID: 3128995724175909183}
   - component: {fileID: 3128995724175909180}
   - component: {fileID: 3128995724175909184}
+  - component: {fileID: 3128995724175909185}
   m_Layer: 5
   m_Name: OptionsButton
   m_TagString: Untagged
@@ -9784,34 +9705,20 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 1110496617}
-          m_TargetAssemblyTypeName: PauseController, Assembly-CSharp
-          m_MethodName: ButtonOnSelectColor
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: 3128995723909328116}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Animator, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 10
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1110496617}
-          m_TargetAssemblyTypeName: PauseController, Assembly-CSharp
-          m_MethodName: ButtonOnDeselectColor
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: 3128995723909328116}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Animator, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+--- !u!114 &3128995724175909185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3128995724175909178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1f0e95a71d430045b82fadf8c7453e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashSpeed: 0.1
+  onFlashColor: {r: 0.90588236, g: 0.8156863, b: 0.7490196, a: 1}
 --- !u!1001 &5512274399685322363
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9869,3 +9776,65 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 34ecf7edc23d46c468270a9c65c37d84, type: 3}
+--- !u!1001 &5929519606088563378
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 94764305}
+    m_Modifications:
+    - target: {fileID: 3990714851891558268, guid: 535a8b86be52c4841bb0dcdfc1cd2d60, type: 3}
+      propertyPath: m_Name
+      value: Jukebox
+      objectReference: {fileID: 0}
+    - target: {fileID: 6136955132345173991, guid: 535a8b86be52c4841bb0dcdfc1cd2d60, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6136955132345173991, guid: 535a8b86be52c4841bb0dcdfc1cd2d60, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 4.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6136955132345173991, guid: 535a8b86be52c4841bb0dcdfc1cd2d60, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6136955132345173991, guid: 535a8b86be52c4841bb0dcdfc1cd2d60, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6136955132345173991, guid: 535a8b86be52c4841bb0dcdfc1cd2d60, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6136955132345173991, guid: 535a8b86be52c4841bb0dcdfc1cd2d60, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6136955132345173991, guid: 535a8b86be52c4841bb0dcdfc1cd2d60, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6136955132345173991, guid: 535a8b86be52c4841bb0dcdfc1cd2d60, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6136955132345173991, guid: 535a8b86be52c4841bb0dcdfc1cd2d60, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6136955132345173991, guid: 535a8b86be52c4841bb0dcdfc1cd2d60, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6136955132345173991, guid: 535a8b86be52c4841bb0dcdfc1cd2d60, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 535a8b86be52c4841bb0dcdfc1cd2d60, type: 3}
+--- !u!4 &5929519606088563379 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6136955132345173991, guid: 535a8b86be52c4841bb0dcdfc1cd2d60, type: 3}
+  m_PrefabInstance: {fileID: 5929519606088563378}
+  m_PrefabAsset: {fileID: 0}
