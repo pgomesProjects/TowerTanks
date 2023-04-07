@@ -42,7 +42,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -76,9 +76,306 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: scrapinteractanimsheet3-26_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 175
+        height: 265
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b0acc7df68e8a7145841099f1039fe53
+      internalID: -2089866703
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scrapinteractanimsheet3-26_1
+      rect:
+        serializedVersion: 2
+        x: 177
+        y: 0
+        width: 175
+        height: 265
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5c20d05e50367424ca61077534549798
+      internalID: -758793605
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scrapinteractanimsheet3-26_2
+      rect:
+        serializedVersion: 2
+        x: 356
+        y: 0
+        width: 170
+        height: 265
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 23769caf30ea95d4ab7f2b25b921f83c
+      internalID: 853205144
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scrapinteractanimsheet3-26_3
+      rect:
+        serializedVersion: 2
+        x: 530
+        y: 0
+        width: 170
+        height: 265
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d1dfae16a3929bd489d2f1877044d7ca
+      internalID: 420635252
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scrapinteractanimsheet3-26_4
+      rect:
+        serializedVersion: 2
+        x: 716
+        y: 0
+        width: 150
+        height: 265
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 034da12a644d0d248b6d77736365cc26
+      internalID: 1061156472
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scrapinteractanimsheet3-26_5
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 0
+        width: 175
+        height: 265
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2899afa2499adb54abb466e6079e8c2e
+      internalID: 1670895852
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scrapinteractanimsheet3-26_6
+      rect:
+        serializedVersion: 2
+        x: 1059
+        y: 0
+        width: 175
+        height: 265
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 83f832e872a2d7449ab4ec5cfdb73e30
+      internalID: 22797517
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scrapinteractanimsheet3-26_7
+      rect:
+        serializedVersion: 2
+        x: 1234
+        y: 0
+        width: 175
+        height: 265
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 50f0a98269c061743b9f12b056098e58
+      internalID: 1448444189
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scrapinteractanimsheet3-26_8
+      rect:
+        serializedVersion: 2
+        x: 1407
+        y: 0
+        width: 175
+        height: 265
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f88310495c1ba8544a5c3eb273392933
+      internalID: -1595436587
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scrapinteractanimsheet3-26_9
+      rect:
+        serializedVersion: 2
+        x: 1583
+        y: 0
+        width: 175
+        height: 265
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8afda86064f55374cab2452e20de207e
+      internalID: -1670511856
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scrapinteractanimsheet3-26_10
+      rect:
+        serializedVersion: 2
+        x: 1756
+        y: 0
+        width: 175
+        height: 265
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e80219bcc042c2f4a8a3cc0cc90ae6e8
+      internalID: 1434093956
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scrapinteractanimsheet3-26_11
+      rect:
+        serializedVersion: 2
+        x: 1935
+        y: 0
+        width: 175
+        height: 265
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ba8554f6e2cd294ea4bc9592dff2d3e
+      internalID: 1724883234
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scrapinteractanimsheet3-26_12
+      rect:
+        serializedVersion: 2
+        x: 2130
+        y: 0
+        width: 144
+        height: 265
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f2273742ce01cdf40a86cfa65b2f8b15
+      internalID: -5072974
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -89,7 +386,20 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      scrapinteractanimsheet3-26_3: 420635252
+      scrapinteractanimsheet3-26_2: 853205144
+      scrapinteractanimsheet3-26_1: -758793605
+      scrapinteractanimsheet3-26_12: -5072974
+      scrapinteractanimsheet3-26_8: -1595436587
+      scrapinteractanimsheet3-26_10: 1434093956
+      scrapinteractanimsheet3-26_7: 1448444189
+      scrapinteractanimsheet3-26_4: 1061156472
+      scrapinteractanimsheet3-26_5: 1670895852
+      scrapinteractanimsheet3-26_0: -2089866703
+      scrapinteractanimsheet3-26_9: -1670511856
+      scrapinteractanimsheet3-26_6: 22797517
+      scrapinteractanimsheet3-26_11: 1724883234
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
