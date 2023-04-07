@@ -37,8 +37,10 @@ public class PlayerCannonController : CannonController
     /// </summary>
     public override void OnUseInteractable()
     {
-        if (IsInteractionActive())
+        if (IsInteractionActive() && firstInteractionComplete)
             CheckForCannonFire();
+
+        base.OnUseInteractable();
     }
 
     /// <summary>

@@ -692,10 +692,7 @@ MonoBehaviour:
   lockPlayerIntoInteraction: 1
   highlight: {fileID: 6113492419029313710}
   lockedInteractionCanvas: {fileID: 3922384723093421159}
-  cannonFireSFX:
-    idInternal: 0
-    valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: 1df53cc814c923d4aba97ad3c5a39ced, type: 2}
+  interactOnStart: 0
   projectile: {fileID: 4737827509279057301, guid: c7da71b2e77ef994ba9aa8d6241280ae, type: 3}
   cannonPivot: {fileID: 5864187464502447846}
   spawnPoint: {fileID: 8293753279064574975}

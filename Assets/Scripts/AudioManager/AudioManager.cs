@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
+    public AK.Wwise.Event GlobalPause;
+    public AK.Wwise.Event GlobalUnpause;
 
     public AudioMixerGroup bgmMixer, sfxMixer;
 
@@ -148,6 +150,7 @@ public class AudioManager : MonoBehaviour
     public void PauseAllSounds()
     {
         //AkSoundEngine.Suspend();
+        GlobalPause.Post(gameObject);
     }
 
     /// <summary>
@@ -165,6 +168,7 @@ public class AudioManager : MonoBehaviour
     public void ResumeAllSounds()
     {
         //AkSoundEngine.WakeupFromSuspend();
+        GlobalUnpause.Post(gameObject);
     }
 
     /// <summary>
