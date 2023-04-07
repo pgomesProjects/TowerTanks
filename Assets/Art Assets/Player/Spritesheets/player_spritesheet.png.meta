@@ -132,7 +132,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 2160
+        y: 2400
         width: 240
         height: 240
       alignment: 0
@@ -153,7 +153,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 240
-        y: 2160
+        y: 2400
         width: 240
         height: 240
       alignment: 0
@@ -174,7 +174,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 480
-        y: 2160
+        y: 2400
         width: 240
         height: 240
       alignment: 0
@@ -195,7 +195,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 720
-        y: 2160
+        y: 2400
         width: 240
         height: 240
       alignment: 0
@@ -216,7 +216,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 960
-        y: 2160
+        y: 2400
         width: 240
         height: 240
       alignment: 0
@@ -237,7 +237,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1200
-        y: 2160
+        y: 2400
         width: 240
         height: 240
       alignment: 0
@@ -258,7 +258,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1440
-        y: 2160
+        y: 2400
         width: 240
         height: 240
       alignment: 0
@@ -279,7 +279,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 1920
+        y: 2160
         width: 240
         height: 240
       alignment: 0
@@ -300,7 +300,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 240
-        y: 1920
+        y: 2160
         width: 240
         height: 240
       alignment: 0
@@ -320,8 +320,8 @@ TextureImporter:
       name: playerWalk_07
       rect:
         serializedVersion: 2
-        x: 480
-        y: 1920
+        x: 477
+        y: 2160
         width: 240
         height: 240
       alignment: 0
@@ -342,7 +342,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 720
-        y: 1920
+        y: 2160
         width: 240
         height: 240
       alignment: 0
@@ -363,7 +363,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 960
-        y: 1920
+        y: 2160
         width: 240
         height: 240
       alignment: 0
@@ -384,7 +384,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1200
-        y: 1920
+        y: 2160
         width: 240
         height: 240
       alignment: 0
@@ -405,7 +405,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1440
-        y: 1920
+        y: 2160
         width: 240
         height: 240
       alignment: 0
@@ -426,7 +426,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 1680
+        y: 1920
         width: 240
         height: 240
       alignment: 0
@@ -447,7 +447,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 240
-        y: 1680
+        y: 1920
         width: 240
         height: 240
       alignment: 0
@@ -468,7 +468,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 480
-        y: 1680
+        y: 1920
         width: 240
         height: 240
       alignment: 0
@@ -489,7 +489,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 720
-        y: 1680
+        y: 1920
         width: 240
         height: 240
       alignment: 0
@@ -510,7 +510,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 960
-        y: 1680
+        y: 1920
         width: 240
         height: 240
       alignment: 0
@@ -531,7 +531,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1200
-        y: 1680
+        y: 1920
         width: 240
         height: 240
       alignment: 0
@@ -552,7 +552,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1440
-        y: 1680
+        y: 1920
         width: 240
         height: 240
       alignment: 0
@@ -573,7 +573,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 1440
+        y: 1680
         width: 480
         height: 240
       alignment: 0
@@ -594,7 +594,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 480
-        y: 1440
+        y: 1680
         width: 480
         height: 240
       alignment: 0
@@ -615,7 +615,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 960
-        y: 1440
+        y: 1680
         width: 480
         height: 240
       alignment: 0
@@ -636,7 +636,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 1200
+        y: 1440
         width: 480
         height: 240
       alignment: 0
@@ -657,7 +657,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 480
-        y: 1200
+        y: 1440
         width: 480
         height: 240
       alignment: 0
@@ -678,7 +678,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 960
-        y: 1200
+        y: 1440
         width: 480
         height: 240
       alignment: 0
@@ -699,7 +699,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 960
+        y: 1200
         width: 480
         height: 240
       alignment: 0
@@ -720,7 +720,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 480
-        y: 960
+        y: 1200
         width: 240
         height: 240
       alignment: 0
@@ -741,7 +741,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 720
-        y: 960
+        y: 1200
         width: 240
         height: 240
       alignment: 0
@@ -762,7 +762,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 960
-        y: 960
+        y: 1200
         width: 240
         height: 240
       alignment: 0
@@ -783,7 +783,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1200
-        y: 960
+        y: 1200
         width: 240
         height: 240
       alignment: 0
@@ -804,7 +804,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1440
-        y: 960
+        y: 1200
         width: 240
         height: 240
       alignment: 0
@@ -825,7 +825,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 720
+        y: 960
         width: 240
         height: 240
       alignment: 0
@@ -846,7 +846,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 240
-        y: 720
+        y: 960
         width: 240
         height: 240
       alignment: 0
@@ -867,7 +867,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 480
-        y: 720
+        y: 960
         width: 240
         height: 240
       alignment: 0
@@ -888,7 +888,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 720
-        y: 720
+        y: 960
         width: 240
         height: 240
       alignment: 0
@@ -909,7 +909,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 965
-        y: 720
+        y: 960
         width: 480
         height: 240
       alignment: 0
@@ -930,7 +930,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 5
-        y: 483
+        y: 720
         width: 480
         height: 240
       alignment: 0
@@ -951,12 +951,12 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 485
-        y: 483
+        y: 720
         width: 480
         height: 240
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 2, y: 0, z: 0, w: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -972,7 +972,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 965
-        y: 480
+        y: 720
         width: 480
         height: 240
       alignment: 0
@@ -993,7 +993,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 5
-        y: 240
+        y: 480
         width: 480
         height: 240
       alignment: 0
@@ -1014,7 +1014,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 485
-        y: 240
+        y: 480
         width: 480
         height: 240
       alignment: 0
@@ -1035,7 +1035,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 965
-        y: 240
+        y: 480
         width: 480
         height: 240
       alignment: 0
@@ -1056,7 +1056,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 5
-        y: 0
+        y: 240
         width: 480
         height: 240
       alignment: 0
@@ -1077,7 +1077,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 485
-        y: 0
+        y: 240
         width: 480
         height: 240
       alignment: 0
@@ -1098,7 +1098,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 965
-        y: 0
+        y: 240
         width: 480
         height: 240
       alignment: 0
@@ -1110,6 +1110,48 @@ TextureImporter:
       bones: []
       spriteID: 3e62674edbb5fe34ca9b3ce4c1509c56
       internalID: -1153186470
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerWalkScrap_01
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 240
+        height: 240
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 72674d7fa0519cb4ebd16afc7a442ee5
+      internalID: 439208576
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerWalkScrap_02
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 0
+        width: 240
+        height: 240
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f8262325e7b5afe40ba9b8089614e25f
+      internalID: -1049107332
       vertices: []
       indices: 
       edges: []
@@ -1171,7 +1213,9 @@ TextureImporter:
       playerCoalShovel_05: -1370149074
       playerWalk_05: -567336051
       playerWalk_03: -1989144155
+      playerWalkScrap_01: 439208576
       playerLoadCannon_02: 2113860134
+      playerWalkScrap_02: -1049107332
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

@@ -16,6 +16,9 @@ public class InteractableController : MonoBehaviour
     [SerializeField] protected SpriteRenderer highlight;
     [SerializeField] protected GameObject lockedInteractionCanvas;
 
+    [SerializeField] protected bool interactOnStart = true;
+    protected bool firstInteractionComplete = false;
+
     protected PlayerController currentPlayer;
     private void Start()
     {
@@ -28,7 +31,7 @@ public class InteractableController : MonoBehaviour
         {
             PlayerController currentInteractingPlayer = collision.GetComponent<PlayerController>();
 
-            if (currentPlayerLockedIn == null)
+            if (currentPlayerLockedIn == null && !currentInteractingPlayer.InBuildMode())
             {
                 playersColliding.Add(currentInteractingPlayer.GetPlayerIndex());
                 currentInteractingPlayer.DisplayInteractionPrompt("<sprite=30>");
@@ -64,7 +67,7 @@ public class InteractableController : MonoBehaviour
     public void OnInteraction(PlayerController playerInteracting)
     {
         //If the object is interacted with and no one else is locked in, grab the function from the inspector that will decide what to do
-        if (currentPlayerLockedIn == null || playerInteracting == currentPlayerLockedIn)
+        if (currentPlayerLockedIn == null)
         {
             Debug.Log("Current Player Interacting: " + playerInteracting.name);
             SetCurrentActivePlayer(playerInteracting);
@@ -79,15 +82,24 @@ public class InteractableController : MonoBehaviour
                     LockPlayer(playerInteracting, true);
                     interactEvent.Invoke();
                 }
-                else
-                {
-                    LockPlayer(playerInteracting, false);
-                    playersColliding.Add(playerInteracting.GetPlayerIndex());
-                    interactEvent.Invoke();
-                }
             }
             else
             {
+                interactEvent.Invoke();
+            }
+        }
+    }
+
+    public void OnEndInteraction(PlayerController playerInteracting)
+    {
+        //If the interactable locks the player and the player trying to end the interaction is the player locked in
+        if (lockPlayerIntoInteraction && playerInteracting == currentPlayerLockedIn)
+        {
+            //If the interaction is currently active, release the player
+            if (interactionActive)
+            {
+                LockPlayer(playerInteracting, false);
+                playersColliding.Add(playerInteracting.GetPlayerIndex());
                 interactEvent.Invoke();
             }
         }
@@ -98,7 +110,8 @@ public class InteractableController : MonoBehaviour
     /// </summary>
     public virtual void OnUseInteractable()
     {
-
+        if(!firstInteractionComplete)
+            firstInteractionComplete = true;
     }
 
     public void OnCancel()
@@ -141,6 +154,7 @@ public class InteractableController : MonoBehaviour
 
             highlight.gameObject.SetActive(false);
             lockedInteractionCanvas.SetActive(false);
+            firstInteractionComplete = false;
         }
     }
 

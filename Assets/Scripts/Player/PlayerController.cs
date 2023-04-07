@@ -107,9 +107,9 @@ public class PlayerController : MonoBehaviour
         switch (ctx.action.name)
         {
             case "Move": OnMove(ctx); break;
-            case "Repair": OnRepair(ctx); break;
-            case "Interact": OnInteract(ctx); break;
-            case "Build": OnBuild(ctx); break;
+            case "Repair": OnRepair(ctx); OnUseInteractable(ctx); break;
+            case "Interact": OnInteract(ctx); OnUseInteractable(ctx); break;
+            case "Build": OnBuild(ctx); OnUseInteractable(ctx); break;
             case "Cancel": OnCancel(ctx); break;
             case "Pause": OnPause(ctx); break;
             case "Control Steering": OnControlSteering(ctx); break;
@@ -216,7 +216,7 @@ public class PlayerController : MonoBehaviour
                 ExitLadder();
             }
             //If the player is trying to climb and can climb, let them
-            else if (waitingToClimb)
+            else if (waitingToClimb && ladderRaycast.collider != null)
             {
                 EnterLadder();
             }
@@ -287,11 +287,24 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void OnUseInteractable(InputAction.CallbackContext ctx)
+    {
+        if (PlayerCanInteract())
+        {
+            //If the player presses any main button but the cancel button
+            if (ctx.started)
+            {
+                if (currentInteractableItem != null)
+                    currentInteractableItem.OnUseInteractable();
+            }
+        }
+    }
+
     public void OnRepair(InputAction.CallbackContext ctx)
     {
         if (PlayerCanInteract())
         {
-            //If the player presses the use button
+ /*           //If the player presses the use button
             if (ctx.started)
             {
                 //If the player is holding the fire remover and uses the button, check for fire
@@ -326,7 +339,7 @@ public class PlayerController : MonoBehaviour
                     CancelProgressBar();
                     ChangeItemTransparency(1.0f);
                 }
-            }
+            }*/
         }
     }
 
@@ -337,8 +350,8 @@ public class PlayerController : MonoBehaviour
 
             if (ctx.started)
             {
-                //If the player is not in build mode, put them in build mode
-                if (!buildModeActive)
+                //If the player is not in build mode and not interacting with an item, put them in build mode
+                if (!buildModeActive && currentInteractableItem == null)
                 {
                     SetBuildMode(true);
                     return;
@@ -386,11 +399,20 @@ public class PlayerController : MonoBehaviour
     {
         if (PlayerCanInteract())
         {
-            //If build mode is active, cancel it
-            if (buildModeActive)
+            if (ctx.started)
             {
-                SetBuildMode(false);
-                return;
+                if(currentInteractableItem != null)
+                {
+                    currentInteractableItem.OnEndInteraction(this);
+                    return;
+                }
+
+                //If build mode is active, cancel it
+                if (buildModeActive)
+                {
+                    SetBuildMode(false);
+                    return;
+                }
             }
 
 /*            if (LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
