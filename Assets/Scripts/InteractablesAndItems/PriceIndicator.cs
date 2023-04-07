@@ -11,7 +11,6 @@ public class PriceIndicator : MonoBehaviour
     [SerializeField, Tooltip("Does the interactable require scrap to be built?")] private bool requiresScrap = true;
 
     private bool playerCanPurchase; //If true, the player can try to purchase the object. If false, they cannot.
-
     private PlayerController currentPlayerBuying;   //The current player trying to purchase an interactable
 
     private void Start()
@@ -27,7 +26,7 @@ public class PriceIndicator : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            if(collision.GetComponent<PlayerController>().IsHoldingScrap() || !requiresScrap)
+            if(collision.GetComponent<PlayerController>() == GetComponentInParent<GhostInteractables>().GetCurrentPlayerBuilding() && (collision.GetComponent<PlayerController>().IsHoldingScrap() || !requiresScrap))
             {
                 currentPlayerBuying = collision.GetComponent<PlayerController>();
                 if (LevelManager.instance.levelPhase != GAMESTATE.TUTORIAL || TutorialController.main.currentTutorialState != TUTORIALSTATE.READING)
@@ -44,7 +43,7 @@ public class PriceIndicator : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            if(collision.GetComponent<PlayerController>().IsHoldingScrap() || !requiresScrap)
+            if(currentPlayerBuying == collision.GetComponent<PlayerController>() && (collision.GetComponent<PlayerController>().IsHoldingScrap() || !requiresScrap))
             {
                 ReleasePlayerFromBuying(currentPlayerBuying);
             }

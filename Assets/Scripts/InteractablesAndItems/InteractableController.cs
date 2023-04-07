@@ -29,14 +29,20 @@ public class InteractableController : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
+            ShowPlayerInteraction(collision.GetComponent<PlayerController>());
+        }
+    }
+
+    protected void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
             PlayerController currentInteractingPlayer = collision.GetComponent<PlayerController>();
 
-            if (currentPlayerLockedIn == null && !currentInteractingPlayer.InBuildMode())
+            //If the player is not in the list of interactable players 
+            if (!playersColliding.Contains(currentInteractingPlayer.GetPlayerIndex()))
             {
-                playersColliding.Add(currentInteractingPlayer.GetPlayerIndex());
-                currentInteractingPlayer.DisplayInteractionPrompt("<sprite=30>");
-                //Tell the player that this is the item that they can interact with
-                currentInteractingPlayer.currentInteractableItem = this;
+                ShowPlayerInteraction(currentInteractingPlayer);
             }
         }
     }
@@ -61,6 +67,21 @@ public class InteractableController : MonoBehaviour
             //If the locked player leaves the trigger for the interactable, unlock them
             else
                 LockPlayer(currentInteractingPlayer, false);
+        }
+    }
+
+    /// <summary>
+    /// Show the current player trying to interact that they can interact with the interactable.
+    /// </summary>
+    /// <param name="currentInteractingPlayer">The player trying to interact with the interactable.</param>
+    private void ShowPlayerInteraction(PlayerController currentInteractingPlayer)
+    {
+        if (currentPlayerLockedIn == null && !currentInteractingPlayer.InBuildMode())
+        {
+            playersColliding.Add(currentInteractingPlayer.GetPlayerIndex());
+            currentInteractingPlayer.DisplayInteractionPrompt("<sprite=30>");
+            //Tell the player that this is the item that they can interact with
+            currentInteractingPlayer.currentInteractableItem = this;
         }
     }
 
@@ -168,17 +189,6 @@ public class InteractableController : MonoBehaviour
 
         highlight.gameObject.SetActive(false);
         lockedInteractionCanvas.SetActive(false);
-    }
-
-    private PlayerController GetCollidingPlayer(int playerIndex)
-    {
-        foreach(var player in FindObjectsOfType<PlayerController>())
-        {
-            if(player.GetPlayerIndex() == playerIndex)
-                return player;
-        }
-
-        return null;
     }
 
     public PlayerController GetLockedInPlayer() => currentPlayerLockedIn;

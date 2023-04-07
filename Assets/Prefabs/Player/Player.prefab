@@ -1270,7 +1270,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 12
   distance: 0
-  throwAngle: 35
+  throwForceRange: {x: 5, y: 50}
   throwForce: 22
   ladderMask:
     serializedVersion: 2

@@ -1,11 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using TMPro;
-using System;
-
 public class PlayerController : MonoBehaviour
 {
     public enum PlayerActions { NONE, BUILDING };
@@ -13,7 +12,7 @@ public class PlayerController : MonoBehaviour
     [Header("Movement Settings")]
     [SerializeField] private float speed = 8f;
     [SerializeField] private float distance = 3f;
-    [SerializeField, Range(0, 360)] private float throwAngle;
+    [SerializeField] private Vector2 throwForceRange;
     [SerializeField] private float throwForce;
     [SerializeField] private LayerMask ladderMask;
     [Space(10)]
@@ -176,13 +175,13 @@ public class PlayerController : MonoBehaviour
                 if(LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
                 {
                     //If the player has moved, tell the tutorial state
-                    if(MathF.Abs(movement.x) > 0)
+                    if(Mathf.Abs(movement.x) > 0)
                     {
                         hasMoved = true;
                     }
                 }
 
-                playerAnimator.SetFloat("PlayerX", MathF.Abs(movement.x));
+                playerAnimator.SetFloat("PlayerX", Mathf.Abs(movement.x));
                 //Debug.Log("Player Can Move!");
                 rb.velocity = new Vector2(movement.x * speed, rb.velocity.y);
 
@@ -273,6 +272,7 @@ public class PlayerController : MonoBehaviour
                 {
                     //Call the interaction event
                     currentInteractableItem.OnInteraction(this);
+                    ShowScrap(false);
                 }
             }
 
@@ -282,6 +282,7 @@ public class PlayerController : MonoBehaviour
                 {
                     //Call the cancel interaction event
                     currentInteractableItem.OnCancel();
+                    ShowScrap(true);
                 }
             }
         }
@@ -295,7 +296,10 @@ public class PlayerController : MonoBehaviour
             if (ctx.started)
             {
                 if (currentInteractableItem != null)
+                {
                     currentInteractableItem.OnUseInteractable();
+                    ShowScrap(true);
+                }
             }
         }
     }
@@ -373,25 +377,33 @@ public class PlayerController : MonoBehaviour
                     BuildLayer();
             }
 
-/*            if (LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
+            if (ctx.canceled)
             {
-                if ((int)TutorialController.main.currentTutorialState >= (int)TUTORIALSTATE.PICKUPHAMMER)
+                if (taskInProgress)
                 {
-                    //If the player presses the pickup button
-                    if (ctx.started)
-                    {
-                        PickupItem();
-                    }
+                    CancelProgressBar();
                 }
             }
-            else
-            {
-                //If the player presses the pickup button
-                if (ctx.started)
-                {
-                    PickupItem();
-                }
-            }*/
+
+            /*            if (LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
+                        {
+                            if ((int)TutorialController.main.currentTutorialState >= (int)TUTORIALSTATE.PICKUPHAMMER)
+                            {
+                                //If the player presses the pickup button
+                                if (ctx.started)
+                                {
+                                    PickupItem();
+                                }
+                            }
+                        }
+                        else
+                        {
+                            //If the player presses the pickup button
+                            if (ctx.started)
+                            {
+                                PickupItem();
+                            }
+                        }*/
         }
     }
 
@@ -401,7 +413,7 @@ public class PlayerController : MonoBehaviour
         {
             if (ctx.started)
             {
-                if(currentInteractableItem != null)
+                if(currentInteractableItem != null && !canMove)
                 {
                     currentInteractableItem.OnEndInteraction(this);
                     return;
@@ -412,6 +424,29 @@ public class PlayerController : MonoBehaviour
                 {
                     SetBuildMode(false);
                     return;
+                }
+
+                //If the player is not in build mode or interacting with anything, throw any scrap that they may have on them
+                if (IsHoldingScrap())
+                {
+                    //Throw each scrap piece and set it to despawn
+                    foreach (var scrap in scrapHolder.GetComponentsInChildren<Rigidbody2D>())
+                    {
+                        scrap.isKinematic = false;
+                        float throwAngle = UnityEngine.Random.Range(throwForceRange.x, throwForceRange.y);
+                        Vector2 throwVector = GetThrowVector(throwAngle * Mathf.Deg2Rad);
+
+                        //If the player is facing left, flip the x
+                        if (!isFacingRight)
+                            throwVector = new Vector2(-throwVector.x, throwVector.y);
+
+                        scrap.AddForce(throwVector * (throwForce * 100));
+
+                        scrap.transform.SetParent(null);
+                        scrap.GetComponent<ScrapPiece>().DespawnScrap();
+                    }
+
+                    OnScrapUpdated(0);  //Reset the scrap number
                 }
             }
 
@@ -454,7 +489,8 @@ public class PlayerController : MonoBehaviour
             {
                 if (IsHoldingScrap() && currentInteractableToBuy != null)
                 {
-                    FindObjectOfType<InteractableSpawnerManager>().UpdateGhostInteractable(currentInteractableToBuy.transform.parent.GetComponent<InteractableSpawner>(), (int)ctx.ReadValue<float>());
+                    int incrementValue = ctx.ReadValue<float>() < 0 ? -1 : 1;
+                    FindObjectOfType<InteractableSpawnerManager>().UpdateGhostInteractable(currentInteractableToBuy.transform.parent.GetComponent<InteractableSpawner>(), incrementValue);
                 }
             }
         }
@@ -651,7 +687,7 @@ public class PlayerController : MonoBehaviour
     private void BuildLayer()
     {
         //If the player is outside of the tank and can afford a new layer
-        if (IsPlayerOutsideTank() && scrapValue >= LevelManager.instance.GetItemPrice("NewLayer"))
+        if (scrapValue >= LevelManager.instance.GetItemPrice("NewLayer"))
         {
             if (LevelManager.instance.levelPhase != GAMESTATE.TUTORIAL || LevelManager.instance.totalLayers < 2)
             {
@@ -926,16 +962,14 @@ public class PlayerController : MonoBehaviour
 
             scrapNumber.GetComponentInChildren<TextMeshProUGUI>().text = scrapValue.ToString();
         }
+
         //If the player has no more scrap
-        else
+        if (scrapValue <= 0 && scrapNumber.activeInHierarchy)
         {
-            if (scrapNumber.activeInHierarchy)
-            {
-                scrapNumber.SetActive(false);
-                //Make sure that they cannot try to buy anything
-                foreach (var priceIndicator in FindObjectsOfType<PriceIndicator>())
-                    priceIndicator.ReleasePlayerFromBuying(this, false);
-            }
+            scrapNumber.SetActive(false);
+            //Make sure that they cannot try to buy anything
+            foreach (var priceIndicator in FindObjectsOfType<PriceIndicator>())
+                priceIndicator.ReleasePlayerFromBuying(this, false);
         }
     }
 
@@ -1005,7 +1039,7 @@ public class PlayerController : MonoBehaviour
             if(itemHeld.GetComponent<ShellItemBehavior>() != null)
                 itemHeld.gameObject.AddComponent<DamageObject>().damage = itemHeld.GetComponent<ShellItemBehavior>().GetDamage();
 
-            Vector2 throwVector = GetThrowVector(throwAngle * Mathf.Deg2Rad);
+            Vector2 throwVector = GetThrowVector(UnityEngine.Random.Range(throwForceRange.x, throwForceRange.y) * Mathf.Deg2Rad);
 
             //If the player is facing left, flip the x
             if (!isFacingRight)

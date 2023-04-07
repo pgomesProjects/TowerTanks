@@ -77,4 +77,6 @@ public class GhostInteractables : MonoBehaviour
 
         currentPlayerBuilding = null;
     }
+
+    public PlayerController GetCurrentPlayerBuilding() => currentPlayerBuilding;
 }

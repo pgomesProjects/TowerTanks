@@ -31,6 +31,7 @@ public class DumpsterController : InteractableController
             if(playerScrapHolder.childCount < currentPlayerLockedIn.MaxScrapAmount())
             {
                 GameObject newScrap = Instantiate(scrapPrefab, playerScrapHolder);
+                newScrap.GetComponent<Rigidbody2D>().isKinematic = true;
 
                 Vector2 scrapPos = newScrap.transform.localPosition;
                 

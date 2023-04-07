@@ -26,6 +26,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI resourcesDisplay;
     [SerializeField] private DialogEvent tutorialEvent;
     [SerializeField] private int scrapValue;
+    [SerializeField] private float scrapAnimationSpeed;
 
     public static LevelManager instance;
 
@@ -39,6 +40,9 @@ public class LevelManager : MonoBehaviour
     internal bool isSettingUpOnStart;
     private int resourcesNum;
     private GameObject currentGhostLayer;
+
+    private IEnumerator resourcesUpdateAnimation;
+    private float resourcesAnimationPercent;
 
     private Dictionary<string, int> itemPrice;
 
@@ -109,6 +113,10 @@ public class LevelManager : MonoBehaviour
         itemPrice.Add("NewLayer", 100);
     }
 
+    /// <summary>
+    /// Update the global scrap number.
+    /// </summary>
+    /// <param name="resources">If positive, scrap is gained. If negative, scrap is lost.</param>
     public void UpdateResources(int resources)
     {
         //Display the resources in a fancy way
@@ -117,7 +125,11 @@ public class LevelManager : MonoBehaviour
             int originalValue = resourcesNum;
             resourcesNum += resources;
 
-            StartCoroutine(ResourcesTextAnimation(originalValue, resourcesNum, 2));
+            if(resourcesUpdateAnimation == null)
+            {
+                resourcesUpdateAnimation = ResourcesTextAnimation(originalValue, scrapAnimationSpeed);
+                StartCoroutine(resourcesUpdateAnimation);
+            }
         }
     }
 
@@ -137,17 +149,18 @@ public class LevelManager : MonoBehaviour
 
     public int GetItemPrice(string itemName) => itemPrice[itemName];
 
-    private IEnumerator ResourcesTextAnimation(int startingVal, int endingVal, float seconds)
+    private IEnumerator ResourcesTextAnimation(int startingVal, float speed)
     {
-        float elapsedTime = 0;
-        while (elapsedTime < seconds)
+        resourcesAnimationPercent = 0;
+        while (resourcesAnimationPercent < 1)
         {
-            resourcesDisplay.text = Mathf.RoundToInt(Mathf.Lerp(startingVal, endingVal, elapsedTime / seconds)).ToString("n0");
-            elapsedTime += Time.deltaTime;
+            resourcesDisplay.text = Mathf.RoundToInt(Mathf.Lerp(startingVal, resourcesNum, resourcesAnimationPercent)).ToString("n0");
+            resourcesAnimationPercent += Time.deltaTime * speed;
             yield return null;
         }
 
-        resourcesDisplay.text = endingVal.ToString("n0");
+        resourcesDisplay.text = resourcesNum.ToString("n0");
+        resourcesUpdateAnimation = null;
     }
 
     public void AddCoalToTank(CoalController coalController, float amount)

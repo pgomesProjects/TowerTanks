@@ -844,6 +844,7 @@ MonoBehaviour:
   resourcesDisplay: {fileID: 701447237}
   tutorialEvent: {fileID: 1005274065}
   scrapValue: 25
+  scrapAnimationSpeed: 0.5
 --- !u!4 &236796189
 Transform:
   m_ObjectHideFlags: 0
