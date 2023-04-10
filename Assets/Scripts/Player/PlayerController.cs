@@ -949,19 +949,22 @@ public class PlayerController : MonoBehaviour
         if (IsHoldingScrap() || newScrapChildCount != 0)
         {
             //If the player is outside of the tank, add a ghost layer
-            if(IsPlayerOutsideTank())
+            if (IsPlayerOutsideTank())
                 LevelManager.instance.AddGhostLayer();
 
             if (!scrapNumber.activeInHierarchy)
                 scrapNumber.SetActive(true);
 
-            if(newScrapChildCount == -1)
+            if (newScrapChildCount == -1)
                 scrapValue = scrapHolder.childCount * LevelManager.instance.GetScrapValue();
             else
                 scrapValue = newScrapChildCount * LevelManager.instance.GetScrapValue();
-
-            scrapNumber.GetComponentInChildren<TextMeshProUGUI>().text = scrapValue.ToString();
         }
+        //If they are not, their scrap value is 0
+        else
+            scrapValue = 0;
+
+        scrapNumber.GetComponentInChildren<TextMeshProUGUI>().text = scrapValue.ToString();
 
         //If the player has no more scrap
         if (scrapValue <= 0 && scrapNumber.activeInHierarchy)
