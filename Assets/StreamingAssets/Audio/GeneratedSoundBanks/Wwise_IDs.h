@@ -13,6 +13,7 @@ namespace AK
 {
     namespace EVENTS
     {
+        static const AkUniqueID BLARING_ALARM = 3949782988U;
         static const AkUniqueID BUTTON_CANCEL = 3130542990U;
         static const AkUniqueID BUTTON_HOVER = 1701177942U;
         static const AkUniqueID CANNON_FIRE = 155513425U;
@@ -27,6 +28,7 @@ namespace AK
         static const AkUniqueID LADDER_CLIMB = 1707141479U;
         static const AkUniqueID LARGE_EXPLOSION = 531217250U;
         static const AkUniqueID LOADING_COAL = 164337995U;
+        static const AkUniqueID MAIN_MENU_AMBIENCE = 1707782163U;
         static const AkUniqueID MEDIUM_EXPLOSION = 2121623384U;
         static const AkUniqueID METAL_FOOTSTEP = 3615561815U;
         static const AkUniqueID MUFFLED_CANNON_FIRE = 3902994021U;
@@ -39,6 +41,7 @@ namespace AK
         static const AkUniqueID TEXT_SCROLL = 3510154964U;
         static const AkUniqueID THROTTLE_CLICK = 1141416880U;
         static const AkUniqueID THROTTLE_SHIFT = 1821032580U;
+        static const AkUniqueID WIND_AMBIENCE = 2737219330U;
         static const AkUniqueID WRENCH = 1797317650U;
     } // namespace EVENTS
 

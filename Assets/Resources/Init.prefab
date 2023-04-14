@@ -44,8 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94352b62145e26f4c89585d8ff2e0c55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bgmMixer: {fileID: 5802316482864546721, guid: 0a7f42e58f78f644aa0eda82b00c01ed, type: 2}
-  sfxMixer: {fileID: 4279340188021939522, guid: 1caf2312e44a0b94eac66396929631ce, type: 2}
   GlobalPause:
     idInternal: 0
     valueGuidInternal: 
@@ -54,12 +52,14 @@ MonoBehaviour:
     idInternal: 0
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: fc7a8478263114f4d8c524720b8166bf, type: 2}
+  bgmMixer: {fileID: 5802316482864546721, guid: 0a7f42e58f78f644aa0eda82b00c01ed, type: 2}
+  sfxMixer: {fileID: 4279340188021939522, guid: 1caf2312e44a0b94eac66396929631ce, type: 2}
   sounds:
   - name: MainMenuAmbience
     audioEvent:
       idInternal: 0
       valueGuidInternal: 
-      WwiseObjectReference: {fileID: 0}
+      WwiseObjectReference: {fileID: 11400000, guid: 76ef1d27b2e849e4d885dad4ae063a8e, type: 2}
     pitch: 1
     loop: 0
     soundType: 0
@@ -67,7 +67,7 @@ MonoBehaviour:
     audioEvent:
       idInternal: 0
       valueGuidInternal: 
-      WwiseObjectReference: {fileID: 0}
+      WwiseObjectReference: {fileID: 11400000, guid: 0985404288d95544c868fdc729952d98, type: 2}
     pitch: 1
     loop: 1
     soundType: 0
@@ -219,7 +219,7 @@ MonoBehaviour:
     audioEvent:
       idInternal: 0
       valueGuidInternal: 
-      WwiseObjectReference: {fileID: 0}
+      WwiseObjectReference: {fileID: 11400000, guid: fc9dc605312b2264cb9bf2f420bdbceb, type: 2}
     pitch: 1
     loop: 0
     soundType: 1

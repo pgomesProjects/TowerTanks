@@ -42,14 +42,14 @@ public class TitlescreenController : MonoBehaviour
         playerControlSystem.UI.DebugMode.performed += _ => DebugMode();
 
         levelFader.SetActive(true);
-
-        FindObjectOfType<AudioManager>().Play("MainMenuAmbience");
-        FindObjectOfType<AudioManager>().Play("MainMenuWindAmbience");
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        FindObjectOfType<AudioManager>().Play("MainMenuAmbience");
+        FindObjectOfType<AudioManager>().Play("MainMenuWindAmbience");
+
         currentMenuState = startMenu;
 
         if (GameSettings.mainMenuEntered)

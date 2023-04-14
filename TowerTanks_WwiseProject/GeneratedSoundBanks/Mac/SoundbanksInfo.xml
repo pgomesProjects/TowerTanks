@@ -28,7 +28,7 @@
 				<GameParameter Id="2346531308" Name="MusicVolume"/>
 			</GameParameters>
 		</SoundBank>
-		<SoundBank Id="2880737896" Type="User" Language="SFX" Hash="{AE9452E9-2E1C-C2F4-903F-7D7F0DCD5188}">
+		<SoundBank Id="2880737896" Type="User" Language="SFX" Hash="{1A9657E6-856E-B69E-0C07-15DAB211F7A2}">
 			<ShortName>mainbank</ShortName>
 			<Path>mainbank.bnk</Path>
 			<Media>
@@ -52,6 +52,10 @@
 					<ShortName>TT_SFX_character-use.wav</ShortName>
 					<CachePath>SFX/TT_SFX_character-use_3CADDE39.wem</CachePath>
 				</File>
+				<File Id="476975229" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>TT_SFX_outside-ambience.wav</ShortName>
+					<CachePath>SFX/TT_SFX_outside-ambience_696A9007.wem</CachePath>
+				</File>
 				<File Id="498551846" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_engine-dying.wav</ShortName>
 					<CachePath>SFX/TT_SFX_engine-dying_3CADDE39.wem</CachePath>
@@ -71,6 +75,10 @@
 				<File Id="579595110" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_fire-burning.wav</ShortName>
 					<CachePath>SFX/TT_SFX_fire-burning_696A9007.wem</CachePath>
+				</File>
+				<File Id="595583574" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>TTTT_Menu_Sketch_Mix.wav</ShortName>
+					<CachePath>SFX/TTTT_Menu_Sketch_Mix_3CADDE39.wem</CachePath>
 				</File>
 				<File Id="608155079" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>updated_ladder_climb.wav</ShortName>
@@ -120,6 +128,10 @@
 					<ShortName>TT_SFX_wrench.wav</ShortName>
 					<CachePath>SFX/TT_SFX_wrench_3CADDE39.wem</CachePath>
 				</File>
+				<File Id="963356657" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>TT_SFX_blaring-alarm.wav</ShortName>
+					<CachePath>SFX/TT_SFX_blaring-alarm_3CADDE39.wem</CachePath>
+				</File>
 				<File Id="1046025241" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_large-explosion.wav</ShortName>
 					<CachePath>SFX/TT_SFX_large-explosion_3CADDE39.wem</CachePath>
@@ -134,6 +146,11 @@
 				</File>
 			</Media>
 			<Events>
+				<Event Id="3949782988" Name="blaring_alarm" DurationType="OneShot" DurationMin="8.25" DurationMax="8.25">
+					<MediaRefs>
+						<MediaRef Id="963356657"/>
+					</MediaRefs>
+				</Event>
 				<Event Id="3130542990" Name="button_cancel" DurationType="OneShot" DurationMin="0.311625" DurationMax="0.311625">
 					<MediaRefs>
 						<MediaRef Id="188920233"/>
@@ -196,6 +213,11 @@
 						<MediaRef Id="575432004"/>
 					</MediaRefs>
 				</Event>
+				<Event Id="1707782163" Name="main_menu_ambience" DurationType="OneShot" DurationMin="108" DurationMax="108">
+					<MediaRefs>
+						<MediaRef Id="595583574"/>
+					</MediaRefs>
+				</Event>
 				<Event Id="2121623384" Name="medium_explosion" DurationType="OneShot" DurationMin="5.6" DurationMax="5.6">
 					<MediaRefs>
 						<MediaRef Id="1065158661"/>
@@ -256,6 +278,11 @@
 						<MediaRef Id="763069168"/>
 					</MediaRefs>
 				</Event>
+				<Event Id="2737219330" Name="wind_ambience" DurationType="Infinite">
+					<MediaRefs>
+						<MediaRef Id="476975229"/>
+					</MediaRefs>
+				</Event>
 				<Event Id="1797317650" Name="wrench" DurationType="OneShot" DurationMin="1.374" DurationMax="1.374">
 					<MediaRefs>
 						<MediaRef Id="882478931"/>
@@ -264,5 +291,5 @@
 			</Events>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{2FAA5E0D-5E4A-1202-2D62-9131F6D46FAF}</FileHash>
+	<FileHash>{266DF7DE-B882-7E7B-77D3-6601F8F5556E}</FileHash>
 </SoundBanksInfo>

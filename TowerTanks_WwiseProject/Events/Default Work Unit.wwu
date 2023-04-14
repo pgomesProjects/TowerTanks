@@ -305,6 +305,39 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="main_menu_ambience" ID="{8E257765-A532-44DE-939A-64179F12AA6D}">
+					<ChildrenList>
+						<Action Name="" ID="{68FB9872-F9BF-44A5-8A6E-2A07B64BD473}" ShortID="541271387">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TTTT_Menu_Sketch_Mix" ID="{1E434762-F2CC-4409-A759-3BCFD3480C6A}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="wind_ambience" ID="{C8F86EE0-B3B8-4F6E-914E-A708AED3AE7D}">
+					<ChildrenList>
+						<Action Name="" ID="{EC5AEAF5-B6EA-450D-A6B2-4D2041AA00F1}" ShortID="180171069">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_outside-ambience" ID="{EBFFBEC8-287E-4201-BE6F-97A446CA678D}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="blaring_alarm" ID="{32DB5705-A07D-47A0-9A62-61E902CEDE4A}">
+					<ChildrenList>
+						<Action Name="" ID="{72A1C43E-7E91-4EDC-8632-1A7D8B68F6A4}" ShortID="812352267">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_blaring-alarm" ID="{5CF46254-3ADA-45CB-9DFA-487914AC47A1}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

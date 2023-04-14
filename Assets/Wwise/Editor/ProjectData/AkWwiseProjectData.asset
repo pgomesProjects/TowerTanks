@@ -24,7 +24,7 @@ MonoBehaviour:
     ParentPath: Virtual Acoustics\Default Work Unit
     guid: 79d6e6cdcbdfcd4d9d052b236bc85600
     GuidInternal: 
-    m_lastTime: -8585201094842618476
+    m_lastTime: -8585224173815215769
     List: []
   AuxBusWwu:
   - PhysicalPath: Master-Mixer Hierarchy\Default Work Unit.wwu
@@ -38,7 +38,7 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy\Default Work Unit
     guid: 358467ebf0a09540b65ba3cce55d6389
     GuidInternal: 
-    m_lastTime: -8585201074161682323
+    m_lastTime: -8585216320608951632
     List:
     - name: Master Audio Bus
       guid: d8a41415a61d2a41a17e75ca0c2149f3
@@ -101,7 +101,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: df5fafb8b92e944290f5318847f0e90d
     GuidInternal: 
-    m_lastTime: -8585201094842658211
+    m_lastTime: -8585200959510822371
     List:
     - name: mainbank
       guid: 3a7f49372b0b1a428cab0adbe8b1c2b4
@@ -129,8 +129,25 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: 83957ce1e688d54e8b6b22beb20598dd
     GuidInternal: 
-    m_lastTime: -8585201094855296905
+    m_lastTime: -8585200959624773720
     List:
+    - name: blaring_alarm
+      guid: 0557db327da0a0479a6261e902cede4a
+      id: 3949782988
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: blaring_alarm
+        ObjectType: 3
+        guid: 0557db327da0a0479a6261e902cede4a
+      Path: Events\Default Work Unit\blaring_alarm
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
     - name: button_cancel
       guid: b55aeaae7d3cde408036f16a9c2f48ec
       id: 3130542990
@@ -369,6 +386,23 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
+    - name: main_menu_ambience
+      guid: 6577258e32a5de44939a64179f12aa6d
+      id: 1707782163
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: main_menu_ambience
+        ObjectType: 3
+        guid: 6577258e32a5de44939a64179f12aa6d
+      Path: Events\Default Work Unit\main_menu_ambience
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
     - name: medium_explosion
       guid: d4c6b46ac0d5c249bd1876d449821bdb
       id: 2121623384
@@ -573,6 +607,23 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
+    - name: wind_ambience
+      guid: e06ef8c8b8b36e4f914ea708aed3ae7d
+      id: 2737219330
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: wind_ambience
+        ObjectType: 3
+        guid: e06ef8c8b8b36e4f914ea708aed3ae7d
+      Path: Events\Default Work Unit\wind_ambience
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
     - name: wrench
       guid: bea45d8e1d9180418475ab50d5e117e0
       id: 1797317650
@@ -602,7 +653,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\Default Work Unit
     guid: 7fd26d170457f64b9c4075e46d49e907
     GuidInternal: 
-    m_lastTime: -8585201094855296905
+    m_lastTime: -8585216320608961629
     List:
     - name: MusicVolume
       guid: 6ca2f68d1366e2438bc4629f3f26b67d
@@ -644,7 +695,7 @@ MonoBehaviour:
     ParentPath: States\Default Work Unit
     guid: a0b7341f178cca44b4803208de1bf889
     GuidInternal: 
-    m_lastTime: -8585201094842653244
+    m_lastTime: -8585224173815275760
     List: []
   SwitchWwu:
   - PhysicalPath: Switches\Default Work Unit.wwu
@@ -658,7 +709,7 @@ MonoBehaviour:
     ParentPath: Switches\Default Work Unit
     guid: 6d9d81080ab4cc4e872aa2d178ddb83f
     GuidInternal: 
-    m_lastTime: -8585201094842648283
+    m_lastTime: -8585200968918198011
     List: []
   TriggerWwu:
   - PhysicalPath: Triggers\Default Work Unit.wwu
@@ -672,10 +723,10 @@ MonoBehaviour:
     ParentPath: Triggers\Default Work Unit
     guid: 178f1c8b56862740bb45115316763d0e
     GuidInternal: 
-    m_lastTime: -8585201094842623444
+    m_lastTime: -8585224173815225771
     List: []
-  ExpandedFileSystemItemIds: 
-  ExpandedWaapiItemIds: 
+  ExpandedFileSystemItemIds: 02000000030000000400000005000000
+  ExpandedWaapiItemIds: 01000000020000000300000004000000050000000600000007000000a4000000a5000000
   AutoSyncSelection: 0
   autoPopulateEnabled: 1
   currentDataSource: 0

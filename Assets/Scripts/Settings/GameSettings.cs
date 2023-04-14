@@ -30,11 +30,13 @@ public static class GameSettings
     public static void CheckBGM()
     {
         Debug.Log("BGM Volume: " + PlayerPrefs.GetFloat("BGMVolume", defaultBGMVolume));
+        AkSoundEngine.SetRTPCValue("MusicVolume", PlayerPrefs.GetFloat("BGMVolume", defaultBGMVolume) * 100f);
     }
 
     public static void CheckSFX()
     {
         Debug.Log("SFX Volume: " + PlayerPrefs.GetFloat("SFXVolume", defaultSFXVolume));
+        AkSoundEngine.SetRTPCValue("SFXVolume", PlayerPrefs.GetFloat("SFXVolume", defaultSFXVolume) * 100f);
     }
 
     public static void CheckResolution()
