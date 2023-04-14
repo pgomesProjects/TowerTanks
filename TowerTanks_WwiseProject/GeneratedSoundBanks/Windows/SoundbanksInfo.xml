@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{986487A9-2683-E47A-8688-3D0FE6FDB954}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{D21E72BF-3A52-4DB7-ECD3-250DE7099B78}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -19,112 +19,118 @@
 				</AudioDevices>
 			</Plugins>
 			<Busses>
+				<Bus Id="493417818" Name="Music Audio Bus"/>
 				<Bus Id="3803692087" Name="Master Audio Bus"/>
+				<Bus Id="4084199202" Name="SFX Audio Bus"/>
 			</Busses>
+			<GameParameters>
+				<GameParameter Id="988953028" Name="SFXVolume"/>
+				<GameParameter Id="2346531308" Name="MusicVolume"/>
+			</GameParameters>
 		</SoundBank>
-		<SoundBank Id="2880737896" Type="User" Language="SFX" Hash="{85C7ABF8-40CE-5D0B-10EC-20290D344509}">
+		<SoundBank Id="2880737896" Type="User" Language="SFX" Hash="{395AE5BD-0D0E-357A-C47D-7B376F5EEEDB}">
 			<ShortName>mainbank</ShortName>
 			<Path>mainbank.bnk</Path>
 			<Media>
 				<File Id="3469524" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_engine-dying-2.wav</ShortName>
-					<CachePath>SFX/TT_SFX_engine-dying-2_10C4C929.wem</CachePath>
+					<CachePath>SFX/TT_SFX_engine-dying-2_3F75BDB9.wem</CachePath>
 				</File>
 				<File Id="22366201" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_cannon-reload.wav</ShortName>
-					<CachePath>SFX/TT_SFX_cannon-reload_10C4C929.wem</CachePath>
+					<CachePath>SFX/TT_SFX_cannon-reload_3F75BDB9.wem</CachePath>
 				</File>
 				<File Id="188920233" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>button_cancel.wav</ShortName>
-					<CachePath>SFX/button_cancel_10C4C929.wem</CachePath>
+					<CachePath>SFX/button_cancel_3F75BDB9.wem</CachePath>
 				</File>
 				<File Id="258066100" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_tank-impact.wav</ShortName>
-					<CachePath>SFX/TT_SFX_tank-impact_10C4C929.wem</CachePath>
+					<CachePath>SFX/TT_SFX_tank-impact_3F75BDB9.wem</CachePath>
 				</File>
 				<File Id="401117418" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_character-use.wav</ShortName>
-					<CachePath>SFX/TT_SFX_character-use_10C4C929.wem</CachePath>
+					<CachePath>SFX/TT_SFX_character-use_3F75BDB9.wem</CachePath>
 				</File>
 				<File Id="498551846" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_engine-dying.wav</ShortName>
-					<CachePath>SFX/TT_SFX_engine-dying_10C4C929.wem</CachePath>
+					<CachePath>SFX/TT_SFX_engine-dying_3F75BDB9.wem</CachePath>
 				</File>
 				<File Id="544191574" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_projectile-in-air.wav</ShortName>
-					<CachePath>SFX/TT_SFX_projectile-in-air_10C4C929.wem</CachePath>
+					<CachePath>SFX/TT_SFX_projectile-in-air_3F75BDB9.wem</CachePath>
 				</File>
 				<File Id="563431773" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_small-explosion.wav</ShortName>
-					<CachePath>SFX/TT_SFX_small-explosion_10C4C929.wem</CachePath>
+					<CachePath>SFX/TT_SFX_small-explosion_3F75BDB9.wem</CachePath>
 				</File>
 				<File Id="575432004" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_loading-coal.wav</ShortName>
-					<CachePath>SFX/TT_SFX_loading-coal_10C4C929.wem</CachePath>
+					<CachePath>SFX/TT_SFX_loading-coal_3F75BDB9.wem</CachePath>
 				</File>
 				<File Id="579595110" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_fire-burning.wav</ShortName>
-					<CachePath>SFX/TT_SFX_fire-burning_10C4C929.wem</CachePath>
+					<CachePath>SFX/TT_SFX_fire-burning_9EDFC787.wem</CachePath>
 				</File>
 				<File Id="608155079" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>updated_ladder_climb.wav</ShortName>
-					<CachePath>SFX/updated_ladder_climb_10C4C929.wem</CachePath>
+					<CachePath>SFX/updated_ladder_climb_3F75BDB9.wem</CachePath>
 				</File>
 				<File Id="616062773" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_throttle-click.wav</ShortName>
-					<CachePath>SFX/TT_SFX_throttle-click_10C4C929.wem</CachePath>
+					<CachePath>SFX/TT_SFX_throttle-click_3F75BDB9.wem</CachePath>
 				</File>
 				<File Id="652002572" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>metal_footstep.wav</ShortName>
-					<CachePath>SFX/metal_footstep_10C4C929.wem</CachePath>
+					<CachePath>SFX/metal_footstep_3F75BDB9.wem</CachePath>
 				</File>
 				<File Id="676306554" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_cannon-lock-in-place.wav</ShortName>
-					<CachePath>SFX/TT_SFX_cannon-lock-in-place_10C4C929.wem</CachePath>
+					<CachePath>SFX/TT_SFX_cannon-lock-in-place_3F75BDB9.wem</CachePath>
 				</File>
 				<File Id="680578571" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>muffled_cannon_fire.wav</ShortName>
-					<CachePath>SFX/muffled_cannon_fire_10C4C929.wem</CachePath>
+					<CachePath>SFX/muffled_cannon_fire_3F75BDB9.wem</CachePath>
 				</File>
 				<File Id="729628631" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>text_beep.wav</ShortName>
-					<CachePath>SFX/text_beep_10C4C929.wem</CachePath>
+					<CachePath>SFX/text_beep_3F75BDB9.wem</CachePath>
 				</File>
 				<File Id="763069168" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_throttle-shift.wav</ShortName>
-					<CachePath>SFX/TT_SFX_throttle-shift_10C4C929.wem</CachePath>
+					<CachePath>SFX/TT_SFX_throttle-shift_3F75BDB9.wem</CachePath>
 				</File>
 				<File Id="806435377" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_cannon-fires.wav</ShortName>
-					<CachePath>SFX/TT_SFX_cannon-fires_10C4C929.wem</CachePath>
+					<CachePath>SFX/TT_SFX_cannon-fires_3F75BDB9.wem</CachePath>
 				</File>
 				<File Id="813749911" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>button_hover.wav</ShortName>
-					<CachePath>SFX/button_hover_10C4C929.wem</CachePath>
+					<CachePath>SFX/button_hover_3F75BDB9.wem</CachePath>
 				</File>
 				<File Id="835123090" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_text-scroll.wav</ShortName>
-					<CachePath>SFX/TT_SFX_text-scroll_10C4C929.wem</CachePath>
+					<CachePath>SFX/TT_SFX_text-scroll_3F75BDB9.wem</CachePath>
 				</File>
 				<File Id="872036804" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_tank-engine.wav</ShortName>
-					<CachePath>SFX/TT_SFX_tank-engine_10C4C929.wem</CachePath>
+					<CachePath>SFX/TT_SFX_tank-engine_9EDFC787.wem</CachePath>
 				</File>
 				<File Id="882478931" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_wrench.wav</ShortName>
-					<CachePath>SFX/TT_SFX_wrench_10C4C929.wem</CachePath>
+					<CachePath>SFX/TT_SFX_wrench_3F75BDB9.wem</CachePath>
 				</File>
 				<File Id="1046025241" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_large-explosion.wav</ShortName>
-					<CachePath>SFX/TT_SFX_large-explosion_10C4C929.wem</CachePath>
+					<CachePath>SFX/TT_SFX_large-explosion_3F75BDB9.wem</CachePath>
 				</File>
 				<File Id="1049821619" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_tank-rolling.wav</ShortName>
-					<CachePath>SFX/TT_SFX_tank-rolling_10C4C929.wem</CachePath>
+					<CachePath>SFX/TT_SFX_tank-rolling_9EDFC787.wem</CachePath>
 				</File>
 				<File Id="1065158661" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_medium-explosion.wav</ShortName>
-					<CachePath>SFX/TT_SFX_medium-explosion_10C4C929.wem</CachePath>
+					<CachePath>SFX/TT_SFX_medium-explosion_3F75BDB9.wem</CachePath>
 				</File>
 			</Media>
 			<Events>
@@ -168,11 +174,13 @@
 						<MediaRef Id="3469524"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="1318321645" Name="fire_burning" DurationType="OneShot" DurationMin="7.999979" DurationMax="7.999979">
+				<Event Id="1318321645" Name="fire_burning" DurationType="Infinite">
 					<MediaRefs>
 						<MediaRef Id="579595110"/>
 					</MediaRefs>
 				</Event>
+				<Event Id="1469012939" Name="Global_Pause" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="2496259136" Name="Global_Unpause" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="1707141479" Name="ladder_climb" DurationType="OneShot" DurationMin="0.39514583" DurationMax="0.39514583">
 					<MediaRefs>
 						<MediaRef Id="608155079"/>
@@ -213,7 +221,7 @@
 						<MediaRef Id="563431773"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="212754890" Name="tank_engine" DurationType="OneShot" DurationMin="3.875" DurationMax="3.875">
+				<Event Id="212754890" Name="tank_engine" DurationType="Infinite">
 					<MediaRefs>
 						<MediaRef Id="872036804"/>
 					</MediaRefs>
@@ -223,7 +231,7 @@
 						<MediaRef Id="258066100"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="299811467" Name="tank_rolling" DurationType="OneShot" DurationMin="7.75" DurationMax="7.75">
+				<Event Id="299811467" Name="tank_rolling" DurationType="Infinite">
 					<MediaRefs>
 						<MediaRef Id="1049821619"/>
 					</MediaRefs>
@@ -256,5 +264,5 @@
 			</Events>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{4C757708-3C7B-376A-B30B-E986F55BF9D6}</FileHash>
+	<FileHash>{7817B934-FDB4-B522-ADB0-B66A9F3A95AD}</FileHash>
 </SoundBanksInfo>
