@@ -81,6 +81,7 @@ public class PlayerTankController : MonoBehaviour
         layers = layers.OrderBy(y => y.transform.position.y).ToList();
 
         PrintLayerList();
+        AdjustOutsideLayerObjects();
     }
 
     /// <summary>
@@ -110,6 +111,15 @@ public class PlayerTankController : MonoBehaviour
         MoveTank();
     }
 
+    /// <summary>
+    /// Adjusts the layers so that only the top one has objects above it.
+    /// </summary>
+    public void AdjustOutsideLayerObjects()
+    {
+        Debug.Log("Adjust Outside Of Layers...");
+        for(int i = 0; i < layers.Count; i++)
+            layers[i].ShowOutsideObjects(i >= layers.Count - 1);
+    }
 
     /// <summary>
     /// Moves the tank horizontally based on the base speed and the game speed

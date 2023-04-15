@@ -90,12 +90,12 @@ public class InteractableController : MonoBehaviour
         //If the object is interacted with and no one else is locked in, grab the function from the inspector that will decide what to do
         if (currentPlayerLockedIn == null)
         {
-            Debug.Log("Current Player Interacting: " + playerInteracting.name);
+            //Debug.Log("Current Player Interacting: " + playerInteracting.name);
             SetCurrentActivePlayer(playerInteracting);
 
             if (lockPlayerIntoInteraction)
             {
-                Debug.Log("Interaction Active: " + interactionActive);
+                //Debug.Log("Interaction Active: " + interactionActive);
                 //If there is not an interaction active
                 if (!interactionActive)
                 {
@@ -155,7 +155,7 @@ public class InteractableController : MonoBehaviour
     {
         if (lockPlayer)
         {
-            Debug.Log("Locking Player...");
+            //Debug.Log("Locking Player...");
             interactionActive = true;
             if (currentPlayer != null)
                 currentPlayer.SetPlayerMove(false);
@@ -167,7 +167,7 @@ public class InteractableController : MonoBehaviour
         }
         else
         {
-            Debug.Log("Unlocking Player...");
+            //Debug.Log("Unlocking Player...");
             interactionActive = false;
             if(currentPlayer != null)
                 currentPlayer.SetPlayerMove(true);

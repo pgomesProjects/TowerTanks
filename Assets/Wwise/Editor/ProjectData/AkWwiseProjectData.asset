@@ -101,7 +101,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: df5fafb8b92e944290f5318847f0e90d
     GuidInternal: 
-    m_lastTime: -8585200762803672858
+    m_lastTime: -8585200714364086310
     List:
     - name: mainbank
       guid: 3a7f49372b0b1a428cab0adbe8b1c2b4
@@ -129,7 +129,7 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: 83957ce1e688d54e8b6b22beb20598dd
     GuidInternal: 
-    m_lastTime: -8585200785275829371
+    m_lastTime: -8585200714380955404
     List:
     - name: blaring_alarm
       guid: 0557db327da0a0479a6261e902cede4a
@@ -721,7 +721,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\Default Work Unit
     guid: 7fd26d170457f64b9c4075e46d49e907
     GuidInternal: 
-    m_lastTime: -8585200799643292922
+    m_lastTime: -8585200714380955404
     List:
     - name: CombatLayer0Volume
       guid: 999f4b2c35a11740af640b4d29de9d1c
@@ -849,8 +849,8 @@ MonoBehaviour:
     GuidInternal: 
     m_lastTime: -8585224173815225771
     List: []
-  ExpandedFileSystemItemIds: 02000000030000000400000005000000
-  ExpandedWaapiItemIds: 010000000200000003000000040000000500000006000000070000005200000053000000a4000000a5000000
+  ExpandedFileSystemItemIds: 
+  ExpandedWaapiItemIds: 
   AutoSyncSelection: 0
   autoPopulateEnabled: 1
   currentDataSource: 0

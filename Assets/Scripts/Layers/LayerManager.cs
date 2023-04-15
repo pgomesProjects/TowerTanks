@@ -16,6 +16,13 @@ public class LayerManager : MonoBehaviour
 
     [SerializeField] private GameObject scrapDamage;
 
+    private Transform outsideObjects;
+
+    private void Awake()
+    {
+        outsideObjects = transform.Find("OutsideObjects");
+    }
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -178,6 +185,12 @@ public class LayerManager : MonoBehaviour
     {
         health = maxHealth;
         UpdateLayerDamageDiegetic();
+    }
+
+    public void ShowOutsideObjects(bool showObjects)
+    {
+        foreach (Transform obj in outsideObjects.transform)
+            obj.gameObject.SetActive(showObjects);
     }
 
     public void CheckForFireSpawn(float chanceToCatchFire)

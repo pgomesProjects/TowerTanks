@@ -151,7 +151,7 @@ public class EnemyController : MonoBehaviour
     /// </summary>
     protected virtual void SpawnWeapon(LayerManager currentLayerManager, COMBATDIRECTION enemyDirection)
     {
-        Debug.Log("Spawn Cannon!");
+        //Debug.Log("Spawn Cannon!");
 
         switch (enemyDirection)
         {

@@ -78,7 +78,7 @@ public class CannonController : InteractableController
             //Add a damage component to the projectile
             currentProjectile.AddComponent<DamageObject>().damage = currentProjectile.GetComponent<ShellItemBehavior>().GetDamage();
 
-            Debug.Log("Direction: " + direction);
+            //Debug.Log("Direction: " + direction);
 
             UpdateInitialVelocity();
 
@@ -203,7 +203,7 @@ public class CannonController : InteractableController
 
             if (Vector3.Distance(pos, target) < radius)
             {
-                Debug.Log("Can Hit Target " + target + "!");
+                //Debug.Log("Can Hit Target " + target + "!");
                 Debug.DrawCircle(closestPointToTarget, 1, 5, Color.yellow);
                 Debug.DrawCircle(currentFirePosition, 3, 10, Color.white);
                 return true;

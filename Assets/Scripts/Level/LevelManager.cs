@@ -206,6 +206,9 @@ public class LevelManager : MonoBehaviour
         //Adjust the weight of the tank
         playerTank.AdjustTankWeight(totalLayers);
 
+        //Adjust the outside of the tank
+        playerTank.AdjustOutsideLayerObjects();
+
         if (levelPhase == GAMESTATE.TUTORIAL)
         {
             if (TutorialController.main.currentTutorialState == TUTORIALSTATE.BUILDLAYERS && totalLayers >= 2)

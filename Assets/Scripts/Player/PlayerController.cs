@@ -591,8 +591,8 @@ public class PlayerController : MonoBehaviour
         buildModeActive = buildMode;    //Sets the build mode for the player
         buildIndicator.SetActive(buildMode);
 
-        Debug.Log("Player Layer: " + currentLayer);
-        Debug.Log("Outside Tank: " + IsPlayerOutsideTank());
+        //Debug.Log("Player Layer: " + currentLayer);
+        //Debug.Log("Outside Tank: " + IsPlayerOutsideTank());
 
         //If build mode is active
         if (buildModeActive)
@@ -810,7 +810,7 @@ public class PlayerController : MonoBehaviour
 
     public void HideInteractionPrompt()
     {
-        Debug.Log("Hide Interaction Prompt");
+        //Debug.Log("Hide Interaction Prompt");
         interactableHover.SetActive(false);
     }
 
@@ -1023,7 +1023,7 @@ public class PlayerController : MonoBehaviour
     {
         int numberOfScrapsUsed = price / LevelManager.instance.GetScrapValue();
 
-        Debug.Log("Destroying " + numberOfScrapsUsed + " Scrap");
+        //Debug.Log("Destroying " + numberOfScrapsUsed + " Scrap");
 
         int initialScrapCount = scrapHolder.childCount - 1;
 

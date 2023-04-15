@@ -24,7 +24,7 @@ public class GhostInteractables : MonoBehaviour
         if (currentPlayerBuilding != null || !currentPlayer.InBuildMode())
             return;
 
-        Debug.Log("Creating Ghost Interactables On " + gameObject.name);
+        //Debug.Log("Creating Ghost Interactables On " + gameObject.name);
         currentPlayerBuilding = currentPlayer;
 
         //Check the interactable spawners
@@ -59,7 +59,7 @@ public class GhostInteractables : MonoBehaviour
         if (currentPlayer != currentPlayerBuilding)
             return;
 
-        Debug.Log("Destroy Ghost Interactables On " + gameObject.name);
+        //Debug.Log("Destroy Ghost Interactables On " + gameObject.name);
 
         //Check the interactable spawners
         foreach (var spawner in currentLayer.GetComponentsInChildren<InteractableSpawner>())

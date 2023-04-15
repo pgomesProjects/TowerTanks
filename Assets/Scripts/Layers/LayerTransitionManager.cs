@@ -60,8 +60,8 @@ public class LayerTransitionManager : MonoBehaviour
                 currentPlayer.previousLayer = currentPlayer.currentLayer;
 
             currentPlayer.currentLayer = changeIndex;
-            Debug.Log("Previous Layer: " + (currentPlayer.previousLayer + 1));
-            Debug.Log("Player On Layer: " + (currentPlayer.currentLayer + 1));
+            //Debug.Log("Previous Layer: " + (currentPlayer.previousLayer + 1));
+            //Debug.Log("Player On Layer: " + (currentPlayer.currentLayer + 1));
 
             if (!AnyPlayersOutsideInBuildMode())
                 LevelManager.instance.HideGhostLayer();
