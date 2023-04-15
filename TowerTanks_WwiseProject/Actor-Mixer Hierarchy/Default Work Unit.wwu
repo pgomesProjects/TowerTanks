@@ -10,6 +10,9 @@
 					</PropertyList>
 					<ChildrenList>
 						<Sound Name="TT_SFX_cannon-fires" ID="{0FD32079-BCEC-4F44-A946-CE747D14EA32}" ShortID="501759667">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
@@ -98,6 +101,9 @@
 							</ActiveSourceList>
 						</Sound>
 						<Sound Name="TT_SFX_metal_footstep" ID="{C61D5E36-C0FD-49CD-9E61-0215EF718E8A}" ShortID="1027171742">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
@@ -186,6 +192,9 @@
 							</ActiveSourceList>
 						</Sound>
 						<Sound Name="TT_SFX_cannon-aim-system" ID="{D269794B-EBEF-4ED4-8AE4-2F52AB1DD8FE}" ShortID="658875972">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
@@ -208,6 +217,9 @@
 							</ActiveSourceList>
 						</Sound>
 						<Sound Name="TT_SFX_cannon-lock-in-place" ID="{3CD59B57-5421-4AB9-A8B8-5FB1443F3F9D}" ShortID="1047748085">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
@@ -230,6 +242,9 @@
 							</ActiveSourceList>
 						</Sound>
 						<Sound Name="TT_SFX_cannon-reload" ID="{1361EC5F-6709-45FD-A7A9-F7CEF7BCCE66}" ShortID="137339585">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
@@ -296,6 +311,9 @@
 							</ActiveSourceList>
 						</Sound>
 						<Sound Name="TT_SFX_engine-dying-2" ID="{7A5627ED-10F4-4C3E-996E-62933B0899A8}" ShortID="871603152">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
@@ -431,6 +449,9 @@
 							</ActiveSourceList>
 						</Sound>
 						<Sound Name="TT_SFX_projectile-in-air" ID="{4E6173C7-DEEE-47B4-822F-C422CD01F98F}" ShortID="425083717">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
@@ -453,6 +474,9 @@
 							</ActiveSourceList>
 						</Sound>
 						<Sound Name="TT_SFX_small-explosion" ID="{D8194BB9-DD63-4DC6-AC27-74F88E8B0BC8}" ShortID="617253451">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
@@ -709,6 +733,28 @@
 							</ChildrenList>
 							<ActiveSourceList>
 								<ActiveSource Name="TT_SFX_outside-ambience" ID="{4262F1BF-D8FB-4252-9CAD-AD66AF98EBB9}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TTTT_DeathStinger_Mix_Final_2_13_22" ID="{E10B7A00-91F6-4DD7-AAE5-397C90E7EF19}" ShortID="159633767">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Music Audio Bus" ID="{35A3AADB-A99C-4462-8303-6A0F7A8CC03F}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="TTTT_DeathStinger_Mix_Final_2_13_22" ID="{81B6BF29-BEBF-4E7F-9A5C-AB8AB0EE0545}">
+									<Language>SFX</Language>
+									<AudioFile>TTTT_DeathStinger_Mix_Final_2.13.22.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="354630741"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="TTTT_DeathStinger_Mix_Final_2_13_22" ID="{81B6BF29-BEBF-4E7F-9A5C-AB8AB0EE0545}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
 					</ChildrenList>

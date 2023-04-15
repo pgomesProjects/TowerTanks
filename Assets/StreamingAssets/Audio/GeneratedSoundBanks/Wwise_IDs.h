@@ -16,15 +16,19 @@ namespace AK
         static const AkUniqueID BLARING_ALARM = 3949782988U;
         static const AkUniqueID BUTTON_CANCEL = 3130542990U;
         static const AkUniqueID BUTTON_HOVER = 1701177942U;
+        static const AkUniqueID CANNON_AIM = 1221570156U;
         static const AkUniqueID CANNON_FIRE = 155513425U;
         static const AkUniqueID CANNON_LOCK_IN_PLACE = 1967707158U;
         static const AkUniqueID CANNON_RELOAD = 3265936618U;
         static const AkUniqueID CHARACTER_USE = 3289544510U;
+        static const AkUniqueID COMBAT_MUSIC = 1932095129U;
+        static const AkUniqueID DEATH_STINGER = 1015288770U;
         static const AkUniqueID ENGINE_DYING = 3121770429U;
         static const AkUniqueID ENGINE_DYING_2 = 1498048058U;
         static const AkUniqueID FIRE_BURNING = 1318321645U;
         static const AkUniqueID GLOBAL_PAUSE = 1469012939U;
         static const AkUniqueID GLOBAL_UNPAUSE = 2496259136U;
+        static const AkUniqueID ITEM_PICKUP = 566396871U;
         static const AkUniqueID LADDER_CLIMB = 1707141479U;
         static const AkUniqueID LARGE_EXPLOSION = 531217250U;
         static const AkUniqueID LOADING_COAL = 164337995U;
@@ -47,6 +51,10 @@ namespace AK
 
     namespace GAME_PARAMETERS
     {
+        static const AkUniqueID COMBATLAYER0VOLUME = 2431286926U;
+        static const AkUniqueID COMBATLAYER1VOLUME = 3720003847U;
+        static const AkUniqueID COMBATLAYER2VOLUME = 4287925136U;
+        static const AkUniqueID COMBATLAYER3VOLUME = 2831834313U;
         static const AkUniqueID MUSICVOLUME = 2346531308U;
         static const AkUniqueID SFXVOLUME = 988953028U;
     } // namespace GAME_PARAMETERS

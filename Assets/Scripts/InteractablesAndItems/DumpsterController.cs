@@ -48,4 +48,19 @@ public class DumpsterController : InteractableController
             }
         }
     }
+
+    public override void LockPlayer(PlayerController currentPlayer, bool lockPlayer)
+    {
+        base.LockPlayer(currentPlayer, lockPlayer);
+        
+        //If the player is unlocked from the scrap holder and is holding scrap, automatically put them in build mode
+        if (!lockPlayer)
+        {
+            if (currentPlayer.IsHoldingScrap())
+            {
+                currentPlayer.SetBuildMode(true);
+                currentPlayer.HideInteractionPrompt();
+            }
+        }
+    }
 }

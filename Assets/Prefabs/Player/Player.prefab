@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1929667847486255865}
   - component: {fileID: 4580531854692566337}
   - component: {fileID: 2872040063558683072}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: TaskProgressBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -110,7 +110,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7474965380965950084}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -149,7 +149,7 @@ GameObject:
   - component: {fileID: 3484251686603566345}
   - component: {fileID: 3262932125558700867}
   - component: {fileID: 1945486773727346778}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -225,7 +225,7 @@ GameObject:
   - component: {fileID: 2903822162876704418}
   - component: {fileID: 2468398679802819340}
   - component: {fileID: 2459509034150315455}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Prompt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -360,7 +360,7 @@ GameObject:
   - component: {fileID: 1752444491357190710}
   - component: {fileID: 4397206667564999678}
   - component: {fileID: 2810788485477633312}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -519,7 +519,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2938472832341099689}
   - component: {fileID: 7090679243734768312}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: ProgressSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -642,7 +642,7 @@ GameObject:
   - component: {fileID: 7820788404500602770}
   - component: {fileID: 6340641584939443731}
   - component: {fileID: 4819971678824218997}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: BuildIndicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -742,7 +742,7 @@ GameObject:
   - component: {fileID: 6738766810984631500}
   - component: {fileID: 6091472205518162529}
   - component: {fileID: 1416626919186266168}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Prompt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1367,7 +1367,7 @@ GameObject:
   - component: {fileID: 19121507159915730}
   - component: {fileID: 989546677512105716}
   - component: {fileID: 5110863793429015337}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1444,7 +1444,7 @@ GameObject:
   - component: {fileID: 8914768306812241246}
   - component: {fileID: 2924707731410498361}
   - component: {fileID: 6740530936868363638}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1523,7 +1523,7 @@ GameObject:
   - component: {fileID: 6083394588391881956}
   - component: {fileID: 8978593139370150634}
   - component: {fileID: 448917496561595469}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: HoverPrompt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1656,7 +1656,7 @@ GameObject:
   - component: {fileID: 3796438231311120747}
   - component: {fileID: 7889016957121742814}
   - component: {fileID: 2694206093172724300}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Prompt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1792,7 +1792,7 @@ GameObject:
   - component: {fileID: 7504754609955125611}
   - component: {fileID: 7634504033012455495}
   - component: {fileID: 2518950321290931244}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: ScrapNumber
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1892,7 +1892,7 @@ GameObject:
   - component: {fileID: 6128826060941118569}
   - component: {fileID: 6398977267385414911}
   - component: {fileID: 6795727279824020560}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}

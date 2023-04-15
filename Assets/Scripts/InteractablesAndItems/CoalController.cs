@@ -109,6 +109,7 @@ public class CoalController : InteractableController
 
             if (currentPlayer.IsProgressBarFull())
             {
+                audio.Play("LoadingCoal", gameObject);
                 FillCoal(15f);
                 currentPlayer.ShowProgressBar();
                 currentCoalFrame = 0;

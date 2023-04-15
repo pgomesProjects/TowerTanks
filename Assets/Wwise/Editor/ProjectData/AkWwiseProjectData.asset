@@ -101,7 +101,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: df5fafb8b92e944290f5318847f0e90d
     GuidInternal: 
-    m_lastTime: -8585200959510822371
+    m_lastTime: -8585200762803672858
     List:
     - name: mainbank
       guid: 3a7f49372b0b1a428cab0adbe8b1c2b4
@@ -129,7 +129,7 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: 83957ce1e688d54e8b6b22beb20598dd
     GuidInternal: 
-    m_lastTime: -8585200959624773720
+    m_lastTime: -8585200785275829371
     List:
     - name: blaring_alarm
       guid: 0557db327da0a0479a6261e902cede4a
@@ -179,6 +179,23 @@ MonoBehaviour:
         ObjectType: 3
         guid: d724ccabf6346946b4e9e751ff535fcf
       Path: Events\Default Work Unit\button_hover
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: cannon_aim
+      guid: 292eefd6779c26479087ff7aa942cc8d
+      id: 1221570156
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: cannon_aim
+        ObjectType: 3
+        guid: 292eefd6779c26479087ff7aa942cc8d
+      Path: Events\Default Work Unit\cannon_aim
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -247,6 +264,40 @@ MonoBehaviour:
         ObjectType: 3
         guid: 8f05811b2fc1374983296958f1c3820a
       Path: Events\Default Work Unit\character_use
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: combat_music
+      guid: 2735f2ef0a20304a87b9c1cf628aaf2b
+      id: 1932095129
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: combat_music
+        ObjectType: 3
+        guid: 2735f2ef0a20304a87b9c1cf628aaf2b
+      Path: Events\Default Work Unit\combat_music
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: death_stinger
+      guid: fa713b5205942b4290cf33dc261857b4
+      id: 1015288770
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: death_stinger
+        ObjectType: 3
+        guid: fa713b5205942b4290cf33dc261857b4
+      Path: Events\Default Work Unit\death_stinger
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -332,6 +383,23 @@ MonoBehaviour:
         ObjectType: 3
         guid: 9ef9e5d266c0b340a9041d343dc49da9
       Path: Events\Default Work Unit\Global_Unpause
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: item_pickup
+      guid: f40e6a19f5a5784aa65376afc3a8b73e
+      id: 566396871
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: item_pickup
+        ObjectType: 3
+        guid: f40e6a19f5a5784aa65376afc3a8b73e
+      Path: Events\Default Work Unit\item_pickup
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -653,8 +721,64 @@ MonoBehaviour:
     ParentPath: Game Parameters\Default Work Unit
     guid: 7fd26d170457f64b9c4075e46d49e907
     GuidInternal: 
-    m_lastTime: -8585216320608961629
+    m_lastTime: -8585200799643292922
     List:
+    - name: CombatLayer0Volume
+      guid: 999f4b2c35a11740af640b4d29de9d1c
+      id: 2431286926
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 7fd26d170457f64b9c4075e46d49e907
+      - ElementName: CombatLayer0Volume
+        ObjectType: 13
+        guid: 999f4b2c35a11740af640b4d29de9d1c
+      Path: Game Parameters\Default Work Unit\CombatLayer0Volume
+    - name: CombatLayer1Volume
+      guid: d6b7532f5614c748940116a556219669
+      id: 3720003847
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 7fd26d170457f64b9c4075e46d49e907
+      - ElementName: CombatLayer1Volume
+        ObjectType: 13
+        guid: d6b7532f5614c748940116a556219669
+      Path: Game Parameters\Default Work Unit\CombatLayer1Volume
+    - name: CombatLayer2Volume
+      guid: 78d9d6edd628c34b93354c1a1d3d88ee
+      id: 4287925136
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 7fd26d170457f64b9c4075e46d49e907
+      - ElementName: CombatLayer2Volume
+        ObjectType: 13
+        guid: 78d9d6edd628c34b93354c1a1d3d88ee
+      Path: Game Parameters\Default Work Unit\CombatLayer2Volume
+    - name: CombatLayer3Volume
+      guid: c48637483ae14c428c182e313b0e7b44
+      id: 2831834313
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 7fd26d170457f64b9c4075e46d49e907
+      - ElementName: CombatLayer3Volume
+        ObjectType: 13
+        guid: c48637483ae14c428c182e313b0e7b44
+      Path: Game Parameters\Default Work Unit\CombatLayer3Volume
     - name: MusicVolume
       guid: 6ca2f68d1366e2438bc4629f3f26b67d
       id: 2346531308
@@ -726,7 +850,7 @@ MonoBehaviour:
     m_lastTime: -8585224173815225771
     List: []
   ExpandedFileSystemItemIds: 02000000030000000400000005000000
-  ExpandedWaapiItemIds: 01000000020000000300000004000000050000000600000007000000a4000000a5000000
+  ExpandedWaapiItemIds: 010000000200000003000000040000000500000006000000070000005200000053000000a4000000a5000000
   AutoSyncSelection: 0
   autoPopulateEnabled: 1
   currentDataSource: 0

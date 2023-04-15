@@ -71,35 +71,11 @@ MonoBehaviour:
     pitch: 1
     loop: 1
     soundType: 0
-  - name: CombatLayer0
+  - name: CombatMusic
     audioEvent:
       idInternal: 0
       valueGuidInternal: 
-      WwiseObjectReference: {fileID: 0}
-    pitch: 1
-    loop: 1
-    soundType: 0
-  - name: CombatLayer1
-    audioEvent:
-      idInternal: 0
-      valueGuidInternal: 
-      WwiseObjectReference: {fileID: 0}
-    pitch: 1
-    loop: 1
-    soundType: 0
-  - name: CombatLayer2
-    audioEvent:
-      idInternal: 0
-      valueGuidInternal: 
-      WwiseObjectReference: {fileID: 0}
-    pitch: 1
-    loop: 1
-    soundType: 0
-  - name: CombatLayer3
-    audioEvent:
-      idInternal: 0
-      valueGuidInternal: 
-      WwiseObjectReference: {fileID: 0}
+      WwiseObjectReference: {fileID: 11400000, guid: a2de1d0f398a46b4790d73c81c059ad4, type: 2}
     pitch: 1
     loop: 1
     soundType: 0
@@ -107,7 +83,7 @@ MonoBehaviour:
     audioEvent:
       idInternal: 0
       valueGuidInternal: 
-      WwiseObjectReference: {fileID: 0}
+      WwiseObjectReference: {fileID: 11400000, guid: e3ff3b6a0505e3544bcb018b84d86284, type: 2}
     pitch: 1
     loop: 0
     soundType: 0
@@ -235,7 +211,7 @@ MonoBehaviour:
     audioEvent:
       idInternal: 0
       valueGuidInternal: 
-      WwiseObjectReference: {fileID: 0}
+      WwiseObjectReference: {fileID: 11400000, guid: 78a479705a507694287ca8b945808aa4, type: 2}
     pitch: 1
     loop: 0
     soundType: 1
@@ -251,7 +227,7 @@ MonoBehaviour:
     audioEvent:
       idInternal: 0
       valueGuidInternal: 
-      WwiseObjectReference: {fileID: 0}
+      WwiseObjectReference: {fileID: 11400000, guid: 1e3ed50a5dee1334a87ea8d97d8c04d5, type: 2}
     pitch: 1
     loop: 1
     soundType: 1

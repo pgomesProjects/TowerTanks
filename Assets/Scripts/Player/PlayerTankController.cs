@@ -393,7 +393,7 @@ public class PlayerTankController : MonoBehaviour
     private void OnDestroy()
     {
         //Stop playing tank sound effects when destroyed
-        if(FindObjectOfType<AudioManager>() != null)
+        if (FindObjectOfType<AudioManager>() != null)
         {
             FindObjectOfType<AudioManager>().Stop("TankIdle");
 

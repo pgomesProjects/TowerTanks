@@ -5,6 +5,26 @@
 			<ChildrenList>
 				<GameParameter Name="SFXVolume" ID="{25CD284C-DD00-4B43-AA92-DA149FFC67FE}"/>
 				<GameParameter Name="MusicVolume" ID="{8DF6A26C-6613-43E2-8BC4-629F3F26B67D}"/>
+				<GameParameter Name="CombatLayer0Volume" ID="{2C4B9F99-A135-4017-AF64-0B4D29DE9D1C}">
+					<PropertyList>
+						<Property Name="InitialValue" Type="Real64" Value="100"/>
+					</PropertyList>
+				</GameParameter>
+				<GameParameter Name="CombatLayer1Volume" ID="{2F53B7D6-1456-48C7-9401-16A556219669}">
+					<PropertyList>
+						<Property Name="InitialValue" Type="Real64" Value="100"/>
+					</PropertyList>
+				</GameParameter>
+				<GameParameter Name="CombatLayer2Volume" ID="{EDD6D978-28D6-4BC3-9335-4C1A1D3D88EE}">
+					<PropertyList>
+						<Property Name="InitialValue" Type="Real64" Value="100"/>
+					</PropertyList>
+				</GameParameter>
+				<GameParameter Name="CombatLayer3Volume" ID="{483786C4-E13A-424C-8C18-2E313B0E7B44}">
+					<PropertyList>
+						<Property Name="InitialValue" Type="Real64" Value="100"/>
+					</PropertyList>
+				</GameParameter>
 			</ChildrenList>
 		</WorkUnit>
 	</GameParameters>

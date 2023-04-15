@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using TMPro;
@@ -94,6 +95,24 @@ public class PlayerController : MonoBehaviour
         //Subscribes events for control lost / regained
         GetComponent<PlayerInput>().onDeviceLost += OnDeviceLost;
         GetComponent<PlayerInput>().onDeviceRegained += OnDeviceRegained;
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
+    {
+        if(scene.name == "GameScene")
+        {
+            ResetPlayer();
+            GetComponent<SpriteRenderer>().flipX = false;
+            interactableHover.SetActive(false);
+
+            if (IsHoldingScrap())
+                foreach (var scrap in scrapHolder.GetComponentsInChildren<Rigidbody2D>())
+                    Destroy(scrap.gameObject);
+
+            OnScrapUpdated(0);
+        }
     }
 
     /// <summary>
@@ -122,10 +141,21 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        ResetPlayer();
+    }
+
+    private void ResetPlayer()
+    {
         rb = GetComponent<Rigidbody2D>();
         playerAnimator = GetComponent<Animator>();
-        defaultGravity = rb.gravityScale;
         scrapHolder = transform.Find("ScrapHolder");
+        interactableHover = transform.Find("HoverPrompt").gameObject;
+        scrapNumber = transform.Find("ScrapNumber").gameObject;
+        buildIndicator = transform.Find("BuildIndicator").gameObject;
+        progressBarCanvas = transform.Find("TaskProgressBar").gameObject;
+        progressBarSlider = progressBarCanvas.GetComponentInChildren<Slider>();
+        defaultGravity = rb.gravityScale;
+
         previousLayer = 0;
         currentLayer = 0;
         isHoldingItem = false;
@@ -134,11 +164,6 @@ public class PlayerController : MonoBehaviour
         waitingToClimb = false;
         isFacingRight = true;
         buildModeActive = false;
-        interactableHover = transform.Find("HoverPrompt").gameObject;
-        scrapNumber = transform.Find("ScrapNumber").gameObject;
-        buildIndicator = transform.Find("BuildIndicator").gameObject;
-        progressBarCanvas = transform.Find("TaskProgressBar").gameObject;
-        progressBarSlider = progressBarCanvas.GetComponentInChildren<Slider>();
     }
 
     private void OnDisable()
@@ -973,6 +998,8 @@ public class PlayerController : MonoBehaviour
             //Make sure that they cannot try to buy anything
             foreach (var priceIndicator in FindObjectsOfType<PriceIndicator>())
                 priceIndicator.ReleasePlayerFromBuying(this, false);
+
+            SetBuildMode(false);
         }
     }
 
@@ -1160,5 +1187,10 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("Player " + (playerIndex + 1) + " Controller Reconnected!");
         FindObjectOfType<CornerUIController>().OnDeviceRegained(playerIndex);
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 }

@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{8AE121A1-820E-A0A2-2AE6-A5CE13FDD4D4}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{48B6B4DA-0B2B-2B24-755B-EEE940F9BB8A}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -26,9 +26,13 @@
 			<GameParameters>
 				<GameParameter Id="988953028" Name="SFXVolume"/>
 				<GameParameter Id="2346531308" Name="MusicVolume"/>
+				<GameParameter Id="2431286926" Name="CombatLayer0Volume"/>
+				<GameParameter Id="2831834313" Name="CombatLayer3Volume"/>
+				<GameParameter Id="3720003847" Name="CombatLayer1Volume"/>
+				<GameParameter Id="4287925136" Name="CombatLayer2Volume"/>
 			</GameParameters>
 		</SoundBank>
-		<SoundBank Id="2880737896" Type="User" Language="SFX" Hash="{50692C7C-7C73-B480-8B37-E2C4CCEC2585}">
+		<SoundBank Id="2880737896" Type="User" Language="SFX" Hash="{B0D1CC9A-3650-6FC1-C76F-1A7B5A0E8F5B}">
 			<ShortName>mainbank</ShortName>
 			<Path>mainbank.bnk</Path>
 			<Media>
@@ -40,13 +44,25 @@
 					<ShortName>TT_SFX_cannon-reload.wav</ShortName>
 					<CachePath>SFX/TT_SFX_cannon-reload_3F75BDB9.wem</CachePath>
 				</File>
+				<File Id="127070365" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Combat\TTTT_L2_Combat_Mix_2.28.23.wav</ShortName>
+					<CachePath>SFX/Combat/TTTT_L2_Combat_Mix_2.28.23_9EDFC787.wem</CachePath>
+				</File>
 				<File Id="188920233" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>button_cancel.wav</ShortName>
 					<CachePath>SFX/button_cancel_3F75BDB9.wem</CachePath>
 				</File>
+				<File Id="238669381" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Combat\TTTT_L0_Combat_Mix_2.28.23.wav</ShortName>
+					<CachePath>SFX/Combat/TTTT_L0_Combat_Mix_2.28.23_9EDFC787.wem</CachePath>
+				</File>
 				<File Id="258066100" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_tank-impact.wav</ShortName>
 					<CachePath>SFX/TT_SFX_tank-impact_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="354630741" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>TTTT_DeathStinger_Mix_Final_2.13.22.wav</ShortName>
+					<CachePath>SFX/TTTT_DeathStinger_Mix_Final_2.13.22_3F75BDB9.wem</CachePath>
 				</File>
 				<File Id="401117418" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_character-use.wav</ShortName>
@@ -67,6 +83,10 @@
 				<File Id="563431773" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_small-explosion.wav</ShortName>
 					<CachePath>SFX/TT_SFX_small-explosion_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="564210437" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Combat\TTTT_L3_Combat_Mix_2.28.23.wav</ShortName>
+					<CachePath>SFX/Combat/TTTT_L3_Combat_Mix_2.28.23_9EDFC787.wem</CachePath>
 				</File>
 				<File Id="575432004" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_loading-coal.wav</ShortName>
@@ -104,9 +124,21 @@
 					<ShortName>text_beep.wav</ShortName>
 					<CachePath>SFX/text_beep_3F75BDB9.wem</CachePath>
 				</File>
+				<File Id="732871025" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Combat\TTTT_L1_Combat_Mix_2.28.23.wav</ShortName>
+					<CachePath>SFX/Combat/TTTT_L1_Combat_Mix_2.28.23_9EDFC787.wem</CachePath>
+				</File>
+				<File Id="736230953" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>TT_SFX_item_pickup.wav</ShortName>
+					<CachePath>SFX/TT_SFX_item_pickup_3F75BDB9.wem</CachePath>
+				</File>
 				<File Id="763069168" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_throttle-shift.wav</ShortName>
 					<CachePath>SFX/TT_SFX_throttle-shift_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="792905054" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>TT_SFX_cannon-aim-system.wav</ShortName>
+					<CachePath>SFX/TT_SFX_cannon-aim-system_3F75BDB9.wem</CachePath>
 				</File>
 				<File Id="806435377" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_cannon-fires.wav</ShortName>
@@ -161,6 +193,11 @@
 						<MediaRef Id="813749911"/>
 					</MediaRefs>
 				</Event>
+				<Event Id="1221570156" Name="cannon_aim" DurationType="OneShot" DurationMin="2.912625" DurationMax="2.912625">
+					<MediaRefs>
+						<MediaRef Id="792905054"/>
+					</MediaRefs>
+				</Event>
 				<Event Id="155513425" Name="cannon_fire" DurationType="OneShot" DurationMin="1.6188124" DurationMax="1.6188124">
 					<MediaRefs>
 						<MediaRef Id="806435377"/>
@@ -181,6 +218,19 @@
 						<MediaRef Id="401117418"/>
 					</MediaRefs>
 				</Event>
+				<Event Id="1932095129" Name="combat_music" DurationType="Infinite">
+					<MediaRefs>
+						<MediaRef Id="127070365"/>
+						<MediaRef Id="238669381"/>
+						<MediaRef Id="564210437"/>
+						<MediaRef Id="732871025"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1015288770" Name="death_stinger" DurationType="OneShot" DurationMin="16.666666" DurationMax="16.666666">
+					<MediaRefs>
+						<MediaRef Id="354630741"/>
+					</MediaRefs>
+				</Event>
 				<Event Id="3121770429" Name="engine_dying" DurationType="OneShot" DurationMin="0.6927083" DurationMax="0.6927083">
 					<MediaRefs>
 						<MediaRef Id="498551846"/>
@@ -198,6 +248,11 @@
 				</Event>
 				<Event Id="1469012939" Name="Global_Pause" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="2496259136" Name="Global_Unpause" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="566396871" Name="item_pickup" DurationType="OneShot" DurationMin="0.87220836" DurationMax="0.87220836">
+					<MediaRefs>
+						<MediaRef Id="736230953"/>
+					</MediaRefs>
+				</Event>
 				<Event Id="1707141479" Name="ladder_climb" DurationType="OneShot" DurationMin="0.39514583" DurationMax="0.39514583">
 					<MediaRefs>
 						<MediaRef Id="608155079"/>
@@ -289,7 +344,13 @@
 					</MediaRefs>
 				</Event>
 			</Events>
+			<GameParameters>
+				<GameParameter Id="2431286926" Name="CombatLayer0Volume"/>
+				<GameParameter Id="2831834313" Name="CombatLayer3Volume"/>
+				<GameParameter Id="3720003847" Name="CombatLayer1Volume"/>
+				<GameParameter Id="4287925136" Name="CombatLayer2Volume"/>
+			</GameParameters>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{7ED91D08-A4DF-F095-1225-B4E36DA5C9E8}</FileHash>
+	<FileHash>{7EBAEF41-58BC-CEF7-B158-FD2536160736}</FileHash>
 </SoundBanksInfo>

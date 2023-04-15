@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerCannonController : CannonController
 {
     [SerializeField, Tooltip("The number of seconds that the player must wait in between firing shots.")] private float cannonCooldown;
+    [SerializeField, Tooltip("The number of seconds that the player must wait for the cannon to lock.")] private float cannonAimCooldown;
 
     [SerializeField, Tooltip("The chair GameObject that the player sits in.")] private GameObject chair;
     [SerializeField, Tooltip("The sprite for the cannon when it is unloaded.")] private Sprite unloadedCannonSprite;
@@ -17,6 +18,8 @@ public class PlayerCannonController : CannonController
 
     private bool cannonReady;   //If true, the player cannon is ready to fire. If false, it cannot be fired.
     private float currentCooldown;  //The current cooldown for the player cannon
+    private float currentAimCooldown;   //The current cooldown for the player aim
+    private bool lockedIn;              //If true, the cannon is locked into position. If false, it is not
 
     private LineRenderer lineRenderer;  //The line renderer of the cannon to show its trajectory
     private const int N_TRAJECTORY_POINTS = 10; //The number of points to show on the line renderer
@@ -109,14 +112,9 @@ public class PlayerCannonController : CannonController
                     {
                         Debug.Log("Aiming...");
                         FindObjectOfType<AudioManager>().Play("CannonAimSFX", gameObject);
+                        currentAimCooldown = 0f;
+                        lockedIn = false;
                     }
-                }
-                //If the player is not spinning the cannon and the aim sound is playing, play the locked in sound effect
-                else if (FindObjectOfType<AudioManager>().IsPlaying("CannonAimSFX", gameObject))
-                {
-                    Debug.Log("Locked In!");
-                    FindObjectOfType<AudioManager>().Stop("CannonAimSFX", gameObject);
-                    FindObjectOfType<AudioManager>().Play("CannonLockSFX", gameObject);
                 }
 
                 cannonRotation += new Vector3(0, 0, (playerCannonMovement / 100) * cannonSpeed);    //Rotate the cannon
@@ -138,6 +136,9 @@ public class PlayerCannonController : CannonController
                 }
 
                 CheckForTargetInTrajectory("EnemyLayer");   //Check to see if the player can hit the enemy
+
+                if (!cannonInteractable.GetLockedInPlayer().IsPlayerSpinningCannon() && !lockedIn)
+                    WaitForLockIn();    //Check for the lock in sound effect if the player is not spinning the cannon 
             }
             //If there is no player locked in, do not show the line renderer
             else if (GameSettings.difficulty == 0.5f)
@@ -145,6 +146,23 @@ public class PlayerCannonController : CannonController
         }
 
         CheckForCooldown(); //Always check the cannon's cooldown
+    }
+
+    /// <summary>
+    /// Waits a certain amount of time to play the locked in sound effect to prevent audio clipping.
+    /// </summary>
+    private void WaitForLockIn()
+    {
+        if (currentAimCooldown > cannonAimCooldown)
+        {
+            Debug.Log("Locked In!");
+            if(FindObjectOfType<AudioManager>().IsPlaying("CannonAimSFX", gameObject))
+                FindObjectOfType<AudioManager>().Stop("CannonAimSFX", gameObject);
+            FindObjectOfType<AudioManager>().Play("CannonLockSFX", gameObject);
+            lockedIn = true;
+        }
+        else
+            currentAimCooldown += Time.deltaTime;
     }
 
     /// <summary>

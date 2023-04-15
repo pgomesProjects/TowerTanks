@@ -338,6 +338,50 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="combat_music" ID="{EFF23527-200A-4A30-87B9-C1CF628AAF2B}">
+					<ChildrenList>
+						<Action Name="" ID="{38F84D8D-DB76-4024-97FC-A2380DFC5719}" ShortID="860043601">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Combat" ID="{10545CE1-3232-4C48-9A09-09C5DF3ACEC2}" WorkUnitID="{0F4E5390-01B4-4906-A0D7-41B6390F15ED}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="item_pickup" ID="{196A0EF4-A5F5-4A78-A653-76AFC3A8B73E}">
+					<ChildrenList>
+						<Action Name="" ID="{3448C038-E793-41BB-91B8-2890C611ABD2}" ShortID="253207205">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_item_pickup" ID="{14AFAD6C-BA5B-4D4C-899C-CF944170430E}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="cannon_aim" ID="{D6EF2E29-9C77-4726-9087-FF7AA942CC8D}">
+					<ChildrenList>
+						<Action Name="" ID="{2B960D6E-663D-4263-98AC-060EAFEC0010}" ShortID="440166710">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_cannon-aim-system" ID="{D269794B-EBEF-4ED4-8AE4-2F52AB1DD8FE}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="death_stinger" ID="{523B71FA-9405-422B-90CF-33DC261857B4}">
+					<ChildrenList>
+						<Action Name="" ID="{25F6F437-53DD-4351-A4B3-267287E01E16}" ShortID="738423685">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TTTT_DeathStinger_Mix_Final_2_13_22" ID="{E10B7A00-91F6-4DD7-AAE5-397C90E7EF19}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

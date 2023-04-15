@@ -327,6 +327,7 @@ public class LevelManager : MonoBehaviour
         {
             Debug.Log("Tank Is Destroyed!");
             //Destroy the tank
+            FindObjectOfType<MultiplayerManager>().ChildPlayerInput();
             Destroy(playerTank.gameObject);
             //Switch from gameplay to game over
             TransitionGameState();
@@ -416,28 +417,29 @@ public class LevelManager : MonoBehaviour
 
     public void StartCombatMusic(int layers)
     {
+        FindObjectOfType<AudioManager>().Play("CombatMusic");
+
+        //Decides how many layers of music should play depending on the amount of enemy layers
+        int musicLayers;
         if (layers >= 7)
-        {
-            if (!FindObjectOfType<AudioManager>().IsPlaying("CombatLayer3"))
-                FindObjectOfType<AudioManager>().Play("CombatLayer3");
-        }
+            musicLayers = 4;
 
         else if(layers >= 5)
-        {
-            if (!FindObjectOfType<AudioManager>().IsPlaying("CombatLayer2"))
-                FindObjectOfType<AudioManager>().Play("CombatLayer2");
-        }
+            musicLayers = 3;
 
         else if (layers >= 3)
-        {
-            if (!FindObjectOfType<AudioManager>().IsPlaying("CombatLayer1"))
-                FindObjectOfType<AudioManager>().Play("CombatLayer1");
-        }
+            musicLayers = 2;
 
         else
+            musicLayers = 1;
+
+        //Set layers that are playing to full volume while muting layers that are not playing
+        for(int i = 0; i < 4; i++)
         {
-            if (!FindObjectOfType<AudioManager>().IsPlaying("CombatLayer0"))
-                FindObjectOfType<AudioManager>().Play("CombatLayer0");
+            if(i + 1 <= musicLayers)
+                AkSoundEngine.SetRTPCValue("CombatLayer" + i + "Volume", 100f);
+            else
+                AkSoundEngine.SetRTPCValue("CombatLayer" + i + "Volume", 0f);
         }
     }
 
@@ -445,17 +447,8 @@ public class LevelManager : MonoBehaviour
     {
         if (FindObjectOfType<AudioManager>() != null)
         {
-            if (FindObjectOfType<AudioManager>().IsPlaying("CombatLayer0"))
-                FindObjectOfType<AudioManager>().Stop("CombatLayer0");
-
-            if (FindObjectOfType<AudioManager>().IsPlaying("CombatLayer1"))
-                FindObjectOfType<AudioManager>().Stop("CombatLayer1");
-
-            if (FindObjectOfType<AudioManager>().IsPlaying("CombatLayer2"))
-                FindObjectOfType<AudioManager>().Stop("CombatLayer2");
-
-            if (FindObjectOfType<AudioManager>().IsPlaying("CombatLayer3"))
-                FindObjectOfType<AudioManager>().Stop("CombatLayer3");
+            if (FindObjectOfType<AudioManager>().IsPlaying("CombatMusic"))
+                FindObjectOfType<AudioManager>().Stop("CombatMusic");
         }
     }
 
@@ -479,7 +472,7 @@ public class LevelManager : MonoBehaviour
 
     IEnumerator ReturnToMain()
     {
-        yield return new WaitForSecondsRealtime(9);
+        yield return new WaitForSecondsRealtime(10);
 
         gameOverCanvas.SetActive(false);
         sessionStatsCanvas.SetActive(true);

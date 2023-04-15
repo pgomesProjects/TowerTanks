@@ -49,5 +49,6 @@ public class AlarmAnimation : MonoBehaviour
     private void EndAnimation()
     {
         LeanTween.scale(warningLabel, Vector3.zero, warningLabelDuration).setEase(endAnimationCurve).setOnComplete(() => gameObject.SetActive(false));
+        FindObjectOfType<AudioManager>().Stop("EnemyAlarm");
     }
 }

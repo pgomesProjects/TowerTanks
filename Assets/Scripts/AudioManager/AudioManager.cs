@@ -5,11 +5,6 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    public AK.Wwise.Event GlobalPause;
-    public AK.Wwise.Event GlobalUnpause;
-
-    public AudioMixerGroup bgmMixer, sfxMixer;
-
     [Tooltip("The list of sounds that will be played in the game.")] public Sound[] sounds;
 
     List<GameObject> registeredGameObjects = new List<GameObject>();    //A list of all registered game objects in Wwise
@@ -150,7 +145,7 @@ public class AudioManager : MonoBehaviour
     public void PauseAllSounds()
     {
         //AkSoundEngine.Suspend();
-        GlobalPause.Post(gameObject);
+        AkSoundEngine.PostEvent("Global_Pause", gameObject);
     }
 
     /// <summary>
@@ -167,8 +162,7 @@ public class AudioManager : MonoBehaviour
     /// </summary>
     public void ResumeAllSounds()
     {
-        //AkSoundEngine.WakeupFromSuspend();
-        GlobalUnpause.Post(gameObject);
+        AkSoundEngine.PostEvent("Global_Unpause", gameObject);
     }
 
     /// <summary>

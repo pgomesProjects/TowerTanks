@@ -125,6 +125,7 @@ public class MultiplayerManager : MonoBehaviour
 
             foreach (var player in playerParent.GetComponentsInChildren<PlayerController>())
             {
+                player.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
                 player.GetComponent<Rigidbody2D>().isKinematic = true;
                 player.transform.position = Vector3.zero;
             }
@@ -135,6 +136,7 @@ public class MultiplayerManager : MonoBehaviour
     {
         foreach (var player in playerParent.GetComponentsInChildren<PlayerController>())
         {
+            player.transform.localPosition = Vector3.one * -99f;
             player.transform.SetParent(transform);
         }
     }
