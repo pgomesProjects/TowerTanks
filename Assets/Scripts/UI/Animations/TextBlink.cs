@@ -9,6 +9,8 @@ public class TextBlink : MonoBehaviour
     [SerializeField, Tooltip("The amount of time in between blinks.")] private float blinkSpeed;
 
     private float startingAlpha;    //The starting alpha for the text
+    private float currentTimer;
+
     private void Awake()
     {
         startingAlpha = GetComponent<CanvasGroup>().alpha;
@@ -17,7 +19,17 @@ public class TextBlink : MonoBehaviour
     private void OnEnable()
     {
         GetComponent<CanvasGroup>().alpha = startingAlpha;
-        InvokeRepeating("ToggleText", blinkSpeed, blinkSpeed);
+    }
+
+    private void Update()
+    {
+        if (currentTimer > blinkSpeed)
+        {
+            ToggleText();
+            currentTimer = 0f;
+        }
+        else
+            currentTimer += Time.deltaTime;
     }
 
     private void ToggleText() => GetComponent<CanvasGroup>().alpha = GetComponent<CanvasGroup>().alpha == startingAlpha ? endAlpha : startingAlpha;

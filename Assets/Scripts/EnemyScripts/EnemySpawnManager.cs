@@ -6,10 +6,20 @@ public enum COMBATDIRECTION { Left, Right };
 
 public class EnemySpawnManager : MonoBehaviour
 {
-    [SerializeField] private GameObject[] enemyPrefabs;
+    [Header("Enemy Settings")]
+    [SerializeField, Tooltip("The prefabs for the enemies.")] private GameObject[] enemyPrefabs;
+    [SerializeField, Tooltip("The enemy spawners.")] private Transform [] spawnTransforms;
+    [Space(10)]
+
+    [Header("Debug Options")]
+    [SerializeField, Tooltip("Spawns an enemy.")] private bool debugSpawnEnemy;
+    [SerializeField, Tooltip("Spawns an enemy on the left of the tank.")] private bool debugSpawnEnemyLeft;
+    [SerializeField, Tooltip("Spawns an enemy on the right of the tank.")] private bool debugSpawnEnemyRight;
+    [SerializeField, Tooltip("If true, the debug spawn enemy layer number will override the current layer system.")] private bool debugOverrideEnemyLayers;
+    [SerializeField, Range(2, 8), Tooltip("If override is on, the number of enemy layers to spawn.")] private int debugSpawnEnemyLayers = 2;
+
     private List<int> enemyTypeCounters;
     internal bool enemySpawnerActive = false;
-    [SerializeField] private Transform [] spawnTransforms;
 
     private void Start()
     {
@@ -26,8 +36,18 @@ public class EnemySpawnManager : MonoBehaviour
         //Pick a random enemy from the list of enemies and spawn it at a random spawner
         int enemyIndex = Random.Range(0, enemyPrefabs.Length);
         int spawnerIndex = Random.Range(0, spawnTransforms.Length);
+
+        if (debugSpawnEnemyLeft)
+            spawnerIndex = 0;
+        else if (debugSpawnEnemyRight)
+            spawnerIndex = 1;
+
         GameObject newEnemy = Instantiate(enemyPrefabs[enemyIndex], spawnTransforms[spawnerIndex].position, spawnTransforms[spawnerIndex].rotation);
-        newEnemy.GetComponent<EnemyController>().CreateLayers((COMBATDIRECTION)spawnerIndex);
+
+        if((debugSpawnEnemy || debugSpawnEnemyLeft || debugSpawnEnemyRight) && debugOverrideEnemyLayers)
+            newEnemy.GetComponent<EnemyController>().CreateLayers((COMBATDIRECTION)spawnerIndex, debugSpawnEnemyLayers);
+        else
+            newEnemy.GetComponent<EnemyController>().CreateLayers((COMBATDIRECTION)spawnerIndex);
 
         Vector3 cameraZoomPos = GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().transform.position;
 
@@ -44,7 +64,7 @@ public class EnemySpawnManager : MonoBehaviour
         if (enemyEncounterAni != null)
             StopCoroutine(enemyEncounterAni);
 
-        enemyEncounterAni = CameraEventController.instance.ShowEnemyWithCamera(40, cameraZoomPos, 4, newEnemy);
+        enemyEncounterAni = CameraEventController.instance.ShowEnemyWithCamera(newEnemy);
 
         StartCoroutine(enemyEncounterAni);
 
@@ -63,6 +83,28 @@ public class EnemySpawnManager : MonoBehaviour
                 {
                     GetReadyForEnemySpawn();
                 }
+            }
+        }
+
+        //Debug functions
+        if (Application.isEditor)
+        {
+            if (debugSpawnEnemy)
+            {
+                SpawnRandomEnemy();
+                debugSpawnEnemy = false;
+            }
+
+            if (debugSpawnEnemyLeft)
+            {
+                SpawnRandomEnemy();
+                debugSpawnEnemyLeft = false;
+            }
+
+            if (debugSpawnEnemyRight)
+            {
+                SpawnRandomEnemy();
+                debugSpawnEnemyRight = false;
             }
         }
     }

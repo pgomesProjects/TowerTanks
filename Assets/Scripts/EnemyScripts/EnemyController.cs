@@ -11,6 +11,7 @@ public class EnemyController : MonoBehaviour
     protected const float ENEMYLAYERSIZE = 7.65f;   //The y spacing between enemy layers
     protected const int MAXLAYERS = 8;  //The maximum amount of layers an enemy tank can have
 
+    [Header("Enemy Settings")]
     [SerializeField, Tooltip("The base speed for the enemy tank.")] protected float speed = 1;
     [SerializeField, Tooltip("The maximum speed for the enemy tank.")] protected float maximumSpeed = 1.25f;
     [SerializeField, Tooltip("The acceleration per second in which the enemy can gain speed.")] protected float accelerationRate;
@@ -20,8 +21,11 @@ public class EnemyController : MonoBehaviour
     [SerializeField, Tooltip("The elapsed amount of time it takes for a collision to start and end.")] protected float collisionForceSeconds = 0.1f;
     [SerializeField, Tooltip("The amount of waves for the enemy to increase the amount of layers")] protected int wavesMultiplier = 1;
     [SerializeField, Tooltip("The amount of resources given to the player when the entire tank is destroyed.")] protected int onDestroyResources = 100;
-
     [SerializeField] protected LayerManager spawnableLayer;    //The layer that a potential enemy tank could spawn
+    [Space(10)]
+
+    [Header("Debug Options")]
+    [SerializeField, Tooltip("Automatically destroys the enemy.")] private bool debugDestroyEnemy;
 
     protected ENEMYBEHAVIOR enemyTrait; //the behavior trait of the enemy tank
     private float currentSpeed; //The current speed of the enemy tank
@@ -54,11 +58,16 @@ public class EnemyController : MonoBehaviour
     /// <summary>
     /// Creates layers for the enemy tank.
     /// </summary>
-    public virtual void CreateLayers(COMBATDIRECTION enemyDirection)
+    public virtual void CreateLayers(COMBATDIRECTION enemyDirection, int debugEnemyLayers = 0)
     {
-        float extraLayers = FindObjectOfType<EnemySpawnManager>().GetEnemyCountAt(0) * waveCounter;
-        //Debug.Log("Extra Layers For Normal Tank #" + (FindObjectOfType<EnemySpawnManager>().GetEnemyCountAt(0) + 1).ToString() + ": " + extraLayers);
-        totalEnemyLayers = 2 + Mathf.FloorToInt(extraLayers);
+        if (debugEnemyLayers <= 0)
+        {
+            float extraLayers = FindObjectOfType<EnemySpawnManager>().GetEnemyCountAt(0) * waveCounter;
+            //Debug.Log("Extra Layers For Normal Tank #" + (FindObjectOfType<EnemySpawnManager>().GetEnemyCountAt(0) + 1).ToString() + ": " + extraLayers);
+            totalEnemyLayers = 2 + Mathf.FloorToInt(extraLayers);
+        }
+        else
+            totalEnemyLayers = debugEnemyLayers;
         totalEnemyLayers = Mathf.Clamp(totalEnemyLayers, 2, MAXLAYERS);
 
         //If the game is on debug mode, override the enemy layers
@@ -169,7 +178,7 @@ public class EnemyController : MonoBehaviour
     /// </summary>
     protected virtual void DetermineBehavior()
     {
-        int randomBehavior = Random.Range(0, System.Enum.GetValues(typeof(ENEMYBEHAVIOR)).Length - 1);
+        int randomBehavior = Random.Range(0, 1);
         enemyTrait = (ENEMYBEHAVIOR)randomBehavior;
     }
 
@@ -179,6 +188,18 @@ public class EnemyController : MonoBehaviour
     }
 
     // Update is called once per frame
+    protected void Update()
+    {
+        if (Application.isEditor)
+        {
+            if (debugDestroyEnemy)
+            {
+                debugDestroyEnemy = false;
+                OnEnemyKill();
+            }
+        }
+    }
+
     protected void FixedUpdate()
     {
         if(LevelManager.instance.levelPhase != GAMESTATE.GAMEOVER)
@@ -198,7 +219,7 @@ public class EnemyController : MonoBehaviour
                 if (!canMove)
                 {
                     float playerSpeed = playerTank.GetPlayerSpeed();
-                    Debug.Log("Player Speed While Enemy Attached: " + playerSpeed);
+                    //Debug.Log("Player Speed While Enemy Attached: " + playerSpeed);
                     if (currentSpeed * combatDirectionMultiplier >= -playerSpeed)
                     {
                         transform.position += new Vector3(playerSpeed * combatDirectionMultiplier, 0, 0) * Time.deltaTime;
@@ -382,22 +403,27 @@ public class EnemyController : MonoBehaviour
 
         LevelManager.instance.UpdateResources(30);
 
-        Debug.Log("Enemy Layers Left: " + totalEnemyLayers);
+        //Debug.Log("Enemy Layers Left: " + totalEnemyLayers);
 
         //If there are no more layers, destroy the tank
         if (totalEnemyLayers == 0)
         {
-            //Debug.Log("Enemy Tank Is Destroyed!");
-            LevelManager.instance.UpdateResources(onDestroyResources);
-            LevelManager.instance.currentSessionStats.wavesCleared += 1;
-            
-            CameraEventController.instance.ResetCameraShake();
-            LevelManager.instance.ResetPlayerCamera();
-            CameraEventController.instance.ShakeCamera(10f, 1f);
-
-            AddToList();
-            Destroy(gameObject, 0.1f);
+            OnEnemyKill();
         }
+    }
+
+    private void OnEnemyKill()
+    {
+        //Debug.Log("Enemy Tank Is Destroyed!");
+        LevelManager.instance.UpdateResources(onDestroyResources);
+        LevelManager.instance.currentSessionStats.wavesCleared += 1;
+
+        CameraEventController.instance.ResetCameraShake();
+        LevelManager.instance.ResetPlayerCamera();
+        CameraEventController.instance.ShakeCamera(10f, 1f);
+
+        AddToList();
+        Destroy(gameObject, 0.1f);
     }
 
     public bool IsEnemyCollidingWithPlayer()
@@ -428,5 +454,7 @@ public class EnemyController : MonoBehaviour
 
         if(FindObjectOfType<AudioManager>() != null)
             FindObjectOfType<AudioManager>().Play("MedExplosionSFX", gameObject);
+
+        CameraEventController.instance.RemoveOnDestroy(gameObject);
     }
 }

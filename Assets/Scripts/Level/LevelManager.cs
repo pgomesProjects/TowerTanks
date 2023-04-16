@@ -287,6 +287,15 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Cancels repairs for all players.
+    /// </summary>
+    public void CancelAllLayerRepairs()
+    {
+        foreach (var player in FindObjectsOfType<PlayerController>())
+            player.CancelLayerRepair();
+    }
+
     public void ReactivateAllInput()
     {
         InputForOtherPlayers(currentPlayerPaused, false);
@@ -372,8 +381,8 @@ public class LevelManager : MonoBehaviour
                 }
             }
 
-            //If the player is trying to put out a fire on this layer, cancel the action
-            player.GetComponent<PlayerController>().CancelFireOnDestroy();
+            //If the player is trying to repair on this layer, cancel the action
+            player.GetComponent<PlayerController>().CancelLayerRepair();
         }
 
         //Adjust the weight of the tank
@@ -420,7 +429,8 @@ public class LevelManager : MonoBehaviour
 
     public void StartCombatMusic(int layers)
     {
-        FindObjectOfType<AudioManager>().Play("CombatMusic");
+        if(!FindObjectOfType<AudioManager>().IsPlaying("CombatMusic"))
+            FindObjectOfType<AudioManager>().Play("CombatMusic");
 
         //Decides how many layers of music should play depending on the amount of enemy layers
         int musicLayers;

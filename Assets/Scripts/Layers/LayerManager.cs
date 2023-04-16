@@ -4,8 +4,16 @@ using UnityEngine;
 
 public class LayerManager : MonoBehaviour
 {
-    [SerializeField] private int health = 100;
-    [SerializeField] private int destroyResourcesValue = 80;
+    [Header("Layer Settings")]
+    [SerializeField, Tooltip("The health of the layer.")] private int health = 100;
+    [SerializeField, Tooltip("The amount of resources returned when destroyed.")] private int destroyResourcesValue = 80;
+    [SerializeField, Tooltip("A particle to show when the layer is damaged.")] private GameObject scrapDamage;
+    [Space(10)]
+
+    [Header("Debug Options")]
+    [SerializeField, Tooltip("Deals 10 damage to the layer.")] private bool debugLayerDamage;
+    [SerializeField, Tooltip("Sets the layer on fire.")] private bool debugFire;
+
     private float gravity = 9.81f;
     private int maxHealth;
 
@@ -13,8 +21,6 @@ public class LayerManager : MonoBehaviour
 
     private bool layerInPlace = false;
     private bool layerFalling = false;
-
-    [SerializeField] private GameObject scrapDamage;
 
     private Transform outsideObjects;
 
@@ -36,6 +42,24 @@ public class LayerManager : MonoBehaviour
             case 1.5f:
                 destroyResourcesValue = (int)(destroyResourcesValue * 0.5f);
                 break;
+        }
+    }
+
+    private void Update()
+    {
+        if (Application.isEditor)
+        {
+            if (debugLayerDamage)
+            {
+                debugLayerDamage = false;
+                DealDamage(10, false);
+            }
+
+            if (debugFire)
+            {
+                debugFire = false;
+                CheckForFireSpawn(100);
+            }
         }
     }
 
@@ -118,17 +142,16 @@ public class LayerManager : MonoBehaviour
     public void DealDamage(int dmg, bool shakeCam)
     {
         health -= dmg;
+        health = Mathf.Clamp(health, 0, maxHealth);
         //Instantiate(scrapDamage, transform.position, Quaternion.identity);
 
         if (transform.CompareTag("Layer"))
-        {
-            Debug.Log("Layer " + (GetComponentInChildren<LayerTransitionManager>().GetNextLayerIndex() - 1) + " Health: " + health);;
-        }
+            Debug.Log("Layer " + (GetComponentInChildren<LayerTransitionManager>().GetNextLayerIndex() - 1) + " Health: " + health);
 
         if (shakeCam)
             CameraEventController.instance.ShakeCamera(5f, 0.1f);
 
-        FindObjectOfType<AudioManager>().Play("TankImpact");
+        FindObjectOfType<AudioManager>().Play("TankImpact", gameObject);
 
         //Check to see if the layer's diegetics need to be updated
         if (GetComponentInChildren<DamageDiegeticController>() != null)
@@ -181,9 +204,10 @@ public class LayerManager : MonoBehaviour
         return maxHealth;
     }
 
-    public void RepairLayer()
+    public void RepairLayer(int repair)
     {
-        health = maxHealth;
+        health += repair;
+        health = Mathf.Clamp(health, 0, maxHealth);
         UpdateLayerDamageDiegetic();
     }
 

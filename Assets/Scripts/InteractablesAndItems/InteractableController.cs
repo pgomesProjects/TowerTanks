@@ -79,7 +79,7 @@ public class InteractableController : MonoBehaviour
         if (currentPlayerLockedIn == null && !currentInteractingPlayer.InBuildMode())
         {
             playersColliding.Add(currentInteractingPlayer.GetPlayerIndex());
-            currentInteractingPlayer.DisplayInteractionPrompt("<sprite=27>");
+            currentInteractingPlayer.DisplayInteractionPrompt("<sprite=27 tint=1>");
             //Tell the player that this is the item that they can interact with
             currentInteractingPlayer.currentInteractableItem = this;
         }

@@ -20,8 +20,10 @@ public class PlayerController : MonoBehaviour
 
     [Header("Technical Settings")]
     [SerializeField] private float timeToUseWrench = 3;
+    [SerializeField] private float timeToUseFireRemover = 3;
     [SerializeField] private float timeToBuild = 3;
     [SerializeField] private int maxAmountOfScrap = 8;
+    [SerializeField, Tooltip("The amount of scrap used to repair up to 25% of a layer's health.")] private int scrapToRepair = 1;
     [Space(10)]
 
     [Header("Joystick Spin Detection Options")]
@@ -58,6 +60,7 @@ public class PlayerController : MonoBehaviour
     private bool waitingToClimb;
     private float defaultGravity;
     private RaycastHit2D ladderRaycast;
+    private bool isRepairingLayer;
 
     //Interactables
     internal InteractableController currentInteractableItem;
@@ -333,42 +336,22 @@ public class PlayerController : MonoBehaviour
     {
         if (PlayerCanInteract())
         {
- /*           //If the player presses the use button
             if (ctx.started)
             {
-                //If the player is holding the fire remover and uses the button, check for fire
-                if (PlayerHasItem("FireRemover"))
-                {
-                    CheckForFireRemoverUse();
-                }
+                //If the fire remover is successfully used, do not do anything use
+                if (CheckForFireRemoverUse())
+                    return;
 
-                //If the player is holding the hammer and uses the button, attempt to add a new layer
-                else if (PlayerHasItem("Hammer"))
-                {
-                    CheckForHammerUse();
-                }
-
-                //If the player is near an interactable
-                else if (currentInteractableItem != null)
-                {
-                    currentInteractableItem.OnUseInteractable();
-                }
-
-                //If nothing else applies, the player has no item. Use the wrench, if possible
-                else
-                {
-                    CheckForWrenchUse();
-                }
+                //If the layer is being properly built, return
+                if (CheckForWrenchUse())
+                    return;
             }
 
             if (ctx.canceled)
             {
                 if (taskInProgress)
-                {
                     CancelProgressBar();
-                    ChangeItemTransparency(1.0f);
-                }
-            }*/
+            }
         }
     }
 
@@ -376,16 +359,8 @@ public class PlayerController : MonoBehaviour
     {
         if (PlayerCanInteract())
         {
-
             if (ctx.started)
             {
-                //If the player is not in build mode and not interacting with an item, put them in build mode
-                if (!buildModeActive && currentInteractableItem == null)
-                {
-                    SetBuildMode(true);
-                    return;
-                }
-
                 //Try to buy an interactable
                 foreach (var i in GameObject.FindGameObjectsWithTag("GhostObject"))
                 {
@@ -405,30 +380,8 @@ public class PlayerController : MonoBehaviour
             if (ctx.canceled)
             {
                 if (taskInProgress)
-                {
                     CancelProgressBar();
-                }
             }
-
-            /*            if (LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
-                        {
-                            if ((int)TutorialController.main.currentTutorialState >= (int)TUTORIALSTATE.PICKUPHAMMER)
-                            {
-                                //If the player presses the pickup button
-                                if (ctx.started)
-                                {
-                                    PickupItem();
-                                }
-                            }
-                        }
-                        else
-                        {
-                            //If the player presses the pickup button
-                            if (ctx.started)
-                            {
-                                PickupItem();
-                            }
-                        }*/
         }
     }
 
@@ -441,13 +394,6 @@ public class PlayerController : MonoBehaviour
                 if(currentInteractableItem != null && !canMove)
                 {
                     currentInteractableItem.OnEndInteraction(this);
-                    return;
-                }
-
-                //If build mode is active, cancel it
-                if (buildModeActive)
-                {
-                    SetBuildMode(false);
                     return;
                 }
 
@@ -474,34 +420,6 @@ public class PlayerController : MonoBehaviour
                     OnScrapUpdated(0);  //Reset the scrap number
                 }
             }
-
-/*            if (LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
-            {
-                if ((int)TutorialController.main.currentTutorialState >= (int)TUTORIALSTATE.PICKUPHAMMER)
-                {
-                    //If the player presses the throw button
-                    if (ctx.started)
-                    {
-                        //If the player is still holding an item
-                        if (itemHeld != null)
-                        {
-                            DropItem(true);
-                        }
-                    }
-                }
-            }
-            else
-            {
-                //If the player presses the throw button
-                if (ctx.started)
-                {
-                    //If the player is still holding an item
-                    if (itemHeld != null)
-                    {
-                        DropItem(true);
-                    }
-                }
-            }*/
         }
     }
 
@@ -665,47 +583,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void CheckForHammerUse()
-    {
-/*        //If the player is outside of the tank (in a layer that does not exist inside the tank) and can afford a new layer
-        if (IsPlayerOutsideTank() && LevelManager.instance.CanPlayerAfford("NewLayer"))
-        {
-            if(LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
-            {
-                if(LevelManager.instance.totalLayers < 2)
-                {
-                    if (itemHeld.GetTimeToUse() > 0)
-                    {
-                        StartProgressBar(itemHeld.GetTimeToUse(), LevelManager.instance.PurchaseLayer);
-                        ChangeItemTransparency(0.0f);
-                    }
-                }
-            }
-            else
-            {
-                if (itemHeld.GetTimeToUse() > 0)
-                {
-                    StartProgressBar(itemHeld.GetTimeToUse(), LevelManager.instance.PurchaseLayer);
-                    ChangeItemTransparency(0.0f);
-                }
-            }
-        }
-        else
-        {
-            //Try to buy an interactable
-            foreach (var i in GameObject.FindGameObjectsWithTag("GhostObject"))
-            {
-                //If a player can purchase an interactable, try to purchase it
-                if (i.GetComponent<PriceIndicator>().PlayerCanPurchase())
-                {
-                    i.GetComponent<PriceIndicator>().PurchaseInteractable();
-                    i.GetComponent<PriceIndicator>().PurchaseInteractable();
-                    Instantiate(smabuildscraps, transform.position, Quaternion.identity);
-                }
-            }
-        }*/
-    }
-
     /// <summary>
     /// Starts the process of building a layer if the player has the resources to do so.
     /// </summary>
@@ -731,8 +608,11 @@ public class PlayerController : MonoBehaviour
         LevelManager.instance.PurchaseLayer();
     }
 
-    private void CheckForFireRemoverUse()
+    private bool CheckForFireRemoverUse()
     {
+        if (IsPlayerOutsideTank()) return false;  //If the player is outside of the tank, return false
+        if (buildModeActive) return false;        //If the player is in build mode, return false
+
         FireBehavior fire = null;
         if (LevelManager.instance.GetPlayerTank().GetLayerAt(currentLayer) != null)
             fire = LevelManager.instance.GetPlayerTank().GetLayerAt(currentLayer).GetComponentInChildren<FireBehavior>();
@@ -740,35 +620,33 @@ public class PlayerController : MonoBehaviour
         //If the layer the player is on is on fire
         if (fire != null && fire.IsLayerOnFire())
         {
-            if (itemHeld.GetTimeToUse() > 0)
+            if (timeToUseFireRemover > 0)
             {
-                StartProgressBar(itemHeld.GetTimeToUse(), UseFireRemover);
+                isRepairingLayer = true;
+                StartProgressBar(timeToUseFireRemover, UseFireRemover);
                 if (isFacingRight)
-                {
                     Instantiate(firefoam, transform.position, Quaternion.identity);
-                    
-                }
                 else
-                {
                     Instantiate(leftfirefoam, transform.position, Quaternion.identity);
-                }
             }
+            return true;
         }
+
+        return false;
     }
 
-    public void CancelFireOnDestroy()
+    /// <summary>
+    /// Cancels any active repairs that the player is making.
+    /// </summary>
+    public void CancelLayerRepair()
     {
-        //Check to make sure the fire exists while trying to put out a fire
-        if(PlayerHasItem("FireRemover") && taskInProgress)
-        {
+        if(isRepairingLayer && taskInProgress)
             CancelProgressBar();
-            ChangeItemTransparency(1.0f);
-        }
     }
 
-    private void CheckForWrenchUse()
+    private bool CheckForWrenchUse()
     {
-        if (IsPlayerOutsideTank()) return;  //If the player is outside of the tank, return
+        if (IsPlayerOutsideTank()) return false;  //If the player is outside of the tank, return false
 
         LayerManager layerHealth = LevelManager.instance.GetPlayerTank().GetLayerAt(currentLayer);
 
@@ -779,27 +657,45 @@ public class PlayerController : MonoBehaviour
             {
                 //Play sound effect
                 FindObjectOfType<AudioManager>().Play("UseWrench", gameObject);
-
+                isRepairingLayer = true;
                 StartProgressBar(timeToUseWrench, UseWrench);
             }
+            return true;
         }
+
+        return false;
     }
 
     private void UseFireRemover()
     {
         FireBehavior fire = LevelManager.instance.GetPlayerTank().GetLayerAt(currentLayer).GetComponentInChildren<FireBehavior>();
-        //Get rid of the fire
-        fire.gameObject.SetActive(false);
+        fire.gameObject.SetActive(false);   //Gets rid of the fire
+        isRepairingLayer = false;
+
+        LevelManager.instance.CancelAllLayerRepairs();
     }
 
     private void UseWrench()
     {
         //Restore the layer the player is on to max health
         LayerManager layerHealth = LevelManager.instance.GetPlayerTank().GetLayerAt(currentLayer);
-        layerHealth.RepairLayer();
 
-        //Remove scrap from the scrap holder
-        Destroy(scrapHolder.GetChild(0).gameObject);
+        int healthToMax = layerHealth.GetMaxHealth() - layerHealth.GetLayerHealth();    //Get the amount of health needed to repair the layer to max
+        int scrapRequired = (int)Mathf.CeilToInt(healthToMax / 25f) * scrapToRepair;    //Get the amount of scrap required to repair to max health (x scrap per 25% health)
+        
+        //If the player does not have enough scrap to repair, use up as much as possible
+        if(scrapRequired > scrapHolder.childCount)
+            scrapRequired = scrapHolder.childCount;
+
+        int price = scrapRequired * 25;
+
+        layerHealth.RepairLayer(price);
+        isRepairingLayer = false;
+
+        //Use some scrap
+        UseScrap(price);
+
+        LevelManager.instance.CancelAllLayerRepairs();
     }
 
     public void DisplayInteractionPrompt(string message)

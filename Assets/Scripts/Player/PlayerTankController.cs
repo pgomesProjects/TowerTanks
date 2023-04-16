@@ -116,7 +116,7 @@ public class PlayerTankController : MonoBehaviour
     /// </summary>
     public void AdjustOutsideLayerObjects()
     {
-        Debug.Log("Adjust Outside Of Layers...");
+        //Debug.Log("Adjust Outside Of Layers...");
         for(int i = 0; i < layers.Count; i++)
             layers[i].ShowOutsideObjects(i >= layers.Count - 1);
     }

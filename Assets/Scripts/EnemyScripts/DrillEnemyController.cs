@@ -5,11 +5,17 @@ using UnityEngine;
 public class DrillEnemyController : EnemyController
 {
 
-    public override void CreateLayers(COMBATDIRECTION enemyDirection)
+    public override void CreateLayers(COMBATDIRECTION enemyDirection, int debugEnemyLayers = 0)
     {
-        float extraLayers = FindObjectOfType<EnemySpawnManager>().GetEnemyCountAt(1) * waveCounter;
-        //Debug.Log("Extra Layers For Drill Tank #" + (FindObjectOfType<EnemySpawnManager>().GetEnemyCountAt(1) + 1).ToString() + ": " + extraLayers);
-        totalEnemyLayers = 2 + Mathf.FloorToInt(extraLayers);
+        if (debugEnemyLayers <= 0)
+        {
+            float extraLayers = FindObjectOfType<EnemySpawnManager>().GetEnemyCountAt(1) * waveCounter;
+            //Debug.Log("Extra Layers For Drill Tank #" + (FindObjectOfType<EnemySpawnManager>().GetEnemyCountAt(1) + 1).ToString() + ": " + extraLayers);
+            totalEnemyLayers = 2 + Mathf.FloorToInt(extraLayers);
+        }
+        else
+            totalEnemyLayers = debugEnemyLayers;
+
         totalEnemyLayers = Mathf.Clamp(totalEnemyLayers, 2, MAXLAYERS);
 
         //If the game is on debug mode, override the enemy layers

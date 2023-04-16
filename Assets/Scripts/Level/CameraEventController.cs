@@ -9,17 +9,30 @@ public class CameraEventController : MonoBehaviour
     public static CameraEventController instance;
 
     private CinemachineVirtualCamera _currentActiveCamera;
+
     [SerializeField] private CinemachineVirtualCamera _gameCamera;
     [SerializeField] private CinemachineVirtualCamera _cinematicCamera;
-    [SerializeField] private CinemachineTargetGroup _tanksTargetGroup;
+    [SerializeField] private CinemachineVirtualCamera _freezeCamera;
+    [SerializeField] private CinemachineTargetGroup gameTargetGroup;
+    [SerializeField] private CinemachineTargetGroup cinematicTargetGroup;
     [SerializeField] private GameObject globalUI;
+
     private float shakeTimer, shakeTimerTotal, startingCamIntensity;
 
+    private float gameToCinematicBlendSeconds = 4;
+    private float cinematicToGameBlendSeconds = 2;
+
     private bool inGame;
+
+    private List<CinemachineVirtualCamera> cameras = new List<CinemachineVirtualCamera>();
 
     private void Awake()
     {
         instance = this;
+
+        cameras.Add(_gameCamera);
+        cameras.Add(_cinematicCamera);
+        cameras.Add(_freezeCamera);
     }
 
     private void Start()
@@ -46,17 +59,21 @@ public class CameraEventController : MonoBehaviour
         }
     }
 
-    public void EnableTargetGroup(CinemachineTargetGroup newTargetGroup)
+    public void EnableCinematicTargetGroup(CinemachineTargetGroup newTargetGroup)
     {
         if (newTargetGroup != null)
-        {
-            _currentActiveCamera.m_Follow = newTargetGroup.transform;
-        }
+            _cinematicCamera.m_Follow = newTargetGroup.transform;
+    }
+
+    public void EnableFreezeTargetGroup(CinemachineTargetGroup newTargetGroup)
+    {
+        if (newTargetGroup != null)
+            _freezeCamera.m_Follow = newTargetGroup.transform;
     }
 
     public void DisableTargetGroup()
     {
-        _currentActiveCamera.m_Follow = null;
+        _freezeCamera.m_Follow = null;
     }
 
     public void ShakeCamera(float intensity, float seconds)
@@ -94,132 +111,69 @@ public class CameraEventController : MonoBehaviour
             controller.ResetHaptics();
     }
 
-    public IEnumerator SmoothZoomCameraEvent(float startFOV, float endFOV, float seconds)
+    public IEnumerator ShowEnemyWithCamera(GameObject newEnemy)
     {
-        float timeElapsed = 0;
-
-        while (timeElapsed < seconds)
-        {
-            //Smooth lerp duration algorithm
-            float t = timeElapsed / seconds;
-            t = t * t * (3f - 2f * t);
-
-            _gameCamera.m_Lens.OrthographicSize = Mathf.Lerp(startFOV, endFOV, t);
-            _cinematicCamera.m_Lens.OrthographicSize = Mathf.Lerp(startFOV, endFOV, t);
-            _currentActiveCamera.m_Lens.OrthographicSize = Mathf.Lerp(startFOV, endFOV, t);
-
-            timeElapsed += Time.deltaTime;
-
-            yield return null;
-        }
-
-        _gameCamera.m_Lens.OrthographicSize = endFOV;
-        _cinematicCamera.m_Lens.OrthographicSize = endFOV;
-        _currentActiveCamera.m_Lens.OrthographicSize = endFOV;
-    }
-
-    public IEnumerator SmoothMoveCameraEvent(Vector3 startPos, Vector3 endPos, float seconds)
-    {
-        Vector3 updatedStartPos = new Vector3(startPos.x, startPos.y, Camera.main.transform.position.z);
-        Vector3 updatedEndPos = new Vector3(endPos.x, endPos.y, Camera.main.transform.position.z);
-
-        float timeElapsed = 0;
-        while (timeElapsed < seconds)
-        {
-            //Smooth lerp duration algorithm
-            float t = timeElapsed / seconds;
-            t = t * t * (3f - 2f * t);
-
-            _currentActiveCamera.transform.position = Vector3.Lerp(updatedStartPos, updatedEndPos, t);
-            timeElapsed += Time.deltaTime;
-
-            yield return null;
-        }
-
-        _currentActiveCamera.transform.position = updatedEndPos;
-    }
-
-    public IEnumerator ShowEnemyWithCamera(float endFOV, Vector3 enemyPos, float seconds, GameObject newEnemy)
-    {
-        float blendCamSeconds = 2;
-        SwitchCamera();
-        _currentActiveCamera = _cinematicCamera;
-        StartCoroutine(AddToGameCamTargetGroup(newEnemy, blendCamSeconds));
-
-        DisableTargetGroup();
+        cinematicTargetGroup.AddMember(newEnemy.transform, 1, 0);
+        SwitchCamera(_cinematicCamera);
+        StartCoroutine(AddToGameCamTargetGroup(newEnemy));
 
         globalUI.transform.Find("Alarm").gameObject.SetActive(true);
 
-        StartCoroutine(SmoothZoomCameraEvent(GetCameraFOV(), endFOV, seconds));
-        StartCoroutine(SmoothMoveCameraEvent(_tanksTargetGroup.transform.position, enemyPos, seconds));
+        yield return new WaitForSeconds(gameToCinematicBlendSeconds);
 
-        yield return new WaitForSeconds(seconds);
-
-        SwitchCamera();
-
-        yield return new WaitForSeconds(blendCamSeconds);
-
-        _tanksTargetGroup.AddMember(newEnemy.transform, 1, 0);
-        EnableTargetGroup(_tanksTargetGroup);
+        SwitchCamera(_gameCamera);
 
         _currentActiveCamera = _gameCamera;
     }
 
     public IEnumerator BringCameraToPlayer(float seconds)
     {
-        float blendCamSeconds = 2;
-
         FreezeCamera();
 
         yield return new WaitForSeconds(seconds);
 
-        SwitchCamera();
+        SwitchCamera(_gameCamera);
+        yield return new WaitForSeconds(cinematicToGameBlendSeconds);
 
-        yield return new WaitForSeconds(blendCamSeconds);
-
-        EnableTargetGroup(_tanksTargetGroup);
-        _currentActiveCamera = _gameCamera;
+        EnableCinematicTargetGroup(cinematicTargetGroup);
+        EnableFreezeTargetGroup(cinematicTargetGroup);
     }
 
 
     public void FreezeCamera()
     {
-        _cinematicCamera.m_Lens.OrthographicSize = _gameCamera.State.Lens.OrthographicSize;
-
-        SwitchCamera();
-        _currentActiveCamera = _cinematicCamera;
-
+        SwitchCamera(_freezeCamera);
         DisableTargetGroup();
-    }
-    private IEnumerator AddToGameCamTargetGroup(GameObject newEnemy, float waitSeconds)
-    {
-        yield return new WaitForSeconds(waitSeconds);
-
-        if (_tanksTargetGroup != null)
-        {
-            _tanksTargetGroup.AddMember(newEnemy.transform, 1, 0);
-            _gameCamera.m_Follow = _tanksTargetGroup.transform;
-        }
+        _freezeCamera.m_Lens.OrthographicSize = _gameCamera.State.Lens.OrthographicSize;
     }
 
-    private void SwitchCamera()
+    private IEnumerator AddToGameCamTargetGroup(GameObject newEnemy)
     {
-        if (inGame)
+        yield return new WaitForSeconds(gameToCinematicBlendSeconds);
+        gameTargetGroup.AddMember(newEnemy.transform, 1, 0);
+    }
+
+    private void SwitchCamera(CinemachineVirtualCamera newCamera)
+    {
+        foreach(var cam in cameras)
         {
-            _gameCamera.Priority = 1;
-            _cinematicCamera.Priority = 2;
-            inGame = false;
+            if (cam == newCamera)
+                cam.Priority = 2;
+            else
+                cam.Priority = 1;
         }
-        else
-        {
-            _gameCamera.Priority = 2;
-            _cinematicCamera.Priority = 1;
-            inGame = true;
-        }
+
+        _currentActiveCamera = newCamera;
     }
 
     public float GetCameraFOV()
     {
         return Camera.main.orthographicSize;
+    }
+
+    public void RemoveOnDestroy(GameObject destroyedEnemy)
+    {
+        gameTargetGroup.RemoveMember(destroyedEnemy.transform);
+        cinematicTargetGroup.RemoveMember(destroyedEnemy.transform);
     }
 }

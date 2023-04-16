@@ -102,6 +102,7 @@ public class DamageObject : MonoBehaviour
 
     private void OnDestroy()
     {
-        FindObjectOfType<AudioManager>().Stop("ProjectileInAirSFX", gameObject);
+        if(FindObjectOfType<AudioManager>() != null)
+            FindObjectOfType<AudioManager>().Stop("ProjectileInAirSFX", gameObject);
     }
 }

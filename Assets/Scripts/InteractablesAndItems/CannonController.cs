@@ -147,10 +147,10 @@ public class CannonController : InteractableController
 
             if (result.collider != null)
             {
-                Debug.Log("Cannon Hit " + result.collider.name + "!");
+                //Debug.Log("Cannon Hit " + result.collider.name + "!");
                 if (result.collider.CompareTag(tagName) || result.collider.CompareTag("TankBottom"))
                 {
-                    Debug.Log("Can Hit Target " + tagName + "!");
+                    //Debug.Log("Can Hit Target " + tagName + "!");
                     return true;
                 }
             }
