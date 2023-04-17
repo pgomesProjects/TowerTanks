@@ -9,6 +9,7 @@ public class EnemySpawnManager : MonoBehaviour
     [Header("Enemy Settings")]
     [SerializeField, Tooltip("The prefabs for the enemies.")] private GameObject[] enemyPrefabs;
     [SerializeField, Tooltip("The enemy spawners.")] private Transform [] spawnTransforms;
+    [SerializeField, Tooltip("The enemy container.")] private Transform enemyContainer;
     [Space(10)]
 
     [Header("Debug Options")]
@@ -31,6 +32,10 @@ public class EnemySpawnManager : MonoBehaviour
     }
 
     private IEnumerator enemyEncounterAni;
+
+    /// <summary>
+    /// Spawns a random enemy.
+    /// </summary>
     private void SpawnRandomEnemy()
     {
         //Pick a random enemy from the list of enemies and spawn it at a random spawner
@@ -43,28 +48,58 @@ public class EnemySpawnManager : MonoBehaviour
             spawnerIndex = 1;
 
         GameObject newEnemy = Instantiate(enemyPrefabs[enemyIndex], spawnTransforms[spawnerIndex].position, spawnTransforms[spawnerIndex].rotation);
+        newEnemy.transform.SetParent(enemyContainer, true);
 
         if((debugSpawnEnemy || debugSpawnEnemyLeft || debugSpawnEnemyRight) && debugOverrideEnemyLayers)
             newEnemy.GetComponent<EnemyController>().CreateLayers((COMBATDIRECTION)spawnerIndex, debugSpawnEnemyLayers);
         else
             newEnemy.GetComponent<EnemyController>().CreateLayers((COMBATDIRECTION)spawnerIndex);
 
-        Vector3 cameraZoomPos = GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().transform.position;
+        if (enemyEncounterAni != null)
+            StopCoroutine(enemyEncounterAni);
 
-        switch ((COMBATDIRECTION)spawnerIndex)
+        enemyEncounterAni = CameraEventController.instance.ShowEnemyWithCamera(new GameObject[] {newEnemy});
+
+        StartCoroutine(enemyEncounterAni);
+
+        LevelManager.instance.currentRound++;
+
+        Debug.Log("===ENEMY #" + LevelManager.instance.currentRound + " HAS SPAWNED!===");
+    }
+
+    /// <summary>
+    /// Spawns a random enemy.
+    /// </summary>
+    /// <param name="enemyCount">The number of enemies to spawn.</param>
+    private void SpawnRandomEnemy(int enemyCount)
+    {
+        GameObject[] newEnemies = new GameObject[enemyCount];
+
+        for(int i = 0; i < enemyCount; i++)
         {
-            case COMBATDIRECTION.Left:
-                cameraZoomPos.x -= 55;
-                break;
-            case COMBATDIRECTION.Right:
-                cameraZoomPos.x += 55;
-                break;
+            //Pick a random enemy from the list of enemies and spawn it at a random spawner
+            int enemyIndex = Random.Range(0, enemyPrefabs.Length);
+            int spawnerIndex = Random.Range(0, spawnTransforms.Length);
+
+            if (debugSpawnEnemyLeft)
+                spawnerIndex = 0;
+            else if (debugSpawnEnemyRight)
+                spawnerIndex = 1;
+
+            GameObject newEnemy = Instantiate(enemyPrefabs[enemyIndex], spawnTransforms[spawnerIndex].position, spawnTransforms[spawnerIndex].rotation);
+            newEnemy.transform.SetParent(enemyContainer, true);
+
+            if ((debugSpawnEnemy || debugSpawnEnemyLeft || debugSpawnEnemyRight) && debugOverrideEnemyLayers)
+                newEnemy.GetComponent<EnemyController>().CreateLayers((COMBATDIRECTION)spawnerIndex, debugSpawnEnemyLayers);
+            else
+                newEnemy.GetComponent<EnemyController>().CreateLayers((COMBATDIRECTION)spawnerIndex);
+
+            newEnemies[i] = newEnemy;
         }
 
         if (enemyEncounterAni != null)
             StopCoroutine(enemyEncounterAni);
-
-        enemyEncounterAni = CameraEventController.instance.ShowEnemyWithCamera(newEnemy);
+        enemyEncounterAni = CameraEventController.instance.ShowEnemyWithCamera(newEnemies);
 
         StartCoroutine(enemyEncounterAni);
 
@@ -131,6 +166,8 @@ public class EnemySpawnManager : MonoBehaviour
                 break;
         }
     }
+
+    public bool AllEnemiesGone() => enemyContainer.transform.childCount == 0;
 
     public int GetEnemyCountAt(int i) => enemyTypeCounters[i];
 }

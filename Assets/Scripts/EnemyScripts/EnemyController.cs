@@ -70,10 +70,6 @@ public class EnemyController : MonoBehaviour
             totalEnemyLayers = debugEnemyLayers;
         totalEnemyLayers = Mathf.Clamp(totalEnemyLayers, 2, MAXLAYERS);
 
-        //If the game is on debug mode, override the enemy layers
-        if (GameSettings.debugMode)
-            LayerSpawnDebugMode();
-
         LevelManager.instance.StartCombatMusic(totalEnemyLayers);
 
         bool specialLayerSpawned = false;
@@ -114,28 +110,6 @@ public class EnemyController : MonoBehaviour
             combatDirectionMultiplier = -1f;
         else
             combatDirectionMultiplier = 1f;
-    }
-
-    /// <summary>
-    /// Spawns enemies with a set amount of layers for debugging purposes.
-    /// </summary>
-    protected void LayerSpawnDebugMode()
-    {
-        switch (LevelManager.instance.currentRound)
-        {
-            case 1:
-                totalEnemyLayers = 2;
-                break;
-            case 2:
-                totalEnemyLayers = 4;
-                break;
-            case 3:
-                totalEnemyLayers = 6;
-                break;
-            default:
-                totalEnemyLayers = 8;
-                break;
-        }
     }
 
     /// <summary>
@@ -217,15 +191,34 @@ public class EnemyController : MonoBehaviour
             else
             {
                 if (!canMove)
-                {
-                    float playerSpeed = playerTank.GetPlayerSpeed();
-                    //Debug.Log("Player Speed While Enemy Attached: " + playerSpeed);
-                    if (currentSpeed * combatDirectionMultiplier >= -playerSpeed)
-                    {
-                        transform.position += new Vector3(playerSpeed * combatDirectionMultiplier, 0, 0) * Time.deltaTime;
-                    }
-                }
+                    CreateCollision();
             }
+        }
+    }
+
+    private void CreateCollision()
+    {
+        float playerSpeed = playerTank.GetPlayerSpeed();
+
+        //If the enemy is going right
+        if (-GetDirectionalSpeed() < 0)
+        {
+            if (-GetDirectionalSpeed() <= playerSpeed)
+            {
+                transform.position += new Vector3(playerSpeed, 0, 0) * Time.deltaTime;
+            }
+            else
+                transform.position += new Vector3(-GetDirectionalSpeed(), 0, 0) * Time.deltaTime;
+        }
+        //If the enemy is going left
+        else
+        {
+            if (-GetDirectionalSpeed() >= playerSpeed)
+            {
+                transform.position += new Vector3(playerSpeed, 0, 0) * Time.deltaTime;
+            }
+            else
+                transform.position += new Vector3(-GetDirectionalSpeed(), 0, 0) * Time.deltaTime;
         }
     }
 
@@ -312,9 +305,9 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    protected virtual void OnTriggerEnter2D(Collider2D collision)
+    protected virtual void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.CompareTag("PlayerTankCollider"))
+        if (collision.collider.CompareTag("PlayerTankCollider"))
         {
             Debug.Log("Enemy Is At Player!");
             enemyColliding = true;
@@ -322,11 +315,18 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    protected virtual void OnTriggerExit2D(Collider2D collision)
+    private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.CompareTag("PlayerTankCollider"))
+        if (collision.collider.CompareTag("PlayerTankCollider"))
+            canMove = false;
+    }
+
+    protected virtual void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("PlayerTankCollider"))
         {
             enemyColliding = false;
+            canMove = true;
         }
     }
 
@@ -338,20 +338,33 @@ public class EnemyController : MonoBehaviour
         float enemyForce = collisionForce;
         float playerForce = collisionForce;
 
-        //If the player is going slower than the enemy, add extra force to the player
-        if(currentSpeed > playerTank.GetPlayerSpeed())
+        float enemyAbsSpeed = Mathf.Abs(-GetDirectionalSpeed());
+        float playerAbsSpeed = Mathf.Abs(playerTank.GetPlayerSpeed());
+
+        float playerSpeed = playerTank.GetPlayerSpeed();
+
+        //If the enemy is going right
+        if (-GetDirectionalSpeed() < 0)
         {
-            playerForce *= playerTank.GetPlayerSpeed() / currentSpeed;
+            if (-GetDirectionalSpeed() <= playerTank.GetPlayerSpeed())
+                enemyForce *= playerAbsSpeed / enemyAbsSpeed;
+            else
+                playerForce *= enemyAbsSpeed / playerAbsSpeed;
+        }
+        //If the enemy is going left
+        else
+        {
+            if (-GetDirectionalSpeed() >= playerTank.GetPlayerSpeed())
+                enemyForce *= playerAbsSpeed / enemyAbsSpeed;
+            else
+                playerForce *= enemyAbsSpeed / playerAbsSpeed;
         }
 
-        //If the enemy is going slower than the player, add extra force to the enemy
-        else if(playerTank.GetPlayerSpeed() > currentSpeed)
-        {
-            enemyForce *= playerTank.GetPlayerSpeed() / currentSpeed;
-        }
+        Debug.Log("Enemy Force: " + enemyForce * combatDirectionMultiplier);
+        Debug.Log("Player Force: " + playerForce * -combatDirectionMultiplier);
 
         StartCoroutine(CollideWithPlayerAni(enemyForce * combatDirectionMultiplier, collisionForceSeconds));
-        StartCoroutine(playerTank.CollideWithEnemyAni(playerForce * combatDirectionMultiplier, collisionForceSeconds));
+        StartCoroutine(playerTank.CollideWithEnemyAni(playerForce * -combatDirectionMultiplier, collisionForceSeconds));
     }
 
     protected virtual void AddToList()
@@ -423,6 +436,7 @@ public class EnemyController : MonoBehaviour
         CameraEventController.instance.ShakeCamera(10f, 1f);
 
         AddToList();
+        transform.SetParent(null);
         Destroy(gameObject, 0.1f);
     }
 
@@ -445,7 +459,7 @@ public class EnemyController : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (FindObjectOfType<EnemySpawnManager>() != null)
+        if (FindObjectOfType<EnemySpawnManager>() != null && FindObjectOfType<EnemySpawnManager>().AllEnemiesGone())
         {
             FindObjectOfType<EnemySpawnManager>().enemySpawnerActive = false;
             if(GameObject.FindGameObjectWithTag("PlayerTank") != null)

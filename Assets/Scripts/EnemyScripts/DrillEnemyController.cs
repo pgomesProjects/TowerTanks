@@ -18,10 +18,6 @@ public class DrillEnemyController : EnemyController
 
         totalEnemyLayers = Mathf.Clamp(totalEnemyLayers, 2, MAXLAYERS);
 
-        //If the game is on debug mode, override the enemy layers
-        if(GameSettings.debugMode)
-            LayerSpawnDebugMode();
-
         LevelManager.instance.StartCombatMusic(totalEnemyLayers);
 
         bool specialLayerSpawned = false;
@@ -41,7 +37,7 @@ public class DrillEnemyController : EnemyController
 
             if (i % 2 == 1 && !specialLayerSpawned)
             {
-                randomLayer = 11;
+                randomLayer = 1;
             }
             else
             {
@@ -92,18 +88,18 @@ public class DrillEnemyController : EnemyController
         enemyTrait = ENEMYBEHAVIOR.AGGRESSIVE;
     }
 
-    protected override void OnTriggerEnter2D(Collider2D collision)
+    protected override void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.CompareTag("PlayerTankCollider"))
+        if (collision.collider.CompareTag("PlayerTankCollider"))
         {
             Debug.Log("Enemy Is At Player!");
             enemyColliding = true;
             canMove = false;
         }
     }
-    protected override void OnTriggerExit2D(Collider2D collision)
+    protected override void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.CompareTag("PlayerTankCollider"))
+        if (collision.collider.CompareTag("PlayerTankCollider"))
         {
             Debug.Log("Enemy Is No Longer At Player!");
             enemyColliding = false;

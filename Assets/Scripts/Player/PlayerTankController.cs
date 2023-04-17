@@ -308,16 +308,13 @@ public class PlayerTankController : MonoBehaviour
         CameraEventController.instance.ShakeCamera(10f, seconds);
 
 
-        //Smoothly accelerate backwards
         while (timeElapsed < seconds && this != null)
         {
             //Smooth lerp duration algorithm
             float t = timeElapsed / seconds;
             t = t * t * (3f - 2f * t);
 
-            float newX = Mathf.Lerp(0, collideVelocity, t);
-            transform.position -= new Vector3(newX * Time.deltaTime, 0, 0);
-
+            transform.position += new Vector3(Mathf.Lerp(0, collideVelocity, t) * Time.deltaTime, 0, 0);
             timeElapsed += Time.deltaTime;
 
             yield return null;
@@ -325,15 +322,13 @@ public class PlayerTankController : MonoBehaviour
 
         timeElapsed = 0;
 
-        //Smoothly decelerate forwards
         while (timeElapsed < seconds && this != null)
         {
             //Smooth lerp duration algorithm
             float t = timeElapsed / seconds;
             t = t * t * (3f - 2f * t);
 
-            float newX = Mathf.Lerp(collideVelocity, 0, t);
-            transform.position -= new Vector3(newX * Time.deltaTime, 0, 0);
+            transform.position += new Vector3(Mathf.Lerp(collideVelocity, 0, t) * Time.deltaTime, 0, 0);
             timeElapsed += Time.deltaTime;
 
             yield return null;

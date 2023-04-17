@@ -916,7 +916,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 5
 --- !u!114 &1359428508333811253
 MonoBehaviour:
@@ -933,6 +933,8 @@ MonoBehaviour:
   health: 100
   destroyResourcesValue: 60
   scrapDamage: {fileID: 3447509628083107344, guid: 468489efe652f3940964bc99b56536de, type: 3}
+  debugLayerDamage: 0
+  debugFire: 0
 --- !u!61 &6586515976610478640
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -111,11 +111,13 @@ public class CameraEventController : MonoBehaviour
             controller.ResetHaptics();
     }
 
-    public IEnumerator ShowEnemyWithCamera(GameObject newEnemy)
+    public IEnumerator ShowEnemyWithCamera(GameObject[] newEnemies)
     {
-        cinematicTargetGroup.AddMember(newEnemy.transform, 1, 0);
+        foreach(var enemy in newEnemies)
+            cinematicTargetGroup.AddMember(enemy.transform, 1, 0);
+
         SwitchCamera(_cinematicCamera);
-        StartCoroutine(AddToGameCamTargetGroup(newEnemy));
+        StartCoroutine(AddToGameCamTargetGroup(newEnemies));
 
         globalUI.transform.Find("Alarm").gameObject.SetActive(true);
 
@@ -147,10 +149,11 @@ public class CameraEventController : MonoBehaviour
         _freezeCamera.m_Lens.OrthographicSize = _gameCamera.State.Lens.OrthographicSize;
     }
 
-    private IEnumerator AddToGameCamTargetGroup(GameObject newEnemy)
+    private IEnumerator AddToGameCamTargetGroup(GameObject[] newEnemies)
     {
         yield return new WaitForSeconds(gameToCinematicBlendSeconds);
-        gameTargetGroup.AddMember(newEnemy.transform, 1, 0);
+        foreach(var enemy in newEnemies)
+            gameTargetGroup.AddMember(enemy.transform, 1, 0);
     }
 
     private void SwitchCamera(CinemachineVirtualCamera newCamera)

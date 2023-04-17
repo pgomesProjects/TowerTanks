@@ -14,7 +14,7 @@ public class LayerManager : MonoBehaviour
     [SerializeField, Tooltip("Deals 10 damage to the layer.")] private bool debugLayerDamage;
     [SerializeField, Tooltip("Sets the layer on fire.")] private bool debugFire;
 
-    private float gravity = 9.81f;
+    private float gravity;
     private int maxHealth;
 
     private Rigidbody2D rb;
@@ -27,6 +27,7 @@ public class LayerManager : MonoBehaviour
     private void Awake()
     {
         outsideObjects = transform.Find("OutsideObjects");
+        gravity = -Physics2D.gravity.y;
     }
 
     private void Start()
