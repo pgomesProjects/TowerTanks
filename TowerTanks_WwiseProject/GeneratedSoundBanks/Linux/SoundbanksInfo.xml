@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{48B6B4DA-0B2B-2B24-755B-EEE940F9BB8A}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{844D7552-E94D-33A3-C014-C7636E5674C7}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -28,11 +28,12 @@
 				<GameParameter Id="2346531308" Name="MusicVolume"/>
 				<GameParameter Id="2431286926" Name="CombatLayer0Volume"/>
 				<GameParameter Id="2831834313" Name="CombatLayer3Volume"/>
+				<GameParameter Id="2834886298" Name="GlobalCombatVolume"/>
 				<GameParameter Id="3720003847" Name="CombatLayer1Volume"/>
 				<GameParameter Id="4287925136" Name="CombatLayer2Volume"/>
 			</GameParameters>
 		</SoundBank>
-		<SoundBank Id="2880737896" Type="User" Language="SFX" Hash="{B0D1CC9A-3650-6FC1-C76F-1A7B5A0E8F5B}">
+		<SoundBank Id="2880737896" Type="User" Language="SFX" Hash="{DF6FB772-CC30-3189-B6D0-4A1C915ADED1}">
 			<ShortName>mainbank</ShortName>
 			<Path>mainbank.bnk</Path>
 			<Media>
@@ -347,10 +348,11 @@
 			<GameParameters>
 				<GameParameter Id="2431286926" Name="CombatLayer0Volume"/>
 				<GameParameter Id="2831834313" Name="CombatLayer3Volume"/>
+				<GameParameter Id="2834886298" Name="GlobalCombatVolume"/>
 				<GameParameter Id="3720003847" Name="CombatLayer1Volume"/>
 				<GameParameter Id="4287925136" Name="CombatLayer2Volume"/>
 			</GameParameters>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{7EBAEF41-58BC-CEF7-B158-FD2536160736}</FileHash>
+	<FileHash>{8B2FAC15-E66A-7AAE-9D9E-B4695CA71CBA}</FileHash>
 </SoundBanksInfo>

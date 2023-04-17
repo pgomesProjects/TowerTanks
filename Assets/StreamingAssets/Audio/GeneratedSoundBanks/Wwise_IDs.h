@@ -55,6 +55,7 @@ namespace AK
         static const AkUniqueID COMBATLAYER1VOLUME = 3720003847U;
         static const AkUniqueID COMBATLAYER2VOLUME = 4287925136U;
         static const AkUniqueID COMBATLAYER3VOLUME = 2831834313U;
+        static const AkUniqueID GLOBALCOMBATVOLUME = 2834886298U;
         static const AkUniqueID MUSICVOLUME = 2346531308U;
         static const AkUniqueID SFXVOLUME = 988953028U;
     } // namespace GAME_PARAMETERS

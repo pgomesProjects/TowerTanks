@@ -377,7 +377,7 @@ public class PlayerTankController : MonoBehaviour
     /// </summary>
     public void ResetTankDistance()
     {
-        LevelManager.instance.StopCombatMusic();
+        StartCoroutine(LevelManager.instance.StopCombatMusic(1));
         currentDistance = 0;
         LevelManager.instance.ShowGoPrompt();
     }

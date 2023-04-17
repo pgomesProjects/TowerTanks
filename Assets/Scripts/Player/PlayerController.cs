@@ -1006,14 +1006,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void CheckMouseScroll()
-    {
-        if (cannonScroll != 0)
-            isSpinningCannon = true;
-        else
-            isSpinningCannon = false;
-    }
-
     private IEnumerator JoystickSpinningDetection()
     {
         //Store the movement variable for later use
@@ -1037,6 +1029,14 @@ public class PlayerController : MonoBehaviour
 
         //End the check
         isCheckingSpinInput = false;
+    }
+
+    private void CheckMouseScroll()
+    {
+        if (cannonScroll != 0)
+            isSpinningCannon = true;
+        else
+            isSpinningCannon = false;
     }
 
     public void PlayFootstepSFX() => FindObjectOfType<AudioManager>().Play("Footstep", gameObject);

@@ -454,10 +454,20 @@ public class LevelManager : MonoBehaviour
             else
                 AkSoundEngine.SetRTPCValue("CombatLayer" + i + "Volume", 0f);
         }
+
+        AkSoundEngine.SetRTPCValue("GlobalCombatVolume", 100, FindObjectOfType<AudioManager>().GlobalGameObject);
     }
 
-    public void StopCombatMusic()
+    /// <summary>
+    /// Fades out and stops the combat music.
+    /// </summary>
+    /// <param name="fadeDuration">The duration of the fade (in seconds).</param>
+    /// <returns></returns>
+    public IEnumerator StopCombatMusic(float fadeDuration)
     {
+        AkSoundEngine.SetRTPCValue("GlobalCombatVolume", 0, FindObjectOfType<AudioManager>().GlobalGameObject, (int)(fadeDuration * 1000f));
+        yield return new WaitForSeconds(fadeDuration);
+
         if (FindObjectOfType<AudioManager>() != null)
         {
             if (FindObjectOfType<AudioManager>().IsPlaying("CombatMusic"))

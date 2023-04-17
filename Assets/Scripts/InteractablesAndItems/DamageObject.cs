@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class DamageObject : MonoBehaviour
 {
-
     internal int damage;    //The number of damage points that the damage object has 
 
     private Rigidbody2D rb; //The rigidbody component

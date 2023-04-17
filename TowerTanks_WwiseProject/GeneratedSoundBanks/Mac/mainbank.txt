@@ -37,6 +37,7 @@ Event	ID	Name			Wwise Object Path	Notes
 Game Parameter	ID	Name			Wwise Object Path	Notes
 	2431286926	CombatLayer0Volume			\Default Work Unit\CombatLayer0Volume	
 	2831834313	CombatLayer3Volume			\Default Work Unit\CombatLayer3Volume	
+	2834886298	GlobalCombatVolume			\Default Work Unit\GlobalCombatVolume	
 	3720003847	CombatLayer1Volume			\Default Work Unit\CombatLayer1Volume	
 	4287925136	CombatLayer2Volume			\Default Work Unit\CombatLayer2Volume	
 

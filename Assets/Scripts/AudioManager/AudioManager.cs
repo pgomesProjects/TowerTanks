@@ -9,17 +9,19 @@ public class AudioManager : MonoBehaviour
 
     List<GameObject> registeredGameObjects = new List<GameObject>();    //A list of all registered game objects in Wwise
 
+    public GameObject GlobalGameObject;
+
     private void Awake()
     {
-        AkSoundEngine.RegisterGameObj(gameObject);  //Registers the AudioManager as a GameObject for sound to play it
-        registeredGameObjects.Add(gameObject);
+        GlobalGameObject = gameObject;
+        AkSoundEngine.RegisterGameObj(GlobalGameObject);  //Registers the AudioManager as a GameObject for sound to play it
+        registeredGameObjects.Add(GlobalGameObject);
     }
 
     /// <summary>
     /// Plays a sound using the Wwise Post event system.
     /// </summary>
     /// <param name="name">The name of the sound.</param>
-    /// <param name="audioVol">The volume of the sound.</param>
     /// <param name="audioLocation">The game object that the event will be played on.</param>
     public void Play(string name, GameObject audioLocation = null)
     {
@@ -36,14 +38,13 @@ public class AudioManager : MonoBehaviour
             s.audioEvent.Post(audioLocation);
         }
         else
-            s.audioEvent.Post(gameObject);
+            s.audioEvent.Post(GlobalGameObject);
     }
 
     /// <summary>
     /// Plays the section of a sound.
     /// </summary>
     /// <param name="name">The name of the sound.</param>
-    /// <param name="audioVol">The volume of the sound.</param>
     /// <param name="start">The start position for the sound to be played at (in seconds).</param>
     /// <param name="stop">The end position for the sound to be played at (in seconds).</param>
     public void PlayAtSection(string name, float start, float stop)
@@ -94,7 +95,7 @@ public class AudioManager : MonoBehaviour
         if(playLocation != null)
             AkSoundEngine.GetPlayingIDsFromGameObject(playLocation, ref count, playingIDs);
         else
-            AkSoundEngine.GetPlayingIDsFromGameObject(gameObject, ref count, playingIDs);
+            AkSoundEngine.GetPlayingIDsFromGameObject(GlobalGameObject, ref count, playingIDs);
 
         //Check to see if the event ID being searched for is in the list of event IDs being played
         for (int i = 0; i < count; i++)
@@ -111,50 +112,12 @@ public class AudioManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Changes the volume of a sound.
-    /// </summary>
-    /// <param name="name">The name of the sound.</param>
-    /// <param name="audioVol">The new volume for the sound.</param>
-    public void ChangeVolume(string name, float audioVol)
-    {
-        Sound s = GetSound(name);
-    }
-
-    /// <summary>
-    /// Changes the pitch of a sound.
-    /// </summary>
-    /// <param name="name">The name of the sound.</param>
-    /// <param name="audioPitch">The new pitch for the sound.</param>
-    public void ChangePitch(string name, float audioPitch)
-    {
-        Sound s = GetSound(name);
-    }
-
-    /// <summary>
-    /// Pauses a sound event.
-    /// </summary>
-    /// <param name="name">The name of the sound.</param>
-    public void Pause(string name)
-    {
-        Sound s = GetSound(name);
-    }
-
-    /// <summary>
     /// Suspends all active sound events.
     /// </summary>
     public void PauseAllSounds()
     {
         //AkSoundEngine.Suspend();
-        AkSoundEngine.PostEvent("Global_Pause", gameObject);
-    }
-
-    /// <summary>
-    /// Resumes the sound event, if paused.
-    /// </summary>
-    /// <param name="name">The name of the sound.</param>
-    public void Resume(string name)
-    {
-        Sound s = GetSound(name);
+        AkSoundEngine.PostEvent("Global_Pause", GlobalGameObject);
     }
 
     /// <summary>
@@ -162,7 +125,7 @@ public class AudioManager : MonoBehaviour
     /// </summary>
     public void ResumeAllSounds()
     {
-        AkSoundEngine.PostEvent("Global_Unpause", gameObject);
+        AkSoundEngine.PostEvent("Global_Unpause", GlobalGameObject);
     }
 
     /// <summary>
@@ -176,7 +139,7 @@ public class AudioManager : MonoBehaviour
         if(audioLocation != null)
             s.audioEvent.Stop(audioLocation);
         else
-            s.audioEvent.Stop(gameObject);
+            s.audioEvent.Stop(GlobalGameObject);
     }
 
     /// <summary>
