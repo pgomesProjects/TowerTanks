@@ -901,6 +901,8 @@ public class PlayerController : MonoBehaviour
 
             SetBuildMode(false);
         }
+
+        playerAnimator.SetBool("IsHoldingScrap", scrapValue > 0); //Show scrap animations depending on whether they're holding scrap or not
     }
 
     /// <summary>
