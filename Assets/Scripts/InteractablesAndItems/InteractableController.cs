@@ -53,7 +53,12 @@ public class InteractableController : MonoBehaviour
         {
             PlayerController currentInteractingPlayer = collision.GetComponent<PlayerController>();
 
-            if (currentPlayerLockedIn == null)
+            if(currentPlayerLockedIn != null && currentPlayerLockedIn == currentInteractingPlayer)
+            {
+                //If the locked player leaves the trigger for the interactable, unlock them
+                LockPlayer(currentInteractingPlayer, false);
+            }
+            else
             {
                 if (playersColliding.Contains(currentInteractingPlayer.GetPlayerIndex()))
                 {
@@ -64,9 +69,6 @@ public class InteractableController : MonoBehaviour
                     currentInteractingPlayer.currentInteractableItem = null;
                 }
             }
-            //If the locked player leaves the trigger for the interactable, unlock them
-            else
-                LockPlayer(currentInteractingPlayer, false);
         }
     }
 

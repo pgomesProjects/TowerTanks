@@ -171,6 +171,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5264008659381658690, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5264008659381658690, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5264008659381658690, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5264008659381658690, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8954561444383294241, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4728784133398993885, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
@@ -200,8 +220,8 @@ MonoBehaviour:
   lockPlayerIntoInteraction: 1
   highlight: {fileID: 5023853069043599262}
   lockedInteractionCanvas: {fileID: 2810298217805534039}
+  interactOnStart: 1
   scrapPrefab: {fileID: 1122748863546453890, guid: e180f47ec24780646bb25af9d90805be, type: 3}
-  scrapValue: 25
 --- !u!4 &211861659154876950 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4728784133398993875, guid: d667935061c0d0e4a9ff8c73404d3288, type: 3}
