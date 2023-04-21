@@ -90,7 +90,8 @@ public class CameraEventController : MonoBehaviour
     /// </summary>
     /// <param name="intensity">The amplitude of the screenshake.</param>
     /// <param name="seconds">The duration of the screenshake.</param>
-    public void ShakeCamera(float intensity, float seconds)
+    /// <param name="hapticsAmplitude">The amplitude for the player controllers.</param>
+    public void ShakeCamera(float intensity, float seconds, float hapticsAmplitude = 0.75f)
     {
         //If the users have Screenshake turned on
         if(PlayerPrefs.GetInt("Screenshake", 1) == 1)
@@ -105,7 +106,7 @@ public class CameraEventController : MonoBehaviour
             startingCamIntensity = intensity;
         }
 
-        StartCoroutine(PlayHapticsOnAllControllers(0.75f, 0.75f, seconds));   //Add some haptics to everyone's controllers
+        StartCoroutine(PlayHapticsOnAllControllers(hapticsAmplitude, hapticsAmplitude, seconds));   //Add some haptics to everyone's controllers
     }
 
     /// <summary>

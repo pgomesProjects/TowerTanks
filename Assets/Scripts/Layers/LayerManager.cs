@@ -111,7 +111,9 @@ public class LayerManager : MonoBehaviour
         //Player tank layer collision logic
         if(transform.tag == "Layer")
         {
+            CameraEventController.instance.ResetCameraShake();
             Debug.Log("Player Tank Layer Collided!");
+            CameraEventController.instance.ShakeCamera(5f, 0.25f, 0.2f);
         }
         //Enemy tank layer collision logic
         else
@@ -265,7 +267,7 @@ public class LayerManager : MonoBehaviour
                 LevelManager.instance.UpdateResources(destroyResourcesValue);
 
                 //Shake the camera
-                CameraEventController.instance.ShakeCamera(10f, 1f);
+                CameraEventController.instance.ShakeCamera(7f, 0.4f, 0.6f);
             }
 
             //If an enemy layer is destroyed, tell the tank that the layer was destroyed
