@@ -41,6 +41,11 @@ public class EnemyController : MonoBehaviour
 
     protected bool canMove; //If true, the enemy tank can move. If false, they cannot move.
 
+    private void Awake()
+    {
+        waveCounter = 1.0f / (wavesMultiplier * GameSettings.difficulty);
+    }
+
     // Start is called before the first frame update
     protected void Start()
     {
@@ -49,7 +54,6 @@ public class EnemyController : MonoBehaviour
         currentSpeed = speed;
         canMove = true;
         directionMultiplier = 1;
-        waveCounter = 1.0f / (wavesMultiplier * GameSettings.difficulty);
 
         DetermineBehavior();
         FindObjectOfType<EnemySpawnManager>().AddToEnemyCounter(this);
@@ -68,6 +72,7 @@ public class EnemyController : MonoBehaviour
         }
         else
             totalEnemyLayers = debugEnemyLayers;
+
         totalEnemyLayers = Mathf.Clamp(totalEnemyLayers, 2, MAXLAYERS);
 
         LevelManager.instance.StartCombatMusic(totalEnemyLayers);
