@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Vector2 throwForceRange;
     [SerializeField] private float throwForce;
     [SerializeField] private LayerMask ladderMask;
+    [SerializeField] private float downSpeedMultiplier = 1.25f;
     [Space(10)]
 
     [Header("Technical Settings")]
@@ -251,7 +252,7 @@ public class PlayerController : MonoBehaviour
             //If the player is climbing, move up and get rid of gravity temporarily
             if (isClimbing)
             {
-                rb.velocity = new Vector2(0, movement.y * speed);
+                rb.velocity = new Vector2(0, movement.y > 0? movement.y * speed: movement.y * speed * downSpeedMultiplier);
                 rb.gravityScale = 0;
                 playerAnimator.SetFloat("PlayerY", movement.y);
             }
@@ -334,7 +335,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnRepair(InputAction.CallbackContext ctx)
     {
-        if (PlayerCanInteract())
+        if (PlayerCanInteract() && canMove)
         {
             if (ctx.started)
             {

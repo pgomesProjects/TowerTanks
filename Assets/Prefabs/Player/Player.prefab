@@ -1275,6 +1275,7 @@ MonoBehaviour:
   ladderMask:
     serializedVersion: 2
     m_Bits: 128
+  downSpeedMultiplier: 2
   timeToUseWrench: 3
   timeToUseFireRemover: 3
   timeToBuild: 3

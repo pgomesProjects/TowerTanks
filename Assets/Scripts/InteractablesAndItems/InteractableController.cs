@@ -78,7 +78,7 @@ public class InteractableController : MonoBehaviour
     /// <param name="currentInteractingPlayer">The player trying to interact with the interactable.</param>
     private void ShowPlayerInteraction(PlayerController currentInteractingPlayer)
     {
-        if (currentPlayerLockedIn == null && !currentInteractingPlayer.InBuildMode())
+        if (currentPlayerLockedIn == null && (!currentInteractingPlayer.InBuildMode() || transform.CompareTag("Dumpster")))
         {
             playersColliding.Add(currentInteractingPlayer.GetPlayerIndex());
             currentInteractingPlayer.DisplayInteractionPrompt("<sprite=27 tint=1>");
