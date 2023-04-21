@@ -12,6 +12,7 @@ public class LayerManager : MonoBehaviour
 
     [Header("Debug Options")]
     [SerializeField, Tooltip("Deals 10 damage to the layer.")] private bool debugLayerDamage;
+    [SerializeField, Tooltip("Destroys layer.")] private bool debugSelfDestruct;
     [SerializeField, Tooltip("Sets the layer on fire.")] private bool debugFire;
 
     private float gravity;
@@ -60,6 +61,12 @@ public class LayerManager : MonoBehaviour
             {
                 debugFire = false;
                 CheckForFireSpawn(100);
+            }
+
+            if (debugSelfDestruct)
+            {
+                debugSelfDestruct = false;
+                DealDamage(100, false);
             }
         }
     }

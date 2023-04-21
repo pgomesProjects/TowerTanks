@@ -202,6 +202,13 @@ public class PlayerCannonController : CannonController
             MovePlayerToChair(currentPlayer, false);
     }
 
+    public override void UnlockAllPlayers()
+    {
+        base.UnlockAllPlayers();
+
+        MovePlayerToChair(currentPlayer, false);
+    }
+
     /// <summary>
     /// Moves the player into the cannon chair.
     /// </summary>
