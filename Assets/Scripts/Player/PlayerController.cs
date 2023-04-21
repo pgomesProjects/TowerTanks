@@ -365,7 +365,7 @@ public class PlayerController : MonoBehaviour
                 foreach (var i in GameObject.FindGameObjectsWithTag("GhostObject"))
                 {
                     //If a player can purchase an interactable, try to purchase it
-                    if (i.GetComponent<PriceIndicator>().PlayerCanPurchase())
+                    if (i.GetComponent<PriceIndicator>().PlayerCanPurchase(this))
                     {
                         i.GetComponent<PriceIndicator>().PurchaseInteractable();
                         Instantiate(smabuildscraps, transform.position, Quaternion.identity);
@@ -755,10 +755,14 @@ public class PlayerController : MonoBehaviour
 
     public void CancelProgressBar()
     {
+        if (!taskInProgress)
+            return;
+
         StopCoroutine(currentLoadAction);
         taskInProgress = false;
         ShowScrap(true);
         playerAnimator.SetBool("IsBuilding", false);
+        playerAnimator.SetBool("PlayerCoalShovel", false);
         HideProgressBar();
     }
 

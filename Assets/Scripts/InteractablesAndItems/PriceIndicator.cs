@@ -16,7 +16,7 @@ public class PriceIndicator : MonoBehaviour
     private void Start()
     {
         playerCanPurchase = false;
-        if(price > 0)
+        if (price > 0)
             priceText.GetComponentInChildren<TextMeshProUGUI>().text = "Price: " + price;
         else
             priceText.GetComponentInChildren<TextMeshProUGUI>().text = "Free";
@@ -26,7 +26,7 @@ public class PriceIndicator : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            if(collision.GetComponent<PlayerController>() == GetComponentInParent<GhostInteractables>().GetCurrentPlayerBuilding() && (collision.GetComponent<PlayerController>().IsHoldingScrap() || !requiresScrap))
+            if (collision.GetComponent<PlayerController>() == GetComponentInParent<GhostInteractables>().GetCurrentPlayerBuilding() && (collision.GetComponent<PlayerController>().IsHoldingScrap() || !requiresScrap))
             {
                 currentPlayerBuying = collision.GetComponent<PlayerController>();
                 if (LevelManager.instance.levelPhase != GAMESTATE.TUTORIAL || TutorialController.main.currentTutorialState != TUTORIALSTATE.READING)
@@ -43,7 +43,7 @@ public class PriceIndicator : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            if(currentPlayerBuying == collision.GetComponent<PlayerController>() && (collision.GetComponent<PlayerController>().IsHoldingScrap() || !requiresScrap))
+            if (currentPlayerBuying == collision.GetComponent<PlayerController>() && (collision.GetComponent<PlayerController>().IsHoldingScrap() || !requiresScrap))
             {
                 ReleasePlayerFromBuying(currentPlayerBuying);
             }
@@ -57,7 +57,7 @@ public class PriceIndicator : MonoBehaviour
     /// <param name="exitingTrigger">If true, the player is exiting the trigger for the price indicator.</param>
     public void ReleasePlayerFromBuying(PlayerController currentPlayer, bool exitingTrigger = true)
     {
-        if(currentPlayer == currentPlayerBuying && (requiresScrap || exitingTrigger))
+        if (currentPlayer == currentPlayerBuying && (requiresScrap || exitingTrigger))
         {
             currentPlayerBuying.currentInteractableToBuy = null;
             currentPlayerBuying = null;
@@ -73,7 +73,7 @@ public class PriceIndicator : MonoBehaviour
     {
         if (currentPlayerBuying.GetScrapValue() >= price)
         {
-            if(LevelManager.instance.levelPhase != GAMESTATE.TUTORIAL || transform.parent.transform.Find("Indicator").gameObject.activeInHierarchy)
+            if (LevelManager.instance.levelPhase != GAMESTATE.TUTORIAL || transform.parent.transform.Find("Indicator").gameObject.activeInHierarchy)
             {
                 //Purchase interactable
                 currentPlayerBuying.UseScrap(price);
@@ -87,5 +87,11 @@ public class PriceIndicator : MonoBehaviour
         }
     }
 
-    public bool PlayerCanPurchase() => playerCanPurchase;
+    public bool PlayerCanPurchase(PlayerController currentPlayer)
+    {
+        if (currentPlayerBuying == null || currentPlayerBuying != currentPlayer)
+            return false;
+
+        return playerCanPurchase;
+    }
 }

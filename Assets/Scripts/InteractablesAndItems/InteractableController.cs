@@ -178,6 +178,8 @@ public class InteractableController : MonoBehaviour
             highlight.gameObject.SetActive(false);
             lockedInteractionCanvas.SetActive(false);
             firstInteractionComplete = false;
+
+            currentPlayer.CancelProgressBar();
         }
     }
 
