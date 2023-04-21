@@ -8,7 +8,7 @@ public class GhostInteractables : MonoBehaviour
     private LayerManager currentLayer;              //The current layer
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         currentPlayerBuilding = null;
         currentLayer = GetComponent<LayerManager>();

@@ -123,4 +123,11 @@ public class SteerController : InteractableController
 
         playerTank.SetSteeringMoved(false);
     }
+
+    public override void UnlockAllPlayers()
+    {
+        base.UnlockAllPlayers();
+
+        StopCoroutine(steeringCoroutine);
+    }
 }

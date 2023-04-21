@@ -170,6 +170,14 @@ public class CoalController : InteractableController
         }
     }
 
+    public override void UnlockAllPlayers()
+    {
+        base.UnlockAllPlayers();
+
+        currentPlayer.HideProgressBar();
+        currentPlayer.gameObject.GetComponent<Animator>().enabled = true;
+    }
+
     private void AdjustIndicatorAngle()
     {
         currentIndicatorAngle = -angleRange + ((angleRange * 2f) - (angleRange * 2f * (coalPercentage / 100f)));

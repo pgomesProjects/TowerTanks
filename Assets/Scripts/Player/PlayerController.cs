@@ -373,7 +373,7 @@ public class PlayerController : MonoBehaviour
                 }
 
                 //If the player is outside of the tank, try to build a layer
-                if (IsPlayerOutsideTank())
+                if (IsPlayerOutsideTank() && canMove)
                     BuildLayer();
             }
 
@@ -605,7 +605,7 @@ public class PlayerController : MonoBehaviour
     private void PurchaseLayer()
     {
         UseScrap(LevelManager.instance.GetItemPrice("NewLayer"));
-        LevelManager.instance.PurchaseLayer();
+        LevelManager.instance.PurchaseLayer(this);
     }
 
     private bool CheckForFireRemoverUse()
@@ -762,7 +762,6 @@ public class PlayerController : MonoBehaviour
         taskInProgress = false;
         ShowScrap(true);
         playerAnimator.SetBool("IsBuilding", false);
-        playerAnimator.SetBool("PlayerCoalShovel", false);
         HideProgressBar();
     }
 

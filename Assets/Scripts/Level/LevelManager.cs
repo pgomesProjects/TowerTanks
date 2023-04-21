@@ -170,11 +170,12 @@ public class LevelManager : MonoBehaviour
         coalController.AddCoal(amount);
     }
 
-    public void PurchaseLayer()
+    public void PurchaseLayer(PlayerController playerBuilding)
     {
         //Purchase a layer
         AddLayer();
         RemoveGhostLayer();
+        GetPlayerTank().GetLayerAt(playerBuilding.currentLayer).GetComponent<GhostInteractables>().CreateGhostInteractables(playerBuilding);
     }
 
     private void AddLayer()
