@@ -299,7 +299,7 @@ public class PlayerController : MonoBehaviour
 
     public void AdjustScrapHolderPositionX(float newX)
     {
-        scrapHolder.localPosition = new Vector2(isFacingRight ? newX : -newX, scrapHolder.transform.localPosition.x);
+        scrapHolder.localPosition = new Vector2(isFacingRight ? newX : -newX, scrapHolder.transform.localPosition.y);
     }
 
     public void AdjustScrapHolderPositionY(float newY)

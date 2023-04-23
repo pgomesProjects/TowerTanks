@@ -61,7 +61,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8112383214525272506, guid: c7da71b2e77ef994ba9aa8d6241280ae, type: 3}
       propertyPath: damage
-      value: 0
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 8112383214525272506, guid: c7da71b2e77ef994ba9aa8d6241280ae, type: 3}
       propertyPath: smallboom
