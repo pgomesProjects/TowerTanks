@@ -157,8 +157,9 @@ public class EnemyController : MonoBehaviour
     /// </summary>
     protected virtual void DetermineBehavior()
     {
-        int randomBehavior = Random.Range(0, 1);
+        int randomBehavior = Random.Range(0, 2);
         enemyTrait = (ENEMYBEHAVIOR)randomBehavior;
+        Debug.Log("Enemy Trait: " + enemyTrait);
     }
 
     protected virtual void OnEnable()
@@ -199,6 +200,11 @@ public class EnemyController : MonoBehaviour
                     CreateCollision();
             }
         }
+    }
+
+    protected virtual void OnLayerDestroyed()
+    {
+        //Logic for when a layer is destroyed
     }
 
     private void CreateCollision()
@@ -338,15 +344,13 @@ public class EnemyController : MonoBehaviour
     /// <summary>
     /// Determines the collision force of the enemy and the player tank on the moment that they collide with each other.
     /// </summary>
-    private void DetermineCollisionForce()
+    protected void DetermineCollisionForce()
     {
         float enemyForce = collisionForce;
         float playerForce = collisionForce;
 
         float enemyAbsSpeed = Mathf.Abs(-GetDirectionalSpeed());
         float playerAbsSpeed = Mathf.Abs(playerTank.GetPlayerSpeed());
-
-        float playerSpeed = playerTank.GetPlayerSpeed();
 
         //If the enemy is going right
         if (-GetDirectionalSpeed() < 0)
@@ -427,6 +431,10 @@ public class EnemyController : MonoBehaviour
         if (totalEnemyLayers == 0)
         {
             OnEnemyKill();
+        }
+        else
+        {
+            OnLayerDestroyed();
         }
     }
 

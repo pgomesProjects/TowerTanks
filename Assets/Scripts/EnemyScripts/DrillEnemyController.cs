@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class DrillEnemyController : EnemyController
 {
+    [SerializeField, Tooltip("The number of layers needed before a cannon can spawn.")] private int layersNeededBeforeCannonSpawn;
+    [SerializeField, Tooltip("The percent chance that a layer will spawn a cannon instead of a drill.")] private float chanceOfSpawningCannon;
+
+    private float currentLayerSpawned;
 
     public override void CreateLayers(COMBATDIRECTION enemyDirection, int debugEnemyLayers = 0)
     {
@@ -24,6 +28,7 @@ public class DrillEnemyController : EnemyController
 
         for (int i = 0; i < totalEnemyLayers; i++)
         {
+            currentLayerSpawned = i + 1;
             int randomLayer;
 
             //Always spawn a drill on the first layer
@@ -58,11 +63,22 @@ public class DrillEnemyController : EnemyController
             SpawnLayer(randomLayer, i, enemyDirection);
         }
 
+        foreach (var cannon in GetComponentsInChildren<EnemyCannonController>())
+        {
+            StartCoroutine(cannon.FireAtDelay());
+        }
+
         //If the enemy is to the left of the player, reverse the direction variable
         if (enemyDirection == COMBATDIRECTION.Left)
             combatDirectionMultiplier = -1f;
         else
             combatDirectionMultiplier = 1f;
+    }
+
+    protected override void OnLayerDestroyed()
+    {
+        if (!canMove && !AnyActiveDrillsLeft())
+            DetermineCollisionForce();
     }
 
     /// <summary>
@@ -75,10 +91,34 @@ public class DrillEnemyController : EnemyController
         switch (enemyDirection)
         {
             case COMBATDIRECTION.Left:
-                currentLayerManager.GetDrills().GetChild(1).gameObject.SetActive(true);
+                if(currentLayerSpawned >= layersNeededBeforeCannonSpawn)
+                {
+                    Random.InitState(System.DateTime.Now.Millisecond);  //Seeds the randomizer
+                    float currentChanceOfSpawningCannon = Random.Range(0, 100);
+
+                    //If the current chance of spawning a cannon is met, put a cannon instead of a drill
+                    if(currentChanceOfSpawningCannon < chanceOfSpawningCannon)
+                        currentLayerManager.GetCannons().GetChild(1).gameObject.SetActive(true);
+                    else
+                        currentLayerManager.GetDrills().GetChild(1).gameObject.SetActive(true);
+                }
+                else
+                    currentLayerManager.GetDrills().GetChild(1).gameObject.SetActive(true);
                 break;
             case COMBATDIRECTION.Right:
-                currentLayerManager.GetDrills().GetChild(0).gameObject.SetActive(true);
+                if (currentLayerSpawned >= layersNeededBeforeCannonSpawn)
+                {
+                    Random.InitState(System.DateTime.Now.Millisecond);  //Seeds the randomizer
+                    float currentChanceOfSpawningCannon = Random.Range(0, 100);
+
+                    //If the current chance of spawning a cannon is met, put a cannon instead of a drill
+                    if (currentChanceOfSpawningCannon < chanceOfSpawningCannon)
+                        currentLayerManager.GetCannons().GetChild(0).gameObject.SetActive(true);
+                    else
+                        currentLayerManager.GetDrills().GetChild(0).gameObject.SetActive(true);
+                }
+                else
+                    currentLayerManager.GetDrills().GetChild(0).gameObject.SetActive(true);
                 break;
         }
     }
@@ -95,8 +135,21 @@ public class DrillEnemyController : EnemyController
             Debug.Log("Enemy Is At Player!");
             enemyColliding = true;
             canMove = false;
+            if(!AnyActiveDrillsLeft())
+                DetermineCollisionForce();
         }
     }
+
+    private bool AnyActiveDrillsLeft()
+    {
+        //If there are any drills active in the hiearchy, return true
+        foreach (var drill in GetComponentsInChildren<DrillController>())
+            if (drill.gameObject.activeInHierarchy)
+                return true;
+
+        return false;
+    }
+
     protected override void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.collider.CompareTag("PlayerTankCollider"))

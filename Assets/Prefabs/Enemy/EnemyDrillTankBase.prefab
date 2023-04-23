@@ -1034,7 +1034,7 @@ MonoBehaviour:
   speed: 3
   maximumSpeed: 5.5
   accelerationRate: 0.5
-  collisionForceMultiplier: 1.5
+  collisionForce: 50
   targetedDistance: 70
   targetRange: 50
   collisionForceSeconds: 0.1
@@ -1042,6 +1042,8 @@ MonoBehaviour:
   onDestroyResources: 50
   spawnableLayer: {fileID: 1278547460383414149, guid: b860770024ecbb6419772b6308f06ea7, type: 3}
   debugDestroyEnemy: 0
+  layersNeededBeforeCannonSpawn: 4
+  chanceOfSpawningCannon: 60
 --- !u!61 &794722079130261051
 BoxCollider2D:
   m_ObjectHideFlags: 0

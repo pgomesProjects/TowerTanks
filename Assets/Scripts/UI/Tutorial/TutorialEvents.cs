@@ -103,20 +103,25 @@ public class TutorialEvents : CustomEvent
                 TutorialController.main.currentTutorialState = TUTORIALSTATE.PUTOUTFIRE;
                 UnlockPlayers();
                 break;
-            //Build Throttle Prompt
+            //Repair Layer Prompt
             case 21:
+                TutorialController.main.currentTutorialState = TUTORIALSTATE.REPAIRLAYER;
+                UnlockPlayers();
+                break;
+            //Build Throttle Prompt
+            case 23:
                 GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().GetLayerAt(0).
                     transform.Find("InteractSpawnerRight").GetComponent<InteractableSpawner>().ShowTutorialIndicator(true);
                 TutorialController.main.currentTutorialState = TUTORIALSTATE.BUILDTHROTTLE;
                 UnlockPlayers();
                 break;
-            case 22:
+            case 24:
                 GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().GetLayerAt(0).
                     transform.Find("InteractSpawnerRight").GetComponent<InteractableSpawner>().ShowTutorialIndicator(false);
                 LockPlayers();
                 break;
             //Move Throttle Prompt
-            case 24:
+            case 26:
                 TutorialController.main.currentTutorialState = TUTORIALSTATE.MOVETHROTTLE;
                 UnlockPlayers();
                 break;

@@ -27,13 +27,9 @@ public class DamageObject : MonoBehaviour
             //If there is a LayerHealthManager component
             if(collision.collider.GetComponentInParent<LayerManager>() != null)
             {
-                //If the level is active, deal damage to the layer
-                if (LevelManager.instance.levelPhase == GAMESTATE.GAMEACTIVE)
-                {
-                    //Deal damage and destroy self if colliding with a layer
-                    collision.collider.GetComponentInParent<LayerManager>().DealDamage(damage, true);
-                    FindObjectOfType<AudioManager>().Play("MedExplosionSFX", gameObject);
-                }
+                //Deal damage and destroy self if colliding with a layer
+                collision.collider.GetComponentInParent<LayerManager>().DealDamage(damage, true);
+                FindObjectOfType<AudioManager>().Play("MedExplosionSFX", gameObject);
 
                 //If there is a ShellItemBehavior component on the damage object, check to see if there should be a fire
                 if (TryGetComponent<ShellItemBehavior>(out ShellItemBehavior shell))

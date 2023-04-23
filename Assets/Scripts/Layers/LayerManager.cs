@@ -219,6 +219,9 @@ public class LayerManager : MonoBehaviour
         health += repair;
         health = Mathf.Clamp(health, 0, maxHealth);
         UpdateLayerDamageDiegetic();
+
+        if (LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL && TutorialController.main.currentTutorialState == TUTORIALSTATE.REPAIRLAYER)
+            TutorialController.main.OnTutorialTaskCompletion();
     }
 
     public void ShowOutsideObjects(bool showObjects)
