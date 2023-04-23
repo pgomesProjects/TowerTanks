@@ -21,13 +21,12 @@ public class PlayerTankController : MonoBehaviour
     [SerializeField, Tooltip("The range for the player and items to walk around in.")] internal float tankBarrierRange = 12;
     [SerializeField, Tooltip("The distance that the tank must travel forward in order to spawn a new enemy.")] private float distanceUntilSpawn = 50;
     [SerializeField, Tooltip("The parent that holds all items.")] private Transform itemContainer;
+    [SerializeField, Tooltip("The animator for the treads.")] private Animator treadAnimator;
 
     [Tooltip("The dust particles for the treads.")] public GameObject[] dustParticles;
 
     private bool steeringStickMoved;    //If true, the steering stick is currently moving. If false, the steering stick has not moved.
     private int currentThrottleOption;  //The current throttle option based on the position of the throttle
-
-    private Animator treadAnimator; //The animator for the treads
 
     private List<LayerManager> layers;    //A list of information on all player tank layers
 
@@ -45,8 +44,6 @@ public class PlayerTankController : MonoBehaviour
     {
         layers = new List<LayerManager>(2);   //Start the list with room for two layers
         AdjustLayersInList();
-
-        treadAnimator = GetComponentInChildren<Animator>();
         UpdateTreadParticles(); //Update the tread particles
     }
 

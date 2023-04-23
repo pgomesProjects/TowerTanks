@@ -89,10 +89,8 @@ public class TutorialDialogHandler : DialogEvent
 
     public void OnTextComplete()
     {
-        if (!TutorialController.main.listenForInput)
-        {
+        if (!TutorialController.main.listenForInput && !TutorialController.main.advanceTextDisabled)
             continueObject.SetActive(true);
-        }
     }
 
     public override void OnEventComplete()

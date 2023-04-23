@@ -7,8 +7,8 @@ using TMPro;
 public enum TUTORIALSTATE
 {
     READING,
-    PLAYERMOVEMENT,
-    PICKUPHAMMER,
+    INTERACTDUMPSTER,
+    GETSCRAP,
     BUILDLAYERS,
     BUILDCANNON,
     FIRECANNON,
@@ -35,8 +35,13 @@ public class TutorialController : MonoBehaviour
     internal float currentTextSpeed;
 
     internal bool listenForInput;
+    internal bool advanceTextDisabled;
 
     internal TUTORIALSTATE currentTutorialState;
+
+    private float advanceTextCooldown = 0.1f;
+    private float currentCooldown;
+    private bool canAdvanceText;
 
     private void Awake()
     {
@@ -51,7 +56,7 @@ public class TutorialController : MonoBehaviour
     public void AdvanceText()
     {
         //If the dialog is activated and not in the control / history menu
-        if (isDialogActive)
+        if (isDialogActive && canAdvanceText && !advanceTextDisabled)
         {
             //If there is text being written already, write everything
             if (textWriterSingle != null && textWriterSingle.IsActive() && !listenForInput)
@@ -60,13 +65,13 @@ public class TutorialController : MonoBehaviour
             //If there is no text and there are still seen lines left, check for events needed to display the text
             else if (dialogEvent.HasSeenCutscene() && dialogEvent.GetCurrentLine() < dialogEvent.GetSeenDialogLength() && !listenForInput)
             {
-                Invoke("OnTextAdvance", 0.1f);
+                OnTextAdvance();
             }
 
             //If there is no text and there are still lines left, check for events needed to display the text
             else if (!dialogEvent.HasSeenCutscene() && dialogEvent.GetCurrentLine() < dialogEvent.GetDialogLength() && !listenForInput)
             {
-                Invoke("OnTextAdvance", 0.1f);
+                OnTextAdvance();
             }
 
             //If all of the text has been shown, call the event for when the text is complete
@@ -75,6 +80,9 @@ public class TutorialController : MonoBehaviour
                 isDialogActive = false;
                 dialogEvent.OnEventComplete();
             }
+
+            currentCooldown = 0f;
+            canAdvanceText = false;
         }
     }
 
@@ -117,31 +125,41 @@ public class TutorialController : MonoBehaviour
         AdvanceText();
     }
 
+    /// <summary>
+    /// Advances the text automatically with a delay.
+    /// </summary>
+    /// <param name="delay">The delay in seconds for the text advance.</param>
+    public void AutoAdvance(float delay)
+    {
+        StartCoroutine(AutoAdvanceWait(delay));
+    }
+
+    private IEnumerator AutoAdvanceWait(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        advanceTextDisabled = false;
+        AdvanceText();
+    }
+
     private void OnTextAdvance()
     {
         dialogEvent.CheckEvents(ref textWriterSingle);
     }
 
-    private bool tutorialCompleteWithDelay = true;
-
     private void Update()
     {
         //Global tutorial listener
-        if (listenForInput)
+        /*        if (listenForInput)
+                {
+
+                }*/
+
+        if (!canAdvanceText)
         {
-            switch (currentTutorialState)
-            {
-                case TUTORIALSTATE.PLAYERMOVEMENT:
-                    if (HaveAllPlayersMoved())
-                    {
-                        if (tutorialCompleteWithDelay)
-                        {
-                            tutorialCompleteWithDelay = false;
-                            Invoke("OnTutorialTaskCompletion", 4);
-                        }
-                    }
-                    break;
-            }
+            if(currentCooldown > advanceTextCooldown)
+                canAdvanceText = true;
+            else
+                currentCooldown += Time.deltaTime;
         }
     }
 

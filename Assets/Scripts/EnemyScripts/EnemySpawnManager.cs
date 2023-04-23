@@ -7,6 +7,7 @@ public enum COMBATDIRECTION { Left, Right };
 public class EnemySpawnManager : MonoBehaviour
 {
     [Header("Enemy Settings")]
+    [SerializeField, Tooltip("The number of rounds that must pass before enemies can start spawning from the left.")] private float roundsUntilLeftSide;
     [SerializeField, Tooltip("The prefabs for the enemies.")] private GameObject[] enemyPrefabs;
     [SerializeField, Tooltip("The enemy spawners.")] private Transform [] spawnTransforms;
     [SerializeField, Tooltip("The enemy container.")] private Transform enemyContainer;
@@ -40,7 +41,14 @@ public class EnemySpawnManager : MonoBehaviour
     {
         //Pick a random enemy from the list of enemies and spawn it at a random spawner
         int enemyIndex = Random.Range(0, enemyPrefabs.Length);
-        int spawnerIndex = Random.Range(0, spawnTransforms.Length);
+
+        int spawnerIndex;
+
+        //After a certain amount of rounds, allow the chance of enemies to spawn on the left
+        if (LevelManager.instance.currentRound > roundsUntilLeftSide)
+            spawnerIndex = Random.Range(0, spawnTransforms.Length);
+        else
+            spawnerIndex = 1;
 
         if (debugSpawnEnemyLeft)
             spawnerIndex = 0;

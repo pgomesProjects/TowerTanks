@@ -8,18 +8,23 @@ public class InteractableController : MonoBehaviour
     public UnityEvent interactEvent;
     public UnityEvent cancelEvent;
 
+    [SerializeField, Tooltip("If true, the player is locked into place when interacting.")]protected bool lockPlayerIntoInteraction;
+    [SerializeField, Tooltip("The highlight on the interactable that indicates which player is interacting with it.")] protected SpriteRenderer highlight;
+    [SerializeField, Tooltip("The canvas that indicates whether a player is locked into it.")] protected GameObject lockedInteractionCanvas;
+    [SerializeField, Tooltip("If true, the player immediately uses the interactable on start.")] protected bool interactOnStart = true;
+
+    [SerializeField, Tooltip("The percent increase on every use of the item that it will break.")] protected float breakPercentIncreaseOnUse;
+    [SerializeField, Tooltip("If true, the interactable can be sold.")] protected bool canBeSold = true;
+
     protected List<int> playersColliding = new List<int>();
     protected PlayerController currentPlayerLockedIn;
+
     protected bool interactionActive;
-    [SerializeField]protected bool lockPlayerIntoInteraction;
-
-    [SerializeField] protected SpriteRenderer highlight;
-    [SerializeField] protected GameObject lockedInteractionCanvas;
-
-    [SerializeField] protected bool interactOnStart = true;
     protected bool firstInteractionComplete = false;
 
     protected PlayerController currentPlayer;
+
+
     private void Start()
     {
         interactionActive = false;
@@ -133,8 +138,13 @@ public class InteractableController : MonoBehaviour
     /// </summary>
     public virtual void OnUseInteractable()
     {
-        if(!firstInteractionComplete)
-            firstInteractionComplete = true;
+        if (!firstInteractionComplete)
+            Invoke("OnFirstInteractionComplete", 0.1f);
+    }
+
+    private void OnFirstInteractionComplete()
+    {
+        firstInteractionComplete = true;
     }
 
     public void OnCancel()

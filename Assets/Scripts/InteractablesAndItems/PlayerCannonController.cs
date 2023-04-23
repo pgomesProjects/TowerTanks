@@ -64,7 +64,7 @@ public class PlayerCannonController : CannonController
             if (LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
             {
                 if (TutorialController.main.currentTutorialState == TUTORIALSTATE.FIRECANNON)
-                    TutorialController.main.OnTutorialTaskCompletion();
+                    LevelManager.instance.ShowPopup(false);
             }
             else
                 currentCooldown = cannonCooldown;   //Reset cooldown

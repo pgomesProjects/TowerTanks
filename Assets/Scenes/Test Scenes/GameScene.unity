@@ -954,7 +954,8 @@ MonoBehaviour:
   layerParent: {fileID: 1046574832}
   layerPrefab: {fileID: 5955183963202136393, guid: ebaf71e98151f254aa3c0146e0054874, type: 3}
   ghostLayerPrefab: {fileID: 1362854724604262610, guid: f5ceebe7143a8944ba73657ee0a2fc33, type: 3}
-  tutorialPopup: {fileID: 121572917}
+  tutorialPopup: {fileID: 2119438489}
+  popupText: {fileID: 684981127}
   resourcesDisplay: {fileID: 701447237}
   tutorialEvent: {fileID: 1005274065}
   scrapValue: 25
@@ -1293,6 +1294,77 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isEnemyTank: 0
+--- !u!1001 &291652249
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1046574832}
+    m_Modifications:
+    - target: {fileID: 155784205779696455, guid: ebaf71e98151f254aa3c0146e0054874, type: 3}
+      propertyPath: nextLayerIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5955183963202136392, guid: ebaf71e98151f254aa3c0146e0054874, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5955183963202136392, guid: ebaf71e98151f254aa3c0146e0054874, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5955183963202136392, guid: ebaf71e98151f254aa3c0146e0054874, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5955183963202136392, guid: ebaf71e98151f254aa3c0146e0054874, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5955183963202136392, guid: ebaf71e98151f254aa3c0146e0054874, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5955183963202136392, guid: ebaf71e98151f254aa3c0146e0054874, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5955183963202136392, guid: ebaf71e98151f254aa3c0146e0054874, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5955183963202136392, guid: ebaf71e98151f254aa3c0146e0054874, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5955183963202136392, guid: ebaf71e98151f254aa3c0146e0054874, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5955183963202136392, guid: ebaf71e98151f254aa3c0146e0054874, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5955183963202136392, guid: ebaf71e98151f254aa3c0146e0054874, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5955183963202136393, guid: ebaf71e98151f254aa3c0146e0054874, type: 3}
+      propertyPath: m_Name
+      value: TANK LAYER 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ebaf71e98151f254aa3c0146e0054874, type: 3}
+--- !u!4 &291652250 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5955183963202136392, guid: ebaf71e98151f254aa3c0146e0054874, type: 3}
+  m_PrefabInstance: {fileID: 291652249}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &291652251 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4193823573773293048, guid: ebaf71e98151f254aa3c0146e0054874, type: 3}
+  m_PrefabInstance: {fileID: 291652249}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &314952508
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3554,6 +3626,7 @@ MonoBehaviour:
   tankBarrierRange: 12
   distanceUntilSpawn: 50
   itemContainer: {fileID: 47243857}
+  treadAnimator: {fileID: 1151924251}
   dustParticles:
   - {fileID: 477610663}
   - {fileID: 1274897389}
@@ -3864,6 +3937,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9687ecd46b30dde46bf6a0f17b25e1d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  roundsUntilLeftSide: 6
   enemyPrefabs:
   - {fileID: 7820399864603157553, guid: fac2f88a97e9b2f4496ffe1ce458d3e1, type: 3}
   - {fileID: 7820399864603157553, guid: d63306c37658e0a4cbbe296e6cf32dde, type: 3}
@@ -4270,32 +4344,32 @@ MonoBehaviour:
   - Welcome to the wasteland, cadets!
   - Our reports indicate enemy vehicles approaching your location, so we need to
     get a tank up and running!
-  - Move your feet, cadets! That tank ain't gonna build itself! [Move Around With
-    <Movement>.]
-  - Somebody pick up that hammer! [Pick Up / Drop Items With <Pick Up>. Throw Them
-    With <Throw>.]
+  - Someone go to the dumpster! This tank won't build itself! [Move Around With <Movement>
+    And Press <Interact> To Use The Dumpster.]
   - Your tank needs layers in order to be a true Tower Tank!
-  - Build 2 layers on the double! [While Holding The Hammer, Press and Hold <Use>
-    To Build.]
-  - Each layer has 2 slots for machinery!
-  - We'll need to fill 'em up in order for this puppy to run properly!
-  - Every good tank needs a cannon! Build one at the front, cadets! [While Holding
-    The Hammer, Cycle Through Buildable Machines With <Cycle Left> and <Cycle Right>.
-    Find The Cannon And Build It With <Use>.]
+  - Your gonna need about 100 scrap to build one! Use that dumpster to get your scrap!
+    [When Interacting With An Item, Press Either <Interact>, <Repair>, Or <Build>
+    To Use It. Press <Cancel> To Exit.]
+  - Build another layer pronto! [While Holding Scrap On Top Of The Tank, Press and
+    Hold <Build> To Build A Layer.]
   - Way to put that scrap to good use! Make sure you keep an eye on your total!
+  - Each layer has 2 slots for machinery!
+  - We'll need to fill some of 'em up with machinery in order to run this puppy properly!
+  - Every good tank needs a cannon! Build one at the front, cadets! [While Holding
+    Scrap, Cycle Through Buildable Machines With <Cycle Left> and <Cycle Right>.
+    Find The Cannon And Build It With <Build>.]
   - "Let\u2019s make sure that boomstick works! Would any of you like to do the honors?"
-  - '[Interact With The Cannon With <Interact> To Man It. Rotate <Rotate Cannon>
-    To Aim And Press <Use> To Fire. Press Interact Again To Exit The Cannon.]'
+  - '[Interact With The Cannon And Press Any Of The Use Buttons To Fire.]'
   - Nicely done, cadets! I think it's about time we get rolling!
   - Looks like you'll need an engine first! [Build An Engine.]
-  - The tank won't move unless it's got fuel.
+  - The tank won't move unless it's got fuel!
   - Someone get on it! Put your back into it! [Interact With The Engine And Rapidly
-    Press <Use> To Fuel It.]
+    Press The Use Buttons To Fuel It.]
   - Incoming fire!
   - Everyone alright? Good!
   - That layer won't be there for long if that fire keeps burning!
-  - Put it out with the dandy Fire...er..."Remover"! [Pick Up The Fire Remover And
-    Hold <Use> To Use It When At The Fire.]
+  - Put it out with one of your dandy Fire...er..."Remover"! [Go To The Fire And
+    Hold <Repair> To Put It Out.]
   - Excellent. Listen to that baby purr!
   - 'We need one more thing before this hunk of metal will go anywhere: a Throttle!
     [Build A Throttle.]'
@@ -4321,6 +4395,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resourcesObject: {fileID: 1961525136}
   resourcesArrow: {fileID: 1984669198}
+  dumpsterIndicator: {fileID: 291652251}
 --- !u!114 &1005274067
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4431,7 +4506,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 291652250}
   m_Father: {fileID: 815365862}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8638,7 +8714,7 @@ GameObject:
   - component: {fileID: 2119438492}
   - component: {fileID: 2119438491}
   m_Layer: 5
-  m_Name: Background
+  m_Name: Graphic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

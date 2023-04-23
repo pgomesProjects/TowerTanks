@@ -62,5 +62,11 @@ public class DumpsterController : InteractableController
                 currentPlayer.HideInteractionPrompt();
             }
         }
+        else
+        {
+            //If the player is locked in and it is during the tutorial phase, continue the tutorial
+            if (LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL && TutorialController.main.currentTutorialState == TUTORIALSTATE.INTERACTDUMPSTER)
+                TutorialController.main.OnTutorialTaskCompletion();
+        }
     }
 }

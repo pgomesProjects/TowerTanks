@@ -521,6 +521,12 @@ public class PlayerController : MonoBehaviour
                 LevelManager.instance.GetPlayerTank().GetLayerAt(currentLayer).GetComponent<GhostInteractables>().CreateGhostInteractables(this);
             else if(IsHoldingScrap())
                 LevelManager.instance.AddGhostLayer();
+
+            if (LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL && TutorialController.main.currentTutorialState == TUTORIALSTATE.GETSCRAP)
+            {
+                if (scrapValue >= 100)
+                    TutorialController.main.OnTutorialTaskCompletion();
+            }
         }
 
         //If build mode is not active
@@ -720,6 +726,7 @@ public class PlayerController : MonoBehaviour
             progressBarSlider.value = 0;
             currentLoadAction = ProgressBarLoad(secondsTillCompletion, actionOnComplete);
             StartCoroutine(currentLoadAction);
+            canMove = false;
 
             ShowScrap(false);
 
@@ -752,6 +759,7 @@ public class PlayerController : MonoBehaviour
         playerAnimator.SetBool("IsBuilding", false);
         HideProgressBar();
         ShowScrap(true);
+        canMove = true;
     }
 
     public void CancelProgressBar()
@@ -764,6 +772,7 @@ public class PlayerController : MonoBehaviour
         ShowScrap(true);
         playerAnimator.SetBool("IsBuilding", false);
         HideProgressBar();
+        canMove = true;
     }
 
     public void HideProgressBar()
@@ -842,14 +851,14 @@ public class PlayerController : MonoBehaviour
             LevelManager.instance.AddGhostLayer();
         }
 
-        if (LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
+/*        if (LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
         {
             if (TutorialController.main.currentTutorialState == TUTORIALSTATE.PICKUPHAMMER && PlayerHasItem("Hammer"))
             {
                 //Tell tutorial that task is complete
                 TutorialController.main.OnTutorialTaskCompletion();
             }
-        }
+        }*/
 
         //If the item can deal damage, remove that
         if (itemHeld.GetComponent<DamageObject>() != null)

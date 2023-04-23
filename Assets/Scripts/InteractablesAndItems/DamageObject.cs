@@ -101,7 +101,23 @@ public class DamageObject : MonoBehaviour
 
     private void OnDestroy()
     {
-        if(FindObjectOfType<AudioManager>() != null)
+        if (LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
+        {
+            if(TutorialController.main.currentTutorialState == TUTORIALSTATE.FIRECANNON)
+            {
+                LevelManager.instance.SetPopupText("");
+                LevelManager.instance.ShowPopup(true);
+                TutorialController.main.OnTutorialTaskCompletion();
+            }
+
+            if(transform.name.Contains("Fake"))
+            {
+                TutorialController.main.AutoAdvance(3f);
+                LevelManager.instance.ShowPopup(false);
+            }
+        }
+
+        if (FindObjectOfType<AudioManager>() != null)
             FindObjectOfType<AudioManager>().Stop("ProjectileInAirSFX", gameObject);
     }
 }

@@ -23,6 +23,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private GameObject layerPrefab;
     [SerializeField] private GameObject ghostLayerPrefab;
     [SerializeField] private GameObject tutorialPopup;
+    [SerializeField] private TextMeshProUGUI popupText;
     [SerializeField] private TextMeshProUGUI resourcesDisplay;
     [SerializeField] private DialogEvent tutorialEvent;
     [SerializeField] private int scrapValue;
@@ -53,7 +54,7 @@ public class LevelManager : MonoBehaviour
         isPaused = false;
         readingTutorial = false;
         currentPlayerPaused = -1;
-        totalLayers = 0;
+        totalLayers = 1;
         currentRound = 0;
         resourcesDisplay.text = resourcesNum.ToString();
         itemPrice = new Dictionary<string, int>();
@@ -87,8 +88,7 @@ public class LevelManager : MonoBehaviour
             resourcesDisplay.text = resourcesNum.ToString("n0");
             TransitionGameState();
 
-            AddLayer();
-            AddLayer();
+            AddLayer(); //Add another layer
         }
         else
         {
@@ -415,7 +415,7 @@ public class LevelManager : MonoBehaviour
             //Tutorial to Gameplay
             case GAMESTATE.TUTORIAL:
                 levelPhase = GAMESTATE.GAMEACTIVE;
-                tutorialPopup.SetActive(false);
+                ShowPopup(false);
                 readingTutorial = false;
                 playerTank.ResetTankDistance();
                 break;
@@ -501,6 +501,9 @@ public class LevelManager : MonoBehaviour
         gameOverCanvas.SetActive(false);
         sessionStatsCanvas.SetActive(true);
     }
+
+    public void ShowPopup(bool showPopup) => tutorialPopup.SetActive(showPopup);
+    public void SetPopupText(string newText) => popupText.text = newText;
 
     public int GetScrapValue() => scrapValue;
     public PlayerTankController GetPlayerTank() => playerTank;

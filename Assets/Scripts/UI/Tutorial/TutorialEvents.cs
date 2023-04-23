@@ -7,21 +7,30 @@ public class TutorialEvents : CustomEvent
     [SerializeField] private GameObject resourcesObject;
     [SerializeField] private GameObject resourcesArrow;
 
+    [SerializeField] private GameObject dumpsterIndicator;
+
     public override void CheckForCustomEvent(int indexNumber)
     {
+        Debug.Log("Index Number: " + indexNumber);
+
         switch (indexNumber)
         {
-            //Player Movement Prompt
+            //Interact Dumpster Prompt
             case 2:
                 foreach(var player in FindObjectsOfType<PlayerController>())
                     player.SetPlayerMove(true);
 
-                TutorialController.main.currentTutorialState = TUTORIALSTATE.PLAYERMOVEMENT;
+                dumpsterIndicator.SetActive(true);
+                TutorialController.main.currentTutorialState = TUTORIALSTATE.INTERACTDUMPSTER;
                 UnlockPlayers();
                 break;
-            //Pick Up Hammer Prompt
             case 3:
-                TutorialController.main.currentTutorialState = TUTORIALSTATE.PICKUPHAMMER;
+                dumpsterIndicator.SetActive(false);
+                LockPlayers();
+                break;
+            //Grab Scrap Prompt
+            case 4:
+                TutorialController.main.currentTutorialState = TUTORIALSTATE.GETSCRAP;
                 UnlockPlayers();
                 break;
             //Build Layers Prompt
@@ -29,13 +38,20 @@ public class TutorialEvents : CustomEvent
                 TutorialController.main.currentTutorialState = TUTORIALSTATE.BUILDLAYERS;
                 UnlockPlayers();
                 break;
-            //Show all interactable indicators
             case 6:
-                foreach(var i in FindObjectsOfType<InteractableSpawner>())
+                resourcesObject.SetActive(true);
+                resourcesArrow.SetActive(true);
+                LockPlayers();
+                break;
+            //Show all interactable indicators
+            case 7:
+                resourcesArrow.SetActive(false);
+                foreach (var i in FindObjectsOfType<InteractableSpawner>())
                     i.ShowTutorialIndicator(true);
+                LockPlayers();
                 break;
             //Build Cannon Prompt
-            case 8:
+            case 9:
                 foreach (var i in FindObjectsOfType<InteractableSpawner>())
                     i.ShowTutorialIndicator(false);
 
@@ -45,15 +61,10 @@ public class TutorialEvents : CustomEvent
                 TutorialController.main.currentTutorialState = TUTORIALSTATE.BUILDCANNON;
                 UnlockPlayers();
                 break;
-            case 9:
+            case 10:
                 GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().GetLayerAt(1).
                     transform.Find("InteractSpawnerRight").GetComponent<InteractableSpawner>().ShowTutorialIndicator(false);
-
-                resourcesObject.SetActive(true);
-                resourcesArrow.SetActive(true);
-                break;
-            case 10:
-                resourcesArrow.SetActive(false);
+                LockPlayers();
                 break;
             //Fire Cannon Prompt
             case 11:
@@ -70,6 +81,7 @@ public class TutorialEvents : CustomEvent
             case 14:
                 GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().GetLayerAt(0).
                     transform.Find("InteractSpawnerLeft").GetComponent<InteractableSpawner>().ShowTutorialIndicator(false);
+                LockPlayers();
                 break;
             //Add Fuel Prompt
             case 15:
@@ -78,6 +90,11 @@ public class TutorialEvents : CustomEvent
                 break;
             case 16:
                 FindObjectOfType<FakeBulletSpawner>().SpawnFakeBullet();
+                TutorialController.main.advanceTextDisabled = true;
+                LockPlayers();
+                break;
+            case 17:
+                LevelManager.instance.ShowPopup(true);
                 LockPlayers();
                 break;
             //Put Out Fire Prompt
@@ -95,6 +112,7 @@ public class TutorialEvents : CustomEvent
             case 22:
                 GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().GetLayerAt(0).
                     transform.Find("InteractSpawnerRight").GetComponent<InteractableSpawner>().ShowTutorialIndicator(false);
+                LockPlayers();
                 break;
             //Move Throttle Prompt
             case 24:
