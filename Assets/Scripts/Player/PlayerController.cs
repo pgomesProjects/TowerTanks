@@ -40,6 +40,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject firefoam;
     [SerializeField] private GameObject leftfirefoam;
     [SerializeField] private GameObject smabuildscraps;
+    public Transform particleSpawn; //place to spawn certain particles during animations
 
     //Runtime Variables
     private int playerIndex;
@@ -310,6 +311,10 @@ public class PlayerController : MonoBehaviour
         scrapHolder.localPosition = new Vector2(scrapHolder.localPosition.x, newY);
     }
 
+    public void AdjustParticleSpawnX(float newX) {
+        particleSpawn.localPosition = new Vector2(isFacingRight ? newX : -newX, particleSpawn.localPosition.y);
+    }
+
     #region OnInputFunctions
     //Send value from Move callback to the horizontal Vector2
     public void OnMove(InputAction.CallbackContext ctx) => movement = ctx.ReadValue<Vector2>();
@@ -394,7 +399,7 @@ public class PlayerController : MonoBehaviour
                     if (i.GetComponent<PriceIndicator>().PlayerCanPurchase(this))
                     {
                         i.GetComponent<PriceIndicator>().PurchaseInteractable();
-                        Instantiate(smabuildscraps, transform.position, Quaternion.identity);
+                        //Instantiate(smabuildscraps, transform.position, Quaternion.identity);
                     }
                 }
 
@@ -789,7 +794,7 @@ public class PlayerController : MonoBehaviour
                         Instantiate(leftfirefoam, transform.position, Quaternion.identity);
                     break;
             }
-            Instantiate(buildscrap, transform.position, Quaternion.identity);
+            //Instantiate(buildscrap, transform.position, Quaternion.identity);
         }
     }
 
@@ -1117,6 +1122,10 @@ public class PlayerController : MonoBehaviour
     public void PlayLadderClimbSFX() => FindObjectOfType<AudioManager>().Play("LadderClimb", gameObject);
     public void PlayHammerSFX() => FindObjectOfType<AudioManager>().Play("TankImpact", gameObject);
     public void PlayWrenchSFX() => FindObjectOfType<AudioManager>().Play("UseWrench", gameObject);
+
+    public void SpawnParticle(GameObject particle) {
+        Instantiate(particle, particleSpawn.position, Quaternion.identity);
+    }
 
     public bool PlayerCanInteract()
     {
