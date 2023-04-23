@@ -64,9 +64,18 @@ public class DumpsterController : InteractableController
         }
         else
         {
+
             //If the player is locked in and it is during the tutorial phase, continue the tutorial
             if (LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL && TutorialController.main.currentTutorialState == TUTORIALSTATE.INTERACTDUMPSTER)
                 TutorialController.main.OnTutorialTaskCompletion();
         }
+
+        currentPlayer.GetComponent<Animator>().SetBool("IsGathering", lockPlayer); //Adjust animation state
+    }
+
+    public override void UnlockAllPlayers()
+    {
+        base.UnlockAllPlayers();
+        currentPlayer.GetComponent<Animator>().SetBool("IsGathering", false); //Adjust animation state
     }
 }

@@ -8,7 +8,7 @@ using UnityEngine.UI;
 using TMPro;
 public class PlayerController : MonoBehaviour
 {
-    public enum PlayerActions { NONE, BUILDING, SELLING };
+    public enum PlayerActions { NONE, BUILDING, REPAIRING, EXTINGUISHING, SELLING };
 
     [Header("Movement Settings")]
     [SerializeField] private float speed = 8f;
@@ -282,13 +282,13 @@ public class PlayerController : MonoBehaviour
         {
             GetComponent<SpriteRenderer>().flipX = false;
             transform.Find("Outline").GetComponent<SpriteRenderer>().flipX = false;
-            AdjustScrapHolderPosition(new Vector2(-scrapHolder.transform.localPosition.x, scrapHolder.transform.localPosition.y));
+            AdjustScrapHolderPosition(new Vector2(-scrapHolder.localPosition.x, scrapHolder.localPosition.y));
         }
         else
         {
             GetComponent<SpriteRenderer>().flipX = true;
             transform.Find("Outline").GetComponent<SpriteRenderer>().flipX = true;
-            AdjustScrapHolderPosition(scrapHolder.transform.localPosition);
+            AdjustScrapHolderPosition(scrapHolder.localPosition);
         }
     }
 
@@ -299,12 +299,12 @@ public class PlayerController : MonoBehaviour
 
     public void AdjustScrapHolderPositionX(float newX)
     {
-        scrapHolder.localPosition = new Vector2(isFacingRight ? newX : -newX, scrapHolder.transform.localPosition.y);
+        scrapHolder.localPosition = new Vector2(isFacingRight ? newX : -newX, scrapHolder.localPosition.y);
     }
 
     public void AdjustScrapHolderPositionY(float newY)
     {
-        scrapHolder.transform.localPosition = new Vector2(scrapHolder.transform.localPosition.x, newY);
+        scrapHolder.localPosition = new Vector2(scrapHolder.localPosition.x, newY);
     }
 
     #region OnInputFunctions
@@ -369,12 +369,12 @@ public class PlayerController : MonoBehaviour
                 if (CheckForWrenchUse())
                     return;
             }
+        }
 
-            if (ctx.canceled)
-            {
-                if (taskInProgress)
-                    CancelProgressBar();
-            }
+        if (ctx.canceled)
+        {
+            if (taskInProgress)
+                CancelProgressBar();
         }
     }
 
@@ -675,11 +675,7 @@ public class PlayerController : MonoBehaviour
             if (timeToUseFireRemover > 0)
             {
                 isRepairingLayer = true;
-                StartProgressBar(timeToUseFireRemover, UseFireRemover);
-                if (isFacingRight)
-                    Instantiate(firefoam, transform.position, Quaternion.identity);
-                else
-                    Instantiate(leftfirefoam, transform.position, Quaternion.identity);
+                StartProgressBar(timeToUseFireRemover, UseFireRemover, PlayerActions.EXTINGUISHING);
             }
             return true;
         }
@@ -707,10 +703,8 @@ public class PlayerController : MonoBehaviour
         {
             if (timeToUseWrench > 0)
             {
-                //Play sound effect
-                PlayWrenchSFX();
                 isRepairingLayer = true;
-                StartProgressBar(timeToUseWrench, UseWrench);
+                StartProgressBar(timeToUseWrench, UseWrench, PlayerActions.REPAIRING);
             }
             return true;
         }
@@ -781,6 +775,16 @@ public class PlayerController : MonoBehaviour
                 case PlayerActions.BUILDING:
                     playerAnimator.SetBool("IsBuilding", true);
                     break;
+                case PlayerActions.REPAIRING:
+                    playerAnimator.SetBool("IsRepairing", true);
+                    break;
+                case PlayerActions.EXTINGUISHING:
+                    playerAnimator.SetBool("IsExtinguishing", true);
+                    if (isFacingRight)
+                        Instantiate(firefoam, transform.position, Quaternion.identity);
+                    else
+                        Instantiate(leftfirefoam, transform.position, Quaternion.identity);
+                    break;
             }
             Instantiate(buildscrap, transform.position, Quaternion.identity);
         }
@@ -801,7 +805,7 @@ public class PlayerController : MonoBehaviour
 
         ChangeItemTransparency(1.0f);
         actionOnComplete.Invoke();
-        playerAnimator.SetBool("IsBuilding", false);
+        ResetAnimatorBools();
         HideProgressBar();
         ShowScrap(true);
         canMove = true;
@@ -815,9 +819,16 @@ public class PlayerController : MonoBehaviour
         StopCoroutine(currentLoadAction);
         taskInProgress = false;
         ShowScrap(true);
-        playerAnimator.SetBool("IsBuilding", false);
+        ResetAnimatorBools();
         HideProgressBar();
         canMove = true;
+    }
+
+    private void ResetAnimatorBools()
+    {
+        playerAnimator.SetBool("IsBuilding", false);
+        playerAnimator.SetBool("IsRepairing", false);
+        playerAnimator.SetBool("IsExtinguishing", false);
     }
 
     public void HideProgressBar()
