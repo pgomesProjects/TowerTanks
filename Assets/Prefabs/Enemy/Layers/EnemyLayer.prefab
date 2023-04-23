@@ -365,6 +365,10 @@ MonoBehaviour:
   highlight: {fileID: 0}
   lockedInteractionCanvas: {fileID: 0}
   interactOnStart: 1
+  breakPercentIncreaseOnUse: 0
+  value: 0
+  sellPercent: 0
+  canBeSold: 1
   projectile: {fileID: 4737827509279057301, guid: c7da71b2e77ef994ba9aa8d6241280ae, type: 3}
   cannonPivot: {fileID: 5756516881956792896}
   spawnPoint: {fileID: 2409164640842886693}
@@ -378,7 +382,7 @@ MonoBehaviour:
   range: 50
   cSmoke: {fileID: 5685215182269984755, guid: c46e4d1f99931154eb653843e9cf0c8e, type: 3}
   secondsToFireMinimum: 7
-  secondsToFireMaximum: 12
+  secondsToFireMaximum: 11
   targetRadius: 5
   enemyCannonTargetRange: {x: 3, y: 6}
   aimTargetRefreshRate: 0.5
@@ -491,6 +495,10 @@ MonoBehaviour:
   highlight: {fileID: 0}
   lockedInteractionCanvas: {fileID: 0}
   interactOnStart: 1
+  breakPercentIncreaseOnUse: 0
+  value: 0
+  sellPercent: 0
+  canBeSold: 1
   projectile: {fileID: 4737827509279057301, guid: c7da71b2e77ef994ba9aa8d6241280ae, type: 3}
   cannonPivot: {fileID: 6498271584567740041}
   spawnPoint: {fileID: 7442898785795230172}
@@ -503,8 +511,8 @@ MonoBehaviour:
   currentCannonDirection: 1
   range: 50
   cSmoke: {fileID: 5685215182269984755, guid: c46e4d1f99931154eb653843e9cf0c8e, type: 3}
-  secondsToFireMinimum: 7
-  secondsToFireMaximum: 12
+  secondsToFireMinimum: 8
+  secondsToFireMaximum: 13
   targetRadius: 5
   enemyCannonTargetRange: {x: 3, y: 6}
   aimTargetRefreshRate: 0.5
@@ -584,6 +592,7 @@ MonoBehaviour:
   destroyResourcesValue: 80
   scrapDamage: {fileID: 3447509628083107344, guid: 468489efe652f3940964bc99b56536de, type: 3}
   debugLayerDamage: 0
+  debugSelfDestruct: 0
   debugFire: 0
 --- !u!61 &5835015112034780481
 BoxCollider2D:
