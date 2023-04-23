@@ -7,12 +7,11 @@ public class TutorialEvents : CustomEvent
     [SerializeField] private GameObject resourcesObject;
     [SerializeField] private GameObject resourcesArrow;
 
+    [SerializeField] private RectTransform tutorialBoxTransform;
     [SerializeField] private GameObject dumpsterIndicator;
 
     public override void CheckForCustomEvent(int indexNumber)
     {
-        Debug.Log("Index Number: " + indexNumber);
-
         switch (indexNumber)
         {
             //Interact Dumpster Prompt
@@ -39,6 +38,8 @@ public class TutorialEvents : CustomEvent
                 UnlockPlayers();
                 break;
             case 6:
+                ChangeTransformAnchor(new Vector2(0f, 0.5f));
+                ChangeBoxPosition(new Vector2(-8f, 0f));
                 resourcesObject.SetActive(true);
                 resourcesArrow.SetActive(true);
                 LockPlayers();
@@ -135,6 +136,18 @@ public class TutorialEvents : CustomEvent
     {
         TutorialController.main.listenForInput = false;
         LevelManager.instance.readingTutorial = true;
+    }
+    
+    private void ChangeTransformAnchor(Vector2 newAnchor)
+    {
+        tutorialBoxTransform.pivot = newAnchor;
+        tutorialBoxTransform.anchorMin = newAnchor;
+        tutorialBoxTransform.anchorMax = newAnchor;
+    }
+
+    private void ChangeBoxPosition(Vector2 newPos)
+    {
+        tutorialBoxTransform.anchoredPosition = newPos;
     }
 
     public override void CustomOnEventComplete()

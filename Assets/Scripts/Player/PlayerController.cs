@@ -8,7 +8,7 @@ using UnityEngine.UI;
 using TMPro;
 public class PlayerController : MonoBehaviour
 {
-    public enum PlayerActions { NONE, BUILDING };
+    public enum PlayerActions { NONE, BUILDING, SELLING };
 
     [Header("Movement Settings")]
     [SerializeField] private float speed = 8f;
@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float timeToUseWrench = 3;
     [SerializeField] private float timeToUseFireRemover = 3;
     [SerializeField] private float timeToBuild = 3;
+    [SerializeField] private float timeToSell = 3;
     [SerializeField] private int maxAmountOfScrap = 8;
     [SerializeField, Tooltip("The amount of scrap used to repair up to 25% of a layer's health.")] private int scrapToRepair = 1;
     [Space(10)]
@@ -52,6 +53,8 @@ public class PlayerController : MonoBehaviour
 
     internal int previousLayer = 0;
     internal int currentLayer = 0;
+
+    private Vector2 originalScrapHolderPos;
 
     private bool canMove = false;
     private bool hasMoved;
@@ -168,6 +171,8 @@ public class PlayerController : MonoBehaviour
         waitingToClimb = false;
         isFacingRight = true;
         buildModeActive = false;
+
+        originalScrapHolderPos = scrapHolder.localPosition;
     }
 
     private void OnDisable()
@@ -277,12 +282,29 @@ public class PlayerController : MonoBehaviour
         {
             GetComponent<SpriteRenderer>().flipX = false;
             transform.Find("Outline").GetComponent<SpriteRenderer>().flipX = false;
+            AdjustScrapHolderPosition(new Vector2(-scrapHolder.transform.localPosition.x, scrapHolder.transform.localPosition.y));
         }
         else
         {
             GetComponent<SpriteRenderer>().flipX = true;
             transform.Find("Outline").GetComponent<SpriteRenderer>().flipX = true;
+            AdjustScrapHolderPosition(scrapHolder.transform.localPosition);
         }
+    }
+
+    public void AdjustScrapHolderPosition(Vector2 newPosition)
+    {
+        scrapHolder.localPosition = new Vector2(isFacingRight ? newPosition.x : - newPosition.x, newPosition.y);
+    }
+
+    public void AdjustScrapHolderPositionX(float newX)
+    {
+        scrapHolder.localPosition = new Vector2(isFacingRight ? newX : -newX, scrapHolder.transform.localPosition.x);
+    }
+
+    public void AdjustScrapHolderPositionY(float newY)
+    {
+        scrapHolder.transform.localPosition = new Vector2(scrapHolder.transform.localPosition.x, newY);
     }
 
     #region OnInputFunctions
@@ -392,9 +414,12 @@ public class PlayerController : MonoBehaviour
         {
             if (ctx.started)
             {
-                if(currentInteractableItem != null && !canMove)
+                if(currentInteractableItem != null)
                 {
-                    currentInteractableItem.OnEndInteraction(this);
+                    if (!canMove)
+                        currentInteractableItem.OnEndInteraction(this);
+                    else
+                        StartInteractableSell();
                     return;
                 }
 
@@ -420,6 +445,11 @@ public class PlayerController : MonoBehaviour
 
                     OnScrapUpdated(0);  //Reset the scrap number
                 }
+            }
+            if (ctx.canceled)
+            {
+                if (taskInProgress)
+                    CancelProgressBar();
             }
         }
     }
@@ -606,6 +636,21 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void StartInteractableSell()
+    {
+        if (LevelManager.instance.levelPhase != GAMESTATE.TUTORIAL && !currentInteractableItem.AnyPlayersLockedIn() && currentInteractableItem.CanBeSold())
+        {
+            if (timeToSell > 0)
+                StartProgressBar(timeToSell, SellInteractable, PlayerActions.SELLING);
+        }
+    }
+
+    private void SellInteractable()
+    {
+        if (currentInteractableItem != null)
+            currentInteractableItem.Sell();
+    }
+
     /// <summary>
     /// Purchases a new layer using the player's scrap.
     /// </summary>
@@ -663,7 +708,7 @@ public class PlayerController : MonoBehaviour
             if (timeToUseWrench > 0)
             {
                 //Play sound effect
-                FindObjectOfType<AudioManager>().Play("UseWrench", gameObject);
+                PlayWrenchSFX();
                 isRepairingLayer = true;
                 StartProgressBar(timeToUseWrench, UseWrench);
             }
@@ -1057,6 +1102,7 @@ public class PlayerController : MonoBehaviour
     public void PlayFootstepSFX() => FindObjectOfType<AudioManager>().Play("Footstep", gameObject);
     public void PlayLadderClimbSFX() => FindObjectOfType<AudioManager>().Play("LadderClimb", gameObject);
     public void PlayHammerSFX() => FindObjectOfType<AudioManager>().Play("TankImpact", gameObject);
+    public void PlayWrenchSFX() => FindObjectOfType<AudioManager>().Play("UseWrench", gameObject);
 
     public bool PlayerCanInteract()
     {

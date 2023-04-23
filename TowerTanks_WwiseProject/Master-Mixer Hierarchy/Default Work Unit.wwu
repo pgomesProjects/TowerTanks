@@ -52,6 +52,13 @@
 							</ObjectLists>
 						</Bus>
 						<Bus Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}">
+							<PropertyList>
+								<Property Name="BusChannelConfig" Type="int32">
+									<ValueList>
+										<Value>768</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ObjectLists>
 								<ObjectList Name="RTPC">
 									<Reference>

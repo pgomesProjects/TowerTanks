@@ -14,6 +14,8 @@ public class InteractableController : MonoBehaviour
     [SerializeField, Tooltip("If true, the player immediately uses the interactable on start.")] protected bool interactOnStart = true;
 
     [SerializeField, Tooltip("The percent increase on every use of the item that it will break.")] protected float breakPercentIncreaseOnUse;
+    [SerializeField, Tooltip("The value of the interactable")] private int value;
+    [SerializeField, Tooltip("The percentage gained back when sold.")] private float sellPercent;
     [SerializeField, Tooltip("If true, the interactable can be sold.")] protected bool canBeSold = true;
 
     protected List<int> playersColliding = new List<int>();
@@ -207,6 +209,15 @@ public class InteractableController : MonoBehaviour
 
     public PlayerController GetLockedInPlayer() => currentPlayerLockedIn;
 
+    public void Sell()
+    {
+        if(currentPlayerLockedIn == null)
+        {
+            LevelManager.instance.UpdateResources(Mathf.CeilToInt(value * (sellPercent / 100f)));
+            Destroy(gameObject);
+        }
+    }
+
     private void OnDestroy()
     {
         if (currentPlayerLockedIn != null && lockPlayerIntoInteraction)
@@ -215,10 +226,9 @@ public class InteractableController : MonoBehaviour
         }
     }
 
-    public bool IsInteractionActive()
-    {
-         return interactionActive;
-    }
+    public bool IsInteractionActive() => interactionActive;
+    public bool AnyPlayersLockedIn() => currentPlayerLockedIn != null;
+    public bool CanBeSold() => canBeSold;
 
     public void SetCurrentActivePlayer(PlayerController player)
     {

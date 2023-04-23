@@ -2,6 +2,7 @@ using UnityEngine.Audio;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class AudioManager : MonoBehaviour
 
     List<GameObject> registeredGameObjects = new List<GameObject>();    //A list of all registered game objects in Wwise
 
-    public GameObject GlobalGameObject;
+    internal GameObject GlobalGameObject;
 
     private void Awake()
     {

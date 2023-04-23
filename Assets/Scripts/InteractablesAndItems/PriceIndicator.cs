@@ -79,7 +79,7 @@ public class PriceIndicator : MonoBehaviour
                 currentPlayerBuying.UseScrap(price);
                 FindObjectOfType<InteractableSpawnerManager>().CreateInteractable(transform.parent.GetComponent<InteractableSpawner>(), interactableType);
                 //Play sound effect
-                FindObjectOfType<AudioManager>().Play("UseSFX", gameObject);
+                FindObjectOfType<AudioManager>().Play("TankImpact", gameObject);
 
                 //Destroy self
                 Destroy(gameObject);

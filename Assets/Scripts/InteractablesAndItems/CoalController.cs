@@ -9,6 +9,7 @@ public class CoalController : InteractableController
     [SerializeField] private Slider coalPercentageIndicator;
     [SerializeField] private int framesForCoalFill = 5;
     [SerializeField] private float angleRange = 102;
+    [SerializeField] private float coalShovelCooldown = 0.1f;
 
     [SerializeField] private GameObject sparks;
     private int currentCoalFrame;
@@ -20,6 +21,8 @@ public class CoalController : InteractableController
 
     public Sprite[] coalAnimationSprites;
     private float coalLoadAudioLength = 1.5f;
+    private float currentCooldown;
+    private bool canShovel;
 
     private Transform indicatorPivot;
 
@@ -42,6 +45,7 @@ public class CoalController : InteractableController
         depletionRate = depletionSeconds / 100f;
         coalPercentageIndicator.value = coalPercentage;
         indicatorPivot = transform.Find("IndicatorPivot");
+        canShovel = true;
 
         FindObjectOfType<PlayerTankController>().AdjustEngineSpeedMultiplier();
 
@@ -57,6 +61,16 @@ public class CoalController : InteractableController
         if (hasCoal)
         {
             CoalDepletion();
+        }
+
+        if (!canShovel)
+        {
+            if (currentCooldown > coalShovelCooldown)
+            {
+                canShovel = true;
+            }
+            else
+                currentCooldown += Time.deltaTime;
         }
     }
 
@@ -77,7 +91,7 @@ public class CoalController : InteractableController
     /// </summary>
     public override void OnUseInteractable()
     {
-        if(IsInteractionActive())
+        if(IsInteractionActive() && canShovel)
             ProgressCoalFill();
     }
 
@@ -86,8 +100,8 @@ public class CoalController : InteractableController
     /// </summary>
     private void ProgressCoalFill()
     {
-        //If there is a player
-        if (currentPlayer != null)
+        //If there is a player locked in
+        if (currentPlayerLockedIn != null)
         {
             currentPlayer.AddToProgressBar(100f / framesForCoalFill);
             currentCoalFrame++;
@@ -119,6 +133,9 @@ public class CoalController : InteractableController
             }
 
             audio.PlayAtSection("LoadingCoal", startAudioTime, endAudioTime);
+
+            canShovel = false;
+            currentCooldown = 0f;
         }
     }
 
@@ -244,10 +261,7 @@ public class CoalController : InteractableController
         }
     }
 
-    public bool HasCoal()
-    {
-        return hasCoal;
-    }
+    public bool HasCoal() => hasCoal;
 
     public bool IsCoalFull() => coalPercentage >= 100f;
 

@@ -777,8 +777,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 8}
+  m_SizeDelta: {x: 531.9, y: 336.15002}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!225 &121572919
 CanvasGroup:
@@ -2843,8 +2843,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 12.950006}
-  m_SizeDelta: {x: -10, y: -25.899986}
+  m_AnchoredPosition: {x: 0, y: 12.5}
+  m_SizeDelta: {x: -80, y: -75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &684981127
 MonoBehaviour:
@@ -2895,7 +2895,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 32
+  m_fontSize: 29.65
   m_fontSizeBase: 25
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2931,7 +2931,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: 0, w: 19.648743}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -4395,6 +4395,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resourcesObject: {fileID: 1961525136}
   resourcesArrow: {fileID: 1984669198}
+  tutorialBoxTransform: {fileID: 121572918}
   dumpsterIndicator: {fileID: 291652251}
 --- !u!114 &1005274067
 MonoBehaviour:
@@ -6182,11 +6183,11 @@ RectTransform:
   m_Father: {fileID: 2119438490}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 7.5}
-  m_SizeDelta: {x: 0, y: -15.000025}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 29}
+  m_SizeDelta: {x: 200, y: 40}
+  m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1463711431
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8737,10 +8738,10 @@ RectTransform:
   m_Father: {fileID: 121572918}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -12}
-  m_SizeDelta: {x: 800, y: 280}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &2119438491
 MonoBehaviour:
@@ -8762,7 +8763,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: ea7a0027123b8cb4d9b2374f0c618a89, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 227f3a8e4883e554eb0ed14d98906296, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

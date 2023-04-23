@@ -221,6 +221,10 @@ MonoBehaviour:
   highlight: {fileID: 5023853069043599262}
   lockedInteractionCanvas: {fileID: 2810298217805534039}
   interactOnStart: 1
+  breakPercentIncreaseOnUse: 0
+  value: 0
+  sellPercent: 100
+  canBeSold: 1
   scrapPrefab: {fileID: 1122748863546453890, guid: e180f47ec24780646bb25af9d90805be, type: 3}
 --- !u!4 &211861659154876950 stripped
 Transform:

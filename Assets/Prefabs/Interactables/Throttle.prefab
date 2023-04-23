@@ -407,6 +407,11 @@ MonoBehaviour:
   lockPlayerIntoInteraction: 1
   highlight: {fileID: 7139301254719011664}
   lockedInteractionCanvas: {fileID: 120335239312125849}
+  interactOnStart: 1
+  breakPercentIncreaseOnUse: 0
+  value: 50
+  sellPercent: 75
+  canBeSold: 1
   steerAniCurve:
     serializedVersion: 2
     m_Curve:
