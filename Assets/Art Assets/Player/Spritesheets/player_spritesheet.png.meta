@@ -467,10 +467,10 @@ TextureImporter:
       name: playerLadderAscend_02
       rect:
         serializedVersion: 2
-        x: 480
-        y: 1920
-        width: 240
-        height: 240
+        x: 496
+        y: 1928
+        width: 201
+        height: 225
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -488,10 +488,10 @@ TextureImporter:
       name: playerLadderAscend_03
       rect:
         serializedVersion: 2
-        x: 720
-        y: 1920
-        width: 240
-        height: 240
+        x: 735
+        y: 1928
+        width: 201
+        height: 225
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -509,10 +509,10 @@ TextureImporter:
       name: playerLadderDescend_01
       rect:
         serializedVersion: 2
-        x: 960
-        y: 1920
-        width: 240
-        height: 240
+        x: 975
+        y: 1928
+        width: 201
+        height: 225
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
