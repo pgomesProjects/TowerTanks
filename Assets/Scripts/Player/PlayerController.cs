@@ -81,6 +81,7 @@ public class PlayerController : MonoBehaviour
 
     //Items
     private Transform scrapHolder;
+    public SpriteRenderer scrapBag;
     private Item closestItem;
     private Item itemHeld;
     private bool isHoldingItem;
@@ -260,6 +261,7 @@ public class PlayerController : MonoBehaviour
                 rb.velocity = new Vector2(0, movement.y > 0? movement.y * speed: movement.y * speed * downSpeedMultiplier);
                 rb.gravityScale = 0;
                 playerAnimator.SetFloat("PlayerY", movement.y);
+                if (IsHoldingScrap()) scrapBag.enabled = true;
             }
 
             //Once the player stops climbing, bring back gravity
@@ -267,6 +269,7 @@ public class PlayerController : MonoBehaviour
             {
                 rb.gravityScale = defaultGravity;
                 playerAnimator.SetFloat("PlayerY", 0);
+                scrapBag.enabled = false;
             }
         }
         else
