@@ -42,7 +42,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -76,9 +76,306 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: repairtankanimsheet4-16_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 208.53847
+        height: 207
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 14a2b7e479692be408720ee65cb5b646
+      internalID: -1404290001
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: repairtankanimsheet4-16_1
+      rect:
+        serializedVersion: 2
+        x: 218
+        y: 0
+        width: 208.53847
+        height: 207
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1d93f240a4e9d7f4291502aad86e256b
+      internalID: -1296835288
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: repairtankanimsheet4-16_2
+      rect:
+        serializedVersion: 2
+        x: 436
+        y: 0
+        width: 208.53847
+        height: 207
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a62b016a85e776442ad26834738ee3f2
+      internalID: 216897575
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: repairtankanimsheet4-16_3
+      rect:
+        serializedVersion: 2
+        x: 654
+        y: 0
+        width: 208.53847
+        height: 207
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e6b78bf5f0af8af46a3435a1e8d516e6
+      internalID: 1427703433
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: repairtankanimsheet4-16_4
+      rect:
+        serializedVersion: 2
+        x: 872
+        y: 0
+        width: 208.53847
+        height: 207
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 54ca45fdb4b5e84459fef235c282131d
+      internalID: -418837561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: repairtankanimsheet4-16_5
+      rect:
+        serializedVersion: 2
+        x: 1090
+        y: 0
+        width: 208.53847
+        height: 207
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0dfb393bf5eca2a43ad5b404e9b0d289
+      internalID: 1064237758
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: repairtankanimsheet4-16_6
+      rect:
+        serializedVersion: 2
+        x: 1308
+        y: 0
+        width: 208.53847
+        height: 207
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c00632a7bab150844aa08c8411e5fff8
+      internalID: -1840526158
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: repairtankanimsheet4-16_7
+      rect:
+        serializedVersion: 2
+        x: 1526
+        y: 0
+        width: 208.53847
+        height: 207
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 41f7a88f0418bdb4fb5c6f42649bdec1
+      internalID: 193110665
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: repairtankanimsheet4-16_8
+      rect:
+        serializedVersion: 2
+        x: 1744
+        y: 0
+        width: 208.53847
+        height: 207
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5b44fb884b4f06f4bbbbd32582fa9060
+      internalID: 2019343898
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: repairtankanimsheet4-16_9
+      rect:
+        serializedVersion: 2
+        x: 1966
+        y: 0
+        width: 209
+        height: 207
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1a842e76f86534b4ba7c1b31f2d68954
+      internalID: -1317413006
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: repairtankanimsheet4-16_10
+      rect:
+        serializedVersion: 2
+        x: 2192
+        y: 0
+        width: 209
+        height: 207
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9ad1b5cb5a204324085d4180e402b8f9
+      internalID: 1549670910
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: repairtankanimsheet4-16_11
+      rect:
+        serializedVersion: 2
+        x: 2412
+        y: 0
+        width: 209
+        height: 207
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c75b45ec0456a3741915c52eb0b78ca2
+      internalID: -504081374
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: repairtankanimsheet4-16_12
+      rect:
+        serializedVersion: 2
+        x: 2638
+        y: 0
+        width: 203
+        height: 207
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7d39d5cd70292c948b799f0f4a6c9398
+      internalID: 51634000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -89,7 +386,20 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      repairtankanimsheet4-16_10: 1549670910
+      repairtankanimsheet4-16_12: 51634000
+      repairtankanimsheet4-16_2: 216897575
+      repairtankanimsheet4-16_6: -1840526158
+      repairtankanimsheet4-16_1: -1296835288
+      repairtankanimsheet4-16_11: -504081374
+      repairtankanimsheet4-16_5: 1064237758
+      repairtankanimsheet4-16_4: -418837561
+      repairtankanimsheet4-16_8: 2019343898
+      repairtankanimsheet4-16_7: 193110665
+      repairtankanimsheet4-16_9: -1317413006
+      repairtankanimsheet4-16_3: 1427703433
+      repairtankanimsheet4-16_0: -1404290001
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
