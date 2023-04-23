@@ -415,7 +415,7 @@ public class LevelManager : MonoBehaviour
             //Tutorial to Gameplay
             case GAMESTATE.TUTORIAL:
                 levelPhase = GAMESTATE.GAMEACTIVE;
-                ShowPopup(false);
+                tutorialPopup.SetActive(false);
                 readingTutorial = false;
                 playerTank.ResetTankDistance();
                 break;
@@ -502,7 +502,7 @@ public class LevelManager : MonoBehaviour
         sessionStatsCanvas.SetActive(true);
     }
 
-    public void ShowPopup(bool showPopup) => tutorialPopup.SetActive(showPopup);
+    public void ShowPopup(bool showPopup) => tutorialPopup.GetComponent<CanvasGroup>().alpha = showPopup ? 1 : 0;
     public void SetPopupText(string newText) => popupText.text = newText;
 
     public int GetScrapValue() => scrapValue;
