@@ -107,6 +107,11 @@ public class PlayerController : MonoBehaviour
         GetComponent<PlayerInput>().onDeviceRegained += OnDeviceRegained;
 
         SceneManager.sceneLoaded += OnSceneLoaded;
+
+        rb = GetComponent<Rigidbody2D>();
+        playerAnimator = GetComponent<Animator>();
+
+        defaultGravity = rb.gravityScale;
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
@@ -156,15 +161,12 @@ public class PlayerController : MonoBehaviour
 
     private void ResetPlayer()
     {
-        rb = GetComponent<Rigidbody2D>();
-        playerAnimator = GetComponent<Animator>();
         scrapHolder = transform.Find("ScrapHolder");
         interactableHover = transform.Find("HoverPrompt").gameObject;
         scrapNumber = transform.Find("ScrapNumber").gameObject;
         buildIndicator = transform.Find("BuildIndicator").gameObject;
         progressBarCanvas = transform.Find("TaskProgressBar").gameObject;
         progressBarSlider = progressBarCanvas.GetComponentInChildren<Slider>();
-        defaultGravity = rb.gravityScale;
 
         previousLayer = 0;
         currentLayer = 0;
@@ -176,6 +178,7 @@ public class PlayerController : MonoBehaviour
         buildModeActive = false;
 
         defaultProgressColor = progressFill.color;
+        rb.gravityScale = defaultGravity;
     }
 
     private void OnDisable()

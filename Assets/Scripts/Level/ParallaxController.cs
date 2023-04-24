@@ -20,7 +20,7 @@ public class ParallaxController : MonoBehaviour
     {
         playerTank = LevelManager.instance.GetPlayerTank();
         backgroundSize = GetComponent<SpriteRenderer>().bounds.size;
-        //Debug.Log("Background Size: " + backgroundSize);
+        Debug.Log("Background Size: " + backgroundSize);
         GetComponent<SpriteRenderer>().size = new Vector2(backgroundSize.x * tileMultiplier, GetComponent<SpriteRenderer>().size.y);
 
         //Get the speed of the player tank
@@ -43,12 +43,12 @@ public class ParallaxController : MonoBehaviour
         if (currentParallaxSpeed > 0)
         {
             //Constantly move the background
-            transform.position += new Vector3(currentParallaxSpeed * Time.deltaTime, 0);
+            transform.localPosition += new Vector3(currentParallaxSpeed * Time.deltaTime, 0);
 
             //If the background moves past the original background size, move the background back to its original position
-            if (transform.position.x > backgroundSize.x)
+            if (transform.localPosition.x > backgroundSize.x)
             {
-                transform.position = new Vector3(-backgroundSize.x, transform.position.y, transform.position.z);
+                transform.localPosition = new Vector3(-backgroundSize.x, transform.localPosition.y, transform.localPosition.z);
             }
         }
 
@@ -56,12 +56,12 @@ public class ParallaxController : MonoBehaviour
         else
         {
             //Constantly move the background
-            transform.position += new Vector3(currentParallaxSpeed * Time.deltaTime, 0);
+            transform.localPosition += new Vector3(currentParallaxSpeed * Time.deltaTime, 0);
 
             //If the background moves past the original background size, move the background back to its original position
-            if (transform.position.x < -backgroundSize.x)
+            if (transform.localPosition.x < -backgroundSize.x)
             {
-                transform.position = new Vector3(backgroundSize.x, transform.position.y, transform.position.z);
+                transform.localPosition = new Vector3(backgroundSize.x, transform.localPosition.y, transform.localPosition.z);
             }
         }
     }

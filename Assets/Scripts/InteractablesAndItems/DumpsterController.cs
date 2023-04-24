@@ -5,6 +5,7 @@ using UnityEngine;
 public class DumpsterController : InteractableController
 {
     [SerializeField, Tooltip("The GameObject for scrap.")] private GameObject scrapPrefab;
+    [SerializeField, Tooltip("The offset the player position has when they lock into the dumpster.")] private Vector2 dumpsterPositionOffset;
 
     private float scrapXOffset = 0.2f;  //The slight x offset of each scrap piece
     private float scrapHeight = 0.5f;   //The height of a scrap piece
@@ -71,11 +72,33 @@ public class DumpsterController : InteractableController
         }
 
         currentPlayer.GetComponent<Animator>().SetBool("IsGathering", lockPlayer); //Adjust animation state
+        AdjustPlayerPositionOnInteract(currentPlayer, lockPlayer);
     }
 
     public override void UnlockAllPlayers()
     {
         base.UnlockAllPlayers();
         currentPlayer.GetComponent<Animator>().SetBool("IsGathering", false); //Adjust animation state
+        AdjustPlayerPositionOnInteract(currentPlayer, false);
+    }
+
+    /// <summary>
+    /// Adjusts the position of the player depending on if they're locking into / unlocking from the dumpster.
+    /// </summary>
+    /// <param name="currentPlayer">The player interacting with the dumpster.</param>
+    /// <param name="isMovingToDumpster">If true, the player is locked into the dumpster. If false, they are leaving.</param>
+    private void AdjustPlayerPositionOnInteract(PlayerController currentPlayer, bool isMovingToDumpster)
+    {
+        if (isMovingToDumpster)
+        {
+            //Remove gravity so that the player stays still
+            currentPlayer.GetComponent<Rigidbody2D>().gravityScale = 0f;
+
+            currentPlayer.transform.position = new Vector2(transform.position.x + dumpsterPositionOffset.x, transform.position.y + dumpsterPositionOffset.y);
+        }
+        else
+        {
+            currentPlayer.GetComponent<Rigidbody2D>().gravityScale = currentPlayer.GetDefaultGravity();
+        }
     }
 }

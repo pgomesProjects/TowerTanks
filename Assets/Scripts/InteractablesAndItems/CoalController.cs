@@ -12,6 +12,7 @@ public class CoalController : InteractableController
     [SerializeField] private float coalShovelCooldown = 0.1f;
 
     [SerializeField] private GameObject sparks;
+
     private int currentCoalFrame;
     private float currentIndicatorAngle;
     private float depletionRate;
@@ -213,6 +214,9 @@ public class CoalController : InteractableController
 
     private void CoalDepletion()
     {
+        if (GameSettings.debugMode)
+            return;
+
         //If the player is not in the tutorial, deplete coal
         if(LevelManager.instance.levelPhase == GAMESTATE.GAMEACTIVE)
         {

@@ -6,6 +6,7 @@ using TMPro;
 
 public class GameMultiplayerUI : MultiplayerUI
 {
+    [SerializeField] private bool showJoinPrompt;
     [SerializeField] private GameObject onJoinObject;
 
     private PlayerInputManager playerInputManager;
@@ -35,14 +36,22 @@ public class GameMultiplayerUI : MultiplayerUI
         {
             if (LevelManager.instance.levelPhase != GAMESTATE.GAMEOVER)
             {
-                int playerCount = Gamepad.all.Count + 1;
-
-                //If the number of gamepads is less than the number of active controllers
-                if (ConnectionController.NumberOfActivePlayers() == 0 || playerCount > ConnectionController.NumberOfActivePlayers())
+                if (showJoinPrompt)
                 {
-                    //If the join prompt is not already active, make it active
-                    if (!joinPrompt.gameObject.activeInHierarchy)
-                        joinPrompt.gameObject.SetActive(true);
+                    int playerCount = Gamepad.all.Count + 1;
+
+                    //If the number of gamepads is less than the number of active controllers
+                    if (ConnectionController.NumberOfActivePlayers() == 0 || playerCount > ConnectionController.NumberOfActivePlayers())
+                    {
+                        //If the join prompt is not already active, make it active
+                        if (!joinPrompt.gameObject.activeInHierarchy)
+                            joinPrompt.gameObject.SetActive(true);
+                    }
+                }
+                else
+                {
+                    if (joinPrompt.gameObject.activeInHierarchy)
+                        joinPrompt.gameObject.SetActive(false);
                 }
             }
             //If the game is over, disable joining
