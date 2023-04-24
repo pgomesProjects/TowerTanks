@@ -28,7 +28,7 @@ public class PlayerTankController : MonoBehaviour
     private bool steeringStickMoved;    //If true, the steering stick is currently moving. If false, the steering stick has not moved.
     private int currentThrottleOption;  //The current throttle option based on the position of the throttle
 
-    private List<LayerManager> layers;    //A list of information on all player tank layers
+    private List<LayerManager> layers = new List<LayerManager>();    //A list of information on all player tank layers
 
     private float currentSpeed; //The current speed of the player tank
     private float currentTankWeightMultiplier;  //The current tank weight multiplier of the player tank
@@ -42,8 +42,6 @@ public class PlayerTankController : MonoBehaviour
 
     private void Awake()
     {
-        layers = new List<LayerManager>(2);   //Start the list with room for two layers
-        AdjustLayersInList();
         UpdateTreadParticles(); //Update the tread particles
     }
 
@@ -58,6 +56,8 @@ public class PlayerTankController : MonoBehaviour
         steeringStickMoved = false;
         currentThrottleOption = (int)TANKSPEED.STATIONARY;
         throttleMultiplier = throttleSpeedOptions[currentThrottleOption];
+
+        AdjustLayersInList();
     }
 
     /// <summary>

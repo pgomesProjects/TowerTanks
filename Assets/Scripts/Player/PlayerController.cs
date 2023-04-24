@@ -26,6 +26,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float timeToSell = 3;
     [SerializeField] private int maxAmountOfScrap = 8;
     [SerializeField, Tooltip("The amount of scrap used to repair up to 25% of a layer's health.")] private int scrapToRepair = 1;
+    [SerializeField, Tooltip("The fill image.")] private Image progressFill;
+    [SerializeField, Tooltip("The color for the sell progress ba.r")] private Color sellColor;
     [Space(10)]
 
     [Header("Joystick Spin Detection Options")]
@@ -55,8 +57,6 @@ public class PlayerController : MonoBehaviour
     internal int previousLayer = 0;
     internal int currentLayer = 0;
 
-    private Vector2 originalScrapHolderPos;
-
     private bool canMove = false;
     private bool hasMoved;
     private bool isFacingRight;
@@ -66,6 +66,7 @@ public class PlayerController : MonoBehaviour
     private float defaultGravity;
     private RaycastHit2D ladderRaycast;
     private bool isRepairingLayer;
+    private Color defaultProgressColor;
 
     //Interactables
     internal InteractableController currentInteractableItem;
@@ -174,7 +175,7 @@ public class PlayerController : MonoBehaviour
         isFacingRight = true;
         buildModeActive = false;
 
-        originalScrapHolderPos = scrapHolder.localPosition;
+        defaultProgressColor = progressFill.color;
     }
 
     private void OnDisable()
@@ -430,7 +431,7 @@ public class PlayerController : MonoBehaviour
                 }
 
                 //If the player is not in build mode or interacting with anything, throw any scrap that they may have on them
-                if (IsHoldingScrap())
+                if (IsHoldingScrap() && !isClimbing)
                 {
                     //Throw each scrap piece and set it to despawn
                     foreach (var scrap in scrapHolder.GetComponentsInChildren<Rigidbody2D>())
@@ -777,7 +778,6 @@ public class PlayerController : MonoBehaviour
             progressBarCanvas.SetActive(true);
             progressBarSlider.value = 0;
             currentLoadAction = ProgressBarLoad(secondsTillCompletion, actionOnComplete);
-            StartCoroutine(currentLoadAction);
             canMove = false;
 
             ShowScrap(false);
@@ -798,7 +798,12 @@ public class PlayerController : MonoBehaviour
                     else
                         Instantiate(leftfirefoam, transform.position, Quaternion.identity);
                     break;
+                case PlayerActions.SELLING:
+                    progressFill.color = sellColor;
+                    break;
             }
+
+            StartCoroutine(currentLoadAction);
             //Instantiate(buildscrap, transform.position, Quaternion.identity);
         }
     }
@@ -822,6 +827,7 @@ public class PlayerController : MonoBehaviour
         HideProgressBar();
         ShowScrap(true);
         canMove = true;
+        progressFill.color = defaultProgressColor;
     }
 
     public void CancelProgressBar()
@@ -835,6 +841,7 @@ public class PlayerController : MonoBehaviour
         ResetAnimatorBools();
         HideProgressBar();
         canMove = true;
+        progressFill.color = defaultProgressColor;
     }
 
     private void ResetAnimatorBools()

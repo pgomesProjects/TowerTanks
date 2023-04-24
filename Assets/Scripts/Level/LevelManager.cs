@@ -194,7 +194,7 @@ public class LevelManager : MonoBehaviour
         AdjustCameraPosition();
 
         //Add layer to the list of layers
-        playerTank.GetLayers().Insert(totalLayers - 1, newLayer.GetComponent<LayerManager>());
+        playerTank.GetLayers().Add(newLayer.GetComponent<LayerManager>());
 
         if (!isSettingUpOnStart)
         {

@@ -56,14 +56,14 @@ public class TutorialEvents : CustomEvent
                 foreach (var i in FindObjectsOfType<InteractableSpawner>())
                     i.ShowTutorialIndicator(false);
 
-                GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().GetLayerAt(1).
+                LevelManager.instance.GetPlayerTank().GetLayerAt(1).
                     transform.Find("InteractSpawnerRight").GetComponent<InteractableSpawner>().ShowTutorialIndicator(true);
 
                 TutorialController.main.currentTutorialState = TUTORIALSTATE.BUILDCANNON;
                 UnlockPlayers();
                 break;
             case 10:
-                GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().GetLayerAt(1).
+                LevelManager.instance.GetPlayerTank().GetLayerAt(1).
                     transform.Find("InteractSpawnerRight").GetComponent<InteractableSpawner>().ShowTutorialIndicator(false);
                 LockPlayers();
                 break;
@@ -74,13 +74,13 @@ public class TutorialEvents : CustomEvent
                 break;
             //Build Engine Prompt
             case 13:
-                GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().GetLayerAt(0).
+                LevelManager.instance.GetPlayerTank().GetLayerAt(0).
                     transform.Find("InteractSpawnerLeft").GetComponent<InteractableSpawner>().ShowTutorialIndicator(true);
                 TutorialController.main.currentTutorialState = TUTORIALSTATE.BUILDENGINE;
                 UnlockPlayers();
                 break;
             case 14:
-                GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().GetLayerAt(0).
+                LevelManager.instance.GetPlayerTank().GetLayerAt(0).
                     transform.Find("InteractSpawnerLeft").GetComponent<InteractableSpawner>().ShowTutorialIndicator(false);
                 LockPlayers();
                 break;
@@ -110,13 +110,13 @@ public class TutorialEvents : CustomEvent
                 break;
             //Build Throttle Prompt
             case 23:
-                GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().GetLayerAt(0).
+                LevelManager.instance.GetPlayerTank().GetLayerAt(0).
                     transform.Find("InteractSpawnerRight").GetComponent<InteractableSpawner>().ShowTutorialIndicator(true);
                 TutorialController.main.currentTutorialState = TUTORIALSTATE.BUILDTHROTTLE;
                 UnlockPlayers();
                 break;
             case 24:
-                GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().GetLayerAt(0).
+                LevelManager.instance.GetPlayerTank().GetLayerAt(0).
                     transform.Find("InteractSpawnerRight").GetComponent<InteractableSpawner>().ShowTutorialIndicator(false);
                 LockPlayers();
                 break;

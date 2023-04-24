@@ -13,7 +13,7 @@ public class SteerController : InteractableController
     // Start is called before the first frame update
     void Start()
     {
-        playerTank = GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>();
+        playerTank = LevelManager.instance.GetPlayerTank();
         steeringCoroutine = CheckForSteeringInput();
         transform.Find("LeverPivot").localRotation = Quaternion.Euler(0, 0, -(20 * playerTank.GetThrottleMultiplier()));
     }

@@ -18,12 +18,12 @@ public class ParallaxController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        playerTank = LevelManager.instance.GetPlayerTank();
         backgroundSize = GetComponent<SpriteRenderer>().bounds.size;
         //Debug.Log("Background Size: " + backgroundSize);
         GetComponent<SpriteRenderer>().size = new Vector2(backgroundSize.x * tileMultiplier, GetComponent<SpriteRenderer>().size.y);
 
         //Get the speed of the player tank
-        playerTank = GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>();
         relativeParallaxSpeed = -(playerTank.GetBasePlayerSpeed()) * parallaxSpeed;
         currentParallaxSpeed = relativeParallaxSpeed;
     }
@@ -32,7 +32,7 @@ public class ParallaxController : MonoBehaviour
     void Update()
     {
         //Get the speed of the player tank
-        if(GameObject.FindGameObjectWithTag("PlayerTank") != null)
+        if(playerTank != null)
         {
             relativeParallaxSpeed = -(playerTank.GetBasePlayerSpeed()) * parallaxSpeed;
         }

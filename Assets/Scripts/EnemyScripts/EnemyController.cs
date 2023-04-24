@@ -49,7 +49,7 @@ public class EnemyController : MonoBehaviour
     // Start is called before the first frame update
     protected void Start()
     {
-        playerTank = GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>();
+        playerTank = LevelManager.instance.GetPlayerTank();
 
         currentSpeed = speed;
         canMove = true;
@@ -476,7 +476,7 @@ public class EnemyController : MonoBehaviour
         {
             FindObjectOfType<EnemySpawnManager>().enemySpawnerActive = false;
             if(GameObject.FindGameObjectWithTag("PlayerTank") != null)
-                GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().ResetTankDistance();
+                LevelManager.instance.GetPlayerTank().ResetTankDistance();
         }
 
         if(FindObjectOfType<AudioManager>() != null)

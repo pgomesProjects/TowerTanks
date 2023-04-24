@@ -219,7 +219,7 @@ public class CoalController : InteractableController
             {
                 Debug.Log("Coal Is Out!");
                 hasCoal = false;
-                GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().AdjustEngineSpeedMultiplier();
+                LevelManager.instance.GetPlayerTank().AdjustEngineSpeedMultiplier();
                 FindObjectOfType<AudioManager>().Play("EngineDyingSFX", gameObject);
                 Instantiate(sparks, transform.position, Quaternion.identity);
             }
@@ -237,7 +237,7 @@ public class CoalController : InteractableController
         if(coalPercentage > 0f)
         {
             hasCoal = true;
-            GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().AdjustEngineSpeedMultiplier();
+            LevelManager.instance.GetPlayerTank().AdjustEngineSpeedMultiplier();
         }
 
         //Make sure the coal percentage does not pass 100%
@@ -271,7 +271,7 @@ public class CoalController : InteractableController
         currentCoalFrame = 0;
         if (GameObject.FindGameObjectWithTag("PlayerTank"))
         {
-            GameObject.FindGameObjectWithTag("PlayerTank").GetComponent<PlayerTankController>().AdjustEngineSpeedMultiplier();
+            LevelManager.instance.GetPlayerTank().AdjustEngineSpeedMultiplier();
         }
 
         if (currentPlayerLockedIn != null && lockPlayerIntoInteraction)

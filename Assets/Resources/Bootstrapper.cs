@@ -9,9 +9,11 @@ public static class Bootstrapper
         Object.DontDestroyOnLoad(Object.Instantiate(Resources.Load("Init")));
         Object.DontDestroyOnLoad(Object.Instantiate(Resources.Load("MultiplayerManager")));
         if (GameSettings.debugMode)
+        {
             Object.DontDestroyOnLoad(Object.Instantiate(Resources.Load("DebugCanvas")));
+        }
         //Hide the cursor during gameplay
-        Cursor.visible = false;
+        Cursor.visible = GameSettings.debugMode;
         SettingsOnStart();
     }
 

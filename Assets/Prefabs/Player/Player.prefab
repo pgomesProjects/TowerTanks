@@ -1399,6 +1399,8 @@ MonoBehaviour:
   timeToSell: 3
   maxAmountOfScrap: 8
   scrapToRepair: 1
+  progressFill: {fileID: 2810788485477633312}
+  sellColor: {r: 0.9433962, g: 0.17354932, b: 0.17354932, a: 1}
   spinAngleCheckUpdateTimer: 0.1
   spinValidAngleLimit: 30
   validSpinCheckRows: 1
