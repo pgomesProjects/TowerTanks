@@ -422,12 +422,10 @@ public class PlayerController : MonoBehaviour
         {
             if (ctx.started)
             {
-                if(currentInteractableItem != null)
+                //If the player is locked into an interactable, end the interaction
+                if (currentInteractableItem != null && !canMove)
                 {
-                    if (!canMove)
-                        currentInteractableItem.OnEndInteraction(this);
-                    else
-                        StartInteractableSell();
+                    currentInteractableItem.OnEndInteraction(this);
                     return;
                 }
 
@@ -452,6 +450,13 @@ public class PlayerController : MonoBehaviour
                     }
 
                     OnScrapUpdated(0);  //Reset the scrap number
+                }
+
+                //If the player is near an interactable, try to sell it
+                if (currentInteractableItem != null && canMove)
+                {
+                    StartInteractableSell();
+                    return;
                 }
             }
             if (ctx.canceled)
