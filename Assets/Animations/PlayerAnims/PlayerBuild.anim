@@ -84,10 +84,24 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
+  - time: 0
+    functionName: AdjustParticleSpawnX
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 1.35
+    intParameter: 0
+    messageOptions: 0
   - time: 0.41666666
     functionName: PlayHammerSFX
     data: 
     objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.41666666
+    functionName: SpawnParticle
+    data: 
+    objectReferenceParameter: {fileID: 3713183390885246315, guid: f84eb82306b44c642a0bb9387da466fa, type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0

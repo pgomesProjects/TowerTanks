@@ -238,7 +238,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1990211790988106160}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1407,7 +1407,7 @@ MonoBehaviour:
   cannonScrollSensitivity: 3
   buildscrap: {fileID: 3713183390885246315, guid: f84eb82306b44c642a0bb9387da466fa, type: 3}
   firefoam: {fileID: 8317756643219714684, guid: f237cd1c639164c46bee172d0b41d55c, type: 3}
-  leftfirefoam: {fileID: 1888114378634230985, guid: ff52949eaeeddf04b98333343a017832, type: 3}
+  leftfirefoam: {fileID: 6531959564525769799, guid: ff52949eaeeddf04b98333343a017832, type: 3}
   smabuildscraps: {fileID: 4607994134331774439, guid: 4570cdd7669993745bd1d5ffb6a1c956, type: 3}
   particleSpawn: {fileID: 5875556752671704775}
   scrapBag: {fileID: 290479054428859569}

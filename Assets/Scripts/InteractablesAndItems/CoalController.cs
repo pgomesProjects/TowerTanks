@@ -18,6 +18,7 @@ public class CoalController : InteractableController
     private float coalPercentage;
     private bool hasCoal;
     private Animator engineAnimator;
+    private float sparkTimer = 0f;
 
     public Sprite[] coalAnimationSprites;
     private float coalLoadAudioLength = 1.5f;
@@ -61,6 +62,13 @@ public class CoalController : InteractableController
         if (hasCoal)
         {
             CoalDepletion();
+        }
+        else {
+            if (sparkTimer > 2.0f) {
+                sparkTimer = 0f;
+                Instantiate(sparks, transform.position, Quaternion.identity);
+            }
+            sparkTimer += Time.deltaTime;
         }
 
         if (!canShovel)

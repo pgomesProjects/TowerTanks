@@ -316,6 +316,10 @@ public class PlayerController : MonoBehaviour
         particleSpawn.localPosition = new Vector2(isFacingRight ? newX : -newX, particleSpawn.localPosition.y);
     }
 
+    public void AdjustParticleSpawnY(float newY) {
+        particleSpawn.localPosition = new Vector2(particleSpawn.localPosition.x, newY);
+    }
+
     #region OnInputFunctions
     //Send value from Move callback to the horizontal Vector2
     public void OnMove(InputAction.CallbackContext ctx) => movement = ctx.ReadValue<Vector2>();
@@ -793,10 +797,6 @@ public class PlayerController : MonoBehaviour
                     break;
                 case PlayerActions.EXTINGUISHING:
                     playerAnimator.SetBool("IsExtinguishing", true);
-                    if (isFacingRight)
-                        Instantiate(firefoam, transform.position, Quaternion.identity);
-                    else
-                        Instantiate(leftfirefoam, transform.position, Quaternion.identity);
                     break;
                 case PlayerActions.SELLING:
                     progressFill.color = sellColor;
@@ -1136,7 +1136,9 @@ public class PlayerController : MonoBehaviour
     public void PlayWrenchSFX() => FindObjectOfType<AudioManager>().Play("UseWrench", gameObject);
 
     public void SpawnParticle(GameObject particle) {
-        Instantiate(particle, particleSpawn.position, Quaternion.identity);
+        if (particle.name == "foam" && !isFacingRight) Instantiate(particle, particleSpawn.position, Quaternion.identity);
+        else if (particle.name == "foam" && isFacingRight) Instantiate(leftfirefoam, particleSpawn.position, Quaternion.identity);
+        else Instantiate(particle, particleSpawn.position, Quaternion.identity);
     }
 
     public bool PlayerCanInteract()
