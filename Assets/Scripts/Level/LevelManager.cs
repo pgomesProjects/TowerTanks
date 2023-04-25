@@ -34,6 +34,7 @@ public class LevelManager : MonoBehaviour
     internal bool isPaused;
     internal bool readingTutorial;
     internal GAMESTATE levelPhase = GAMESTATE.TUTORIAL; //Start the game with the tutorial
+    internal WeatherConditions currentWeatherConditions;
     private int currentPlayerPaused;
     internal int currentRound;
     internal int totalLayers;
