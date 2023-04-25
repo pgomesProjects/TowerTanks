@@ -158,6 +158,9 @@ MonoBehaviour:
   damage: 40
   chanceToExplode: 80
   chanceToCatchFire: 30
-  explosionParticles: {fileID: 1317647647605995885, guid: 1724ad1c3bf5ab449a23c7f2d1d9e0bb, type: 3}
+  explosionParticles:
+  - {fileID: 7851507033924257024, guid: d813a5bb70792f34bac495c8e928cf1e, type: 3}
+  - {fileID: 8508812903982125488, guid: 29d6e4406a7d414489fb790e978baeaa, type: 3}
+  - {fileID: 8186442840391220499, guid: eb0e3e662462aaa498b4c75a51f83b3a, type: 3}
   explosmoke: {fileID: 4601625908407266432, guid: 153a7637a35f4c4498e1d68fa6176e35, type: 3}
   smallboom: {fileID: 5893089241104876350, guid: 378f939148b7cb44bb9adb980d0f0833, type: 3}

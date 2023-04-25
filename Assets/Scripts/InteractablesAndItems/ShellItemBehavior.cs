@@ -7,7 +7,7 @@ public class ShellItemBehavior : MonoBehaviour
     [SerializeField] private int damage = 25;
     [SerializeField] private float chanceToExplode = 80;
     [SerializeField] private float chanceToCatchFire = 30;
-    [SerializeField] private ParticleSystem explosionParticles;
+    [SerializeField] private GameObject[] explosionParticles;
     [SerializeField] private GameObject explosmoke;
     [SerializeField] private GameObject smallboom;
 
@@ -44,7 +44,9 @@ public class ShellItemBehavior : MonoBehaviour
     {
         if(GetComponent<DamageObject>() != null)
         {
-            Instantiate(explosionParticles, transform.position, Quaternion.identity);
+            var randomParticle = explosionParticles[Random.Range(0, 2)];
+            var particle = Instantiate(randomParticle, transform.position, Quaternion.identity);
+            particle.transform.localScale *= 0.7f;
             Instantiate(explosmoke, transform.position, Quaternion.identity);
             if (FindObjectOfType<AudioManager>() != null)
                 FindObjectOfType<AudioManager>().Play("ExplosionSFX", gameObject);
