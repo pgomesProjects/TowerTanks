@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class GhostInteractables : MonoBehaviour
 {
-    private PlayerController currentPlayerBuilding; //The current player that is building on this layer
+    private List<PlayerController> playersBuilding = new List<PlayerController> ();
     private LayerManager currentLayer;              //The current layer
 
     // Start is called before the first frame update
     void Awake()
     {
-        currentPlayerBuilding = null;
         currentLayer = GetComponent<LayerManager>();
     }
 
@@ -21,11 +20,19 @@ public class GhostInteractables : MonoBehaviour
     public void CreateGhostInteractables(PlayerController currentPlayer)
     {
         //If there is currently a player trying to build on this layer or the player is not in build mode, return
-        if (currentPlayerBuilding != null || !currentPlayer.InBuildMode())
+        if (!currentPlayer.InBuildMode())
+            return;
+
+        //If the player is already building in this layer, return
+        if (playersBuilding.Contains(currentPlayer))
             return;
 
         //Debug.Log("Creating Ghost Interactables On " + gameObject.name);
-        currentPlayerBuilding = currentPlayer;
+        playersBuilding.Add(currentPlayer);
+
+        //If there are already players building in this area, don't do anything extra
+        if (playersBuilding.Count > 1)
+            return;
 
         //Check the interactable spawners
         foreach (var spawner in currentLayer.GetComponentsInChildren<InteractableSpawner>())
@@ -34,7 +41,7 @@ public class GhostInteractables : MonoBehaviour
             if (!spawner.IsInteractableSpawned())
             {
                 //If the player build is not holding scrap, only show the dumpster
-                if (!currentPlayerBuilding.IsHoldingScrap())
+                if (!currentPlayer.IsHoldingScrap())
                     spawner.SetCurrentGhostIndex((int)INTERACTABLETYPE.DUMPSTER);
                 else
                 {
@@ -56,10 +63,18 @@ public class GhostInteractables : MonoBehaviour
     public void DestroyGhostInteractables(PlayerController currentPlayer)
     {
         //If the current player trying to destroy the ghost interactables is not the one building, return
-        if (currentPlayer != currentPlayerBuilding)
+        if (!playersBuilding.Contains(currentPlayer))
             return;
 
         //Debug.Log("Destroy Ghost Interactables On " + gameObject.name);
+
+        playersBuilding.Remove(currentPlayer);
+
+        Debug.Log("Players Building Count: " + playersBuilding.Count);
+
+        //If there are still players building here, don't destroy the interactables
+        if (playersBuilding.Count > 0)
+            return;
 
         //Check the interactable spawners
         foreach (var spawner in currentLayer.GetComponentsInChildren<InteractableSpawner>())
@@ -74,9 +89,7 @@ public class GhostInteractables : MonoBehaviour
                 }
             }
         }
-
-        currentPlayerBuilding = null;
     }
 
-    public PlayerController GetCurrentPlayerBuilding() => currentPlayerBuilding;
+    public bool CurrentPlayerIsBuilding(PlayerController currentPlayer) => playersBuilding.Contains(currentPlayer);
 }

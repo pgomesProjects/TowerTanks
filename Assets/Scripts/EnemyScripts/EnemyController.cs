@@ -21,7 +21,8 @@ public class EnemyController : MonoBehaviour
     [SerializeField, Tooltip("The elapsed amount of time it takes for a collision to start and end.")] protected float collisionForceSeconds = 0.1f;
     [SerializeField, Tooltip("The amount of waves for the enemy to increase the amount of layers")] protected int wavesMultiplier = 1;
     [SerializeField, Tooltip("The amount of resources given to the player when the entire tank is destroyed.")] protected int onDestroyResources = 100;
-    [SerializeField] protected LayerManager spawnableLayer;    //The layer that a potential enemy tank could spawn
+    [SerializeField, Tooltip("The layer that a potential enemy tank could spawn.")] protected LayerManager spawnableLayer;    //The layer that a potential enemy tank could spawn
+    [SerializeField, Tooltip("The delay between each layer when all layers explode.")] protected float selfDestructLayersDelay;
     [Space(10)]
 
     [Header("Debug Options")]
@@ -40,6 +41,7 @@ public class EnemyController : MonoBehaviour
     protected float waveCounter;    //The current game wave
 
     protected bool canMove; //If true, the enemy tank can move. If false, they cannot move.
+    protected bool selfDestructMode;    //If true, the enemy is destroying itself
 
     private void Awake()
     {
@@ -202,10 +204,36 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    protected virtual void OnLayerDestroyed()
+    public virtual void OnLayerDestroyed()
     {
+        //If the enemy is dead or self destructing, do nothing
+        if (totalEnemyLayers <= 0 || selfDestructMode)
+            return;
+
         //Logic for when a layer is destroyed
+        if (!HasWeaponsActive())
+        {
+            StartCoroutine(SelfDestructTank());
+        }
     }
+
+    private IEnumerator SelfDestructTank()
+    {
+        canMove = false;
+        selfDestructMode = true;
+        LayerManager[] layerManagers = GetComponentsInChildren<LayerManager>();
+
+        Debug.Log("Self Destructing...");
+
+        for(int i = 0; i < layerManagers.Length; i++)
+        {
+            yield return new WaitForSeconds(selfDestructLayersDelay);
+
+            if (layerManagers[i] != null)
+                layerManagers[i].DealDamage(100, false);
+        }
+    }
+
 
     private void CreateCollision()
     {
@@ -469,6 +497,29 @@ public class EnemyController : MonoBehaviour
     }
 
     public float GetCombatDirectionMultiplier() => combatDirectionMultiplier;
+
+    public bool HasWeaponsActive() => AnyActiveCannonsLeft() || AnyActiveDrillsLeft(); 
+
+
+    protected bool AnyActiveCannonsLeft()
+    {
+        //If there are any cannons active in the hiearchy, return true
+        foreach (var cannon in GetComponentsInChildren<EnemyCannonController>())
+            if (cannon.gameObject.activeInHierarchy)
+                return true;
+
+        return false;
+    }
+
+    protected bool AnyActiveDrillsLeft()
+    {
+        //If there are any drills active in the hiearchy, return true
+        foreach (var drill in GetComponentsInChildren<DrillController>())
+            if (drill.gameObject.activeInHierarchy)
+                return true;
+
+        return false;
+    }
 
     private void OnDestroy()
     {

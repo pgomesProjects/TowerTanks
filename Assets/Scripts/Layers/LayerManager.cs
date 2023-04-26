@@ -320,5 +320,11 @@ public class LayerManager : MonoBehaviour
             transform.GetComponentInParent<PlayerTankController>().AdjustLayersInList();
             FindObjectOfType<AudioManager>().Play("MedExplosionSFX", gameObject);
         }
+
+        if (transform.GetComponentInParent<EnemyController>() != null)
+        {
+            //Update the enemy behavior accordingly
+            transform.GetComponentInParent<EnemyController>().OnLayerDestroyed();
+        }
     }
 }

@@ -26,7 +26,7 @@ public class PriceIndicator : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            if (collision.GetComponent<PlayerController>() == GetComponentInParent<GhostInteractables>().GetCurrentPlayerBuilding() && (collision.GetComponent<PlayerController>().IsHoldingScrap() || !requiresScrap))
+            if (currentPlayerBuying == null && GetComponentInParent<GhostInteractables>().CurrentPlayerIsBuilding(collision.GetComponent<PlayerController>()) && (collision.GetComponent<PlayerController>().IsHoldingScrap() || !requiresScrap))
             {
                 currentPlayerBuying = collision.GetComponent<PlayerController>();
                 if (LevelManager.instance.levelPhase != GAMESTATE.TUTORIAL || TutorialController.main.currentTutorialState != TUTORIALSTATE.READING)

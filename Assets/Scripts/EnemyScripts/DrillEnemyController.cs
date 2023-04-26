@@ -75,8 +75,14 @@ public class DrillEnemyController : EnemyController
             combatDirectionMultiplier = 1f;
     }
 
-    protected override void OnLayerDestroyed()
+    public override void OnLayerDestroyed()
     {
+        base.OnLayerDestroyed();
+
+        //If the enemy is dead or self destructing, do nothing
+        if (totalEnemyLayers <= 0 || selfDestructMode)
+            return;
+
         if (!canMove && !AnyActiveDrillsLeft())
             DetermineCollisionForce();
     }
@@ -138,16 +144,6 @@ public class DrillEnemyController : EnemyController
             if(!AnyActiveDrillsLeft())
                 DetermineCollisionForce();
         }
-    }
-
-    private bool AnyActiveDrillsLeft()
-    {
-        //If there are any drills active in the hiearchy, return true
-        foreach (var drill in GetComponentsInChildren<DrillController>())
-            if (drill.gameObject.activeInHierarchy)
-                return true;
-
-        return false;
     }
 
     protected override void OnCollisionExit2D(Collision2D collision)

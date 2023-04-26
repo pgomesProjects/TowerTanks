@@ -94,6 +94,11 @@ MonoBehaviour:
   lockPlayerIntoInteraction: 1
   highlight: {fileID: 497899189391988315}
   lockedInteractionCanvas: {fileID: 7228422837651227282}
+  interactOnStart: 1
+  breakPercentIncreaseOnUse: 0
+  value: 0
+  sellPercent: 0
+  canBeSold: 1
 --- !u!1 &6918198697986364278
 GameObject:
   m_ObjectHideFlags: 0
@@ -130,7 +135,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 300}
+  m_AnchoredPosition: {x: 0, y: 150}
   m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7391041656933476669
@@ -289,7 +294,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7925459188162845577
 RectTransform:
   m_ObjectHideFlags: 0

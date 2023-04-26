@@ -1041,6 +1041,7 @@ MonoBehaviour:
   wavesMultiplier: 2
   onDestroyResources: 50
   spawnableLayer: {fileID: 1278547460383414149, guid: b860770024ecbb6419772b6308f06ea7, type: 3}
+  selfDestructLayersDelay: 0.5
   debugDestroyEnemy: 0
   layersNeededBeforeCannonSpawn: 3
   chanceOfSpawningCannon: 60
