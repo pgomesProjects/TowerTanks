@@ -131,12 +131,16 @@ public class EnemyController : MonoBehaviour
     protected void SpawnLayer(int index, int layerNum, COMBATDIRECTION enemyDirection)
     {
         GameObject newLayer = Instantiate(spawnableLayer.gameObject);
+        newLayer.name = "ENEMY LAYER " + (layerNum + 1).ToString();
         newLayer.transform.parent = transform;
         newLayer.transform.localPosition = new Vector2(0, layerNum * ENEMYLAYERSIZE);
         newLayer.transform.SetAsFirstSibling();
 
         if (index == 1)
+        {
             SpawnWeapon(newLayer.GetComponent<LayerManager>(), enemyDirection);
+            newLayer.name += " - WEAPON";
+        }
     }
 
     /// <summary>
