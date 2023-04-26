@@ -6,10 +6,12 @@ public class FireBehavior : MonoBehaviour
 {
     [SerializeField, Tooltip("The amount of time it takes for the fire to deal damage.")] private float fireTickSeconds;
     [SerializeField] private int damagePerTick = 5;
+    [SerializeField, Tooltip("The multiplier for the speed that the fire takes to be put out when more players put out the fire.")] private float multiplierSpeed;
     public GameObject fireParticle;
     private GameObject[] currentParticles;
     private float currentTimer;
     private bool layerOnFire;
+    private List<PlayerController> playersPuttingOutFire = new List<PlayerController>();
 
     private void OnEnable()
     {
@@ -32,6 +34,8 @@ public class FireBehavior : MonoBehaviour
 
         if(FindObjectOfType<AudioManager>() != null)
             FindObjectOfType<AudioManager>().Stop("FireBurningSFX", gameObject);
+
+        playersPuttingOutFire.Clear();
     }
 
     private void CreateFires(int firesToCreate)
@@ -60,6 +64,34 @@ public class FireBehavior : MonoBehaviour
                 currentTimer = 0;
             }
         }
+    }
+
+    public void AddPlayerPuttingOutFire(PlayerController currentPlayer)
+    {
+        if (!playersPuttingOutFire.Contains(currentPlayer))
+        {
+            playersPuttingOutFire.Add(currentPlayer);
+            UpdatePlayerActionSpeed();
+        }
+    }
+
+    public void RemovePlayerPuttingOutFire(PlayerController currentPlayer)
+    {
+        if (playersPuttingOutFire.Contains(currentPlayer))
+        {
+            playersPuttingOutFire.Remove(currentPlayer);
+            UpdatePlayerActionSpeed();
+        }
+    }
+
+    private void UpdatePlayerActionSpeed()
+    {
+        float currentMultiplier = 1f;
+        for (int i = 1; i < playersPuttingOutFire.Count; i++)
+            currentMultiplier *= multiplierSpeed;
+
+        foreach(var player in playersPuttingOutFire)
+            player.SetActionSpeed(player.GetFireRemoverSpeed() * currentMultiplier);
     }
 
     public bool IsLayerOnFire() => layerOnFire;

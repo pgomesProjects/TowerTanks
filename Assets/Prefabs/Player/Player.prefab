@@ -1394,7 +1394,7 @@ MonoBehaviour:
     m_Bits: 128
   downSpeedMultiplier: 2
   timeToUseWrench: 3
-  timeToUseFireRemover: 3
+  fireRemoverSpeed: 30
   timeToBuild: 3
   timeToSell: 3
   maxAmountOfScrap: 8

@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Technical Settings")]
     [SerializeField] private float timeToUseWrench = 3;
-    [SerializeField] private float timeToUseFireRemover = 3;
+    [SerializeField] private float fireRemoverSpeed = 3;
     [SerializeField] private float timeToBuild = 3;
     [SerializeField] private float timeToSell = 3;
     [SerializeField] private int maxAmountOfScrap = 8;
@@ -79,6 +79,7 @@ public class PlayerController : MonoBehaviour
     private Slider progressBarSlider;
     private bool taskInProgress;
     private IEnumerator currentLoadAction;
+    private float currentActionSpeed;
     private bool buildModeActive;
 
     //Items
@@ -652,7 +653,7 @@ public class PlayerController : MonoBehaviour
             if (LevelManager.instance.levelPhase != GAMESTATE.TUTORIAL || LevelManager.instance.totalLayers < 2)
             {
                 if (timeToBuild > 0)
-                    StartProgressBar(timeToBuild, PurchaseLayer, PlayerActions.BUILDING);
+                    StartProgressBar(timeToBuild, false, PurchaseLayer, PlayerActions.BUILDING);
             }
         }
     }
@@ -662,7 +663,7 @@ public class PlayerController : MonoBehaviour
         if (LevelManager.instance.levelPhase != GAMESTATE.TUTORIAL && !currentInteractableItem.AnyPlayersLockedIn() && currentInteractableItem.CanBeSold())
         {
             if (timeToSell > 0)
-                StartProgressBar(timeToSell, SellInteractable, PlayerActions.SELLING);
+                StartProgressBar(timeToSell, false, SellInteractable, PlayerActions.SELLING);
         }
     }
 
@@ -693,10 +694,10 @@ public class PlayerController : MonoBehaviour
         //If the layer the player is on is on fire
         if (fire != null && fire.IsLayerOnFire())
         {
-            if (timeToUseFireRemover > 0)
+            if (fireRemoverSpeed > 0)
             {
                 isRepairingLayer = true;
-                StartProgressBar(timeToUseFireRemover, UseFireRemover, PlayerActions.EXTINGUISHING);
+                StartProgressBar(fireRemoverSpeed, true, UseFireRemover, PlayerActions.EXTINGUISHING);
             }
             return true;
         }
@@ -725,7 +726,7 @@ public class PlayerController : MonoBehaviour
             if (timeToUseWrench > 0)
             {
                 isRepairingLayer = true;
-                StartProgressBar(timeToUseWrench, UseWrench, PlayerActions.REPAIRING);
+                StartProgressBar(timeToUseWrench, false, UseWrench, PlayerActions.REPAIRING);
             }
             return true;
         }
@@ -777,14 +778,17 @@ public class PlayerController : MonoBehaviour
         interactableHover.SetActive(false);
     }
 
-    public void StartProgressBar(float secondsTillCompletion, Action actionOnComplete, PlayerActions currentPlayerAction = PlayerActions.NONE)
+    public void StartProgressBar(float interval, bool useSpeed, Action actionOnComplete, PlayerActions currentPlayerAction = PlayerActions.NONE)
     {
         if (!taskInProgress)
         {
             taskInProgress = true;
             progressBarCanvas.SetActive(true);
             progressBarSlider.value = 0;
-            currentLoadAction = ProgressBarLoad(secondsTillCompletion, actionOnComplete);
+            if(useSpeed)
+                currentLoadAction = SpeedProgressBarLoad(actionOnComplete);
+            else
+                currentLoadAction = SecondsProgressBarLoad(interval, actionOnComplete);
             canMove = false;
 
             ShowScrap(false);
@@ -800,6 +804,8 @@ public class PlayerController : MonoBehaviour
                     break;
                 case PlayerActions.EXTINGUISHING:
                     playerAnimator.SetBool("IsExtinguishing", true);
+                    currentActionSpeed = fireRemoverSpeed;
+                    LevelManager.instance.GetPlayerTank().GetLayerAt(currentLayer).GetComponentInChildren<FireBehavior>().AddPlayerPuttingOutFire(this);
                     break;
                 case PlayerActions.SELLING:
                     progressFill.color = sellColor;
@@ -811,7 +817,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    IEnumerator ProgressBarLoad(float secondsTillCompletion, Action actionOnComplete)
+    IEnumerator SecondsProgressBarLoad(float secondsTillCompletion, Action actionOnComplete)
     {
         float currentPercentage = 0;
         float completionRate = secondsTillCompletion / 100;
@@ -820,7 +826,31 @@ public class PlayerController : MonoBehaviour
         while(progressBarSlider.value < 100 && taskInProgress)
         {
             currentPercentage += (1 / completionRate) * Time.deltaTime;
-            progressBarSlider.value = currentPercentage;
+            progressBarSlider.value = Mathf.Clamp(currentPercentage, 0, 100);
+            yield return null;
+        }
+
+        ChangeItemTransparency(1.0f);
+        actionOnComplete.Invoke();
+        ResetAnimatorBools();
+        HideProgressBar();
+        ShowScrap(true);
+        canMove = true;
+        progressFill.color = defaultProgressColor;
+    }
+
+    IEnumerator SpeedProgressBarLoad(Action actionOnComplete)
+    {
+        float currentPercentage = 0;
+
+        //While the task is in progress and the task bar is not full, fill the task bar
+        while (progressBarSlider.value < 100 && taskInProgress)
+        {
+            Debug.Log("Current Action Speed: " + currentActionSpeed);
+            Debug.Log("Action Speed Increment: " + currentActionSpeed * Time.deltaTime);
+
+            currentPercentage += currentActionSpeed * Time.deltaTime;
+            progressBarSlider.value = Mathf.Clamp(currentPercentage, 0, 100);
             yield return null;
         }
 
@@ -841,6 +871,14 @@ public class PlayerController : MonoBehaviour
         StopCoroutine(currentLoadAction);
         taskInProgress = false;
         ShowScrap(true);
+
+        if (playerAnimator.GetBool("IsExtinguishing"))
+        {
+            FireBehavior fire = LevelManager.instance.GetPlayerTank().GetLayerAt(currentLayer).GetComponentInChildren<FireBehavior>();
+            if (fire != null)
+                fire.RemovePlayerPuttingOutFire(this);
+        }
+
         ResetAnimatorBools();
         HideProgressBar();
         canMove = true;
@@ -1165,6 +1203,9 @@ public class PlayerController : MonoBehaviour
     public bool IsPlayerHoldingItem() => isHoldingItem;
     public Item GetPlayerItem() => itemHeld;
     public bool PlayerHasItem(string name) => itemHeld != null && itemHeld.CompareTag(name);
+    public float GetFireRemoverSpeed() => fireRemoverSpeed;
+    public float GetActionSpeed() => currentActionSpeed;
+    public void SetActionSpeed(float actionSpeed) => currentActionSpeed = actionSpeed;
 
     public float GetDefaultGravity() => defaultGravity;
 
