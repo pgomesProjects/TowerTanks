@@ -43,6 +43,9 @@ public class EnemyController : MonoBehaviour
     protected bool canMove; //If true, the enemy tank can move. If false, they cannot move.
     protected bool selfDestructMode;    //If true, the enemy is destroying itself
 
+    public GameObject explosionParticle;
+    public Transform explosionSpot;
+
     private void Awake()
     {
         waveCounter = 1.0f / (wavesMultiplier * GameSettings.difficulty);
@@ -521,6 +524,10 @@ public class EnemyController : MonoBehaviour
         return false;
     }
 
+    public void Explode() {
+        Instantiate(explosionParticle, explosionSpot.position, Quaternion.identity);
+    }
+
     private void OnDestroy()
     {
         if (FindObjectOfType<EnemySpawnManager>() != null && FindObjectOfType<EnemySpawnManager>().AllEnemiesGone())
@@ -534,5 +541,7 @@ public class EnemyController : MonoBehaviour
             FindObjectOfType<AudioManager>().Play("MedExplosionSFX", gameObject);
 
         CameraEventController.instance.RemoveOnDestroy(gameObject);
+
+        Explode();
     }
 }

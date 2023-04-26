@@ -25,6 +25,8 @@ public class LayerManager : MonoBehaviour
 
     private Transform outsideObjects;
 
+    public GameObject explosionParticle;
+
     private void Awake()
     {
         outsideObjects = transform.Find("OutsideObjects");
@@ -312,6 +314,10 @@ public class LayerManager : MonoBehaviour
             drill.gameObject.SetActive(false);
     }
 
+    void Explode() {
+        Instantiate(explosionParticle, transform.position, Quaternion.identity);
+    }
+
     private void OnDestroy()
     {
         if(transform.GetComponentInParent<PlayerTankController>() != null)
@@ -326,5 +332,7 @@ public class LayerManager : MonoBehaviour
             //Update the enemy behavior accordingly
             transform.GetComponentInParent<EnemyController>().OnLayerDestroyed();
         }
+
+        Explode();
     }
 }

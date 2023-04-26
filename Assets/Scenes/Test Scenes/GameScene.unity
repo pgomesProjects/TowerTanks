@@ -946,14 +946,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weatherSettings:
-  - condition: 0
-    backgroundColor: {r: 0.9843137, g: 0.93333334, b: 0.54901963, a: 1}
+  - backgroundColor: {r: 0.9843137, g: 0.93333334, b: 0.54901963, a: 1}
     globalLightingColor: {r: 1, g: 1, b: 1, a: 1}
     globalLightingIntensity: 1
     tankLightColor: {r: 1, g: 1, b: 1, a: 1}
     tankLightIntensity: 0
-  - condition: 1
-    backgroundColor: {r: 0.14117648, g: 0.14509805, b: 0.15294118, a: 1}
+  - backgroundColor: {r: 0.14117648, g: 0.14509805, b: 0.15294118, a: 1}
     globalLightingColor: {r: 0.12941177, g: 0.13333334, b: 0.19215687, a: 1}
     globalLightingIntensity: 1
     tankLightColor: {r: 0.5647059, g: 0.5686275, b: 0.8980392, a: 1}
@@ -2861,6 +2859,75 @@ MonoBehaviour:
     positionOffset: {x: 0, y: 0, z: 0}
   m_posOffsetData: {fileID: 0}
   listenerMask: 1
+--- !u!1001 &643011882
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3381642859349629132, guid: ed2f9f2e402650d4e8e578f7a9d87854, type: 3}
+      propertyPath: m_RootOrder
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3381642859349629132, guid: ed2f9f2e402650d4e8e578f7a9d87854, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3381642859349629132, guid: ed2f9f2e402650d4e8e578f7a9d87854, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3381642859349629132, guid: ed2f9f2e402650d4e8e578f7a9d87854, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3381642859349629132, guid: ed2f9f2e402650d4e8e578f7a9d87854, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -4.63
+      objectReference: {fileID: 0}
+    - target: {fileID: 3381642859349629132, guid: ed2f9f2e402650d4e8e578f7a9d87854, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3381642859349629132, guid: ed2f9f2e402650d4e8e578f7a9d87854, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3381642859349629132, guid: ed2f9f2e402650d4e8e578f7a9d87854, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3381642859349629132, guid: ed2f9f2e402650d4e8e578f7a9d87854, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3381642859349629132, guid: ed2f9f2e402650d4e8e578f7a9d87854, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3381642859349629132, guid: ed2f9f2e402650d4e8e578f7a9d87854, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3381642859349629132, guid: ed2f9f2e402650d4e8e578f7a9d87854, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3381642859349629132, guid: ed2f9f2e402650d4e8e578f7a9d87854, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7757385688290870796, guid: ed2f9f2e402650d4e8e578f7a9d87854, type: 3}
+      propertyPath: m_Name
+      value: layerExplosion
+      objectReference: {fileID: 0}
+    - target: {fileID: 8715847377130629411, guid: ed2f9f2e402650d4e8e578f7a9d87854, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ed2f9f2e402650d4e8e578f7a9d87854, type: 3}
 --- !u!1 &650630059
 GameObject:
   m_ObjectHideFlags: 0
@@ -4032,8 +4099,8 @@ MonoBehaviour:
   debugSpawnEnemy: 0
   debugSpawnEnemyLeft: 0
   debugSpawnEnemyRight: 0
-  debugOverrideEnemyLayers: 0
-  debugSpawnEnemyLayers: 2
+  debugOverrideEnemyLayers: 1
+  debugSpawnEnemyLayers: 8
 --- !u!1001 &867794764
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -594,6 +594,7 @@ MonoBehaviour:
   debugLayerDamage: 0
   debugSelfDestruct: 0
   debugFire: 0
+  explosionParticle: {fileID: 7757385688290870796, guid: ed2f9f2e402650d4e8e578f7a9d87854, type: 3}
 --- !u!61 &5835015112034780481
 BoxCollider2D:
   m_ObjectHideFlags: 0
