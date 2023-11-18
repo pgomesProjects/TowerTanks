@@ -228,6 +228,6 @@ public class MenuController : MonoBehaviour
 
     public void PlayButtonSFX(string name)
     {
-        FindObjectOfType<AudioManager>().Play("Button" + name);
+        GameManager.Instance.AudioManager.Play("Button" + name);
     }
 }

@@ -97,16 +97,10 @@ public class PlayerController : MonoBehaviour
 
     private bool isSpinningCannon = false;
 
+    private PlayerInput playerInputComponent;
+
     private void Awake()
     {
-        //Gets the player input action map so that events can be subscribed to it
-        inputMap = GetComponent<PlayerInput>().actions.FindActionMap("Player");
-        inputMap.actionTriggered += OnPlayerInput;
-
-        //Subscribes events for control lost / regained
-        GetComponent<PlayerInput>().onDeviceLost += OnDeviceLost;
-        GetComponent<PlayerInput>().onDeviceRegained += OnDeviceRegained;
-
         SceneManager.sceneLoaded += OnSceneLoaded;
 
         rb = GetComponent<Rigidbody2D>();
@@ -182,22 +176,17 @@ public class PlayerController : MonoBehaviour
         rb.gravityScale = defaultGravity;
     }
 
-    private void OnDisable()
-    {
-        GetComponent<PlayerInput>().actions = null;
-    }
-
     // Update is called once per frame
     private void Update()
     {
         if (PlayerCanInteract())
         {
-            if(GetComponent<PlayerInput>().currentControlScheme == "Gamepad")
+            if(playerInputComponent.currentControlScheme == "Gamepad")
             {
                 //Check to see if the joystick is spinning
                 CheckJoystickSpinning();
             }
-            else if (GetComponent<PlayerInput>().currentControlScheme == "Keyboard and Mouse")
+            else if (playerInputComponent.currentControlScheme == "Keyboard and Mouse")
             {
                 //Check to see if the mouse scroll is scrolling
                 CheckMouseScroll();
@@ -325,6 +314,21 @@ public class PlayerController : MonoBehaviour
     }
 
     #region OnInputFunctions
+
+    public void LinkPlayerInput(PlayerInput newInput)
+    {
+        playerInputComponent = newInput;
+        playerIndex = playerInputComponent.playerIndex;
+
+        //Gets the player input action map so that events can be subscribed to it
+        inputMap = playerInputComponent.actions.FindActionMap("Player");
+        inputMap.actionTriggered += OnPlayerInput;
+
+        //Subscribes events for control lost / regained
+        playerInputComponent.onDeviceLost += OnDeviceLost;
+        playerInputComponent.onDeviceRegained += OnDeviceRegained;
+    }
+
     //Send value from Move callback to the horizontal Vector2
     public void OnMove(InputAction.CallbackContext ctx) => movement = ctx.ReadValue<Vector2>();
 
@@ -547,6 +551,7 @@ public class PlayerController : MonoBehaviour
             if (LevelManager.instance != null && !LevelManager.instance.isPaused)
             {
                 //Pause the game
+                Debug.Log("Player " + playerIndex + " Paused.");
                 LevelManager.instance.PauseToggle(playerIndex);
             }
         }
@@ -611,7 +616,7 @@ public class PlayerController : MonoBehaviour
 
     public float GetCannonMovement()
     {
-        if(GetComponent<PlayerInput>().currentControlScheme == "Gamepad")
+        if(playerInputComponent.currentControlScheme == "Gamepad")
         {
             //If the player is spinning the joystick and cannot move, send the cannon the player's joystick spin angle
             if (isSpinningCannon && !canMove)
@@ -619,7 +624,7 @@ public class PlayerController : MonoBehaviour
                 return Vector2.SignedAngle(lastJoystickInput, movement);
             }
         }
-        else if(GetComponent<PlayerInput>().currentControlScheme == "Keyboard and Mouse")
+        else if(playerInputComponent.currentControlScheme == "Keyboard and Mouse")
         {
             if (isSpinningCannon && !canMove)
             {
@@ -983,7 +988,7 @@ public class PlayerController : MonoBehaviour
             Destroy(itemHeld.GetComponent<DamageObject>());
         }
 
-        FindObjectOfType<AudioManager>().Play("ItemPickup");
+        GameManager.Instance.AudioManager.Play("ItemPickup");
 
         itemHeld.SetPickUp(true);
         isHoldingItem = true;
@@ -1171,10 +1176,10 @@ public class PlayerController : MonoBehaviour
             isSpinningCannon = false;
     }
 
-    public void PlayFootstepSFX() => FindObjectOfType<AudioManager>().Play("Footstep", gameObject);
-    public void PlayLadderClimbSFX() => FindObjectOfType<AudioManager>().Play("LadderClimb", gameObject);
-    public void PlayHammerSFX() => FindObjectOfType<AudioManager>().Play("TankImpact", gameObject);
-    public void PlayWrenchSFX() => FindObjectOfType<AudioManager>().Play("UseWrench", gameObject);
+    public void PlayFootstepSFX() => GameManager.Instance.AudioManager.Play("Footstep", gameObject);
+    public void PlayLadderClimbSFX() => GameManager.Instance.AudioManager.Play("LadderClimb", gameObject);
+    public void PlayHammerSFX() => GameManager.Instance.AudioManager.Play("TankImpact", gameObject);
+    public void PlayWrenchSFX() => GameManager.Instance.AudioManager.Play("UseWrench", gameObject);
 
     public void SpawnParticle(GameObject particle) {
         if (particle.name == "foam" && !isFacingRight) Instantiate(particle, particleSpawn.position, Quaternion.identity);
@@ -1206,11 +1211,10 @@ public class PlayerController : MonoBehaviour
     public float GetFireRemoverSpeed() => fireRemoverSpeed;
     public float GetActionSpeed() => currentActionSpeed;
     public void SetActionSpeed(float actionSpeed) => currentActionSpeed = actionSpeed;
-
     public float GetDefaultGravity() => defaultGravity;
 
+    public PlayerInput GetPlayerInput() => playerInputComponent;
     public int GetPlayerIndex() => playerIndex;
-
     public void SetPlayerIndex(int index) => playerIndex = index;
 
     public Color GetPlayerColor() => GetComponent<Renderer>().material.color;

@@ -31,6 +31,6 @@ public class RandomNoise : MonoBehaviour
 
     private void PlaySound()
     {
-        FindObjectOfType<AudioManager>().Play(soundName);
+        GameManager.Instance.AudioManager.Play(soundName);
     }
 }

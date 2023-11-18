@@ -1460,7 +1460,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 {
                     ""name"": ""modifier2"",
                     ""id"": ""c551269a-e673-4237-99c9-bcbd1f246282"",
-                    ""path"": ""<Gamepad>/rightStickPress"",
+                    ""path"": ""<Gamepad>/start"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",

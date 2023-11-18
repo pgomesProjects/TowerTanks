@@ -108,10 +108,10 @@ public class PlayerCannonController : CannonController
                 //If the player is spinning the cannon, play the aim sound effect
                 if (cannonInteractable.GetLockedInPlayer().IsPlayerSpinningCannon())
                 {
-                    if (!FindObjectOfType<AudioManager>().IsPlaying("CannonAimSFX", gameObject))
+                    if (!GameManager.Instance.AudioManager.IsPlaying("CannonAimSFX", gameObject))
                     {
                         Debug.Log("Aiming...");
-                        FindObjectOfType<AudioManager>().Play("CannonAimSFX", gameObject);
+                        GameManager.Instance.AudioManager.Play("CannonAimSFX", gameObject);
                         currentAimCooldown = 0f;
                         lockedIn = false;
                     }
@@ -156,9 +156,9 @@ public class PlayerCannonController : CannonController
         if (currentAimCooldown > cannonAimCooldown)
         {
             Debug.Log("Locked In!");
-            if(FindObjectOfType<AudioManager>().IsPlaying("CannonAimSFX", gameObject))
-                FindObjectOfType<AudioManager>().Stop("CannonAimSFX", gameObject);
-            FindObjectOfType<AudioManager>().Play("CannonLockSFX", gameObject);
+            if(GameManager.Instance.AudioManager.IsPlaying("CannonAimSFX", gameObject))
+                GameManager.Instance.AudioManager.Stop("CannonAimSFX", gameObject);
+            GameManager.Instance.AudioManager.Play("CannonLockSFX", gameObject);
             lockedIn = true;
         }
         else
@@ -181,7 +181,7 @@ public class PlayerCannonController : CannonController
             else if (!cannonReady)
             {
                 cannonReady = true;
-                FindObjectOfType<AudioManager>().Play("CannonReload", gameObject);
+                GameManager.Instance.AudioManager.Play("CannonReload", gameObject);
                 UpdateCannonBody();
             }
         }

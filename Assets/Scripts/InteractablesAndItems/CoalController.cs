@@ -116,7 +116,7 @@ public class CoalController : InteractableController
             currentCoalFrame++;
             StartCoroutine(AnimateCoalFill());
 
-            AudioManager audio = FindObjectOfType<AudioManager>();
+            AudioManager audio = GameManager.Instance.AudioManager;
             float totalAudioTime = audio.GetSoundLength("LoadingCoal");
 
             float startAudioTime;
@@ -232,7 +232,7 @@ public class CoalController : InteractableController
                 Debug.Log("Coal Is Out!");
                 hasCoal = false;
                 LevelManager.instance.GetPlayerTank().AdjustEngineSpeedMultiplier();
-                FindObjectOfType<AudioManager>().Play("EngineDyingSFX", gameObject);
+                GameManager.Instance.AudioManager.Play("EngineDyingSFX", gameObject);
                 Instantiate(sparks, transform.position, Quaternion.identity);
             }
 

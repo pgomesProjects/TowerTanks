@@ -43,6 +43,9 @@ public class LevelManager : MonoBehaviour
     private int resourcesNum;
     private GameObject currentGhostLayer;
 
+    private Transform[] spawnPoints;
+    private Transform playerParent;
+
     private IEnumerator resourcesUpdateAnimation;
     private float resourcesAnimationPercent;
 
@@ -67,8 +70,8 @@ public class LevelManager : MonoBehaviour
     private void Start()
     {
         isSettingUpOnStart = true;
-
-        FindObjectOfType<AudioManager>().Play("MainMenuWindAmbience");
+        SpawnAllPlayers();
+        GameManager.Instance.AudioManager.Play("MainMenuWindAmbience");
 
         //Starting resources
         switch (GameSettings.difficulty)
@@ -103,6 +106,37 @@ public class LevelManager : MonoBehaviour
             resourcesDisplay.text = "Inf.";
         }
         isSettingUpOnStart = false;
+    }
+
+    private void OnEnable()
+    {
+        GameManager.Instance.MultiplayerManager.OnPlayerConnected += SpawnPlayer;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.Instance.MultiplayerManager.OnPlayerConnected -= SpawnPlayer;
+    }
+
+    private void SpawnAllPlayers()
+    {
+        playerParent = GameObject.FindGameObjectWithTag("PlayerContainer")?.transform;
+        spawnPoints = FindObjectOfType<SpawnPoints>()?.spawnPoints;
+
+        foreach(PlayerInput playerInput in GameManager.Instance.MultiplayerManager.GetPlayerInputs())
+            SpawnPlayer(playerInput);
+    }
+
+    private void SpawnPlayer(PlayerInput playerInput)
+    {
+        PlayerController character = Instantiate(GameManager.Instance.MultiplayerManager.GetPlayerPrefab());
+        character.LinkPlayerInput(playerInput);
+        character.GetComponent<Rigidbody2D>().isKinematic = false;
+        character.transform.position = spawnPoints[playerInput.playerIndex].position;
+        character.transform.SetParent(playerParent);
+        character.transform.GetComponent<Renderer>().material.SetColor("_Color", GameManager.Instance.MultiplayerManager.GetPlayerColors()[playerInput.playerIndex]);
+        if (levelPhase == GAMESTATE.GAMEACTIVE || GameSettings.skipTutorial)
+            character.SetPlayerMove(true);
     }
 
     /// <summary>
@@ -202,7 +236,7 @@ public class LevelManager : MonoBehaviour
             //Check interactables on layer
             //CheckInteractablesOnLayer(totalLayers);
             //Play sound effect
-            FindObjectOfType<AudioManager>().Play("UseSFX");
+            GameManager.Instance.AudioManager.Play("UseSFX");
         }
 
         //Adjust the weight of the tank
@@ -266,7 +300,7 @@ public class LevelManager : MonoBehaviour
         {
             Time.timeScale = 0;
 
-            FindObjectOfType<AudioManager>().PauseAllSounds();
+            GameManager.Instance.AudioManager.PauseAllSounds();
             currentPlayerPaused = playerIndex;
             isPaused = true;
             pauseGameCanvas.SetActive(true);
@@ -280,7 +314,7 @@ public class LevelManager : MonoBehaviour
             {
                 EventSystem.current.SetSelectedGameObject(null);
                 Time.timeScale = 1;
-                FindObjectOfType<AudioManager>().ResumeAllSounds();
+                GameManager.Instance.AudioManager.ResumeAllSounds();
                 isPaused = false;
                 pauseGameCanvas.SetActive(false);
                 InputForOtherPlayers(currentPlayerPaused, false);
@@ -300,7 +334,7 @@ public class LevelManager : MonoBehaviour
 
     public void ReactivateAllInput()
     {
-        InputForOtherPlayers(currentPlayerPaused, false);
+        //InputForOtherPlayers(currentPlayerPaused, false);
     }
 
     private void InputForOtherPlayers(int currentActivePlayer, bool disableInputForOthers)
@@ -316,20 +350,18 @@ public class LevelManager : MonoBehaviour
                 //Disable other player input
                 if (disableInputForOthers)
                 {
-                    Debug.Log("Deactivating Player " + (player.GetPlayerIndex() + 1) + " Controller Input...");
-                    player.GetComponent<PlayerInput>().actions.Disable();
+                    player.GetPlayerInput().actions.Disable();
                 }
                 //Enable other player input
                 else
                 {
-                    Debug.Log("Activating Player " + (player.GetPlayerIndex() + 1) + " Controller Input...");
-                    player.GetComponent<PlayerInput>().actions.Enable();
+                    player.GetPlayerInput().actions.Enable();
                 }
             }
             else
             {
                 //Make sure the current player's action asset is tied to the EventSystem so they can use the menus
-                EventSystem.current.GetComponent<InputSystemUIInputModule>().actionsAsset = player.GetComponent<PlayerInput>().actions;
+                EventSystem.current.GetComponent<InputSystemUIInputModule>().actionsAsset = player.GetPlayerInput().actions;
             }
         }
     }
@@ -340,9 +372,7 @@ public class LevelManager : MonoBehaviour
         if (totalLayers == 0)
         {
             Debug.Log("Tank Is Destroyed!");
-            //Destroy the tank
-            FindObjectOfType<MultiplayerManager>().ChildPlayerInput();
-            Destroy(playerTank.gameObject);
+            playerTank.DestroyTank();
             //Switch from gameplay to game over
             TransitionGameState();
             return;
@@ -431,8 +461,8 @@ public class LevelManager : MonoBehaviour
 
     public void StartCombatMusic(int layers)
     {
-        if(!FindObjectOfType<AudioManager>().IsPlaying("CombatMusic"))
-            FindObjectOfType<AudioManager>().Play("CombatMusic");
+        if(!GameManager.Instance.AudioManager.IsPlaying("CombatMusic"))
+            GameManager.Instance.AudioManager.Play("CombatMusic");
 
         //Decides how many layers of music should play depending on the amount of enemy layers
         int musicLayers;
@@ -457,7 +487,7 @@ public class LevelManager : MonoBehaviour
                 AkSoundEngine.SetRTPCValue("CombatLayer" + i + "Volume", 0f);
         }
 
-        AkSoundEngine.SetRTPCValue("GlobalCombatVolume", 100, FindObjectOfType<AudioManager>().GlobalGameObject);
+        AkSoundEngine.SetRTPCValue("GlobalCombatVolume", 100, GameManager.Instance.AudioManager.GlobalGameObject);
     }
 
     /// <summary>
@@ -467,20 +497,20 @@ public class LevelManager : MonoBehaviour
     /// <returns></returns>
     public IEnumerator StopCombatMusic(float fadeDuration)
     {
-        AkSoundEngine.SetRTPCValue("GlobalCombatVolume", 0, FindObjectOfType<AudioManager>().GlobalGameObject, (int)(fadeDuration * 1000f));
+        AkSoundEngine.SetRTPCValue("GlobalCombatVolume", 0, GameManager.Instance.AudioManager.GlobalGameObject, (int)(fadeDuration * 1000f));
         yield return new WaitForSeconds(fadeDuration);
 
-        if (FindObjectOfType<AudioManager>() != null)
+        if (GameManager.Instance.AudioManager != null)
         {
-            if (FindObjectOfType<AudioManager>().IsPlaying("CombatMusic"))
-                FindObjectOfType<AudioManager>().Stop("CombatMusic");
+            if (GameManager.Instance.AudioManager.IsPlaying("CombatMusic"))
+                GameManager.Instance.AudioManager.Stop("CombatMusic");
         }
     }
 
     private void GameOver()
     {
         //Stop all of the in-game sounds
-        FindObjectOfType<AudioManager>().StopAllSounds();
+        GameManager.Instance.AudioManager.StopAllSounds();
 
         //Destroy all particles
         foreach (var particle in FindObjectsOfType<ParticleSystem>())
@@ -491,7 +521,7 @@ public class LevelManager : MonoBehaviour
 
         Time.timeScale = 0.0f;
         gameOverCanvas.SetActive(true);
-        FindObjectOfType<AudioManager>().Play("DeathStinger");
+        GameManager.Instance.AudioManager.Play("DeathStinger");
         StartCoroutine(ReturnToMain());
     }
 

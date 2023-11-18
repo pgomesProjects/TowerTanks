@@ -52,7 +52,7 @@ public class CannonController : InteractableController
             GameObject currentProjectile = Instantiate(projectile, new Vector3(spawnPoint.transform.position.x, spawnPoint.transform.position.y, 0), Quaternion.identity);
 
             //Play sound effect
-            FindObjectOfType<AudioManager>().Play("CannonFire", gameObject);
+            GameManager.Instance.AudioManager.Play("CannonFire", gameObject);
 
             Instantiate(cSmoke, spawnPoint.transform.position, Quaternion.identity);
 

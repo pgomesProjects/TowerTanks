@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 942814128700547139}
-  - component: {fileID: 942814128700547140}
+  - component: {fileID: 689608177952213201}
   m_Layer: 0
   m_Name: Init
   m_TagString: Untagged
@@ -28,11 +28,13 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1804729510499256503}
+  - {fileID: 1903508510957378739}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &942814128700547140
+--- !u!114 &689608177952213201
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,273 +43,324 @@ MonoBehaviour:
   m_GameObject: {fileID: 942814128700547141}
   m_Enabled: 1
   m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8aefe0cf4e30f7641beea6834b6dfda8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &1903508510957378736
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1903508510957378739}
+  - component: {fileID: 1903508510957378748}
+  - component: {fileID: 1903508510957378749}
+  m_Layer: 0
+  m_Name: MultiplayerManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1903508510957378739
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1903508510957378736}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1.5, y: -7, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 942814128700547139}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1903508510957378748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1903508510957378736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 621567455fd1c4ceb811cc8a00b6a1a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_NotificationBehavior: 3
+  m_MaxPlayerCount: 10
+  m_AllowJoining: 0
+  m_JoinBehavior: 1
+  m_PlayerJoinedEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: MultiplayerManager, Assembly-CSharp
+        m_MethodName: OnPlayerJoined
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  m_PlayerLeftEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_JoinAction:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Join
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 1427e0c0-ac32-4b2f-a977-42c4a96cdc41
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 3104231210921336283, guid: d50acc852d517574b9c227bb9d9871bf, type: 3}
+  m_PlayerPrefab: {fileID: 3885382295824663720, guid: 54128535d8eff094f907bd0696d94ab3, type: 3}
+  m_SplitScreen: 0
+  m_MaintainAspectRatioInSplitScreen: 0
+  m_FixedNumberOfSplitScreens: -1
+  m_SplitScreenRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+--- !u!114 &1903508510957378749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1903508510957378736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29a18151787262c41ae9e1a85511401b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerColors:
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 0, g: 0, b: 1, a: 1}
+  - {r: 0, g: 1, b: 0, a: 1}
+  - {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  - {r: 0.98823535, g: 0.6431373, b: 0.007843138, a: 1}
+  - {r: 0.24313727, g: 0.9960785, b: 1, a: 1}
+  - {r: 0.8171149, g: 0, b: 0.8301887, a: 1}
+  - {r: 1, g: 0.48490566, b: 0.56173587, a: 1}
+  - {r: 0.27450982, g: 0.14117648, b: 0.023529414, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  playerPrefab: {fileID: 7973947297216219181, guid: 9b80d3f76198c44439b273c5cce8f397, type: 3}
+--- !u!1 &4980786828227978950
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1804729510499256503}
+  - component: {fileID: 162849966395706068}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1804729510499256503
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4980786828227978950}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 942814128700547139}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &162849966395706068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4980786828227978950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 94352b62145e26f4c89585d8ff2e0c55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalPause:
-    idInternal: 0
-    valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: 4f82b6374b3a0544ca44a4bf1986421a, type: 2}
-  GlobalUnpause:
-    idInternal: 0
-    valueGuidInternal: 
-    WwiseObjectReference: {fileID: 11400000, guid: fc7a8478263114f4d8c524720b8166bf, type: 2}
-  bgmMixer: {fileID: 5802316482864546721, guid: 0a7f42e58f78f644aa0eda82b00c01ed, type: 2}
-  sfxMixer: {fileID: 4279340188021939522, guid: 1caf2312e44a0b94eac66396929631ce, type: 2}
   sounds:
   - name: MainMenuAmbience
     audioEvent:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: 76ef1d27b2e849e4d885dad4ae063a8e, type: 2}
-    pitch: 1
-    loop: 0
-    soundType: 0
   - name: MainMenuWindAmbience
     audioEvent:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: 0985404288d95544c868fdc729952d98, type: 2}
-    pitch: 1
-    loop: 1
-    soundType: 0
   - name: CombatMusic
     audioEvent:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: a2de1d0f398a46b4790d73c81c059ad4, type: 2}
-    pitch: 1
-    loop: 1
-    soundType: 0
   - name: DeathStinger
     audioEvent:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: e3ff3b6a0505e3544bcb018b84d86284, type: 2}
-    pitch: 1
-    loop: 0
-    soundType: 0
   - name: TankIdle
     audioEvent:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: f74d9d9ea49de0f4ba600c204c3d1bf2, type: 2}
-    pitch: 1
-    loop: 1
-    soundType: 1
   - name: TreadsRolling
     audioEvent:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: 27606aa99c30b9b4b9661f275a9abf2a, type: 2}
-    pitch: 1
-    loop: 1
-    soundType: 1
   - name: UseWrench
     audioEvent:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: 1a3405bea9b160a42ab925fe547afefd, type: 2}
-    pitch: 1
-    loop: 0
-    soundType: 1
   - name: LoadingCoal
     audioEvent:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: 6a9d726f586a1a445a4eb3f3cf6e527d, type: 2}
-    pitch: 1
-    loop: 0
-    soundType: 1
   - name: CannonReload
     audioEvent:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: d01626809c3ffc742ae54eccafb50d8a, type: 2}
-    pitch: 1
-    loop: 0
-    soundType: 1
   - name: CannonFire
     audioEvent:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: 1df53cc814c923d4aba97ad3c5a39ced, type: 2}
-    pitch: 1
-    loop: 0
-    soundType: 1
   - name: MuffledCannonFire
     audioEvent:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: c14da81abfb11a643a2fb5afc25c3260, type: 2}
-    pitch: 1
-    loop: 0
-    soundType: 1
   - name: ThrottleClick
     audioEvent:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: a52fcaea18a01394faeb673486245782, type: 2}
-    pitch: 1
-    loop: 0
-    soundType: 1
   - name: ThrottleShift
     audioEvent:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: f59cfd6bff655ad48a406933eea54c20, type: 2}
-    pitch: 1
-    loop: 0
-    soundType: 1
   - name: UseSFX
     audioEvent:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: 9da3c56dd2ed68640b44448e43ea8790, type: 2}
-    pitch: 1
-    loop: 0
-    soundType: 1
   - name: ExplosionSFX
     audioEvent:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: 35ba8086e20709543ba9d4059effa635, type: 2}
-    pitch: 1
-    loop: 0
-    soundType: 1
   - name: MedExplosionSFX
     audioEvent:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: 890363f06e7ecb34389ff782bf0cb5a4, type: 2}
-    pitch: 1
-    loop: 0
-    soundType: 1
   - name: LargeExplosionSFX
     audioEvent:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: 1bad2439f795ea44d95a42e577344ba3, type: 2}
-    pitch: 1
-    loop: 0
-    soundType: 1
   - name: EnemyAlarm
     audioEvent:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: fc9dc605312b2264cb9bf2f420bdbceb, type: 2}
-    pitch: 1
-    loop: 0
-    soundType: 1
   - name: TankImpact
     audioEvent:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: 09d64362d6767ab44aa832d569f4a47c, type: 2}
-    pitch: 1
-    loop: 0
-    soundType: 1
   - name: ItemPickup
     audioEvent:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: 78a479705a507694287ca8b945808aa4, type: 2}
-    pitch: 1
-    loop: 0
-    soundType: 1
   - name: TextBeep
     audioEvent:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: 78b9a5e132f712e4391247cb97c41d23, type: 2}
-    pitch: 1
-    loop: 0
-    soundType: 1
   - name: CannonAimSFX
     audioEvent:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: 1e3ed50a5dee1334a87ea8d97d8c04d5, type: 2}
-    pitch: 1
-    loop: 1
-    soundType: 1
   - name: CannonLockSFX
     audioEvent:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: 7d620ccf1788ec442b15c200a81e3639, type: 2}
-    pitch: 1
-    loop: 0
-    soundType: 1
   - name: EngineDyingSFX
     audioEvent:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: 454e7fa727e1e284cb96efc9f941fa3e, type: 2}
-    pitch: 1
-    loop: 0
-    soundType: 1
   - name: ProjectileInAirSFX
     audioEvent:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: b91975b69ada9c84485dea04095e2f32, type: 2}
-    pitch: 1
-    loop: 0
-    soundType: 1
   - name: FireBurningSFX
     audioEvent:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: 74d8e60cbaeacb644b7e29c9838178a8, type: 2}
-    pitch: 1
-    loop: 1
-    soundType: 1
   - name: Footstep
     audioEvent:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: 84e81855058db314494fce21da88ec79, type: 2}
-    pitch: 1
-    loop: 0
-    soundType: 1
   - name: LadderClimb
     audioEvent:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: 460a5cefeb825e24cbff87e0292bf5fe, type: 2}
-    pitch: 1
-    loop: 0
-    soundType: 1
   - name: ButtonHover
     audioEvent:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: 8466f67f2e9e0a54fb95afab3e92cddb, type: 2}
-    pitch: 1
-    loop: 0
-    soundType: 1
   - name: ButtonClick
     audioEvent:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: 09d64362d6767ab44aa832d569f4a47c, type: 2}
-    pitch: 1
-    loop: 0
-    soundType: 1
   - name: ButtonCancel
     audioEvent:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: 1f59d058592bbb6469a88781ce688681, type: 2}
-    pitch: 1
-    loop: 0
-    soundType: 1
   - name: DebugBeep
     audioEvent:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: 321bb66ba2e39d644bc08fa2a49955ae, type: 2}
-    pitch: 1
-    loop: 0
-    soundType: 1

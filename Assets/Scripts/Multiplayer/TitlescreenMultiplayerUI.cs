@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class TitlescreenMultiplayerUI : MultiplayerUI
 {
@@ -15,17 +16,17 @@ public class TitlescreenMultiplayerUI : MultiplayerUI
     public void CheckForExistingPlayers()
     {
         int counter = 0;
-        foreach(var player in FindObjectOfType<MultiplayerManager>().GetPlayerInputs())
+        foreach(var player in GameManager.Instance?.MultiplayerManager.GetPlayerInputs())
         {
-            OnPlayerJoined(player.GetComponent<PlayerController>().GetPlayerIndex(), player.GetComponent<PlayerController>().GetPlayerColor(), player.currentControlScheme);
+            OnPlayerJoined(player);
             counter++;
         }
     }
 
-    public override void OnPlayerJoined(int playerIndex, Color playerColor, string controlScheme)
+    public override void OnPlayerJoined(PlayerInput playerInput)
     {
-        playerDisplayContainer.GetChild(playerIndex).GetComponent<PlayerDisplay>().ShowPlayerInfo(playerColor, controlScheme);
-        UpdateJoinText(playerIndex);
+        playerDisplayContainer.GetChild(playerInput.playerIndex).GetComponent<PlayerDisplay>().ShowPlayerInfo(GameManager.Instance.MultiplayerManager.GetPlayerColors()[playerInput.playerIndex], playerInput.currentControlScheme);
+        UpdateJoinText(playerInput.playerIndex);
     }
 
     public override void OnPlayerLost(int playerIndex)

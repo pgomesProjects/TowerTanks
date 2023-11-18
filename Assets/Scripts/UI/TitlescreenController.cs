@@ -47,8 +47,8 @@ public class TitlescreenController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        FindObjectOfType<AudioManager>().Play("MainMenuAmbience");
-        FindObjectOfType<AudioManager>().Play("MainMenuWindAmbience");
+        GameManager.Instance.AudioManager.Play("MainMenuAmbience");
+        GameManager.Instance.AudioManager.Play("MainMenuWindAmbience");
 
         currentMenuState = startMenu;
 
@@ -71,8 +71,8 @@ public class TitlescreenController : MonoBehaviour
 
     private void StartGame()
     {
-        FindObjectOfType<AudioManager>().Stop("MainMenuAmbience");
-        FindObjectOfType<AudioManager>().Stop("MainMenuWindAmbience");
+        GameManager.Instance.AudioManager.Stop("MainMenuAmbience");
+        GameManager.Instance.AudioManager.Stop("MainMenuWindAmbience");
         LevelFader.instance.FadeToLevel(sceneToLoad);
     }
 
@@ -160,7 +160,7 @@ public class TitlescreenController : MonoBehaviour
         {
             GameSettings.debugMode = true;
             DontDestroyOnLoad(Instantiate(Resources.Load("DebugCanvas")));
-            FindObjectOfType<AudioManager>().Play("DebugBeep");
+            GameManager.Instance.AudioManager.Play("DebugBeep");
         }
     }
 
@@ -313,7 +313,7 @@ public class TitlescreenController : MonoBehaviour
 
     public void PlayButtonSFX(string name)
     {
-        FindObjectOfType<AudioManager>().Play("Button" + name);
+        GameManager.Instance.AudioManager.Play("Button" + name);
     }
 
     public void QuitGame()

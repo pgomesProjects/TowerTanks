@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class ParallaxController : MonoBehaviour
 {
-    [SerializeField] private float parallaxSpeed = 1;
-    private float relativeParallaxSpeed;
-    private float currentParallaxSpeed;
+    [SerializeField, Tooltip("The speed of the parallax background when the player moves.")] private float parallaxSpeed = 1;
+    [SerializeField, Tooltip("The speed for parallax layer to move without player movement.")] private float automaticSpeed = 0;
 
+    private float currentParallaxSpeed;
     private Vector2 backgroundSize;
 
     //Tiles the width of the background to give it room to parallax
@@ -20,25 +20,24 @@ public class ParallaxController : MonoBehaviour
     {
         playerTank = LevelManager.instance.GetPlayerTank();
         backgroundSize = GetComponent<SpriteRenderer>().bounds.size;
-        Debug.Log("Background Size: " + backgroundSize);
         GetComponent<SpriteRenderer>().size = new Vector2(backgroundSize.x * tileMultiplier, GetComponent<SpriteRenderer>().size.y);
-
-        //Get the speed of the player tank
-        relativeParallaxSpeed = -(playerTank.GetBasePlayerSpeed()) * parallaxSpeed;
-        currentParallaxSpeed = relativeParallaxSpeed;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Get the speed of the player tank
+        //Get the speed of the player tank moving and adjusts the parallax speed by it's stored speed value
         if(playerTank != null)
-        {
-            relativeParallaxSpeed = -(playerTank.GetBasePlayerSpeed()) * parallaxSpeed;
-        }
+            currentParallaxSpeed = ((-playerTank.GetBaseTankSpeed() * playerTank.GetThrottleMultiplier()) + automaticSpeed) * parallaxSpeed;
 
-        currentParallaxSpeed = relativeParallaxSpeed * playerTank.GetThrottleMultiplier();
+        MoveBackground();
+    }
 
+    /// <summary>
+    /// Moves the background's position.
+    /// </summary>
+    private void MoveBackground()
+    {
         //Moving backwards
         if (currentParallaxSpeed > 0)
         {
@@ -47,9 +46,7 @@ public class ParallaxController : MonoBehaviour
 
             //If the background moves past the original background size, move the background back to its original position
             if (transform.localPosition.x > backgroundSize.x)
-            {
                 transform.localPosition = new Vector3(-backgroundSize.x, transform.localPosition.y, transform.localPosition.z);
-            }
         }
 
         //Moving forwards
@@ -60,9 +57,7 @@ public class ParallaxController : MonoBehaviour
 
             //If the background moves past the original background size, move the background back to its original position
             if (transform.localPosition.x < -backgroundSize.x)
-            {
                 transform.localPosition = new Vector3(backgroundSize.x, transform.localPosition.y, transform.localPosition.z);
-            }
         }
     }
 }

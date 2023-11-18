@@ -18,7 +18,7 @@ public class FireBehavior : MonoBehaviour
         CreateFires(1);
         layerOnFire = true;
         currentTimer = 0;
-        FindObjectOfType<AudioManager>().Play("FireBurningSFX", gameObject);
+        GameManager.Instance.AudioManager.Play("FireBurningSFX", gameObject);
     }
 
     private void OnDisable()
@@ -32,8 +32,7 @@ public class FireBehavior : MonoBehaviour
             }
         }
 
-        if(FindObjectOfType<AudioManager>() != null)
-            FindObjectOfType<AudioManager>().Stop("FireBurningSFX", gameObject);
+        GameManager.Instance.AudioManager.Stop("FireBurningSFX", gameObject);
 
         playersPuttingOutFire.Clear();
     }

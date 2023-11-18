@@ -163,7 +163,7 @@ public class LayerManager : MonoBehaviour
         if (shakeCam)
             CameraEventController.instance.ShakeCamera(5f, 0.1f);
 
-        FindObjectOfType<AudioManager>().Play("TankImpact", gameObject);
+        GameManager.Instance.AudioManager.Play("TankImpact", gameObject);
 
         //Check to see if the layer's diegetics need to be updated
         if (GetComponentInChildren<DamageDiegeticController>() != null)
@@ -188,7 +188,7 @@ public class LayerManager : MonoBehaviour
         if (shakeCam)
             CameraEventController.instance.ShakeCamera(shakeIntensity, 0.1f);
 
-        FindObjectOfType<AudioManager>().Play("TankImpact");
+        GameManager.Instance.AudioManager.Play("TankImpact");
 
         UpdateLayerDamageDiegetic();
 
@@ -281,7 +281,7 @@ public class LayerManager : MonoBehaviour
                 GetComponentInParent<EnemyController>().EnemyLayerDestroyed();
             }
 
-            FindObjectOfType<AudioManager>().Play("LargeExplosionSFX", gameObject);
+            GameManager.Instance.AudioManager.Play("LargeExplosionSFX", gameObject);
 
             //Destroy the layer
             Destroy(gameObject);
@@ -324,7 +324,8 @@ public class LayerManager : MonoBehaviour
         {
             //Update the list of layers accordingly
             transform.GetComponentInParent<PlayerTankController>().AdjustLayersInList();
-            FindObjectOfType<AudioManager>().Play("MedExplosionSFX", gameObject);
+            GameManager.Instance.AudioManager.Play("MedExplosionSFX", gameObject);
+            Explode();
         }
 
         if (transform.GetComponentInParent<EnemyController>() != null)
@@ -332,7 +333,5 @@ public class LayerManager : MonoBehaviour
             //Update the enemy behavior accordingly
             transform.GetComponentInParent<EnemyController>().OnLayerDestroyed();
         }
-
-        Explode();
     }
 }

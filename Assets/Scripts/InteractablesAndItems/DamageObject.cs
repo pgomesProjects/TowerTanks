@@ -16,7 +16,7 @@ public class DamageObject : MonoBehaviour
         currentTimer = 0;
 
         //Spawn object with sound effect active
-        FindObjectOfType<AudioManager>().Play("ProjectileInAirSFX", gameObject);
+        GameManager.Instance.AudioManager.Play("ProjectileInAirSFX", gameObject);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -29,7 +29,7 @@ public class DamageObject : MonoBehaviour
             {
                 //Deal damage and destroy self if colliding with a layer
                 collision.collider.GetComponentInParent<LayerManager>().DealDamage(damage, true);
-                FindObjectOfType<AudioManager>().Play("MedExplosionSFX", gameObject);
+                GameManager.Instance.AudioManager.Play("MedExplosionSFX", gameObject);
 
                 //If there is a ShellItemBehavior component on the damage object, check to see if there should be a fire
                 if (TryGetComponent<ShellItemBehavior>(out ShellItemBehavior shell))
@@ -41,8 +41,8 @@ public class DamageObject : MonoBehaviour
         //Just explode if the object hits anything else
         else
         {
-            if (FindObjectOfType<AudioManager>() != null)
-                FindObjectOfType<AudioManager>().Play("ExplosionSFX", gameObject);
+            if (GameManager.Instance.AudioManager != null)
+                GameManager.Instance.AudioManager.Play("ExplosionSFX", gameObject);
         }
 
         //If the object hits the player, launch them in a specified direction
@@ -70,8 +70,8 @@ public class DamageObject : MonoBehaviour
         //If the item is passed the world's bounds, delete it
         if(transform.position.y < -14.4f)
         {
-            if (FindObjectOfType<AudioManager>() != null)
-                FindObjectOfType<AudioManager>().Play("ExplosionSFX", gameObject);
+            if (GameManager.Instance.AudioManager != null)
+                GameManager.Instance.AudioManager.Play("ExplosionSFX", gameObject);
             Destroy(gameObject);
         }
 
@@ -113,7 +113,7 @@ public class DamageObject : MonoBehaviour
             }
         }
 
-        if (FindObjectOfType<AudioManager>() != null)
-            FindObjectOfType<AudioManager>().Stop("ProjectileInAirSFX", gameObject);
+        if (GameManager.Instance.AudioManager != null)
+            GameManager.Instance.AudioManager.Stop("ProjectileInAirSFX", gameObject);
     }
 }

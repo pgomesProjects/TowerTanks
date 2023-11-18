@@ -244,7 +244,7 @@ public class EnemyController : MonoBehaviour
 
     private void CreateCollision()
     {
-        float playerSpeed = playerTank.GetPlayerSpeed();
+        float playerSpeed = playerTank.GetTankMovementSpeed();
 
         //If the enemy is going right
         if (-GetDirectionalSpeed() < 0)
@@ -385,12 +385,12 @@ public class EnemyController : MonoBehaviour
         float playerForce = collisionForce;
 
         float enemyAbsSpeed = Mathf.Abs(-GetDirectionalSpeed());
-        float playerAbsSpeed = Mathf.Abs(playerTank.GetPlayerSpeed());
+        float playerAbsSpeed = Mathf.Abs(playerTank.GetTankMovementSpeed());
 
         //If the enemy is going right
         if (-GetDirectionalSpeed() < 0)
         {
-            if (-GetDirectionalSpeed() <= playerTank.GetPlayerSpeed())
+            if (-GetDirectionalSpeed() <= playerTank.GetTankMovementSpeed())
                 enemyForce *= playerAbsSpeed / enemyAbsSpeed;
             else
                 playerForce *= enemyAbsSpeed / playerAbsSpeed;
@@ -398,7 +398,7 @@ public class EnemyController : MonoBehaviour
         //If the enemy is going left
         else
         {
-            if (-GetDirectionalSpeed() >= playerTank.GetPlayerSpeed())
+            if (-GetDirectionalSpeed() >= playerTank.GetTankMovementSpeed())
                 enemyForce *= playerAbsSpeed / enemyAbsSpeed;
             else
                 playerForce *= enemyAbsSpeed / playerAbsSpeed;
@@ -541,8 +541,7 @@ public class EnemyController : MonoBehaviour
                 LevelManager.instance.GetPlayerTank().ResetTankDistance();
         }
 
-        if(FindObjectOfType<AudioManager>() != null)
-            FindObjectOfType<AudioManager>().Play("MedExplosionSFX", gameObject);
+        GameManager.Instance.AudioManager.Play("MedExplosionSFX", gameObject);
 
         CameraEventController.instance.RemoveOnDestroy(gameObject);
 

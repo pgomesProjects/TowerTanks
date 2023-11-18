@@ -9,20 +9,13 @@ public class GameMultiplayerUI : MultiplayerUI
     [SerializeField] private bool showJoinPrompt;
     [SerializeField] private GameObject onJoinObject;
 
-    private PlayerInputManager playerInputManager;
-
-    private void Start()
-    {
-        playerInputManager = FindObjectOfType<PlayerInputManager>();
-    }
-
-    public override void OnPlayerJoined(int playerIndex, Color playerColor, string controlScheme)
+    public override void OnPlayerJoined(PlayerInput playerInput)
     {
         if (onJoinObject.activeInHierarchy)
             onJoinObject.SetActive(false);
 
         onJoinObject.SetActive(true);
-        onJoinObject.GetComponentInChildren<TextMeshProUGUI>().text = "Player " + (playerIndex + 1) + " Joined";
+        onJoinObject.GetComponentInChildren<TextMeshProUGUI>().text = "Player " + (playerInput.playerIndex + 1) + " Joined";
 
         if (PlayerInput.all.Count <= ConnectionController.NumberOfActivePlayers())
         {
@@ -57,7 +50,7 @@ public class GameMultiplayerUI : MultiplayerUI
             //If the game is over, disable joining
             else
             {
-                playerInputManager.DisableJoining();
+                GameManager.Instance.MultiplayerManager.playerInputManager.DisableJoining();
             }
         }
     }

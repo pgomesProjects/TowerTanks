@@ -2259,6 +2259,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parallaxSpeed: 1.75
+  automaticSpeed: 0
 --- !u!212 &468702469
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6831,6 +6832,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parallaxSpeed: 1
+  automaticSpeed: 0
 --- !u!212 &1582205472
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6929,6 +6931,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parallaxSpeed: 1
+  automaticSpeed: 0.5
 --- !u!212 &1583871174
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -7079,6 +7082,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parallaxSpeed: 2.5
+  automaticSpeed: 0
 --- !u!1 &1616654369
 GameObject:
   m_ObjectHideFlags: 0

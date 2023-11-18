@@ -18,7 +18,7 @@ public class FakeBulletSpawner : MonoBehaviour
         GameObject currentProjectile = Instantiate(fakeBullet, new Vector3(transform.position.x, transform.position.y, 0), Quaternion.identity);
 
         //Play sound effect
-        FindObjectOfType<AudioManager>().Play("CannonFire", gameObject);
+        GameManager.Instance.AudioManager.Play("CannonFire", gameObject);
 
         switch (currentCannonDirection)
         {

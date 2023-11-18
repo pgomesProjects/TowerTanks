@@ -19,7 +19,7 @@ public class WheelSpeed : MonoBehaviour
     {
         if(FindObjectOfType<PlayerTankController>() != null)
         {
-            speed = (FindObjectOfType<PlayerTankController>().GetBasePlayerSpeed()) * 20f;
+            speed = (FindObjectOfType<PlayerTankController>().GetBaseTankSpeed()) * 20f;
             direction = (-FindObjectOfType<PlayerTankController>().GetThrottleMultiplier());
             if (direction != 0 && isEnemyTank == false)
             {

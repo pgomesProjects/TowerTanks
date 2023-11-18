@@ -97,11 +97,11 @@ public class PlayerTankController : MonoBehaviour
         //Add distance to the player tank
         if(!SpawnDistanceReached())
         {
-            currentDistance += GetPlayerSpeed() * Time.deltaTime;
+            currentDistance += GetTankMovementSpeed() * Time.deltaTime;
         }
 
         //Check the tread animation speed
-        treadAnimator.speed = GetBasePlayerSpeed() * Mathf.Abs(throttleMultiplier) * Time.deltaTime * 15f;
+        treadAnimator.speed = GetBaseTankSpeed() * Mathf.Abs(throttleMultiplier) * Time.deltaTime * 15f;
         treadAnimator.SetFloat("Direction", throttleMultiplier);
 
         //Move the tank
@@ -126,7 +126,7 @@ public class PlayerTankController : MonoBehaviour
         if (canMove)
         {
             Vector3 tankPosition = transform.position;
-            tankPosition.x += GetPlayerSpeed() * Time.deltaTime;
+            tankPosition.x += GetTankMovementSpeed() * Time.deltaTime;
             transform.position = tankPosition;
         }
     }
@@ -233,14 +233,14 @@ public class PlayerTankController : MonoBehaviour
         //If there is at least one engine running, play the engine sound effect
         if(numberOfEngines > 0)
         {
-            if(!FindObjectOfType<AudioManager>().IsPlaying("TankIdle", gameObject))
-                FindObjectOfType<AudioManager>().Play("TankIdle", gameObject);
+            if(!GameManager.Instance.AudioManager.IsPlaying("TankIdle", gameObject))
+                GameManager.Instance.AudioManager.Play("TankIdle", gameObject);
         }
         //If not, stop the sound effect if it's currently playing
         else
         {
-            if (FindObjectOfType<AudioManager>().IsPlaying("TankIdle", gameObject))
-                FindObjectOfType<AudioManager>().Stop("TankIdle", gameObject);
+            if (GameManager.Instance.AudioManager.IsPlaying("TankIdle", gameObject))
+                GameManager.Instance.AudioManager.Stop("TankIdle", gameObject);
         }
     }
 
@@ -250,14 +250,14 @@ public class PlayerTankController : MonoBehaviour
     public void UpdateTreadsSFX()
     {
         //If the current speed is stationary
-        if (GetPlayerSpeed() == 0)
+        if (GetTankMovementSpeed() == 0)
         {
-            FindObjectOfType<AudioManager>().Stop("TreadsRolling", gameObject);
+            GameManager.Instance.AudioManager.Stop("TreadsRolling", gameObject);
         }
         //If the tank idle isn't already playing, play it
-        else if (!FindObjectOfType<AudioManager>().IsPlaying("TreadsRolling", gameObject))
+        else if (!GameManager.Instance.AudioManager.IsPlaying("TreadsRolling", gameObject))
         {
-            FindObjectOfType<AudioManager>().Play("TreadsRolling", gameObject);
+            GameManager.Instance.AudioManager.Play("TreadsRolling", gameObject);
         }
     }
 
@@ -267,13 +267,13 @@ public class PlayerTankController : MonoBehaviour
     public void UpdateTreadParticles()
     {
         //If the player is going right, show tread particles on the left
-        if(GetPlayerSpeed() > 0)
+        if(GetTankMovementSpeed() > 0)
         {
             ShowLeftDustParticles(true);
             ShowRightDustParticles(false);
         }
         //If the player is going left, show tread particles on the right
-        else if (GetPlayerSpeed() < 0)
+        else if (GetTankMovementSpeed() < 0)
         {
             ShowLeftDustParticles(false);
             ShowRightDustParticles(true);
@@ -335,11 +335,27 @@ public class PlayerTankController : MonoBehaviour
         canMove = true;
     }
 
-
-    public List<LayerManager> GetLayers()
+    /// <summary>
+    /// Resets the tank's distance moved during idle time (before combat).
+    /// </summary>
+    public void ResetTankDistance()
     {
-        return layers;
+        StartCoroutine(LevelManager.instance.StopCombatMusic(1));
+        currentDistance = 0;
+        LevelManager.instance.ShowGoPrompt();
     }
+
+    /// <summary>
+    /// Destroys the entire tank.
+    /// </summary>
+    public void DestroyTank()
+    {
+        //Play explosion sound effect
+        GameManager.Instance.AudioManager.Play("LargeExplosionSFX", gameObject);
+        Destroy(gameObject);
+    }
+
+    public List<LayerManager> GetLayers() => layers;
 
     /// <summary>
     /// Gets the layer object based on the layer number.
@@ -364,26 +380,16 @@ public class PlayerTankController : MonoBehaviour
     }
 
     public Transform GetItemContainer() => itemContainer;
-
     public float GetCurrentTankDistance() => currentDistance;
-
     public bool SpawnDistanceReached() => currentDistance >= distanceUntilSpawn;
-
-    /// <summary>
-    /// Resets the tank's distance
-    /// </summary>
-    public void ResetTankDistance()
-    {
-        StartCoroutine(LevelManager.instance.StopCombatMusic(1));
-        currentDistance = 0;
-        LevelManager.instance.ShowGoPrompt();
-    }
 
     public void ShowLeftDustParticles(bool showParticles) => dustParticles[0].SetActive(showParticles);
     public void ShowRightDustParticles(bool showParticles) => dustParticles[1].SetActive(showParticles);
 
-    public float GetBasePlayerSpeed() => (currentSpeed* currentEngineMultiplier)* currentTankWeightMultiplier;
-    public float GetPlayerSpeed() => GetBasePlayerSpeed() * throttleMultiplier;
+    //Gets the speed of the tank without taking movement into account (the base speed value, the weight of the tank, and the current amount of engines active)
+    public float GetBaseTankSpeed() => (currentSpeed * currentEngineMultiplier) * currentTankWeightMultiplier;
+    //Gets the speed of the tank based on the position that the throttle is moving
+    public float GetTankMovementSpeed() => GetBaseTankSpeed() * throttleMultiplier;
 
     public float GetThrottleMultiplier() => throttleMultiplier;
     public void SetThrottleMultiplier(float multiplier) => throttleMultiplier = multiplier;
@@ -395,20 +401,17 @@ public class PlayerTankController : MonoBehaviour
     private void OnDestroy()
     {
         //Stop playing tank sound effects when destroyed
-        if (FindObjectOfType<AudioManager>() != null)
+        if (GameManager.Instance.AudioManager != null)
         {
-            FindObjectOfType<AudioManager>().Stop("TankIdle");
+            GameManager.Instance.AudioManager.Stop("TankIdle");
 
             //If the treads rolling sound effect is playing, stop showing the dust particles on the treads
-            if (FindObjectOfType<AudioManager>().IsPlaying("TreadsRolling"))
+            if (GameManager.Instance.AudioManager.IsPlaying("TreadsRolling"))
             {
-                FindObjectOfType<AudioManager>().Stop("TreadsRolling");
+                GameManager.Instance.AudioManager.Stop("TreadsRolling");
                 ShowLeftDustParticles(false);
                 ShowRightDustParticles(false);
             }
-
-            //Play explosion sound effect
-            FindObjectOfType<AudioManager>().Play("LargeExplosionSFX", gameObject);
         }
     }
 }

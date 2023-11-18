@@ -121,11 +121,10 @@ public class PauseController : MonoBehaviour
 
     public void ReturnToMain()
     {
-        FindObjectOfType<MultiplayerManager>().ChildPlayerInput();
         LevelManager.instance.ReactivateAllInput();
         SceneManager.LoadScene("Title");
         Time.timeScale = 1.0f;
-        FindObjectOfType<AudioManager>().StopAllSounds();
+        GameManager.Instance.AudioManager.StopAllSounds();
     }
     
     public void UpdatePauseText(int playerIndex)
@@ -136,7 +135,7 @@ public class PauseController : MonoBehaviour
 
     public void PlayButtonSFX(string name)
     {
-        FindObjectOfType<AudioManager>().Play("Button" + name);
+        GameManager.Instance.AudioManager.Play("Button" + name);
     }
 
     public void ButtonOnSelectColor(Animator anim)

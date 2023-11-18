@@ -34,7 +34,7 @@ public class AlarmAnimation : MonoBehaviour
     /// </summary>
     private void PlayAlarmAnimation()
     {
-        FindObjectOfType<AudioManager>().Play("EnemyAlarm");
+        GameManager.Instance.AudioManager.Play("EnemyAlarm");
 
         //Warning label animation
         LeanTween.scale(warningLabel, Vector3.one, warningLabelDuration).setEase(startingAnimationCurve);
@@ -49,6 +49,6 @@ public class AlarmAnimation : MonoBehaviour
     private void EndAnimation()
     {
         LeanTween.scale(warningLabel, Vector3.zero, warningLabelDuration).setEase(endAnimationCurve).setOnComplete(() => gameObject.SetActive(false));
-        FindObjectOfType<AudioManager>().Stop("EnemyAlarm");
+        GameManager.Instance.AudioManager.Stop("EnemyAlarm");
     }
 }
