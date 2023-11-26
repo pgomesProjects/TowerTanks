@@ -24,11 +24,11 @@ public class FireBehavior : MonoBehaviour
     private void OnDisable()
     {
         layerOnFire = false;
-        if(LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
+        if(LevelManager.Instance.levelPhase == GAMESTATE.TUTORIAL)
         {
-            if(TutorialController.main.currentTutorialState == TUTORIALSTATE.PUTOUTFIRE)
+            if(TutorialController.Instance.currentTutorialState == TUTORIALSTATE.PUTOUTFIRE)
             {
-                TutorialController.main.OnTutorialTaskCompletion();
+                TutorialController.Instance.OnTutorialTaskCompletion();
             }
         }
 
@@ -58,7 +58,7 @@ public class FireBehavior : MonoBehaviour
 
             if(currentTimer > fireTickSeconds)
             {
-                if(LevelManager.instance.levelPhase == GAMESTATE.GAMEACTIVE)
+                if(LevelManager.Instance.levelPhase == GAMESTATE.GAMEACTIVE)
                     GetComponentInParent<LayerManager>().DealDamage(damagePerTick, false);
                 currentTimer = 0;
             }

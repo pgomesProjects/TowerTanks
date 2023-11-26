@@ -6,7 +6,7 @@ using Cinemachine;
 
 public class CameraEventController : MonoBehaviour
 {
-    public static CameraEventController instance;
+    public static CameraEventController Instance;
 
     [SerializeField, Tooltip("The camera for in-game events.")] private CinemachineVirtualCamera _gameCamera;
     [SerializeField, Tooltip("The camera for cinematic transitions.")] private CinemachineVirtualCamera _cinematicCamera;
@@ -31,7 +31,7 @@ public class CameraEventController : MonoBehaviour
 
     private void Awake()
     {
-        instance = this;
+        Instance = this;
 
         //Adds each camera to the list of cameras.
         cameras.Add(_gameCamera);

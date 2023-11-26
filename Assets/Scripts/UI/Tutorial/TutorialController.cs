@@ -30,7 +30,7 @@ public class TutorialController : MonoBehaviour
 
     public bool playOnStart = false;
 
-    public static TutorialController main;
+    public static TutorialController Instance;
 
     public float textSpeed = 30;
     internal float currentTextSpeed;
@@ -46,7 +46,7 @@ public class TutorialController : MonoBehaviour
 
     private void Awake()
     {
-        main = this;
+        Instance = this;
         isDialogActive = false;
         listenForInput = false;
         playerControls = new PlayerControlSystem();
@@ -183,5 +183,5 @@ public class TutorialController : MonoBehaviour
             OnTutorialTaskCompletion();
     }
 
-    private bool IsTutorialStateActive(TUTORIALSTATE tutorialState) => LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL && currentTutorialState == tutorialState;
+    private bool IsTutorialStateActive(TUTORIALSTATE tutorialState) => LevelManager.Instance.levelPhase == GAMESTATE.TUTORIAL && currentTutorialState == tutorialState;
 }

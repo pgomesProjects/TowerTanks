@@ -302,7 +302,7 @@ public class PlayerTankController : MonoBehaviour
         GetLayerAt(0).DealDamage(10, false);
 
         //Shake camera on collision
-        CameraEventController.instance.ShakeCamera(10f, seconds);
+        CameraEventController.Instance.ShakeCamera(10f, seconds);
 
 
         while (timeElapsed < seconds && this != null)
@@ -340,9 +340,8 @@ public class PlayerTankController : MonoBehaviour
     /// </summary>
     public void ResetTankDistance()
     {
-        StartCoroutine(LevelManager.instance.StopCombatMusic(1));
+        StartCoroutine(LevelManager.Instance.StopCombatMusic(1));
         currentDistance = 0;
-        LevelManager.instance.ShowGoPrompt();
     }
 
     /// <summary>

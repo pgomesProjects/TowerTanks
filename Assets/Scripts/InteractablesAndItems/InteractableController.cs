@@ -213,7 +213,7 @@ public class InteractableController : MonoBehaviour
     {
         if(currentPlayerLockedIn == null)
         {
-            LevelManager.instance.UpdateResources(Mathf.CeilToInt(value * (sellPercent / 100f)));
+            LevelManager.Instance.UpdateResources(Mathf.CeilToInt(value * (sellPercent / 100f)));
             Destroy(gameObject);
         }
     }

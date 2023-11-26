@@ -24,7 +24,7 @@ public class DumpsterController : InteractableController
     private void GrabScrap()
     {
         //If the player can afford to grab scrap, grab scrap
-        if (LevelManager.instance.CanPlayerAfford(LevelManager.instance.GetScrapValue()) && currentPlayerLockedIn != null)
+        if (LevelManager.Instance.CanPlayerAfford(LevelManager.Instance.GetScrapValue()) && currentPlayerLockedIn != null)
         {
             Transform playerScrapHolder = currentPlayerLockedIn.transform.Find("ScrapHolder");
 
@@ -44,7 +44,7 @@ public class DumpsterController : InteractableController
                 newScrap.transform.localPosition = scrapPos;
 
                 //Update the resources accordingly
-                LevelManager.instance.UpdateResources(-LevelManager.instance.GetScrapValue());
+                LevelManager.Instance.UpdateResources(-LevelManager.Instance.GetScrapValue());
                 currentPlayerLockedIn.OnScrapUpdated();
             }
         }
@@ -67,8 +67,8 @@ public class DumpsterController : InteractableController
         {
 
             //If the player is locked in and it is during the tutorial phase, continue the tutorial
-            if (LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL && TutorialController.main.currentTutorialState == TUTORIALSTATE.INTERACTDUMPSTER)
-                TutorialController.main.OnTutorialTaskCompletion();
+            if (LevelManager.Instance.levelPhase == GAMESTATE.TUTORIAL && TutorialController.Instance.currentTutorialState == TUTORIALSTATE.INTERACTDUMPSTER)
+                TutorialController.Instance.OnTutorialTaskCompletion();
         }
 
         currentPlayer.GetComponent<Animator>().SetBool("IsGathering", lockPlayer); //Adjust animation state

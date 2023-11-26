@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,6 +24,9 @@ public class EnemySpawnManager : MonoBehaviour
     private List<int> enemyTypeCounters;
     internal bool enemySpawnerActive = false;
 
+    public static Action OnEnemySpawned;
+    public static Action OnEnemyInRange;
+
     private void Start()
     {
         enemyTypeCounters = new List<int>();
@@ -40,13 +44,13 @@ public class EnemySpawnManager : MonoBehaviour
     private void SpawnRandomEnemy()
     {
         //Pick a random enemy from the list of enemies and spawn it at a random spawner
-        int enemyIndex = Random.Range(0, enemyPrefabs.Length);
+        int enemyIndex = UnityEngine.Random.Range(0, enemyPrefabs.Length);
 
         int spawnerIndex;
 
         //After a certain amount of rounds, allow the chance of enemies to spawn on the left
-        if (LevelManager.instance.currentRound > roundsUntilLeftSide)
-            spawnerIndex = Random.Range(0, spawnTransforms.Length);
+        if (LevelManager.Instance.currentRound > roundsUntilLeftSide)
+            spawnerIndex = UnityEngine.Random.Range(0, spawnTransforms.Length);
         else
             spawnerIndex = 1;
 
@@ -66,13 +70,13 @@ public class EnemySpawnManager : MonoBehaviour
         if (enemyEncounterAni != null)
             StopCoroutine(enemyEncounterAni);
 
-        enemyEncounterAni = CameraEventController.instance.ShowEnemyWithCamera(new GameObject[] {newEnemy});
+        enemyEncounterAni = CameraEventController.Instance.ShowEnemyWithCamera(new GameObject[] {newEnemy});
 
         StartCoroutine(enemyEncounterAni);
 
-        LevelManager.instance.currentRound++;
+        LevelManager.Instance.currentRound++;
 
-        Debug.Log("===ENEMY #" + LevelManager.instance.currentRound + " HAS SPAWNED!===");
+        Debug.Log("===ENEMY #" + LevelManager.Instance.currentRound + " HAS SPAWNED!===");
     }
 
     /// <summary>
@@ -86,8 +90,8 @@ public class EnemySpawnManager : MonoBehaviour
         for(int i = 0; i < enemyCount; i++)
         {
             //Pick a random enemy from the list of enemies and spawn it at a random spawner
-            int enemyIndex = Random.Range(0, enemyPrefabs.Length);
-            int spawnerIndex = Random.Range(0, spawnTransforms.Length);
+            int enemyIndex = UnityEngine.Random.Range(0, enemyPrefabs.Length);
+            int spawnerIndex = UnityEngine.Random.Range(0, spawnTransforms.Length);
 
             if (debugSpawnEnemyLeft)
                 spawnerIndex = 0;
@@ -107,22 +111,24 @@ public class EnemySpawnManager : MonoBehaviour
 
         if (enemyEncounterAni != null)
             StopCoroutine(enemyEncounterAni);
-        enemyEncounterAni = CameraEventController.instance.ShowEnemyWithCamera(newEnemies);
+
+        enemyEncounterAni = CameraEventController.Instance?.ShowEnemyWithCamera(newEnemies);
+        OnEnemyInRange?.Invoke();
 
         StartCoroutine(enemyEncounterAni);
 
-        LevelManager.instance.currentRound++;
+        LevelManager.Instance.currentRound++;
 
-        Debug.Log("===ENEMY #" + LevelManager.instance.currentRound + " HAS SPAWNED!===");
+        Debug.Log("===ENEMY #" + LevelManager.Instance.currentRound + " HAS SPAWNED!===");
     }
 
     private void Update()
     {
         if (!enemySpawnerActive)
         {
-            if(LevelManager.instance.GetPlayerTank() != null)
+            if(LevelManager.Instance.GetPlayerTank() != null)
             {
-                if (LevelManager.instance.GetPlayerTank().SpawnDistanceReached())
+                if (LevelManager.Instance.GetPlayerTank().SpawnDistanceReached())
                 {
                     GetReadyForEnemySpawn();
                 }
@@ -156,9 +162,9 @@ public class EnemySpawnManager : MonoBehaviour
     {
         Debug.Log("Enemy Spawn Has Begun!");
         enemySpawnerActive = true;
-        int randomTime = Random.Range(5, 8);
+        int randomTime = UnityEngine.Random.Range(5, 8);
         Invoke("SpawnRandomEnemy", randomTime);
-        LevelManager.instance.HideGoPrompt();
+        OnEnemySpawned?.Invoke();
     }
 
     public void AddToEnemyCounter(Component component)

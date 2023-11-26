@@ -28,13 +28,13 @@ public class DamageObject : MonoBehaviour
             if(collision.collider.GetComponentInParent<LayerManager>() != null)
             {
                 //Deal damage and destroy self if colliding with a layer
-                collision.collider.GetComponentInParent<LayerManager>().DealDamage(damage, true);
+                collision.collider?.GetComponentInParent<LayerManager>().DealDamage(damage, true);
                 GameManager.Instance.AudioManager.Play("MedExplosionSFX", gameObject);
 
                 //If there is a ShellItemBehavior component on the damage object, check to see if there should be a fire
                 if (TryGetComponent<ShellItemBehavior>(out ShellItemBehavior shell))
                 {
-                    collision.collider.GetComponentInParent<LayerManager>().CheckForFireSpawn(shell.GetChanceToCatchFire());
+                    collision.collider?.GetComponentInParent<LayerManager>().CheckForFireSpawn(shell.GetChanceToCatchFire());
                 }
             }
         }
@@ -97,19 +97,19 @@ public class DamageObject : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
+        if (LevelManager.Instance.levelPhase == GAMESTATE.TUTORIAL)
         {
-            if(TutorialController.main.currentTutorialState == TUTORIALSTATE.FIRECANNON)
+            if(TutorialController.Instance.currentTutorialState == TUTORIALSTATE.FIRECANNON)
             {
-                LevelManager.instance.SetPopupText("");
-                LevelManager.instance.ShowPopup(true);
-                TutorialController.main.OnTutorialTaskCompletion();
+                LevelManager.Instance.SetPopupText("");
+                LevelManager.Instance.ShowPopup(true);
+                TutorialController.Instance.OnTutorialTaskCompletion();
             }
 
             if(transform.name.Contains("Fake"))
             {
-                TutorialController.main.AutoAdvance(3f);
-                LevelManager.instance.ShowPopup(false);
+                TutorialController.Instance.AutoAdvance(3f);
+                LevelManager.Instance.ShowPopup(false);
             }
         }
 

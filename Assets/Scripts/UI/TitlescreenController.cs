@@ -19,7 +19,6 @@ public class TitlescreenController : MonoBehaviour
     [SerializeField] private GameObject skipTutorialMenu;
 
     [Header("Menu Animators")]
-    [SerializeField] private GameObject levelFader;
     [SerializeField] private Animator startScreenAnimator;
     [SerializeField] private Animator mainMenuAnimator;
 
@@ -40,8 +39,6 @@ public class TitlescreenController : MonoBehaviour
         playerControlSystem.UI.Start.performed += StartScreenToMain;
         playerControlSystem.UI.Cancel.performed += _ => CancelAction();
         playerControlSystem.UI.DebugMode.performed += _ => DebugMode();
-
-        levelFader.SetActive(true);
     }
 
     // Start is called before the first frame update
@@ -56,6 +53,10 @@ public class TitlescreenController : MonoBehaviour
         {
             inMenu = true;
             GoToMain();
+        }
+        else
+        {
+            LevelFader.Instance?.FadeIn(1f);
         }
     }
 
@@ -73,7 +74,7 @@ public class TitlescreenController : MonoBehaviour
     {
         GameManager.Instance.AudioManager.Stop("MainMenuAmbience");
         GameManager.Instance.AudioManager.Stop("MainMenuWindAmbience");
-        LevelFader.instance.FadeToLevel(sceneToLoad);
+        GameManager.Instance.LoadScene(sceneToLoad);
     }
 
     public void ShowDifficulty()

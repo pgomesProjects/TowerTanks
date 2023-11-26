@@ -17,7 +17,7 @@ public class Item : MonoBehaviour
         canPickUp = false;
         isPickedUp = false;
         defaultGravity = 2;
-        playerTank = LevelManager.instance.GetPlayerTank();
+        playerTank = LevelManager.Instance.GetPlayerTank();
     }
 
     private void Update()

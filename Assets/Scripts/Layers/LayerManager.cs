@@ -113,9 +113,9 @@ public class LayerManager : MonoBehaviour
         //Player tank layer collision logic
         if(transform.tag == "Layer")
         {
-            CameraEventController.instance.ResetCameraShake();
+            CameraEventController.Instance.ResetCameraShake();
             Debug.Log("Player Tank Layer Collided!");
-            CameraEventController.instance.ShakeCamera(5f, 0.25f, 0.2f);
+            CameraEventController.Instance.ShakeCamera(5f, 0.25f, 0.2f);
         }
         //Enemy tank layer collision logic
         else
@@ -161,7 +161,7 @@ public class LayerManager : MonoBehaviour
             Debug.Log("Layer " + (GetComponentInChildren<LayerTransitionManager>().GetNextLayerIndex() - 1) + " Health: " + health);
 
         if (shakeCam)
-            CameraEventController.instance.ShakeCamera(5f, 0.1f);
+            CameraEventController.Instance.ShakeCamera(5f, 0.1f);
 
         GameManager.Instance.AudioManager.Play("TankImpact", gameObject);
 
@@ -186,7 +186,7 @@ public class LayerManager : MonoBehaviour
         }
 
         if (shakeCam)
-            CameraEventController.instance.ShakeCamera(shakeIntensity, 0.1f);
+            CameraEventController.Instance.ShakeCamera(shakeIntensity, 0.1f);
 
         GameManager.Instance.AudioManager.Play("TankImpact");
 
@@ -222,8 +222,8 @@ public class LayerManager : MonoBehaviour
         health = Mathf.Clamp(health, 0, maxHealth);
         UpdateLayerDamageDiegetic();
 
-        if (LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL && TutorialController.main.currentTutorialState == TUTORIALSTATE.REPAIRLAYER)
-            TutorialController.main.OnTutorialTaskCompletion();
+        if (LevelManager.Instance.levelPhase == GAMESTATE.TUTORIAL && TutorialController.Instance.currentTutorialState == TUTORIALSTATE.REPAIRLAYER)
+            TutorialController.Instance.OnTutorialTaskCompletion();
     }
 
     public void ShowOutsideObjects(bool showObjects)
@@ -263,16 +263,16 @@ public class LayerManager : MonoBehaviour
             if (transform.CompareTag("Layer"))
             {
                 //Remove the layer from the total number of layers
-                LevelManager.instance.totalLayers--;
+                LevelManager.Instance.totalLayers--;
 
                 //Adjust the tank accordingly
-                LevelManager.instance.AdjustLayerSystem((GetComponentInChildren<LayerTransitionManager>().GetNextLayerIndex() - 1));
+                LevelManager.Instance.AdjustLayerSystem((GetComponentInChildren<LayerTransitionManager>().GetNextLayerIndex() - 1));
 
                 //Add to player resources
-                LevelManager.instance.UpdateResources(destroyResourcesValue);
+                LevelManager.Instance.UpdateResources(destroyResourcesValue);
 
                 //Shake the camera
-                CameraEventController.instance.ShakeCamera(7f, 0.4f, 0.6f);
+                CameraEventController.Instance.ShakeCamera(7f, 0.4f, 0.6f);
             }
 
             //If an enemy layer is destroyed, tell the tank that the layer was destroyed
