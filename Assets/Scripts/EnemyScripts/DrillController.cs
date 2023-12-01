@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DrillController : MonoBehaviour
+public class DrillController : InteractableController
 {
     [SerializeField] private float drillTickSeconds = 2;
     [SerializeField] private int damagePerTick = 5;
