@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public enum INTERACTABLETYPE { CANNON, ENGINE, DUMPSTER, THROTTLE };
+public enum INTERACTABLETYPE { CANNON, ENGINE, DUMPSTER, THROTTLE, DRILL };
 
 public class InteractableSpawnerManager : MonoBehaviour
 {
-    [SerializeField, Tooltip("The cannon GameObject.")] private GameObject cannon;
-    [SerializeField, Tooltip("The engine GameObject.")] private GameObject engine;
+    [SerializeField, Tooltip("The cannon GameObject.")]   private GameObject cannon;
+    [SerializeField, Tooltip("The engine GameObject.")]   private GameObject engine;
     [SerializeField, Tooltip("The dumpster GameObject.")] private GameObject dumpster;
     [SerializeField, Tooltip("The throttle GameObject.")] private GameObject throttle;
+    [SerializeField, Tooltip("The drill GameObject.")]    private GameObject drill;
 
     [SerializeField, Tooltip("A list of ghost interactables to show in order.")] private GameObject[] ghostInteractables;
 
@@ -45,6 +46,11 @@ public class InteractableSpawnerManager : MonoBehaviour
                 currentSpawner.SpawnInteractable(throttle);
                 TutorialController.Instance.CheckForTutorialCompletion(TUTORIALSTATE.BUILDTHROTTLE);
                 LevelManager.Instance.currentSessionStats.numberOfThrottles += 1;
+                break;
+            case INTERACTABLETYPE.DRILL:
+                currentSpawner.SpawnInteractable(drill);
+                //Tutorial check
+                //Session stats update
                 break;
         }
     }

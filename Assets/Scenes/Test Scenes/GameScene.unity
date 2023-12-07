@@ -4849,11 +4849,13 @@ MonoBehaviour:
   engine: {fileID: 9181510493138393958, guid: 70aa78798a1850d4eac4417bf2a97e2b, type: 3}
   dumpster: {fileID: 211861659154876948, guid: d0446cf671e3fa4498cd2efde408dffc, type: 3}
   throttle: {fileID: 2619692125065639642, guid: c9af6f84cd78780498259d46afa0a554, type: 3}
+  drill: {fileID: 1414020637346964772, guid: 1393bbe463e4d3e4ba8dd35f0b77b008, type: 3}
   ghostInteractables:
   - {fileID: 7699589954824796510, guid: 355308b1302326b4a8407bf8eb9dcb45, type: 3}
   - {fileID: 2821364168792765610, guid: 7e32d3d792609ba4498454bf87cf0402, type: 3}
   - {fileID: 755932061982937733, guid: 673b3053bea3b9d49bdd0982179c6b32, type: 3}
   - {fileID: 2115458907587655635, guid: c20d5c6c1e082944e9ca0d8688c2f986, type: 3}
+  - {fileID: 1414020637346964772, guid: 30dca6a50ab1b5d4a8f0956e30e3d9fb, type: 3}
 --- !u!4 &1139998637
 Transform:
   m_ObjectHideFlags: 0
