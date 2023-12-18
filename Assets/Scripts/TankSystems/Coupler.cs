@@ -8,10 +8,42 @@ using UnityEngine;
 public class Coupler : MonoBehaviour
 {
     //Objects & Components:
-    internal Room roomA; //First room linked to this coupler
-    internal Room roomB; //Second room linked to this coupler
+    internal Room roomA;      //First room linked to this coupler
+    internal Room roomB;      //Second room linked to this coupler
+    private SpriteRenderer r; //Local renderer component
 
-    //UTILITY FUNCTIONS:
+    //Settings:
+    [Header("Settings:")]
+    [SerializeField, Range(0, 1), Tooltip("")] private float ghostOpacity = 0.5f;
+
+    //Runtime Variables:
+    /// <summary>
+    /// Coupler prefab spawns as a shadow until mounted.
+    /// </summary>
+    internal bool mounted = false;
+
+    //FUNCTIONALITY METHODS:
+    /// <summary>
+    /// Sets coupler position and attaches it to two adjoining rooms.
+    /// </summary>
+    public void Mount()
+    {
+        //Cleanup:
+        Color newColor = r.color; newColor.a = 1; r.color = newColor; //Remove ghost transparency
+        mounted = true;                                               //Indicate that coupler is mounted
+    }
+
+    //RUNTIME METHODS:
+    private void Awake()
+    {
+        //Get objects & components:
+        r = GetComponent<SpriteRenderer>(); //Get spriteRenderer component
+
+        //Setup components:
+        Color newColor = r.color; newColor.a = ghostOpacity; r.color = newColor; //Have coupler spawn as a ghost
+    }
+
+    //UTILITY METHODS:
     /// <summary>
     /// If thisRoom is connected to this coupler, returns room on the other end of the coupler.
     /// </summary>

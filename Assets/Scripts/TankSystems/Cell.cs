@@ -11,8 +11,9 @@ public class Cell : MonoBehaviour
     public static Vector2[] cardinals = { Vector2.up, Vector2.right, Vector2.down, Vector2.left };
 
     //Objects & Components:
+    internal Room room; //The room this cell is a part of.
     /// <summary>
-    /// Array of cells which neighbor this cell.
+    /// Array of up to four cells which directly neighbor this cell.
     /// Includes cells in other rooms.
     /// Order is North (0), West (1), South (2), then East (3).
     /// </summary>
@@ -20,27 +21,25 @@ public class Cell : MonoBehaviour
     private BoxCollider2D c; //Cell's local collider
 
     //Runtime Variables:
-    public bool testUpdateAdjacency = false;
+
 
     //RUNTIME METHODS:
     private void Awake()
     {
         //Get objects & components:
-        c = GetComponent<BoxCollider2D>(); //Get local collider
+        room = GetComponentInParent<Room>(); //Get room cell is connected to
+        c = GetComponent<BoxCollider2D>();   //Get local collider
 
         //Initialize runtime variables:
         UpdateAdjacency();
-    }
-    private void Update()
-    {
-        if (testUpdateAdjacency) { testUpdateAdjacency = false; UpdateAdjacency(); }
     }
 
     //UTILITY METHODS:
     /// <summary>
     /// Updates list indicating which sides are open and which are adjacent to other cells.
     /// </summary>
-    public void UpdateAdjacency()
+    /// <param name="excludeExternal">If true, cell will ignore cells from other rooms.</param>
+    public void UpdateAdjacency(bool excludeExternal = true)
     {
         for (int x = 0; x < 4; x++) //Loop for four iterations (once for each direction)
         {
@@ -48,6 +47,8 @@ public class Cell : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(transform.position, cardinals[x], 1, ~LayerMask.NameToLayer("Cell")); //Check for adjacent cell in given direction
             if (hit.collider != null && hit.collider != c) //Adjacent cell found in current direction
             {
+                //Update neighbors:
+                if (excludeExternal && hit.transform.parent != transform.parent) continue; //If told to, ignore cells which don't share a parent with this cell
                 neighbors[x] = hit.collider.GetComponent<Cell>(); //Indicate that cell is a neighbor
                 neighbors[x].neighbors[(x + 2) % 4] = this;       //Let neighbor know it has a neighbor (coming from the opposite direction)
             }
