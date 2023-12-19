@@ -202,7 +202,7 @@ public class Room : MonoBehaviour
     public void Rotate(bool clockwise = true)
     {
         //Move cells:
-        Vector3 eulers = 90 * (clockwise ? 1 : -1) * Vector3.forward;                                  //Get euler to rotate assembly with
+        Vector3 eulers = 90 * (clockwise ? -1 : 1) * Vector3.forward;                                  //Get euler to rotate assembly with
         transform.Rotate(eulers);                                                                      //Rotate entire assembly on increments of 90 degrees
         connectorParent.parent = null;                                                                 //Unchild connector object before reverse rotation
         Vector2[] newCellPositions = cells.Select(cell => (Vector2)cell.transform.position).ToArray(); //Get array of cell positions after rotation
@@ -220,7 +220,21 @@ public class Room : MonoBehaviour
     /// </summary>
     public void Mount()
     {
+        //Validity checks:
+        if (mounted) { Debug.LogError("Tried to mount room which is already mounted!"); return; }                              //Cannot mount rooms which are already mounted
+        if (ghostCouplers.Count == 0) { Debug.Log("Tried to mount room which is not connected to any other rooms!"); return; } //Cannot mount rooms which are not connected to the tank
 
+        //Un-ghost couplers:
+        foreach (Coupler coupler in ghostCouplers) //Iterate through ghost couplers list
+        {
+            coupler.Mount();                     //Tell coupler it is being mounted
+            couplers.Add(coupler);               //Add coupler to master list
+            coupler.roomB.couplers.Add(coupler); //Add coupler to other room's master list
+        }
+        ghostCouplers.Clear(); //Clear ghost couplers list
+
+        //Cleanup:
+        mounted = true; //Indicate that room is now mounted
     }
 
     //UTILITY METHODS:

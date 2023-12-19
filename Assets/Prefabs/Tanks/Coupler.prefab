@@ -45,6 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc45e896bd6d3f04eaff00eca6d6ae48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cellA: {fileID: 0}
+  cellB: {fileID: 0}
   ghostOpacity: 0.5
 --- !u!212 &2058727034134722112
 SpriteRenderer:
@@ -88,7 +90,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.9056604, g: 0.9056604, b: 0.9056604, a: 1}
+  m_Color: {r: 0.9811321, g: 0.9477254, b: 0.55227244, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
