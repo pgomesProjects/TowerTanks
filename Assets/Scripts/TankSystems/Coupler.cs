@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Structural element which connects two rooms of a tank.
+/// Structural element which connects two rooms of a tank (not necessarily associated with any given cell).
 /// </summary>
 public class Coupler : MonoBehaviour
 {
     //Objects & Components:
     internal Room roomA;      //First room linked to this coupler
     internal Room roomB;      //Second room linked to this coupler
+    public Cell cellA;      //Cell closest to this coupler on the first room
+    public Cell cellB;      //Cell closest to this coupler on the second room
     private SpriteRenderer r; //Local renderer component
 
     //Settings:
