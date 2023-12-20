@@ -18,8 +18,8 @@ public class Cell : MonoBehaviour
     /// Order is North (0), West (1), South (2), then East (3).
     /// </summary>
     public Cell[] neighbors = new Cell[4];
-    internal bool[] connectors = new bool[4]; //Indicates whether or not cell is separated from corresponding neighbor by a connector piece
-    private BoxCollider2D c;                  //Cell's local collider
+    public bool[] connectors = new bool[4]; //Indicates whether or not cell is separated from corresponding neighbor by a connector piece
+    internal BoxCollider2D c;                 //Cell's local collider
 
     //Runtime Variables:
 
@@ -50,7 +50,11 @@ public class Cell : MonoBehaviour
                 if (excludeExternal && hit.transform.parent != transform.parent) continue; //If told to, ignore cells which don't share a parent with this cell
                 neighbors[x] = hit.collider.GetComponent<Cell>(); //Indicate that cell is a neighbor
                 neighbors[x].neighbors[(x + 2) % 4] = this;       //Let neighbor know it has a neighbor (coming from the opposite direction)
-                if (hit.distance > 0.55f) connectors[x] = true;   //Indicate locations of connectors separating neighbors (by 0.25 units)
+                if (hit.distance > 0.55f) //A connector is separating these neighbors (by 0.25 units)
+                {
+                    connectors[x] = true;                        //Indicate direction of connector
+                    neighbors[x].connectors[(x + 2) % 4] = true; //Give neighbor information about connector
+                }   
             }
         }
     }

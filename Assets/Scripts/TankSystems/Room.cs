@@ -34,9 +34,9 @@ public class Room : MonoBehaviour
     private Cell[] cells;                                      //Individual square units which make up the room
     private Cell[][] sections;                                 //Groups of cells separated by connectors
     private Transform connectorParent;                         //Parent object which contains all connectors
-
-    [Header("Prefabs:")]
-    [SerializeField, Tooltip("Reference to coupler object spawned when mounting this room.")] private GameObject couplerPrefab;
+    private SpriteRenderer[] renderers;                        //All renderers for visualizing this room
+    private Color[] spriteColors;                              //Target color for each spriteRenderer (normal when not modified by various effects)
+    private RoomData roomData;                                 //ScriptableObject containing data about rooms and objects spawned by them
 
     //Settings:
     [Header("Template Settings:")]
@@ -56,9 +56,12 @@ public class Room : MonoBehaviour
     private void Awake()
     {
         //Setup runtime variables:
-        CalculateIntegrity();                           //Set base integrity (will be modified by other scripts)
-        cells = GetComponentsInChildren<Cell>();        //Get references to cells in room
-        connectorParent = transform.Find("Connectors"); //Find object containing connectors
+        CalculateIntegrity();                                                  //Set base integrity (will be modified by other scripts)
+        cells = GetComponentsInChildren<Cell>();                               //Get references to cells in room
+        connectorParent = transform.Find("Connectors");                        //Find object containing connectors
+        renderers = GetComponentsInChildren<SpriteRenderer>();                 //Get references to renderers in room
+        spriteColors = renderers.Select(renderer => renderer.color).ToArray(); //Get array of origin colors of renderers
+        roomData = Resources.Load<RoomData>("RoomData");                       //Get roomData object from resources folder
 
         //Set up cells:
         foreach (Cell cell in cells) cell.UpdateAdjacency();   //Have all cells in room get to know each other
@@ -123,6 +126,23 @@ public class Room : MonoBehaviour
         foreach (Coupler coupler in ghostCouplers) Destroy(coupler.gameObject); //Destroy each ghost coupler
         ghostCouplers.Clear();                                                  //Clear list of references to ghosts
 
+        //Check for obstruction:
+        foreach (Cell cell in cells) //Iterate through cells in room to check for overlaps with other rooms
+        {
+            //cell.c.size = Vector2.one * 1.1f; //Make collider slightly bigger so it can detect colliders directly next to it
+            Collider2D[] overlapColliders = Physics2D.OverlapBoxAll(cell.transform.position, cell.c.size, 0, ~LayerMask.NameToLayer("Cell")); //Get an array of all colliders overlapping current cell
+            foreach (Collider2D collider in overlapColliders) //Iterate through colliders overlapping cell
+            {
+                if (collider.GetComponent<Cell>().room != this) //Collider overlaps with a cell from another room
+                {
+                    //Turn room red:
+                    for (int x = 0; x < renderers.Length; x++) renderers[x].color = Color.Lerp(spriteColors[x], Color.red, 0.5f); //Turn every renderer red to indicate that it can't be placed
+                    return;                                                                                                       //Generate no new couplers
+                }
+            }
+        }
+        for (int x = 0; x < renderers.Length; x++) renderers[x].color = spriteColors[x]; //If room can be placed, make sure it is not red
+
         //Generate new couplers:
         foreach (Cell cell in cells) //Check adjacency for every cell in room
         {
@@ -132,7 +152,7 @@ public class Room : MonoBehaviour
                 {
                     //Check for coupling opportunities:
                     bool lat = (x % 2 == 1); //If true, cells are next to each other. If false, one cell is on top of the other
-                    Vector2 cellPos = cell.transform.position;                      //Get position of current cell
+                    Vector2 cellPos = cell.transform.position; //Get position of current cell
                     Vector2 posOffset = (lat ? Vector2.up : Vector2.right) * (couplerWidth / 2); //Get positional offset to apply to cell in order to guarantee coupler overlaps with target
                     RaycastHit2D hit1 = Physics2D.Raycast(cellPos + posOffset, Cell.cardinals[x], 0.875f, ~LayerMask.NameToLayer("Cell"));
                     RaycastHit2D hit2 = Physics2D.Raycast(cellPos - posOffset, Cell.cardinals[x], 0.875f, ~LayerMask.NameToLayer("Cell"));
@@ -163,10 +183,11 @@ public class Room : MonoBehaviour
                         IEnumerable<Coupler> results = from coupler in ghostCouplers where (Vector2)coupler.transform.position == newCouplerPos select coupler; //Look for ghost couplers which already occupy this position
                         if (results.FirstOrDefault() != null) continue;                                                                                         //Do not place couplers where couplers already exist
 
-                        Coupler newCoupler = Instantiate(couplerPrefab, transform).GetComponent<Coupler>(); //Instantiate new coupler object
-                        newCoupler.transform.position = newCouplerPos;                                      //Move coupler to target position
-                        if (lat) newCoupler.transform.rotation = Quaternion.Euler(0, 0, 90);                //Rotate coupler if it is facing east or west
-                        ghostCouplers.Add(newCoupler);                                                      //Add new coupler to ghost list
+                        Coupler newCoupler = Instantiate(roomData.couplerPrefab).GetComponent<Coupler>(); //Instantiate new coupler object
+                        newCoupler.transform.position = newCouplerPos;                                    //Move coupler to target position
+                        if (lat) newCoupler.transform.eulerAngles = Vector3.forward * 90;                 //Rotate coupler if it is facing east or west
+                        newCoupler.transform.parent = transform;                                          //Child coupler to this room
+                        ghostCouplers.Add(newCoupler);                                                    //Add new coupler to ghost list
 
                         newCoupler.roomA = this;      //Give coupler information about this room
                         newCoupler.roomB = otherRoom; //Give coupler information about opposing room
@@ -201,6 +222,9 @@ public class Room : MonoBehaviour
     /// </summary>
     public void Rotate(bool clockwise = true)
     {
+        //Validity checks:
+        if (mounted) { Debug.LogError("Tried to rotate room while mounted!"); return; } //Do not allow mounted rooms to be rotated
+
         //Move cells:
         Vector3 eulers = 90 * (clockwise ? -1 : 1) * Vector3.forward;                                  //Get euler to rotate assembly with
         transform.Rotate(eulers);                                                                      //Rotate entire assembly on increments of 90 degrees
@@ -227,9 +251,40 @@ public class Room : MonoBehaviour
         //Un-ghost couplers:
         foreach (Coupler coupler in ghostCouplers) //Iterate through ghost couplers list
         {
+            //Mount coupler:
             coupler.Mount();                     //Tell coupler it is being mounted
             couplers.Add(coupler);               //Add coupler to master list
             coupler.roomB.couplers.Add(coupler); //Add coupler to other room's master list
+
+            //Add ladders:
+            if (coupler.transform.rotation.z == 0) //Coupler is horizontal
+            {
+                //Place initial ladder:
+                Cell cell = coupler.cellA.transform.position.y > coupler.cellB.transform.position.y ? coupler.cellB : coupler.cellA; //Pick whichever cell is below coupler
+                GameObject ladder = Instantiate(roomData.ladderPrefab, cell.transform);                                              //Instantiate ladder as child of lower cell
+                ladder.transform.position = new Vector2(coupler.transform.position.x, cell.transform.position.y);                    //Move ladder to horizontal position of coupler and vertical position of cell
+
+                //Place extra ladders:
+                if (cell.neighbors[2] != null && cell.neighbors[2].transform.position.x == coupler.transform.position.x) //Cell has at least one lower neighbor directly below coupler
+                {
+                    while (cell.neighbors[2] != null) //As long as currently-focused cell has a southern neighbor, keep placing ladders
+                    {
+                        //Place ladder:
+                        cell = cell.neighbors[2];                                    //Move to southern neighbor of previous cell
+                        ladder = Instantiate(roomData.ladderPrefab, cell.transform); //Generate a new ladder childed to cell
+                        ladder.transform.position = cell.transform.position;         //Match ladder to cell position
+                        ladder.transform.eulerAngles = Vector3.zero;                 //Make sure ladder is not rotated
+
+                        //Place short ladder:
+                        if (cell.connectors[0]) //Cell is separated from previous cell by a separator
+                        {
+                            ladder = Instantiate(roomData.shortLadderPrefab, cell.transform);                                              //Generate a new short ladder, childed to the cell below it
+                            ladder.transform.position = Vector2.Lerp(cell.transform.position, cell.neighbors[0].transform.position, 0.5f); //Place ladder directly between cell and prev cell
+                            ladder.transform.eulerAngles = Vector3.zero;                                                                   //Make sure ladder is not rotated
+                        }
+                    }
+                }
+            }
         }
         ghostCouplers.Clear(); //Clear ghost couplers list
 
