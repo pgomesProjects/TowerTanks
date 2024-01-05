@@ -23,6 +23,7 @@ public static class GameSettings
 
     public static bool mainMenuEntered = false;
     public static bool skipTutorial = true;
+    public static bool showGamepadCursors = true;
 
     //0.5 = Easy, 1 = Normal, 1.5 = Hard
     public static float difficulty = 1f;

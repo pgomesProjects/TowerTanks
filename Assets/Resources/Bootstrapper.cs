@@ -11,8 +11,8 @@ public static class Bootstrapper
         {
             Object.DontDestroyOnLoad(Object.Instantiate(Resources.Load("DebugCanvas")));
         }
-        //Hide the cursor during gameplay
-        Cursor.visible = GameSettings.debugMode;
+
+        Cursor.lockState = CursorLockMode.Confined;
         SettingsOnStart();
     }
 

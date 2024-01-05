@@ -32,6 +32,21 @@ public class GameManager : MonoBehaviour
         MultiplayerManager = GetComponentInChildren<MultiplayerManager>();
     }
 
+    private void OnEnable()
+    {
+        SceneManager.sceneUnloaded += OnSceneUnloaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneUnloaded -= OnSceneUnloaded;
+    }
+
+    private void OnSceneUnloaded(Scene scene)
+    {
+        SetGamepadCursorsActive(false);
+    }
+
     public async void LoadScene(string sceneName, bool fadeOutScene = true, bool fadeInScene = true)
     {
         if (fadeOutScene)
@@ -71,5 +86,16 @@ public class GameManager : MonoBehaviour
     {
         if (loadingScene)
             progressBar.fillAmount = Mathf.MoveTowards(progressBar.fillAmount, target, loadMaxDelta * Time.deltaTime);
+    }
+
+    /// <summary>
+    /// Sets the gamepad cursors to be active or not active.
+    /// </summary>
+    /// <param name="setActive">If true, the gamepad cursors are active. If false, the gamepad cursors are not active.</param>
+    public void SetGamepadCursorsActive(bool setActive)
+    {
+        GameSettings.showGamepadCursors = setActive;
+        foreach (var cursor in FindObjectsOfType<GamepadCursor>())
+            cursor.RefreshCursor();
     }
 }
