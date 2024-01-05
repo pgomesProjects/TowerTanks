@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c3d0e18fcfe0f14cb54f2ce2f22c0b4, type: 3}
+  m_Name: RoomData
+  m_EditorClassIdentifier: 
+  couplerPrefab: {fileID: 2058727034134722118, guid: 0034e2d779710bf418d9ad96f180d0dc, type: 3}
+  ladderPrefab: {fileID: 5516058462407545099, guid: a71758b8cce1b0c419e120a36e1c1142, type: 3}
+  shortLadderPrefab: {fileID: 5516058462407545099, guid: d8c2898d313769d4782269306132f4d5, type: 3}
