@@ -63,13 +63,6 @@ public class DumpsterController : InteractableController
                 currentPlayer.HideInteractionPrompt();
             }
         }
-        else
-        {
-
-            //If the player is locked in and it is during the tutorial phase, continue the tutorial
-            if (LevelManager.Instance.levelPhase == GAMESTATE.TUTORIAL && TutorialController.Instance.currentTutorialState == TUTORIALSTATE.INTERACTDUMPSTER)
-                TutorialController.Instance.OnTutorialTaskCompletion();
-        }
 
         currentPlayer.GetComponent<Animator>().SetBool("IsGathering", lockPlayer); //Adjust animation state
         AdjustPlayerPositionOnInteract(currentPlayer, lockPlayer);

@@ -96,6 +96,9 @@ public class TutorialController : MonoBehaviour
 
     public void TriggerDialogEvent()
     {
+        if (dialogEvent == null)
+            return;
+
         //Start text event
         isDialogActive = true;
 
@@ -166,22 +169,22 @@ public class TutorialController : MonoBehaviour
 
     private bool HaveAllPlayersMoved()
     {
-        //Check to make sure all players have moved
+/*        //Check to make sure all players have moved
         foreach(var player in GameObject.FindGameObjectsWithTag("Player"))
         {
             //If any player has not moved, return false
             if (!player.GetComponent<PlayerController>().HasPlayerMoved())
                 return false;
-        }
+        }*/
 
         return true;
     }
 
     public void CheckForTutorialCompletion(TUTORIALSTATE tutorialState)
     {
-        if (IsTutorialStateActive(tutorialState))
+        //if (IsTutorialStateActive(tutorialState))
             OnTutorialTaskCompletion();
     }
 
-    private bool IsTutorialStateActive(TUTORIALSTATE tutorialState) => LevelManager.Instance.levelPhase == GAMESTATE.TUTORIAL && currentTutorialState == tutorialState;
+    //private bool IsTutorialStateActive(TUTORIALSTATE tutorialState) => LevelManager.Instance.levelPhase == GAMESTATE.TUTORIAL && currentTutorialState == tutorialState;
 }

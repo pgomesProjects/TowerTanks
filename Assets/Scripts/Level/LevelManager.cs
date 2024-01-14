@@ -7,7 +7,7 @@ using TMPro;
 
 public enum GAMESTATE
 {
-    TUTORIAL, GAMEACTIVE, GAMEOVER
+    BUILDING, COMBAT, EVENT, GAMEOVER
 }
 
 public class LevelManager : MonoBehaviour
@@ -17,16 +17,14 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private Transform playerParent;
     [SerializeField] private GameObject layerPrefab;
     [SerializeField] private GameObject ghostLayerPrefab;
-    [SerializeField] private GameObject tutorialPopup;
-    [SerializeField] private TextMeshProUGUI popupText;
-    [SerializeField] private DialogEvent tutorialEvent;
     [SerializeField, Tooltip("The value of a singular scrap piece.")] private int scrapValue;
+    [SerializeField, Tooltip("The level event data that dictates how the level must be run.")] private LevelEvents currentLevelEvent;
 
     public static LevelManager Instance;
 
     internal bool isPaused;
     internal bool readingTutorial;
-    internal GAMESTATE levelPhase = GAMESTATE.TUTORIAL; //Start the game with the tutorial
+    internal GAMESTATE levelPhase = GAMESTATE.BUILDING;
     internal WeatherConditions currentWeatherConditions;
     private int currentPlayerPaused;
     internal int currentRound;
@@ -42,8 +40,8 @@ public class LevelManager : MonoBehaviour
 
     private Dictionary<string, int> itemPrice;
 
+    //Events
     public static Action<int, bool> OnResourcesUpdated;
-
     public static Action OnCombatEnded;
     public static Action<int> OnGamePaused;
     public static Action OnGameResumed;
@@ -60,7 +58,6 @@ public class LevelManager : MonoBehaviour
         currentRound = 0;
         itemPrice = new Dictionary<string, int>();
         PopulateItemDictionary();
-        TutorialController.Instance.dialogEvent = tutorialEvent;
         currentSessionStats = ScriptableObject.CreateInstance<SessionStats>();
     }
 
@@ -84,7 +81,7 @@ public class LevelManager : MonoBehaviour
                 break;
         }
 
-        if (GameSettings.skipTutorial)
+/*        if (GameSettings.skipTutorial)
         {
             TransitionGameState();
 
@@ -94,7 +91,10 @@ public class LevelManager : MonoBehaviour
         {
             totalScrapValue += 200;
             GameObject.FindGameObjectWithTag("Resources").gameObject.SetActive(false);
-        }
+        }*/
+        
+        TransitionGameState();
+        AddLayer(); //Add another layer
 
         if (GameSettings.debugMode)
             totalScrapValue = 99999;
@@ -131,8 +131,7 @@ public class LevelManager : MonoBehaviour
         character.transform.position = spawnPoints[playerInput.playerIndex].position;
         character.transform.SetParent(playerParent);
         character.transform.GetComponent<Renderer>().material.SetColor("_Color", GameManager.Instance.MultiplayerManager.GetPlayerColors()[playerInput.playerIndex]);
-        if (levelPhase == GAMESTATE.GAMEACTIVE || GameSettings.skipTutorial)
-            character.SetPlayerMove(true);
+        character.SetPlayerMove(true);
     }
 
     /// <summary>
@@ -220,15 +219,6 @@ public class LevelManager : MonoBehaviour
 
         //Adjust the outside of the tank
         playerTank.AdjustOutsideLayerObjects();
-
-        if (levelPhase == GAMESTATE.TUTORIAL)
-        {
-            if (TutorialController.Instance.currentTutorialState == TUTORIALSTATE.BUILDLAYERS && totalLayers >= 2)
-            {
-                //Tell tutorial that task is complete
-                TutorialController.Instance.OnTutorialTaskCompletion();
-            }
-        }
 
         if (totalLayers > currentSessionStats.maxHeight)
             currentSessionStats.maxHeight = totalLayers;
@@ -378,7 +368,7 @@ public class LevelManager : MonoBehaviour
 
     public void TransitionGameState()
     {
-        switch (levelPhase)
+/*        switch (levelPhase)
         {
             //Tutorial to Gameplay
             case GAMESTATE.TUTORIAL:
@@ -393,7 +383,7 @@ public class LevelManager : MonoBehaviour
                 CameraEventController.Instance.FreezeCamera();
                 GameOver();
                 break;
-        }
+        }*/
     }
 
     public void StartCombatMusic(int layers)
@@ -461,9 +451,6 @@ public class LevelManager : MonoBehaviour
 
         OnGameOver?.Invoke();
     }
-
-    public void ShowPopup(bool showPopup) => tutorialPopup.GetComponent<CanvasGroup>().alpha = showPopup ? 1 : 0;
-    public void SetPopupText(string newText) => popupText.text = newText;
 
     public int GetScrapValue() => scrapValue;
     public PlayerTankController GetPlayerTank() => playerTank;

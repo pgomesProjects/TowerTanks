@@ -60,14 +60,7 @@ public class PlayerCannonController : CannonController
             UpdateCannonBody();
 
             CameraEventController.Instance.ShakeCamera(5f, 0.2f);   //Shake the camera
-
-            if (LevelManager.Instance.levelPhase == GAMESTATE.TUTORIAL)
-            {
-                if (TutorialController.Instance.currentTutorialState == TUTORIALSTATE.FIRECANNON)
-                    LevelManager.Instance.ShowPopup(false);
-            }
-            else
-                currentCooldown = cannonCooldown;   //Reset cooldown
+            currentCooldown = cannonCooldown;   //Reset cooldown
         }
     }
 
@@ -170,7 +163,7 @@ public class PlayerCannonController : CannonController
     /// </summary>
     private void CheckForCooldown()
     {
-        if (LevelManager.Instance.levelPhase != GAMESTATE.TUTORIAL)
+        if (LevelManager.Instance.levelPhase != GAMESTATE.GAMEOVER)
         {
             //If there is a cooldown, reduce the cooldown gradually
             if (currentCooldown > 0)

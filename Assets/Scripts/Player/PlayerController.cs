@@ -58,7 +58,6 @@ public class PlayerController : MonoBehaviour
     internal int currentLayer = 0;
 
     private bool canMove = false;
-    private bool hasMoved;
     private bool isFacingRight;
     private bool canClimb;
     private bool isClimbing;
@@ -166,7 +165,6 @@ public class PlayerController : MonoBehaviour
         previousLayer = 0;
         currentLayer = 0;
         isHoldingItem = false;
-        hasMoved = false;
         canClimb = false;
         waitingToClimb = false;
         isFacingRight = true;
@@ -202,15 +200,6 @@ public class PlayerController : MonoBehaviour
             //Move the player horizontally
             if (canMove)
             {
-                if(LevelManager.Instance.levelPhase == GAMESTATE.TUTORIAL)
-                {
-                    //If the player has moved, tell the tutorial state
-                    if(Mathf.Abs(movement.x) > 0)
-                    {
-                        hasMoved = true;
-                    }
-                }
-
                 playerAnimator.SetFloat("PlayerX", Mathf.Abs(movement.x));
                 //Debug.Log("Player Can Move!");
                 rb.velocity = new Vector2(movement.x * speed, rb.velocity.y);
@@ -238,6 +227,11 @@ public class PlayerController : MonoBehaviour
 
             //Check to see if the player is colliding with the ladder
             ladderRaycast = Physics2D.Raycast(transform.position, Vector2.up, distance, ladderMask);
+
+            Debug.DrawRay(transform.position, Vector2.up, ladderRaycast.collider == null? Color.red : Color.green, distance);
+
+            if (ladderRaycast.collider != null)
+                Debug.Log("Omg a ladder!");
 
             //If the player is not colliding with the ladder
             if (ladderRaycast.collider == null && isClimbing)
@@ -511,6 +505,7 @@ public class PlayerController : MonoBehaviour
                         //If the player is colliding with the ladder and wants to climb
                         if (ladderRaycast.collider != null)
                         {
+                            Debug.Log("Gonna Climb");
                             EnterLadder();
                             return;
                         }
@@ -578,12 +573,6 @@ public class PlayerController : MonoBehaviour
                 LevelManager.Instance.GetPlayerTank().GetLayerAt(currentLayer).GetComponent<GhostInteractables>().CreateGhostInteractables(this);
             else if(IsHoldingScrap())
                 LevelManager.Instance.AddGhostLayer();
-
-            if (LevelManager.Instance.levelPhase == GAMESTATE.TUTORIAL && TutorialController.Instance.currentTutorialState == TUTORIALSTATE.GETSCRAP)
-            {
-                if (scrapValue >= 100)
-                    TutorialController.Instance.OnTutorialTaskCompletion();
-            }
         }
 
         //If build mode is not active
@@ -655,7 +644,7 @@ public class PlayerController : MonoBehaviour
         //If the player is outside of the tank and can afford a new layer
         if (scrapValue >= LevelManager.Instance.GetItemPrice("NewLayer"))
         {
-            if (LevelManager.Instance.levelPhase != GAMESTATE.TUTORIAL || LevelManager.Instance.totalLayers < 2)
+            if (LevelManager.Instance.levelPhase != GAMESTATE.GAMEOVER || LevelManager.Instance.totalLayers < 2)
             {
                 if (timeToBuild > 0)
                     StartProgressBar(timeToBuild, false, PurchaseLayer, PlayerActions.BUILDING);
@@ -665,7 +654,7 @@ public class PlayerController : MonoBehaviour
 
     private void StartInteractableSell()
     {
-        if (LevelManager.Instance.levelPhase != GAMESTATE.TUTORIAL && !currentInteractableItem.AnyPlayersLockedIn() && currentInteractableItem.CanBeSold())
+        if (LevelManager.Instance.levelPhase != GAMESTATE.GAMEOVER && !currentInteractableItem.AnyPlayersLockedIn() && currentInteractableItem.CanBeSold())
         {
             if (timeToSell > 0)
                 StartProgressBar(timeToSell, false, SellInteractable, PlayerActions.SELLING);
@@ -1197,7 +1186,6 @@ public class PlayerController : MonoBehaviour
 
     public bool IsPlayerOutsideTank() => currentLayer >= LevelManager.Instance.totalLayers;
     public bool IsPlayerClimbing() => isClimbing;
-    public bool HasPlayerMoved() => hasMoved;
     public void SetPlayerClimb(bool climb) => canClimb = climb;
     public void SetPlayerMove(bool movePlayer) => canMove = movePlayer;
     public bool InBuildMode() => buildModeActive;

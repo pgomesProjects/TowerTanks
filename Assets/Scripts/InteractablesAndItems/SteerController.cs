@@ -38,7 +38,7 @@ public class SteerController : InteractableController
             if (!playerTank.IsSteeringMoved())
             {
                 //Moving stick left
-                if (currentPlayerLockedIn.steeringValue < -0.5f && LevelManager.Instance.levelPhase != GAMESTATE.TUTORIAL)
+                if (currentPlayerLockedIn.steeringValue < -0.5f && LevelManager.Instance.levelPhase != GAMESTATE.GAMEOVER)
                 {
                     if (playerTank.GetCurrentThrottleOption() > (int)TANKSPEED.REVERSEFAST)
                     {
@@ -51,23 +51,8 @@ public class SteerController : InteractableController
                 {
                     if (playerTank.GetCurrentThrottleOption() < (int)TANKSPEED.FORWARDFAST)
                     {
-                        if (LevelManager.Instance.levelPhase == GAMESTATE.TUTORIAL)
-                        {
-                            //If the tutorial calls to move the throttle, move the throttle
-                            if (TutorialController.Instance.currentTutorialState == TUTORIALSTATE.MOVETHROTTLE)
-                            {
-                                UpdateSteerLever(1);
-                                yield return new WaitForSeconds(steeringAniSeconds);
-
-                                //Tell tutorial that task is complete
-                                TutorialController.Instance.OnTutorialTaskCompletion();
-                            }
-                        }
-                        else
-                        {
-                            UpdateSteerLever(1);
-                            yield return new WaitForSeconds(steeringAniSeconds);
-                        }
+                        UpdateSteerLever(1);
+                        yield return new WaitForSeconds(steeringAniSeconds);
                     }
                 }
             }

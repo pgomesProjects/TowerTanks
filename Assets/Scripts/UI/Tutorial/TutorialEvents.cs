@@ -95,7 +95,7 @@ public class TutorialEvents : CustomEvent
                 LockPlayers();
                 break;
             case 17:
-                LevelManager.Instance.ShowPopup(true);
+                //LevelManager.Instance.ShowPopup(true);
                 LockPlayers();
                 break;
             //Put Out Fire Prompt

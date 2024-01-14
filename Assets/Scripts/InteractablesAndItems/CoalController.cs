@@ -33,15 +33,8 @@ public class CoalController : InteractableController
     {
         engineAnimator = GetComponentInChildren<Animator>();
 
-        if(LevelManager.Instance.levelPhase == GAMESTATE.TUTORIAL)
-        {
-            coalPercentage = 0f;
-        }
-        else
-        {
-            coalPercentage = 100f;
-            hasCoal = true;
-        }
+        coalPercentage = 100f;
+        hasCoal = true;
 
         currentCoalFrame = 0;
         depletionRate = depletionSeconds / 100f;
@@ -217,8 +210,8 @@ public class CoalController : InteractableController
         if (GameSettings.debugMode)
             return;
 
-        //If the player is not in the tutorial, deplete coal
-        if(LevelManager.Instance.levelPhase == GAMESTATE.GAMEACTIVE)
+        //If the player has not gotten a game over, deplete coal
+        if(LevelManager.Instance.levelPhase != GAMESTATE.GAMEOVER)
         {
             //If the coal percentage is greater than 0, constantly deplete it
             if (coalPercentage > 0f)
@@ -259,18 +252,6 @@ public class CoalController : InteractableController
         }
 
         AdjustIndicatorAngle();
-
-        if (LevelManager.Instance.levelPhase == GAMESTATE.TUTORIAL)
-        {
-            if(TutorialController.Instance.currentTutorialState == TUTORIALSTATE.ADDFUEL)
-            {
-                //coalPercentageIndicator.value = coalPercentage;
-                if (IsCoalFull())
-                {
-                    TutorialController.Instance.OnTutorialTaskCompletion();
-                }
-            }
-        }
     }
 
     public bool HasCoal() => hasCoal;

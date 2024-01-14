@@ -29,7 +29,7 @@ public class PriceIndicator : MonoBehaviour
             if (currentPlayerBuying == null && GetComponentInParent<GhostInteractables>().CurrentPlayerIsBuilding(collision.GetComponent<PlayerController>()) && (collision.GetComponent<PlayerController>().IsHoldingScrap() || !requiresScrap))
             {
                 currentPlayerBuying = collision.GetComponent<PlayerController>();
-                if (LevelManager.Instance.levelPhase != GAMESTATE.TUTORIAL || TutorialController.Instance.currentTutorialState != TUTORIALSTATE.READING)
+                if (LevelManager.Instance.levelPhase != GAMESTATE.GAMEOVER)
                 {
                     priceText.SetActive(true);
                     playerCanPurchase = true;
@@ -73,7 +73,7 @@ public class PriceIndicator : MonoBehaviour
     {
         if (currentPlayerBuying.GetScrapValue() >= price)
         {
-            if (LevelManager.Instance.levelPhase != GAMESTATE.TUTORIAL || transform.parent.transform.Find("Indicator").gameObject.activeInHierarchy)
+            if (LevelManager.Instance.levelPhase != GAMESTATE.GAMEOVER)
             {
                 //Purchase interactable
                 currentPlayerBuying.UseScrap(price);
