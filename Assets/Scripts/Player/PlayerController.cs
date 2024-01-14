@@ -231,7 +231,7 @@ public class PlayerController : MonoBehaviour
             Debug.DrawRay(transform.position, Vector2.up, ladderRaycast.collider == null? Color.red : Color.green, distance);
 
             if (ladderRaycast.collider != null)
-                Debug.Log("Omg a ladder!");
+                Debug.Log("Omg a " + ladderRaycast.collider.name + "!");
 
             //If the player is not colliding with the ladder
             if (ladderRaycast.collider == null && isClimbing)
