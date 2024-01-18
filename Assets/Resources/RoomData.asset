@@ -13,5 +13,14 @@ MonoBehaviour:
   m_Name: RoomData
   m_EditorClassIdentifier: 
   couplerPrefab: {fileID: 2058727034134722118, guid: 0034e2d779710bf418d9ad96f180d0dc, type: 3}
-  ladderPrefab: {fileID: 5516058462407545099, guid: a71758b8cce1b0c419e120a36e1c1142, type: 3}
+  ladderPrefab: {fileID: 5516058462407545099, guid: 8f0cd5126ff980641b7d284066d1773e, type: 3}
   shortLadderPrefab: {fileID: 5516058462407545099, guid: d8c2898d313769d4782269306132f4d5, type: 3}
+  platformPrefab: {fileID: 5516058462407545099, guid: adc83aaa1ecb6254c954e63987b3d7e5, type: 3}
+  slotIndicator: {fileID: 2807317277340653817, guid: 5ff77f9a52b053b41b8982b424ac56a4, type: 3}
+  roomTypeColors:
+  - {r: 0.69803923, g: 0.69803923, b: 0.69803923, a: 1}
+  - {r: 0.8980392, g: 0.83556694, b: 0.6735294, a: 1}
+  - {r: 0.6891475, g: 0.8980392, b: 0.6735294, a: 1}
+  - {r: 0.8980392, g: 0.6735294, b: 0.6891474, a: 1}
+  - {r: 0.6735294, g: 0.7652856, b: 0.8980392, a: 1}
+  - {r: 0.737954, g: 0.6735294, b: 0.8980392, a: 1}

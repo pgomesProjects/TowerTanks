@@ -36,7 +36,7 @@ public class Room : MonoBehaviour
     private Transform connectorParent;                         //Parent object which contains all connectors
     private SpriteRenderer[] renderers;                        //All renderers for visualizing this room
     private Color[] spriteColors;                              //Target color for each spriteRenderer (normal when not modified by various effects)
-    private RoomData roomData;                                 //ScriptableObject containing data about rooms and objects spawned by them
+    internal RoomData roomData;                                //ScriptableObject containing data about rooms and objects spawned by them
 
     //Settings:
     [Header("Template Settings:")]
@@ -82,9 +82,9 @@ public class Room : MonoBehaviour
                 for (int y = 0; y < 4; y++) //Iterate through neighbors in each cell in group
                 {
                     Cell neighbor = currentCell.neighbors[y]; //Get current neighbor
-                    if (neighbor != null &&              //Current neighbor exists...
-                        !thisGroup.Contains(neighbor) && //Is not already in this group...
-                        !currentCell.connectors[y])      //And is not separated by a connector
+                    if (neighbor != null &&                //Current neighbor exists...
+                        !thisGroup.Contains(neighbor) &&   //Is not already in this group...
+                        currentCell.connectors[y] == null) //And is not separated by a connector
                     {
                         thisGroup.Add(neighbor);         //Add neighbor to current group
                         ungroupedCells.Remove(neighbor); //Remove neighbor from list of ungrouped cells
@@ -94,11 +94,12 @@ public class Room : MonoBehaviour
             newSections.Add(thisGroup); //Add group to sections list
         }
         sections = newSections.Select(eachList => eachList.ToArray()).ToArray(); //Convert lists into stored array
+        cells[Random.Range(0, cells.Length)].DesignateInteractableSlot(); //Pick one random cell to contain the room's interactable
     }
     private void Update()
     {
-        if (debugPlace) { debugPlace = false; SnapMove(transform.position); }
-        if (debugRotate) { debugRotate = false; Rotate(); }
+        if (debugPlace) { debugPlace = false; SnapMove(transform.position); UpdateRoomType(type); }
+        if (debugRotate) { debugRotate = false; Rotate(); UpdateRoomType(type); }
         if (debugMount) { debugMount = false; Mount(); }
     }
 
@@ -127,7 +128,8 @@ public class Room : MonoBehaviour
         ghostCouplers.Clear();                                                  //Clear list of references to ghosts
 
         //Check for obstruction:
-        foreach (Cell cell in cells) //Iterate through cells in room to check for overlaps with other rooms
+        //COLOR INDICATION NEEDS REVISION
+        /*foreach (Cell cell in cells) //Iterate through cells in room to check for overlaps with other rooms
         {
             //cell.c.size = Vector2.one * 1.1f; //Make collider slightly bigger so it can detect colliders directly next to it
             Collider2D[] overlapColliders = Physics2D.OverlapBoxAll(cell.transform.position, cell.c.size, 0, ~LayerMask.NameToLayer("Cell")); //Get an array of all colliders overlapping current cell
@@ -142,6 +144,7 @@ public class Room : MonoBehaviour
             }
         }
         for (int x = 0; x < renderers.Length; x++) renderers[x].color = spriteColors[x]; //If room can be placed, make sure it is not red
+        */
 
         //Generate new couplers:
         foreach (Cell cell in cells) //Check adjacency for every cell in room
@@ -204,9 +207,9 @@ public class Room : MonoBehaviour
             //Find coupler group:
             Coupler coupler = ghostCouplers[x]; //Get current coupler
             IEnumerable<Coupler> group = from otherCoupler in ghostCouplers //Look through list of couplers
-                                         where otherCoupler.transform.rotation == coupler.transform.rotation &&                                           //Find coupler with matching orientation (including self)...
-                                                 (coupler.transform.rotation.z == 0 ? otherCoupler.transform.position.y == coupler.transform.position.y : //With matching latitudinal position (if horizontal)...
-                                                                                      otherCoupler.transform.position.x == coupler.transform.position.x)  //With matching longitudinal position (if vertical)...
+                                         where otherCoupler.transform.rotation == coupler.transform.rotation &&                                                                     //Find coupler with matching orientation (including self)...
+                                                 (coupler.transform.rotation.z == 0 ? RoundToGrid(otherCoupler.transform.position.y) == RoundToGrid(coupler.transform.position.y) : //With matching latitudinal position (if horizontal)...
+                                                                                      RoundToGrid(otherCoupler.transform.position.x) == RoundToGrid(coupler.transform.position.x))  //With matching longitudinal position (if vertical)...
                                          select otherCoupler; //Get other couplers which fit these criteria
 
             //Exclude separated cells from group:
@@ -236,8 +239,10 @@ public class Room : MonoBehaviour
 
         //Cleanup:
         foreach (Cell cell in cells) cell.ClearAdjacency();  //Clear all cell adjacency statuses first (prevents false neighborhood bugs)
-        foreach (Cell cell in cells) cell.UpdateAdjacency(); //Have all cells in room get to know each other
+        foreach (Cell cell in cells) cell.UpdateAdjacency(); //Have all cells in room get to know each other        
         SnapMove(transform.position);                        //Snap to grid at current position
+
+        foreach (Cell cell in cells) cell.transform.position = new Vector2(Mathf.Round(cell.transform.position.x * 4), Mathf.Round(cell.transform.position.y * 4)) / 4; //Round position to nearest unit //Cells need to be rounded back into position to prevent certain parts from bugging out
     }
     /// <summary>
     /// Attaches this room to another room or the tank base (based on current position of the room and couplers).
@@ -249,6 +254,7 @@ public class Room : MonoBehaviour
         if (ghostCouplers.Count == 0) { Debug.Log("Tried to mount room which is not connected to any other rooms!"); return; } //Cannot mount rooms which are not connected to the tank
 
         //Un-ghost couplers:
+        List<Cell> ladderCells = new List<Cell>(); //Initialize list to keep track of cells which need ladders added to them
         foreach (Coupler coupler in ghostCouplers) //Iterate through ghost couplers list
         {
             //Mount coupler:
@@ -256,7 +262,7 @@ public class Room : MonoBehaviour
             couplers.Add(coupler);               //Add coupler to master list
             coupler.roomB.couplers.Add(coupler); //Add coupler to other room's master list
 
-            //Add ladders:
+            //Add ladders & platforms:
             if (coupler.transform.rotation.z == 0) //Coupler is horizontal
             {
                 //Place initial ladder:
@@ -264,35 +270,77 @@ public class Room : MonoBehaviour
                 GameObject ladder = Instantiate(roomData.ladderPrefab, cell.transform);                                              //Instantiate ladder as child of lower cell
                 ladder.transform.position = new Vector2(coupler.transform.position.x, cell.transform.position.y);                    //Move ladder to horizontal position of coupler and vertical position of cell
 
-                //Place extra ladders:
-                if (cell.neighbors[2] != null && cell.neighbors[2].transform.position.x == coupler.transform.position.x) //Cell has at least one lower neighbor directly below coupler
-                {
-                    while (cell.neighbors[2] != null) //As long as currently-focused cell has a southern neighbor, keep placing ladders
-                    {
-                        //Place ladder:
-                        cell = cell.neighbors[2];                                    //Move to southern neighbor of previous cell
-                        ladder = Instantiate(roomData.ladderPrefab, cell.transform); //Generate a new ladder childed to cell
-                        ladder.transform.position = cell.transform.position;         //Match ladder to cell position
-                        ladder.transform.eulerAngles = Vector3.zero;                 //Make sure ladder is not rotated
+                print("Found horizontal coupler above cell " + cell.name + ", placing ladder.");
 
-                        //Place short ladder:
-                        if (cell.connectors[0]) //Cell is separated from previous cell by a separator
-                        {
-                            ladder = Instantiate(roomData.shortLadderPrefab, cell.transform);                                              //Generate a new short ladder, childed to the cell below it
-                            ladder.transform.position = Vector2.Lerp(cell.transform.position, cell.neighbors[0].transform.position, 0.5f); //Place ladder directly between cell and prev cell
-                            ladder.transform.eulerAngles = Vector3.zero;                                                                   //Make sure ladder is not rotated
-                        }
-                    }
+                //Place extra ladders:
+                if (cell.neighbors[2] != null && RoundToGrid(cell.neighbors[2].transform.position.x) == RoundToGrid(coupler.transform.position.x)) ladderCells.Add(cell); //Add cell to list of cells which need more ladders below them if cell has more southern neighbors
+            }
+            /*else //Coupler is vertical
+            {
+                //Check if platforms need to be placed:
+                List<GameObject> newPlatforms = new List<GameObject>(); //Initialize list to contain newly-spawned platforms
+                if (coupler.cellA.neighbors[2] != null)
+                {
+                    GameObject newPlatform = Instantiate(roomData.platformPrefab, new Vector2(coupler.cellA.transform.position.x, coupler.transform.position.y), Quaternion.identity, coupler.cellA.transform); //Instantiate a new platform inside cell at height of coupler
+                    ladderCells.Add(coupler.cellA); //Indicate that a ladder needs to be added to the cell below this one
+                }
+                if (coupler.cellB.neighbors[2] != null)
+                {
+                    GameObject newPlatform = Instantiate(roomData.platformPrefab, new Vector2(coupler.cellB.transform.position.x, coupler.transform.position.y), Quaternion.identity, coupler.cellB.transform); //Instantiate a new platform inside cell at height of coupler
+                    ladderCells.Add(coupler.cellB); //Indicate that a ladder needs to be added to the cell below this one
+                }
+            }*/
+        }
+
+        //Place extra ladders:
+        for (int x = 0; x < ladderCells.Count; x++) //Iterate through list of cells which need ladders
+        {
+            Cell cell = ladderCells[x]; //Get cell from list of cells which need ladders
+            while (cell.neighbors[2] != null) //As long as currently-focused cell has a southern neighbor, keep placing ladders
+            {
+                //Place ladder:
+                cell = cell.neighbors[2];                                               //Move to southern neighbor of previous cell
+                GameObject ladder = Instantiate(roomData.ladderPrefab, cell.transform); //Generate a new ladder childed to cell
+                ladder.transform.position = cell.transform.position;                    //Match ladder to cell position
+                ladder.transform.eulerAngles = Vector3.zero;                            //Make sure ladder is not rotated
+
+                //Place short ladder:
+                if (cell.connectors[0]) //Cell is separated from previous cell by a separator
+                {
+                    ladder = Instantiate(roomData.shortLadderPrefab, cell.transform);                                              //Generate a new short ladder, childed to the cell below it
+                    ladder.transform.position = Vector2.Lerp(cell.transform.position, cell.neighbors[0].transform.position, 0.5f); //Place ladder directly between cell and prev cell
+                    ladder.transform.eulerAngles = Vector3.zero;                                                                   //Make sure ladder is not rotated
                 }
             }
         }
+        
+        //Cleanup:
         ghostCouplers.Clear(); //Clear ghost couplers list
+        mounted = true; //Indicate that room is now mounted
+    }
+    /// <summary>
+    /// Changes room type to given value.
+    /// </summary>
+    public void UpdateRoomType(RoomType newType)
+    {
+        //Change room color:
+        Color newColor = roomData.roomTypeColors[(int)newType]; //Get new color for room backwall
+        foreach (Cell cell in cells) //Iterate through each cell in room
+        {
+            cell.r.color = newColor;                                                                                     //Set cell color to new type
+            foreach (Connector connector in cell.connectors) if (connector != null) connector.backWall.color = newColor; //Set color of connector back wall
+        }
+        
 
         //Cleanup:
-        mounted = true; //Indicate that room is now mounted
+        type = newType; //Mark that room is now given type
     }
 
     //UTILITY METHODS:
+    /// <summary>
+    /// Rounds value to quarter-unit grid.
+    /// </summary>
+    public float RoundToGrid(float value) { return Mathf.Round(value * 4) / 4; }
     /// <summary>
     /// Sets integrity to base level with room type modifiers applied.
     /// </summary>
