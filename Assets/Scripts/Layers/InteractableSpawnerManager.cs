@@ -35,7 +35,7 @@ public class InteractableSpawnerManager : MonoBehaviour
                 break;
             case INTERACTABLETYPE.ENGINE:
                 currentSpawner.SpawnInteractable(engine);
-                TutorialController.Instance.CheckForTutorialCompletion(TUTORIALSTATE.BUILDENGINE);
+                //TutorialController.Instance.CheckForTutorialCompletion(TUTORIALSTATE.BUILDENGINE);
                 LevelManager.Instance.currentSessionStats.numberOfEngines += 1;
                 break;
             case INTERACTABLETYPE.DUMPSTER:
@@ -44,7 +44,7 @@ public class InteractableSpawnerManager : MonoBehaviour
                 break;
             case INTERACTABLETYPE.THROTTLE:
                 currentSpawner.SpawnInteractable(throttle);
-                TutorialController.Instance.CheckForTutorialCompletion(TUTORIALSTATE.BUILDTHROTTLE);
+                //TutorialController.Instance.CheckForTutorialCompletion(TUTORIALSTATE.BUILDTHROTTLE);
                 LevelManager.Instance.currentSessionStats.numberOfThrottles += 1;
                 break;
             case INTERACTABLETYPE.DRILL:

@@ -13,6 +13,7 @@ public class ChunkLoader : MonoBehaviour
     private PlayerTankController playerTank;    //The player tank object
 
     private Vector3 lastLeftEndPosition, lastRightEndPosition;  //The farthest left and right positions of the spawned ground
+    private float groundWidth;
 
     private void Awake()
     {
@@ -21,6 +22,8 @@ public class ChunkLoader : MonoBehaviour
         //Get the starting ground piece's left and right end positions
         lastLeftEndPosition = startingGroundPosition.Find("LeftEndPosition").position;
         lastRightEndPosition = startingGroundPosition.Find("RightEndPosition").position;
+
+        groundWidth = Mathf.Abs(lastLeftEndPosition.x) + Mathf.Abs(lastRightEndPosition.x); 
     }
 
     /// <summary>
@@ -28,7 +31,7 @@ public class ChunkLoader : MonoBehaviour
     /// </summary>
     private void SpawnGroundLeft()
     {
-        Transform newGroundTransform = InstantiateGround(lastLeftEndPosition);
+        Transform newGroundTransform = InstantiateGround(new Vector3(lastLeftEndPosition.x - (groundWidth / 2), lastLeftEndPosition.y, lastLeftEndPosition.z));
         lastLeftEndPosition = newGroundTransform.Find("LeftEndPosition").position;
     }
 
@@ -37,7 +40,7 @@ public class ChunkLoader : MonoBehaviour
     /// </summary>
     private void SpawnGroundRight()
     {
-        Transform newGroundTransform = InstantiateGround(lastRightEndPosition);
+        Transform newGroundTransform = InstantiateGround(new Vector3(lastRightEndPosition.x + (groundWidth / 2), lastRightEndPosition.y, lastRightEndPosition.z));
         lastRightEndPosition = newGroundTransform.Find("RightEndPosition").position;
     }
 

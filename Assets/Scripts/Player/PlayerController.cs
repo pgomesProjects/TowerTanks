@@ -47,6 +47,7 @@ public class PlayerController : MonoBehaviour
     //Runtime Variables
     private int playerIndex;
     private InputActionMap inputMap;
+    private PlayerHUD playerHUD;
 
     //Movement
     private Vector2 movement;
@@ -321,6 +322,12 @@ public class PlayerController : MonoBehaviour
         //Subscribes events for control lost / regained
         playerInputComponent.onDeviceLost += OnDeviceLost;
         playerInputComponent.onDeviceRegained += OnDeviceRegained;
+    }
+
+    public void LinkPlayerHUD(PlayerHUD newHUD)
+    {
+        playerHUD = newHUD;
+        playerHUD.InitializeHUD(GameManager.Instance.MultiplayerManager.GetPlayerColors()[playerIndex]);
     }
 
     //Send value from Move callback to the horizontal Vector2
@@ -1010,6 +1017,7 @@ public class PlayerController : MonoBehaviour
             scrapValue = 0;
 
         scrapNumber.GetComponentInChildren<TextMeshProUGUI>().text = scrapValue.ToString();
+        playerHUD.UpdateScrapCount(scrapValue);
 
         //If the player has no more scrap
         if (scrapValue <= 0 && scrapNumber.activeInHierarchy)

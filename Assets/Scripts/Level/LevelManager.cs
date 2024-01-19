@@ -17,6 +17,8 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private Transform playerParent;
     [SerializeField] private GameObject layerPrefab;
     [SerializeField] private GameObject ghostLayerPrefab;
+    [SerializeField, Tooltip("The prefab for the player HUD piece.")] private PlayerHUD playerHUDPrefab;
+    [SerializeField, Tooltip("The parent that holds all of the player HUD objects.")] private RectTransform playerHUDParentTransform;
     [SerializeField, Tooltip("The value of a singular scrap piece.")] private int scrapValue;
     [SerializeField, Tooltip("The level event data that dictates how the level must be run.")] private LevelEvents currentLevelEvent;
 
@@ -132,6 +134,8 @@ public class LevelManager : MonoBehaviour
         character.transform.SetParent(playerParent);
         character.transform.GetComponent<Renderer>().material.SetColor("_Color", GameManager.Instance.MultiplayerManager.GetPlayerColors()[playerInput.playerIndex]);
         character.SetPlayerMove(true);
+        PlayerHUD newPlayerHUD = Instantiate(playerHUDPrefab, playerHUDParentTransform);
+        character.LinkPlayerHUD(newPlayerHUD);
     }
 
     /// <summary>
