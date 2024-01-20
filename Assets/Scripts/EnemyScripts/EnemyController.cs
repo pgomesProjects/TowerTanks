@@ -54,7 +54,7 @@ public class EnemyController : MonoBehaviour
     // Start is called before the first frame update
     protected void Start()
     {
-        playerTank = LevelManager.instance.GetPlayerTank();
+        playerTank = LevelManager.Instance.GetPlayerTank();
 
         currentSpeed = speed;
         canMove = true;
@@ -80,7 +80,7 @@ public class EnemyController : MonoBehaviour
 
         totalEnemyLayers = Mathf.Clamp(totalEnemyLayers, 2, MAXLAYERS);
 
-        LevelManager.instance.StartCombatMusic(totalEnemyLayers);
+        LevelManager.Instance.StartCombatMusic(totalEnemyLayers);
 
         bool specialLayerSpawned = false;
 
@@ -191,7 +191,7 @@ public class EnemyController : MonoBehaviour
 
     protected void FixedUpdate()
     {
-        if(LevelManager.instance.levelPhase != GAMESTATE.GAMEOVER)
+        if(LevelManager.Instance.levelPhase != GAMESTATE.GAMEOVER)
         {
             if (!enemyColliding)
             {
@@ -342,7 +342,7 @@ public class EnemyController : MonoBehaviour
     private void UpdateCannons()
     {
         //Current target is the top layer
-        Vector3 currentTarget = playerTank.GetLayerAt(LevelManager.instance.totalLayers - 1).transform.position;
+        Vector3 currentTarget = playerTank.GetLayerAt(LevelManager.Instance.totalLayers - 1).transform.position;
         currentTarget.y -= PlayerTankController.PLAYER_TANK_LAYER_HEIGHT / 2f;
 
         foreach(var i in GetComponentsInChildren<EnemyCannonController>())
@@ -413,7 +413,7 @@ public class EnemyController : MonoBehaviour
 
     protected virtual void AddToList()
     {
-        LevelManager.instance.currentSessionStats.normalTanksDefeated += 1;
+        LevelManager.Instance.currentSessionStats.normalTanksDefeated += 1;
     }
 
     IEnumerator CollideWithPlayerAni(float collideVelocity, float seconds)
@@ -458,7 +458,7 @@ public class EnemyController : MonoBehaviour
         //Get rid of one of the layers
         totalEnemyLayers--;
 
-        LevelManager.instance.UpdateResources(30);
+        LevelManager.Instance.UpdateResources(30);
 
         //Debug.Log("Enemy Layers Left: " + totalEnemyLayers);
 
@@ -476,15 +476,17 @@ public class EnemyController : MonoBehaviour
     private void OnEnemyKill()
     {
         //Debug.Log("Enemy Tank Is Destroyed!");
-        LevelManager.instance.UpdateResources(onDestroyResources);
-        LevelManager.instance.currentSessionStats.wavesCleared += 1;
+        LevelManager.Instance.UpdateResources(onDestroyResources);
+        LevelManager.Instance.currentSessionStats.wavesCleared += 1;
 
-        CameraEventController.instance.ResetCameraShake();
-        LevelManager.instance.ResetPlayerCamera();
-        CameraEventController.instance.ShakeCamera(10f, 1f);
+        CameraEventController.Instance.ResetCameraShake();
+        LevelManager.Instance.ResetPlayerCamera();
+        CameraEventController.Instance.ShakeCamera(10f, 1f);
 
         AddToList();
         transform.SetParent(null);
+
+        Invoke("Explode", 0.1f);
         Destroy(gameObject, 0.1f);
     }
 
@@ -530,21 +532,8 @@ public class EnemyController : MonoBehaviour
 
     public void Explode() {
         Instantiate(explosionParticle, explosionSpot.position, Quaternion.identity);
-    }
-
-    private void OnDestroy()
-    {
-        if (FindObjectOfType<EnemySpawnManager>() != null && FindObjectOfType<EnemySpawnManager>().AllEnemiesGone())
-        {
-            FindObjectOfType<EnemySpawnManager>().enemySpawnerActive = false;
-            if(GameObject.FindGameObjectWithTag("PlayerTank") != null)
-                LevelManager.instance.GetPlayerTank().ResetTankDistance();
-        }
-
         GameManager.Instance.AudioManager.Play("MedExplosionSFX", gameObject);
-
-        CameraEventController.instance.RemoveOnDestroy(gameObject);
-
-        Explode();
+        CameraEventController.Instance.RemoveOnDestroy(gameObject);
+        LevelManager.Instance?.EnemyDestroyed();
     }
 }

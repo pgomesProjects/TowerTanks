@@ -11,7 +11,7 @@ public class MultiplayerManager : MonoBehaviour
     internal PlayerInputManager playerInputManager { get; private set; }
     internal static bool[] connectedControllers;
 
-    [SerializeField, Tooltip("The list of colors indicating the player number.")] private Color[] playerColors = { Color.red, Color.blue, Color.yellow, Color.green };
+    [SerializeField, Tooltip("The list of colors indicating the player number.")] public Color[] playerColors { get; private set; } = { Color.red, Color.blue, Color.yellow, Color.green };
     [SerializeField, Tooltip("The player character prefab.")] private PlayerController playerPrefab;
 
     public Action<PlayerInput> OnPlayerConnected;
@@ -46,6 +46,9 @@ public class MultiplayerManager : MonoBehaviour
         //Generate the new player's index
         int playerIndex = ConnectionController.CheckForIndex();
         connectedControllers[playerIndex] = true;
+
+        //Change the color of the player's gamepad cursor
+        playerInput.GetComponent<GamepadCursor>().CreateGamepadCursor(playerColors[playerIndex]);
 
         playerInput.name = "Player " + (playerIndex + 1).ToString();
 

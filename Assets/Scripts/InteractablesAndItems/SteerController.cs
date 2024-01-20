@@ -13,7 +13,7 @@ public class SteerController : InteractableController
     // Start is called before the first frame update
     void Start()
     {
-        playerTank = LevelManager.instance.GetPlayerTank();
+        playerTank = LevelManager.Instance.GetPlayerTank();
         steeringCoroutine = CheckForSteeringInput();
         transform.Find("LeverPivot").localRotation = Quaternion.Euler(0, 0, -(20 * playerTank.GetThrottleMultiplier()));
     }
@@ -38,7 +38,7 @@ public class SteerController : InteractableController
             if (!playerTank.IsSteeringMoved())
             {
                 //Moving stick left
-                if (currentPlayerLockedIn.steeringValue < -0.5f && LevelManager.instance.levelPhase != GAMESTATE.TUTORIAL)
+                if (currentPlayerLockedIn.steeringValue < -0.5f && LevelManager.Instance.levelPhase != GAMESTATE.GAMEOVER)
                 {
                     if (playerTank.GetCurrentThrottleOption() > (int)TANKSPEED.REVERSEFAST)
                     {
@@ -51,23 +51,8 @@ public class SteerController : InteractableController
                 {
                     if (playerTank.GetCurrentThrottleOption() < (int)TANKSPEED.FORWARDFAST)
                     {
-                        if (LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
-                        {
-                            //If the tutorial calls to move the throttle, move the throttle
-                            if (TutorialController.main.currentTutorialState == TUTORIALSTATE.MOVETHROTTLE)
-                            {
-                                UpdateSteerLever(1);
-                                yield return new WaitForSeconds(steeringAniSeconds);
-
-                                //Tell tutorial that task is complete
-                                TutorialController.main.OnTutorialTaskCompletion();
-                            }
-                        }
-                        else
-                        {
-                            UpdateSteerLever(1);
-                            yield return new WaitForSeconds(steeringAniSeconds);
-                        }
+                        UpdateSteerLever(1);
+                        yield return new WaitForSeconds(steeringAniSeconds);
                     }
                 }
             }

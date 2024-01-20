@@ -19,9 +19,8 @@ public class TitlescreenController : MonoBehaviour
     [SerializeField] private GameObject skipTutorialMenu;
 
     [Header("Menu Animators")]
-    [SerializeField] private GameObject levelFader;
-    [SerializeField] private Animator startScreenAnimator;
-    [SerializeField] private Animator mainMenuAnimator;
+    [SerializeField] private MoveAnimation startScreenAnimator;
+    [SerializeField] private MoveAnimation mainMenuAnimator;
 
     [Header("Menu First Selected Items")]
     [SerializeField] private Selectable[] mainMenuButtons;
@@ -37,11 +36,9 @@ public class TitlescreenController : MonoBehaviour
     private void Awake()
     {
         playerControlSystem = new PlayerControlSystem();
-        playerControlSystem.UI.Start.performed += StartScreenToMain;
+        playerControlSystem.UI.Start.performed += _ => StartScreenToMain();
         playerControlSystem.UI.Cancel.performed += _ => CancelAction();
         playerControlSystem.UI.DebugMode.performed += _ => DebugMode();
-
-        levelFader.SetActive(true);
     }
 
     // Start is called before the first frame update
@@ -56,6 +53,10 @@ public class TitlescreenController : MonoBehaviour
         {
             inMenu = true;
             GoToMain();
+        }
+        else
+        {
+            LevelFader.Instance?.FadeIn(1f);
         }
     }
 
@@ -73,7 +74,7 @@ public class TitlescreenController : MonoBehaviour
     {
         GameManager.Instance.AudioManager.Stop("MainMenuAmbience");
         GameManager.Instance.AudioManager.Stop("MainMenuWindAmbience");
-        LevelFader.instance.FadeToLevel(sceneToLoad);
+        GameManager.Instance.LoadScene(sceneToLoad);
     }
 
     public void ShowDifficulty()
@@ -106,27 +107,24 @@ public class TitlescreenController : MonoBehaviour
         StartGame();
     }
 
-    private void StartScreenToMain(InputAction.CallbackContext ctx)
+    private void StartScreenToMain()
     {
         if(!inMenu)
         {
             inMenu = true;
             GameSettings.mainMenuEntered = true;
             PlayButtonSFX("Click");
-            FindObjectOfType<MultiplayerManager>().SetUIControlScheme();
+            GameManager.Instance.MultiplayerManager.SetUIControlScheme();
             StartCoroutine(WaitStartScreenToMain());
         }
     }
 
     private IEnumerator WaitStartScreenToMain()
     {
-        startScreenAnimator.Play("StartScreenHide");
-        yield return new WaitForSeconds(0.5f);
+        startScreenAnimator.Play();
+        yield return new WaitForSeconds(startScreenAnimator.duration);
         GoToMain();
-        mainMenuAnimator.Play("MainMenuShow");
-
-        startMenu.GetComponent<RectTransform>().localPosition = Vector3.zero;
-
+        mainMenuAnimator.Play();
     }
 
     private void CancelAction()

@@ -1,69 +1,65 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.EventSystems;
-using UnityEngine.InputSystem.UI;
 using TMPro;
 
 public enum GAMESTATE
 {
-    TUTORIAL, GAMEACTIVE, GAMEOVER
+    BUILDING, COMBAT, EVENT, GAMEOVER
 }
 
 public class LevelManager : MonoBehaviour
 {
-    [SerializeField] private GameObject levelFader;
-    [SerializeField] private GameObject gameOverCanvas;
-    [SerializeField] private GameObject pauseGameCanvas;
-    [SerializeField] private GameObject sessionStatsCanvas;
-    [SerializeField] private GameObject goPrompt;
     [SerializeField] private PlayerTankController playerTank;
     [SerializeField] private Transform layerParent;
+    [SerializeField] private Transform playerParent;
     [SerializeField] private GameObject layerPrefab;
     [SerializeField] private GameObject ghostLayerPrefab;
-    [SerializeField] private GameObject tutorialPopup;
-    [SerializeField] private TextMeshProUGUI popupText;
-    [SerializeField] private TextMeshProUGUI resourcesDisplay;
-    [SerializeField] private DialogEvent tutorialEvent;
-    [SerializeField] private int scrapValue;
-    [SerializeField] private float scrapAnimationSpeed;
+    [SerializeField, Tooltip("The prefab for the player HUD piece.")] private PlayerHUD playerHUDPrefab;
+    [SerializeField, Tooltip("The parent that holds all of the player HUD objects.")] private RectTransform playerHUDParentTransform;
+    [SerializeField, Tooltip("The value of a singular scrap piece.")] private int scrapValue;
+    [SerializeField, Tooltip("The level event data that dictates how the level must be run.")] private LevelEvents currentLevelEvent;
 
-    public static LevelManager instance;
+    public static LevelManager Instance;
 
     internal bool isPaused;
     internal bool readingTutorial;
-    internal GAMESTATE levelPhase = GAMESTATE.TUTORIAL; //Start the game with the tutorial
+    internal GAMESTATE levelPhase = GAMESTATE.BUILDING;
     internal WeatherConditions currentWeatherConditions;
     private int currentPlayerPaused;
     internal int currentRound;
     internal int totalLayers;
     internal SessionStats currentSessionStats;
     internal bool isSettingUpOnStart;
-    private int resourcesNum;
+
+    private int totalScrapValue;
+
     private GameObject currentGhostLayer;
 
     private Transform[] spawnPoints;
-    private Transform playerParent;
-
-    private IEnumerator resourcesUpdateAnimation;
-    private float resourcesAnimationPercent;
 
     private Dictionary<string, int> itemPrice;
 
+    //Events
+    public static Action<int, bool> OnResourcesUpdated;
+    public static Action OnCombatEnded;
+    public static Action<int> OnGamePaused;
+    public static Action OnGameResumed;
+    public static Action OnGameOver;
+
+
     private void Awake()
     {
-        instance = this;
-        levelFader.SetActive(true);
+        Instance = this;
         isPaused = false;
         readingTutorial = false;
         currentPlayerPaused = -1;
         totalLayers = 1;
         currentRound = 0;
-        resourcesDisplay.text = resourcesNum.ToString();
         itemPrice = new Dictionary<string, int>();
         PopulateItemDictionary();
-        TutorialController.main.dialogEvent = tutorialEvent;
         currentSessionStats = ScriptableObject.CreateInstance<SessionStats>();
     }
 
@@ -77,34 +73,36 @@ public class LevelManager : MonoBehaviour
         switch (GameSettings.difficulty)
         {
             case 0.5f:
-                resourcesNum = 1500;
+                totalScrapValue = 1500;
                 break;
             case 1.5f:
-                resourcesNum = 500;
+                totalScrapValue = 500;
                 break;
             default:
-                resourcesNum = 1000;
+                totalScrapValue = 1000;
                 break;
         }
 
-        if (GameSettings.skipTutorial)
+/*        if (GameSettings.skipTutorial)
         {
-            resourcesDisplay.text = resourcesNum.ToString("n0");
             TransitionGameState();
 
             AddLayer(); //Add another layer
         }
         else
         {
-            resourcesNum += 200;
+            totalScrapValue += 200;
             GameObject.FindGameObjectWithTag("Resources").gameObject.SetActive(false);
-        }
+        }*/
+        
+        TransitionGameState();
+        AddLayer(); //Add another layer
 
         if (GameSettings.debugMode)
-        {
-            resourcesNum = 99999;
-            resourcesDisplay.text = "Inf.";
-        }
+            totalScrapValue = 99999;
+
+        OnResourcesUpdated?.Invoke(totalScrapValue, false);
+
         isSettingUpOnStart = false;
     }
 
@@ -135,8 +133,9 @@ public class LevelManager : MonoBehaviour
         character.transform.position = spawnPoints[playerInput.playerIndex].position;
         character.transform.SetParent(playerParent);
         character.transform.GetComponent<Renderer>().material.SetColor("_Color", GameManager.Instance.MultiplayerManager.GetPlayerColors()[playerInput.playerIndex]);
-        if (levelPhase == GAMESTATE.GAMEACTIVE || GameSettings.skipTutorial)
-            character.SetPlayerMove(true);
+        character.SetPlayerMove(true);
+        PlayerHUD newPlayerHUD = Instantiate(playerHUDPrefab, playerHUDParentTransform);
+        character.LinkPlayerHUD(newPlayerHUD);
     }
 
     /// <summary>
@@ -154,49 +153,29 @@ public class LevelManager : MonoBehaviour
     /// <param name="resources">If positive, scrap is gained. If negative, scrap is lost.</param>
     public void UpdateResources(int resources)
     {
-        //Display the resources in a fancy way
+        //Update the resources value and invoke the resources updated action
         if (!GameSettings.debugMode)
         {
-            int originalValue = resourcesNum;
-            resourcesNum += resources;
-
-            if(resourcesUpdateAnimation == null)
-            {
-                resourcesUpdateAnimation = ResourcesTextAnimation(originalValue, scrapAnimationSpeed);
-                StartCoroutine(resourcesUpdateAnimation);
-            }
+            totalScrapValue += resources;
+            OnResourcesUpdated?.Invoke(resources, true);
         }
     }
 
     public bool CanPlayerAfford(int price)
     {
-        if (resourcesNum >= price)
+        if (totalScrapValue >= price)
             return true;
         return false;
     }
 
     public bool CanPlayerAfford(string itemName)
     {
-        if (resourcesNum >= itemPrice[itemName])
+        if (totalScrapValue >= itemPrice[itemName])
             return true;
         return false;
     }
 
     public int GetItemPrice(string itemName) => itemPrice[itemName];
-
-    private IEnumerator ResourcesTextAnimation(int startingVal, float speed)
-    {
-        resourcesAnimationPercent = 0;
-        while (resourcesAnimationPercent < 1)
-        {
-            resourcesDisplay.text = Mathf.RoundToInt(Mathf.Lerp(startingVal, resourcesNum, resourcesAnimationPercent)).ToString("n0");
-            resourcesAnimationPercent += Time.deltaTime * speed;
-            yield return null;
-        }
-
-        resourcesDisplay.text = resourcesNum.ToString("n0");
-        resourcesUpdateAnimation = null;
-    }
 
     public void AddCoalToTank(CoalController coalController, float amount)
     {
@@ -245,15 +224,6 @@ public class LevelManager : MonoBehaviour
         //Adjust the outside of the tank
         playerTank.AdjustOutsideLayerObjects();
 
-        if (levelPhase == GAMESTATE.TUTORIAL)
-        {
-            if (TutorialController.main.currentTutorialState == TUTORIALSTATE.BUILDLAYERS && totalLayers >= 2)
-            {
-                //Tell tutorial that task is complete
-                TutorialController.main.OnTutorialTaskCompletion();
-            }
-        }
-
         if (totalLayers > currentSessionStats.maxHeight)
             currentSessionStats.maxHeight = totalLayers;
     }
@@ -293,33 +263,23 @@ public class LevelManager : MonoBehaviour
 
     public void PauseToggle(int playerIndex)
     {
-        //Debug.Log("Pausing: " + isPaused);
-
         //If the game is not paused, pause the game
-        if (isPaused == false)
+        if (!isPaused)
         {
             Time.timeScale = 0;
-
             GameManager.Instance.AudioManager.PauseAllSounds();
             currentPlayerPaused = playerIndex;
             isPaused = true;
-            pauseGameCanvas.SetActive(true);
-            pauseGameCanvas.GetComponent<PauseController>().UpdatePauseText(playerIndex);
-            InputForOtherPlayers(currentPlayerPaused, true);
+            OnGamePaused?.Invoke(playerIndex);
         }
         //If the game is paused, resume the game if the person that paused the game unpauses
-        else if (isPaused == true)
+        else if (isPaused && playerIndex == currentPlayerPaused)
         {
-            if (playerIndex == currentPlayerPaused)
-            {
-                EventSystem.current.SetSelectedGameObject(null);
-                Time.timeScale = 1;
-                GameManager.Instance.AudioManager.ResumeAllSounds();
-                isPaused = false;
-                pauseGameCanvas.SetActive(false);
-                InputForOtherPlayers(currentPlayerPaused, false);
-                currentPlayerPaused = -1;
-            }
+            Time.timeScale = 1;
+            GameManager.Instance.AudioManager.ResumeAllSounds();
+            isPaused = false;
+            currentPlayerPaused = -1;
+            OnGameResumed?.Invoke();
         }
     }
 
@@ -330,40 +290,6 @@ public class LevelManager : MonoBehaviour
     {
         foreach (var player in FindObjectsOfType<PlayerController>())
             player.CancelLayerRepair();
-    }
-
-    public void ReactivateAllInput()
-    {
-        //InputForOtherPlayers(currentPlayerPaused, false);
-    }
-
-    private void InputForOtherPlayers(int currentActivePlayer, bool disableInputForOthers)
-    {
-        Debug.Log("Current Active Player: " + (currentActivePlayer + 1));
-
-        foreach (var player in FindObjectsOfType<PlayerController>())
-        {
-            if (player.GetPlayerIndex() != currentActivePlayer)
-            {
-                Debug.Log(player.GetPlayerIndex() + 1);
-
-                //Disable other player input
-                if (disableInputForOthers)
-                {
-                    player.GetPlayerInput().actions.Disable();
-                }
-                //Enable other player input
-                else
-                {
-                    player.GetPlayerInput().actions.Enable();
-                }
-            }
-            else
-            {
-                //Make sure the current player's action asset is tied to the EventSystem so they can use the menus
-                EventSystem.current.GetComponent<InputSystemUIInputModule>().actionsAsset = player.GetPlayerInput().actions;
-            }
-        }
     }
 
     public void AdjustLayerSystem(int destroyedLayer)
@@ -424,39 +350,44 @@ public class LevelManager : MonoBehaviour
     public void ResetPlayerCamera()
     {
         Debug.Log("Resetting Camera...");
-        StartCoroutine(CameraEventController.instance.BringCameraToPlayer(2));
+        StartCoroutine(CameraEventController.Instance.BringCameraToPlayer(2));
     }
 
-    public void ShowGoPrompt()
+    public void EnemyDestroyed()
     {
-        if(goPrompt != null)
-            goPrompt.SetActive(true);
+        EnemySpawnManager enemySpawn = FindObjectOfType<EnemySpawnManager>();
+
+        if (enemySpawn != null && enemySpawn.AllEnemiesGone())
+        {
+            enemySpawn.enemySpawnerActive = false;
+            PrepareBeforeCombat();
+        }
     }
 
-    public void HideGoPrompt()
+    public void PrepareBeforeCombat()
     {
-        if (goPrompt != null)
-            goPrompt.GetComponent<GoArrowAnimation>().EndAnimation();
+        GetPlayerTank()?.ResetTankDistance();
+        OnCombatEnded?.Invoke();
     }
 
     public void TransitionGameState()
     {
-        switch (levelPhase)
+/*        switch (levelPhase)
         {
             //Tutorial to Gameplay
             case GAMESTATE.TUTORIAL:
                 levelPhase = GAMESTATE.GAMEACTIVE;
                 tutorialPopup.SetActive(false);
                 readingTutorial = false;
-                playerTank.ResetTankDistance();
+                PrepareBeforeCombat();
                 break;
             //Gameplay to Game Over
             case GAMESTATE.GAMEACTIVE:
                 levelPhase = GAMESTATE.GAMEOVER;
-                CameraEventController.instance.FreezeCamera();
+                CameraEventController.Instance.FreezeCamera();
                 GameOver();
                 break;
-        }
+        }*/
     }
 
     public void StartCombatMusic(int layers)
@@ -520,21 +451,10 @@ public class LevelManager : MonoBehaviour
         StopAllCoroutines();
 
         Time.timeScale = 0.0f;
-        gameOverCanvas.SetActive(true);
         GameManager.Instance.AudioManager.Play("DeathStinger");
-        StartCoroutine(ReturnToMain());
+
+        OnGameOver?.Invoke();
     }
-
-    IEnumerator ReturnToMain()
-    {
-        yield return new WaitForSecondsRealtime(10);
-
-        gameOverCanvas.SetActive(false);
-        sessionStatsCanvas.SetActive(true);
-    }
-
-    public void ShowPopup(bool showPopup) => tutorialPopup.GetComponent<CanvasGroup>().alpha = showPopup ? 1 : 0;
-    public void SetPopupText(string newText) => popupText.text = newText;
 
     public int GetScrapValue() => scrapValue;
     public PlayerTankController GetPlayerTank() => playerTank;

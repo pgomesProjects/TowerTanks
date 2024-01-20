@@ -30,6 +30,7 @@ TagManager:
   - PlayerContainer
   - Dumpster
   - Scrap
+  - CursorCanvas
   layers:
   - Default
   - TransparentFX
@@ -46,8 +47,8 @@ TagManager:
   - Confiner
   - TankCollider
   - Particles
-  - 
-  - 
+  - Cell
+  - Connector
   - 
   - 
   - 

@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1764570166956172333}
   - component: {fileID: 1764570166956172335}
   - component: {fileID: 1764570166956172332}
-  - component: {fileID: 1764570166956172334}
   m_Layer: 5
   m_Name: DebugText
   m_TagString: Untagged
@@ -136,26 +135,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!95 &1764570166956172334
-Animator:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1764570166956172322}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: df170ecd52365284cbda15cf6b81b46c, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1764570167586904795
 GameObject:
   m_ObjectHideFlags: 0
@@ -168,6 +147,7 @@ GameObject:
   - component: {fileID: 1764570167586904772}
   - component: {fileID: 1764570167586904773}
   - component: {fileID: 1764570167586904794}
+  - component: {fileID: 8851620275200285693}
   m_Layer: 5
   m_Name: DebugCanvas
   m_TagString: Untagged
@@ -256,4 +236,16 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 0
+--- !u!114 &8851620275200285693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1764570167586904795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 248c0f1be4a27d842bcc1f1bd95cedac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
