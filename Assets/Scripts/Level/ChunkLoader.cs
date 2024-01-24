@@ -4,72 +4,89 @@ using UnityEngine;
 
 public class ChunkLoader : MonoBehaviour
 {
-    private const float RENDER_DISTANCE = 300f; //The maximum distance that the player tank can see from
+    private const float RENDER_DISTANCE = 300f;
 
     [SerializeField, Tooltip("The parent to keep all ground pieces in when spawned.")] private Transform groundParentTransform;
-    [SerializeField, Tooltip("The ground object that the level starts with.")] private Transform startingGroundPosition;
-    [SerializeField, Tooltip("The ground prefab to use for spawning new ground objects.")] private Transform groundPrefab;
+    [SerializeField, Tooltip("The chunk that the level starts with.")] private ChunkData startingChunk;
+    [SerializeField, Tooltip("The chunk prefab to use for spawning new chunks.")] private ChunkData chunkPrefab;
 
-    private PlayerTankController playerTank;    //The player tank object
+    private PlayerTankController playerTank;
 
-    private Vector3 lastLeftEndPosition, lastRightEndPosition;  //The farthest left and right positions of the spawned ground
-    private float groundWidth;
+    // The object pool for the ground chunks
+    private List<ChunkData> groundPool = new List<ChunkData>();
+    private int poolSize = 300;
 
     private void Awake()
     {
         playerTank = FindObjectOfType<PlayerTankController>();
 
-        //Get the starting ground piece's left and right end positions
-        lastLeftEndPosition = startingGroundPosition.Find("LeftEndPosition").position;
-        lastRightEndPosition = startingGroundPosition.Find("RightEndPosition").position;
-
-        groundWidth = Mathf.Abs(lastLeftEndPosition.x) + Mathf.Abs(lastRightEndPosition.x); 
+        // Create and initialize the object pool
+        InitializeChunks();
     }
 
     /// <summary>
-    /// Spawns ground to the right of the last left end position and sets a new left end position.
+    /// Creates an object pool of chunks, starting with the starting chunk, and then places them.
     /// </summary>
-    private void SpawnGroundLeft()
+    private void InitializeChunks()
     {
-        Transform newGroundTransform = InstantiateGround(new Vector3(lastLeftEndPosition.x - (groundWidth / 2), lastLeftEndPosition.y, lastLeftEndPosition.z));
-        lastLeftEndPosition = newGroundTransform.Find("LeftEndPosition").position;
+        //Initialize starting chunk
+        startingChunk.InitializeChunk(Vector3.zero);
+        groundPool.Add(startingChunk);
+
+        float direction = -1f;
+        float chunkCounter = 0f;
+
+        //Creates each chunk and alternates between placing them to the right and the left of the world
+        for (int i = 1; i < poolSize; i++)
+        {
+            direction = -direction;
+
+            if(i % 2 == 1)
+                chunkCounter++;
+
+            ChunkData chunkData = InstantiateChunk(new Vector3(ChunkData.CHUNK_WIDTH * chunkCounter * direction, 0f, 0f));
+            groundPool.Add(chunkData);
+        }
     }
 
     /// <summary>
-    /// Spawns ground to the right of the last right end position and sets a new right end position.
+    /// Creates a new chunk based on the spawn position given.
     /// </summary>
-    private void SpawnGroundRight()
+    /// <param name="spawnPosition">The position for the chunk to spawn at.</param>
+    /// <returns>The data of the newly spawned chunk.</returns>
+    private ChunkData InstantiateChunk(Vector3 spawnPosition)
     {
-        Transform newGroundTransform = InstantiateGround(new Vector3(lastRightEndPosition.x + (groundWidth / 2), lastRightEndPosition.y, lastRightEndPosition.z));
-        lastRightEndPosition = newGroundTransform.Find("RightEndPosition").position;
+        ChunkData newChunkTransform = Instantiate(chunkPrefab, spawnPosition, Quaternion.identity);
+        newChunkTransform.transform.SetParent(groundParentTransform);
+        newChunkTransform.InitializeChunk(spawnPosition);
+
+        return newChunkTransform;
     }
 
     /// <summary>
-    /// Creates a new ground object based on the spawn position given.
+    /// Updates the chunks by loading or unloading them based on the render distance.
     /// </summary>
-    /// <param name="spawnPosition">The position for the ground to spawn at.</param>
-    /// <returns>The transform of the newly spawned ground object.</returns>
-    private Transform InstantiateGround(Vector3 spawnPosition)
+    private void UpdateChunks()
     {
-        Transform newGroundTransform = Instantiate(groundPrefab, spawnPosition, Quaternion.identity);
-        newGroundTransform.SetParent(groundParentTransform);    //Gets put into a parent for organization
-        return newGroundTransform;
+        foreach (ChunkData chunkData in groundPool)
+        {
+            float chunkDistance = Vector3.Distance(playerTank.transform.position, chunkData.transform.position);
+
+            //If the chunk is within the render distance, load it. If not, unload it.
+            if (chunkDistance <= RENDER_DISTANCE)
+                chunkData.LoadChunk();
+            else
+                chunkData.UnloadChunk();
+        }
     }
 
     private void Update()
     {
-        //Debug.Log("Left End Position Distance: " + Vector3.Distance(playerTank.transform.position, lastLeftEndPosition));
-        //Debug.Log("Right End Position Distance: " + Vector3.Distance(playerTank.transform.position, lastRightEndPosition));
-
-        if(playerTank != null)
-        {
-            //If the distance between the player tank and the last left end position is less than the render distance, create more ground to the left
-            if (Vector3.Distance(playerTank.transform.position, lastLeftEndPosition) < RENDER_DISTANCE)
-                SpawnGroundLeft();
-
-            //If the distance between the player tank and the last right end position is less than the render distance, create more ground to the right
-            if (Vector3.Distance(playerTank.transform.position, lastRightEndPosition) < RENDER_DISTANCE)
-                SpawnGroundRight();
-        }
+        if (playerTank != null)
+            UpdateChunks();
     }
 }
+
+
+
+
