@@ -1096,7 +1096,7 @@ MonoBehaviour:
   throwForce: 22
   ladderMask:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 2147483647
   downSpeedMultiplier: 2
   timeToUseWrench: 3
   fireRemoverSpeed: 30

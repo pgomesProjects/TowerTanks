@@ -18,7 +18,7 @@ public class ParallaxController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        playerTank = LevelManager.instance.GetPlayerTank();
+        playerTank = LevelManager.Instance.GetPlayerTank();
         backgroundSize = GetComponent<SpriteRenderer>().bounds.size;
         GetComponent<SpriteRenderer>().size = new Vector2(backgroundSize.x * tileMultiplier, GetComponent<SpriteRenderer>().size.y);
     }

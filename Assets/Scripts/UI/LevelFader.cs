@@ -1,52 +1,58 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class LevelFader : MonoBehaviour
 {
+    [SerializeField, Tooltip("The Image used to fade between scenes.")] private CanvasGroup blackFadeCanvas;
 
-    public static LevelFader instance;
-    public Animator animator;
-    public float fadeInSeconds = 1.0f;
-    public float fadeOutSeconds = 1.0f;
-    private string levelToLoad;
+    public static LevelFader Instance;
 
-    void Awake()
+    private float startingAlpha, targetAlpha;
+    private float timeToReachAlpha;
+    private float delta;
+    private bool transitionActive = false;
+
+    private void Awake()
     {
-        instance = this;
-
-        //If the fade in time is set to 0, just skip to the end of the animation
-        if (fadeInSeconds == 0)
-        {
-            animator.CrossFade("fade_in", 0f, 0, 1f);
-        }
-        //If not, set the speed of the animation based on the number of seconds desired to be played at
-        else
-            animator.speed = 1 / fadeInSeconds;
+        Instance = this;
     }
 
-    public void FadeToLevel(string levelName)
+    public void FadeIn(float seconds)
     {
-        //Name of scene to be loaded
-        levelToLoad = levelName;
-
-        //If the fade out time is set to 0, just skip to the end of the animation
-        if (fadeOutSeconds == 0)
-        {
-            animator.CrossFade("fade_out", 0f, 0, 1f);
-        }
-        //If not, set the speed of the animation based on the number of seconds desired to be played at
-        else
-            animator.speed = 1 / fadeOutSeconds;
-
-        //Tell the animator to fade out the level
-        animator.SetTrigger("FadeOut");
+        Debug.Log("Fading In For " + seconds.ToString() + " Seconds");
+        startingAlpha = 1f;
+        targetAlpha = 0f;
+        timeToReachAlpha = seconds;
+        delta = 0f;
+        blackFadeCanvas.alpha = startingAlpha;
+        transitionActive = true;
     }
 
-    public void OnFadeComplete()
+    public void FadeOut(float seconds)
     {
-        //Load scene
-        SceneManager.LoadScene(levelToLoad);
+        Debug.Log("Fading Out For " + seconds.ToString() + " Seconds");
+        startingAlpha = 0f;
+        targetAlpha = 1f;
+        timeToReachAlpha = seconds;
+        delta = 0f;
+        blackFadeCanvas.alpha = startingAlpha;
+        transitionActive = true;
+    }
+
+    private void Update()
+    {
+        if (transitionActive)
+        {
+            delta += Time.unscaledDeltaTime / timeToReachAlpha;
+            blackFadeCanvas.alpha = Mathf.Lerp(startingAlpha, targetAlpha, delta);
+
+            if(delta >= 1f)
+            {
+                blackFadeCanvas.alpha = targetAlpha;
+                transitionActive = false;
+            }
+        }
     }
 }

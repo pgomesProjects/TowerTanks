@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.InputSystem.UI;
 using TMPro;
 
 public class PauseController : MonoBehaviour
@@ -41,6 +41,36 @@ public class PauseController : MonoBehaviour
     private void OnDisable()
     {
         playerControlSystem.Disable();
+    }
+
+    public void UpdatePausedPlayer(int playerIndex)
+    {
+        pauseText.text = "Player " + (playerIndex + 1) + " Paused";
+        currentPlayerPaused = playerIndex;
+
+        foreach (var player in FindObjectsOfType<PlayerController>())
+        {
+            if (player.GetPlayerIndex() != currentPlayerPaused)
+            {
+                //Disable other player input
+                player.GetPlayerInput().actions.Disable();
+            }
+            else
+            {
+                //Make sure the current player's action asset is tied to the EventSystem so they can use the menus
+                EventSystem.current.GetComponent<InputSystemUIInputModule>().actionsAsset = player.GetPlayerInput().actions;
+            }
+        }
+    }
+
+    public void ReactivateAllPlayerInput()
+    {
+        foreach (var player in FindObjectsOfType<PlayerController>())
+        {
+            //Activates all of the input for the players that aren't the one that's already enabled
+            if(player.GetPlayerIndex() != currentPlayerPaused)
+                player.GetPlayerInput().actions.Enable();
+        }
     }
 
     private void CancelAction()
@@ -110,7 +140,8 @@ public class PauseController : MonoBehaviour
 
     public void Resume()
     {
-        LevelManager.instance.PauseToggle(currentPlayerPaused);
+        EventSystem.current.SetSelectedGameObject(null);
+        LevelManager.Instance?.PauseToggle(currentPlayerPaused);
     }
 
     public void Options()
@@ -121,16 +152,9 @@ public class PauseController : MonoBehaviour
 
     public void ReturnToMain()
     {
-        LevelManager.instance.ReactivateAllInput();
-        SceneManager.LoadScene("Title");
+        GameManager.Instance.LoadScene("Title", false);
         Time.timeScale = 1.0f;
         GameManager.Instance.AudioManager.StopAllSounds();
-    }
-    
-    public void UpdatePauseText(int playerIndex)
-    {
-        pauseText.text = "Player " + (playerIndex + 1) + " Paused";
-        currentPlayerPaused = playerIndex;
     }
 
     public void PlayButtonSFX(string name)
@@ -147,7 +171,6 @@ public class PauseController : MonoBehaviour
     public void ButtonOnDeselectColor(Animator anim)
     {
         anim.SetBool("IsSelected", false);
-
     }
 
     public void ButtonBounce(RectTransform rectTransform)

@@ -22,7 +22,7 @@ public class DrillEnemyController : EnemyController
 
         totalEnemyLayers = Mathf.Clamp(totalEnemyLayers, 2, MAXLAYERS);
 
-        LevelManager.instance.StartCombatMusic(totalEnemyLayers);
+        LevelManager.Instance.StartCombatMusic(totalEnemyLayers);
 
         bool specialLayerSpawned = false;
 
@@ -158,6 +158,6 @@ public class DrillEnemyController : EnemyController
 
     protected override void AddToList()
     {
-        LevelManager.instance.currentSessionStats.drillTanksDefeated += 1;
+        LevelManager.Instance.currentSessionStats.drillTanksDefeated += 1;
     }
 }

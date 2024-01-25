@@ -25,9 +25,9 @@ public class GameMultiplayerUI : MultiplayerUI
 
     private void Update()
     {
-        if (LevelManager.instance != null)
+        if (LevelManager.Instance != null)
         {
-            if (LevelManager.instance.levelPhase != GAMESTATE.GAMEOVER)
+            if (LevelManager.Instance.levelPhase != GAMESTATE.GAMEOVER)
             {
                 if (showJoinPrompt)
                 {

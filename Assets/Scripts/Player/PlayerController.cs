@@ -47,6 +47,7 @@ public class PlayerController : MonoBehaviour
     //Runtime Variables
     private int playerIndex;
     private InputActionMap inputMap;
+    private PlayerHUD playerHUD;
 
     //Movement
     private Vector2 movement;
@@ -58,7 +59,6 @@ public class PlayerController : MonoBehaviour
     internal int currentLayer = 0;
 
     private bool canMove = false;
-    private bool hasMoved;
     private bool isFacingRight;
     private bool canClimb;
     private bool isClimbing;
@@ -166,7 +166,6 @@ public class PlayerController : MonoBehaviour
         previousLayer = 0;
         currentLayer = 0;
         isHoldingItem = false;
-        hasMoved = false;
         canClimb = false;
         waitingToClimb = false;
         isFacingRight = true;
@@ -197,20 +196,11 @@ public class PlayerController : MonoBehaviour
     // For dealing with physics or movement related functionality
     void FixedUpdate()
     {
-        if (LevelManager.instance != null && !LevelManager.instance.isPaused)
+        if (LevelManager.Instance != null && !LevelManager.Instance.isPaused)
         {
             //Move the player horizontally
             if (canMove)
             {
-                if(LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
-                {
-                    //If the player has moved, tell the tutorial state
-                    if(Mathf.Abs(movement.x) > 0)
-                    {
-                        hasMoved = true;
-                    }
-                }
-
                 playerAnimator.SetFloat("PlayerX", Mathf.Abs(movement.x));
                 //Debug.Log("Player Can Move!");
                 rb.velocity = new Vector2(movement.x * speed, rb.velocity.y);
@@ -219,7 +209,7 @@ public class PlayerController : MonoBehaviour
                 //Clamp the player's position to be within the range of the tank
                 Vector3 playerPos = transform.localPosition;
 
-                playerPos.x = Mathf.Clamp(playerPos.x, -LevelManager.instance.GetPlayerTank().tankBarrierRange, LevelManager.instance.GetPlayerTank().tankBarrierRange);
+                playerPos.x = Mathf.Clamp(playerPos.x, -LevelManager.Instance.GetPlayerTank().tankBarrierRange, LevelManager.Instance.GetPlayerTank().tankBarrierRange);
                 transform.localPosition = playerPos;
 
                 //If the input is moving the player right and the player is facing left
@@ -238,6 +228,11 @@ public class PlayerController : MonoBehaviour
 
             //Check to see if the player is colliding with the ladder
             ladderRaycast = Physics2D.Raycast(transform.position, Vector2.up, distance, ladderMask);
+
+            Debug.DrawRay(transform.position, Vector2.up, ladderRaycast.collider == null? Color.red : Color.green, distance);
+
+            if (ladderRaycast.collider != null)
+                Debug.Log("Omg a " + ladderRaycast.collider.name + "!");
 
             //If the player is not colliding with the ladder
             if (ladderRaycast.collider == null && isClimbing)
@@ -327,6 +322,12 @@ public class PlayerController : MonoBehaviour
         //Subscribes events for control lost / regained
         playerInputComponent.onDeviceLost += OnDeviceLost;
         playerInputComponent.onDeviceRegained += OnDeviceRegained;
+    }
+
+    public void LinkPlayerHUD(PlayerHUD newHUD)
+    {
+        playerHUD = newHUD;
+        playerHUD.InitializeHUD(GameManager.Instance.MultiplayerManager.GetPlayerColors()[playerIndex]);
     }
 
     //Send value from Move callback to the horizontal Vector2
@@ -498,7 +499,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnLadderEnter(InputAction.CallbackContext ctx)
     {
-        if (LevelManager.instance != null && !LevelManager.instance.isPaused)
+        if (LevelManager.Instance != null && !LevelManager.Instance.isPaused)
         {
             //If the player presses the ladder climb button
             if (ctx.performed)
@@ -511,6 +512,7 @@ public class PlayerController : MonoBehaviour
                         //If the player is colliding with the ladder and wants to climb
                         if (ladderRaycast.collider != null)
                         {
+                            Debug.Log("Gonna Climb");
                             EnterLadder();
                             return;
                         }
@@ -523,7 +525,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnLadderExit(InputAction.CallbackContext ctx)
     {
-        if (LevelManager.instance != null && !LevelManager.instance.isPaused)
+        if (LevelManager.Instance != null && !LevelManager.Instance.isPaused)
         {
             //If the player presses the ladder climb button
             if (ctx.performed)
@@ -548,11 +550,11 @@ public class PlayerController : MonoBehaviour
         //If the player presses the pause button
         if (ctx.started)
         {
-            if (LevelManager.instance != null && !LevelManager.instance.isPaused)
+            if (LevelManager.Instance != null && !LevelManager.Instance.isPaused)
             {
                 //Pause the game
                 Debug.Log("Player " + playerIndex + " Paused.");
-                LevelManager.instance.PauseToggle(playerIndex);
+                LevelManager.Instance?.PauseToggle(playerIndex);
             }
         }
     }
@@ -575,15 +577,9 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("Build Mode For Player " + (playerIndex + 1) + ": On");
             if (!IsPlayerOutsideTank())
-                LevelManager.instance.GetPlayerTank().GetLayerAt(currentLayer).GetComponent<GhostInteractables>().CreateGhostInteractables(this);
+                LevelManager.Instance.GetPlayerTank().GetLayerAt(currentLayer).GetComponent<GhostInteractables>().CreateGhostInteractables(this);
             else if(IsHoldingScrap())
-                LevelManager.instance.AddGhostLayer();
-
-            if (LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL && TutorialController.main.currentTutorialState == TUTORIALSTATE.GETSCRAP)
-            {
-                if (scrapValue >= 100)
-                    TutorialController.main.OnTutorialTaskCompletion();
-            }
+                LevelManager.Instance.AddGhostLayer();
         }
 
         //If build mode is not active
@@ -591,9 +587,9 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("Build Mode For Player " + (playerIndex + 1) + ": Off");
             if(!IsPlayerOutsideTank())
-                LevelManager.instance.GetPlayerTank().GetLayerAt(currentLayer).GetComponent<GhostInteractables>().DestroyGhostInteractables(this);
+                LevelManager.Instance.GetPlayerTank().GetLayerAt(currentLayer).GetComponent<GhostInteractables>().DestroyGhostInteractables(this);
             else
-                LevelManager.instance.RemoveGhostLayer();
+                LevelManager.Instance.RemoveGhostLayer();
         }
     }
 
@@ -653,9 +649,9 @@ public class PlayerController : MonoBehaviour
     private void BuildLayer()
     {
         //If the player is outside of the tank and can afford a new layer
-        if (scrapValue >= LevelManager.instance.GetItemPrice("NewLayer"))
+        if (scrapValue >= LevelManager.Instance.GetItemPrice("NewLayer"))
         {
-            if (LevelManager.instance.levelPhase != GAMESTATE.TUTORIAL || LevelManager.instance.totalLayers < 2)
+            if (LevelManager.Instance.levelPhase != GAMESTATE.GAMEOVER || LevelManager.Instance.totalLayers < 2)
             {
                 if (timeToBuild > 0)
                     StartProgressBar(timeToBuild, false, PurchaseLayer, PlayerActions.BUILDING);
@@ -665,7 +661,7 @@ public class PlayerController : MonoBehaviour
 
     private void StartInteractableSell()
     {
-        if (LevelManager.instance.levelPhase != GAMESTATE.TUTORIAL && !currentInteractableItem.AnyPlayersLockedIn() && currentInteractableItem.CanBeSold())
+        if (LevelManager.Instance.levelPhase != GAMESTATE.GAMEOVER && !currentInteractableItem.AnyPlayersLockedIn() && currentInteractableItem.CanBeSold())
         {
             if (timeToSell > 0)
                 StartProgressBar(timeToSell, false, SellInteractable, PlayerActions.SELLING);
@@ -683,8 +679,8 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void PurchaseLayer()
     {
-        UseScrap(LevelManager.instance.GetItemPrice("NewLayer"));
-        LevelManager.instance.PurchaseLayer(this);
+        UseScrap(LevelManager.Instance.GetItemPrice("NewLayer"));
+        LevelManager.Instance.PurchaseLayer(this);
     }
 
     private bool CheckForFireRemoverUse()
@@ -693,8 +689,8 @@ public class PlayerController : MonoBehaviour
         if (buildModeActive) return false;        //If the player is in build mode, return false
 
         FireBehavior fire = null;
-        if (LevelManager.instance.GetPlayerTank().GetLayerAt(currentLayer) != null)
-            fire = LevelManager.instance.GetPlayerTank().GetLayerAt(currentLayer).GetComponentInChildren<FireBehavior>();
+        if (LevelManager.Instance.GetPlayerTank().GetLayerAt(currentLayer) != null)
+            fire = LevelManager.Instance.GetPlayerTank().GetLayerAt(currentLayer).GetComponentInChildren<FireBehavior>();
 
         //If the layer the player is on is on fire
         if (fire != null && fire.IsLayerOnFire())
@@ -723,7 +719,7 @@ public class PlayerController : MonoBehaviour
     {
         if (IsPlayerOutsideTank()) return false;  //If the player is outside of the tank, return false
 
-        LayerManager layerHealth = LevelManager.instance.GetPlayerTank().GetLayerAt(currentLayer);
+        LayerManager layerHealth = LevelManager.Instance.GetPlayerTank().GetLayerAt(currentLayer);
 
         //If the layer the player is damaged and the player has scrap, use the wrench
         if (layerHealth.GetLayerHealth() < layerHealth.GetMaxHealth() && scrapHolder.childCount > 0)
@@ -741,17 +737,17 @@ public class PlayerController : MonoBehaviour
 
     private void UseFireRemover()
     {
-        FireBehavior fire = LevelManager.instance.GetPlayerTank().GetLayerAt(currentLayer).GetComponentInChildren<FireBehavior>();
+        FireBehavior fire = LevelManager.Instance.GetPlayerTank().GetLayerAt(currentLayer).GetComponentInChildren<FireBehavior>();
         fire.gameObject.SetActive(false);   //Gets rid of the fire
         isRepairingLayer = false;
 
-        LevelManager.instance.CancelAllLayerRepairs();
+        LevelManager.Instance.CancelAllLayerRepairs();
     }
 
     private void UseWrench()
     {
         //Restore the layer the player is on to max health
-        LayerManager layerHealth = LevelManager.instance.GetPlayerTank().GetLayerAt(currentLayer);
+        LayerManager layerHealth = LevelManager.Instance.GetPlayerTank().GetLayerAt(currentLayer);
 
         int healthToMax = layerHealth.GetMaxHealth() - layerHealth.GetLayerHealth();    //Get the amount of health needed to repair the layer to max
         int scrapRequired = (int)Mathf.CeilToInt(healthToMax / 25f) * scrapToRepair;    //Get the amount of scrap required to repair to max health (x scrap per 25% health)
@@ -768,7 +764,7 @@ public class PlayerController : MonoBehaviour
         //Use some scrap
         UseScrap(price);
 
-        LevelManager.instance.CancelAllLayerRepairs();
+        LevelManager.Instance.CancelAllLayerRepairs();
     }
 
     public void DisplayInteractionPrompt(string message)
@@ -810,7 +806,7 @@ public class PlayerController : MonoBehaviour
                 case PlayerActions.EXTINGUISHING:
                     playerAnimator.SetBool("IsExtinguishing", true);
                     currentActionSpeed = fireRemoverSpeed;
-                    LevelManager.instance.GetPlayerTank().GetLayerAt(currentLayer).GetComponentInChildren<FireBehavior>().AddPlayerPuttingOutFire(this);
+                    LevelManager.Instance.GetPlayerTank().GetLayerAt(currentLayer).GetComponentInChildren<FireBehavior>().AddPlayerPuttingOutFire(this);
                     break;
                 case PlayerActions.SELLING:
                     progressFill.color = sellColor;
@@ -879,7 +875,7 @@ public class PlayerController : MonoBehaviour
 
         if (playerAnimator.GetBool("IsExtinguishing"))
         {
-            FireBehavior fire = LevelManager.instance.GetPlayerTank().GetLayerAt(currentLayer).GetComponentInChildren<FireBehavior>();
+            FireBehavior fire = LevelManager.Instance.GetPlayerTank().GetLayerAt(currentLayer).GetComponentInChildren<FireBehavior>();
             if (fire != null)
                 fire.RemovePlayerPuttingOutFire(this);
         }
@@ -970,7 +966,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (PlayerHasItem("Hammer") && IsPlayerOutsideTank())
         {
-            LevelManager.instance.AddGhostLayer();
+            LevelManager.Instance.AddGhostLayer();
         }
 
 /*        if (LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
@@ -1006,21 +1002,22 @@ public class PlayerController : MonoBehaviour
         {
             //If the player is outside of the tank, add a ghost layer
             if (IsPlayerOutsideTank())
-                LevelManager.instance.AddGhostLayer();
+                LevelManager.Instance.AddGhostLayer();
 
             if (!scrapNumber.activeInHierarchy)
                 scrapNumber.SetActive(true);
 
             if (newScrapChildCount == -1)
-                scrapValue = scrapHolder.childCount * LevelManager.instance.GetScrapValue();
+                scrapValue = scrapHolder.childCount * LevelManager.Instance.GetScrapValue();
             else
-                scrapValue = newScrapChildCount * LevelManager.instance.GetScrapValue();
+                scrapValue = newScrapChildCount * LevelManager.Instance.GetScrapValue();
         }
         //If they are not, their scrap value is 0
         else
             scrapValue = 0;
 
         scrapNumber.GetComponentInChildren<TextMeshProUGUI>().text = scrapValue.ToString();
+        playerHUD.UpdateScrapCount(scrapValue);
 
         //If the player has no more scrap
         if (scrapValue <= 0 && scrapNumber.activeInHierarchy)
@@ -1054,7 +1051,7 @@ public class PlayerController : MonoBehaviour
     /// <param name="price">The price of the action that uses scrap.</param>
     public void UseScrap(int price)
     {
-        int numberOfScrapsUsed = price / LevelManager.instance.GetScrapValue();
+        int numberOfScrapsUsed = price / LevelManager.Instance.GetScrapValue();
 
         //Debug.Log("Destroying " + numberOfScrapsUsed + " Scrap");
 
@@ -1072,7 +1069,7 @@ public class PlayerController : MonoBehaviour
         //Remove the item from the player and put it back in the level
         itemHeld.GetComponent<Rigidbody2D>().gravityScale = itemHeld.GetDefaultGravityScale();
         itemHeld.GetComponent<Rigidbody2D>().isKinematic = false;
-        itemHeld.transform.parent = LevelManager.instance.GetPlayerTank().GetItemContainer();
+        itemHeld.transform.parent = LevelManager.Instance.GetPlayerTank().GetItemContainer();
         itemHeld.SetRotateConstraint(false);
         ChangeItemTransparency(1);
 
@@ -1089,7 +1086,7 @@ public class PlayerController : MonoBehaviour
             {
                 Destroy(i);
             }
-            LevelManager.instance.RemoveGhostLayer();
+            LevelManager.Instance.RemoveGhostLayer();
         }
 
         itemHeld.SetPickUp(false);
@@ -1189,15 +1186,14 @@ public class PlayerController : MonoBehaviour
 
     public bool PlayerCanInteract()
     {
-        if(LevelManager.instance != null)
-            return !LevelManager.instance.isPaused && !LevelManager.instance.readingTutorial;
+        if(LevelManager.Instance != null)
+            return !LevelManager.Instance.isPaused && !LevelManager.Instance.readingTutorial;
 
         return false;
     }
 
-    public bool IsPlayerOutsideTank() => currentLayer >= LevelManager.instance.totalLayers;
+    public bool IsPlayerOutsideTank() => currentLayer >= LevelManager.Instance.totalLayers;
     public bool IsPlayerClimbing() => isClimbing;
-    public bool HasPlayerMoved() => hasMoved;
     public void SetPlayerClimb(bool climb) => canClimb = climb;
     public void SetPlayerMove(bool movePlayer) => canMove = movePlayer;
     public bool InBuildMode() => buildModeActive;
@@ -1234,5 +1230,8 @@ public class PlayerController : MonoBehaviour
     private void OnDestroy()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
+        inputMap.actionTriggered -= OnPlayerInput;
+        playerInputComponent.onDeviceLost -= OnDeviceLost;
+        playerInputComponent.onDeviceRegained -= OnDeviceRegained;
     }
 }

@@ -19,7 +19,7 @@ public class SessionStatsController : MonoBehaviour
     private void OnEnable()
     {
         playerControlSystem.Enable();
-        sessionStats = LevelManager.instance.currentSessionStats;
+        sessionStats = LevelManager.Instance.currentSessionStats;
         CreateSessionsData();
     }
 
@@ -45,7 +45,7 @@ public class SessionStatsController : MonoBehaviour
 
     private void GoToMain()
     {
-        LevelFader.instance.FadeToLevel("Title");
+        GameManager.Instance.LoadScene("Title");
         Time.timeScale = 1.0f;
     }
 }

@@ -20,7 +20,7 @@ public class ScrapPiece : MonoBehaviour
     /// </summary>
     private void OnDespawned()
     {
-        LevelManager.instance.UpdateResources(LevelManager.instance.GetScrapValue());  //Add back to scrap on despawned
+        LevelManager.Instance.UpdateResources(LevelManager.Instance.GetScrapValue());  //Add back to scrap on despawned
         Destroy(gameObject);
     }
 

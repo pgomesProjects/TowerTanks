@@ -62,6 +62,6 @@ public class WeatherController : MonoBehaviour
         tankLight.color = weatherSettings[(int)newWeather].tankLightColor;
         tankLight.intensity = weatherSettings[(int)newWeather].tankLightIntensity;
 
-        LevelManager.instance.currentWeatherConditions = newWeather;
+        LevelManager.Instance.currentWeatherConditions = newWeather;
     }
 }

@@ -30,22 +30,22 @@ public class InteractableSpawnerManager : MonoBehaviour
                 if (cannonObject.transform.position.x < GameObject.FindGameObjectWithTag("PlayerTank").transform.position.x)
                     cannonObject.GetComponent<PlayerCannonDirectionUpdater>().FlipCannonX();
 
-                TutorialController.main.CheckForTutorialCompletion(TUTORIALSTATE.BUILDCANNON);
-                LevelManager.instance.currentSessionStats.numberOfCannons += 1;
+                TutorialController.Instance.CheckForTutorialCompletion(TUTORIALSTATE.BUILDCANNON);
+                LevelManager.Instance.currentSessionStats.numberOfCannons += 1;
                 break;
             case INTERACTABLETYPE.ENGINE:
                 currentSpawner.SpawnInteractable(engine);
-                TutorialController.main.CheckForTutorialCompletion(TUTORIALSTATE.BUILDENGINE);
-                LevelManager.instance.currentSessionStats.numberOfEngines += 1;
+                //TutorialController.Instance.CheckForTutorialCompletion(TUTORIALSTATE.BUILDENGINE);
+                LevelManager.Instance.currentSessionStats.numberOfEngines += 1;
                 break;
             case INTERACTABLETYPE.DUMPSTER:
                 currentSpawner.SpawnInteractable(dumpster);
-                LevelManager.instance.currentSessionStats.numberOfDumpsters += 1;
+                LevelManager.Instance.currentSessionStats.numberOfDumpsters += 1;
                 break;
             case INTERACTABLETYPE.THROTTLE:
                 currentSpawner.SpawnInteractable(throttle);
-                TutorialController.main.CheckForTutorialCompletion(TUTORIALSTATE.BUILDTHROTTLE);
-                LevelManager.instance.currentSessionStats.numberOfThrottles += 1;
+                //TutorialController.Instance.CheckForTutorialCompletion(TUTORIALSTATE.BUILDTHROTTLE);
+                LevelManager.Instance.currentSessionStats.numberOfThrottles += 1;
                 break;
             case INTERACTABLETYPE.DRILL:
                 currentSpawner.SpawnInteractable(drill);

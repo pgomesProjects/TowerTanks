@@ -82,14 +82,14 @@ public class TutorialDialogHandler : DialogEvent
         //Debug.Log("Current Text Speed: " + TutorialController.main.currentTextSpeed);
 
         //Use the text writer class to write each character one by one
-        textWriterObj = TextWriter.AddWriter_Static(null, messageText, message, 1 / TutorialController.main.currentTextSpeed, true, true, OnTextComplete);
+        textWriterObj = TextWriter.AddWriter_Static(null, messageText, message, 1 / TutorialController.Instance.currentTextSpeed, true, true, OnTextComplete);
         //Move to the next line in the dialog
         currentLine++;
     }
 
     public void OnTextComplete()
     {
-        if (!TutorialController.main.listenForInput && !TutorialController.main.advanceTextDisabled)
+        if (!TutorialController.Instance.listenForInput && !TutorialController.Instance.advanceTextDisabled)
             continueObject.SetActive(true);
     }
 
