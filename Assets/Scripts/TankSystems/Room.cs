@@ -128,23 +128,20 @@ public class Room : MonoBehaviour
         ghostCouplers.Clear();                                                  //Clear list of references to ghosts
 
         //Check for obstruction:
-        //COLOR INDICATION NEEDS REVISION
-        /*foreach (Cell cell in cells) //Iterate through cells in room to check for overlaps with other rooms
+        foreach (Cell cell in cells) //Iterate through cells in room to check for overlaps with other rooms
         {
-            //cell.c.size = Vector2.one * 1.1f; //Make collider slightly bigger so it can detect colliders directly next to it
+            cell.c.size = Vector2.one * 1.1f; //Make collider slightly bigger so it can detect colliders directly next to it
             Collider2D[] overlapColliders = Physics2D.OverlapBoxAll(cell.transform.position, cell.c.size, 0, ~LayerMask.NameToLayer("Cell")); //Get an array of all colliders overlapping current cell
             foreach (Collider2D collider in overlapColliders) //Iterate through colliders overlapping cell
             {
-                if (collider.GetComponent<Cell>().room != this) //Collider overlaps with a cell from another room
+                if (collider.TryGetComponent(out Cell otherCell) && otherCell.room != this) //Collider overlaps with a cell from another room
                 {
-                    //Turn room red:
-                    for (int x = 0; x < renderers.Length; x++) renderers[x].color = Color.Lerp(spriteColors[x], Color.red, 0.5f); //Turn every renderer red to indicate that it can't be placed
-                    return;                                                                                                       //Generate no new couplers
+                    print("Cell obstructed");
+                    return; //Generate no new couplers
                 }
             }
         }
-        for (int x = 0; x < renderers.Length; x++) renderers[x].color = spriteColors[x]; //If room can be placed, make sure it is not red
-        */
+        
 
         //Generate new couplers:
         foreach (Cell cell in cells) //Check adjacency for every cell in room
@@ -275,21 +272,6 @@ public class Room : MonoBehaviour
                 //Place extra ladders:
                 if (cell.neighbors[2] != null && RoundToGrid(cell.neighbors[2].transform.position.x) == RoundToGrid(coupler.transform.position.x)) ladderCells.Add(cell); //Add cell to list of cells which need more ladders below them if cell has more southern neighbors
             }
-            /*else //Coupler is vertical
-            {
-                //Check if platforms need to be placed:
-                List<GameObject> newPlatforms = new List<GameObject>(); //Initialize list to contain newly-spawned platforms
-                if (coupler.cellA.neighbors[2] != null)
-                {
-                    GameObject newPlatform = Instantiate(roomData.platformPrefab, new Vector2(coupler.cellA.transform.position.x, coupler.transform.position.y), Quaternion.identity, coupler.cellA.transform); //Instantiate a new platform inside cell at height of coupler
-                    ladderCells.Add(coupler.cellA); //Indicate that a ladder needs to be added to the cell below this one
-                }
-                if (coupler.cellB.neighbors[2] != null)
-                {
-                    GameObject newPlatform = Instantiate(roomData.platformPrefab, new Vector2(coupler.cellB.transform.position.x, coupler.transform.position.y), Quaternion.identity, coupler.cellB.transform); //Instantiate a new platform inside cell at height of coupler
-                    ladderCells.Add(coupler.cellB); //Indicate that a ladder needs to be added to the cell below this one
-                }
-            }*/
         }
 
         //Place extra ladders:
