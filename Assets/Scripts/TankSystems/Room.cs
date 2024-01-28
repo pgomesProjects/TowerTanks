@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using CustomEnums;
 
 /// <summary>
 /// Basic structural element which tanks are built from.
@@ -42,9 +43,13 @@ public class Room : MonoBehaviour
     [Header("Template Settings:")]
     [SerializeField, Tooltip("Width of coupler prefab (determines how pieces fit together).")] private float couplerWidth = 0.9f;
     [SerializeField, Tooltip("Default integrity of this room template.")]                      private float baseIntegrity = 100;
-    [Space()]
-    public bool debugPlace;
+    [Header("Debug Moving:")]
     public bool debugRotate;
+    public bool debugMoveUp;
+    public bool debugMoveDown;
+    public bool debugMoveLeft;
+    public bool debugMoveRight;
+    [Space()]
     public bool debugMount;
 
     //Runtime Variables:
@@ -98,12 +103,26 @@ public class Room : MonoBehaviour
     }
     private void Update()
     {
-        if (debugPlace) { debugPlace = false; SnapMove(transform.position); UpdateRoomType(type); }
         if (debugRotate) { debugRotate = false; Rotate(); UpdateRoomType(type); }
+        if (debugMoveUp) { debugMoveUp = false; SnapMoveTick(Vector2.up); UpdateRoomType(type); }
+        if (debugMoveDown) { debugMoveDown = false; SnapMoveTick(Vector2.down); UpdateRoomType(type); }
+        if (debugMoveLeft) { debugMoveLeft = false; SnapMoveTick(Vector2.left); UpdateRoomType(type); }
+        if (debugMoveRight) { debugMoveRight = false; SnapMoveTick(Vector2.right); UpdateRoomType(type); }
         if (debugMount) { debugMount = false; Mount(); }
     }
 
     //FUNCTIONALITY METHODS:
+    /// <summary>
+    /// Moves the cell one tick (0.25 units) in given direction.
+    /// </summary>
+    /// <param name="direction">Normalized vector indicating direction to move.</param>
+    public void SnapMoveTick(Vector2 direction)
+    {
+        //Get target position:
+        direction = direction.normalized;                                      //Make sure direction is normalized
+        Vector2 targetPos = (Vector2)transform.position + (direction * 0.25f); //Get target position based off of current position
+        SnapMove(targetPos);                                                   //Use normal snapMove method to place room
+    }
     /// <summary>
     /// Moves unmounted room as close as possible to target position while snapping to grid.
     /// </summary>
