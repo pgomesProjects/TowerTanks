@@ -87,6 +87,10 @@ MonoBehaviour:
   groundedBoxY: 0.115
   maxYVelocity: 15
   minYVelocity: -20
+  maxFuel: 100
+  fuelDepletionRate: 50
+  fuelRegenerationRate: 20
+  playerInputComponent: {fileID: 0}
 --- !u!1 &5332867685461826562
 GameObject:
   m_ObjectHideFlags: 0

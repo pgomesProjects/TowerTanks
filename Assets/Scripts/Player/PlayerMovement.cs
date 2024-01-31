@@ -27,6 +27,12 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private float maxYVelocity, minYVelocity;
 
+    [Header("Jetpack values")] 
+    [SerializeField] private float maxFuel;
+    [SerializeField] private float fuelDepletionRate;
+    [SerializeField] private float fuelRegenerationRate;
+    private float currentFuel;
+
     //temp
     private float moveSpeedHalved; // once we have a state machine for the player, we wont need these silly fields.
     private float currentMoveSpeed; // this is fine for the sake of prototyping though.
@@ -53,6 +59,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
+        currentFuel = maxFuel;
         if (playerInputComponent != null) LinkPlayerInput(playerInputComponent); //if it is null, it will be set by multiplayer manager. can be set in inspector as an override for testing
         currentState = PlayerState.NONCLIMBING;
         moveSpeedHalved = moveSpeed / 2;
@@ -65,11 +72,25 @@ public class PlayerMovement : MonoBehaviour
 
         else if (currentState == PlayerState.CLIMBING) ClimbLadder();
 
-        if (jetpackInputHeld) PropelJetpack();
+        if (jetpackInputHeld && currentFuel > 0) PropelJetpack();
 
         vel = rb.velocity.y;
         vel = Mathf.Clamp(vel, minYVelocity, maxYVelocity);
         rb.velocity = new Vector2(rb.velocity.x, vel);
+    }
+
+    private void Update()
+    {
+        if (jetpackInputHeld)
+        {
+            currentFuel -= fuelDepletionRate * Time.deltaTime;
+        } else if (CheckGround())
+        {
+            currentFuel += fuelRegenerationRate * Time.deltaTime;
+        }
+        
+        currentFuel = Mathf.Clamp(currentFuel, 0, maxFuel);
+        //Debug.Log($"Current Fuel: {currentFuel}");
     }
 
     private void OnDrawGizmos()
@@ -118,7 +139,6 @@ public class PlayerMovement : MonoBehaviour
     private void PropelJetpack()
     {
         rb.AddForce(Vector2.up * (jumpForce * Time.fixedDeltaTime));
-        Debug.Log("Jetpack Input held");
     }
 
     private void SetLadder()
