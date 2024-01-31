@@ -132,7 +132,7 @@ public class LevelManager : MonoBehaviour
         character.GetComponent<Rigidbody2D>().isKinematic = false;
         character.transform.position = spawnPoints[playerInput.playerIndex].position;
         character.transform.SetParent(playerParent);
-        character.transform.GetComponent<Renderer>().material.SetColor("_Color", GameManager.Instance.MultiplayerManager.GetPlayerColors()[playerInput.playerIndex]);
+        character.transform.GetComponentInChildren<Renderer>().material.SetColor("_Color", GameManager.Instance.MultiplayerManager.GetPlayerColors()[playerInput.playerIndex]);
         character.SetPlayerMove(true);
         PlayerHUD newPlayerHUD = Instantiate(playerHUDPrefab, playerHUDParentTransform);
         character.LinkPlayerHUD(newPlayerHUD);
