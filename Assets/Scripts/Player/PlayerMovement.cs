@@ -26,7 +26,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float groundedBoxX, groundedBoxY;
 
     [SerializeField] private float maxYVelocity, minYVelocity;
-
+     
     [Header("Jetpack values")] 
     [SerializeField] private float maxFuel;
     [SerializeField] private float fuelDepletionRate;
