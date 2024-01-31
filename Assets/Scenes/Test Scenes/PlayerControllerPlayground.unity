@@ -827,11 +827,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5332867684925448268, guid: 79f26049c394b4140bd0a93f14c225cd, type: 3}
       propertyPath: fuelDepletionRate
-      value: 10
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 5332867684925448268, guid: 79f26049c394b4140bd0a93f14c225cd, type: 3}
       propertyPath: fuelRegenerationRate
-      value: 5
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 5332867684925448268, guid: 79f26049c394b4140bd0a93f14c225cd, type: 3}
       propertyPath: playerInputComponent

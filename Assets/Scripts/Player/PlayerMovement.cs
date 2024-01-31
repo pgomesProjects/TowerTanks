@@ -84,7 +84,7 @@ public class PlayerMovement : MonoBehaviour
         if (jetpackInputHeld)
         {
             currentFuel -= fuelDepletionRate * Time.deltaTime;
-        } else if (CheckGround())
+        } else if (CheckGround() || currentState == PlayerState.CLIMBING)
         {
             currentFuel += fuelRegenerationRate * Time.deltaTime;
         }
