@@ -127,13 +127,13 @@ public class LevelManager : MonoBehaviour
 
     private void SpawnPlayer(PlayerInput playerInput)
     {
-        PlayerController character = Instantiate(GameManager.Instance.MultiplayerManager.GetPlayerPrefab());
+        PlayerMovement character = Instantiate(GameManager.Instance.MultiplayerManager.GetPlayerPrefab());
         character.LinkPlayerInput(playerInput);
         character.GetComponent<Rigidbody2D>().isKinematic = false;
         character.transform.position = spawnPoints[playerInput.playerIndex].position;
         character.transform.SetParent(playerParent);
         character.transform.GetComponentInChildren<Renderer>().material.SetColor("_Color", GameManager.Instance.MultiplayerManager.GetPlayerColors()[playerInput.playerIndex]);
-        character.SetPlayerMove(true);
+        //character.SetPlayerMove(true);
         PlayerHUD newPlayerHUD = Instantiate(playerHUDPrefab, playerHUDParentTransform);
         character.LinkPlayerHUD(newPlayerHUD);
     }
