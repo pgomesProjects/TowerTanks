@@ -11,6 +11,9 @@ public class Cell : MonoBehaviour
     public static Vector2[] cardinals = { Vector2.up, Vector2.right, Vector2.down, Vector2.left };
 
     //Objects & Components:
+    internal BoxCollider2D c;  //Cell's local collider
+    internal SpriteRenderer r; //Renderer for cell's primary back wall
+
     internal Room room; //The room this cell is a part of.
     /// <summary>
     /// Array of up to four cells which directly neighbor this cell.
@@ -18,11 +21,13 @@ public class Cell : MonoBehaviour
     /// Order is North (0), West (1), South (2), then East (3).
     /// </summary>
     public Cell[] neighbors = new Cell[4];
+    /// <summary>
+    /// Array of up to four optional connector (spacer) pieces which attach this room to its corresponding neighbor.
+    /// Connectors indicate splits between room sections.
+    /// </summary>
     public Connector[] connectors = new Connector[4]; //Connectors adjacent to this cell (in NESW order)
     public GameObject[] walls;                        //Pre-assigned cell walls (in NESW order) which confine players inside the tank
-    internal BoxCollider2D c;                         //Cell's local collider
-    internal SpriteRenderer r;                        //Renderer for cell's primary back wall
-    public GameObject interactable;                   //The interactable currently installed in this cell
+    public int section;                               //Which section this cell is in inside its parent room
 
     //Runtime Variables:
     /// <summary>
@@ -50,8 +55,8 @@ public class Cell : MonoBehaviour
         for (int x = 0; x < 4; x++) //Loop for four iterations (once for each direction)
         {
             if (neighbors[x] != null) continue; //Don't bother checking directions which are already occupied by neighbors
-            RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, cardinals[x], 1, ~(LayerMask.NameToLayer("Cell") | LayerMask.NameToLayer("Connector"))); //Check for adjacent cell in given direction
-            foreach (RaycastHit2D hit in hits)
+            RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, cardinals[x], 1, (LayerMask.GetMask("Cell") | LayerMask.GetMask("Connector"))); //Check for adjacent cell in given direction
+            foreach (RaycastHit2D hit in hits) //Iterate through hit objects
             {
                 //Update neighbors:
                 if (hit.collider.TryGetComponent(out Cell cell) && hit.collider != c) //Adjacent cell found in current direction
