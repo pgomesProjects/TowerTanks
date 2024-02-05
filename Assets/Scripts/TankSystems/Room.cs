@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using CustomEnums;
 
 /// <summary>
 /// Basic structural element which tanks are built from.
@@ -35,16 +36,19 @@ public class Room : MonoBehaviour
     private Cell[][] sections;                                 //Groups of cells separated by connectors
     private Transform connectorParent;                         //Parent object which contains all connectors
     private SpriteRenderer[] renderers;                        //All renderers for visualizing this room
-    private Color[] spriteColors;                              //Target color for each spriteRenderer (normal when not modified by various effects)
     internal RoomData roomData;                                //ScriptableObject containing data about rooms and objects spawned by them
 
     //Settings:
     [Header("Template Settings:")]
     [SerializeField, Tooltip("Width of coupler prefab (determines how pieces fit together).")] private float couplerWidth = 0.9f;
     [SerializeField, Tooltip("Default integrity of this room template.")]                      private float baseIntegrity = 100;
-    [Space()]
-    public bool debugPlace;
+    [Header("Debug Moving:")]
     public bool debugRotate;
+    public bool debugMoveUp;
+    public bool debugMoveDown;
+    public bool debugMoveLeft;
+    public bool debugMoveRight;
+    [Space()]
     public bool debugMount;
 
     //Runtime Variables:
@@ -56,15 +60,16 @@ public class Room : MonoBehaviour
     private void Awake()
     {
         //Setup runtime variables:
-        CalculateIntegrity();                                                  //Set base integrity (will be modified by other scripts)
-        cells = GetComponentsInChildren<Cell>();                               //Get references to cells in room
-        connectorParent = transform.Find("Connectors");                        //Find object containing connectors
-        renderers = GetComponentsInChildren<SpriteRenderer>();                 //Get references to renderers in room
-        spriteColors = renderers.Select(renderer => renderer.color).ToArray(); //Get array of origin colors of renderers
-        roomData = Resources.Load<RoomData>("RoomData");                       //Get roomData object from resources folder
+        CalculateIntegrity();                                  //Set base integrity (will be modified by other scripts)
+        cells = GetComponentsInChildren<Cell>();               //Get references to cells in room
+        connectorParent = transform.Find("Connectors");        //Find object containing connectors
+        renderers = GetComponentsInChildren<SpriteRenderer>(); //Get references to renderers in room
+        roomData = Resources.Load<RoomData>("RoomData");       //Get roomData object from resources folder
 
         //Set up cells:
         foreach (Cell cell in cells) cell.UpdateAdjacency();   //Have all cells in room get to know each other
+        
+        //Identify sections:
         List<List<Cell>> newSections = new List<List<Cell>>(); //Initialize lists to store section data
         List<Cell> ungroupedCells = new List<Cell>(cells);     //Create list of ungrouped cells to pull cells from
         while (ungroupedCells.Count > 0) //Iterate for as long as there are ungrouped cells
@@ -74,6 +79,7 @@ public class Room : MonoBehaviour
             Cell currentCell = ungroupedCells[0];    //Get marker for first ungrouped cell
             thisGroup.Add(currentCell);              //Add first ungrouped cell to new list
             ungroupedCells.Remove(currentCell);      //Remove cell from ungrouped list
+            currentCell.section = newSections.Count; //Tell cell which section it is in
 
             //Search for other cells in group:
             for (int x = 0; x < thisGroup.Count; x++) //Iterate through current group as new items are added
@@ -86,24 +92,41 @@ public class Room : MonoBehaviour
                         !thisGroup.Contains(neighbor) &&   //Is not already in this group...
                         currentCell.connectors[y] == null) //And is not separated by a connector
                     {
-                        thisGroup.Add(neighbor);         //Add neighbor to current group
-                        ungroupedCells.Remove(neighbor); //Remove neighbor from list of ungrouped cells
+                        thisGroup.Add(neighbor);              //Add neighbor to current group
+                        ungroupedCells.Remove(neighbor);      //Remove neighbor from list of ungrouped cells
+                        neighbor.section = newSections.Count; //Tell cell which section it is in
                     }
                 }
             }
             newSections.Add(thisGroup); //Add group to sections list
         }
         sections = newSections.Select(eachList => eachList.ToArray()).ToArray(); //Convert lists into stored array
+
+        //Designate interactable slots:
         cells[Random.Range(0, cells.Length)].DesignateInteractableSlot(); //Pick one random cell to contain the room's interactable
     }
     private void Update()
     {
-        if (debugPlace) { debugPlace = false; SnapMove(transform.position); UpdateRoomType(type); }
         if (debugRotate) { debugRotate = false; Rotate(); UpdateRoomType(type); }
+        if (debugMoveUp) { debugMoveUp = false; SnapMoveTick(Vector2.up); UpdateRoomType(type); }
+        if (debugMoveDown) { debugMoveDown = false; SnapMoveTick(Vector2.down); UpdateRoomType(type); }
+        if (debugMoveLeft) { debugMoveLeft = false; SnapMoveTick(Vector2.left); UpdateRoomType(type); }
+        if (debugMoveRight) { debugMoveRight = false; SnapMoveTick(Vector2.right); UpdateRoomType(type); }
         if (debugMount) { debugMount = false; Mount(); }
     }
 
     //FUNCTIONALITY METHODS:
+    /// <summary>
+    /// Moves the cell one tick (0.25 units) in given direction.
+    /// </summary>
+    /// <param name="direction">Normalized vector indicating direction to move.</param>
+    public void SnapMoveTick(Vector2 direction)
+    {
+        //Get target position:
+        direction = direction.normalized;                                      //Make sure direction is normalized
+        Vector2 targetPos = (Vector2)transform.position + (direction * 0.25f); //Get target position based off of current position
+        SnapMove(targetPos);                                                   //Use normal snapMove method to place room
+    }
     /// <summary>
     /// Moves unmounted room as close as possible to target position while snapping to grid.
     /// </summary>
@@ -128,23 +151,21 @@ public class Room : MonoBehaviour
         ghostCouplers.Clear();                                                  //Clear list of references to ghosts
 
         //Check for obstruction:
-        //COLOR INDICATION NEEDS REVISION
-        /*foreach (Cell cell in cells) //Iterate through cells in room to check for overlaps with other rooms
+        foreach (Cell cell in cells) //Iterate through cells in room to check for overlaps with other rooms
         {
-            //cell.c.size = Vector2.one * 1.1f; //Make collider slightly bigger so it can detect colliders directly next to it
-            Collider2D[] overlapColliders = Physics2D.OverlapBoxAll(cell.transform.position, cell.c.size, 0, ~LayerMask.NameToLayer("Cell")); //Get an array of all colliders overlapping current cell
+            cell.c.size = Vector2.one * 1.1f; //Make collider slightly bigger so it can detect colliders directly next to it
+            Collider2D[] overlapColliders = Physics2D.OverlapBoxAll(cell.transform.position, cell.c.size, 0, LayerMask.GetMask("Cell")); //Get an array of all cell colliders overlapping current cell
             foreach (Collider2D collider in overlapColliders) //Iterate through colliders overlapping cell
             {
-                if (collider.GetComponent<Cell>().room != this) //Collider overlaps with a cell from another room
+                if (collider.TryGetComponent(out Cell otherCell) && otherCell.room != this) //Collider overlaps with a cell from another room
                 {
-                    //Turn room red:
-                    for (int x = 0; x < renderers.Length; x++) renderers[x].color = Color.Lerp(spriteColors[x], Color.red, 0.5f); //Turn every renderer red to indicate that it can't be placed
-                    return;                                                                                                       //Generate no new couplers
+                    print("Cell obstructed");
+                    return; //Generate no new couplers
                 }
             }
+            cell.c.size = Vector2.one; //Set collider size back to default
         }
-        for (int x = 0; x < renderers.Length; x++) renderers[x].color = spriteColors[x]; //If room can be placed, make sure it is not red
-        */
+        
 
         //Generate new couplers:
         foreach (Cell cell in cells) //Check adjacency for every cell in room
@@ -154,31 +175,35 @@ public class Room : MonoBehaviour
                 if (cell.neighbors[x] == null) //Cell does not have a neighbor at this position
                 {
                     //Check for coupling opportunities:
-                    bool lat = (x % 2 == 1); //If true, cells are next to each other. If false, one cell is on top of the other
-                    Vector2 cellPos = cell.transform.position; //Get position of current cell
+                    bool lat = (x % 2 == 1);                                                     //If true, cells are next to each other. If false, one cell is on top of the other
+                    Vector2 cellPos = cell.transform.position;                                   //Get position of current cell
                     Vector2 posOffset = (lat ? Vector2.up : Vector2.right) * (couplerWidth / 2); //Get positional offset to apply to cell in order to guarantee coupler overlaps with target
-                    RaycastHit2D hit1 = Physics2D.Raycast(cellPos + posOffset, Cell.cardinals[x], 0.875f, ~LayerMask.NameToLayer("Cell"));
-                    RaycastHit2D hit2 = Physics2D.Raycast(cellPos - posOffset, Cell.cardinals[x], 0.875f, ~LayerMask.NameToLayer("Cell"));
+                    RaycastHit2D hit1 = Physics2D.Raycast(cellPos + posOffset, Cell.cardinals[x], 0.875f, LayerMask.GetMask("Cell")); //Search for neighboring external cell (offset to make sure cell fully overlaps)
+                    RaycastHit2D hit2 = Physics2D.Raycast(cellPos - posOffset, Cell.cardinals[x], 0.875f, LayerMask.GetMask("Cell")); //Search for neighboring external cell (offset to make sure cell fully overlaps)
+                    Cell hitCell1 = hit1.collider != null ? hit1.collider.GetComponent<Cell>() : null;                                //Try to get cell component from hit (null if nothing is hit)
+                    Cell hitCell2 = hit2.collider != null ? hit2.collider.GetComponent<Cell>() : null;                                //Try to get cell component from hit (null if nothing is hit)
 
                     //Try placing coupler:
-                    if (hit1.collider != null || hit2.collider != null) //Cell side at least partially overlaps with another untaken cell side
+                    if (hitCell1 != null || hitCell2 != null) //Cell side at least partially overlaps with another untaken cell side
                     {
-                        //Inverse checks:
-                        Room otherRoom = (hit1.collider == null ? hit2 : hit1).collider.GetComponent<Cell>().room; //Get other room hit by either raycast (works even if only one raycast hit a room)
+                        //Inverse check:
+                        Room otherRoom = hitCell1 == null ? hitCell2.room : hitCell1.room; //Get other room hit by either raycast (works even if only one raycast hit a room)
                         if (otherRoom == this) { continue; } //Ignore if hit block is part of this room (happens before potential inverse check)
-                        if (hit1.collider == null || hit2.collider == null) //Only one hit made contact with a cell
+                        if (hitCell1 == null || hitCell2 == null) //Only one hit made contact with a cell
                         {
-                            cellPos = (hit1.collider == null ? hit2 : hit1).transform.position;                                        //Get position of partially-hit cell
-                            hit1 = Physics2D.Raycast(cellPos + posOffset, -Cell.cardinals[x], 0.875f, ~LayerMask.NameToLayer("Cell")); //Reverse raycast from partially-hit cell
-                            hit2 = Physics2D.Raycast(cellPos - posOffset, -Cell.cardinals[x], 0.875f, ~LayerMask.NameToLayer("Cell")); //Reverse raycast from partially-hit cell
+                            cellPos = (hitCell1 == null ? hitCell2 : hitCell1).transform.position; //Get position of partially-hit cell
+                            hit1 = Physics2D.Raycast(cellPos + posOffset, -Cell.cardinals[x], 0.875f, LayerMask.GetMask("Cell")); //Re-check alignment from opposing cell to search for a better connection (eliminates edge cases where no two cells from origin room fall between target cell)
+                            hit2 = Physics2D.Raycast(cellPos - posOffset, -Cell.cardinals[x], 0.875f, LayerMask.GetMask("Cell")); //Re-check alignment from opposing cell to search for a better connection
+                            hitCell1 = hit1.collider != null ? hit1.collider.GetComponent<Cell>() : null;                         //Try to get cell component from hit (null if nothing is hit)
+                            hitCell2 = hit2.collider != null ? hit2.collider.GetComponent<Cell>() : null;                         //Try to get cell component from hit (null if nothing is hit)
                         }
 
-                        //Validity checks:
-                        if (hit1.collider == null || hit2.collider == null) { continue; } //Ignore if open cell sides do not fully overlap
-                        if (hit1.transform != hit2.transform)
+                        //Placement validity check:
+                        if (hitCell1 == null || hitCell2 == null) { continue; } //Ignore if open cell sides still do not fully overlap with the same room (despite it all)
+                        if (hitCell1 != hitCell2) //Validity checks for when system is trying to place a coupler on wall composed of two cells
                         {
-                            if (hit1.collider.GetComponent<Cell>().room != hit2.collider.GetComponent<Cell>().room) { continue; } //Ignore if hitting two cells from different rooms
-                            if (Vector2.Distance(hit1.transform.position, hit2.transform.position) > 1) { continue; }             //Ignore if hitting two cells separated by a connector
+                            if (hitCell1.room != hitCell2.room) { continue; }                                                    //Ignore if hitting two cells from different rooms
+                            if (Vector2.Distance(hitCell1.transform.position, hitCell2.transform.position) > 1.1f) { continue; } //Ignore if hitting two cells separated by a connector
                         }
 
                         //Add new coupler:
@@ -194,8 +219,8 @@ public class Room : MonoBehaviour
 
                         newCoupler.roomA = this;      //Give coupler information about this room
                         newCoupler.roomB = otherRoom; //Give coupler information about opposing room
-                        newCoupler.cellA = Physics2D.Raycast(newCoupler.transform.position, -Cell.cardinals[x], 0.25f, ~LayerMask.NameToLayer("Cell")).collider.GetComponent<Cell>(); //Get cell in roomA closest to coupler
-                        newCoupler.cellB = Physics2D.Raycast(newCoupler.transform.position, Cell.cardinals[x], 0.25f, ~LayerMask.NameToLayer("Cell")).collider.GetComponent<Cell>();  //Get cell in roomB closest to coupler
+                        newCoupler.cellA = Physics2D.Raycast(newCoupler.transform.position, -Cell.cardinals[x], 0.25f, LayerMask.GetMask("Cell")).collider.GetComponent<Cell>(); //Get cell in roomA closest to coupler
+                        newCoupler.cellB = Physics2D.Raycast(newCoupler.transform.position, Cell.cardinals[x], 0.25f, LayerMask.GetMask("Cell")).collider.GetComponent<Cell>();  //Get cell in roomB closest to coupler
                     }
                 }
             }
@@ -214,8 +239,8 @@ public class Room : MonoBehaviour
 
             //Exclude separated cells from group:
             if (group.Count() == 1) continue; //Skip couplers which have no redundancies
-            group = group.Where(otherCoupler => GetSection(coupler.cellA) == GetSection(otherCoupler.cellA));                                                                    //Only include couplers in group which are on the same section of origin room
-            group = group.Where(otherCoupler => coupler.roomB == otherCoupler.roomB && coupler.roomB.GetSection(coupler.cellB) == coupler.roomB.GetSection(otherCoupler.cellB)); //Make sure included couplers are connecting to the same room, and the same section of that room
+            group = group.Where(otherCoupler => coupler.cellA.section == otherCoupler.cellA.section);                                                                            //Only include couplers in group which are on the same section of origin room
+            group = group.Where(otherCoupler => coupler.roomB == otherCoupler.roomB && coupler.cellB.section == otherCoupler.cellB.section);                                     //Make sure included couplers are connecting to the same room, and the same section of that room
             group = group.OrderBy(otherCoupler => coupler.transform.rotation.z == 0 ? otherCoupler.transform.position.x : otherCoupler.transform.position.y);                    //Organize list from down to up and left to right
             for (int y = 1; y < group.Count();) { Coupler redundantCoupler = group.ElementAt(y); ghostCouplers.Remove(redundantCoupler); Destroy(redundantCoupler.gameObject); } //Delete all other couplers in group
         }
@@ -275,21 +300,6 @@ public class Room : MonoBehaviour
                 //Place extra ladders:
                 if (cell.neighbors[2] != null && RoundToGrid(cell.neighbors[2].transform.position.x) == RoundToGrid(coupler.transform.position.x)) ladderCells.Add(cell); //Add cell to list of cells which need more ladders below them if cell has more southern neighbors
             }
-            /*else //Coupler is vertical
-            {
-                //Check if platforms need to be placed:
-                List<GameObject> newPlatforms = new List<GameObject>(); //Initialize list to contain newly-spawned platforms
-                if (coupler.cellA.neighbors[2] != null)
-                {
-                    GameObject newPlatform = Instantiate(roomData.platformPrefab, new Vector2(coupler.cellA.transform.position.x, coupler.transform.position.y), Quaternion.identity, coupler.cellA.transform); //Instantiate a new platform inside cell at height of coupler
-                    ladderCells.Add(coupler.cellA); //Indicate that a ladder needs to be added to the cell below this one
-                }
-                if (coupler.cellB.neighbors[2] != null)
-                {
-                    GameObject newPlatform = Instantiate(roomData.platformPrefab, new Vector2(coupler.cellB.transform.position.x, coupler.transform.position.y), Quaternion.identity, coupler.cellB.transform); //Instantiate a new platform inside cell at height of coupler
-                    ladderCells.Add(coupler.cellB); //Indicate that a ladder needs to be added to the cell below this one
-                }
-            }*/
         }
 
         //Place extra ladders:
@@ -347,21 +357,5 @@ public class Room : MonoBehaviour
     public void CalculateIntegrity()
     {
         integrity = baseIntegrity; //TEMP: Use flat base integrity
-    }
-    /// <summary>
-    /// Returns index of section given cell is in.
-    /// </summary>
-    /// <returns></returns>
-    public int GetSection(Cell cell)
-    {
-        for (int x = 0; x < sections.Count(); x++) //Iterate through array of section arrays
-        {
-            for (int y = 0; y < sections[x].Length; y++) //Iterate through section
-            {
-                if (sections[x][y] == cell) return x; //Return section index once found
-            }
-        }
-        Debug.LogError("GetSection error! Cell " + cell.name + " was not found in room " + name); //Post error if section was not found
-        return -1;                                                                                //Return bogus value
     }
 }

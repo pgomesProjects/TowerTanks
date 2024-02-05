@@ -12,7 +12,7 @@ public class MultiplayerManager : MonoBehaviour
     internal static bool[] connectedControllers;
 
     [SerializeField, Tooltip("The list of colors indicating the player number.")] public Color[] playerColors { get; private set; } = { Color.red, Color.blue, Color.yellow, Color.green };
-    [SerializeField, Tooltip("The player character prefab.")] private PlayerController playerPrefab;
+    [SerializeField, Tooltip("The player character prefab.")] private PlayerMovement playerPrefab;
 
     public Action<PlayerInput> OnPlayerConnected;
     public Action<int> OnPlayerLost, OnPlayerRegained;
@@ -77,5 +77,5 @@ public class MultiplayerManager : MonoBehaviour
 
     public Color[] GetPlayerColors() => playerColors;
     public PlayerInput[] GetPlayerInputs() => transform.GetComponentsInChildren<PlayerInput>();
-    public PlayerController GetPlayerPrefab() => playerPrefab;
+    public PlayerMovement GetPlayerPrefab() => playerPrefab;
 }
