@@ -1,10 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/RoomData", order = 1)]
 public class RoomData : ScriptableObject
 {
+    //Data:
+    [Header("Template Settings:")]
+    [Tooltip("Width of couplers, used to check for where couplers can be placed between rooms.")] public float couplerWidth;
+
     [Header("Part Prefabs:")]
     [Tooltip("Reference to coupler object spawned when mounting rooms.")]                                             public GameObject couplerPrefab;
     [Tooltip("Reference to ladder object spawned when generating couplers.")]                                         public GameObject ladderPrefab;
@@ -14,4 +19,7 @@ public class RoomData : ScriptableObject
 
     [Header("Color Palettes:")]
     [Tooltip("Colors for room types (respective of room type listing).")] public Color[] roomTypeColors;
+
+    [Header("Interactable Selections:")]
+    [Tooltip("")] public GameObject defaultTestInteractable;
 }

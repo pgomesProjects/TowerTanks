@@ -129,7 +129,7 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: 83957ce1e688d54e8b6b22beb20598dd
     GuidInternal: 
-    m_lastTime: -8585022957949136076
+    m_lastTime: -8584942456694970365
     List:
     - name: blaring_alarm
       guid: 0557db327da0a0479a6261e902cede4a
@@ -145,6 +145,40 @@ MonoBehaviour:
         ObjectType: 3
         guid: 0557db327da0a0479a6261e902cede4a
       Path: Events\Default Work Unit\blaring_alarm
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: build_room
+      guid: 7c28288aa1d8c04c934b2132f9786df4
+      id: 2462051799
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: build_room
+        ObjectType: 3
+        guid: 7c28288aa1d8c04c934b2132f9786df4
+      Path: Events\Default Work Unit\build_room
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: build_undo
+      guid: b65951925ef5d7498b2c4a5112659e5b
+      id: 185536228
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: build_undo
+        ObjectType: 3
+        guid: b65951925ef5d7498b2c4a5112659e5b
+      Path: Events\Default Work Unit\build_undo
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -386,6 +420,23 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
+    - name: invalid_alert
+      guid: 8d4ab1e1548ff54a8a1b9ed3308edc78
+      id: 2191775701
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: invalid_alert
+        ObjectType: 3
+        guid: 8d4ab1e1548ff54a8a1b9ed3308edc78
+      Path: Events\Default Work Unit\invalid_alert
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
     - name: item_pickup
       guid: f40e6a19f5a5784aa65376afc3a8b73e
       id: 566396871
@@ -536,6 +587,40 @@ MonoBehaviour:
         ObjectType: 3
         guid: aada8fe161ec084583d6a7fd5b68daa3
       Path: Events\Default Work Unit\projectile_in_air
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: room_connect
+      guid: 14bfbf551b930c41a337f862eca73117
+      id: 228008419
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: room_connect
+        ObjectType: 3
+        guid: 14bfbf551b930c41a337f862eca73117
+      Path: Events\Default Work Unit\room_connect
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: rotate_room
+      guid: b4db3decb27f1946830e0dc7b33c2930
+      id: 2075466706
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: rotate_room
+        ObjectType: 3
+        guid: b4db3decb27f1946830e0dc7b33c2930
+      Path: Events\Default Work Unit\rotate_room
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
