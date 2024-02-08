@@ -33,7 +33,7 @@
 				<GameParameter Id="4287925136" Name="CombatLayer2Volume"/>
 			</GameParameters>
 		</SoundBank>
-		<SoundBank Id="2880737896" Type="User" Language="SFX" Hash="{DF6FB772-CC30-3189-B6D0-4A1C915ADED1}">
+		<SoundBank Id="2880737896" Type="User" Language="SFX" Hash="{764B1888-2681-350C-6521-A02E59295278}">
 			<ShortName>mainbank</ShortName>
 			<Path>mainbank.bnk</Path>
 			<Media>
@@ -65,6 +65,10 @@
 					<ShortName>TTTT_DeathStinger_Mix_Final_2.13.22.wav</ShortName>
 					<CachePath>SFX/TTTT_DeathStinger_Mix_Final_2.13.22_3F75BDB9.wem</CachePath>
 				</File>
+				<File Id="359788963" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>TT_SFX_buildRoom_v1.wav</ShortName>
+					<CachePath>SFX/TT_SFX_buildRoom_v1_9EDFC787.wem</CachePath>
+				</File>
 				<File Id="401117418" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_character-use.wav</ShortName>
 					<CachePath>SFX/TT_SFX_character-use_3F75BDB9.wem</CachePath>
@@ -92,10 +96,6 @@
 				<File Id="575432004" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_loading-coal.wav</ShortName>
 					<CachePath>SFX/TT_SFX_loading-coal_3F75BDB9.wem</CachePath>
-				</File>
-				<File Id="579595110" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>TT_SFX_fire-burning.wav</ShortName>
-					<CachePath>SFX/TT_SFX_fire-burning_9EDFC787.wem</CachePath>
 				</File>
 				<File Id="595583574" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TTTT_Menu_Sketch_Mix.wav</ShortName>
@@ -244,7 +244,7 @@
 				</Event>
 				<Event Id="1318321645" Name="fire_burning" DurationType="Infinite">
 					<MediaRefs>
-						<MediaRef Id="579595110"/>
+						<MediaRef Id="359788963"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="1469012939" Name="Global_Pause" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
@@ -354,5 +354,5 @@
 			</GameParameters>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{9DE89D95-A815-ACA2-9EAA-0EF12F4FBC00}</FileHash>
+	<FileHash>{E00E3305-6CDA-6112-969C-BA9C1554BA85}</FileHash>
 </SoundBanksInfo>
