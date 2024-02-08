@@ -15,7 +15,7 @@ public class Coupler : MonoBehaviour
     [Tooltip("Second room linked to this coupler.")]                   internal Room roomB;
     [Tooltip("Cell closest to this coupler on the first room.")]       internal Cell cellA; //NOTE: Should probably be changed to "AdjacentCellsA"
     [Tooltip("Cell closest to this coupler on the second room.")]      internal Cell cellB;               
-    [Tooltip("Array of walls touching this coupler (on both sides).")] public Collider2D[] adjacentWalls;
+    [Tooltip("Array of walls touching this coupler (on both sides).")] internal Collider2D[] adjacentWalls;
 
     //Runtime Variables:
     [Tooltip("True if coupler is vertically oriented (hatch). False if coupler is horizontally oriented (door).")] internal bool vertical = true;

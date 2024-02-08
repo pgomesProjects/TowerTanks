@@ -20,20 +20,22 @@ public class Cell : MonoBehaviour
     /// Includes cells in other rooms.
     /// Order is North (0), West (1), South (2), then East (3).
     /// </summary>
-    public Cell[] neighbors = new Cell[4];
+    internal Cell[] neighbors = new Cell[4];
     /// <summary>
     /// Array of up to four optional connector (spacer) pieces which attach this room to its corresponding neighbor.
     /// Connectors indicate splits between room sections.
     /// </summary>
-    public Connector[] connectors = new Connector[4]; //Connectors adjacent to this cell (in NESW order)
-    public GameObject[] walls;                        //Pre-assigned cell walls (in NESW order) which confine players inside the tank
-    public int section;                               //Which section this cell is in inside its parent room
+    internal Connector[] connectors = new Connector[4]; //Connectors adjacent to this cell (in NESW order)
+    [Tooltip("Pre-assigned cell walls (in NESW order) which confine players inside the tank.")] public GameObject[] walls;
+    [Tooltip("Which section this cell is in inside its parent room.")]                          internal int section;
+
+    //Settings:
+    [Header("Cell Settings:")]
+    [Tooltip("Plug interactable prefab in here to have cell generate a slot on spawn and start with it installed.")] public GameObject startingInteractable;
 
     //Runtime Variables:
-    /// <summary>
-    /// If true, this cell will be populated with an interactable when its room is placed.
-    /// </summary>
-    internal bool hasInteractableSlot = false;
+    [Tooltip("If true, this cell will be populated with an interactable when its room is placed.")] internal bool hasInteractableSlot = false;
+    [Tooltip("Interactable currently installed in this cell.")]                                     internal TankInteractable installedInteractable;
 
     //RUNTIME METHODS:
     private void Awake()
@@ -42,6 +44,13 @@ public class Cell : MonoBehaviour
         room = GetComponentInParent<Room>(); //Get room cell is connected to
         c = GetComponent<BoxCollider2D>();   //Get local collider
         r = GetComponent<SpriteRenderer>();  //Get local primary sprite renderer
+
+        //Check special conditions:
+        if (startingInteractable != null) //Cell starts with an interactable
+        {
+            DesignateInteractableSlot();               //Designate cell as having an interactable slot
+            InstallInteractable(startingInteractable); //Install starting interactable into room
+        }
     }
 
     //UTILITY METHODS:
@@ -93,8 +102,30 @@ public class Cell : MonoBehaviour
     /// </summary>
     public void DesignateInteractableSlot()
     {
-        hasInteractableSlot = true;                                                                                      //Indicate that cell has an interactable slot
-        Transform slotIndicator = Instantiate(GetComponentInParent<Room>().roomData.slotIndicator, transform).transform; //Instantiate slot indicator object
-        slotIndicator.localPosition = new Vector3(0, 0, -5);                                                             //Move indicator to be centered on cell
+        //Cleanup:
+        hasInteractableSlot = true; //Indicate that cell has an interactable slot
+
+        //Adjust visuals:
+        Transform slotIndicator = Instantiate(Resources.Load<RoomData>("RoomData").slotIndicator, transform).transform; //Instantiate slot indicator object
+        slotIndicator.localPosition = new Vector3(0, 0, -5);                                                            //Move indicator to be centered on cell
+    }
+    /// <summary>
+    /// Installs given interactable prefab into cell (returns false if operation is not valid).
+    /// </summary>
+    public bool InstallInteractable(GameObject interactable)
+    {
+        //Validity checks:
+        if (!interactable.TryGetComponent(out TankInteractable interController)) { Debug.LogError("Tried to install prefab " + interactable.name + ", which does not have a TankInteractable component (in cell " + gameObject.name + ")."); return false; }
+        if (!hasInteractableSlot) return false; //Do not allow interactable to be installed if cell does not have a slot for it
+        //ADD STUFF FOR CHECKING IF INTERACTABLE HAS EXTRA CRITERIA FOR INSTALLATION (LIKE SPACE FOR CANNON)
+
+        //Installation:
+        installedInteractable = Instantiate(interactable, transform).GetComponent<TankInteractable>(); //Instantiate interactable prefab
+        installedInteractable.transform.localPosition = Vector3.zero;                                  //Snap interactable into cell
+        installedInteractable.parentCell = this;                                                       //Designate self as parent cell
+        //ADD EXTRA STUFF FOR CHECKING IF INTERACTABLE NEEDS A CERTAIN KIND OF ORIENTATION
+
+        //Cleanup:
+        return true; //Indicate that interactable has been installed
     }
 }

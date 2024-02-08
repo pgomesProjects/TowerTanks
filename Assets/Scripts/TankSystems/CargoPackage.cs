@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TankController : MonoBehaviour
+[Tooltip("Controller for a player-moveable cargo element which can be stored within the tank.")]
+public class CargoPackage : MonoBehaviour
 {
     //Objects & Components:
 
@@ -11,7 +12,7 @@ public class TankController : MonoBehaviour
 
 
     //Runtime Variables:
-    [Tooltip("Rooms currently installed on tank.")] internal List<Room> rooms;
+
 
     //RUNTIME METHODS:
 }

@@ -24,7 +24,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 855465098922572524}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -46,8 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fea0bc18cc7b2b459d06e46afba26a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isCore: 1
   couplerWidth: 0.9
-  baseIntegrity: 100
   debugRotate: 0
   debugMoveUp: 0
   debugMoveDown: 0
@@ -319,6 +319,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7737954280297247946}
     m_Modifications:
+    - target: {fileID: 2430160822321552036, guid: dc6cecb12a490e5499e650da19ca3b9b, type: 3}
+      propertyPath: startingInteractable
+      value: 
+      objectReference: {fileID: 917774235452588900, guid: 34b0c3d4656ef5045ac437235b33d2f3, type: 3}
     - target: {fileID: 8667256878992978240, guid: dc6cecb12a490e5499e650da19ca3b9b, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -567,6 +571,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7737954280297247946}
     m_Modifications:
+    - target: {fileID: 2430160822321552036, guid: dc6cecb12a490e5499e650da19ca3b9b, type: 3}
+      propertyPath: startingInteractable
+      value: 
+      objectReference: {fileID: 8306713773444683921, guid: 81dde3955239f28438ad5263ed2c4a16, type: 3}
     - target: {fileID: 8667256878992978240, guid: dc6cecb12a490e5499e650da19ca3b9b, type: 3}
       propertyPath: m_RootOrder
       value: 0

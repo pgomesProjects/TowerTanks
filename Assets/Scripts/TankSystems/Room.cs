@@ -53,6 +53,7 @@ public class Room : MonoBehaviour
     //Runtime Variables:
     public RoomType type;         //Which broad purpose this room serves
     private bool mounted = false; //Whether or not this room has been attached to another room yet
+    internal List<TankInteractable> interactables = new List<TankInteractable>(); //List of interactables actively placed in this room
 
     //RUNTIME METHODS:
     private void Awake()
@@ -101,7 +102,12 @@ public class Room : MonoBehaviour
         //Designate interactable slots:
         if (!isCore) //Core room does not get a random interactable slot
         {
-            cells[Random.Range(0, cells.Length)].DesignateInteractableSlot(); //Pick one random cell to contain the room's interactable
+            bool startsWithInteractables = false; //Initialize marker to indicate whether or not a random slot should be designated
+            foreach (Cell cell in cells) { if (cell.startingInteractable != null) { startsWithInteractables = true; break; } } //Check if room has any starting interactables
+            if (!startsWithInteractables) //Cell does not have any pre-set interactables
+            {
+                cells[Random.Range(0, cells.Length)].DesignateInteractableSlot(); //Pick one random cell to contain the room's interactable
+            }
         }
     }
     private void Update()
@@ -327,10 +333,13 @@ public class Room : MonoBehaviour
             }
         }
         
-        //Cleanup:
-        ghostCouplers.Clear();                                 //Clear ghost couplers list
-        mounted = true;                                        //Indicate that room is now mounted
+        //Update tank info:
         transform.parent = couplers[0].roomB.transform.parent; //Child room to parent of the rest of the rooms (home tank)
+
+        //Cleanup:
+        ghostCouplers.Clear(); //Clear ghost couplers list
+        mounted = true;        //Indicate that room is now mounted
+        
     }
     /// <summary>
     /// Changes room type to given value.
