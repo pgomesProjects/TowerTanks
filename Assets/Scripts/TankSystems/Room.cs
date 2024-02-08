@@ -35,13 +35,12 @@ public class Room : MonoBehaviour
     private Cell[] cells;                                      //Individual square units which make up the room
     private Cell[][] sections;                                 //Groups of cells separated by connectors
     private Transform connectorParent;                         //Parent object which contains all connectors
-    private SpriteRenderer[] renderers;                        //All renderers for visualizing this room
     internal RoomData roomData;                                //ScriptableObject containing data about rooms and objects spawned by them
 
     //Settings:
     [Header("Template Settings:")]
+    [Tooltip("Indicates whether or not this is the tank's indestructible core room.")]         public bool isCore = false;
     [SerializeField, Tooltip("Width of coupler prefab (determines how pieces fit together).")] private float couplerWidth = 0.9f;
-    [SerializeField, Tooltip("Default integrity of this room template.")]                      private float baseIntegrity = 100;
     [Header("Debug Moving:")]
     public bool debugRotate;
     public bool debugMoveUp;
@@ -53,17 +52,14 @@ public class Room : MonoBehaviour
 
     //Runtime Variables:
     public RoomType type;         //Which broad purpose this room serves
-    private float integrity;      //Health of the room. When reduced to zero, room becomes inoperable
     private bool mounted = false; //Whether or not this room has been attached to another room yet
 
     //RUNTIME METHODS:
     private void Awake()
     {
         //Setup runtime variables:
-        CalculateIntegrity();                                  //Set base integrity (will be modified by other scripts)
         cells = GetComponentsInChildren<Cell>();               //Get references to cells in room
         connectorParent = transform.Find("Connectors");        //Find object containing connectors
-        renderers = GetComponentsInChildren<SpriteRenderer>(); //Get references to renderers in room
         roomData = Resources.Load<RoomData>("RoomData");       //Get roomData object from resources folder
 
         //Set up cells:
@@ -103,7 +99,10 @@ public class Room : MonoBehaviour
         sections = newSections.Select(eachList => eachList.ToArray()).ToArray(); //Convert lists into stored array
 
         //Designate interactable slots:
-        cells[Random.Range(0, cells.Length)].DesignateInteractableSlot(); //Pick one random cell to contain the room's interactable
+        if (!isCore) //Core room does not get a random interactable slot
+        {
+            cells[Random.Range(0, cells.Length)].DesignateInteractableSlot(); //Pick one random cell to contain the room's interactable
+        }
     }
     private void Update()
     {
@@ -213,9 +212,13 @@ public class Room : MonoBehaviour
 
                         Coupler newCoupler = Instantiate(roomData.couplerPrefab).GetComponent<Coupler>(); //Instantiate new coupler object
                         newCoupler.transform.position = newCouplerPos;                                    //Move coupler to target position
-                        if (lat) newCoupler.transform.eulerAngles = Vector3.forward * 90;                 //Rotate coupler if it is facing east or west
-                        newCoupler.transform.parent = transform;                                          //Child coupler to this room
-                        ghostCouplers.Add(newCoupler);                                                    //Add new coupler to ghost list
+                        if (lat) //Coupler should be in door orientation (facing east/west)
+                        {
+                            newCoupler.transform.eulerAngles = Vector3.forward * 90; //Rotate 90 degrees
+                            newCoupler.vertical = false;                             //Indicate that coupler is horizontally oriented
+                        }
+                        newCoupler.transform.parent = transform; //Child coupler to this room
+                        ghostCouplers.Add(newCoupler);           //Add new coupler to ghost list
 
                         newCoupler.roomA = this;      //Give coupler information about this room
                         newCoupler.roomB = otherRoom; //Give coupler information about opposing room
@@ -325,8 +328,9 @@ public class Room : MonoBehaviour
         }
         
         //Cleanup:
-        ghostCouplers.Clear(); //Clear ghost couplers list
-        mounted = true; //Indicate that room is now mounted
+        ghostCouplers.Clear();                                 //Clear ghost couplers list
+        mounted = true;                                        //Indicate that room is now mounted
+        transform.parent = couplers[0].roomB.transform.parent; //Child room to parent of the rest of the rooms (home tank)
     }
     /// <summary>
     /// Changes room type to given value.
@@ -351,11 +355,4 @@ public class Room : MonoBehaviour
     /// Rounds value to quarter-unit grid.
     /// </summary>
     public float RoundToGrid(float value) { return Mathf.Round(value * 4) / 4; }
-    /// <summary>
-    /// Sets integrity to base level with room type modifiers applied.
-    /// </summary>
-    public void CalculateIntegrity()
-    {
-        integrity = baseIntegrity; //TEMP: Use flat base integrity
-    }
 }
