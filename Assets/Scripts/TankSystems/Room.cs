@@ -270,14 +270,37 @@ public class Room : MonoBehaviour
             //Check for existing ghost to update:
             if (cell.ghostInteractable != null) //Cell already has a ghost interactable
             {
-                //ADD STUFF HERE TO CHECK IF GHOST IS STILL VALID
-                cell.ghostInteractable.transform.localEulerAngles = Vector3.zero; //Make sure interactable is always oriented correctly with cell
-                continue;                                                         //Do not go on to re-spawn interactable ghost
+                //Check ghost validity:
+                if (!CheckInteractableValidity(cell.ghostInteractable, cell)) //Current ghost interactable is now invalid and needs to be replaced
+                {
+                    Destroy(cell.ghostInteractable.gameObject); //Destroy ghost
+                    cell.ghostInteractable = null;              //Clear cell's ghost interactable status
+                }
+                else //Current ghost is valid and can be updated
+                {
+                    cell.ghostInteractable.transform.localEulerAngles = Vector3.zero; //Make sure interactable is always oriented correctly with cell
+                    continue;                                                         //Do not go on to re-spawn interactable ghost
+                }
             }
 
-            //Generate a new ghost:
-            TankInteractable newInteractable = Instantiate(roomData.defaultTestInteractable).GetComponent<TankInteractable>(); //Instantiate a new interactable
-            newInteractable.InstallInCell(cell, true);                                                                         //Install interactalbe into cell as a ghost
+            //Find valid candidates:
+            List<GameObject> validInteractables = new List<GameObject>(); //Start a list of interactable prefabs which could be placed in this cell slot
+            foreach (GameObject interactable in roomData.interactableList) //Iterate through list of all interactables in game data
+            {
+                if (interactable.TryGetComponent(out TankInteractable interController)) //Get interactable controller
+                {
+                    if (CheckInteractableValidity(interController, cell)) validInteractables.Add(interactable); //Add placeable interactables to list
+                }
+                else { Debug.LogError("Prefab " + interactable.name + " in roomData interactable list is missing a TankInteractable component."); } //Log error if interactable controller component is missing from prefab
+            }
+
+            //Find most valid candidate:
+            //ADD A PRIORITIZATION SYSTEM, MAYBE SORT LIST BASED ON A RANKING VARIABLE OR SOMETHING
+
+            //Generate new ghost:
+            if (validInteractables.Count == 0) continue; //Do not attempt to spawn a ghost if there are no valid candidates
+            TankInteractable newInteractable = Instantiate(validInteractables[0]).GetComponent<TankInteractable>(); //Instantiate a new interactable
+            newInteractable.InstallInCell(cell, true);                                                              //Install interactalbe into cell as a ghost
         }
     }
     /// <summary>
@@ -398,4 +421,14 @@ public class Room : MonoBehaviour
     /// Rounds value to quarter-unit grid.
     /// </summary>
     public float RoundToGrid(float value) { return Mathf.Round(value * 4) / 4; }
+    /// <summary>
+    /// Returns true if given interactable prefab can be placed in given cell right now.
+    /// </summary>
+    public static bool CheckInteractableValidity(TankInteractable interactable, Cell cell)
+    {
+        if (!cell.hasInteractableSlot) { return false; }                                             //Interactable cannot be placed in cell without slot
+        if (interactable.type != RoomType.Null && interactable.type != cell.room.type) return false; //Non-null interactables cannot be placed in rooms which do not match their type
+        //MORE TO COME HERE
+        return true; //Indicate interactable can be placed if it passes all tests
+    }
 }

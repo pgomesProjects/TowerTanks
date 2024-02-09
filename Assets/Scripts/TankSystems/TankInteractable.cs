@@ -11,7 +11,8 @@ public class TankInteractable : MonoBehaviour
 
     //Settings:
     [Header("Placement Constraints:")]
-    [SerializeField, Tooltip("The room type this interactable is designed for (set when designing interactable).")] protected Room.RoomType type;
+    [Tooltip("The room type this interactable is designed to be placed in.")] public Room.RoomType type;
+    //ADD SPATIAL CONSTRAINT SYSTEM
 
     //Runtime Variables:
     [Tooltip("True if interactable is a ghost and is currently unuseable.")] internal bool ghosted;
