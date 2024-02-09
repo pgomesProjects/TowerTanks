@@ -12,28 +12,33 @@ public class Cell : MonoBehaviour
 
     //Objects & Components:
     internal BoxCollider2D c;  //Cell's local collider
-    internal SpriteRenderer r; //Renderer for cell's primary back wall
-
     internal Room room; //The room this cell is a part of.
     /// <summary>
     /// Array of up to four cells which directly neighbor this cell.
     /// Includes cells in other rooms.
     /// Order is North (0), West (1), South (2), then East (3).
     /// </summary>
-    public Cell[] neighbors = new Cell[4];
+    internal Cell[] neighbors = new Cell[4];
     /// <summary>
     /// Array of up to four optional connector (spacer) pieces which attach this room to its corresponding neighbor.
     /// Connectors indicate splits between room sections.
     /// </summary>
-    public Connector[] connectors = new Connector[4]; //Connectors adjacent to this cell (in NESW order)
-    public GameObject[] walls;                        //Pre-assigned cell walls (in NESW order) which confine players inside the tank
-    public int section;                               //Which section this cell is in inside its parent room
+    internal Connector[] connectors = new Connector[4]; //Connectors adjacent to this cell (in NESW order)
+    
+    [Header("Cell Components:")]
+    [Tooltip("Back wall of cell, will be changed depending on cell purpose.")]                  public GameObject backWall;
+    [Tooltip("Pre-assigned cell walls (in NESW order) which confine players inside the tank.")] public GameObject[] walls;
+
+    //Settings:
+    [Header("Cell Settings:")]
+    [Tooltip("Plug interactable prefab in here to have cell generate a slot on spawn and start with it installed.")] public GameObject startingInteractable;
 
     //Runtime Variables:
-    /// <summary>
-    /// If true, this cell will be populated with an interactable when its room is placed.
-    /// </summary>
-    internal bool hasInteractableSlot = false;
+    [Tooltip("Which section this cell is in inside its parent room.")] internal int section;
+
+    [Tooltip("If true, this cell will be populated with an interactable when its room is placed.")] internal bool hasInteractableSlot = false;
+    [Tooltip("Ghosted interactable prepared to be installed in this cell.")]                        internal TankInteractable ghostInteractable;
+    [Tooltip("Interactable currently installed in this cell.")]                                     internal TankInteractable installedInteractable;
 
     //RUNTIME METHODS:
     private void Awake()
@@ -41,7 +46,14 @@ public class Cell : MonoBehaviour
         //Get objects & components:
         room = GetComponentInParent<Room>(); //Get room cell is connected to
         c = GetComponent<BoxCollider2D>();   //Get local collider
-        r = GetComponent<SpriteRenderer>();  //Get local primary sprite renderer
+
+        //Check special conditions:
+        if (startingInteractable != null) //Cell starts with an interactable
+        {
+            DesignateInteractableSlot();                                                                           //Designate cell as having an interactable slot
+            TankInteractable newInteractable = Instantiate(startingInteractable).GetComponent<TankInteractable>(); //Instantiate interactable
+            newInteractable.InstallInCell(this);                                                                   //Install interactable into this cell
+        }
     }
 
     //UTILITY METHODS:
@@ -93,8 +105,11 @@ public class Cell : MonoBehaviour
     /// </summary>
     public void DesignateInteractableSlot()
     {
-        hasInteractableSlot = true;                                                                                      //Indicate that cell has an interactable slot
-        Transform slotIndicator = Instantiate(GetComponentInParent<Room>().roomData.slotIndicator, transform).transform; //Instantiate slot indicator object
-        slotIndicator.localPosition = new Vector3(0, 0, -5);                                                             //Move indicator to be centered on cell
+        //Cleanup:
+        hasInteractableSlot = true; //Indicate that cell has an interactable slot
+
+        //Adjust visuals:
+        Transform slotIndicator = Instantiate(Resources.Load<RoomData>("RoomData").slotIndicator, transform).transform; //Instantiate slot indicator object
+        slotIndicator.localPosition = new Vector3(0, 0, -5);                                                            //Move indicator to be centered on cell
     }
 }

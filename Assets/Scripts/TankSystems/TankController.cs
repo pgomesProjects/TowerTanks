@@ -8,10 +8,10 @@ public class TankController : MonoBehaviour
 
 
     //Settings:
-    
+
 
     //Runtime Variables:
-
+    [Tooltip("Rooms currently installed on tank.")] internal List<Room> rooms;
 
     //RUNTIME METHODS:
 }

@@ -382,6 +382,61 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="build_undo" ID="{925159B6-F55E-49D7-8B2C-4A5112659E5B}">
+					<ChildrenList>
+						<Action Name="" ID="{7F61C781-C01C-440D-8FF5-F62340EBDB3D}" ShortID="239298932">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_buildUndo" ID="{81862C49-CA5D-4EAD-A6DB-3AEFAC7DA578}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="invalid_alert" ID="{E1B14A8D-8F54-4AF5-8A1B-9ED3308EDC78}">
+					<ChildrenList>
+						<Action Name="" ID="{A279DFAF-F7C3-4112-89D0-DD75574BF454}" ShortID="845910865">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_invalidAlert" ID="{75B49762-1676-4FA3-9CDA-C0C3A9210664}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="room_connect" ID="{55BFBF14-931B-410C-A337-F862ECA73117}">
+					<ChildrenList>
+						<Action Name="" ID="{12900B57-F4E1-4F38-B1A2-40A8FD139CEC}" ShortID="252008327">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_room-connect" ID="{A3899EA3-F474-40F0-92F6-6CF820DC8A68}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="rotate_room" ID="{EC3DDBB4-7FB2-4619-830E-0DC7B33C2930}">
+					<ChildrenList>
+						<Action Name="" ID="{3183E076-619B-4CBC-8F9A-4E430A2CB814}" ShortID="117545689">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_rotate-room" ID="{4A4528C7-8ABF-4900-BED4-CF8E815CECC0}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="build_room" ID="{8A28287C-D8A1-4CC0-934B-2132F9786DF4}">
+					<ChildrenList>
+						<Action Name="" ID="{BC1F91CC-6279-4CE3-ACBC-17BB498722FE}" ShortID="64741277">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_build-room" ID="{E3B20AC6-944E-4C63-9B81-2D3ED6B48A39}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>
