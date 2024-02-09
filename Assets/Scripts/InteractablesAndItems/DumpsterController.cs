@@ -60,7 +60,7 @@ public class DumpsterController : InteractableController
             if (currentPlayer.IsHoldingScrap())
             {
                 currentPlayer.SetBuildMode(true);
-                currentPlayer.HideInteractionPrompt();
+                //currentPlayer.HideInteractionPrompt();
             }
         }
 

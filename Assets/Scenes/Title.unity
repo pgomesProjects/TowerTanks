@@ -4374,7 +4374,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 131071
 --- !u!114 &1070365770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4472,7 +4472,7 @@ MonoBehaviour:
   optionsMenuSelected: {fileID: 2674183664572493345}
   difficultySettingsMenuSelected: {fileID: 1257045553}
   skipTutorialMenuSelected: {fileID: 726812428}
-  sceneToLoad: GameScene
+  sceneToLoad: HotteScene
 --- !u!114 &1084138872
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -395,6 +395,7 @@ public class Room : MonoBehaviour
         //Cleanup:
         ghostCouplers.Clear(); //Clear ghost couplers list
         mounted = true;        //Indicate that room is now mounted
+        GameManager.Instance.AudioManager.Play("BuildRoom");
     }
     /// <summary>
     /// Changes room type to given value.

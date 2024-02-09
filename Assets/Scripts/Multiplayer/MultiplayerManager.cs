@@ -48,7 +48,7 @@ public class MultiplayerManager : MonoBehaviour
         connectedControllers[playerIndex] = true;
 
         //Change the color of the player's gamepad cursor
-        playerInput.GetComponent<GamepadCursor>().CreateGamepadCursor(playerColors[playerIndex]);
+        playerInput.GetComponent<GamepadCursor>()?.CreateGamepadCursor(playerColors[playerIndex]);
 
         playerInput.name = "Player " + (playerIndex + 1).ToString();
 

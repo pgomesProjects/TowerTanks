@@ -8,6 +8,7 @@
 						<ObjectRef Name="Global_Unpause" ID="{D2E5F99E-C066-40B3-A904-1D343DC49DA9}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="ladder_climb" ID="{D9B8CBC5-2F10-40B6-A6C5-14C2BB9FEAD7}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="button_cancel" ID="{AEEA5AB5-3C7D-40DE-8036-F16A9C2F48EC}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="room_connect" ID="{55BFBF14-931B-410C-A337-F862ECA73117}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="wrench" ID="{8E5DA4BE-911D-4180-8475-AB50D5E117E0}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="death_stinger" ID="{523B71FA-9405-422B-90CF-33DC261857B4}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="large_explosion" ID="{B0E2F9CD-8B6C-423D-BA85-4817A123FEBA}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
@@ -20,6 +21,7 @@
 						<ObjectRef Name="main_menu_ambience" ID="{8E257765-A532-44DE-939A-64179F12AA6D}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="projectile_in_air" ID="{E18FDAAA-EC61-4508-83D6-A7FD5B68DAA3}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="metal_footstep" ID="{1F1329A9-B5A7-4549-B2F0-97EE22BC9347}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="rotate_room" ID="{EC3DDBB4-7FB2-4619-830E-0DC7B33C2930}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="engine_dying_2" ID="{78173B5F-2234-4626-8B88-25E34DFD9239}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="button_hover" ID="{ABCC24D7-34F6-4669-B4E9-E751FF535FCF}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="cannon_reload" ID="{E6EE0A5A-19DC-4674-931A-5304D7DA7F10}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
@@ -31,12 +33,15 @@
 						<ObjectRef Name="text_beep" ID="{046075E0-D4E9-494D-B0D5-6CF418F4F4BD}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Global_Pause" ID="{802B3562-B902-49B6-A6A7-97296444FA72}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="medium_explosion" ID="{6AB4C6D4-D5C0-49C2-BD18-76D449821BDB}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="build_undo" ID="{925159B6-F55E-49D7-8B2C-4A5112659E5B}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="combat_music" ID="{EFF23527-200A-4A30-87B9-C1CF628AAF2B}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="tank_engine" ID="{6ACD2F28-CECC-4A3E-8ED6-193E19E045D8}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="item_pickup" ID="{196A0EF4-A5F5-4A78-A653-76AFC3A8B73E}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="throttle_click" ID="{962427E6-A262-4AF1-B8BD-1B92B5B07A12}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="invalid_alert" ID="{E1B14A8D-8F54-4AF5-8A1B-9ED3308EDC78}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="tank_rolling" ID="{9EBE84C3-AACD-4C88-9596-A45B07376C70}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="fire_burning" ID="{A31D5596-720E-4C94-85A8-42220EB03011}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="build_room" ID="{8A28287C-D8A1-4CC0-934B-2132F9786DF4}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="cannon_fire" ID="{D2DE6CE8-E7A4-4F5B-BE10-F2F5D8E3A2E2}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="wind_ambience" ID="{C8F86EE0-B3B8-4F6E-914E-A708AED3AE7D}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 					</ObjectInclusionList>

@@ -70,7 +70,7 @@ public class InteractableController : MonoBehaviour
                 if (playersColliding.Contains(currentInteractingPlayer.GetPlayerIndex()))
                 {
                     playersColliding.Remove(currentInteractingPlayer.GetPlayerIndex());
-                    currentInteractingPlayer.HideInteractionPrompt();
+                    currentInteractingPlayer.DisplayPlayerAction(PlayerController.PlayerActions.NONE);
 
                     //Player can no longer interact with this item
                     currentInteractingPlayer.currentInteractableItem = null;
@@ -88,7 +88,7 @@ public class InteractableController : MonoBehaviour
         if (currentPlayerLockedIn == null && (!currentInteractingPlayer.InBuildMode() || transform.CompareTag("Dumpster")))
         {
             playersColliding.Add(currentInteractingPlayer.GetPlayerIndex());
-            currentInteractingPlayer.DisplayInteractionPrompt("<sprite=27 tint=1>");
+            currentInteractingPlayer.DisplayPlayerAction(PlayerController.PlayerActions.INTERACTING);
             //Tell the player that this is the item that they can interact with
             currentInteractingPlayer.currentInteractableItem = this;
         }

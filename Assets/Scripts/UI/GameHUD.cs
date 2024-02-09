@@ -18,13 +18,23 @@ public class GameHUD : MonoBehaviour
     [SerializeField, Tooltip("The minimum duration for the resources change.")] private float minResourcesAnimationDuration = 0.5f;
     [SerializeField, Tooltip("The maximum duration for the resources change.")] private float maxResourcesAnimationDuration = 2f;
     [SerializeField, Tooltip("The resources animation range (the larger the number, the bigger the amount has to be in order to reach the max resources duration).")] private float resourcesAnimationDurationRange = 100f;
+    [SerializeField, Tooltip("The time (in seconds) of the resources animation.")] private float resourcesAnimationDuration;
+    [SerializeField, Tooltip("The time (in seconds) between the resources showing up and the resources leaving.")] private float resourcesIdleTime;
+    [SerializeField, Tooltip("The ease type for the resources animation.")] private LeanTweenType resourcesEaseType;
 
+    private float startResourcesPosX = -330f;
+    private float endResourcesPosX = 15f;
+
+    private RectTransform resourcesRectTransform;
     private float currentResourcesValue, displayedResourcesValue;
     private float transitionStartTime;
 
     // Start is called before the first frame update
     void Start()
     {
+        resourcesRectTransform = resourcesDisplay.GetComponentInParent<RectTransform>();
+        resourcesRectTransform.anchoredPosition = new Vector2(startResourcesPosX, resourcesRectTransform.anchoredPosition.y);
+
         if (GameSettings.debugMode)
             resourcesDisplay.text = "Inf.";
     }
@@ -90,7 +100,10 @@ public class GameHUD : MonoBehaviour
         if (!animate)
             displayedResourcesValue = currentResourcesValue;
         else
+        {
             transitionStartTime = Time.time;
+            StartResourcesAnimation();
+        }
     }
 
     // Update is called once per frame
@@ -117,11 +130,24 @@ public class GameHUD : MonoBehaviour
 
                 //Make sure the display resources ends up as the current resources
                 if (progress >= 1.0f)
+                {
                     displayedResourcesValue = currentResourcesValue;
+                    EndResourcesAnimation();
+                }
             }
 
             UpdateResourcesDisplay();
         }
+    }
+
+    private void StartResourcesAnimation()
+    {
+        LeanTween.moveX(resourcesRectTransform, endResourcesPosX, resourcesAnimationDuration).setEase(resourcesEaseType);
+    }
+
+    private void EndResourcesAnimation()
+    {
+        LeanTween.delayedCall(resourcesIdleTime, () => LeanTween.moveX(resourcesRectTransform, startResourcesPosX, resourcesAnimationDuration).setEase(resourcesEaseType));
     }
 
     /// <summary>

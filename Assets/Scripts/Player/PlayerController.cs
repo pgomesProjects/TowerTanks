@@ -6,9 +6,24 @@ using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using TMPro;
-public class PlayerController : MonoBehaviour
+using Sirenix.OdinInspector;
+
+public enum PlayerStat
 {
-    public enum PlayerActions { NONE, BUILDING, REPAIRING, EXTINGUISHING, SELLING };
+    HEALTH,
+    FUEL,
+    PROGRESS
+}
+
+public struct PlayerButtonPrompt
+{
+    public Sprite buttonSprite;
+    public string buttonText;
+}
+
+public class PlayerController : SerializedMonoBehaviour
+{
+    public enum PlayerActions { NONE, BUILDING, REPAIRING, EXTINGUISHING, SELLING, INTERACTING };
 
     [Header("Movement Settings")]
     [SerializeField] private float speed = 8f;
@@ -20,6 +35,8 @@ public class PlayerController : MonoBehaviour
     [Space(10)]
 
     [Header("Technical Settings")]
+    [DictionaryDrawerSettings(KeyLabel = "Player Action", ValueLabel = "Player Binding")]
+    public Dictionary<PlayerActions, PlayerButtonPrompt> playerButtonPrompts = new Dictionary<PlayerActions, PlayerButtonPrompt>();
     [SerializeField] private float timeToUseWrench = 3;
     [SerializeField] private float fireRemoverSpeed = 3;
     [SerializeField] private float timeToBuild = 3;
@@ -767,16 +784,20 @@ public class PlayerController : MonoBehaviour
         LevelManager.Instance.CancelAllLayerRepairs();
     }
 
-    public void DisplayInteractionPrompt(string message)
+    public void DisplayPlayerAction(PlayerActions currentAction)
     {
-        interactableHover.transform.Find("Prompt").GetComponent<TextMeshProUGUI>().text = message;
-        interactableHover.SetActive(true);
-    }
+        //interactableHover.transform.Find("Prompt").GetComponent<TextMeshProUGUI>().text = message;
+        //interactableHover.SetActive(true);
 
-    public void HideInteractionPrompt()
-    {
-        //Debug.Log("Hide Interaction Prompt");
-        interactableHover.SetActive(false);
+        PlayerButtonPrompt currentButtonPromptData;
+
+        if (currentAction == PlayerActions.NONE)
+            playerHUD.ShowButtonPrompt(null);
+        else
+        {
+            playerButtonPrompts.TryGetValue(currentAction, out currentButtonPromptData);
+            playerHUD.ShowButtonPrompt(currentButtonPromptData.buttonSprite);
+        }
     }
 
     public void StartProgressBar(float interval, bool useSpeed, Action actionOnComplete, PlayerActions currentPlayerAction = PlayerActions.NONE)
@@ -1017,7 +1038,7 @@ public class PlayerController : MonoBehaviour
             scrapValue = 0;
 
         scrapNumber.GetComponentInChildren<TextMeshProUGUI>().text = scrapValue.ToString();
-        playerHUD.UpdateScrapCount(scrapValue);
+        //playerHUD.UpdateScrapCount(scrapValue);
 
         //If the player has no more scrap
         if (scrapValue <= 0 && scrapNumber.activeInHierarchy)

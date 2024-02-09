@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29a18151787262c41ae9e1a85511401b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 5332867684925448268, guid: 79f26049c394b4140bd0a93f14c225cd, type: 3}
+  playerPrefab: {fileID: 0}
 --- !u!1 &2386267742676790645
 GameObject:
   m_ObjectHideFlags: 0
@@ -467,6 +467,11 @@ MonoBehaviour:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: 321bb66ba2e39d644bc08fa2a49955ae, type: 2}
+  - name: BuildRoom
+    audioEvent:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: 53645d83c5e25214a85567cfd03c0be8, type: 2}
 --- !u!1 &5338811766095787865
 GameObject:
   m_ObjectHideFlags: 0
@@ -780,7 +785,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 131071
 --- !u!1 &6961505861069187416
 GameObject:
   m_ObjectHideFlags: 0
