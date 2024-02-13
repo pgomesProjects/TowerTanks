@@ -356,7 +356,7 @@ public class Room : MonoBehaviour
             coupler.roomB.couplers.Add(coupler); //Add coupler to other room's master list
 
             //Add ladders & platforms:
-            if (coupler.transform.rotation.z == 0) //Coupler is horizontal
+            if (coupler.transform.localRotation.z == 0) //Coupler is horizontal
             {
                 //Place initial ladder:
                 Cell cell = coupler.cellA.transform.position.y > coupler.cellB.transform.position.y ? coupler.cellB : coupler.cellA; //Pick whichever cell is below coupler
