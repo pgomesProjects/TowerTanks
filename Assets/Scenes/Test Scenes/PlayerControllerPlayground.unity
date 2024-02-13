@@ -281,7 +281,7 @@ GameObject:
   - component: {fileID: 503288097}
   - component: {fileID: 503288096}
   - component: {fileID: 503288095}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Ladder_1
   m_TagString: Ladder
   m_Icon: {fileID: 0}
@@ -374,7 +374,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 503288094}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.51, y: -2.002, z: 0}
+  m_LocalPosition: {x: -0.49, y: 2.78, z: 0}
   m_LocalScale: {x: 1, y: 3.9956417, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -392,7 +392,7 @@ GameObject:
   - component: {fileID: 914224515}
   - component: {fileID: 914224514}
   - component: {fileID: 914224513}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Ladder
   m_TagString: Ladder
   m_Icon: {fileID: 0}
@@ -527,6 +527,32 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!61 &1586540367
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1586540357}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &1733748861
 GameObject:
   m_ObjectHideFlags: 0
@@ -595,7 +621,7 @@ GameObject:
   - component: {fileID: 1750021589}
   - component: {fileID: 1750021588}
   - component: {fileID: 1750021587}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Ladder_2
   m_TagString: Ladder
   m_Icon: {fileID: 0}
@@ -688,7 +714,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1750021586}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.5, y: -1.243, z: 0}
+  m_LocalPosition: {x: 5.22, y: -1.19, z: 0}
   m_LocalScale: {x: 1, y: 5.5142236, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -817,6 +843,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerNewMovement
       objectReference: {fileID: 0}
+    - target: {fileID: 5332867684925448264, guid: 79f26049c394b4140bd0a93f14c225cd, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5332867684925448268, guid: 79f26049c394b4140bd0a93f14c225cd, type: 3}
       propertyPath: maxFuel
       value: 100
@@ -893,5 +923,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5332867685461826561, guid: 79f26049c394b4140bd0a93f14c225cd, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 79f26049c394b4140bd0a93f14c225cd, type: 3}
