@@ -39,7 +39,7 @@ public class Room : MonoBehaviour
 
     //Settings:
     [Header("Template Settings:")]
-    [SerializeField, Tooltip("Indicates whether or not this is the tank's indestructible core room.")]     protected bool isCore = false;
+    [Tooltip("Indicates whether or not this is the tank's indestructible core room.")]                     public bool isCore = false;
     [SerializeField, Tooltip("If true, room type will be randomized upon spawn (IF spawn type is null).")] protected bool randomizeType = false; 
     [Header("Debug Moving:")]
     public bool debugRotate;
@@ -52,17 +52,18 @@ public class Room : MonoBehaviour
     [Space()]
 
     //Runtime Variables:
-    [Tooltip("Which broad purpose this room serves.")]                           public RoomType type;
-    [Tooltip("List of interactables actively placed in this room.")]             internal List<TankInteractable> interactables = new List<TankInteractable>();
-    [Tooltip("Whether or not this room has been attached to another room yet.")] private bool mounted = false;
+    [Tooltip("Which broad purpose this room serves.")]                                                     public RoomType type;
+    [Tooltip("List of interactables actively placed in this room.")]                                       internal List<TankInteractable> interactables = new List<TankInteractable>();
+    [Tooltip("Whether or not this room has been attached to another room yet.")]                           private bool mounted = false;
+    [Tooltip("The only tank this room can be mounted to (who's home grid will be used during mounting).")] internal TankController targetTank; //NOTE: This is important for distinguishing between rooms auto-spawned for prefab tanks, and rooms which are spawned in scrap menu for mounting on an existing tank
 
     //RUNTIME METHODS:
     private void Awake()
     {
         //Setup runtime variables:
-        cells = GetComponentsInChildren<Cell>();               //Get references to cells in room
-        connectorParent = transform.Find("Connectors");        //Find object containing connectors
-        roomData = Resources.Load<RoomData>("RoomData");       //Get roomData object from resources folder
+        cells = GetComponentsInChildren<Cell>();         //Get references to cells in room
+        connectorParent = transform.Find("Connectors");  //Find object containing connectors
+        roomData = Resources.Load<RoomData>("RoomData"); //Get roomData object from resources folder
 
         //Set up cells:
         foreach (Cell cell in cells) cell.UpdateAdjacency();   //Have all cells in room get to know each other
@@ -110,6 +111,11 @@ public class Room : MonoBehaviour
                 cells[Random.Range(0, cells.Length)].DesignateInteractableSlot(); //Pick one random cell to contain the room's interactable
             }
         }
+        else //This is a core room
+        {
+            //Core room setup:
+            mounted = true; //Core rooms start mounted
+        }
     }
     private void Start()
     {
@@ -138,9 +144,9 @@ public class Room : MonoBehaviour
     public void SnapMoveTick(Vector2 direction)
     {
         //Get target position:
-        direction = direction.normalized;                                      //Make sure direction is normalized
-        Vector2 targetPos = (Vector2)transform.position + (direction * 0.25f); //Get target position based off of current position
-        SnapMove(targetPos);                                                   //Use normal snapMove method to place room
+        direction = direction.normalized;                                           //Make sure direction is normalized
+        Vector2 targetPos = (Vector2)transform.localPosition + (direction * 0.25f); //Get target position based off of current position
+        SnapMove(targetPos);                                                        //Use normal snapMove method to place room
     }
     /// <summary>
     /// Moves unmounted room as close as possible to target position while snapping to grid.
@@ -159,7 +165,7 @@ public class Room : MonoBehaviour
         Vector2 newPoint = targetPoint * 4;                                       //Multiply position by four so that it can be rounded to nearest quarter unit
         newPoint = new Vector2(Mathf.Round(newPoint.x), Mathf.Round(newPoint.y)); //Round position to nearest unit
         newPoint /= 4;                                                            //Divide result after rounding to get actual value
-        transform.position = newPoint;                                            //Apply new position
+        transform.localPosition = newPoint;                                       //Apply new position
 
         //Clear ghosts:
         foreach (Coupler coupler in ghostCouplers) Destroy(coupler.gameObject); //Destroy each ghost coupler
@@ -250,9 +256,9 @@ public class Room : MonoBehaviour
             //Find coupler group:
             Coupler coupler = ghostCouplers[x]; //Get current coupler
             IEnumerable<Coupler> group = from otherCoupler in ghostCouplers //Look through list of couplers
-                                         where otherCoupler.transform.rotation == coupler.transform.rotation &&                                                                     //Find coupler with matching orientation (including self)...
-                                                 (coupler.transform.rotation.z == 0 ? RoundToGrid(otherCoupler.transform.position.y) == RoundToGrid(coupler.transform.position.y) : //With matching latitudinal position (if horizontal)...
-                                                                                      RoundToGrid(otherCoupler.transform.position.x) == RoundToGrid(coupler.transform.position.x))  //With matching longitudinal position (if vertical)...
+                                         where otherCoupler.transform.rotation == coupler.transform.rotation &&                                                                               //Find coupler with matching orientation (including self)...
+                                                 (coupler.transform.rotation.z == 0 ? RoundToGrid(otherCoupler.transform.localPosition.y) == RoundToGrid(coupler.transform.localPosition.y) : //With matching latitudinal position (if horizontal)...
+                                                                                      RoundToGrid(otherCoupler.transform.localPosition.x) == RoundToGrid(coupler.transform.localPosition.x))  //With matching longitudinal position (if vertical)...
                                          select otherCoupler; //Get other couplers which fit these criteria
 
             //Exclude separated cells from group:
@@ -294,9 +300,6 @@ public class Room : MonoBehaviour
                 else { Debug.LogError("Prefab " + interactable.name + " in roomData interactable list is missing a TankInteractable component."); } //Log error if interactable controller component is missing from prefab
             }
 
-            //Find most valid candidate:
-            //ADD A PRIORITIZATION SYSTEM, MAYBE SORT LIST BASED ON A RANKING VARIABLE OR SOMETHING
-
             //Generate new ghost:
             if (validInteractables.Count == 0) continue; //Do not attempt to spawn a ghost if there are no valid candidates
             TankInteractable newInteractable = Instantiate(validInteractables[0]).GetComponent<TankInteractable>(); //Instantiate a new interactable
@@ -323,9 +326,9 @@ public class Room : MonoBehaviour
         //Cell adjacency updates:
         foreach (Cell cell in cells) cell.ClearAdjacency();  //Clear all cell adjacency statuses first (prevents false neighborhood bugs)
         foreach (Cell cell in cells) cell.UpdateAdjacency(); //Have all cells in room get to know each other        
-        SnapMove(transform.position);                        //Snap to grid at current position
+        SnapMove(transform.localPosition);                   //Snap to grid at current position
 
-        foreach (Cell cell in cells) cell.transform.position = new Vector2(Mathf.Round(cell.transform.position.x * 4), Mathf.Round(cell.transform.position.y * 4)) / 4; //Round position to nearest unit //Cells need to be rounded back into position to prevent certain parts from bugging out
+        foreach (Cell cell in cells) cell.transform.localPosition = new Vector2(Mathf.Round(cell.transform.localPosition.x * 4), Mathf.Round(cell.transform.localPosition.y * 4)) / 4; //Cells need to be rounded back into position to prevent certain parts from bugging out
     }
     /// <summary>
     /// Attaches this room to another room or the tank base (based on current position of the room and couplers).
@@ -393,8 +396,10 @@ public class Room : MonoBehaviour
         transform.parent = couplers[0].roomB.transform.parent; //Child room to parent of the rest of the rooms (home tank)
 
         //Cleanup:
-        ghostCouplers.Clear(); //Clear ghost couplers list
-        mounted = true;        //Indicate that room is now mounted
+        if (targetTank == null) targetTank = couplers[0].GetConnectedRoom(this).targetTank; //Get target tank from a mounted room if necessary
+        if (!targetTank.rooms.Contains(this)) targetTank.rooms.Add(this);                   //Add to target tank's index of rooms
+        ghostCouplers.Clear();                                                              //Clear ghost couplers list
+        mounted = true;                                                                     //Indicate that room is now mounted
     }
     /// <summary>
     /// Changes room type to given value.
