@@ -403,6 +403,7 @@ public class Room : MonoBehaviour
         if (!targetTank.rooms.Contains(this)) targetTank.rooms.Add(this);                   //Add to target tank's index of rooms
         ghostCouplers.Clear();                                                              //Clear ghost couplers list
         mounted = true;                                                                     //Indicate that room is now mounted
+        GameManager.Instance.AudioManager.Play("BuildRoom");
     }
     /// <summary>
     /// Changes room type to given value.
