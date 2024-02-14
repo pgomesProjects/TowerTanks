@@ -9,10 +9,10 @@ public class TreadWheel : MonoBehaviour
     private TreadSystem treadSystem; //The tread system this wheel is linked to (attached to parent object)
 
     //Runtime Variables:
-    private Vector2 basePosition;      //Natural position of wheel (set at start)
-    internal float radius;             //Radius of wheel, recorded at start
-    internal bool grounded;            //True if wheel is touching a surface, false if not
-    internal Vector2 lastGroundNormal; //Normal of last surface touched by wheel
+    private Vector2 basePosition;        //Natural position of wheel (set at start)
+    internal float radius;               //Radius of wheel, recorded at start
+    internal bool grounded;              //True if wheel is touching a surface, false if not
+    internal RaycastHit2D lastGroundHit; //Information about last surface hit by wheel
 
     [Tooltip("Value between 0 - 1 representing how compressed this wheel currently is.")] internal float compressionValue;
 
@@ -39,13 +39,12 @@ public class TreadWheel : MonoBehaviour
         }
         else //Wheel suspension is not fully compressed
         {
-            Vector2 targetPosition = Vector2.MoveTowards(transform.position, extendPos, settings.maxSpringSpeed);                                                      //Get target position wheel can actually move to
-            RaycastHit2D hit = Physics2D.CircleCast(backstopPos, radius, -transform.parent.up, (backstopPos - targetPosition).magnitude, LayerMask.GetMask("Ground")); //Look for ground within area wheel will be touching
-            if (hit.collider != null) //Wheel can hit ground
+            Vector2 targetPosition = Vector2.MoveTowards(transform.position, extendPos, settings.maxSpringSpeed);                                                   //Get target position wheel can actually move to
+            lastGroundHit = Physics2D.CircleCast(backstopPos, radius, -transform.parent.up, (backstopPos - targetPosition).magnitude, LayerMask.GetMask("Ground")); //Look for ground within area wheel will be touching
+            if (lastGroundHit.collider != null) //Wheel can hit ground
             {
                 grounded = true;                                                                                        //Indicate that wheel is grounded
-                lastGroundNormal = hit.normal;                                                                          //Save ground normal (for treadSystem calculations)
-                targetPosition = backstopPos + (Vector2)(-transform.parent.up * hit.distance);                          //Get position that would put wheel exactly on the ground
+                targetPosition = backstopPos + (Vector2)(-transform.parent.up * lastGroundHit.distance);                //Get position that would put wheel exactly on the ground
                 transform.position = Vector2.MoveTowards(transform.position, targetPosition, settings.maxSqueezeSpeed); //Use squeeze speed to move wheel toward grounded position
             }
             else //Wheel is unobstructed
