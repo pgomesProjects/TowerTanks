@@ -355,9 +355,23 @@
 										<MediaID ID="579595110"/>
 									</MediaIDList>
 								</AudioFileSource>
+								<AudioFileSource Name="TT_SFX_buildRoom" ID="{C33DE269-1F19-4EA8-A08F-FDA3AEC2DE6A}">
+									<Language>SFX</Language>
+									<AudioFile>TT_SFX_buildRoom.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="981873131"/>
+									</MediaIDList>
+								</AudioFileSource>
+								<AudioFileSource Name="TT_SFX_buildRoom_v1" ID="{9B7972C9-271E-4C87-B5F8-70B312BA011D}">
+									<Language>SFX</Language>
+									<AudioFile>TT_SFX_buildRoom_v1.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="359788963"/>
+									</MediaIDList>
+								</AudioFileSource>
 							</ChildrenList>
 							<ActiveSourceList>
-								<ActiveSource Name="TT_SFX_fire-burning" ID="{38D85652-F131-4241-8A6B-40C63F350DDA}" Platform="Linked"/>
+								<ActiveSource Name="TT_SFX_buildRoom_v1" ID="{9B7972C9-271E-4C87-B5F8-70B312BA011D}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
 						<Sound Name="TT_SFX_item_pickup" ID="{14AFAD6C-BA5B-4D4C-899C-CF944170430E}" ShortID="540482726">
@@ -405,6 +419,13 @@
 							</ActiveSourceList>
 						</Sound>
 						<Sound Name="TT_SFX_loading-coal" ID="{DD291164-8D22-4759-A3F1-D2729F48D5D8}" ShortID="644549911">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-2</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
@@ -680,6 +701,218 @@
 								<ActiveSource Name="updated_ladder_climb" ID="{E9634BBA-C562-41CB-93FA-52511413D352}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
+						<Sound Name="TT_SFX_buildUndo" ID="{81862C49-CA5D-4EAD-A6DB-3AEFAC7DA578}" ShortID="263875542">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="TT_SFX_buildUndo" ID="{7335026A-BC51-4239-9467-FA60716A718A}">
+									<Language>SFX</Language>
+									<AudioFile>TT_SFX_buildUndo.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="2061770"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="TT_SFX_buildUndo" ID="{7335026A-BC51-4239-9467-FA60716A718A}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_SFX_invalidAlert" ID="{75B49762-1676-4FA3-9CDA-C0C3A9210664}" ShortID="491355185">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="TT_SFX_invalidAlert" ID="{683CA93B-3570-4080-AA42-C0AC91E3A314}">
+									<Language>SFX</Language>
+									<AudioFile>TT_SFX_invalidAlert.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="863978555"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="TT_SFX_invalidAlert" ID="{683CA93B-3570-4080-AA42-C0AC91E3A314}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<RandomSequenceContainer Name="TT_SFX_build-room" ID="{E3B20AC6-944E-4C63-9B81-2D3ED6B48A39}" ShortID="318865392">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="TT_SFX_buildRoom" ID="{2A043D85-A759-461F-B447-99EA03553F3E}" ShortID="80627084">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TT_SFX_buildRoom" ID="{17ADD831-AA56-4F7C-B6BB-E1E0D5747A03}">
+											<Language>SFX</Language>
+											<AudioFile>TT_SFX_buildRoom.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="881076302"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TT_SFX_buildRoom" ID="{17ADD831-AA56-4F7C-B6BB-E1E0D5747A03}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="TT_SFX_buildRoom_v1" ID="{15D1F979-FACE-4744-802D-5245F4DA526E}" ShortID="704480254">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TT_SFX_buildRoom_v1" ID="{4B1DC60B-14F6-4A6F-A213-6C8462B67E8B}">
+											<Language>SFX</Language>
+											<AudioFile>TT_SFX_buildRoom_v1.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="582839826"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TT_SFX_buildRoom_v1" ID="{4B1DC60B-14F6-4A6F-A213-6C8462B67E8B}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+						<RandomSequenceContainer Name="TT_SFX_room-connect" ID="{A3899EA3-F474-40F0-92F6-6CF820DC8A68}" ShortID="354527722">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="TT_SFX_room-connect" ID="{67169091-7F83-4DAC-BABA-A6938B05222C}" ShortID="270432539">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TT_SFX_room-connect" ID="{8E2D3A2C-DF95-4A56-8D83-9E8D50CB32A8}">
+											<Language>SFX</Language>
+											<AudioFile>TT_SFX_room-connect.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="756116293"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TT_SFX_room-connect" ID="{8E2D3A2C-DF95-4A56-8D83-9E8D50CB32A8}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="TT_SFX_room-connect_v1" ID="{22EE3621-C686-4F62-915F-19F70319551B}" ShortID="486060938">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TT_SFX_room-connect_v1" ID="{686C9010-E0D2-4D14-9445-12E9C2939592}">
+											<Language>SFX</Language>
+											<AudioFile>TT_SFX_room-connect_v1.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="767659334"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TT_SFX_room-connect_v1" ID="{686C9010-E0D2-4D14-9445-12E9C2939592}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+						<RandomSequenceContainer Name="TT_SFX_rotate-room" ID="{4A4528C7-8ABF-4900-BED4-CF8E815CECC0}" ShortID="827265342">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="TT_SFX_rotate-room" ID="{CB008CAC-3B94-4AE2-9AD2-08FA1826927E}" ShortID="12020457">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TT_SFX_rotate-room" ID="{D96F6528-926E-4B53-9903-A1B5E9372560}">
+											<Language>SFX</Language>
+											<AudioFile>TT_SFX_rotate-room.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="320129091"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TT_SFX_rotate-room" ID="{D96F6528-926E-4B53-9903-A1B5E9372560}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="TT_SFX_rotate-room_v1" ID="{93583C37-988B-42E7-B617-9117E6366343}" ShortID="316090338">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TT_SFX_rotate-room_v1" ID="{0B6C3E2D-B436-4B87-8730-8BCF98A433C8}">
+											<Language>SFX</Language>
+											<AudioFile>TT_SFX_rotate-room_v1.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="305378326"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TT_SFX_rotate-room_v1" ID="{0B6C3E2D-B436-4B87-8730-8BCF98A433C8}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
 					</ChildrenList>
 				</Folder>
 				<Folder Name="BGM" ID="{2BE824B0-8D3F-4950-B4EF-7D37BEF8A834}" ShortID="185395347">
