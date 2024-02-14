@@ -7,7 +7,6 @@ public class TankInteractable : MonoBehaviour
 {
     //Objects & Components:
     private SpriteRenderer[] renderers; //Array of all renderers in interactable
-    [Tooltip("The cell this interactable is currently installed within.")] internal Cell parentCell;
 
     //Settings:
     [Header("Placement Constraints:")]
@@ -15,6 +14,7 @@ public class TankInteractable : MonoBehaviour
     //ADD SPATIAL CONSTRAINT SYSTEM
 
     //Runtime Variables:
+    [Tooltip("The cell this interactable is currently installed within.")]   internal Cell parentCell;
     [Tooltip("True if interactable is a ghost and is currently unuseable.")] internal bool ghosted;
     [Tooltip("User currently interacting with this system.")]                internal PlayerMovement user;
 
@@ -23,6 +23,16 @@ public class TankInteractable : MonoBehaviour
     {
         //Get objects & components:
         renderers = GetComponentsInChildren<SpriteRenderer>(); //Get all spriterenderers for interactable visual
+    }
+    private void OnDestroy()
+    {
+        //Destruction Cleanup:
+        if (parentCell != null) //Interactable is mounted in a cell
+        {
+            if (parentCell.ghostInteractable == this) parentCell.ghostInteractable = null;                                           //Remove ghost reference from parent cell
+            if (parentCell.installedInteractable == this) parentCell.installedInteractable = null;                                   //Remove reference from parent cell
+            if (parentCell.room != null && parentCell.room.interactables.Contains(this)) parentCell.room.interactables.Remove(this); //Remove reference from parent room
+        }
     }
 
     //UTILITY METHODS:
@@ -34,9 +44,10 @@ public class TankInteractable : MonoBehaviour
     public bool InstallInCell(Cell target, bool installAsGhost = false)
     {
         //Universal installation:
-        parentCell = target;                     //Get reference to target cell
-        transform.parent = parentCell.transform; //Child to target cell
-        transform.localPosition = Vector3.zero;  //Match position with target cell
+        parentCell = target;                       //Get reference to target cell
+        transform.parent = parentCell.transform;   //Child to target cell
+        transform.localPosition = Vector3.zero;    //Match position with target cell
+        transform.localEulerAngles = Vector3.zero; //Match rotation with target cell
 
         //Optional installation modes:
         if (installAsGhost) //Interactable is being installed as a ghost
@@ -47,6 +58,7 @@ public class TankInteractable : MonoBehaviour
         else //Interactable is being fully installed
         {
             parentCell.installedInteractable = this; //Designate this as its parent's installed interactable
+            parentCell.room.interactables.Add(this); //Add reference to parent room
         }
 
         //Cleanup:
@@ -55,8 +67,8 @@ public class TankInteractable : MonoBehaviour
     /// <summary>
     /// Changes interactactable to or from a ghost of itself.
     /// </summary>
-    /// <param name="makeGhost">Pass true to make interactable a ghost, false to make interactable real.</param>
-    public void ChangeGhostStatus(bool makeGhost)
+    /// <param name="makeGhost">Pass true to make interactable a ghost, false to make interactable real (you should generally destroy interactables instead of turning them back into ghosts).</param>
+    public void ChangeGhostStatus(bool makeGhost = false)
     {
         //Validity checks:
         if (makeGhost == ghosted) return; //Ignore if command is redundant
@@ -75,6 +87,7 @@ public class TankInteractable : MonoBehaviour
         {
             parentCell.ghostInteractable = null;     //Clear ghost interactable slot
             parentCell.installedInteractable = this; //Make this parent's installed interactable
+            parentCell.room.interactables.Add(this); //Add reference to parent room
         }
     }
 }
