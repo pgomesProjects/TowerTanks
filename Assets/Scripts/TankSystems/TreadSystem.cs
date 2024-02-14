@@ -56,33 +56,25 @@ public class TreadSystem : MonoBehaviour
     private void FixedUpdate()
     {
         //Add wheel force:
-        Vector2 avgWheelPos = Vector2.zero;     //System needs to get the average position of each wheel to determine drive characteristics
-        Vector2 avgGroundNormal = Vector2.zero; //System needs to get the average directionality of each grounded wheel to determine drive characteristics
-        int groundedWheels = 0;                 //System needs to track number of grounded wheels to get averages
+        float driveMagnitude = (drivePower * -debugDrive) / wheels.Length; //Get force being exerted by each grounded drive wheel
+        if (Mathf.Abs(debugDrive) < 0.15f) driveMagnitude = 0;             //Add dead zone to debug drive controller
+
         foreach (TreadWheel wheel in wheels) //Iterate through wheel list
         {
             if (wheel.grounded) //Only apply force from grounded wheels
             {
-                //Get wheel data:
-                avgWheelPos += (Vector2)wheel.transform.position; //Add wheel position to total
-                avgGroundNormal += wheel.lastGroundNormal;        //Add ground normal to total
-                groundedWheels++;                                 //Index grounded wheel counter
-
-                //Apply wheel force:
+                //Apply suspension force:
                 float suspensionMagnitude = wheel.settings.stiffnessCurve.Evaluate(wheel.compressionValue) * wheel.settings.stiffness; //Use wheel compression value and stiffness to determine magnitude of exerted force
                 Vector2 suspensionForce = transform.up * suspensionMagnitude;                                                          //Get directional force to apply to rigidbody
                 r.AddForceAtPosition(suspensionForce, wheel.transform.position, ForceMode2D.Force);                                    //Apply force to rigidbody at position of wheel
-            }
-        }
-        avgWheelPos /= groundedWheels;     //Divide by wheel number to get average grounded wheel position
-        avgGroundNormal /= groundedWheels; //Divide by wheel number to get average ground normal
 
-        //Add drive force:
-        if (Mathf.Abs(debugDrive) > 0.15f) //Add dead zone to debug drive stick so tank can be parked
-        {
-            float driveMagnitude = ((drivePower * -debugDrive) * groundedWheels) / wheels.Length; //Get magnitude of drive force from debug controls (also affected by number of wheels engaging with surface) //NOTE: Integrate into tank-controllable method later
-            Vector2 driveForce = Vector2.Perpendicular(avgGroundNormal) * driveMagnitude;         //Get directional force based on normal of ground touched by wheels
-            r.AddForceAtPosition(driveForce, avgWheelPos, ForceMode2D.Force);                     //Apply force to tank
+                //Apply drive torque:
+                if (driveMagnitude != 0 && wheel.lastGroundHit.collider != null) //Wheel has valid information about hit ground
+                {
+                    Vector2 driveForce = Vector2.Perpendicular(wheel.lastGroundHit.normal) * driveMagnitude; //Get force being applied by this wheel
+                    r.AddForceAtPosition(driveForce, wheel.lastGroundHit.point, ForceMode2D.Force);          //Add force at wheel's position of contact
+                }
+            }
         }
     }
 }

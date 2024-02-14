@@ -166,6 +166,7 @@ public class Room : MonoBehaviour
         newPoint = new Vector2(Mathf.Round(newPoint.x), Mathf.Round(newPoint.y)); //Round position to nearest unit
         newPoint /= 4;                                                            //Divide result after rounding to get actual value
         transform.localPosition = newPoint;                                       //Apply new position
+        transform.localEulerAngles = Vector3.zero;                                //Zero out rotation relative to parent tank
 
         //Clear ghosts:
         foreach (Coupler coupler in ghostCouplers) Destroy(coupler.gameObject); //Destroy each ghost coupler
@@ -232,14 +233,16 @@ public class Room : MonoBehaviour
                         if (results.FirstOrDefault() != null) continue;                                                                                         //Do not place couplers where couplers already exist
 
                         Coupler newCoupler = Instantiate(roomData.couplerPrefab).GetComponent<Coupler>(); //Instantiate new coupler object
-                        newCoupler.transform.position = newCouplerPos;                                    //Move coupler to target position
+                        newCoupler.transform.parent = transform;              //Child coupler to this room
+                        newCoupler.transform.position = newCouplerPos;        //Move coupler to target position
+                        newCoupler.transform.localEulerAngles = Vector3.zero; //Zero out coupler rotation relative to tank
+
                         if (lat) //Coupler should be in door orientation (facing east/west)
                         {
-                            newCoupler.transform.eulerAngles = Vector3.forward * 90; //Rotate 90 degrees
-                            newCoupler.vertical = false;                             //Indicate that coupler is horizontally oriented
+                            newCoupler.transform.localEulerAngles = Vector3.forward * 90; //Rotate 90 degrees
+                            newCoupler.vertical = false;                                  //Indicate that coupler is horizontally oriented
                         }
-                        newCoupler.transform.parent = transform; //Child coupler to this room
-                        ghostCouplers.Add(newCoupler);           //Add new coupler to ghost list
+                        ghostCouplers.Add(newCoupler); //Add new coupler to ghost list
 
                         newCoupler.roomA = this;      //Give coupler information about this room
                         newCoupler.roomB = otherRoom; //Give coupler information about opposing room

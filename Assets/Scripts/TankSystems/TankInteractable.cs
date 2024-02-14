@@ -44,9 +44,10 @@ public class TankInteractable : MonoBehaviour
     public bool InstallInCell(Cell target, bool installAsGhost = false)
     {
         //Universal installation:
-        parentCell = target;                     //Get reference to target cell
-        transform.parent = parentCell.transform; //Child to target cell
-        transform.localPosition = Vector3.zero;  //Match position with target cell
+        parentCell = target;                       //Get reference to target cell
+        transform.parent = parentCell.transform;   //Child to target cell
+        transform.localPosition = Vector3.zero;    //Match position with target cell
+        transform.localEulerAngles = Vector3.zero; //Match rotation with target cell
 
         //Optional installation modes:
         if (installAsGhost) //Interactable is being installed as a ghost
