@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,8 +6,12 @@ using TMPro;
 public class GamePhaseUI : MonoBehaviour
 {
     [SerializeField, Tooltip("The text that shows the new phase active.")] private TextMeshProUGUI levelPhaseText;
+    [SerializeField, Tooltip("The building phase UI.")] private RoomBuildingMenu roomBuildingMenu;
 
     private CanvasGroup phaseUICanvasGroup;
+
+    public static Action OnBuildingPhase;
+    public static Action OnCombatPhase;
 
     private void Awake()
     {
@@ -26,9 +31,11 @@ public class GamePhaseUI : MonoBehaviour
         {
             case GAMESTATE.BUILDING:
                 phaseText = "Building Phase";
+                OnBuildingPhase?.Invoke();
                 break;
             case GAMESTATE.COMBAT:
                 phaseText = "Combat Phase";
+                OnCombatPhase?.Invoke();
                 break;
         }
 
