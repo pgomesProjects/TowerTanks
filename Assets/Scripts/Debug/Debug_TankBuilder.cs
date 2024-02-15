@@ -60,8 +60,10 @@ public class Debug_TankBuilder : MonoBehaviour
             else
             {
                 _transform = temp.transform;
+                _room = Instantiate(roomList[roomToSpawn], transform);
+                _room.transform.position = _transform.position;
+                Debug.Log("Room " + roomList[roomToSpawn].name + " Spawned At " + transform.ToString() + " With The Parent " + _transform.name);
                 Destroy(temp.gameObject);
-                _room = Instantiate(roomList[roomToSpawn], _transform);
             }
 
             room = _room.GetComponent<Room>();
