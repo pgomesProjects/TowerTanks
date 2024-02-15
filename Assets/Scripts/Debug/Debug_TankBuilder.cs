@@ -62,7 +62,6 @@ public class Debug_TankBuilder : MonoBehaviour
                 _transform = temp.transform;
                 _room = Instantiate(roomList[roomToSpawn], transform);
                 _room.transform.position = _transform.position;
-                Debug.Log("Room " + roomList[roomToSpawn].name + " Spawned At " + transform.ToString() + " With The Parent " + _transform.name);
                 Destroy(temp.gameObject);
             }
 
