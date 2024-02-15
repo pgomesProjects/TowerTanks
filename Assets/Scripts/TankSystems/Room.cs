@@ -325,6 +325,7 @@ public class Room : MonoBehaviour
         transform.Rotate(-eulers);                                                                     //Rotate assembly back
         connectorParent.parent = transform;                                                            //Re-child connector object after reverse rotation
         for (int x = 0; x < cells.Length; x++) { cells[x].transform.position = newCellPositions[x]; }  //Move cells to their rotated positions
+        GameManager.Instance.AudioManager.Play("RotateRoom");
 
         //Cell adjacency updates:
         foreach (Cell cell in cells) cell.ClearAdjacency();  //Clear all cell adjacency statuses first (prevents false neighborhood bugs)
@@ -357,6 +358,7 @@ public class Room : MonoBehaviour
             coupler.Mount();                     //Tell coupler it is being mounted
             couplers.Add(coupler);               //Add coupler to master list
             coupler.roomB.couplers.Add(coupler); //Add coupler to other room's master list
+            GameManager.Instance.AudioManager.Play("ConnectRoom");
 
             //Add ladders & platforms:
             if (coupler.transform.localRotation.z == 0) //Coupler is horizontal
@@ -403,7 +405,7 @@ public class Room : MonoBehaviour
         if (!targetTank.rooms.Contains(this)) targetTank.rooms.Add(this);                   //Add to target tank's index of rooms
         ghostCouplers.Clear();                                                              //Clear ghost couplers list
         mounted = true;                                                                     //Indicate that room is now mounted
-        GameManager.Instance.AudioManager.Play("BuildRoom");
+        //GameManager.Instance.AudioManager.Play("BuildRoom");
     }
     /// <summary>
     /// Changes room type to given value.

@@ -472,6 +472,16 @@ MonoBehaviour:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: 53645d83c5e25214a85567cfd03c0be8, type: 2}
+  - name: ConnectRoom
+    audioEvent:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: 0bd79a6a725aa2e498e94e2f99dd5a4d, type: 2}
+  - name: RotateRoom
+    audioEvent:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: 0df1197ebb8c87c42885eb5460ecec2a, type: 2}
 --- !u!1 &5338811766095787865
 GameObject:
   m_ObjectHideFlags: 0
