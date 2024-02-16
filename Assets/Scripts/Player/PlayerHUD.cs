@@ -8,8 +8,8 @@ public class PlayerHUD : MonoBehaviour
     [SerializeField, Tooltip("The border that shows the player's color.")] private Image playerBorder;
 
     [SerializeField, Tooltip("The fill of the health bar.")] private Image healthBar;
-    [SerializeField, Tooltip("The fill of the health bar.")] private Image fuelBar;
-    [SerializeField, Tooltip("The fill of the health bar.")] private Image progressBar;
+    [SerializeField, Tooltip("The fill of the fuel bar.")] private Image fuelBar;
+    [SerializeField, Tooltip("The fill of the progress bar.")] private Image progressBar;
 
     [SerializeField, Tooltip("The Image for the player button prompt.")] private Image buttonPrompt;
 
