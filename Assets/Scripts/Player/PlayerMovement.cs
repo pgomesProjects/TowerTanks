@@ -102,15 +102,16 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Ladder"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Climbable"))
         {
+            Debug.Log("ladder found");
             currentLadder = other.gameObject;
         }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Ladder"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Climbable"))
         {
             currentLadder = null;
         }
@@ -156,6 +157,20 @@ public class PlayerMovement : MonoBehaviour
 
     private void ClimbLadder()
     {
+        // Create a LayerMask for the ladder layer.
+        int ladderLayerIndex = LayerMask.NameToLayer("Climbable");
+        LayerMask ladderLayer = 1 << ladderLayerIndex;
+        
+
+        // Get all the ladders within a certain radius of the player.
+        Collider2D[] nearbyLadders = Physics2D.OverlapCircleAll(transform.position, .5f, ladderLayer);
+        
+        foreach (Collider2D ladder in nearbyLadders)
+        {
+            // For each ladder, add its bounds to ladderBounds.
+            ladderBounds.Encapsulate(ladder.bounds);
+        }
+
         Vector2 targetPosition = rb.position + new Vector2(0, climbSpeed * moveInput.y * Time.fixedDeltaTime);
         targetPosition = new Vector2(targetPosition.x, Mathf.Clamp(targetPosition.y, ladderBounds.min.y + transform.localScale.y / 2, ladderBounds.max.y - transform.localScale.y / 2));
 
