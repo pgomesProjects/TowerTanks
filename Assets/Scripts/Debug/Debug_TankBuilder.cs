@@ -92,7 +92,7 @@ public class Debug_TankBuilder : MonoBehaviour
     public void LinkPlayerHUD(PlayerHUD newHUD)
     {
         playerHUD = newHUD;
-        playerHUD.InitializeHUD(GameManager.Instance.MultiplayerManager.GetPlayerColors()[playerIndex]);
+        playerHUD.InitializeHUD(playerIndex);
     }
 
     public void OnDeviceLost(PlayerInput playerInput)

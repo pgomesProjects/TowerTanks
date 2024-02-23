@@ -45,6 +45,7 @@ public class MultiplayerManager : MonoBehaviour
 
         //Generate the new player's index
         int playerIndex = ConnectionController.CheckForIndex();
+        Debug.Log("Connecting Player " + (playerIndex + 1).ToString() + "...");
         connectedControllers[playerIndex] = true;
 
         //Change the color of the player's gamepad cursor

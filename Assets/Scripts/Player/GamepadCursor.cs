@@ -17,7 +17,7 @@ public class GamepadCursor : MonoBehaviour
     private Mouse virtualMouse;
     private Mouse currentMouse;
     private Camera mainCamera;
-    private DraggableObject lastHoveredObject;
+    private SelectableRoomObject lastHoveredObject;
 
     private PlayerInput playerInput;
     private Canvas canvas;
@@ -121,14 +121,14 @@ public class GamepadCursor : MonoBehaviour
         List<RaycastResult> results = new List<RaycastResult>();
         EventSystem.current.RaycastAll(eventData, results);
 
-        DraggableObject newHoveredObject = null;
+        SelectableRoomObject newHoveredObject = null;
 
         foreach (RaycastResult result in results)
         {
             GameObject selectedObject = result.gameObject;
 
             // Check if the selected object has a DraggableObject component
-            DraggableObject draggableObject = selectedObject.GetComponent<DraggableObject>();
+            SelectableRoomObject draggableObject = selectedObject.GetComponent<SelectableRoomObject>();
 
             if (draggableObject != null)
             {
@@ -173,7 +173,7 @@ public class GamepadCursor : MonoBehaviour
             if (clickedObject != null)
             {
                 // Check if the clicked object has a DraggableObject component
-                DraggableObject draggableObject = clickedObject.GetComponent<DraggableObject>();
+                SelectableRoomObject draggableObject = clickedObject.GetComponent<SelectableRoomObject>();
                 if (draggableObject != null)
                 {
                     // Perform actions for the clicked DraggableObject
@@ -192,7 +192,7 @@ public class GamepadCursor : MonoBehaviour
             if (clickedObject != null)
             {
                 // Check if the clicked object has a DraggableObject component
-                DraggableObject draggableObject = clickedObject.GetComponent<DraggableObject>();
+                SelectableRoomObject draggableObject = clickedObject.GetComponent<SelectableRoomObject>();
                 if (draggableObject != null)
                 {
                     // Perform actions for the clicked DraggableObject
@@ -223,7 +223,7 @@ public class GamepadCursor : MonoBehaviour
             GameObject selectedObject = result.gameObject;
 
             // Check if the selected object has a DraggableObject component
-            DraggableObject draggableObject = selectedObject.GetComponent<DraggableObject>();
+            SelectableRoomObject draggableObject = selectedObject.GetComponent<SelectableRoomObject>();
 
             // Return the first object with a DraggableObject component
             if (draggableObject != null)

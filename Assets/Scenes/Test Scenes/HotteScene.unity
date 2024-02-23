@@ -666,6 +666,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerNewMovement
       objectReference: {fileID: 0}
+    - target: {fileID: 5332867684925448264, guid: 79f26049c394b4140bd0a93f14c225cd, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5332867684925448268, guid: 79f26049c394b4140bd0a93f14c225cd, type: 3}
       propertyPath: jumpForce
       value: 2000

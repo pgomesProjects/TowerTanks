@@ -436,9 +436,44 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerBorder: {fileID: 1189192988983665846}
+  playerAvatar: {fileID: 9107420585581837968}
+  maxDamageColor: {r: 0.7647059, g: 0.10980392, b: 0.10980392, a: 1}
   healthBar: {fileID: 9004151353791365062}
   fuelBar: {fileID: 6558919916903777132}
   progressBar: {fileID: 786647112847651865}
+  shakeIntensityCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.20211716
+      value: 0.8907833
+      inSlope: 0.459471
+      outSlope: 0.459471
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.21951926
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   buttonPrompt: {fileID: 1189192990442774672}
 --- !u!1 &2552936389080740325
 GameObject:

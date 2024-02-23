@@ -344,7 +344,7 @@ public class PlayerController : SerializedMonoBehaviour
     public void LinkPlayerHUD(PlayerHUD newHUD)
     {
         playerHUD = newHUD;
-        playerHUD.InitializeHUD(GameManager.Instance.MultiplayerManager.GetPlayerColors()[playerIndex]);
+        playerHUD.InitializeHUD(playerIndex);
     }
 
     //Send value from Move callback to the horizontal Vector2

@@ -3,22 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.InputSystem;
 
 public class RoomBuildingMenu : MonoBehaviour
 {
-    [SerializeField, Tooltip("The prefab that generates data for a room that the players can pick.")] private GameObject roomIconPrefab;
+    [SerializeField, Tooltip("The prefab that generates data for a room that the players can pick.")] private SelectableRoomObject roomIconPrefab;
     [SerializeField, Tooltip("The transform to store the selectable rooms.")] private Transform roomListTransform;
     [SerializeField, Tooltip("The RectTransform for the building menu.")] private RectTransform buildingMenuRectTransform;
-    [SerializeField, Tooltip("The ending position for the menu.")] private Vector3 endingPos;
+    [SerializeField, Tooltip("The RectTransform for the building background.")] private RectTransform buildingBackgroundRectTransform;
+    [SerializeField, Tooltip("The ending position for the background.")] private Vector3 backgroundEndingPos;
+    [SerializeField, Tooltip("The ending position for the menu.")] private Vector3 menuEndingPos;
+    [SerializeField, Tooltip("The duration for the background animation.")] private float backgroundAniDuration = 0.5f;
     [SerializeField, Tooltip("The duration for the menu animation.")] private float menuAniDuration = 0.5f;
-    [SerializeField, Tooltip("The ease type for the animation.")] private LeanTweenType openMenuEaseType;
-    [SerializeField, Tooltip("The ease type for the animation.")] private LeanTweenType closeMenuEaseType;
+    [SerializeField, Tooltip("The ease type for the show background animation.")] private LeanTweenType showBackgroundEaseType;
+    [SerializeField, Tooltip("The ease type for the hide background animation.")] private LeanTweenType hideBackgroundEaseType;
+    [SerializeField, Tooltip("The ease type for the open menu animation.")] private LeanTweenType openMenuEaseType;
+    [SerializeField, Tooltip("The ease type for the close menu animation.")] private LeanTweenType closeMenuEaseType;
 
+    private Vector3 startingBackgroundPos;
     private Vector3 startingMenuPos;
+    private int roomsSelected;
 
     // Start is called before the first frame update
     void Start()
     {
+        startingBackgroundPos = buildingBackgroundRectTransform.anchoredPosition;
         startingMenuPos = buildingMenuRectTransform.anchoredPosition;
     }
 
@@ -37,12 +46,14 @@ public class RoomBuildingMenu : MonoBehaviour
     public void OpenMenu()
     {
         GenerateRooms();
-        LeanTween.move(buildingMenuRectTransform, endingPos, menuAniDuration).setEase(openMenuEaseType);
+        LeanTween.move(buildingMenuRectTransform, menuEndingPos, menuAniDuration).setEase(openMenuEaseType);
+        LeanTween.move(buildingBackgroundRectTransform, backgroundEndingPos, backgroundAniDuration).setEase(showBackgroundEaseType);
     }
 
     public void CloseMenu()
     {
         LeanTween.move(buildingMenuRectTransform, startingMenuPos, menuAniDuration).setEase(closeMenuEaseType);
+        LeanTween.move(buildingBackgroundRectTransform, startingBackgroundPos, backgroundAniDuration).setEase(hideBackgroundEaseType);
     }
 
     /// <summary>
@@ -54,12 +65,26 @@ public class RoomBuildingMenu : MonoBehaviour
         foreach(Transform rooms in roomListTransform)
             Destroy(rooms.gameObject);
 
+        roomsSelected = 0;
+
         //Spawn in four random rooms and display their names
-        for(int i = 0; i < 4; i++)
+        for (int i = 0; i < 4; i++)
         {
             int roomIndexRange = Random.Range(0, LevelManager.Instance.roomList.Length);
-            GameObject newRoom = Instantiate(roomIconPrefab, roomListTransform);
+            SelectableRoomObject newRoom = Instantiate(roomIconPrefab, roomListTransform);
             newRoom.GetComponentInChildren<TextMeshProUGUI>().text = LevelManager.Instance.roomList[roomIndexRange].name.ToString();
+            newRoom.OnSelected.AddListener(OnRoomSelected);
+        }
+    }
+
+    private void OnRoomSelected(PlayerInput playerSelected, SelectableRoomObject currentRoom)
+    {
+        roomsSelected++;
+
+        //If everyone has selected a room, move onto the next step
+        if(roomsSelected >= GameManager.Instance.MultiplayerManager.playerInputManager.playerCount)
+        {
+            LevelManager.Instance.TransitionGamePhase(GAMESTATE.COMBAT);
         }
     }
 }

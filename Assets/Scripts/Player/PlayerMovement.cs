@@ -4,73 +4,54 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : Character
 {
     #region Fields and Properties
-
-    enum PlayerState { CLIMBING, NONCLIMBING }; //Simple state system, in the future this will probably be refactored
-    PlayerState currentState;                   //to an FSM.
-
-    //Components
-    private Rigidbody2D rb;
-    private ConstantForce2D extraGravity;
-    private GameObject currentLadder;
-    private Bounds ladderBounds;
-
-    [Header("Movement")]
-    [SerializeField] private float moveSpeed;
-    [SerializeField] private float jumpForce;
-    [SerializeField] private float extraGravityForce;
-    [SerializeField] private float climbSpeed;
-    [Range(0, 2)]
-    [SerializeField] private float groundedBoxX, groundedBoxY;
-
-    [SerializeField] private float maxYVelocity, minYVelocity;
-     
-    [Header("Jetpack values")] 
-    [SerializeField] private float maxFuel;
-    [SerializeField] private float fuelDepletionRate;
-    [SerializeField] private float fuelRegenerationRate;
-    private float currentFuel;
-
-    //temp
-    private float moveSpeedHalved; // once we have a state machine for the player, we wont need these silly fields.
-    private float currentMoveSpeed; // this is fine for the sake of prototyping though.
 
     //input
     private Vector2 moveInput;
     private bool jetpackInputHeld;
-    
-    [SerializeField] private PlayerInput playerInputComponent;
-    private int playerIndex;
+    private PlayerInput playerInputComponent;
+
     InputActionMap inputMap;
-    private PlayerHUD playerHUD;
     private float vel;
 
     #endregion
 
     #region Unity Methods
 
-    private void Awake()
+    protected override void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
-        extraGravity = GetComponent<ConstantForce2D>();
+        base.Awake();
     }
 
-    private void Start()
+    protected override void Start()
     {
-        currentFuel = maxFuel;
-        if (playerInputComponent != null) LinkPlayerInput(playerInputComponent); //if it is null, it will be set by multiplayer manager. can be set in inspector as an override for testing
-        currentState = PlayerState.NONCLIMBING;
-        moveSpeedHalved = moveSpeed / 2;
-        SetExtraGravityAmount(extraGravityForce);
+        base.Start();
+        if (GameSettings.debugMode)
+        {
+            playerInputComponent = FindObjectOfType<Debug_TankBuilder>()?.GetComponent<PlayerInput>();
+            if (playerInputComponent != null) LinkPlayerInput(playerInputComponent); //if it is null, it will be set by multiplayer manager. can be set in inspector as an override for testing
+        }
     }
 
-    private void FixedUpdate()
+    protected override void Update()
     {
-        if (currentState == PlayerState.NONCLIMBING) MoveLeftOrRight();
+        if (jetpackInputHeld)
+        {
+            currentFuel -= fuelDepletionRate * Time.deltaTime;
+        }
+        else if (CheckGround() || currentState == CharacterState.CLIMBING)
+        {
+            currentFuel += fuelRegenerationRate * Time.deltaTime;
+        }
 
-        else if (currentState == PlayerState.CLIMBING) ClimbLadder();
+        base.Update();
+    }
+
+    protected override void FixedUpdate()
+    {
+        base.FixedUpdate();
 
         if (jetpackInputHeld && currentFuel > 0) PropelJetpack();
 
@@ -79,98 +60,33 @@ public class PlayerMovement : MonoBehaviour
         rb.velocity = new Vector2(rb.velocity.x, vel);
     }
 
-    private void Update()
+    protected override void OnDrawGizmos()
     {
-        if (jetpackInputHeld)
-        {
-            currentFuel -= fuelDepletionRate * Time.deltaTime;
-        } else if (CheckGround() || currentState == PlayerState.CLIMBING)
-        {
-            currentFuel += fuelRegenerationRate * Time.deltaTime;
-        }
-        
-        currentFuel = Mathf.Clamp(currentFuel, 0, maxFuel);
-        //Debug.Log($"Current Fuel: {currentFuel}");
+        base.OnDrawGizmos();
     }
 
-    private void OnDrawGizmos()
+    protected override void OnTriggerEnter2D(Collider2D other)
     {
-        //visualizes the grounded box for debugging
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireCube(new Vector2(transform.position.x, transform.position.y - transform.localScale.y / 2), new Vector3(groundedBoxX, groundedBoxY, 0));
+        base.OnTriggerEnter2D(other);
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    protected override void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Climbable"))
-        {
-            Debug.Log("ladder found");
-            currentLadder = other.gameObject;
-        }
+        base.OnTriggerExit2D(other);
     }
-
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Climbable"))
-        {
-            currentLadder = null;
-        }
-    }
-    
 
     #endregion
 
     #region Movement
 
-    private bool CheckGround()
-    {
-        LayerMask groundLayer = (1 << LayerMask.NameToLayer("Ground"));
-        return Physics2D.OverlapBox(new Vector2(transform.position.x,
-                                                     transform.position.y - transform.localScale.y / 2),
-                                                   new Vector2(1, 1),
-                                                   0f,
-                                                   groundLayer);
-    }
-
-    private void MoveLeftOrRight()
+    protected override void MoveCharacter()
     {
         rb.velocity = new Vector3(moveSpeed * moveInput.x, rb.velocity.y); // Rigid movement system, we wanna keep this simple.
     }
 
-    private void PropelJetpack()
+    protected override void ClimbLadder()
     {
-        rb.AddForce(Vector2.up * (jumpForce * Time.fixedDeltaTime));
-    }
-
-    private void SetLadder()
-    {
-        if (currentLadder != null)
-        {
-            currentState = PlayerState.CLIMBING;
-            SetExtraGravityAmount(0);
-            rb.bodyType = RigidbodyType2D.Kinematic;
-            transform.position = new Vector2(currentLadder.transform.position.x, transform.position.y);
-            ladderBounds = currentLadder.GetComponent<Collider2D>().bounds;
-        }
-        
-    }
-
-    private void ClimbLadder()
-    {
-        // Create a LayerMask for the ladder layer.
-        int ladderLayerIndex = LayerMask.NameToLayer("Climbable");
-        LayerMask ladderLayer = 1 << ladderLayerIndex;
-        
-
-        // Get all the ladders within a certain radius of the player.
-        Collider2D[] nearbyLadders = Physics2D.OverlapCircleAll(transform.position, .5f, ladderLayer);
-        
-        foreach (Collider2D ladder in nearbyLadders)
-        {
-            // For each ladder, add its bounds to ladderBounds.
-            ladderBounds.Encapsulate(ladder.bounds);
-        }
-
+        base.ClimbLadder();
         Vector2 targetPosition = rb.position + new Vector2(0, climbSpeed * moveInput.y * Time.fixedDeltaTime);
         targetPosition = new Vector2(targetPosition.x, Mathf.Clamp(targetPosition.y, ladderBounds.min.y + transform.localScale.y / 2, ladderBounds.max.y - transform.localScale.y / 2));
 
@@ -182,25 +98,13 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void SwitchOffLadder()
-    {
-        currentState = PlayerState.NONCLIMBING;
-        SetExtraGravityAmount(extraGravityForce);
-        rb.bodyType = RigidbodyType2D.Dynamic;
-        rb.velocity = Vector2.zero;
-    }
-
-    private void SetExtraGravityAmount(float extraGravityAmount)
-    {
-        extraGravity.force = new Vector2(0, -Mathf.Abs(extraGravityAmount));
-    }
     #endregion
 
     #region Input
     public void LinkPlayerInput(PlayerInput newInput)
     {
         playerInputComponent = newInput;
-        playerIndex = playerInputComponent.playerIndex;
+        characterIndex = playerInputComponent.playerIndex;
 
         //Gets the player input action map so that events can be subscribed to it
         inputMap = playerInputComponent.actions.FindActionMap("Player");
@@ -211,22 +115,16 @@ public class PlayerMovement : MonoBehaviour
         playerInputComponent.onDeviceRegained += OnDeviceRegained;
     }
 
-    public void LinkPlayerHUD(PlayerHUD newHUD)
-    {
-        playerHUD = newHUD;
-        playerHUD.InitializeHUD(GameManager.Instance.MultiplayerManager.GetPlayerColors()[playerIndex]);
-    }
-
     public void OnDeviceLost(PlayerInput playerInput)
     {
-        Debug.Log("Player " + (playerIndex + 1) + " Controller Disconnected!");
-        FindObjectOfType<CornerUIController>().OnDeviceLost(playerIndex);
+        Debug.Log("Player " + (characterIndex + 1) + " Controller Disconnected!");
+        FindObjectOfType<CornerUIController>().OnDeviceLost(characterIndex);
     }
 
     public void OnDeviceRegained(PlayerInput playerInput)
     {
-        Debug.Log("Player " + (playerIndex + 1) + " Controller Reconnected!");
-        FindObjectOfType<CornerUIController>().OnDeviceRegained(playerIndex);
+        Debug.Log("Player " + (characterIndex + 1) + " Controller Reconnected!");
+        FindObjectOfType<CornerUIController>().OnDeviceRegained(characterIndex);
     }
 
     private void OnPlayerInput(InputAction.CallbackContext ctx)
@@ -250,6 +148,15 @@ public class PlayerMovement : MonoBehaviour
         }
     }
     public void OnJetpack(InputAction.CallbackContext ctx) => jetpackInputHeld = ctx.ReadValue<float>() > 0;
+
+    #endregion
+
+    #region Character Functions
+
+    protected override void OnCharacterDeath()
+    {
+        //TODO: implement something to happen upon the player dying
+    }
 
     #endregion
 }

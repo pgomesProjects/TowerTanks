@@ -392,6 +392,16 @@ public class LevelManager : SerializedMonoBehaviour
     {
         levelPhase = newPhase;
         gamePhaseUI?.ShowPhase(newPhase);
+
+        switch (newPhase)
+        {
+            case GAMESTATE.BUILDING:
+                GameManager.Instance.SetGamepadCursorsActive(true);
+                break;
+            case GAMESTATE.COMBAT:
+                GameManager.Instance.SetGamepadCursorsActive(false);
+                break;
+        }
     }
 
     public void TransitionGameState()
