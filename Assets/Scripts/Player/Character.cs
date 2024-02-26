@@ -12,7 +12,6 @@ public abstract class Character : SerializedMonoBehaviour
 
     //Components
     protected Rigidbody2D rb;
-    protected ConstantForce2D extraGravity;
     protected GameObject currentLadder;
     protected Bounds ladderBounds;
     protected PlayerHUD characterHUD;
@@ -55,7 +54,6 @@ public abstract class Character : SerializedMonoBehaviour
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        extraGravity = GetComponent<ConstantForce2D>();
         currentHealth = characterSettings.maxHealth;
     }
 
@@ -64,7 +62,6 @@ public abstract class Character : SerializedMonoBehaviour
         currentFuel = characterSettings.fuelAmount;
         currentState = CharacterState.NONCLIMBING;
         moveSpeedHalved = moveSpeed / 2;
-        SetExtraGravityAmount(extraGravityForce);
     }
 
     protected virtual void Update()
@@ -129,7 +126,6 @@ public abstract class Character : SerializedMonoBehaviour
         if (currentLadder != null)
         {
             currentState = CharacterState.CLIMBING;
-            SetExtraGravityAmount(0);
             rb.bodyType = RigidbodyType2D.Kinematic;
             transform.position = new Vector2(currentLadder.transform.position.x, transform.position.y);
             ladderBounds = currentLadder.GetComponent<Collider2D>().bounds;
@@ -157,14 +153,8 @@ public abstract class Character : SerializedMonoBehaviour
     protected virtual void SwitchOffLadder()
     {
         currentState = CharacterState.NONCLIMBING;
-        SetExtraGravityAmount(extraGravityForce);
         rb.bodyType = RigidbodyType2D.Dynamic;
         rb.velocity = Vector2.zero;
-    }
-
-    private void SetExtraGravityAmount(float extraGravityAmount)
-    {
-        extraGravity.force = new Vector2(0, -Mathf.Abs(extraGravityAmount));
     }
 
     public void LinkPlayerHUD(PlayerHUD newHUD)

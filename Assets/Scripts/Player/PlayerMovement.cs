@@ -12,6 +12,8 @@ public class PlayerMovement : Character
     private Vector2 moveInput;
     private bool jetpackInputHeld;
     private PlayerInput playerInputComponent;
+    [SerializeField] private float deAcceleration;
+    [SerializeField] private float maxSpeed;
 
     InputActionMap inputMap;
     private float vel;
@@ -81,7 +83,32 @@ public class PlayerMovement : Character
 
     protected override void MoveCharacter()
     {
-        rb.velocity = new Vector3(moveSpeed * moveInput.x, rb.velocity.y); // Rigid movement system, we wanna keep this simple.
+        // Cast a ray downwards to find the ground
+        LayerMask mask = ~LayerMask.GetMask("Player");
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 30, mask);
+
+        if (hit.collider != null)
+        {
+            // Calculate the direction parallel to the ground
+            Vector2 groundNormal = hit.normal;
+            Vector2 groundParallel = new Vector2(groundNormal.y, 0);
+            Debug.Log(groundParallel);
+
+            // Apply a force in the direction of the ground parallel, multiplied by the horizontal input
+            float force = moveSpeed * moveInput.x;
+            rb.AddForce(groundParallel * force, ForceMode2D.Impulse);
+
+            // Clamp the velocity to the maximum speed
+            if (Mathf.Abs(rb.velocity.x) > maxSpeed)
+            {
+                rb.velocity = new Vector2(Mathf.Sign(rb.velocity.x) * maxSpeed, rb.velocity.y);
+            }
+            // Lerp velocity to 0 if there is no input
+            else if (moveInput.x == 0)
+            {
+                rb.velocity = new Vector2(Mathf.Lerp(rb.velocity.x, 0, Time.deltaTime * deAcceleration), rb.velocity.y);
+            }
+        }
     }
 
     protected override void ClimbLadder()
