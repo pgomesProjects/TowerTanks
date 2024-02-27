@@ -437,6 +437,39 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="jetpack_rocket_loop" ID="{0199D9E5-3AFA-4337-A6F6-B40AC7EFB6E6}">
+					<ChildrenList>
+						<Action Name="" ID="{E66830FF-273A-4982-9D6B-29828FDCF30E}" ShortID="6140439">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_jetpack_rocket_loop" ID="{76567B73-C098-4156-BE95-439287CCD02E}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="jetpack_startup" ID="{E0347EB4-54E5-4FF7-85BE-472252C23DBA}">
+					<ChildrenList>
+						<Action Name="" ID="{14293F1F-9D9F-4B93-B685-E6D9623FE52D}" ShortID="344962850">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_jetpack-startup" ID="{68C35D55-FCFA-4EC7-9848-125037ED2F00}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="jetpack_refuel" ID="{FB6F1FAF-4C04-4D7F-9632-9943CC9FA0B2}">
+					<ChildrenList>
+						<Action Name="" ID="{7FF3F24D-0306-447C-B5B3-FD32541B76F6}" ShortID="41256422">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_jetpack_refuel_v1" ID="{8CA79DB5-B695-49EF-8C83-07F97EFF229B}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>
