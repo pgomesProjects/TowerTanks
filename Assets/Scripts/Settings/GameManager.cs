@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -5,11 +6,13 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class GameManager : MonoBehaviour
+public class GameManager : SerializedMonoBehaviour
 {
     public static GameManager Instance { get; private set; }
     public AudioManager AudioManager { get; private set; }
     public MultiplayerManager MultiplayerManager { get; private set; }
+
+    [SerializeField, Tooltip("The list of possible rooms for the players to pick.")] public GameObject[] roomList { get; private set; }
 
     [SerializeField, Tooltip("The time for levels to fade in.")] private float fadeInTime = 1f;
     [SerializeField, Tooltip("The time for levels to fade out.")] private float fadeOutTime = 0.5f;

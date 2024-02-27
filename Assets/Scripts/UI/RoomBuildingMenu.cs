@@ -4,9 +4,22 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.InputSystem;
+using Sirenix.OdinInspector;
 
-public class RoomBuildingMenu : MonoBehaviour
+public class RoomBuildingMenu : SerializedMonoBehaviour
 {
+    private struct PlayerRoomSelection
+    {
+        public PlayerInput currentPlayer;
+        public int currentRoomID;
+
+        public PlayerRoomSelection(PlayerInput currentPlayer, int currentRoomID)
+        {
+            this.currentPlayer = currentPlayer;
+            this.currentRoomID = currentRoomID;
+        }
+    }
+
     [SerializeField, Tooltip("The prefab that generates data for a room that the players can pick.")] private SelectableRoomObject roomIconPrefab;
     [SerializeField, Tooltip("The transform to store the selectable rooms.")] private Transform roomListTransform;
     [SerializeField, Tooltip("The RectTransform for the building menu.")] private RectTransform buildingMenuRectTransform;
@@ -24,11 +37,13 @@ public class RoomBuildingMenu : MonoBehaviour
     private Vector3 startingMenuPos;
     private int roomsSelected;
 
-    // Start is called before the first frame update
-    void Start()
+    private List<PlayerRoomSelection> roomSelections;
+
+    private void Awake()
     {
         startingBackgroundPos = buildingBackgroundRectTransform.anchoredPosition;
         startingMenuPos = buildingMenuRectTransform.anchoredPosition;
+        roomSelections = new List<PlayerRoomSelection>();
     }
 
     private void OnEnable()
@@ -65,26 +80,38 @@ public class RoomBuildingMenu : MonoBehaviour
         foreach(Transform rooms in roomListTransform)
             Destroy(rooms.gameObject);
 
+        roomSelections.Clear();
+
         roomsSelected = 0;
 
         //Spawn in four random rooms and display their names
         for (int i = 0; i < 4; i++)
         {
-            int roomIndexRange = Random.Range(0, LevelManager.Instance.roomList.Length);
+            int roomIndexRange = Random.Range(0, GameManager.Instance.roomList.Length);
             SelectableRoomObject newRoom = Instantiate(roomIconPrefab, roomListTransform);
-            newRoom.GetComponentInChildren<TextMeshProUGUI>().text = LevelManager.Instance.roomList[roomIndexRange].name.ToString();
+            newRoom.GetComponentInChildren<TextMeshProUGUI>().text = GameManager.Instance.roomList[roomIndexRange].name.ToString();
             newRoom.OnSelected.AddListener(OnRoomSelected);
         }
     }
 
-    private void OnRoomSelected(PlayerInput playerSelected, SelectableRoomObject currentRoom)
+    private void OnRoomSelected(PlayerInput playerSelected, int currentRoomID)
     {
         roomsSelected++;
+        roomSelections.Add(new PlayerRoomSelection(playerSelected, currentRoomID));
 
         //If everyone has selected a room, move onto the next step
         if(roomsSelected >= GameManager.Instance.MultiplayerManager.playerInputManager.playerCount)
         {
-            LevelManager.Instance.TransitionGamePhase(GAMESTATE.COMBAT);
+            CloseMenu();
+            GivePlayersRooms();
+        }
+    }
+
+    private void GivePlayersRooms()
+    {
+        foreach(var room in roomSelections)
+        {
+            BuildingManager.Instance.SpawnRoom(room.currentRoomID, room.currentPlayer.GetComponent<GamepadCursor>().GetCursorTransform());
         }
     }
 }
