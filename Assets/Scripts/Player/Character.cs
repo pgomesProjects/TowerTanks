@@ -109,16 +109,17 @@ public abstract class Character : SerializedMonoBehaviour
         LayerMask groundLayer = (1 << LayerMask.NameToLayer("Ground"));
         return Physics2D.OverlapBox(new Vector2(transform.position.x,
                                                      transform.position.y - transform.localScale.y / 2),
-                                                   new Vector2(1, 1),
+                                                   new Vector2(groundedBoxX, groundedBoxY),
                                                    0f,
                                                    groundLayer);
+        
     }
 
     protected abstract void MoveCharacter();
 
     protected void PropelJetpack()
     {
-        rb.AddForce(Vector2.up * (jumpForce * Time.fixedDeltaTime));
+        rb.AddForce(Vector2.up * jumpForce);
     }
 
     protected void SetLadder()
