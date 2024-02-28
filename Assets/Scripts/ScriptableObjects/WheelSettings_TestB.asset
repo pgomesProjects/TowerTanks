@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSuspensionDepth: 0.37
   maxSpringSpeed: 0.005
-  maxSqueezeSpeed: 0.015
+  maxSqueezeSpeed: 1
   groundDetectBuffer: 0.02
   stiffness: 6
   stiffnessCurve:
@@ -41,4 +41,5 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  hideDebugs: 0
+  generateWheelGuard: 1
+  hideDebugs: 1

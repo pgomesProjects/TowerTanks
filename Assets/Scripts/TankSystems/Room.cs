@@ -32,7 +32,7 @@ public class Room : MonoBehaviour
     private Room parentRoom;                                   //The room this room was mounted to
     private List<Coupler> couplers = new List<Coupler>();      //Couplers connecting this room to other rooms
     private List<Coupler> ghostCouplers = new List<Coupler>(); //Ghost couplers created while moving room before it is mounted
-    private Cell[] cells;                                      //Individual square units which make up the room
+    internal Cell[] cells;                                     //Individual square units which make up the room
     private Cell[][] sections;                                 //Groups of cells separated by connectors
     private Transform connectorParent;                         //Parent object which contains all connectors
     internal RoomData roomData;                                //ScriptableObject containing data about rooms and objects spawned by them
@@ -227,23 +227,27 @@ public class Room : MonoBehaviour
                             if (Vector2.Distance(hitCell1.transform.position, hitCell2.transform.position) > 1.1f) { continue; } //Ignore if hitting two cells separated by a connector
                         }
 
-                        //Add new coupler:
-                        Vector2 newCouplerPos = cellPos + (0.625f * (cellPos == (Vector2)cell.transform.position ? 1 : -1) * Cell.cardinals[x]);                //Find target position of new coupler (between origin cell and struck surface)
-                        IEnumerable<Coupler> results = from coupler in ghostCouplers where (Vector2)coupler.transform.position == newCouplerPos select coupler; //Look for ghost couplers which already occupy this position
-                        if (results.FirstOrDefault() != null) continue;                                                                                         //Do not place couplers where couplers already exist
+                        //Confirm placement:
+                        Vector2 newCouplerPos = cellPos + (0.625f * (cellPos == (Vector2)cell.transform.position ? 1 : -1) * Cell.cardinals[x]);                                                 //Find target position of new coupler (between origin cell and struck surface)
+                        IEnumerable<Coupler> results = from coupler in ghostCouplers where RoundToGrid(coupler.transform.position, 0.125f) == RoundToGrid(newCouplerPos, 0.125f) select coupler; //Look for ghost couplers which already occupy this position
+                        if (results.FirstOrDefault() != null) continue;                                                                                                                          //Do not place couplers where couplers already exist
 
-                        Coupler newCoupler = Instantiate(roomData.couplerPrefab).GetComponent<Coupler>(); //Instantiate new coupler object
-                        newCoupler.transform.parent = transform;              //Child coupler to this room
-                        newCoupler.transform.position = newCouplerPos;        //Move coupler to target position
+                        //Generate new coupler:
+                        Coupler newCoupler = Instantiate(roomData.couplerPrefab).GetComponent<Coupler>();             //Instantiate new coupler object
+                        newCoupler.transform.parent = transform;                                                      //Child coupler to this room
+                        newCoupler.transform.position = newCouplerPos;                                                //Move coupler to target position
+                        newCoupler.transform.localPosition = RoundToGrid(newCoupler.transform.localPosition, 0.125f); //Snap coupler to special grid (eighth units instead of quarter units)
+
+                        //Check rotation:
                         newCoupler.transform.localEulerAngles = Vector3.zero; //Zero out coupler rotation relative to tank
-
                         if (lat) //Coupler should be in door orientation (facing east/west)
                         {
                             newCoupler.transform.localEulerAngles = Vector3.forward * 90; //Rotate 90 degrees
                             newCoupler.vertical = false;                                  //Indicate that coupler is horizontally oriented
                         }
-                        ghostCouplers.Add(newCoupler); //Add new coupler to ghost list
 
+                        //Data cleanup:
+                        ghostCouplers.Add(newCoupler); //Add new coupler to ghost list
                         newCoupler.roomA = this;      //Give coupler information about this room
                         newCoupler.roomB = otherRoom; //Give coupler information about opposing room
                         newCoupler.cellA = Physics2D.Raycast(newCoupler.transform.position, -Cell.cardinals[x], 0.25f, LayerMask.GetMask("Cell")).collider.GetComponent<Cell>(); //Get cell in roomA closest to coupler
@@ -259,9 +263,9 @@ public class Room : MonoBehaviour
             //Find coupler group:
             Coupler coupler = ghostCouplers[x]; //Get current coupler
             IEnumerable<Coupler> group = from otherCoupler in ghostCouplers //Look through list of couplers
-                                         where otherCoupler.transform.rotation == coupler.transform.rotation &&                                                                               //Find coupler with matching orientation (including self)...
-                                                 (coupler.transform.rotation.z == 0 ? RoundToGrid(otherCoupler.transform.localPosition.y) == RoundToGrid(coupler.transform.localPosition.y) : //With matching latitudinal position (if horizontal)...
-                                                                                      RoundToGrid(otherCoupler.transform.localPosition.x) == RoundToGrid(coupler.transform.localPosition.x))  //With matching longitudinal position (if vertical)...
+                                         where otherCoupler.transform.rotation == coupler.transform.rotation &&                                                                                             //Find coupler with matching orientation (including self)...
+                                                 (coupler.transform.rotation.z == 0 ? RoundToGrid(otherCoupler.transform.localPosition.y, 0.25f) == RoundToGrid(coupler.transform.localPosition.y, 0.25f) : //With matching latitudinal position (if horizontal)...
+                                                                                      RoundToGrid(otherCoupler.transform.localPosition.x, 0.25f) == RoundToGrid(coupler.transform.localPosition.x, 0.25f))  //With matching longitudinal position (if vertical)...
                                          select otherCoupler; //Get other couplers which fit these criteria
 
             //Exclude separated cells from group:
@@ -369,7 +373,7 @@ public class Room : MonoBehaviour
                 print("Found horizontal coupler above cell " + cell.name + ", placing ladder.");
 
                 //Place extra ladders:
-                if (cell.neighbors[2] != null && RoundToGrid(cell.neighbors[2].transform.position.x) == RoundToGrid(coupler.transform.position.x)) ladderCells.Add(cell); //Add cell to list of cells which need more ladders below them if cell has more southern neighbors
+                if (cell.neighbors[2] != null && RoundToGrid(cell.neighbors[2].transform.position.x, 0.25f) == RoundToGrid(coupler.transform.position.x, 0.25f)) ladderCells.Add(cell); //Add cell to list of cells which need more ladders below them if cell has more southern neighbors
             }
         }
 
@@ -401,6 +405,7 @@ public class Room : MonoBehaviour
         //Cleanup:
         if (targetTank == null) targetTank = couplers[0].GetConnectedRoom(this).targetTank; //Get target tank from a mounted room if necessary
         if (!targetTank.rooms.Contains(this)) targetTank.rooms.Add(this);                   //Add to target tank's index of rooms
+        targetTank.treadSystem.ReCalculateMass();                                           //Re-calculate mass now that new room has been added
         ghostCouplers.Clear();                                                              //Clear ghost couplers list
         mounted = true;                                                                     //Indicate that room is now mounted
     }
@@ -426,9 +431,13 @@ public class Room : MonoBehaviour
 
     //UTILITY METHODS:
     /// <summary>
-    /// Rounds value to quarter-unit grid.
+    /// Rounds value to grid with given units.
     /// </summary>
-    public float RoundToGrid(float value) { return Mathf.Round(value * 4) / 4; }
+    public float RoundToGrid(float value, float gridUnits) { return Mathf.Round(value * (1 / gridUnits)) / (1 / gridUnits); }
+    /// <summary>
+    /// Rounds vector to grid with given units.
+    /// </summary>
+    public Vector2 RoundToGrid(Vector2 value, float gridUnits) { return new Vector2(RoundToGrid(value.x, gridUnits), RoundToGrid(value.y, gridUnits)); }
     /// <summary>
     /// Returns true if given interactable prefab can be placed in given cell right now.
     /// </summary>

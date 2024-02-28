@@ -7,6 +7,7 @@ public class TreadWheel : MonoBehaviour
     //Objects & Components:
     public WheelSettings settings;   //Settings object designating wheel properties
     private TreadSystem treadSystem; //The tread system this wheel is linked to (attached to parent object)
+    private CircleCollider2D wheelGuard; //Reference to wheel guard collider (if being used)
 
     //Runtime Variables:
     private Vector2 basePosition;        //Natural position of wheel (set at start)
@@ -25,6 +26,16 @@ public class TreadWheel : MonoBehaviour
         //Get runtime values:
         basePosition = transform.localPosition; //Get base position of wheel
         radius = transform.localScale.x / 2;    //Get wheel radius
+
+        //Set up wheel guard:
+        if (settings.generateWheelGuard) //Wheel needs to generate a guard object
+        {
+            wheelGuard = Instantiate(new GameObject(), transform.parent).AddComponent<CircleCollider2D>();             //Instantiate an object with a circle collider
+            wheelGuard.gameObject.layer = LayerMask.NameToLayer("Treads");                                             //Set collider layer to treads
+            wheelGuard.radius = radius;                                                                                //Set collider radius to radius of wheel
+            wheelGuard.transform.localPosition = transform.localPosition + (Vector3.up * settings.maxSuspensionDepth); //Position guard at end of suspension stroke
+            wheelGuard.gameObject.name = name + "_wheelGuard";                                                         //Name object so it's not as confusing to look at in the inspector
+        }
     }
     private void Update()
     {
@@ -59,7 +70,8 @@ public class TreadWheel : MonoBehaviour
         if (!grounded) compressionValue = 0;                                                                           //No force is exerted on tank by wheels which are not grounded
         else compressionValue = 1 - (Vector2.Distance(backstopPos, transform.position) / settings.maxSuspensionDepth); //Use distance from backstop to determine how compressed wheel is
 
-        //if (grounded != prevGrounded) print("Wheel now " + (grounded ? "grounded!" : "lifted!"));
+        //Testing updates:
+        if (Application.isEditor) wheelGuard.transform.localPosition = (Vector3)basePosition + (Vector3.up * settings.maxSuspensionDepth); //Update guard position in case the suspension depth setting has been tweaked
     }
     private void OnDrawGizmos()
     {
