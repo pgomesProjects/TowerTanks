@@ -1,24 +1,26 @@
+using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using TMPro;
 
 public enum GAMESTATE
 {
     BUILDING, COMBAT, EVENT, GAMEOVER
 }
 
-public class LevelManager : MonoBehaviour
+public class LevelManager : SerializedMonoBehaviour
 {
     [SerializeField] private PlayerTankController playerTank;
     [SerializeField] private Transform layerParent;
     [SerializeField] private Transform playerParent;
     [SerializeField] private GameObject layerPrefab;
     [SerializeField] private GameObject ghostLayerPrefab;
+    [SerializeField, Tooltip("The list of possible rooms for the players to pick.")] public GameObject[] roomList { get; private set; }
     [SerializeField, Tooltip("The prefab for the player HUD piece.")] private PlayerHUD playerHUDPrefab;
     [SerializeField, Tooltip("The parent that holds all of the player HUD objects.")] private RectTransform playerHUDParentTransform;
+    [SerializeField, Tooltip("The UI that shows the transition between game phases.")] private GamePhaseUI gamePhaseUI;
     [SerializeField, Tooltip("The value of a singular scrap piece.")] private int scrapValue;
     [SerializeField, Tooltip("The level event data that dictates how the level must be run.")] private LevelEvents currentLevelEvent;
 
@@ -49,6 +51,22 @@ public class LevelManager : MonoBehaviour
     public static Action OnGameResumed;
     public static Action OnGameOver;
 
+    //Debug Tools
+
+    [Button(ButtonSizes.Medium)]
+    private void TestAddResources()
+    {
+        UpdateResources(resourcesToAdd);
+    }
+
+    public int resourcesToAdd = 100;
+
+    [Button(ButtonSizes.Medium)]
+    private void AdvancePhase()
+    {
+        TransitionGamePhase(levelPhase == GAMESTATE.BUILDING ? GAMESTATE.COMBAT : GAMESTATE.BUILDING);
+        Debug.Log("Current Level Phase: " + levelPhase.ToString());
+    }
 
     private void Awake()
     {
@@ -102,7 +120,7 @@ public class LevelManager : MonoBehaviour
             totalScrapValue = 99999;
 
         OnResourcesUpdated?.Invoke(totalScrapValue, false);
-
+        TransitionGamePhase(GAMESTATE.BUILDING);
         isSettingUpOnStart = false;
     }
 
@@ -368,6 +386,22 @@ public class LevelManager : MonoBehaviour
     {
         GetPlayerTank()?.ResetTankDistance();
         OnCombatEnded?.Invoke();
+    }
+
+    public void TransitionGamePhase(GAMESTATE newPhase)
+    {
+        levelPhase = newPhase;
+        gamePhaseUI?.ShowPhase(newPhase);
+
+        switch (newPhase)
+        {
+            case GAMESTATE.BUILDING:
+                GameManager.Instance.SetGamepadCursorsActive(true);
+                break;
+            case GAMESTATE.COMBAT:
+                GameManager.Instance.SetGamepadCursorsActive(false);
+                break;
+        }
     }
 
     public void TransitionGameState()

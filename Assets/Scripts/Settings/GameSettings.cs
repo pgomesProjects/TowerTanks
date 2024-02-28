@@ -12,7 +12,7 @@ public struct Difficulty
 
 public static class GameSettings
 {
-    public static bool debugMode = false;
+    public static bool debugMode = true;
 
     public static string controlSchemeUI = "Gamepad";
 

@@ -47,6 +47,103 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8aefe0cf4e30f7641beea6834b6dfda8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 855465098922572524, guid: 425833f9203f7524fbb7395b07c49613, type: 3}
+    - {fileID: 855465098922572524, guid: 0e2f209746c77a04fb197813b0d75d43, type: 3}
+    - {fileID: 855465098922572524, guid: 918a267e177953742b1690c3783c59a1, type: 3}
+    - {fileID: 855465098922572524, guid: 4c04a21b2f5cd1141bb4dc750a1dc01c, type: 3}
+    - {fileID: 855465098922572524, guid: 58db6f32a2ebb6e4cb7be33a1709a890, type: 3}
+    - {fileID: 855465098922572524, guid: 174d8810eb244e44eb11447c224f87b8, type: 3}
+    - {fileID: 855465098922572524, guid: bb4119894f945184a9b17c0fcaa7efe9, type: 3}
+    - {fileID: 855465098922572524, guid: c70f96b998f38064cbf2fde7c7f26cc2, type: 3}
+    - {fileID: 855465098922572524, guid: d391f617010909b498f89d1a5a57aa3a, type: 3}
+    - {fileID: 855465098922572524, guid: 27a0c0c4ad114fc439dc3fb68286e606, type: 3}
+    - {fileID: 855465098922572524, guid: 23b5c873e2247474a81655a1b79b98c3, type: 3}
+    - {fileID: 855465098922572524, guid: d2e560ec488005f4c998b705c7763577, type: 3}
+    - {fileID: 855465098922572524, guid: 53043493c4f9dd542becd99e50494169, type: 3}
+    - {fileID: 855465098922572524, guid: 78ae4479a8f953c478d91dadfa1530e6, type: 3}
+    - {fileID: 855465098922572524, guid: 015bef292bb9b914b9cb1082cee66bf7, type: 3}
+    - {fileID: 855465098922572524, guid: ce7b7f9052bae4645ba11a2306b8beed, type: 3}
+    - {fileID: 855465098922572524, guid: a7d47268a060f9a4bb31ea7be64a5f82, type: 3}
+    - {fileID: 855465098922572524, guid: c8a9a63fd9b16424dbb035d7907024ea, type: 3}
+    - {fileID: 855465098922572524, guid: 1ff5ecd312e82094f93416dd7a78e87b, type: 3}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: roomList
+      Entry: 7
+      Data: 0|UnityEngine.GameObject[], UnityEngine.CoreModule
+    - Name: 
+      Entry: 12
+      Data: 19
+    - Name: 
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 10
+      Data: 1
+    - Name: 
+      Entry: 10
+      Data: 2
+    - Name: 
+      Entry: 10
+      Data: 3
+    - Name: 
+      Entry: 10
+      Data: 4
+    - Name: 
+      Entry: 10
+      Data: 5
+    - Name: 
+      Entry: 10
+      Data: 6
+    - Name: 
+      Entry: 10
+      Data: 7
+    - Name: 
+      Entry: 10
+      Data: 8
+    - Name: 
+      Entry: 10
+      Data: 9
+    - Name: 
+      Entry: 10
+      Data: 10
+    - Name: 
+      Entry: 10
+      Data: 11
+    - Name: 
+      Entry: 10
+      Data: 12
+    - Name: 
+      Entry: 10
+      Data: 13
+    - Name: 
+      Entry: 10
+      Data: 14
+    - Name: 
+      Entry: 10
+      Data: 15
+    - Name: 
+      Entry: 10
+      Data: 16
+    - Name: 
+      Entry: 10
+      Data: 17
+    - Name: 
+      Entry: 10
+      Data: 18
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   fadeInTime: 1
   fadeOutTime: 0.5
   loaderCanvas: {fileID: 6961505860615057902}
@@ -467,6 +564,21 @@ MonoBehaviour:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: 321bb66ba2e39d644bc08fa2a49955ae, type: 2}
+  - name: BuildRoom
+    audioEvent:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: 53645d83c5e25214a85567cfd03c0be8, type: 2}
+  - name: ConnectRoom
+    audioEvent:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: 0bd79a6a725aa2e498e94e2f99dd5a4d, type: 2}
+  - name: RotateRoom
+    audioEvent:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: 0df1197ebb8c87c42885eb5460ecec2a, type: 2}
 --- !u!1 &5338811766095787865
 GameObject:
   m_ObjectHideFlags: 0
@@ -780,7 +892,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 131071
 --- !u!1 &6961505861069187416
 GameObject:
   m_ObjectHideFlags: 0

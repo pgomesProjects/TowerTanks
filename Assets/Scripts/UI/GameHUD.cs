@@ -14,19 +14,33 @@ public class GameHUD : MonoBehaviour
     [SerializeField, Tooltip("The prompt that tells the player to advance forward.")] private GoArrowAnimation goPrompt;
     [SerializeField, Tooltip("The alarm animation for incoming enemies.")] private AlarmAnimation alarmAnimation;
 
-    [SerializeField, Tooltip("The text that indicates the amount of scrap in the game.")] private TextMeshProUGUI resourcesDisplay;
+    [SerializeField, Tooltip("The spacing between each player avatar.")] private float playerAvatarSpacing = 35f;
+
+    [SerializeField, Tooltip("The transform that indicates the amount of scrap in the game.")] private RectTransform resourcesDisplay;
     [SerializeField, Tooltip("The minimum duration for the resources change.")] private float minResourcesAnimationDuration = 0.5f;
     [SerializeField, Tooltip("The maximum duration for the resources change.")] private float maxResourcesAnimationDuration = 2f;
     [SerializeField, Tooltip("The resources animation range (the larger the number, the bigger the amount has to be in order to reach the max resources duration).")] private float resourcesAnimationDurationRange = 100f;
+    [SerializeField, Tooltip("The time (in seconds) of the resources animation.")] private float resourcesAnimationDuration;
+    [SerializeField, Tooltip("The time (in seconds) between the resources showing up and the resources leaving.")] private float resourcesIdleTime;
+    [SerializeField, Tooltip("The ease type for the resources animation.")] private LeanTweenType resourcesEaseType;
 
+    private float startResourcesPosX = -330f;
+    private float endResourcesPosX = 15f;
+
+    private TextMeshProUGUI resourcesDisplayNumber;
     private float currentResourcesValue, displayedResourcesValue;
     private float transitionStartTime;
+    private bool resourcesUpdated;
 
     // Start is called before the first frame update
     void Start()
     {
+        resourcesDisplay.anchoredPosition = new Vector2(startResourcesPosX, resourcesDisplay.anchoredPosition.y);
+        resourcesDisplayNumber = resourcesDisplay.GetComponentInChildren<TextMeshProUGUI>();
+        resourcesUpdated = true;
+
         if (GameSettings.debugMode)
-            resourcesDisplay.text = "Inf.";
+            resourcesDisplayNumber.text = "Inf.";
     }
 
     private void OnEnable()
@@ -90,7 +104,10 @@ public class GameHUD : MonoBehaviour
         if (!animate)
             displayedResourcesValue = currentResourcesValue;
         else
+        {
             transitionStartTime = Time.time;
+            StartResourcesAnimation();
+        }
     }
 
     // Update is called once per frame
@@ -109,6 +126,7 @@ public class GameHUD : MonoBehaviour
             if (displayedResourcesValue != currentResourcesValue)
             {
                 //Calculate the progress based on the time elapsed and the time the transition started
+                resourcesUpdated = false;
                 float transitionDuration = CalculateTransitionDuration();
                 float progress = Mathf.Clamp01((Time.time - transitionStartTime) / transitionDuration);
 
@@ -117,11 +135,29 @@ public class GameHUD : MonoBehaviour
 
                 //Make sure the display resources ends up as the current resources
                 if (progress >= 1.0f)
+                {
                     displayedResourcesValue = currentResourcesValue;
+                }
+            }
+            else if (!resourcesUpdated)
+            {
+                resourcesUpdated = true;
+                EndResourcesAnimation();
             }
 
             UpdateResourcesDisplay();
         }
+    }
+
+    private void StartResourcesAnimation()
+    {
+        LeanTween.moveX(resourcesDisplay, endResourcesPosX, resourcesAnimationDuration).setEase(resourcesEaseType);
+    }
+
+    private void EndResourcesAnimation()
+    {
+        Debug.Log("Ending Animation...");
+        LeanTween.delayedCall(resourcesIdleTime, () => LeanTween.moveX(resourcesDisplay, startResourcesPosX, resourcesAnimationDuration).setEase(resourcesEaseType));
     }
 
     /// <summary>
@@ -148,5 +184,5 @@ public class GameHUD : MonoBehaviour
     /// </summary>
     /// <returns>The time it should take to reach the current resources value (in seconds). The larger the difference between the current and displayed value, the smaller duration value is returned.</returns>
     private float CalculateTransitionDuration() => Mathf.Lerp(minResourcesAnimationDuration, maxResourcesAnimationDuration, Mathf.Abs(currentResourcesValue - displayedResourcesValue) / resourcesAnimationDurationRange);
-    private void UpdateResourcesDisplay() => resourcesDisplay.text = displayedResourcesValue.ToString("n0");
+    private void UpdateResourcesDisplay() => resourcesDisplayNumber.text = displayedResourcesValue.ToString("n0");
 }

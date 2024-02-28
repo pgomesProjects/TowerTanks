@@ -1090,13 +1090,70 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67f385c7fec67324cacb1fb18f86b2ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: -7783586629661608857, guid: 3be263eccd052b043b80aac2816cea0a, type: 3}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: playerButtonPrompts
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[PlayerController+PlayerActions,
+        Assembly-CSharp],[PlayerButtonPrompt, Assembly-CSharp]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[PlayerController+PlayerActions,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 5
+    - Name: $v
+      Entry: 7
+      Data: PlayerButtonPrompt, Assembly-CSharp
+    - Name: buttonSprite
+      Entry: 10
+      Data: 0
+    - Name: buttonText
+      Entry: 1
+      Data: <sprite = 0 tint = 1>
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   speed: 12
   distance: 0
   throwForceRange: {x: 5, y: 50}
   throwForce: 22
   ladderMask:
     serializedVersion: 2
-    m_Bits: 2147483647
+    m_Bits: 131071
   downSpeedMultiplier: 2
   timeToUseWrench: 3
   fireRemoverSpeed: 30
