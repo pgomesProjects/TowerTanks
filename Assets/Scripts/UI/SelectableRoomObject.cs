@@ -15,8 +15,9 @@ public class SelectableRoomObject : MonoBehaviour, IPointerEnterHandler, IPointe
     private Image draggableImage;
     private Color defaultColor;
     private bool isSelected;
+    private int roomID;
 
-    internal UnityEvent<PlayerInput, SelectableRoomObject> OnSelected = new UnityEvent<PlayerInput, SelectableRoomObject>();
+    internal UnityEvent<PlayerInput, int> OnSelected = new UnityEvent<PlayerInput, int>();
 
     private void Awake()
     {
@@ -55,11 +56,16 @@ public class SelectableRoomObject : MonoBehaviour, IPointerEnterHandler, IPointe
         }
     }
 
+    public void SetRoomID(int newID)
+    {
+        roomID = newID;
+    }
+
     public void OnSelectObject(PlayerInput playerInput)
     {
         draggableImage.color = selectColor;
         isSelected = true;
         Debug.Log("Selected By Player " + (playerInput.playerIndex + 1).ToString());
-        OnSelected?.Invoke(playerInput, this);
+        OnSelected?.Invoke(playerInput, roomID);
     }
 }

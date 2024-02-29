@@ -14,5 +14,6 @@ public class WheelSettings : ScriptableObject
     [Tooltip("How much force wheel suspension exerts to support tank."), Min(0)]            public float stiffness;
     [Tooltip("Curve representing suspension stiffness based on wheel compression amount.")] public AnimationCurve stiffnessCurve;
     [Header("Other Settings:")]
-    [Header("Hides debug visualization meshes on wheels.")] public bool hideDebugs;
+    [Tooltip("Causes wheel to generate a collider which prevents tank from squishing it into the ground once it's reached its compression limit.")] public bool generateWheelGuard = true;
+    [Tooltip("Hides debug visualization meshes on wheels.")]                                                                                        public bool hideDebugs;
 }

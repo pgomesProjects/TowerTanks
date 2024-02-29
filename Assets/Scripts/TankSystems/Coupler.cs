@@ -11,11 +11,10 @@ public class Coupler : MonoBehaviour
     //Objects & Components:
     private SpriteRenderer r; //Local renderer component
 
-    [Tooltip("First room linked to this coupler.")]                    internal Room roomA;
-    [Tooltip("Second room linked to this coupler.")]                   internal Room roomB;
-    [Tooltip("Cell closest to this coupler on the first room.")]       internal Cell cellA; //NOTE: Should probably be changed to "AdjacentCellsA"
-    [Tooltip("Cell closest to this coupler on the second room.")]      internal Cell cellB;               
-    [Tooltip("Array of walls touching this coupler (on both sides).")] internal Collider2D[] adjacentWalls;
+    [Tooltip("First room linked to this coupler.")]               internal Room roomA;
+    [Tooltip("Second room linked to this coupler.")]              internal Room roomB;
+    [Tooltip("Cell closest to this coupler on the first room.")]  internal Cell cellA; //NOTE: Should probably be changed to "AdjacentCellsA"
+    [Tooltip("Cell closest to this coupler on the second room.")] internal Cell cellB;
 
     //Runtime Variables:
     [Tooltip("True if coupler is vertically oriented (hatch). False if coupler is horizontally oriented (door).")] internal bool vertical = true;
@@ -38,8 +37,31 @@ public class Coupler : MonoBehaviour
     {
         //Get adjacent walls:
         List<Collider2D> overlaps = Physics2D.OverlapBoxAll(transform.position, new Vector2(0.79f, 0.25f + 0.1f), transform.rotation.z, LayerMask.GetMask("Ground")).ToList(); //Get list of walls near coupler (using box which extends laterally from coupler)
-        foreach (Collider2D ownCollider in GetComponentsInChildren<Collider2D>()) overlaps.Remove(ownCollider); //Remove own colliders from list of overlapping walls
-        adjacentWalls = overlaps.ToArray();                                                                     //Store found walls in local array
+        foreach (Collider2D ownCollider in GetComponentsInChildren<Collider2D>()) overlaps.Remove(ownCollider);                                                                //Remove own colliders from list of overlapping walls
+        Collider2D[] adjacentWalls = overlaps.ToArray();                                                                                                                       //Store found walls in local array
+
+        //Make holes in wall colliders:
+        for (int x = 0; x < adjacentWalls.Length; x++) //Iterate through each wall adjacent to coupler
+        {
+            //Gather initial data:
+            BoxCollider2D wall = adjacentWalls[x].GetComponent<BoxCollider2D>(); //Get box collider component corresponding to each wall (needs to be more specific than generic collider type)
+            Vector2 wallOffset = transform.position - wall.transform.position; //Get position of wall relative to position of coupler
+
+            //Single wall bisection:
+            if (vertical && Mathf.Abs(wallOffset.x) < 0.125f || !vertical && Mathf.Abs(wallOffset.y) < 0.125f) //Wall is directly aligned with coupler (in either orientation) (with rounding to account for positional error)
+            {
+                BoxCollider2D newWall = wall.gameObject.AddComponent<BoxCollider2D>();            //Generate a new wall (because current wall will be bisected)
+                Vector2 splitWallOffset = (vertical ? Vector2.right : Vector2.up) * 0.45f;        //Get value for modifying individual collider offsets (moves them to corners of cell)
+                Vector2 splitWallSize = (vertical ? new Vector2(0.1f, 1) : new Vector2(1, 0.1f)); //Get value for modifying individual collider sizes (changes them into cubes, accounts for scaled dimension)
+                wall.offset = splitWallOffset; newWall.offset = -splitWallOffset;                 //Move walls to opposite corners of cell
+                wall.size = splitWallSize; newWall.size = splitWallSize;                          //Scale walls into 0.1x0.1 cubes (one dimension is already scaled by object transform)
+                continue;                                                                         //New wall colliders have been computed, move to next wall
+            }
+
+            //Offset wall modification:
+            wall.size = vertical ? new Vector2(Mathf.Abs(wallOffset.x) + 0.1f, 1) : new Vector2(1, Mathf.Abs(wallOffset.y) + 0.1f);                                                                                               //Set wall size based on how much of the coupler intersects it
+            wall.offset = vertical ? new Vector2((0.45f - (0.125f * 4 * Mathf.Abs(wallOffset.x))) * -Mathf.Sign(wallOffset.x), 0) : new Vector2(0, (0.45f - (0.125f * 4 * Mathf.Abs(wallOffset.y))) * -Mathf.Sign(wallOffset.y)); //Set wall offset based on direction wall is offset by and how much area it will cover with its new size
+        }
 
         //Cleanup:
         Color newColor = r.color; newColor.a = 1; r.color = newColor; //Remove ghost transparency

@@ -7,7 +7,7 @@ public class TankController : MonoBehaviour
     //Objects & Components:
     [Tooltip("Rooms currently installed on tank.")]                                             internal List<Room> rooms;
     [Tooltip("Core room of tank (there can only be one.")]                                      internal Room coreRoom;
-    [Tooltip("Rigidbody on object containing tread system, used to move tank.")]                internal Rigidbody2D treadBody;
+    [Tooltip("This tank's traction system.")]                                                   internal TreadSystem treadSystem;
     [Tooltip("Transform containing all tank rooms, point around which tower tilts.")]           private Transform towerJoint;
     [SerializeField, Tooltip("Target transform in tread system which tower joint locks onto.")] private Transform towerJointTarget;
 
@@ -18,8 +18,8 @@ public class TankController : MonoBehaviour
     private void Awake()
     {
         //Get objects & components:
-        treadBody = transform.Find("TreadSystem").GetComponent<Rigidbody2D>(); //Get tread system rigidbody from children
-        towerJoint = transform.Find("TowerJoint");                             //Get tower joint from children
+        treadSystem = GetComponentInChildren<TreadSystem>(); //Get tread system from children
+        towerJoint = transform.Find("TowerJoint");           //Get tower joint from children
 
         //Room setup:
         rooms = new List<Room>(GetComponentsInChildren<Room>()); //Get list of all rooms which spawn as children of tank (for prefab tanks)
@@ -33,6 +33,7 @@ public class TankController : MonoBehaviour
                 coreRoom = room;                                                                         //Get core room
             }
         }
+        treadSystem.ReCalculateMass(); //Do get center of mass based on room setup
     }
     private void Update()
     {

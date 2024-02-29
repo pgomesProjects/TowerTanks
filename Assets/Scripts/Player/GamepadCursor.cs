@@ -61,6 +61,7 @@ public class GamepadCursor : MonoBehaviour
         }
 
         InputSystem.onAfterUpdate += UpdateMotion;
+
         playerInput.onControlsChanged += OnControlsChanged;
     }
 
@@ -309,4 +310,6 @@ public class GamepadCursor : MonoBehaviour
 
         localGamepadCursorTransform.GetComponent<Image>().color = new Color(cursorColor.r, cursorColor.g, cursorColor.b, cursorActive ? 1: 0);
     }
+
+    public RectTransform GetCursorTransform() => localGamepadCursorTransform;
 }
