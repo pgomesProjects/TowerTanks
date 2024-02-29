@@ -12,6 +12,8 @@ public class Debug_TankBuilder : MonoBehaviour
     public Room room;
     public GameObject[] roomList;
     public int roomSelected;
+    public bool enableSounds;
+    private Transform resetPoint;
 
     //Input
     private Vector2 moveInput;
@@ -34,6 +36,7 @@ public class Debug_TankBuilder : MonoBehaviour
         {
             tank.isKinematic = true; //Freeze the tank while we're building
             treads = tank.gameObject.GetComponent<TreadSystem>();
+            resetPoint = treads.transform;
         }
     }
 
@@ -43,6 +46,16 @@ public class Debug_TankBuilder : MonoBehaviour
         if (cooldown > 0)
         {
             cooldown -= Time.deltaTime;
+        }
+        
+        if (isDeployed && GameManager.Instance.AudioManager.IsPlaying("TankIdle") && !enableSounds)
+        {
+            GameManager.Instance.AudioManager.Stop("TankIdle");
+        }
+
+        if (isDeployed && !GameManager.Instance.AudioManager.IsPlaying("TankIdle") && enableSounds)
+        {
+            GameManager.Instance.AudioManager.Play("TankIdle");
         }
     }
 
@@ -72,6 +85,14 @@ public class Debug_TankBuilder : MonoBehaviour
             room = _room.GetComponent<Room>();
             cooldown = 0.1f;
         }
+    }
+
+    private void ResetTank() //Resets tank position to first transform
+    {
+        treads.transform.position = resetPoint.position;
+        treads.transform.rotation = resetPoint.rotation;
+        tank.isKinematic = true; //Freeze the tank while we're building
+        if (isDeployed) isDeployed = false;
     }
 
     #region Input
@@ -113,6 +134,7 @@ public class Debug_TankBuilder : MonoBehaviour
         switch (ctx.action.name)
         {
             case "Move": OnMove(ctx); break;
+            case "Look": OnLook(ctx); break;
             case "Cancel": OnRotate(ctx); break;
             case "Cycle Interactables": OnCycle(ctx); break;
             case "Jump": OnJump(ctx); break;
@@ -152,18 +174,27 @@ public class Debug_TankBuilder : MonoBehaviour
 
             }
         }
+    }
+
+    public void OnLook(InputAction.CallbackContext ctx)
+    {
+        moveInput = ctx.ReadValue<Vector2>();
+        float moveSensitivity = 0.2f;
 
         if (isDeployed) //Move the Tank
         {
             treads.debugDrive = moveInput.x;
-            if (Mathf.Abs(moveInput.x) > 0.1f)
+            if (enableSounds)
             {
-                if (!GameManager.Instance.AudioManager.IsPlaying("TreadsRolling"))
+                if (Mathf.Abs(moveInput.x) > 0.1f)
                 {
-                    GameManager.Instance.AudioManager.Play("TreadsRolling");
+                    if (!GameManager.Instance.AudioManager.IsPlaying("TreadsRolling"))
+                    {
+                        GameManager.Instance.AudioManager.Play("TreadsRolling");
+                    }
                 }
+                else GameManager.Instance.AudioManager.Stop("TreadsRolling");
             }
-            else GameManager.Instance.AudioManager.Stop("TreadsRolling");
         }
     }
 
@@ -174,6 +205,7 @@ public class Debug_TankBuilder : MonoBehaviour
         {
             if (ctx.performed)
             {
+                if (enableSounds) GameManager.Instance.AudioManager.Play("RotateRoom");
                 room.debugRotate = true;
             }
         }
@@ -195,23 +227,24 @@ public class Debug_TankBuilder : MonoBehaviour
                 if (roomSelected < 0) roomSelected = roomList.Length - 1;
             }
             SpawnRoom(random: false, roomToSpawn: roomSelected);
-            GameManager.Instance.AudioManager.Play("UseSFX");
+            if (enableSounds) GameManager.Instance.AudioManager.Play("UseSFX");
         }
     }
 
     public void OnJump(InputAction.CallbackContext ctx) 
     {
-        if (cooldown <= 0 && ctx.performed)
+        if (cooldown <= 0 && ctx.performed && !isDeployed)
         {
             if (room != null) //Try to Mount the Current Room
             {
+                if (enableSounds) GameManager.Instance.AudioManager.Play("ConnectRoom");
                 room.debugMount = true;
                 room = null;
             }
             else //Spawn a new Random Room
             {
                 SpawnRoom(random: true);
-                GameManager.Instance.AudioManager.Play("UseSFX");
+                if (enableSounds) GameManager.Instance.AudioManager.Play("UseSFX");
             }
             cooldown = 0.1f;
         }
@@ -220,13 +253,13 @@ public class Debug_TankBuilder : MonoBehaviour
     public void OnDeploy(InputAction.CallbackContext ctx) //Deploy the Tank
     {
         tank.isKinematic = false;
-        if (!isDeployed) GameManager.Instance.AudioManager.Play("TankIdle");
+        if (!isDeployed && enableSounds) GameManager.Instance.AudioManager.Play("TankIdle");
         isDeployed = true;
     }
 
-    public void OnPause(InputAction.CallbackContext ctx) //Restart Scene
+    public void OnPause(InputAction.CallbackContext ctx) //Reset Tank
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        //ResetTank();
     }
 
     #endregion
