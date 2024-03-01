@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : Character
@@ -11,6 +12,8 @@ public class PlayerMovement : Character
     //input
     private Vector2 moveInput;
     private bool jetpackInputHeld;
+
+    [SerializeField]
     private PlayerInput playerInputComponent;
     [SerializeField] private float deAcceleration;
     [SerializeField] private float maxSpeed;
@@ -54,12 +57,6 @@ public class PlayerMovement : Character
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
-
-        if (jetpackInputHeld && currentFuel > 0) PropelJetpack();
-
-        vel = rb.velocity.y;
-        vel = Mathf.Clamp(vel, minYVelocity, maxYVelocity);
-        rb.velocity = new Vector2(rb.velocity.x, vel);
     }
 
     protected override void OnDrawGizmos()
@@ -81,35 +78,23 @@ public class PlayerMovement : Character
 
     #region Movement
 
+    
     protected override void MoveCharacter()
     {
-        // Cast a ray downwards to find the ground
-        LayerMask mask = ~LayerMask.GetMask("Player");
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 30, mask);
+        float force = transform.right.x * moveInput.x * moveSpeed; 
 
-        if (hit.collider != null)
+        Vector3 localVelocity = transform.InverseTransformDirection(rb.velocity);
+        localVelocity.x = force;
+        Vector3 worldVelocity = transform.TransformDirection(localVelocity);
+        
+        if (jetpackInputHeld && currentFuel > 0)
         {
-            // Calculate the direction parallel to the ground
-            Vector2 groundNormal = hit.normal;
-            Vector2 groundParallel = new Vector2(groundNormal.y, 0);
-            Debug.Log(groundParallel);
-
-            // Apply a force in the direction of the ground parallel, multiplied by the horizontal input
-            float force = moveSpeed * moveInput.x;
-            rb.AddForce(groundParallel * force, ForceMode2D.Impulse);
-
-            // Clamp the velocity to the maximum speed
-            if (Mathf.Abs(rb.velocity.x) > maxSpeed)
-            {
-                rb.velocity = new Vector2(Mathf.Sign(rb.velocity.x) * maxSpeed, rb.velocity.y);
-            }
-            // Lerp velocity to 0 if there is no input
-            else if (moveInput.x == 0)
-            {
-                rb.velocity = new Vector2(Mathf.Lerp(rb.velocity.x, 0, Time.deltaTime * deAcceleration), rb.velocity.y);
-            }
+            PropelJetpack();
         }
+        if (CheckGround()) rb.velocity = worldVelocity;
+        else rb.velocity = new Vector2(moveInput.x * moveSpeed, rb.velocity.y);
     }
+
 
     protected override void ClimbLadder()
     {
