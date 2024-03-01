@@ -129,7 +129,7 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: 83957ce1e688d54e8b6b22beb20598dd
     GuidInternal: 
-    m_lastTime: -8584933167387404738
+    m_lastTime: -8584923475744920321
     List:
     - name: blaring_alarm
       guid: 0557db327da0a0479a6261e902cede4a
@@ -451,6 +451,57 @@ MonoBehaviour:
         ObjectType: 3
         guid: f40e6a19f5a5784aa65376afc3a8b73e
       Path: Events\Default Work Unit\item_pickup
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: jetpack_refuel
+      guid: af1f6ffb044c7f4d96329943cc9fa0b2
+      id: 1266436627
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: jetpack_refuel
+        ObjectType: 3
+        guid: af1f6ffb044c7f4d96329943cc9fa0b2
+      Path: Events\Default Work Unit\jetpack_refuel
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: jetpack_rocket_loop
+      guid: e5d99901fa3a3743a6f6b40ac7efb6e6
+      id: 3943443513
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: jetpack_rocket_loop
+        ObjectType: 3
+        guid: e5d99901fa3a3743a6f6b40ac7efb6e6
+      Path: Events\Default Work Unit\jetpack_rocket_loop
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: jetpack_startup
+      guid: b47e34e0e554f74f85be472252c23dba
+      id: 756560803
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: jetpack_startup
+        ObjectType: 3
+        guid: b47e34e0e554f74f85be472252c23dba
+      Path: Events\Default Work Unit\jetpack_startup
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1

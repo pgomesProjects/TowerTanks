@@ -31,6 +31,7 @@ TagManager:
   - Dumpster
   - Scrap
   - CursorCanvas
+  - SpawnPoint
   layers:
   - Default
   - TransparentFX
