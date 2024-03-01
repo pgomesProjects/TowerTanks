@@ -1217,7 +1217,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 95025803489721963, guid: 13f75c373ef676a4f96b401e901fa1d2, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5295269391153239998, guid: 13f75c373ef676a4f96b401e901fa1d2, type: 3}
       propertyPath: m_RootOrder
@@ -2343,8 +2343,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   treadPrefab: {fileID: 336787287087755646, guid: 2fa44d21d74e76a4390ddea6875ac19a, type: 3}
-  debugDrive: 0
+  COGHeight: 0
+  COGWidth: 0
   drivePower: 15
+  optimalDriveSpeed: 0
+  drivePowerCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  maxAngularDrag: 0
+  traction: 0
+  extraWheels: 0
+  debugDrive: 0
 --- !u!1 &1487074397
 GameObject:
   m_ObjectHideFlags: 0

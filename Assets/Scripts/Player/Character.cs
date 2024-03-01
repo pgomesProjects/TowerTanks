@@ -74,7 +74,11 @@ public abstract class Character : SerializedMonoBehaviour
     {
         if (currentState == CharacterState.NONCLIMBING) MoveCharacter();
 
-        else if (currentState == CharacterState.CLIMBING) ClimbLadder();
+        else if (currentState == CharacterState.CLIMBING)
+        {
+            DetectLadderBounds();
+            ClimbLadder();
+        }
     }
 
     protected virtual void OnDrawGizmos()
@@ -86,7 +90,7 @@ public abstract class Character : SerializedMonoBehaviour
 
     protected virtual void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Climbable"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Ladder"))
         {
             Debug.Log("ladder found");
             currentLadder = other.gameObject;
@@ -95,7 +99,7 @@ public abstract class Character : SerializedMonoBehaviour
 
     protected virtual void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Climbable"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Ladder"))
         {
             currentLadder = null;
         }
@@ -116,6 +120,8 @@ public abstract class Character : SerializedMonoBehaviour
     }
 
     protected abstract void MoveCharacter();
+    
+    protected abstract void ClimbLadder();
 
     protected void PropelJetpack()
     {
@@ -134,10 +140,11 @@ public abstract class Character : SerializedMonoBehaviour
 
     }
 
-    protected virtual void ClimbLadder()
+
+    protected virtual void DetectLadderBounds()
     {
         // Create a LayerMask for the ladder layer.
-        int ladderLayerIndex = LayerMask.NameToLayer("Climbable");
+        int ladderLayerIndex = LayerMask.NameToLayer("Ladder");
         LayerMask ladderLayer = 1 << ladderLayerIndex;
 
 
@@ -148,6 +155,7 @@ public abstract class Character : SerializedMonoBehaviour
         {
             // For each ladder, add its bounds to ladderBounds.
             ladderBounds.Encapsulate(ladder.bounds);
+            
         }
     }
 
