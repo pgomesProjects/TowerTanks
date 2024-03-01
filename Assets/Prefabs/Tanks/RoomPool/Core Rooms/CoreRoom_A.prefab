@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isCore: 1
-  couplerWidth: 0.9
+  randomizeType: 0
   debugRotate: 0
   debugMoveUp: 0
   debugMoveDown: 0
@@ -509,6 +509,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7737954280297247946}
     m_Modifications:
+    - target: {fileID: 2430160822321552036, guid: dc6cecb12a490e5499e650da19ca3b9b, type: 3}
+      propertyPath: startingInteractable
+      value: 
+      objectReference: {fileID: 917774235452588900, guid: 34b0c3d4656ef5045ac437235b33d2f3, type: 3}
     - target: {fileID: 8667256878992978240, guid: dc6cecb12a490e5499e650da19ca3b9b, type: 3}
       propertyPath: m_RootOrder
       value: 6

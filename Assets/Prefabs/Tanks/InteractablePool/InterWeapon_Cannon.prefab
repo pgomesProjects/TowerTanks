@@ -2209,7 +2209,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 917774235452588907}
-  - component: {fileID: 666929385287686927}
+  - component: {fileID: 4120718332322432321}
   m_Layer: 0
   m_Name: InterWeapon_Cannon
   m_TagString: Untagged
@@ -2233,7 +2233,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &666929385287686927
+--- !u!114 &4120718332322432321
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2242,10 +2242,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 917774235452588900}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8e0cebe543844b458649258c7c31848, type: 3}
+  m_Script: {fileID: 11500000, guid: ec920a65b3ec604418e63ae58239dc55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   type: 3
+  projectilePrefab: {fileID: 0}
+  barrel: {fileID: 917774233809804083}
+  pivot: {fileID: 917774235144409439}
+  muzzleVelocity: 100
+  recoil: 90
+  gimbalRange: 30
+  fire: 0
+  moveGimbal: 0.5
 --- !u!1 &917774235521835506
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,7 +6,8 @@ using UnityEngine;
 public class TankInteractable : MonoBehaviour
 {
     //Objects & Components:
-    private SpriteRenderer[] renderers; //Array of all renderers in interactable
+    private SpriteRenderer[] renderers;    //Array of all renderers in interactable
+    private protected TankController tank; //Controller script for tank this interactable is attached to
 
     //Settings:
     [Header("Placement Constraints:")]
@@ -62,7 +63,8 @@ public class TankInteractable : MonoBehaviour
         }
 
         //Cleanup:
-        return true; //Indicate that interactable was successfully installed in target cell
+        tank = GetComponentInParent<TankController>(); //Get tank controller interactable is being attached to
+        return true;                                   //Indicate that interactable was successfully installed in target cell
     }
     /// <summary>
     /// Changes interactactable to or from a ghost of itself.
