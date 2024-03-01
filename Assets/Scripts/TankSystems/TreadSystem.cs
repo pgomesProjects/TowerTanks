@@ -13,16 +13,14 @@ public class TreadSystem : MonoBehaviour
 
     //Settings:
     [Header("Center of Gravity Settings:")]
-    [Tooltip("Height at which center of gravity is locked (higher heights make tank more wobbly).")] public float COGHeight;
-    [Tooltip("Extents of center of gravity (affects how far tank can lean).")]                       public float COGWidth;
+    [Tooltip("Height at which center of gravity is locked relative to tread system.")] public float COGHeight;
+    [Tooltip("Extents of center of gravity (affects how far tank can lean).")]         public float COGWidth;
     [Header("Drive Settings:")]
-    [Tooltip("Maximum motor torque exerted by tread motor (speed and power)"), Min(0)]                               public float drivePower;
-    [Tooltip("Value used for T = 1 in drivePowerCurve. Should functionally be vehicle's max speed."), Min(0)]        public float optimalDriveSpeed;
-    [Tooltip("Curve describing torque increase and falloff depending on motor speed")]                               public AnimationCurve drivePowerCurve;
+    [Tooltip("Maximum motor torque exerted by tread motor (acceleration)"), Min(0)] public float drivePower;
+    [Tooltip("Force resisting motion of tank while driving"), Min(0)]               public float driveDrag;
     [Header("Traction Settings:")]
-    [Tooltip("Angular drag when all (non-extra) wheels are on the ground."), Min(0)]                                 public float maxAngularDrag;
-    [Tooltip("Amount of linear drag exerted by treads (against ground normal) when engine is not engaged."), Min(0)] public float traction;
-    [Tooltip("How many wheels are by default off the ground."), Min(0)]                                              public int extraWheels;
+    [Tooltip("Angular drag when all (non-extra) wheels are on the ground."), Min(0)] public float maxAngularDrag;
+    [Tooltip("How many wheels are by default off the ground."), Min(0)]              public int extraWheels;
     [Header("Debug Controls:")]
     [Range(-1 , 1)] public float debugDrive;
     
@@ -77,33 +75,40 @@ public class TreadSystem : MonoBehaviour
         {
             if (wheel.grounded) //Only apply force from grounded wheels
             {
-                //Apply suspension force:
-                float suspensionMagnitude = wheel.settings.stiffnessCurve.Evaluate(wheel.compressionValue) * wheel.settings.stiffness; //Use wheel compression value and stiffness to determine magnitude of exerted force
-                Vector2 suspensionForce = transform.up * suspensionMagnitude;                                                          //Get directional force to apply to rigidbody
-                r.AddForceAtPosition(suspensionForce, wheel.transform.position, ForceMode2D.Force);                                    //Apply force to rigidbody at position of wheel
-                groundedWheels++;                                                                                                      //Indicate that this wheel is grounded
+                //Get suspension force:
+                float suspensionMagnitude = wheel.stiffnessCurve.Evaluate(wheel.compressionValue) * wheel.stiffness; //Use wheel compression value and stiffness to determine magnitude of exerted force
+                float dragMagnitude = wheel.damper * wheel.springSpeed;                                              //Get magnitude of force applied by spring damper (drag and inefficiency of suspension)
+                Vector2 suspensionForce = transform.up * (suspensionMagnitude + dragMagnitude);                      //Get directional force to apply to rigidbody
+                r.AddForceAtPosition(suspensionForce, wheel.transform.position, ForceMode2D.Force);                  //Apply total spring forces to rigidbody at position of wheel
+                groundedWheels++;                                                                                    //Indicate that this wheel is grounded
 
+                //Get drive force:
                 if (wheel.lastGroundHit.collider != null) //Wheel has valid information about hit ground
                 {
                     //Apply drive torque:
                     if (driveMagnitude != 0) //Tank is currently being driven
                     {
                         Vector2 driveForce = Vector2.Perpendicular(wheel.lastGroundHit.normal) * driveMagnitude; //Get force being applied by this wheel
-                        r.AddForceAtPosition(driveForce, wheel.lastGroundHit.point, ForceMode2D.Force);          //Add force at wheel's position of contact
+                        //APPLY TRACTION MULTIPLIER
+                        r.AddForceAtPosition(driveForce, wheel.lastGroundHit.point, ForceMode2D.Force); //Add force at wheel's position of contact
                     }
-
-                    //Apply drag:
-
                 }
+
+                //Apply extra forces:
+                float dragCoefficient = driveDrag;                            //Get base drag coefficient from drive setting
+                r.AddForce(-r.velocity * dragCoefficient, ForceMode2D.Force); //Apply drag to constrain tank max speed
             }
         }
 
-        //Add drag:
+        //Add angular drag:
         groundedWheels = Mathf.Min(groundedWheels, wheels.Length - extraWheels);              //Cap grounded wheels in case extras would push number over calculated maximum
         r.angularDrag = maxAngularDrag * Mathf.Min((float)groundedWheels / wheels.Length, 1); //Make angular drag proportional to number of grounded (non-extra) wheels
     }
     private void OnDrawGizmos()
     {
+        //Draw center of mass:
+        Gizmos.color = Color.blue;
+        Gizmos.DrawLine(transform.TransformPoint(new Vector2(-COGWidth / 2, COGHeight)), transform.TransformPoint(new Vector2(COGWidth / 2, COGHeight)));
         Gizmos.color = Color.green;
         Gizmos.DrawSphere(GetComponent<Rigidbody2D>().worldCenterOfMass, 0.2f);
     }
@@ -123,14 +128,13 @@ public class TreadSystem : MonoBehaviour
         {
             foreach (Cell cell in room.cells) //Iterate through each cell in room
             {
-                cellCount++;                                    //Add to cell count
-                avgCellPos += (Vector2)cell.transform.position; //Add local position of cell (relative to tank) to average
+                cellCount++;                                                                     //Add to cell count
+                avgCellPos += (Vector2)transform.InverseTransformPoint(cell.transform.position); //Add local position of cell (relative to tank) to average
             }
         }
 
         //Calculation:
-        avgCellPos /= cellCount; //Get average position of cells
-        //NOTE: Add cell mass calc here
-        r.centerOfMass = transform.InverseTransformPoint(avgCellPos); //Set rigidbody center of mass
+        avgCellPos /= cellCount;                                                                         //Get average position of cells
+        r.centerOfMass = new Vector2(Mathf.Clamp(avgCellPos.x, -COGWidth / 2, COGWidth / 2), COGHeight); //Constrain center mass to line segment controlled in settings (for tank handling reliability)
     }
 }

@@ -408,7 +408,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 0.103773594, g: 0.103773594, b: 0.103773594, a: 1}
   m_FlipX: 0
@@ -432,7 +432,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c77b6c2dbd519647a66838b7ff10c5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settings: {fileID: 11400000, guid: 5c3d408cff8c8eb4f9fab25603b70a72, type: 2}
+  maxSuspensionDepth: 0.8
+  maxSpringSpeed: 0.01
+  maxSqueezeSpeed: 1
+  groundDetectBuffer: 0.02
+  stiffness: 5.5
+  stiffnessCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.099975586
+      inSlope: 1.2857492
+      outSlope: 1.2857492
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.7
+      value: 1
+      inSlope: 1.2857492
+      outSlope: 0
+      tangentMode: 69
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  damper: 0.4
+  generateWheelGuard: 1
+  hideDebugs: 0
 --- !u!1 &139280395
 GameObject:
   m_ObjectHideFlags: 0
@@ -953,7 +993,7 @@ Transform:
   m_Children:
   - {fileID: 208794807}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &363599863
 GameObject:
@@ -1028,7 +1068,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 0.103773594, g: 0.103773594, b: 0.103773594, a: 1}
   m_FlipX: 0
@@ -1052,7 +1092,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c77b6c2dbd519647a66838b7ff10c5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settings: {fileID: 11400000, guid: 5c3d408cff8c8eb4f9fab25603b70a72, type: 2}
+  maxSuspensionDepth: 0.8
+  maxSpringSpeed: 0.01
+  maxSqueezeSpeed: 1
+  groundDetectBuffer: 0.02
+  stiffness: 5.5
+  stiffnessCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.099975586
+      inSlope: 1.2857492
+      outSlope: 1.2857492
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.7
+      value: 1
+      inSlope: 1.2857492
+      outSlope: 0
+      tangentMode: 69
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  damper: 0.4
+  generateWheelGuard: 1
+  hideDebugs: 0
 --- !u!1 &379050292
 GameObject:
   m_ObjectHideFlags: 0
@@ -1126,7 +1206,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 0.103773594, g: 0.103773594, b: 0.103773594, a: 1}
   m_FlipX: 0
@@ -1150,7 +1230,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c77b6c2dbd519647a66838b7ff10c5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settings: {fileID: 11400000, guid: 5c3d408cff8c8eb4f9fab25603b70a72, type: 2}
+  maxSuspensionDepth: 0.8
+  maxSpringSpeed: 0.01
+  maxSqueezeSpeed: 1
+  groundDetectBuffer: 0.02
+  stiffness: 5.5
+  stiffnessCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.099975586
+      inSlope: 1.2857492
+      outSlope: 1.2857492
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.7
+      value: 1
+      inSlope: 1.2857492
+      outSlope: 0
+      tangentMode: 69
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  damper: 0.4
+  generateWheelGuard: 1
+  hideDebugs: 0
 --- !u!1 &571350632
 GameObject:
   m_ObjectHideFlags: 0
@@ -1294,71 +1414,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1001 &654994158
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 95025803489721963, guid: 13f75c373ef676a4f96b401e901fa1d2, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5295269391153239998, guid: 13f75c373ef676a4f96b401e901fa1d2, type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5295269391153239998, guid: 13f75c373ef676a4f96b401e901fa1d2, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 2.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5295269391153239998, guid: 13f75c373ef676a4f96b401e901fa1d2, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5295269391153239998, guid: 13f75c373ef676a4f96b401e901fa1d2, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5295269391153239998, guid: 13f75c373ef676a4f96b401e901fa1d2, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5295269391153239998, guid: 13f75c373ef676a4f96b401e901fa1d2, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5295269391153239998, guid: 13f75c373ef676a4f96b401e901fa1d2, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5295269391153239998, guid: 13f75c373ef676a4f96b401e901fa1d2, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5295269391153239998, guid: 13f75c373ef676a4f96b401e901fa1d2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5295269391153239998, guid: 13f75c373ef676a4f96b401e901fa1d2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5295269391153239998, guid: 13f75c373ef676a4f96b401e901fa1d2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5503049171991321164, guid: 13f75c373ef676a4f96b401e901fa1d2, type: 3}
-      propertyPath: m_Name
-      value: Debug_TankBuilder
-      objectReference: {fileID: 0}
-    - target: {fileID: 5503049171991321164, guid: 13f75c373ef676a4f96b401e901fa1d2, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 13f75c373ef676a4f96b401e901fa1d2, type: 3}
 --- !u!1 &741443626
 GameObject:
   m_ObjectHideFlags: 0
@@ -1758,7 +1813,7 @@ Transform:
   - {fileID: 648039599}
   - {fileID: 1944679215}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &994684466
 GameObject:
@@ -1816,7 +1871,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &994684469
 MonoBehaviour:
@@ -1915,7 +1970,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 0.103773594, g: 0.103773594, b: 0.103773594, a: 1}
   m_FlipX: 0
@@ -1939,7 +1994,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c77b6c2dbd519647a66838b7ff10c5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settings: {fileID: 11400000, guid: 5c3d408cff8c8eb4f9fab25603b70a72, type: 2}
+  maxSuspensionDepth: 0.8
+  maxSpringSpeed: 0.01
+  maxSqueezeSpeed: 1
+  groundDetectBuffer: 0.02
+  stiffness: 5.5
+  stiffnessCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.099975586
+      inSlope: 1.2857492
+      outSlope: 1.2857492
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.7
+      value: 1
+      inSlope: 1.2857492
+      outSlope: 0
+      tangentMode: 69
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  damper: 0.4
+  generateWheelGuard: 1
+  hideDebugs: 0
 --- !u!1 &1145349569
 GameObject:
   m_ObjectHideFlags: 0
@@ -2013,7 +2108,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 0.103773594, g: 0.103773594, b: 0.103773594, a: 1}
   m_FlipX: 0
@@ -2037,7 +2132,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c77b6c2dbd519647a66838b7ff10c5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settings: {fileID: 11400000, guid: 5c3d408cff8c8eb4f9fab25603b70a72, type: 2}
+  maxSuspensionDepth: 0.8
+  maxSpringSpeed: 0.01
+  maxSqueezeSpeed: 1
+  groundDetectBuffer: 0.02
+  stiffness: 5.5
+  stiffnessCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.099975586
+      inSlope: 1.2857492
+      outSlope: 1.2857492
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.7
+      value: 1
+      inSlope: 1.2857492
+      outSlope: 0
+      tangentMode: 69
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  damper: 0.4
+  generateWheelGuard: 1
+  hideDebugs: 0
 --- !u!1 &1180872685
 GameObject:
   m_ObjectHideFlags: 0
@@ -2238,7 +2373,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.764151, g: 0.764151, b: 0.764151, a: 1}
   m_FlipX: 0
@@ -2408,8 +2543,8 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 2
-  m_AngularDrag: 2
+  m_LinearDrag: 0
+  m_AngularDrag: 0
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 1
@@ -2429,8 +2564,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   treadPrefab: {fileID: 336787287087755646, guid: 2fa44d21d74e76a4390ddea6875ac19a, type: 3}
+  COGHeight: -0.31
+  COGWidth: 3.5
+  drivePower: 10
+  driveDrag: 0.4
+  maxAngularDrag: 3
+  extraWheels: 2
   debugDrive: 0
-  drivePower: 15
 --- !u!1 &1487074397
 GameObject:
   m_ObjectHideFlags: 0
@@ -2504,7 +2644,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 0.103773594, g: 0.103773594, b: 0.103773594, a: 1}
   m_FlipX: 0
@@ -2528,7 +2668,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c77b6c2dbd519647a66838b7ff10c5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settings: {fileID: 11400000, guid: 180888b8c03cb9f43bb0d8bebeb84c94, type: 2}
+  maxSuspensionDepth: 0.5
+  maxSpringSpeed: 0.01
+  maxSqueezeSpeed: 1
+  groundDetectBuffer: 0.02
+  stiffness: 5.5
+  stiffnessCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.099975586
+      inSlope: 1.2857492
+      outSlope: 1.2857492
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.7
+      value: 1
+      inSlope: 1.2857492
+      outSlope: 0
+      tangentMode: 69
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  damper: 0.4
+  generateWheelGuard: 1
+  hideDebugs: 0
 --- !u!1 &1595562856
 GameObject:
   m_ObjectHideFlags: 0
@@ -2602,7 +2782,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.764151, g: 0.764151, b: 0.764151, a: 1}
   m_FlipX: 0
@@ -2672,7 +2852,7 @@ Transform:
   - {fileID: 1423103081}
   - {fileID: 571350633}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1623592327
 MonoBehaviour:
@@ -3211,7 +3391,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.764151, g: 0.764151, b: 0.764151, a: 1}
   m_FlipX: 0
@@ -3508,7 +3688,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 0.103773594, g: 0.103773594, b: 0.103773594, a: 1}
   m_FlipX: 0
@@ -3532,7 +3712,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c77b6c2dbd519647a66838b7ff10c5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settings: {fileID: 11400000, guid: 180888b8c03cb9f43bb0d8bebeb84c94, type: 2}
+  maxSuspensionDepth: 0.5
+  maxSpringSpeed: 0.01
+  maxSqueezeSpeed: 1
+  groundDetectBuffer: 0.02
+  stiffness: 5.5
+  stiffnessCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.099975586
+      inSlope: 1.2857492
+      outSlope: 1.2857492
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.7
+      value: 1
+      inSlope: 1.2857492
+      outSlope: 0
+      tangentMode: 69
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  damper: 0.4
+  generateWheelGuard: 1
+  hideDebugs: 0
 --- !u!1 &2133478054
 GameObject:
   m_ObjectHideFlags: 0

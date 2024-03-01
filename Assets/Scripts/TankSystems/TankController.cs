@@ -33,7 +33,7 @@ public class TankController : MonoBehaviour
                 coreRoom = room;                                                                         //Get core room
             }
         }
-        treadSystem.ReCalculateMass(); //Do get center of mass based on room setup
+        treadSystem.ReCalculateMass(); //Get center of mass based on room setup
     }
     private void Update()
     {

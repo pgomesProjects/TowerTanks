@@ -890,6 +890,17 @@
                 },
                 {
                     "name": "",
+                    "id": "5a4a12a7-c2af-4819-a647-292348843b4e",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard and Mouse",
+                    "action": "Cancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "f08a9278-885c-4279-a46f-21e2f33d1fd6",
                     "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
