@@ -15,6 +15,7 @@
 						<ObjectRef Name="loading_coal" ID="{52E4DE9D-2612-42BC-BCE6-0D9AA83EF438}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="small_explosion" ID="{A4A16DEB-B2F5-42E1-9EC8-FB95C1B75CA4}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="tank_impact" ID="{17F53DE3-AF24-42EB-BC87-C2A9662EE9D1}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="jetpack_rocket_loop" ID="{0199D9E5-3AFA-4337-A6F6-B40AC7EFB6E6}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="throttle_shift" ID="{9CA753AD-D849-4445-AAC7-DBC1D1121806}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="text_scroll" ID="{62672F9E-027D-4468-A178-DDBF9627C2E2}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="cannon_lock_in_place" ID="{AC92CB7F-47BF-44DB-BB1D-2C55FF5EF038}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
@@ -42,8 +43,10 @@
 						<ObjectRef Name="tank_rolling" ID="{9EBE84C3-AACD-4C88-9596-A45B07376C70}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="fire_burning" ID="{A31D5596-720E-4C94-85A8-42220EB03011}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="build_room" ID="{8A28287C-D8A1-4CC0-934B-2132F9786DF4}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="jetpack_refuel" ID="{FB6F1FAF-4C04-4D7F-9632-9943CC9FA0B2}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="cannon_fire" ID="{D2DE6CE8-E7A4-4F5B-BE10-F2F5D8E3A2E2}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="wind_ambience" ID="{C8F86EE0-B3B8-4F6E-914E-A708AED3AE7D}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="jetpack_startup" ID="{E0347EB4-54E5-4FF7-85BE-472252C23DBA}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 					</ObjectInclusionList>
 					<ObjectExclusionList/>
 					<GameSyncExclusionList/>

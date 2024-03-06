@@ -153,7 +153,7 @@ public class PlayerMovement : Character
         switch (ctx.action.name)
         {
             case "Move": OnMove(ctx); break;
-            case "Jump": OnJetpack(ctx);
+            case "Jetpack": OnJetpack(ctx);
                 break;
         }
     }
