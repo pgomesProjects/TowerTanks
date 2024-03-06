@@ -9,9 +9,8 @@ public class Test_Engine : MonoBehaviour
 {
     //Input
     private Vector2 moveInput;
-    private bool jetpackInputHeld;
+    public bool repairInputHeld;
     private float cooldown = 0;
-    private bool isDeployed = false;
 
     [SerializeField] private PlayerInput playerInputComponent;
     private int playerIndex;
@@ -19,19 +18,158 @@ public class Test_Engine : MonoBehaviour
     private PlayerHUD playerHUD;
     private float vel;
 
+    //Values
+    private float coal = 0;
+    public float maxCoal; //maximum coal allowed in Firebox
+    private float currentCoalBurnValue = 0;
+    public float coalBurnSpeed; //how fast coal burns
+    private float temperature = 0;
+    public float temperatureRiseSpeed; //how fast temperature rises due to coal
+    private float pressure = 0;
+    public float pressureRiseSpeed; //how fast pressure rises due to temperature
+    public float pressureReleaseSpeed; //how fast pressure drops when holding release valve
+
     //UI
-    private TextMeshPro coalText; 
+    private float loadCounter = 0;
+   
+    private TextMeshProUGUI coalText;
+    private Image coalProgressBar;
+    private TextMeshProUGUI tempText;
+    private Image tempBar;
+    private TextMeshProUGUI pressureText;
+    private Image pressureBar;
+
+    public Color temperatureLowColor;
+    public Color temperatureHighColor;
 
     // Start is called before the first frame update
     void Start()
     {
         if (playerInputComponent != null) LinkPlayerInput(playerInputComponent);
+        coalText = GameObject.Find("CoalText").GetComponent<TextMeshProUGUI>();
+        coalProgressBar = GameObject.Find("CoalProgress").GetComponent<Image>();
+        tempText = GameObject.Find("TempText").GetComponent<TextMeshProUGUI>();
+        tempBar = GameObject.Find("TempBar").GetComponent<Image>();
+        pressureText = GameObject.Find("PressureText").GetComponent<TextMeshProUGUI>();
+        pressureBar = GameObject.Find("PressureBar").GetComponent<Image>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (coal > 0) BurnCoal();
+        UpdateTemperature();
+        UpdatePressure();
+        UpdateUI();
+    }
+
+    private void UpdateUI()
+    {
+        if (coalText != null) coalText.text = "Coal: " + coal;
+        if (coalProgressBar != null)
+        {
+            coalProgressBar.rectTransform.localScale = new Vector3(1, (currentCoalBurnValue / 10));
+        }
+
+        if (tempText != null) tempText.text = "Temperature: " + Mathf.Round(temperature);
+        if (tempBar != null)
+        {
+            tempBar.rectTransform.localScale = new Vector3(1, (temperature / 100f));
+        }
+
+        if (pressureBar != null)
+        {
+            pressureBar.rectTransform.localScale = new Vector3(1, (pressure / 100f));
+        }
+    }
+
+    private void BurnCoal() //Depletes coal over time based on coalBurnSpeed
+    {
+        currentCoalBurnValue += 1f * coalBurnSpeed * Time.deltaTime;
+        if (currentCoalBurnValue >= 10f)
+        {
+            coal -= 1;
+            currentCoalBurnValue = 0;
+        }
+    }
+
+    private void UpdateTemperature() //Increases Temperature over time based on total coal burning
+    {
+        float riseSpeed = 1f * temperatureRiseSpeed * Time.deltaTime;
+        float heatDif = (100f - temperature) / 100f;
         
+        if (coal > 0)
+        {
+            riseSpeed = riseSpeed * coal * heatDif;
+            temperature += riseSpeed;
+            if (temperature > 100f) temperature = 100f;
+        }
+        else if (temperature > 0)
+        {
+            temperature -= riseSpeed * 2f;
+            if (temperature < 0) temperature = 0;
+        }
+
+        tempBar.color = Color.Lerp(temperatureLowColor, temperatureHighColor, temperature / 100f);
+
+        /*
+        if (temperature > 0)
+        {
+            if (!GameManager.Instance.AudioManager.IsPlaying("FireBurningSFX"))
+            {
+                GameManager.Instance.AudioManager.Play("FireBurningSFX");
+            }
+        }
+        else
+        {
+            if (GameManager.Instance.AudioManager.IsPlaying("FireBurningSFX")) GameManager.Instance.AudioManager.Stop("FireBurningSFX");
+        }*/
+    }
+
+    private void UpdatePressure()
+    {
+        float riseSpeed = 1f * pressureRiseSpeed * Time.deltaTime;
+        float lowerSpeed = -pressureReleaseSpeed * Time.deltaTime;
+
+        if (temperature > 0)
+        {
+            riseSpeed = riseSpeed * temperature;
+            pressure += riseSpeed;
+            if (pressure > 100f) pressure = 100f;
+        }
+        else if (pressure > 0)
+        {
+            pressure -= riseSpeed * 0.5f;
+            if (pressure < 0) pressure = 0;
+        }
+
+        if (repairInputHeld && pressure > 0)
+        {
+            pressure += lowerSpeed;
+            if (pressure < 0) pressure = 0;
+
+            if (!GameManager.Instance.AudioManager.IsPlaying("JetpackRocket"))
+            {
+                GameManager.Instance.AudioManager.Play("JetpackRocket");
+            }
+        }
+        else if (GameManager.Instance.AudioManager.IsPlaying("JetpackRocket"))
+        {
+            GameManager.Instance.AudioManager.Stop("JetpackRocket");
+        }
+
+        if (pressure > 0)
+        {
+            if (!GameManager.Instance.AudioManager.IsPlaying("TankIdle"))
+            {
+                GameManager.Instance.AudioManager.Play("TankIdle");
+            }
+        }
+        else
+        {
+            if (GameManager.Instance.AudioManager.IsPlaying("TankIdle")) GameManager.Instance.AudioManager.Stop("TankIdle");
+            //GameManager.Instance.AudioManager.Play("EngineDyingSFX");
+        }
     }
 
     #region Input
@@ -74,10 +212,11 @@ public class Test_Engine : MonoBehaviour
         {
             case "Move": OnMove(ctx); break;
             case "Look": OnLook(ctx); break;
-            case "Cancel": OnRotate(ctx); break;
+            case "Interact": OnInteract(ctx); break;
+            case "Cancel": OnCancel(ctx); break;
             case "Cycle Interactables": OnCycle(ctx); break;
-            case "Jump": OnJump(ctx); break;
-            case "Repair": OnDeploy(ctx); break;
+            case "Jetpack": OnJetpack(ctx); break;
+            case "Repair": OnRepair(ctx); break;
             case "Pause": OnPause(ctx); break;
         }
     }
@@ -95,7 +234,31 @@ public class Test_Engine : MonoBehaviour
         float moveSensitivity = 0.2f;
     }
 
-    public void OnRotate(InputAction.CallbackContext ctx) //Rotate the Room 90 deg
+    public void OnInteract(InputAction.CallbackContext ctx)
+    {
+        if (ctx.started)
+        {
+            coal += 1; //Adds 1 coal
+            GameManager.Instance.AudioManager.Play("ThrottleClick");
+
+            if (coal > maxCoal)
+            {
+                coal = maxCoal;
+                GameManager.Instance.AudioManager.Play("InvalidAlert");
+            }
+
+
+            /*
+            loadCounter += 1;
+            if (loadCounter == 2) { };
+            if (loadCounter == 4)
+            {
+                loadCounter = 0;
+            }*/
+        }
+    }
+
+    public void OnCancel(InputAction.CallbackContext ctx) //Rotate the Room 90 deg
     {
 
     }
@@ -105,14 +268,15 @@ public class Test_Engine : MonoBehaviour
 
     }
 
-    public void OnJump(InputAction.CallbackContext ctx)
+    public void OnJetpack(InputAction.CallbackContext ctx)
     {
        
     }
 
-    public void OnDeploy(InputAction.CallbackContext ctx) //Deploy the Tank
+    public void OnRepair(InputAction.CallbackContext ctx) //Release Valve
     {
-        
+        repairInputHeld = ctx.ReadValue<float>() > 0;
+        if (ctx.ReadValue<float>() > 0 && pressure > 0) GameManager.Instance.AudioManager.Play("JetpackStartup");
     }
 
     public void OnPause(InputAction.CallbackContext ctx) //Reset Tank

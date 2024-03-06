@@ -594,6 +594,11 @@ MonoBehaviour:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: 7767fa807ba5b964c84939cf81d206b9, type: 2}
+  - name: InvalidAlert
+    audioEvent:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: 38514d336c620cf4d8042c5e96e00bae, type: 2}
 --- !u!1 &5338811766095787865
 GameObject:
   m_ObjectHideFlags: 0
