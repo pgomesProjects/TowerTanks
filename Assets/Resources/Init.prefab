@@ -579,6 +579,21 @@ MonoBehaviour:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: 0df1197ebb8c87c42885eb5460ecec2a, type: 2}
+  - name: JetpackStartup
+    audioEvent:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: fd1bf5caf330ab640aa0adf9e7343fa2, type: 2}
+  - name: JetpackRocket
+    audioEvent:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: 291d3a1dadcee634e8e68ee5af2f5f17, type: 2}
+  - name: JetpackRefuel
+    audioEvent:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: 7767fa807ba5b964c84939cf81d206b9, type: 2}
 --- !u!1 &5338811766095787865
 GameObject:
   m_ObjectHideFlags: 0

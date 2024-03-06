@@ -9,9 +9,11 @@ Event	ID	Name			Wwise Object Path	Notes
 	299811467	tank_rolling			\Default Work Unit\tank_rolling	
 	531217250	large_explosion			\Default Work Unit\large_explosion	
 	566396871	item_pickup			\Default Work Unit\item_pickup	
+	756560803	jetpack_startup			\Default Work Unit\jetpack_startup	
 	1015288770	death_stinger			\Default Work Unit\death_stinger	
 	1141416880	throttle_click			\Default Work Unit\throttle_click	
 	1221570156	cannon_aim			\Default Work Unit\cannon_aim	
+	1266436627	jetpack_refuel			\Default Work Unit\jetpack_refuel	
 	1318321645	fire_burning			\Default Work Unit\fire_burning	
 	1469012939	Global_Pause			\Default Work Unit\Global_Pause	
 	1498048058	engine_dying_2			\Default Work Unit\engine_dying_2	
@@ -37,6 +39,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	3519998062	small_explosion			\Default Work Unit\small_explosion	
 	3615561815	metal_footstep			\Default Work Unit\metal_footstep	
 	3902994021	muffled_cannon_fire			\Default Work Unit\muffled_cannon_fire	
+	3943443513	jetpack_rocket_loop			\Default Work Unit\jetpack_rocket_loop	
 	3949782988	blaring_alarm			\Default Work Unit\blaring_alarm	
 
 Game Parameter	ID	Name			Wwise Object Path	Notes
@@ -47,47 +50,51 @@ Game Parameter	ID	Name			Wwise Object Path	Notes
 	4287925136	CombatLayer2Volume			\Default Work Unit\CombatLayer2Volume	
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
-	2061770	TT_SFX_buildUndo	C:\Users\Anime\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_buildUndo_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_buildUndo		3723
-	3469524	TT_SFX_engine-dying-2	C:\Users\Anime\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_engine-dying-2_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_engine-dying-2		70631
-	22366201	TT_SFX_cannon-reload	C:\Users\Anime\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_cannon-reload_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_cannon-reload		16951
-	127070365	TTTT_L2_Combat_Mix_2_28_23	C:\Users\Anime\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\Combat\TTTT_L2_Combat_Mix_2.28.23_696A9007.wem		\Interactive Music Hierarchy\Default Work Unit\Combat\CombatMusicTracks\TTTT_L2_Combat_Mix_2_28_23		440911
-	188920233	TT_UI_button_cancel	C:\Users\Anime\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\button_cancel_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_UI_button_cancel		1813
-	238669381	TTTT_L0_Combat_Mix_2_28_23	C:\Users\Anime\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\Combat\TTTT_L0_Combat_Mix_2.28.23_696A9007.wem		\Interactive Music Hierarchy\Default Work Unit\Combat\CombatMusicTracks\TTTT_L0_Combat_Mix_2_28_23		549616
-	258066100	TT_SFX_tank-impact	C:\Users\Anime\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_tank-impact_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_tank-impact		14049
-	305378326	TT_SFX_rotate-room_v1	C:\Users\Anime\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_rotate-room_v1_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_rotate-room\TT_SFX_rotate-room_v1		3947
-	320129091	TT_SFX_rotate-room	C:\Users\Anime\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_rotate-room_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_rotate-room\TT_SFX_rotate-room		5326
-	354630741	TTTT_DeathStinger_Mix_Final_2_13_22	C:\Users\Anime\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TTTT_DeathStinger_Mix_Final_2.13.22_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\BGM\TTTT_DeathStinger_Mix_Final_2_13_22		151745
-	359788963	TT_SFX_fire-burning	C:\Users\Anime\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_buildRoom_v1_696A9007.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_fire-burning		8750
-	401117418	TT_SFX_character-use	C:\Users\Anime\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_character-use_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_character-use		3101
-	476975229	TT_SFX_outside-ambience	C:\Users\Anime\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_outside-ambience_696A9007.wem		\Actor-Mixer Hierarchy\Default Work Unit\BGM\TT_SFX_outside-ambience		1554690
-	498551846	TT_SFX_engine-dying	C:\Users\Anime\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_engine-dying_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_engine-dying		6929
-	544191574	TT_SFX_projectile-in-air	C:\Users\Anime\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_projectile-in-air_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_projectile-in-air		61346
-	563431773	TT_SFX_small-explosion	C:\Users\Anime\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_small-explosion_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_small-explosion		14231
-	564210437	TTTT_L3_Combat_Mix_2_28_23	C:\Users\Anime\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\Combat\TTTT_L3_Combat_Mix_2.28.23_696A9007.wem		\Interactive Music Hierarchy\Default Work Unit\Combat\CombatMusicTracks\TTTT_L3_Combat_Mix_2_28_23		471410
-	575432004	TT_SFX_loading-coal	C:\Users\Anime\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_loading-coal_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_loading-coal		28963
-	582839826	TT_SFX_buildRoom_v1	C:\Users\Anime\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_buildRoom_v1_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_build-room\TT_SFX_buildRoom_v1		8750
-	595583574	TTTT_Menu_Sketch_Mix	C:\Users\Anime\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TTTT_Menu_Sketch_Mix_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\BGM\TTTT_Menu_Sketch_Mix		879883
-	608155079	TT_SFX_ladder_climb	C:\Users\Anime\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\updated_ladder_climb_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_ladder_climb		3632
-	616062773	TT_SFX_throttle-click	C:\Users\Anime\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_throttle-click_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_throttle-click		7334
-	652002572	TT_SFX_metal_footstep	C:\Users\Anime\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\metal_footstep_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_metal_footstep		2989
-	676306554	TT_SFX_cannon-lock-in-place	C:\Users\Anime\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_cannon-lock-in-place_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_cannon-lock-in-place		9593
-	680578571	TT_SFX_muffled_cannon_fire	C:\Users\Anime\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\muffled_cannon_fire_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_muffled_cannon_fire		28226
-	729628631	TT_UI_text_beep	C:\Users\Anime\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\text_beep_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_UI_text_beep		602
-	732871025	TTTT_L1_Combat_Mix_2_28_23	C:\Users\Anime\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\Combat\TTTT_L1_Combat_Mix_2.28.23_696A9007.wem		\Interactive Music Hierarchy\Default Work Unit\Combat\CombatMusicTracks\TTTT_L1_Combat_Mix_2_28_23		450985
-	736230953	TT_SFX_item_pickup	C:\Users\Anime\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_item_pickup_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_item_pickup		7760
-	756116293	TT_SFX_room-connect	C:\Users\Anime\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_room-connect_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_room-connect\TT_SFX_room-connect		7513
-	763069168	TT_SFX_throttle-shift	C:\Users\Anime\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_throttle-shift_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_throttle-shift		2692
-	767659334	TT_SFX_room-connect_v1	C:\Users\Anime\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_room-connect_v1_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_room-connect\TT_SFX_room-connect_v1		8085
-	792905054	TT_SFX_cannon-aim-system	C:\Users\Anime\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_cannon-aim-system_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_cannon-aim-system		53771
-	806435377	TT_SFX_cannon-fires	C:\Users\Anime\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_cannon-fires_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_cannon-fires		18393
-	813749911	TT_UI_button_hover	C:\Users\Anime\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\button_hover_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_UI_button_hover		2347
-	835123090	TT_SFX_text-scroll	C:\Users\Anime\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_text-scroll_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_text-scroll		1078
-	863978555	TT_SFX_invalidAlert	C:\Users\Anime\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_invalidAlert_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_invalidAlert		3987
-	872036804	TT_SFX_tank-engine	C:\Users\Anime\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_tank-engine_696A9007.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_tank-engine		44532
-	881076302	TT_SFX_buildRoom	C:\Users\Anime\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_buildRoom_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_build-room\TT_SFX_buildRoom		7717
-	882478931	TT_SFX_wrench	C:\Users\Anime\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_wrench_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_wrench		12101
-	963356657	TT_SFX_blaring-alarm	C:\Users\Anime\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_blaring-alarm_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_blaring-alarm		91016
-	1046025241	TT_SFX_large-explosion	C:\Users\Anime\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_large-explosion_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_large-explosion		83852
-	1049821619	TT_SFX_tank-rolling	C:\Users\Anime\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_tank-rolling_696A9007.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_tank-rolling		66857
-	1065158661	TT_SFX_medium-explosion	C:\Users\Anime\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_medium-explosion_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_medium-explosion		54378
+	2061770	TT_SFX_buildUndo	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_buildUndo_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_buildUndo		3723
+	3469524	TT_SFX_engine-dying-2	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_engine-dying-2_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_engine-dying-2		70631
+	22366201	TT_SFX_cannon-reload	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_cannon-reload_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_cannon-reload		16951
+	127070365	TTTT_L2_Combat_Mix_2_28_23	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\Combat\TTTT_L2_Combat_Mix_2.28.23_696A9007.wem		\Interactive Music Hierarchy\Default Work Unit\Combat\CombatMusicTracks\TTTT_L2_Combat_Mix_2_28_23		440911
+	188920233	TT_UI_button_cancel	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\button_cancel_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_UI_button_cancel		1813
+	238669381	TTTT_L0_Combat_Mix_2_28_23	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\Combat\TTTT_L0_Combat_Mix_2.28.23_696A9007.wem		\Interactive Music Hierarchy\Default Work Unit\Combat\CombatMusicTracks\TTTT_L0_Combat_Mix_2_28_23		549616
+	258066100	TT_SFX_tank-impact	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_tank-impact_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_tank-impact		14049
+	305378326	TT_SFX_rotate-room_v1	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_rotate-room_v1_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_rotate-room\TT_SFX_rotate-room_v1		3947
+	320129091	TT_SFX_rotate-room	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_rotate-room_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_rotate-room\TT_SFX_rotate-room		5326
+	354630741	TTTT_DeathStinger_Mix_Final_2_13_22	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TTTT_DeathStinger_Mix_Final_2.13.22_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\BGM\TTTT_DeathStinger_Mix_Final_2_13_22		151745
+	359788963	TT_SFX_fire-burning	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_buildRoom_v1_696A9007.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_fire-burning		8750
+	401117418	TT_SFX_character-use	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_character-use_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_character-use		3101
+	428826036	TT_SFX_jetpack-startup_v1	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_jetpack-startup_v1_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_jetpack-startup\TT_SFX_jetpack-startup_v1		6550
+	476975229	TT_SFX_outside-ambience	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_outside-ambience_696A9007.wem		\Actor-Mixer Hierarchy\Default Work Unit\BGM\TT_SFX_outside-ambience		1554690
+	544191574	TT_SFX_projectile-in-air	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_projectile-in-air_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_projectile-in-air		61346
+	563431773	TT_SFX_small-explosion	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_small-explosion_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_small-explosion		14231
+	564210437	TTTT_L3_Combat_Mix_2_28_23	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\Combat\TTTT_L3_Combat_Mix_2.28.23_696A9007.wem		\Interactive Music Hierarchy\Default Work Unit\Combat\CombatMusicTracks\TTTT_L3_Combat_Mix_2_28_23		471410
+	564972492	TT_SFX_jetpack_rocket_loop	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_jetpack_rocket_loop_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_jetpack_rocket_loop		38466
+	575432004	TT_SFX_loading-coal	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_loading-coal_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_loading-coal		28963
+	582839826	TT_SFX_buildRoom_v1	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_buildRoom_v1_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_build-room\TT_SFX_buildRoom_v1		8750
+	595583574	TTTT_Menu_Sketch_Mix	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TTTT_Menu_Sketch_Mix_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\BGM\TTTT_Menu_Sketch_Mix		879883
+	608069065	TT_SFX_jetpack_refuel_v1	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_jetpack_refuel_v1_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_jetpack_refuel_v1		7350
+	608155079	TT_SFX_ladder_climb	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\updated_ladder_climb_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_ladder_climb		3632
+	616062773	TT_SFX_throttle-click	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_throttle-click_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_throttle-click		7334
+	652002572	TT_SFX_metal_footstep	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\metal_footstep_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_metal_footstep		2989
+	676306554	TT_SFX_cannon-lock-in-place	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_cannon-lock-in-place_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_cannon-lock-in-place		9593
+	680578571	TT_SFX_muffled_cannon_fire	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\muffled_cannon_fire_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_muffled_cannon_fire		28226
+	729628631	TT_UI_text_beep	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\text_beep_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_UI_text_beep		602
+	732871025	TTTT_L1_Combat_Mix_2_28_23	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\Combat\TTTT_L1_Combat_Mix_2.28.23_696A9007.wem		\Interactive Music Hierarchy\Default Work Unit\Combat\CombatMusicTracks\TTTT_L1_Combat_Mix_2_28_23		450985
+	736230953	TT_SFX_item_pickup	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_item_pickup_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_item_pickup		7760
+	756116293	TT_SFX_room-connect	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_room-connect_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_room-connect\TT_SFX_room-connect		7513
+	763069168	TT_SFX_throttle-shift	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_throttle-shift_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_throttle-shift		2692
+	767659334	TT_SFX_room-connect_v1	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_room-connect_v1_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_room-connect\TT_SFX_room-connect_v1		8085
+	792905054	TT_SFX_cannon-aim-system	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_cannon-aim-system_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_cannon-aim-system		53771
+	806435377	TT_SFX_cannon-fires	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_cannon-fires_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_cannon-fires		18393
+	813749911	TT_UI_button_hover	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\button_hover_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_UI_button_hover		2347
+	835123090	TT_SFX_text-scroll	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_text-scroll_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_text-scroll		1078
+	863978555	TT_SFX_invalidAlert	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_invalidAlert_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_invalidAlert		3987
+	872036804	TT_SFX_tank-engine	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_tank-engine_696A9007.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_tank-engine		44532
+	881076302	TT_SFX_buildRoom	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_buildRoom_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_build-room\TT_SFX_buildRoom		7717
+	882478931	TT_SFX_wrench	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_wrench_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_wrench		12101
+	895375203	TT_SFX_engine-dying	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_jetpack-startup_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_engine-dying		8719
+	963356657	TT_SFX_blaring-alarm	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_blaring-alarm_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_blaring-alarm		91016
+	1036265675	TT_SFX_jetpack-startup_v2	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_jetpack-startup_v2_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_jetpack-startup\TT_SFX_jetpack-startup_v2		11110
+	1046025241	TT_SFX_large-explosion	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_large-explosion_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_large-explosion		83852
+	1049821619	TT_SFX_tank-rolling	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_tank-rolling_696A9007.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_tank-rolling		66857
+	1065158661	TT_SFX_medium-explosion	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_medium-explosion_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_medium-explosion		54378
 
