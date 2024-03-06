@@ -45,15 +45,23 @@ public class PlayerMovement : Character
         if (jetpackInputHeld)
         {
             currentFuel -= fuelDepletionRate * Time.deltaTime;
+
+            if (!GameManager.Instance.AudioManager.IsPlaying("JetpackRocket"))
+            {
+                GameManager.Instance.AudioManager.Play("JetpackRocket");
+            }
         }
         else if (CheckGround() || currentState == CharacterState.CLIMBING)
         {
             currentFuel += fuelRegenerationRate * Time.deltaTime;
         }
-
-        base.Update();
+        else if (GameManager.Instance.AudioManager.IsPlaying("JetpackRocket"))
+        {
+            GameManager.Instance.AudioManager.Stop("JetpackRocket");
+        }
+        
     }
-
+                
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
@@ -159,7 +167,11 @@ public class PlayerMovement : Character
             SetLadder();
         }
     }
-    public void OnJetpack(InputAction.CallbackContext ctx) => jetpackInputHeld = ctx.ReadValue<float>() > 0;
+    public void OnJetpack(InputAction.CallbackContext ctx)
+    {
+        jetpackInputHeld = ctx.ReadValue<float>() > 0;
+        if (ctx.ReadValue<float>() > 0) GameManager.Instance.AudioManager.Play("JetpackStartup");
+    }
 
     #endregion
 

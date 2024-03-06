@@ -24,7 +24,7 @@ MonoBehaviour:
     ParentPath: Virtual Acoustics\Default Work Unit
     guid: 79d6e6cdcbdfcd4d9d052b236bc85600
     GuidInternal: 
-    m_lastTime: -8584933168036021592
+    m_lastTime: -8584962515534722690
     List: []
   AuxBusWwu:
   - PhysicalPath: Master-Mixer Hierarchy\Default Work Unit.wwu
@@ -38,7 +38,7 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy\Default Work Unit
     guid: 358467ebf0a09540b65ba3cce55d6389
     GuidInternal: 
-    m_lastTime: -8584933168050271859
+    m_lastTime: -8584962515556495093
     List:
     - name: Master Audio Bus
       guid: d8a41415a61d2a41a17e75ca0c2149f3
@@ -101,7 +101,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: df5fafb8b92e944290f5318847f0e90d
     GuidInternal: 
-    m_lastTime: -8584929783355872875
+    m_lastTime: -8584919437649005057
     List:
     - name: mainbank
       guid: 3a7f49372b0b1a428cab0adbe8b1c2b4
@@ -129,7 +129,7 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: 83957ce1e688d54e8b6b22beb20598dd
     GuidInternal: 
-    m_lastTime: -8584933167387404738
+    m_lastTime: -8584919437655786559
     List:
     - name: blaring_alarm
       guid: 0557db327da0a0479a6261e902cede4a
@@ -451,6 +451,57 @@ MonoBehaviour:
         ObjectType: 3
         guid: f40e6a19f5a5784aa65376afc3a8b73e
       Path: Events\Default Work Unit\item_pickup
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: jetpack_refuel
+      guid: af1f6ffb044c7f4d96329943cc9fa0b2
+      id: 1266436627
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: jetpack_refuel
+        ObjectType: 3
+        guid: af1f6ffb044c7f4d96329943cc9fa0b2
+      Path: Events\Default Work Unit\jetpack_refuel
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: jetpack_rocket_loop
+      guid: e5d99901fa3a3743a6f6b40ac7efb6e6
+      id: 3943443513
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: jetpack_rocket_loop
+        ObjectType: 3
+        guid: e5d99901fa3a3743a6f6b40ac7efb6e6
+      Path: Events\Default Work Unit\jetpack_rocket_loop
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: jetpack_startup
+      guid: b47e34e0e554f74f85be472252c23dba
+      id: 756560803
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: jetpack_startup
+        ObjectType: 3
+        guid: b47e34e0e554f74f85be472252c23dba
+      Path: Events\Default Work Unit\jetpack_startup
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -806,7 +857,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\Default Work Unit
     guid: 7fd26d170457f64b9c4075e46d49e907
     GuidInternal: 
-    m_lastTime: -8584933168051321848
+    m_lastTime: -8584962515557992286
     List:
     - name: CombatLayer0Volume
       guid: 999f4b2c35a11740af640b4d29de9d1c
@@ -918,7 +969,7 @@ MonoBehaviour:
     ParentPath: States\Default Work Unit
     guid: a0b7341f178cca44b4803208de1bf889
     GuidInternal: 
-    m_lastTime: -8584933168036051581
+    m_lastTime: -8584962515534791755
     List: []
   SwitchWwu:
   - PhysicalPath: Switches\Default Work Unit.wwu
@@ -932,7 +983,7 @@ MonoBehaviour:
     ParentPath: Switches\Default Work Unit
     guid: 6d9d81080ab4cc4e872aa2d178ddb83f
     GuidInternal: 
-    m_lastTime: -8584933168036041584
+    m_lastTime: -8584962515534781750
     List: []
   TriggerWwu:
   - PhysicalPath: Triggers\Default Work Unit.wwu
@@ -946,10 +997,10 @@ MonoBehaviour:
     ParentPath: Triggers\Default Work Unit
     guid: 178f1c8b56862740bb45115316763d0e
     GuidInternal: 
-    m_lastTime: -8584933168036021592
+    m_lastTime: -8584962515534732688
     List: []
   ExpandedFileSystemItemIds: 
-  ExpandedWaapiItemIds: 
+  ExpandedWaapiItemIds: 050000000600000007000000
   AutoSyncSelection: 0
   autoPopulateEnabled: 1
   currentDataSource: 0

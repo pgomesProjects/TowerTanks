@@ -32,6 +32,9 @@ namespace AK
         static const AkUniqueID GLOBAL_UNPAUSE = 2496259136U;
         static const AkUniqueID INVALID_ALERT = 2191775701U;
         static const AkUniqueID ITEM_PICKUP = 566396871U;
+        static const AkUniqueID JETPACK_REFUEL = 1266436627U;
+        static const AkUniqueID JETPACK_ROCKET_LOOP = 3943443513U;
+        static const AkUniqueID JETPACK_STARTUP = 756560803U;
         static const AkUniqueID LADDER_CLIMB = 1707141479U;
         static const AkUniqueID LARGE_EXPLOSION = 531217250U;
         static const AkUniqueID LOADING_COAL = 164337995U;
