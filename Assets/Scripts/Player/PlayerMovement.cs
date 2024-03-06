@@ -13,8 +13,10 @@ public class PlayerMovement : Character
     private Vector2 moveInput;
     private bool jetpackInputHeld;
 
-    [SerializeField]
-    private PlayerInput playerInputComponent;
+    [SerializeField] private Transform towerJoint;
+    [SerializeField] private Transform playerSprite;
+
+    [SerializeField] private PlayerInput playerInputComponent;
     [SerializeField] private float deAcceleration;
     [SerializeField] private float maxSpeed;
 
@@ -81,6 +83,21 @@ public class PlayerMovement : Character
     
     protected override void MoveCharacter()
     {
+        int ladderLayerIndex = LayerMask.NameToLayer("Ladder");
+        LayerMask ladderLayer = 1 << ladderLayerIndex;
+        var ladder = Physics2D.OverlapCircle(transform.position, .5f, ladderLayer)?.gameObject;
+
+        if (ladder != null)
+        {
+            currentLadder = ladder;
+            Debug.Log("Ladder found");
+        }
+        else
+        {
+            currentLadder = null;
+            Debug.Log("Ladder not found");
+        }
+        
         float force = transform.right.x * moveInput.x * moveSpeed; 
 
         Vector3 localVelocity = transform.InverseTransformDirection(rb.velocity);
@@ -93,17 +110,26 @@ public class PlayerMovement : Character
         }
         if (CheckGround()) rb.velocity = worldVelocity;
         else rb.velocity = new Vector2(moveInput.x * moveSpeed, rb.velocity.y);
+        
+        
     }
 
 
-    protected override void ClimbLadder()
+    protected override void ClimbLadder() //todo: parent the player to the ladder and then when exit, child back to towerjoint
     {
-        base.ClimbLadder();
-        Vector2 targetPosition = rb.position + new Vector2(0, climbSpeed * moveInput.y * Time.fixedDeltaTime);
-        targetPosition = new Vector2(targetPosition.x, Mathf.Clamp(targetPosition.y, ladderBounds.min.y + transform.localScale.y / 2, ladderBounds.max.y - transform.localScale.y / 2));
+        Bounds currentLadderBounds = currentLadder.GetComponent<Collider2D>().bounds;
+        ladderBounds = new Bounds( new Vector3(currentLadderBounds.center.x, ladderBounds.center.y, ladderBounds.center.z), ladderBounds.size);
+        
 
-        rb.MovePosition(targetPosition);
-
+        Vector3 localVelocity = transform.InverseTransformDirection(rb.velocity);
+        localVelocity.y = climbSpeed * moveInput.y;
+        localVelocity.x = 0;
+        Vector3 worldVelocity = transform.TransformDirection(localVelocity);
+        rb.velocity = worldVelocity;
+        
+        transform.position = new Vector3(transform.position.x,
+                                         Mathf.Clamp(transform.position.y, ladderBounds.min.y + .3f, ladderBounds.max.y - .3f), 
+            transform.position.z);
         if (moveInput.x != 0 || jetpackInputHeld)
         {
             SwitchOffLadder();
