@@ -21,6 +21,12 @@ public class PlayerMovement : Character
     InputActionMap inputMap;
     private float vel;
 
+    //objects
+    [Header("Interactables")]
+    public InteractableZone currentZone = null;
+    public bool isOperator; //true if player is currently operating an interactable
+    public TankInteractable currentInteractable; //what interactable player is currently operating
+
     #endregion
 
     #region Unity Methods
@@ -42,7 +48,7 @@ public class PlayerMovement : Character
 
     protected override void Update()
     {
-        if (jetpackInputHeld)
+        if (jetpackInputHeld && currentState != CharacterState.OPERATING)
         {
             currentFuel -= fuelDepletionRate * Time.deltaTime;
 
@@ -60,6 +66,10 @@ public class PlayerMovement : Character
             GameManager.Instance.AudioManager.Stop("JetpackRocket");
         }
         
+        if (currentInteractable != null)
+        {
+            currentState = CharacterState.OPERATING;
+        }
     }
                 
     protected override void FixedUpdate()
@@ -153,8 +163,10 @@ public class PlayerMovement : Character
         switch (ctx.action.name)
         {
             case "Move": OnMove(ctx); break;
-            case "Jetpack": OnJetpack(ctx);
-                break;
+            case "Jetpack": OnJetpack(ctx);  break;
+
+            case "Interact": OnInteract(ctx); break;
+            case "Cancel": OnCancel(ctx); break;
         }
     }
 
@@ -170,7 +182,30 @@ public class PlayerMovement : Character
     public void OnJetpack(InputAction.CallbackContext ctx)
     {
         jetpackInputHeld = ctx.ReadValue<float>() > 0;
-        if (ctx.ReadValue<float>() > 0) GameManager.Instance.AudioManager.Play("JetpackStartup");
+        if (ctx.ReadValue<float>() > 0 && currentState != CharacterState.OPERATING) GameManager.Instance.AudioManager.Play("JetpackStartup");
+    }
+
+    public void OnInteract(InputAction.CallbackContext ctx)
+    {
+        if (ctx.started)
+        {
+            if (currentZone != null)
+            {
+                currentZone.Interact(this.gameObject);
+            }
+        }
+    }
+
+    public void OnCancel(InputAction.CallbackContext ctx)
+    {
+        if (ctx.started)
+        {
+            if (currentInteractable != null)
+            {
+                currentInteractable.Exit();
+                currentState = CharacterState.NONCLIMBING;
+            }
+        }
     }
 
     #endregion
