@@ -23,11 +23,17 @@ public class Test_Engine : MonoBehaviour
     public float maxCoal; //maximum coal allowed in Firebox
     private float currentCoalBurnValue = 0;
     public float coalBurnSpeed; //how fast coal burns
+    public float coalBump; //bump to temp & pressure when adding coal
+
     private float temperature = 0;
     public float temperatureRiseSpeed; //how fast temperature rises due to coal
+    public float lowTempThreshold; //threshold temp needs to be above for pressure to begin
+
     private float pressure = 0;
     public float pressureRiseSpeed; //how fast pressure rises due to temperature
     public float pressureReleaseSpeed; //how fast pressure drops when holding release valve
+    public float dangerZoneThreshold; //threshold pressure needs to be above for overdrive
+    private bool overdriveActive = false;
 
     //UI
     private float loadCounter = 0;
@@ -38,6 +44,10 @@ public class Test_Engine : MonoBehaviour
     private Image tempBar;
     private TextMeshProUGUI pressureText;
     private Image pressureBar;
+    private TextMeshProUGUI overdriveText;
+    private TextMeshProUGUI highPressureText;
+    private TextMeshProUGUI highTempText;
+    private TextMeshProUGUI maxCoalText;
 
     public Color temperatureLowColor;
     public Color temperatureHighColor;
@@ -52,6 +62,10 @@ public class Test_Engine : MonoBehaviour
         tempBar = GameObject.Find("TempBar").GetComponent<Image>();
         pressureText = GameObject.Find("PressureText").GetComponent<TextMeshProUGUI>();
         pressureBar = GameObject.Find("PressureBar").GetComponent<Image>();
+        overdriveText = GameObject.Find("OverdriveText").GetComponent<TextMeshProUGUI>();
+        highPressureText = GameObject.Find("HighPressureText").GetComponent<TextMeshProUGUI>();
+        highTempText = GameObject.Find("HighTempText").GetComponent<TextMeshProUGUI>();
+        maxCoalText = GameObject.Find("MaxCoalText").GetComponent<TextMeshProUGUI>();
     }
 
     // Update is called once per frame
@@ -81,6 +95,30 @@ public class Test_Engine : MonoBehaviour
         {
             pressureBar.rectTransform.localScale = new Vector3(1, (pressure / 100f));
         }
+
+        if (overdriveActive)
+        {
+            overdriveText.enabled = true;
+        }
+        else overdriveText.enabled = false;
+
+        if (pressure >= dangerZoneThreshold)
+        {
+            highPressureText.enabled = true;
+        }
+        else highPressureText.enabled = false;
+
+        if (temperature >= 80)
+        {
+            highTempText.enabled = true;
+        }
+        else highTempText.enabled = false;
+
+        if (coal >= maxCoal)
+        {
+            maxCoalText.enabled = true;
+        }
+        else maxCoalText.enabled = false;
     }
 
     private void BurnCoal() //Depletes coal over time based on coalBurnSpeed
@@ -93,24 +131,31 @@ public class Test_Engine : MonoBehaviour
         }
     }
 
-    private void UpdateTemperature() //Increases Temperature over time based on total coal burning
+    private void UpdateTemperature() //Increases Temperature over time while coal burning
     {
         float riseSpeed = 1f * temperatureRiseSpeed * Time.deltaTime;
-        float heatDif = (100f - temperature) / 100f;
+        float lowerSpeed = -pressureReleaseSpeed * Time.deltaTime * 0.4f;
+        float heatDif = (100f - (temperature * 0.5f)) / 100f;
         
         if (coal > 0)
         {
-            riseSpeed = riseSpeed * coal * heatDif;
+            riseSpeed = riseSpeed * heatDif;
             temperature += riseSpeed;
             if (temperature > 100f) temperature = 100f;
         }
         else if (temperature > 0)
         {
-            temperature -= riseSpeed * 2f;
+            temperature -= riseSpeed * 5f;
             if (temperature < 0) temperature = 0;
         }
 
-        tempBar.color = Color.Lerp(temperatureLowColor, temperatureHighColor, temperature / 100f);
+        if (repairInputHeld && temperature > 0)
+        {
+            temperature += lowerSpeed;
+            if (temperature < 0) temperature = 0;
+        }
+
+            tempBar.color = Color.Lerp(temperatureLowColor, temperatureHighColor, temperature / 100f);
 
         /*
         if (temperature > 0)
@@ -130,16 +175,17 @@ public class Test_Engine : MonoBehaviour
     {
         float riseSpeed = 1f * pressureRiseSpeed * Time.deltaTime;
         float lowerSpeed = -pressureReleaseSpeed * Time.deltaTime;
+        float pressureDif = (100f - (pressure * 0.9f)) / 100f;
 
-        if (temperature > 0)
+        if (temperature > lowTempThreshold)
         {
-            riseSpeed = riseSpeed * temperature;
+            riseSpeed = riseSpeed * (temperature * 15f) * pressureDif;
             pressure += riseSpeed;
             if (pressure > 100f) pressure = 100f;
         }
         else if (pressure > 0)
         {
-            pressure -= riseSpeed * 0.5f;
+            pressure += lowerSpeed;
             if (pressure < 0) pressure = 0;
         }
 
@@ -147,6 +193,11 @@ public class Test_Engine : MonoBehaviour
         {
             pressure += lowerSpeed;
             if (pressure < 0) pressure = 0;
+
+            if (pressure >= dangerZoneThreshold)
+            {
+                overdriveActive = true;
+            }
 
             if (!GameManager.Instance.AudioManager.IsPlaying("JetpackRocket"))
             {
@@ -156,6 +207,7 @@ public class Test_Engine : MonoBehaviour
         else if (GameManager.Instance.AudioManager.IsPlaying("JetpackRocket"))
         {
             GameManager.Instance.AudioManager.Stop("JetpackRocket");
+            overdriveActive = false;
         }
 
         if (pressure > 0)
@@ -245,6 +297,14 @@ public class Test_Engine : MonoBehaviour
             {
                 coal = maxCoal;
                 GameManager.Instance.AudioManager.Play("InvalidAlert");
+            }
+            else
+            {
+                temperature += coalBump;
+                //pressure += coalBump;
+
+                if (temperature > 100) temperature = 100;
+                if (pressure > 100) pressure = 100;
             }
 
 
