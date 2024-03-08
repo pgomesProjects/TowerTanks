@@ -14,7 +14,7 @@ public class GameHUD : MonoBehaviour
     [SerializeField, Tooltip("The prompt that tells the player to advance forward.")] private GoArrowAnimation goPrompt;
     [SerializeField, Tooltip("The alarm animation for incoming enemies.")] private AlarmAnimation alarmAnimation;
 
-    [SerializeField, Tooltip("The spacing between each player avatar.")] private float playerAvatarSpacing = 35f;
+    //[SerializeField, Tooltip("The spacing between each player avatar.")] private float playerAvatarSpacing = 35f;
 
     [SerializeField, Tooltip("The transform that indicates the amount of scrap in the game.")] private RectTransform resourcesDisplay;
     [SerializeField, Tooltip("The minimum duration for the resources change.")] private float minResourcesAnimationDuration = 0.5f;

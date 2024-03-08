@@ -170,6 +170,15 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Mount"",
+                    ""type"": ""Button"",
+                    ""id"": ""c55ef5c2-8d1f-4ae5-bbd8-8bd5281a346f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -1063,6 +1072,28 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8a29ae4d-b6e4-4a75-9bb9-60b4a4a3933d"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Mount"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f26e8845-895b-4da5-9d98-9a9d19e23fd8"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Mount"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -1869,6 +1900,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         m_Player_OnLadderExit = m_Player.FindAction("On Ladder Exit", throwIfNotFound: true);
         m_Player_CannonScroll = m_Player.FindAction("Cannon Scroll", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
+        m_Player_Mount = m_Player.FindAction("Mount", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1961,6 +1993,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_OnLadderExit;
     private readonly InputAction m_Player_CannonScroll;
     private readonly InputAction m_Player_Jump;
+    private readonly InputAction m_Player_Mount;
     public struct PlayerActions
     {
         private @PlayerControlSystem m_Wrapper;
@@ -1981,6 +2014,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         public InputAction @OnLadderExit => m_Wrapper.m_Player_OnLadderExit;
         public InputAction @CannonScroll => m_Wrapper.m_Player_CannonScroll;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
+        public InputAction @Mount => m_Wrapper.m_Player_Mount;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -2038,6 +2072,9 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @Jump.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
+                @Mount.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMount;
+                @Mount.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMount;
+                @Mount.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMount;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -2090,6 +2127,9 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
+                @Mount.started += instance.OnMount;
+                @Mount.performed += instance.OnMount;
+                @Mount.canceled += instance.OnMount;
             }
         }
     }
@@ -2311,6 +2351,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         void OnOnLadderExit(InputAction.CallbackContext context);
         void OnCannonScroll(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnMount(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

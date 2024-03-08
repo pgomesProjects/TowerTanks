@@ -12,10 +12,8 @@ public class GamepadCursor : MonoBehaviour
     [SerializeField] private float cursorSpeed = 1000f;
     [SerializeField] private float padding = 50f;
 
-    private bool previousMouseState;
     private bool previousButtonSouthState;
     private Mouse virtualMouse;
-    private Mouse currentMouse;
     private Camera mainCamera;
     private SelectableRoomObject lastHoveredObject;
 
@@ -25,10 +23,6 @@ public class GamepadCursor : MonoBehaviour
     private RectTransform localGamepadCursorTransform;
     private Color cursorColor;
 
-    private string previousControlScheme = "";
-    private const string gamepadScheme = "Gamepad";
-    private const string mouseScheme = "Keyboard and Mouse";
-
     private bool cursorActive;
 
     private void OnEnable()
@@ -37,7 +31,6 @@ public class GamepadCursor : MonoBehaviour
             return;
 
         mainCamera = Camera.main;
-        currentMouse = Mouse.current;
 
         //Adds the the virtual mouse to the input system
         if (virtualMouse == null)
@@ -61,8 +54,6 @@ public class GamepadCursor : MonoBehaviour
         }
 
         InputSystem.onAfterUpdate += UpdateMotion;
-
-        playerInput.onControlsChanged += OnControlsChanged;
     }
 
     private void OnDisable()
@@ -73,7 +64,6 @@ public class GamepadCursor : MonoBehaviour
         if (virtualMouse != null && virtualMouse.added)
             InputSystem.RemoveDevice(virtualMouse);
         InputSystem.onAfterUpdate -= UpdateMotion;
-        playerInput.onControlsChanged -= OnControlsChanged;
     }
 
     /// <summary>
@@ -84,36 +74,58 @@ public class GamepadCursor : MonoBehaviour
         if (!cursorActive)
             return;
 
-        Gamepad currentPlayerGamepad = (Gamepad)playerInput.devices[0];
+        InputDevice currentDevice = playerInput.devices[0];
 
-        if (virtualMouse == null || currentPlayerGamepad == null || canvas == null)
+        if (virtualMouse == null || currentDevice == null || canvas == null)
             return;
 
-        // Delta of the gamepad cursor
-        Vector2 deltaValue = currentPlayerGamepad.leftStick.ReadValue();
-        deltaValue *= cursorSpeed * Time.deltaTime;
+        Vector2 deltaValue = Vector2.zero;
 
-        Vector2 currentPosition = virtualMouse.position.ReadValue();
-        Vector2 newPosition = currentPosition + deltaValue;
-        newPosition.x = Mathf.Clamp(newPosition.x, padding, Screen.width - padding);
-        newPosition.y = Mathf.Clamp(newPosition.y, padding, Screen.height - padding);
+        if (currentDevice is Keyboard)
+        {
+            // Position of the mouse
+            deltaValue = Mouse.current.delta.ReadValue();
 
-        // Changes the virtual mouse position and delta
-        InputState.Change(virtualMouse.position, newPosition);
-        InputState.Change(virtualMouse.delta, deltaValue);
+            Vector2 newPosition = Mouse.current.position.ReadValue();
+            newPosition.x = Mathf.Clamp(newPosition.x, padding, Screen.width - padding);
+            newPosition.y = Mathf.Clamp(newPosition.y, padding, Screen.height - padding);
 
-        // Update the cursor transform
-        AnchorCursor(newPosition);
+            // Changes the virtual mouse position and delta
+            InputState.Change(virtualMouse.position, newPosition);
+            InputState.Change(virtualMouse.delta, deltaValue);
+
+            // Update the cursor transform
+            AnchorCursor(newPosition);
+        }
+
+        else if (currentDevice is Gamepad)
+        {
+            // Delta of the gamepad cursor
+            deltaValue = GetComponent<PlayerData>().movementData;
+            deltaValue *= cursorSpeed * Time.deltaTime;
+
+            Vector2 currentPosition = virtualMouse.position.ReadValue();
+            Vector2 newPosition = currentPosition + deltaValue;
+            newPosition.x = Mathf.Clamp(newPosition.x, padding, Screen.width - padding);
+            newPosition.y = Mathf.Clamp(newPosition.y, padding, Screen.height - padding);
+
+            // Changes the virtual mouse position and delta
+            InputState.Change(virtualMouse.position, newPosition);
+            InputState.Change(virtualMouse.delta, deltaValue);
+
+            // Update the cursor transform
+            AnchorCursor(newPosition);
+        }
 
         //Check for any UI interactions
-        UIInteractions(currentPlayerGamepad);
+        UIInteractions(currentDevice);
     }
 
     /// <summary>
     /// Checks to see if there are any interactions being made on the UI.
     /// </summary>
-    /// <param name="playerGamepad">The gamepad being used to check for UI interactions.</param>
-    private void UIInteractions(Gamepad playerGamepad)
+    /// <param name="playerDevice">The device being used to check for UI interactions.</param>
+    private void UIInteractions(InputDevice playerDevice)
     {
         // Use EventSystem to perform UI selection based on cursor position
         PointerEventData eventData = new PointerEventData(EventSystem.current);
@@ -159,10 +171,20 @@ public class GamepadCursor : MonoBehaviour
         }
 
         // Checks to see if the select button is pressed
-        bool buttonSouthIsPressed = playerGamepad.buttonSouth.isPressed;
+        bool selectButtonPressed = false;
+
+        if(playerDevice is Keyboard)
+        {
+            selectButtonPressed = Mouse.current.leftButton.isPressed;
+        }
+
+        else if(playerDevice is Gamepad)
+        {
+            selectButtonPressed = ((Gamepad)playerDevice).buttonSouth.isPressed;
+        }
 
         // Check for the transition from not pressed to pressed
-        if (!previousButtonSouthState && buttonSouthIsPressed)
+        if (!previousButtonSouthState && selectButtonPressed)
         {
             virtualMouse.CopyState<MouseState>(out var mouseState);
             mouseState.WithButton(MouseButton.Left, true);
@@ -185,7 +207,7 @@ public class GamepadCursor : MonoBehaviour
             }
         }
         // Check for the transition from pressed to not pressed
-        else if (previousButtonSouthState && !buttonSouthIsPressed)
+        else if (previousButtonSouthState && !selectButtonPressed)
         {
             // Get the currently hovered object
             GameObject clickedObject = GetCurrentHoveredObject();
@@ -203,7 +225,7 @@ public class GamepadCursor : MonoBehaviour
             }
         }
 
-        previousButtonSouthState = buttonSouthIsPressed;
+        previousButtonSouthState = selectButtonPressed;
     }
 
     /// <summary>
@@ -243,32 +265,6 @@ public class GamepadCursor : MonoBehaviour
         Vector2 anchoredPosition;
         RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRectTransform, position, canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : mainCamera, out anchoredPosition);
         localGamepadCursorTransform.anchoredPosition = anchoredPosition;
-    }
-
-    /// <summary>
-    /// Called when the player switches control schemes.
-    /// </summary>
-    /// <param name="input">The player input component.</param>
-    private void OnControlsChanged(PlayerInput input)
-    {
-/*        
- *        Might be something to use and work on if we want more keyboard and mouse support.
- *        
- *        if (playerInput.currentControlScheme == mouseScheme && previousControlScheme != mouseScheme)
-        {
-            localGamepadCursorTransform.gameObject.SetActive(false);
-            Cursor.visible = true;
-            currentMouse.WarpCursorPosition(virtualMouse.position.ReadValue());
-            previousControlScheme = mouseScheme;
-        }
-        else if (playerInput.currentControlScheme == gamepadScheme && previousControlScheme != gamepadScheme)
-        {
-            localGamepadCursorTransform.gameObject.SetActive(true);
-            Cursor.visible = false;
-            InputState.Change(virtualMouse.position, currentMouse.position.ReadValue());
-            AnchorCursor(currentMouse.position.ReadValue());
-            previousControlScheme = gamepadScheme;
-        }*/
     }
 
     /// <summary>

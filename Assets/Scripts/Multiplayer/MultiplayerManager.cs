@@ -78,5 +78,6 @@ public class MultiplayerManager : MonoBehaviour
 
     public Color[] GetPlayerColors() => playerColors;
     public PlayerInput[] GetPlayerInputs() => transform.GetComponentsInChildren<PlayerInput>();
+    public PlayerData[] GetAllPlayers() => transform.GetComponentsInChildren<PlayerData>();
     public PlayerMovement GetPlayerPrefab() => playerPrefab;
 }
