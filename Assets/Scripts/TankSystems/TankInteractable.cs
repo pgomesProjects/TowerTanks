@@ -10,7 +10,10 @@ public class TankInteractable : MonoBehaviour
     private protected TankController tank; //Controller script for tank this interactable is attached to
     private InteractableZone interactZone; //Hitbox for player detection
     private Transform seat; //Transform operator snaps to while using this interactable
+
+    //Interactable Scripts
     private GunController gunScript;
+    private EngineController engineScript;
 
     //Settings:
     [Header("Placement Constraints:")]
@@ -24,7 +27,7 @@ public class TankInteractable : MonoBehaviour
     [Tooltip("User currently interacting with this system.")]                internal PlayerMovement operatorID;
 
     private float introBuffer = 0.2f; //small window when a new operator enters the interactable where they can't use it
-    private float introTimer;
+    private float cooldown;
 
     //RUNTIME METHODS:
     private void Awake()
@@ -34,6 +37,7 @@ public class TankInteractable : MonoBehaviour
         interactZone = GetComponentInChildren<InteractableZone>();
         seat = transform.Find("Seat");
         gunScript = GetComponent<GunController>();
+        engineScript = GetComponent<EngineController>();
 
     }
     private void OnDestroy()
@@ -55,9 +59,9 @@ public class TankInteractable : MonoBehaviour
             //operatorID.gameObject.transform.rotation = seat.rotation;
         }
 
-        if (introTimer > 0)
+        if (cooldown > 0)
         {
-            introTimer -= Time.deltaTime;
+            cooldown -= Time.deltaTime;
         }
     }
 
@@ -75,7 +79,7 @@ public class TankInteractable : MonoBehaviour
             Debug.Log(operatorID + " is in!");
             GameManager.Instance.AudioManager.Play("UseSFX");
 
-            introTimer = introBuffer;
+            if (cooldown <= 0) cooldown = introBuffer;
         }
     }
 
@@ -106,8 +110,14 @@ public class TankInteractable : MonoBehaviour
     {
         if (type == Room.RoomType.Weapons)
         {
-            if (gunScript != null && introTimer <= 0) gunScript.Fire();
+            if (gunScript != null && cooldown <= 0) gunScript.Fire();
         }
+
+        if (type == Room.RoomType.Engineering)
+        {
+            if (engineScript != null && cooldown <= 0) engineScript.LoadCoal(1);
+        }
+
     }
 
     //UTILITY METHODS:
