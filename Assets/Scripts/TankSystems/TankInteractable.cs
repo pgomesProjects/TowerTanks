@@ -14,6 +14,7 @@ public class TankInteractable : MonoBehaviour
     //Interactable Scripts
     private GunController gunScript;
     private EngineController engineScript;
+    private ThrottleController throttleScript;
 
     //Settings:
     [Header("Placement Constraints:")]
@@ -38,6 +39,7 @@ public class TankInteractable : MonoBehaviour
         seat = transform.Find("Seat");
         gunScript = GetComponent<GunController>();
         engineScript = GetComponent<EngineController>();
+        throttleScript = GetComponent<ThrottleController>();
 
     }
     private void OnDestroy()
@@ -117,7 +119,18 @@ public class TankInteractable : MonoBehaviour
         {
             if (engineScript != null && cooldown <= 0) engineScript.LoadCoal(1);
         }
+    }
 
+    public void Shift(int direction) //Called from operator when they flick L-Stick L/R
+    {
+        if (type == Room.RoomType.Command)
+        {
+            if (throttleScript != null && cooldown <= 0)
+            {
+                throttleScript.ChangeGear(direction);
+                cooldown = 0.1f;
+            }
+        }
     }
 
     //UTILITY METHODS:

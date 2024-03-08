@@ -164,7 +164,7 @@ public class PlayerMovement : Character
         {
             case "Move": OnMove(ctx); break;
             case "Jetpack": OnJetpack(ctx);  break;
-
+            case "Control Steering": OnControlSteering(ctx); break;
             case "Interact": OnInteract(ctx); break;
             case "Cancel": OnCancel(ctx); break;
         }
@@ -210,6 +210,19 @@ public class PlayerMovement : Character
                 currentInteractable.Exit();
                 currentState = CharacterState.NONCLIMBING;
             }
+        }
+    }
+
+    public void OnControlSteering(InputAction.CallbackContext ctx)
+    {
+        float steeringValue = ctx.ReadValue<float>();
+        int _steeringValue = 0;
+        if (currentInteractable != null && isOperator && Mathf.Abs(steeringValue) > 0.5f)
+        {
+            if (steeringValue > 0.5f) _steeringValue = 1;
+            if (steeringValue < -0.5f) _steeringValue = -1;
+
+            currentInteractable.Shift(_steeringValue);
         }
     }
 

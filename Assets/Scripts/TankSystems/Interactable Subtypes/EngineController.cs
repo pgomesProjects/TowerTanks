@@ -20,6 +20,7 @@ public class EngineController : TankInteractable
     public bool loadCoal;
 
     //Runtime variables
+
     private void Start()
     {
         coalTimer = coalBurnRate;
