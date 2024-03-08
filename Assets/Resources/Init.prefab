@@ -31,6 +31,7 @@ Transform:
   m_Children:
   - {fileID: 1804729510499256503}
   - {fileID: 1903508510957378739}
+  - {fileID: 1727186736515894964}
   - {fileID: 8741092470865181326}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -281,7 +282,7 @@ Transform:
   - {fileID: 4767397093918837341}
   - {fileID: 6961505861069187419}
   m_Father: {fileID: 942814128700547139}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4237136647188404631
 GameObject:
@@ -734,6 +735,54 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &6222092119668794751
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1727186736515894964}
+  - component: {fileID: 3802229865881723239}
+  m_Layer: 0
+  m_Name: ParticleSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1727186736515894964
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6222092119668794751}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 942814128700547139}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3802229865881723239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6222092119668794751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 960901abb45f9cd4b8cb4b66784bc0b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particles:
+  - {fileID: 7851507033924257024, guid: d813a5bb70792f34bac495c8e928cf1e, type: 3}
+  - {fileID: 8508812903982125488, guid: 29d6e4406a7d414489fb790e978baeaa, type: 3}
+  - {fileID: 8186442840391220499, guid: eb0e3e662462aaa498b4c75a51f83b3a, type: 3}
 --- !u!1 &6961505860283407432
 GameObject:
   m_ObjectHideFlags: 0

@@ -434,7 +434,8 @@ Transform:
   m_LocalPosition: {x: 0.7459999, y: 0, z: 0}
   m_LocalScale: {x: 0.51172, y: 0.12730178, z: 0.65529}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 680884392771065324}
   m_Father: {fileID: 917774235144409439}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2252,6 +2253,8 @@ MonoBehaviour:
   projectilePrefab: {fileID: 0}
   barrel: {fileID: 917774233809804083}
   pivot: {fileID: 917774235144409439}
+  particleSpots:
+  - {fileID: 680884392771065324}
   muzzleVelocity: 100
   recoil: 90
   gimbalRange: 30
@@ -2417,6 +2420,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9df53ada2adb4b44aa83560b0f7a3354, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerIsColliding: 0
+  players: []
 --- !u!61 &3804396599590514204
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2443,3 +2448,34 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!1 &8599661371613959060
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 680884392771065324}
+  m_Layer: 0
+  m_Name: ParticleSpot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &680884392771065324
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8599661371613959060}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.696, y: -0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 917774233809804083}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

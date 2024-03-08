@@ -193,6 +193,11 @@ public class PlayerMovement : Character
             {
                 currentZone.Interact(this.gameObject);
             }
+
+            if (currentInteractable != null && isOperator)
+            {
+                currentInteractable.Use();
+            }
         }
     }
 

@@ -10,6 +10,7 @@ public class TankInteractable : MonoBehaviour
     private protected TankController tank; //Controller script for tank this interactable is attached to
     private InteractableZone interactZone; //Hitbox for player detection
     private Transform seat; //Transform operator snaps to while using this interactable
+    private GunController gunScript;
 
     //Settings:
     [Header("Placement Constraints:")]
@@ -22,6 +23,9 @@ public class TankInteractable : MonoBehaviour
     [Tooltip("True if a user is currently operating this system")]           public bool hasOperator;
     [Tooltip("User currently interacting with this system.")]                internal PlayerMovement operatorID;
 
+    private float introBuffer = 0.2f; //small window when a new operator enters the interactable where they can't use it
+    private float introTimer;
+
     //RUNTIME METHODS:
     private void Awake()
     {
@@ -29,6 +33,7 @@ public class TankInteractable : MonoBehaviour
         renderers = GetComponentsInChildren<SpriteRenderer>(); //Get all spriterenderers for interactable visual
         interactZone = GetComponentInChildren<InteractableZone>();
         seat = transform.Find("Seat");
+        gunScript = GetComponent<GunController>();
 
     }
     private void OnDestroy()
@@ -49,6 +54,11 @@ public class TankInteractable : MonoBehaviour
             operatorID.gameObject.transform.position = seat.position;
             //operatorID.gameObject.transform.rotation = seat.rotation;
         }
+
+        if (introTimer > 0)
+        {
+            introTimer -= Time.deltaTime;
+        }
     }
 
     public void LockIn(GameObject playerID) //Called from InteractableZone.cs when a user locks in to the interactable
@@ -64,6 +74,8 @@ public class TankInteractable : MonoBehaviour
 
             Debug.Log(operatorID + " is in!");
             GameManager.Instance.AudioManager.Play("UseSFX");
+
+            introTimer = introBuffer;
         }
     }
 
@@ -87,6 +99,14 @@ public class TankInteractable : MonoBehaviour
             operatorID = null;
             
             GameManager.Instance.AudioManager.Play("ButtonCancel");
+        }
+    }
+
+    public void Use() //Called from operator when they press Interact
+    {
+        if (type == Room.RoomType.Weapons)
+        {
+            if (gunScript != null && introTimer <= 0) gunScript.Fire();
         }
     }
 
