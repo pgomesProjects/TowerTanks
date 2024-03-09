@@ -600,6 +600,16 @@ MonoBehaviour:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: 38514d336c620cf4d8042c5e96e00bae, type: 2}
+  - name: SteamExhaust
+    audioEvent:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: 911e812ce40f3f64293678930dbdebde, type: 2}
+  - name: SteamExhaustLoop
+    audioEvent:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: d1553fe52fc287a4d9fd2b2911dd074d, type: 2}
 --- !u!1 &5338811766095787865
 GameObject:
   m_ObjectHideFlags: 0
@@ -784,6 +794,7 @@ MonoBehaviour:
   - {fileID: 8508812903982125488, guid: 29d6e4406a7d414489fb790e978baeaa, type: 3}
   - {fileID: 8186442840391220499, guid: eb0e3e662462aaa498b4c75a51f83b3a, type: 3}
   - {fileID: 8748987186402470367, guid: 26feb4c6b89765e4ea1fdd70f38ce78a, type: 3}
+  - {fileID: 7757385688290870796, guid: ed2f9f2e402650d4e8e578f7a9d87854, type: 3}
 --- !u!1 &6961505860283407432
 GameObject:
   m_ObjectHideFlags: 0

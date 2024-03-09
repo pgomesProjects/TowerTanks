@@ -7,6 +7,9 @@ using TMPro;
 
 public class Test_Engine : MonoBehaviour
 {
+    public enum EngineType { A, B }; //A = Temperature Mechanics, B = no Temperature Mechanic (purely visual)
+    public EngineType engineType;
+    
     //Input
     private Vector2 moveInput;
     public bool repairInputHeld;
@@ -25,7 +28,8 @@ public class Test_Engine : MonoBehaviour
     public float coalBurnSpeed; //how fast coal burns
     public float coalBump; //bump to temp & pressure when adding coal
 
-    private float temperature = 0;
+    private float temperature = 0; //current temp
+    public float targetTemperature = 0; //for Engine B - what temperature the current temp is lerping towards
     public float temperatureRiseSpeed; //how fast temperature rises due to coal
     public float lowTempThreshold; //threshold temp needs to be above for pressure to begin
 
@@ -34,6 +38,14 @@ public class Test_Engine : MonoBehaviour
     public float pressureReleaseSpeed; //how fast pressure drops when holding release valve
     public float dangerZoneThreshold; //threshold pressure needs to be above for overdrive
     private bool overdriveActive = false;
+    public float overDriveOffset = 1f; //multiplier on engine rates while overdrive is active
+    private float pressureReleaseCd = 0;
+
+    private bool canExplode = false;
+    public float explosionTime; //how long it takes to trigger an explosion when conditions are met
+    private float explosionTimeOriginal;
+    public float explosionTimer = 0;
+    public Transform explosionSpot;
 
     //UI
     private float loadCounter = 0;
@@ -48,6 +60,8 @@ public class Test_Engine : MonoBehaviour
     private TextMeshProUGUI highPressureText;
     private TextMeshProUGUI highTempText;
     private TextMeshProUGUI maxCoalText;
+    private GameObject explosionUI;
+    private Image explosionBar;
 
     public Color temperatureLowColor;
     public Color temperatureHighColor;
@@ -66,6 +80,11 @@ public class Test_Engine : MonoBehaviour
         highPressureText = GameObject.Find("HighPressureText").GetComponent<TextMeshProUGUI>();
         highTempText = GameObject.Find("HighTempText").GetComponent<TextMeshProUGUI>();
         maxCoalText = GameObject.Find("MaxCoalText").GetComponent<TextMeshProUGUI>();
+        explosionUI = GameObject.Find("ExplosionUI");
+        explosionBar = GameObject.Find("ExplosionBar").GetComponent<Image>();
+
+        explosionTimeOriginal = explosionTime;
+
     }
 
     // Update is called once per frame
@@ -74,6 +93,7 @@ public class Test_Engine : MonoBehaviour
         if (coal > 0) BurnCoal();
         UpdateTemperature();
         UpdatePressure();
+        CheckForExplosion();
         UpdateUI();
     }
 
@@ -119,6 +139,13 @@ public class Test_Engine : MonoBehaviour
             maxCoalText.enabled = true;
         }
         else maxCoalText.enabled = false;
+
+        if (canExplode)
+        {
+            explosionUI.SetActive(true);
+            explosionBar.rectTransform.localScale = new Vector3(1, (explosionTimer / explosionTime));
+        }
+        else { explosionUI.SetActive(false); }
     }
 
     private void BurnCoal() //Depletes coal over time based on coalBurnSpeed
@@ -129,33 +156,47 @@ public class Test_Engine : MonoBehaviour
             coal -= 1;
             currentCoalBurnValue = 0;
         }
+        if (engineType == EngineType.B)
+        {
+            targetTemperature = coal * (100f / maxCoal);
+            if (overdriveActive) coalBurnSpeed = 0.5f + (temperature * 0.005f) + (overDriveOffset * 10f);
+            else coalBurnSpeed = 0.5f + (temperature * 0.005f);
+        }
     }
 
     private void UpdateTemperature() //Increases Temperature over time while coal burning
     {
-        float riseSpeed = 1f * temperatureRiseSpeed * Time.deltaTime;
-        float lowerSpeed = -pressureReleaseSpeed * Time.deltaTime * 0.4f;
-        float heatDif = (100f - (temperature * 0.5f)) / 100f;
-        
-        if (coal > 0)
+        float riseSpeed = 1f * temperatureRiseSpeed * Time.deltaTime; //how fast temperature fills over time
+        float lowerSpeed = -pressureReleaseSpeed * Time.deltaTime * 0.4f; //how fast temperature drains when holding release
+        float heatDif = (100f - (temperature * 0.75f)) / 100f; //slows it down the closer it gets to 100
+
+        if (engineType == EngineType.A)
         {
-            riseSpeed = riseSpeed * heatDif;
-            temperature += riseSpeed;
-            if (temperature > 100f) temperature = 100f;
-        }
-        else if (temperature > 0)
-        {
-            temperature -= riseSpeed * 5f;
-            if (temperature < 0) temperature = 0;
+            if (coal > 0)
+            {
+                riseSpeed = riseSpeed * heatDif;
+                temperature += riseSpeed;
+                if (temperature > 100f) temperature = 100f;
+            }
+            else if (temperature > 0)
+            {
+                temperature -= riseSpeed * 5f;
+                if (temperature < 0) temperature = 0;
+            }
+
+            if (repairInputHeld && temperature > 0)
+            {
+                temperature += lowerSpeed;
+                if (temperature < 0) temperature = 0;
+            }
         }
 
-        if (repairInputHeld && temperature > 0)
+        if (engineType == EngineType.B)
         {
-            temperature += lowerSpeed;
-            if (temperature < 0) temperature = 0;
+            temperature = Mathf.Lerp(temperature, targetTemperature, riseSpeed * heatDif);
         }
 
-            tempBar.color = Color.Lerp(temperatureLowColor, temperatureHighColor, temperature / 100f);
+        tempBar.color = Color.Lerp(temperatureLowColor, temperatureHighColor, temperature / 100f);
 
         /*
         if (temperature > 0)
@@ -175,42 +216,97 @@ public class Test_Engine : MonoBehaviour
     {
         float riseSpeed = 1f * pressureRiseSpeed * Time.deltaTime;
         float lowerSpeed = -pressureReleaseSpeed * Time.deltaTime;
-        float pressureDif = (100f - (pressure * 0.9f)) / 100f;
+        float pressureDif = (100f - (pressure * 0.25f)) / 100f;
 
-        if (temperature > lowTempThreshold)
+        if (engineType == EngineType.A)
         {
-            riseSpeed = riseSpeed * (temperature * 15f) * pressureDif;
-            pressure += riseSpeed;
-            if (pressure > 100f) pressure = 100f;
-        }
-        else if (pressure > 0)
-        {
-            pressure += lowerSpeed;
-            if (pressure < 0) pressure = 0;
-        }
-
-        if (repairInputHeld && pressure > 0)
-        {
-            pressure += lowerSpeed;
-            if (pressure < 0) pressure = 0;
-
-            if (pressure >= dangerZoneThreshold)
+            if (temperature > lowTempThreshold)
             {
-                overdriveActive = true;
+                riseSpeed = riseSpeed * (temperature * 15f) * pressureDif;
+                pressure += riseSpeed;
+                if (pressure > 100f) pressure = 100f;
+            }
+            else if (pressure > 0)
+            {
+                pressure += lowerSpeed;
+                if (pressure < 0) pressure = 0;
             }
 
-            if (!GameManager.Instance.AudioManager.IsPlaying("JetpackRocket"))
+            if (repairInputHeld && pressure > 2f)
             {
-                GameManager.Instance.AudioManager.Play("JetpackRocket");
+                pressure += lowerSpeed;
+                if (pressure < 0) pressure = 0;
+
+                if (pressure >= dangerZoneThreshold)
+                {
+                    overdriveActive = true;
+                }
+
+                if (!GameManager.Instance.AudioManager.IsPlaying("SteamExhaustLoop"))
+                {
+                    GameManager.Instance.AudioManager.Play("SteamExhaustLoop");
+                }
+            }
+            else if (GameManager.Instance.AudioManager.IsPlaying("SteamExhaustLoop"))
+            {
+                GameManager.Instance.AudioManager.Stop("SteamExhaustLoop");
+                overdriveActive = false;
             }
         }
-        else if (GameManager.Instance.AudioManager.IsPlaying("JetpackRocket"))
+
+        if (engineType == EngineType.B)
         {
-            GameManager.Instance.AudioManager.Stop("JetpackRocket");
-            overdriveActive = false;
+            if (temperature > 0)
+            {
+                //if (temperature < pressure) riseSpeed *= 0.5f;
+                pressure = Mathf.Lerp(pressure, temperature, riseSpeed * pressureDif);
+                if (pressure > 100f) pressure = 100f;
+            }
+            else if (pressure > 0)
+            {
+                pressure += lowerSpeed;
+                if (pressure < 0) pressure = 0;
+            }
+
+            if (repairInputHeld && pressure > 0f && pressureReleaseCd <= 0)
+            {
+                if (overdriveActive) pressure += lowerSpeed * overDriveOffset;
+                else pressure += lowerSpeed;
+
+                if (pressure < 0) pressure = 0;
+
+                if (pressure >= dangerZoneThreshold)
+                {
+                    overdriveActive = true;
+                }
+
+                if (!GameManager.Instance.AudioManager.IsPlaying("SteamExhaustLoop"))
+                {
+                    GameManager.Instance.AudioManager.Play("SteamExhaustLoop");
+                }
+            }
+            else
+            {
+                if (GameManager.Instance.AudioManager.IsPlaying("SteamExhaustLoop"))
+                {
+                    GameManager.Instance.AudioManager.Stop("SteamExhaustLoop");
+                }
+                overdriveActive = false;
+            }
+
+            if (pressure <= 0)
+            {
+                if (overdriveActive) {
+                    pressureReleaseCd = 2.0f;
+                    GameManager.Instance.AudioManager.Play("SteamExhaust"); 
+                }
+                overdriveActive = false;
+            }
         }
 
-        if (pressure > 0)
+        if (pressureReleaseCd > 0) pressureReleaseCd -= Time.deltaTime;
+
+        if (pressure > 0) //play engine sound
         {
             if (!GameManager.Instance.AudioManager.IsPlaying("TankIdle"))
             {
@@ -222,6 +318,42 @@ public class Test_Engine : MonoBehaviour
             if (GameManager.Instance.AudioManager.IsPlaying("TankIdle")) GameManager.Instance.AudioManager.Stop("TankIdle");
             //GameManager.Instance.AudioManager.Play("EngineDyingSFX");
         }
+    }
+
+    private void CheckForExplosion()
+    {
+        if (temperature > dangerZoneThreshold && pressure > dangerZoneThreshold)
+        {
+            if (!canExplode)
+            {
+                explosionTimer = 0;
+                float randomOffset = Random.Range(-1f, 5f);
+                explosionTime += randomOffset;
+            }
+            canExplode = true;
+        }
+        
+        if (pressure < dangerZoneThreshold)
+        {
+            canExplode = false;
+            explosionTime = explosionTimeOriginal;
+        }
+
+        if (canExplode)
+        {
+            if (explosionTimer < explosionTime) explosionTimer += Time.deltaTime;
+            if (explosionTimer > explosionTime)
+            {
+                explosionTimer = 0;
+                Explode();
+            }
+        }
+    }
+
+    public void Explode()
+    {
+        GameManager.Instance.ParticleSpawner.SpawnParticle(4, explosionSpot, 15f, null);
+        GameManager.Instance.AudioManager.Play("LargeExplosionSFX");
     }
 
     #region Input
@@ -300,10 +432,10 @@ public class Test_Engine : MonoBehaviour
             }
             else
             {
-                temperature += coalBump;
+                if (engineType == EngineType.A) temperature += coalBump;
                 //pressure += coalBump;
 
-                if (temperature > 100) temperature = 100;
+                    if (temperature > 100) temperature = 100;
                 if (pressure > 100) pressure = 100;
             }
 
