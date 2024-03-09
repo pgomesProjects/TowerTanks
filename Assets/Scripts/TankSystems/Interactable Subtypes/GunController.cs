@@ -35,6 +35,8 @@ public class GunController : TankInteractable
     /// </summary>
     public void Fire()
     {
+        if (tank == null) tank = GameObject.Find("Tank1").GetComponent<TankController>();
+
         //Apply recoil:
         Vector2 recoilForce = -barrel.right * recoil;                                  //Get force of recoil from direction of barrel and set magnitude
         tank.treadSystem.r.AddForceAtPosition(recoilForce, barrel.transform.position); //Apply recoil force at position of barrel

@@ -41,4 +41,16 @@ public class TankController : MonoBehaviour
         towerJoint.position = towerJointTarget.position; //Move tower joint to target position
         towerJoint.rotation = towerJointTarget.rotation; //Move tower joint to target rotation
     }
+
+    public void ChangeAllGear(int direction) //changes gear of all active throttles in the tank
+    {
+        ThrottleController[] throttles = GetComponentsInChildren<ThrottleController>();
+        if (throttles.Length > 0)
+        {
+            for (int i = 0; i < throttles.Length; i++)
+            {
+                throttles[i].ChangeGear(direction);
+            }
+        }
+    }
 }

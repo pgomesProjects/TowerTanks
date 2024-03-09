@@ -51,6 +51,11 @@ public class TankInteractable : MonoBehaviour
             if (parentCell.installedInteractable == this) parentCell.installedInteractable = null;                                   //Remove reference from parent cell
             if (parentCell.room != null && parentCell.room.interactables.Contains(this)) parentCell.room.interactables.Remove(this); //Remove reference from parent room
         }
+
+        if (hasOperator)
+        {
+            Exit(false);
+        }
     }
 
     public void FixedUpdate()
@@ -85,15 +90,16 @@ public class TankInteractable : MonoBehaviour
         }
     }
 
-    public void Exit() //Called from operator (PlayerMovement.cs) when they press Cancel
+    public void Exit(bool sameZone) //Called from operator (PlayerMovement.cs) when they press Cancel
     {
         if (operatorID != null)
         {
             operatorID.currentInteractable = null;
             operatorID.isOperator = false;
             operatorID.gameObject.GetComponent<Rigidbody2D>().isKinematic = false;
+            operatorID.CancelInteraction();
 
-            if (!interactZone.players.Contains(operatorID.gameObject)) 
+            if (!interactZone.players.Contains(operatorID.gameObject) && sameZone) 
             {
                 interactZone.players.Add(operatorID.gameObject); //reassign operator to possible interactable players
                 operatorID.currentZone = interactZone;
@@ -127,7 +133,7 @@ public class TankInteractable : MonoBehaviour
         {
             if (throttleScript != null && cooldown <= 0)
             {
-                throttleScript.ChangeGear(direction);
+                throttleScript.UseThrottle(direction);
                 cooldown = 0.1f;
             }
         }

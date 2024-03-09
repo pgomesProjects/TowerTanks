@@ -207,8 +207,7 @@ public class PlayerMovement : Character
         {
             if (currentInteractable != null)
             {
-                currentInteractable.Exit();
-                currentState = CharacterState.NONCLIMBING;
+                currentInteractable.Exit(true);
             }
         }
     }

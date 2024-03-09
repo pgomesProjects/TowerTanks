@@ -55,12 +55,18 @@ public class ThrottleController : TankInteractable
         if (treadSystem != null) treadSystem.debugDrive = -(updatedAngle / maxAngle);
     }
 
+    public void UseThrottle(int direction) //called from operator -> sends message to tankController to change gears in all throttles
+    {
+        if (tank == null) tank = GameObject.Find("Tank1").GetComponent<TankController>();
+        tank.ChangeAllGear(direction);
+    }
+
 
     //FUNCTIONALITY METHODS:
     /// <summary>
     /// Shifts the throttle one gear in given direction (-1 = left, 0 = don't shift, 1 = right)
     /// </summary>
-    public void ChangeGear(int direction)
+    public void ChangeGear(int direction) //called from TankController
     {
         previousAngle = gear * (maxAngle / speedSettings);
         gear -= direction;
@@ -77,5 +83,6 @@ public class ThrottleController : TankInteractable
         currentAngle = gear * (maxAngle / speedSettings);
 
         shiftTimer = 0.1f;
+        treadSystem.gear = -gear;
     }
 }

@@ -15,12 +15,16 @@ public class TreadSystem : MonoBehaviour
     [Header("Center of Gravity Settings:")]
     [Tooltip("Height at which center of gravity is locked relative to tread system.")] public float COGHeight;
     [Tooltip("Extents of center of gravity (affects how far tank can lean).")]         public float COGWidth;
+
     [Header("Drive Settings:")]
+    [Tooltip("Current direction the tank is set to move in. 0 = Neutral")] public int gear;
     [Tooltip("Maximum motor torque exerted by tread motor (acceleration)"), Min(0)] public float drivePower;
     [Tooltip("Force resisting motion of tank while driving"), Min(0)]               public float driveDrag;
+
     [Header("Traction Settings:")]
     [Tooltip("Angular drag when all (non-extra) wheels are on the ground."), Min(0)] public float maxAngularDrag;
     [Tooltip("How many wheels are by default off the ground."), Min(0)]              public int extraWheels;
+
     [Header("Debug Controls:")]
     [Range(-1 , 1)] public float debugDrive;
     

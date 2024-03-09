@@ -165,6 +165,11 @@ public abstract class Character : SerializedMonoBehaviour
 
     }
 
+    public void CancelInteraction()
+    {
+        currentState = CharacterState.NONCLIMBING;
+    }
+
     public void LinkPlayerHUD(PlayerHUD newHUD)
     {
         characterHUD = newHUD;
