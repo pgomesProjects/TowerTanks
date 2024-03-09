@@ -14,6 +14,8 @@ namespace AK
     namespace EVENTS
     {
         static const AkUniqueID BLARING_ALARM = 3949782988U;
+        static const AkUniqueID BUILD_ROOM = 2462051799U;
+        static const AkUniqueID BUILD_UNDO = 185536228U;
         static const AkUniqueID BUTTON_CANCEL = 3130542990U;
         static const AkUniqueID BUTTON_HOVER = 1701177942U;
         static const AkUniqueID CANNON_AIM = 1221570156U;
@@ -28,7 +30,11 @@ namespace AK
         static const AkUniqueID FIRE_BURNING = 1318321645U;
         static const AkUniqueID GLOBAL_PAUSE = 1469012939U;
         static const AkUniqueID GLOBAL_UNPAUSE = 2496259136U;
+        static const AkUniqueID INVALID_ALERT = 2191775701U;
         static const AkUniqueID ITEM_PICKUP = 566396871U;
+        static const AkUniqueID JETPACK_REFUEL = 1266436627U;
+        static const AkUniqueID JETPACK_ROCKET_LOOP = 3943443513U;
+        static const AkUniqueID JETPACK_STARTUP = 756560803U;
         static const AkUniqueID LADDER_CLIMB = 1707141479U;
         static const AkUniqueID LARGE_EXPLOSION = 531217250U;
         static const AkUniqueID LOADING_COAL = 164337995U;
@@ -37,6 +43,8 @@ namespace AK
         static const AkUniqueID METAL_FOOTSTEP = 3615561815U;
         static const AkUniqueID MUFFLED_CANNON_FIRE = 3902994021U;
         static const AkUniqueID PROJECTILE_IN_AIR = 137332291U;
+        static const AkUniqueID ROOM_CONNECT = 228008419U;
+        static const AkUniqueID ROTATE_ROOM = 2075466706U;
         static const AkUniqueID SMALL_EXPLOSION = 3519998062U;
         static const AkUniqueID TANK_ENGINE = 212754890U;
         static const AkUniqueID TANK_IMPACT = 70658946U;

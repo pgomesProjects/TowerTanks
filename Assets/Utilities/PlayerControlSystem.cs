@@ -163,7 +163,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Jump"",
+                    ""name"": ""Jetpack"",
                     ""type"": ""Button"",
                     ""id"": ""673e2e8f-b50e-497e-88dd-0f2a7453af0b"",
                     ""expectedControlType"": ""Button"",
@@ -869,7 +869,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""3df3bf15-9b85-466e-8b41-9abbe2c4761a"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": ""SlowTap"",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -903,6 +903,17 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""9ab3c459-b069-491e-9f7a-832d7c619e79"",
                     ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5a4a12a7-c2af-4819-a647-292348843b4e"",
+                    ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
@@ -946,7 +957,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""f8b9dca0-5cef-41d1-a3d2-0ba3a9121b3c"",
-                    ""path"": ""<Keyboard>/space"",
+                    ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
@@ -1037,30 +1048,19 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Jump"",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Jetpack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
                     ""id"": ""f88e34cc-a06e-4daa-87b2-0b739ebcc9b2"",
-                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Jump"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""7365b362-195d-40ac-b918-1bec8766ed63"",
-                    ""path"": ""<Keyboard>/w"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard and Mouse"",
-                    ""action"": ""Jump"",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Jetpack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1868,7 +1868,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         m_Player_OnLadderEnter = m_Player.FindAction("On Ladder Enter", throwIfNotFound: true);
         m_Player_OnLadderExit = m_Player.FindAction("On Ladder Exit", throwIfNotFound: true);
         m_Player_CannonScroll = m_Player.FindAction("Cannon Scroll", throwIfNotFound: true);
-        m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
+        m_Player_Jetpack = m_Player.FindAction("Jetpack", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1960,7 +1960,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_OnLadderEnter;
     private readonly InputAction m_Player_OnLadderExit;
     private readonly InputAction m_Player_CannonScroll;
-    private readonly InputAction m_Player_Jump;
+    private readonly InputAction m_Player_Jetpack;
     public struct PlayerActions
     {
         private @PlayerControlSystem m_Wrapper;
@@ -1980,7 +1980,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         public InputAction @OnLadderEnter => m_Wrapper.m_Player_OnLadderEnter;
         public InputAction @OnLadderExit => m_Wrapper.m_Player_OnLadderExit;
         public InputAction @CannonScroll => m_Wrapper.m_Player_CannonScroll;
-        public InputAction @Jump => m_Wrapper.m_Player_Jump;
+        public InputAction @Jetpack => m_Wrapper.m_Player_Jetpack;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -2035,9 +2035,9 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @CannonScroll.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCannonScroll;
                 @CannonScroll.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCannonScroll;
                 @CannonScroll.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCannonScroll;
-                @Jump.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
-                @Jump.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
-                @Jump.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
+                @Jetpack.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJetpack;
+                @Jetpack.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJetpack;
+                @Jetpack.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJetpack;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -2087,9 +2087,9 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @CannonScroll.started += instance.OnCannonScroll;
                 @CannonScroll.performed += instance.OnCannonScroll;
                 @CannonScroll.canceled += instance.OnCannonScroll;
-                @Jump.started += instance.OnJump;
-                @Jump.performed += instance.OnJump;
-                @Jump.canceled += instance.OnJump;
+                @Jetpack.started += instance.OnJetpack;
+                @Jetpack.performed += instance.OnJetpack;
+                @Jetpack.canceled += instance.OnJetpack;
             }
         }
     }
@@ -2310,7 +2310,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         void OnOnLadderEnter(InputAction.CallbackContext context);
         void OnOnLadderExit(InputAction.CallbackContext context);
         void OnCannonScroll(InputAction.CallbackContext context);
-        void OnJump(InputAction.CallbackContext context);
+        void OnJetpack(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

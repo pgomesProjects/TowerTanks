@@ -43,7 +43,7 @@ public class Item : MonoBehaviour
                 canPickUp = true;
                 //Debug.Log("Can Pick Up Item!");
                 collision.GetComponent<PlayerController>().MarkClosestItem(this);
-                collision.GetComponent<PlayerController>().DisplayInteractionPrompt("<sprite=27>");
+                //collision.GetComponent<PlayerController>().DisplayInteractionPrompt("<sprite=27>");
             }
         }
     }
@@ -72,7 +72,7 @@ public class Item : MonoBehaviour
                 canPickUp = false;
                 //Debug.Log("Can No Longer Pick Up Item!");
                 collision.GetComponent<PlayerController>().MarkClosestItem(null);
-                collision.GetComponent<PlayerController>().HideInteractionPrompt();
+                //collision.GetComponent<PlayerController>().HideInteractionPrompt();
             }
         }
     }

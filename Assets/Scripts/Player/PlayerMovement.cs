@@ -2,160 +2,121 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 using UnityEngine.InputSystem;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : Character
 {
     #region Fields and Properties
-
-    enum PlayerState { CLIMBING, NONCLIMBING }; //Simple state system, in the future this will probably be refactored
-    PlayerState currentState;                   //to an FSM.
-
-    //Components
-    private Rigidbody2D rb;
-    private ConstantForce2D extraGravity;
-    private GameObject currentLadder;
-    private Bounds ladderBounds;
-
-    [Header("Movement")]
-    [SerializeField] private float moveSpeed;
-    [SerializeField] private float jumpForce;
-    [SerializeField] private float extraGravityForce;
-    [SerializeField] private float climbSpeed;
-    [Range(0, 2)]
-    [SerializeField] private float groundedBoxX, groundedBoxY;
-
-    [SerializeField] private float maxYVelocity, minYVelocity;
-     
-    [Header("Jetpack values")] 
-    [SerializeField] private float maxFuel;
-    [SerializeField] private float fuelDepletionRate;
-    [SerializeField] private float fuelRegenerationRate;
-    private float currentFuel;
-
-    //temp
-    private float moveSpeedHalved; // once we have a state machine for the player, we wont need these silly fields.
-    private float currentMoveSpeed; // this is fine for the sake of prototyping though.
 
     //input
     private Vector2 moveInput;
     private bool jetpackInputHeld;
-    
-    [SerializeField] private PlayerInput playerInputComponent;
-    private int playerIndex;
+
+    [SerializeField]
+    private PlayerInput playerInputComponent;
+    [SerializeField] private float deAcceleration;
+    [SerializeField] private float maxSpeed;
+
     InputActionMap inputMap;
-    private PlayerHUD playerHUD;
     private float vel;
+
+    //objects
+    [Header("Interactables")]
+    public InteractableZone currentZone = null;
+    public bool isOperator; //true if player is currently operating an interactable
+    public TankInteractable currentInteractable; //what interactable player is currently operating
 
     #endregion
 
     #region Unity Methods
 
-    private void Awake()
+    protected override void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
-        extraGravity = GetComponent<ConstantForce2D>();
+        base.Awake();
     }
 
-    private void Start()
+    protected override void Start()
     {
-        currentFuel = maxFuel;
-        if (playerInputComponent != null) LinkPlayerInput(playerInputComponent); //if it is null, it will be set by multiplayer manager. can be set in inspector as an override for testing
-        currentState = PlayerState.NONCLIMBING;
-        moveSpeedHalved = moveSpeed / 2;
-        SetExtraGravityAmount(extraGravityForce);
+        base.Start();
+        if (GameSettings.debugMode)
+        {
+            playerInputComponent = FindObjectOfType<Debug_TankBuilder>()?.GetComponent<PlayerInput>();
+            if (playerInputComponent != null) LinkPlayerInput(playerInputComponent); //if it is null, it will be set by multiplayer manager. can be set in inspector as an override for testing
+        }
     }
 
-    private void FixedUpdate()
+    protected override void Update()
     {
-        if (currentState == PlayerState.NONCLIMBING) MoveLeftOrRight();
-
-        else if (currentState == PlayerState.CLIMBING) ClimbLadder();
-
-        if (jetpackInputHeld && currentFuel > 0) PropelJetpack();
-
-        vel = rb.velocity.y;
-        vel = Mathf.Clamp(vel, minYVelocity, maxYVelocity);
-        rb.velocity = new Vector2(rb.velocity.x, vel);
-    }
-
-    private void Update()
-    {
-        if (jetpackInputHeld)
+        if (jetpackInputHeld && currentState != CharacterState.OPERATING)
         {
             currentFuel -= fuelDepletionRate * Time.deltaTime;
-        } else if (CheckGround() || currentState == PlayerState.CLIMBING)
+
+            if (!GameManager.Instance.AudioManager.IsPlaying("JetpackRocket"))
+            {
+                GameManager.Instance.AudioManager.Play("JetpackRocket");
+            }
+        }
+        else if (CheckGround() || currentState == CharacterState.CLIMBING)
         {
             currentFuel += fuelRegenerationRate * Time.deltaTime;
         }
+        else if (GameManager.Instance.AudioManager.IsPlaying("JetpackRocket"))
+        {
+            GameManager.Instance.AudioManager.Stop("JetpackRocket");
+        }
         
-        currentFuel = Mathf.Clamp(currentFuel, 0, maxFuel);
-        //Debug.Log($"Current Fuel: {currentFuel}");
-    }
-
-    private void OnDrawGizmos()
-    {
-        //visualizes the grounded box for debugging
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireCube(new Vector2(transform.position.x, transform.position.y - transform.localScale.y / 2), new Vector3(groundedBoxX, groundedBoxY, 0));
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Ladder"))
+        if (currentInteractable != null)
         {
-            currentLadder = other.gameObject;
+            currentState = CharacterState.OPERATING;
         }
     }
-
-    private void OnTriggerExit2D(Collider2D other)
+                
+    protected override void FixedUpdate()
     {
-        if (other.CompareTag("Ladder"))
-        {
-            currentLadder = null;
-        }
+        base.FixedUpdate();
     }
-    
+
+    protected override void OnDrawGizmos()
+    {
+        base.OnDrawGizmos();
+    }
+
+    protected override void OnTriggerEnter2D(Collider2D other)
+    {
+        base.OnTriggerEnter2D(other);
+    }
+
+    protected override void OnTriggerExit2D(Collider2D other)
+    {
+        base.OnTriggerExit2D(other);
+    }
 
     #endregion
 
     #region Movement
 
-    private bool CheckGround()
+    
+    protected override void MoveCharacter()
     {
-        LayerMask groundLayer = (1 << LayerMask.NameToLayer("Ground"));
-        return Physics2D.OverlapBox(new Vector2(transform.position.x,
-                                                     transform.position.y - transform.localScale.y / 2),
-                                                   new Vector2(1, 1),
-                                                   0f,
-                                                   groundLayer);
-    }
+        float force = transform.right.x * moveInput.x * moveSpeed; 
 
-    private void MoveLeftOrRight()
-    {
-        rb.velocity = new Vector3(moveSpeed * moveInput.x, rb.velocity.y); // Rigid movement system, we wanna keep this simple.
-    }
-
-    private void PropelJetpack()
-    {
-        rb.AddForce(Vector2.up * (jumpForce * Time.fixedDeltaTime));
-    }
-
-    private void SetLadder()
-    {
-        if (currentLadder != null)
-        {
-            currentState = PlayerState.CLIMBING;
-            SetExtraGravityAmount(0);
-            rb.bodyType = RigidbodyType2D.Kinematic;
-            transform.position = new Vector2(currentLadder.transform.position.x, transform.position.y);
-            ladderBounds = currentLadder.GetComponent<Collider2D>().bounds;
-        }
+        Vector3 localVelocity = transform.InverseTransformDirection(rb.velocity);
+        localVelocity.x = force;
+        Vector3 worldVelocity = transform.TransformDirection(localVelocity);
         
+        if (jetpackInputHeld && currentFuel > 0)
+        {
+            PropelJetpack();
+        }
+        if (CheckGround()) rb.velocity = worldVelocity;
+        else rb.velocity = new Vector2(moveInput.x * moveSpeed, rb.velocity.y);
     }
 
-    private void ClimbLadder()
+
+    protected override void ClimbLadder()
     {
+        base.ClimbLadder();
         Vector2 targetPosition = rb.position + new Vector2(0, climbSpeed * moveInput.y * Time.fixedDeltaTime);
         targetPosition = new Vector2(targetPosition.x, Mathf.Clamp(targetPosition.y, ladderBounds.min.y + transform.localScale.y / 2, ladderBounds.max.y - transform.localScale.y / 2));
 
@@ -167,25 +128,13 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void SwitchOffLadder()
-    {
-        currentState = PlayerState.NONCLIMBING;
-        SetExtraGravityAmount(extraGravityForce);
-        rb.bodyType = RigidbodyType2D.Dynamic;
-        rb.velocity = Vector2.zero;
-    }
-
-    private void SetExtraGravityAmount(float extraGravityAmount)
-    {
-        extraGravity.force = new Vector2(0, -Mathf.Abs(extraGravityAmount));
-    }
     #endregion
 
     #region Input
     public void LinkPlayerInput(PlayerInput newInput)
     {
         playerInputComponent = newInput;
-        playerIndex = playerInputComponent.playerIndex;
+        characterIndex = playerInputComponent.playerIndex;
 
         //Gets the player input action map so that events can be subscribed to it
         inputMap = playerInputComponent.actions.FindActionMap("Player");
@@ -196,22 +145,16 @@ public class PlayerMovement : MonoBehaviour
         playerInputComponent.onDeviceRegained += OnDeviceRegained;
     }
 
-    public void LinkPlayerHUD(PlayerHUD newHUD)
-    {
-        playerHUD = newHUD;
-        playerHUD.InitializeHUD(GameManager.Instance.MultiplayerManager.GetPlayerColors()[playerIndex]);
-    }
-
     public void OnDeviceLost(PlayerInput playerInput)
     {
-        Debug.Log("Player " + (playerIndex + 1) + " Controller Disconnected!");
-        FindObjectOfType<CornerUIController>().OnDeviceLost(playerIndex);
+        Debug.Log("Player " + (characterIndex + 1) + " Controller Disconnected!");
+        FindObjectOfType<CornerUIController>().OnDeviceLost(characterIndex);
     }
 
     public void OnDeviceRegained(PlayerInput playerInput)
     {
-        Debug.Log("Player " + (playerIndex + 1) + " Controller Reconnected!");
-        FindObjectOfType<CornerUIController>().OnDeviceRegained(playerIndex);
+        Debug.Log("Player " + (characterIndex + 1) + " Controller Reconnected!");
+        FindObjectOfType<CornerUIController>().OnDeviceRegained(characterIndex);
     }
 
     private void OnPlayerInput(InputAction.CallbackContext ctx)
@@ -220,8 +163,10 @@ public class PlayerMovement : MonoBehaviour
         switch (ctx.action.name)
         {
             case "Move": OnMove(ctx); break;
-            case "Jump": OnJetpack(ctx);
-                break;
+            case "Jetpack": OnJetpack(ctx);  break;
+            case "Control Steering": OnControlSteering(ctx); break;
+            case "Interact": OnInteract(ctx); break;
+            case "Cancel": OnCancel(ctx); break;
         }
     }
 
@@ -234,7 +179,60 @@ public class PlayerMovement : MonoBehaviour
             SetLadder();
         }
     }
-    public void OnJetpack(InputAction.CallbackContext ctx) => jetpackInputHeld = ctx.ReadValue<float>() > 0;
+    public void OnJetpack(InputAction.CallbackContext ctx)
+    {
+        jetpackInputHeld = ctx.ReadValue<float>() > 0;
+        if (ctx.ReadValue<float>() > 0 && currentState != CharacterState.OPERATING) GameManager.Instance.AudioManager.Play("JetpackStartup");
+    }
+
+    public void OnInteract(InputAction.CallbackContext ctx)
+    {
+        if (ctx.started)
+        {
+            if (currentZone != null)
+            {
+                currentZone.Interact(this.gameObject);
+            }
+
+            if (currentInteractable != null && isOperator)
+            {
+                currentInteractable.Use();
+            }
+        }
+    }
+
+    public void OnCancel(InputAction.CallbackContext ctx)
+    {
+        if (ctx.started)
+        {
+            if (currentInteractable != null)
+            {
+                currentInteractable.Exit(true);
+            }
+        }
+    }
+
+    public void OnControlSteering(InputAction.CallbackContext ctx)
+    {
+        float steeringValue = ctx.ReadValue<float>();
+        int _steeringValue = 0;
+        if (currentInteractable != null && isOperator && Mathf.Abs(steeringValue) > 0.5f)
+        {
+            if (steeringValue > 0.5f) _steeringValue = 1;
+            if (steeringValue < -0.5f) _steeringValue = -1;
+
+            currentInteractable.Shift(_steeringValue);
+        }
+    }
+
+    #endregion
+
+    #region Character Functions
+
+    protected override void OnCharacterDeath()
+    {
+        //TODO: implement something to happen upon the player dying
+    }
 
     #endregion
 }

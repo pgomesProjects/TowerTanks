@@ -6,7 +6,15 @@ using UnityEngine;
 public class TankInteractable : MonoBehaviour
 {
     //Objects & Components:
-    private SpriteRenderer[] renderers; //Array of all renderers in interactable
+    private SpriteRenderer[] renderers;    //Array of all renderers in interactable
+    private protected TankController tank; //Controller script for tank this interactable is attached to
+    private InteractableZone interactZone; //Hitbox for player detection
+    private Transform seat; //Transform operator snaps to while using this interactable
+
+    //Interactable Scripts
+    private GunController gunScript;
+    private EngineController engineScript;
+    private ThrottleController throttleScript;
 
     //Settings:
     [Header("Placement Constraints:")]
@@ -16,13 +24,23 @@ public class TankInteractable : MonoBehaviour
     //Runtime Variables:
     [Tooltip("The cell this interactable is currently installed within.")]   internal Cell parentCell;
     [Tooltip("True if interactable is a ghost and is currently unuseable.")] internal bool ghosted;
-    [Tooltip("User currently interacting with this system.")]                internal PlayerMovement user;
+    [Tooltip("True if a user is currently operating this system")]           public bool hasOperator;
+    [Tooltip("User currently interacting with this system.")]                internal PlayerMovement operatorID;
+
+    private float introBuffer = 0.2f; //small window when a new operator enters the interactable where they can't use it
+    private float cooldown;
 
     //RUNTIME METHODS:
     private void Awake()
     {
         //Get objects & components:
         renderers = GetComponentsInChildren<SpriteRenderer>(); //Get all spriterenderers for interactable visual
+        interactZone = GetComponentInChildren<InteractableZone>();
+        seat = transform.Find("Seat");
+        gunScript = GetComponent<GunController>();
+        engineScript = GetComponent<EngineController>();
+        throttleScript = GetComponent<ThrottleController>();
+
     }
     private void OnDestroy()
     {
@@ -32,6 +50,92 @@ public class TankInteractable : MonoBehaviour
             if (parentCell.ghostInteractable == this) parentCell.ghostInteractable = null;                                           //Remove ghost reference from parent cell
             if (parentCell.installedInteractable == this) parentCell.installedInteractable = null;                                   //Remove reference from parent cell
             if (parentCell.room != null && parentCell.room.interactables.Contains(this)) parentCell.room.interactables.Remove(this); //Remove reference from parent room
+        }
+
+        if (hasOperator)
+        {
+            Exit(false);
+        }
+    }
+
+    public void FixedUpdate()
+    {
+        if (operatorID != null)
+        {
+            operatorID.gameObject.transform.position = seat.position;
+            //operatorID.gameObject.transform.rotation = seat.rotation;
+        }
+
+        if (cooldown > 0)
+        {
+            cooldown -= Time.deltaTime;
+        }
+    }
+
+    public void LockIn(GameObject playerID) //Called from InteractableZone.cs when a user locks in to the interactable
+    {
+        hasOperator = true;
+        operatorID = playerID.GetComponent<PlayerMovement>();
+
+        if (operatorID != null)
+        {
+            operatorID.currentInteractable = this;
+            operatorID.isOperator = true;
+            operatorID.gameObject.GetComponent<Rigidbody2D>().isKinematic = true;
+
+            Debug.Log(operatorID + " is in!");
+            GameManager.Instance.AudioManager.Play("UseSFX");
+
+            if (cooldown <= 0) cooldown = introBuffer;
+        }
+    }
+
+    public void Exit(bool sameZone) //Called from operator (PlayerMovement.cs) when they press Cancel
+    {
+        if (operatorID != null)
+        {
+            operatorID.currentInteractable = null;
+            operatorID.isOperator = false;
+            operatorID.gameObject.GetComponent<Rigidbody2D>().isKinematic = false;
+            operatorID.CancelInteraction();
+
+            if (!interactZone.players.Contains(operatorID.gameObject) && sameZone) 
+            {
+                interactZone.players.Add(operatorID.gameObject); //reassign operator to possible interactable players
+                operatorID.currentZone = interactZone;
+            }
+
+            hasOperator = false;
+            Debug.Log(operatorID + " is out!");
+
+            operatorID = null;
+            
+            GameManager.Instance.AudioManager.Play("ButtonCancel");
+        }
+    }
+
+    public void Use() //Called from operator when they press Interact
+    {
+        if (type == Room.RoomType.Weapons)
+        {
+            if (gunScript != null && cooldown <= 0) gunScript.Fire();
+        }
+
+        if (type == Room.RoomType.Engineering)
+        {
+            if (engineScript != null && cooldown <= 0) engineScript.LoadCoal(1);
+        }
+    }
+
+    public void Shift(int direction) //Called from operator when they flick L-Stick L/R
+    {
+        if (type == Room.RoomType.Command)
+        {
+            if (throttleScript != null && cooldown <= 0)
+            {
+                throttleScript.UseThrottle(direction);
+                cooldown = 0.1f;
+            }
         }
     }
 
@@ -62,7 +166,8 @@ public class TankInteractable : MonoBehaviour
         }
 
         //Cleanup:
-        return true; //Indicate that interactable was successfully installed in target cell
+        tank = GetComponentInParent<TankController>(); //Get tank controller interactable is being attached to
+        return true;                                   //Indicate that interactable was successfully installed in target cell
     }
     /// <summary>
     /// Changes interactactable to or from a ghost of itself.

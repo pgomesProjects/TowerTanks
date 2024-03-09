@@ -17,4 +17,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Test Scenes/PrattTestScene.unity
     guid: f381ebd4cf27a6743b4cb41210b21725
+  - enabled: 1
+    path: Assets/Scenes/Test Scenes/HotteScene.unity
+    guid: 76f30802c4504ef4d86b1c1cd68bf951
+  - enabled: 1
+    path: Assets/Scenes/Test Scenes/PlayerControllerPlayground.unity
+    guid: a4802017d67df304e9d6b779cc34b9b0
   m_configObjects: {}

@@ -779,7 +779,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 131071
 --- !u!114 &6390148903600023771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -792,6 +792,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 371f35a64a987804fb865fd66ebc9616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pauseMenu: {fileID: 0}
+  optionsMenu: {fileID: 0}
+  pauseMenuButtons: []
+  optionsMenuSelected: {fileID: 0}
   pauseText: {fileID: 6390148903642090588}
 --- !u!1 &6390148903642090562
 GameObject:

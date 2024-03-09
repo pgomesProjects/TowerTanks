@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3885382295824663726}
   - component: {fileID: 3885382295824663727}
   - component: {fileID: 1913595876143118040}
+  - component: {fileID: 1730616609911353289}
   m_Layer: 0
   m_Name: PlayerData
   m_TagString: Untagged
@@ -342,3 +343,15 @@ MonoBehaviour:
   cursorTransform: {fileID: 7760774056671510967, guid: 41f655ad52e807149aa72324de5f90e1, type: 3}
   cursorSpeed: 1000
   padding: 50
+--- !u!114 &1730616609911353289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3885382295824663720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67ee0e39195e61b4184ce5185def36d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

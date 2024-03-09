@@ -33,10 +33,14 @@
 				<GameParameter Id="4287925136" Name="CombatLayer2Volume"/>
 			</GameParameters>
 		</SoundBank>
-		<SoundBank Id="2880737896" Type="User" Language="SFX" Hash="{C197DD64-4ED5-63A9-BDDB-7CBF761BAACD}">
+		<SoundBank Id="2880737896" Type="User" Language="SFX" Hash="{E5AA2F1B-8187-F26B-CCDE-D40FA4021B40}">
 			<ShortName>mainbank</ShortName>
 			<Path>mainbank.bnk</Path>
 			<Media>
+				<File Id="2061770" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>TT_SFX_buildUndo.wav</ShortName>
+					<CachePath>SFX/TT_SFX_buildUndo_3CADDE39.wem</CachePath>
+				</File>
 				<File Id="3469524" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_engine-dying-2.wav</ShortName>
 					<CachePath>SFX/TT_SFX_engine-dying-2_3CADDE39.wem</CachePath>
@@ -61,6 +65,14 @@
 					<ShortName>TT_SFX_tank-impact.wav</ShortName>
 					<CachePath>SFX/TT_SFX_tank-impact_3CADDE39.wem</CachePath>
 				</File>
+				<File Id="305378326" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>TT_SFX_rotate-room_v1.wav</ShortName>
+					<CachePath>SFX/TT_SFX_rotate-room_v1_3CADDE39.wem</CachePath>
+				</File>
+				<File Id="320129091" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>TT_SFX_rotate-room.wav</ShortName>
+					<CachePath>SFX/TT_SFX_rotate-room_3CADDE39.wem</CachePath>
+				</File>
 				<File Id="354630741" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TTTT_DeathStinger_Mix_Final_2.13.22.wav</ShortName>
 					<CachePath>SFX/TTTT_DeathStinger_Mix_Final_2.13.22_3CADDE39.wem</CachePath>
@@ -73,13 +85,13 @@
 					<ShortName>TT_SFX_character-use.wav</ShortName>
 					<CachePath>SFX/TT_SFX_character-use_3CADDE39.wem</CachePath>
 				</File>
+				<File Id="428826036" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>TT_SFX_jetpack-startup_v1.wav</ShortName>
+					<CachePath>SFX/TT_SFX_jetpack-startup_v1_3CADDE39.wem</CachePath>
+				</File>
 				<File Id="476975229" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_outside-ambience.wav</ShortName>
 					<CachePath>SFX/TT_SFX_outside-ambience_696A9007.wem</CachePath>
-				</File>
-				<File Id="498551846" Language="SFX" Streaming="false" Location="Memory">
-					<ShortName>TT_SFX_engine-dying.wav</ShortName>
-					<CachePath>SFX/TT_SFX_engine-dying_3CADDE39.wem</CachePath>
 				</File>
 				<File Id="544191574" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_projectile-in-air.wav</ShortName>
@@ -93,13 +105,25 @@
 					<ShortName>Combat\TTTT_L3_Combat_Mix_2.28.23.wav</ShortName>
 					<CachePath>SFX/Combat/TTTT_L3_Combat_Mix_2.28.23_696A9007.wem</CachePath>
 				</File>
+				<File Id="564972492" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>TT_SFX_jetpack_rocket_loop.wav</ShortName>
+					<CachePath>SFX/TT_SFX_jetpack_rocket_loop_3CADDE39.wem</CachePath>
+				</File>
 				<File Id="575432004" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_loading-coal.wav</ShortName>
 					<CachePath>SFX/TT_SFX_loading-coal_3CADDE39.wem</CachePath>
 				</File>
+				<File Id="582839826" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>TT_SFX_buildRoom_v1.wav</ShortName>
+					<CachePath>SFX/TT_SFX_buildRoom_v1_3CADDE39.wem</CachePath>
+				</File>
 				<File Id="595583574" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TTTT_Menu_Sketch_Mix.wav</ShortName>
 					<CachePath>SFX/TTTT_Menu_Sketch_Mix_3CADDE39.wem</CachePath>
+				</File>
+				<File Id="608069065" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>TT_SFX_jetpack_refuel_v1.wav</ShortName>
+					<CachePath>SFX/TT_SFX_jetpack_refuel_v1_3CADDE39.wem</CachePath>
 				</File>
 				<File Id="608155079" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>updated_ladder_climb.wav</ShortName>
@@ -133,9 +157,17 @@
 					<ShortName>TT_SFX_item_pickup.wav</ShortName>
 					<CachePath>SFX/TT_SFX_item_pickup_3CADDE39.wem</CachePath>
 				</File>
+				<File Id="756116293" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>TT_SFX_room-connect.wav</ShortName>
+					<CachePath>SFX/TT_SFX_room-connect_3CADDE39.wem</CachePath>
+				</File>
 				<File Id="763069168" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_throttle-shift.wav</ShortName>
 					<CachePath>SFX/TT_SFX_throttle-shift_3CADDE39.wem</CachePath>
+				</File>
+				<File Id="767659334" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>TT_SFX_room-connect_v1.wav</ShortName>
+					<CachePath>SFX/TT_SFX_room-connect_v1_3CADDE39.wem</CachePath>
 				</File>
 				<File Id="792905054" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_cannon-aim-system.wav</ShortName>
@@ -153,17 +185,33 @@
 					<ShortName>TT_SFX_text-scroll.wav</ShortName>
 					<CachePath>SFX/TT_SFX_text-scroll_3CADDE39.wem</CachePath>
 				</File>
+				<File Id="863978555" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>TT_SFX_invalidAlert.wav</ShortName>
+					<CachePath>SFX/TT_SFX_invalidAlert_3CADDE39.wem</CachePath>
+				</File>
 				<File Id="872036804" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_tank-engine.wav</ShortName>
 					<CachePath>SFX/TT_SFX_tank-engine_696A9007.wem</CachePath>
+				</File>
+				<File Id="881076302" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>TT_SFX_buildRoom.wav</ShortName>
+					<CachePath>SFX/TT_SFX_buildRoom_3CADDE39.wem</CachePath>
 				</File>
 				<File Id="882478931" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_wrench.wav</ShortName>
 					<CachePath>SFX/TT_SFX_wrench_3CADDE39.wem</CachePath>
 				</File>
+				<File Id="895375203" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>TT_SFX_jetpack-startup.wav</ShortName>
+					<CachePath>SFX/TT_SFX_jetpack-startup_3CADDE39.wem</CachePath>
+				</File>
 				<File Id="963356657" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_blaring-alarm.wav</ShortName>
 					<CachePath>SFX/TT_SFX_blaring-alarm_3CADDE39.wem</CachePath>
+				</File>
+				<File Id="1036265675" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>TT_SFX_jetpack-startup_v2.wav</ShortName>
+					<CachePath>SFX/TT_SFX_jetpack-startup_v2_3CADDE39.wem</CachePath>
 				</File>
 				<File Id="1046025241" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_large-explosion.wav</ShortName>
@@ -182,6 +230,17 @@
 				<Event Id="3949782988" Name="blaring_alarm" DurationType="OneShot" DurationMin="8.25" DurationMax="8.25">
 					<MediaRefs>
 						<MediaRef Id="963356657"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2462051799" Name="build_room" DurationType="OneShot" DurationMin="1" DurationMax="1.125">
+					<MediaRefs>
+						<MediaRef Id="582839826"/>
+						<MediaRef Id="881076302"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="185536228" Name="build_undo" DurationType="OneShot" DurationMin="0.5627292" DurationMax="0.5627292">
+					<MediaRefs>
+						<MediaRef Id="2061770"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="3130542990" Name="button_cancel" DurationType="OneShot" DurationMin="0.311625" DurationMax="0.311625">
@@ -232,9 +291,9 @@
 						<MediaRef Id="354630741"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="3121770429" Name="engine_dying" DurationType="OneShot" DurationMin="0.6927083" DurationMax="0.6927083">
+				<Event Id="3121770429" Name="engine_dying" DurationType="OneShot" DurationMin="0.875" DurationMax="0.875">
 					<MediaRefs>
-						<MediaRef Id="498551846"/>
+						<MediaRef Id="895375203"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="1498048058" Name="engine_dying_2" DurationType="OneShot" DurationMin="4.9838333" DurationMax="4.9838333">
@@ -249,9 +308,31 @@
 				</Event>
 				<Event Id="1469012939" Name="Global_Pause" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="2496259136" Name="Global_Unpause" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="2191775701" Name="invalid_alert" DurationType="OneShot" DurationMin="0.28125" DurationMax="0.28125">
+					<MediaRefs>
+						<MediaRef Id="863978555"/>
+					</MediaRefs>
+				</Event>
 				<Event Id="566396871" Name="item_pickup" DurationType="OneShot" DurationMin="0.87220836" DurationMax="0.87220836">
 					<MediaRefs>
 						<MediaRef Id="736230953"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1266436627" Name="jetpack_refuel" DurationType="OneShot" DurationMin="0.6244375" DurationMax="0.6244375">
+					<MediaRefs>
+						<MediaRef Id="608069065"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3943443513" Name="jetpack_rocket_loop" DurationType="OneShot" DurationMin="4.25" DurationMax="4.25">
+					<MediaRefs>
+						<MediaRef Id="564972492"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="756560803" Name="jetpack_startup" DurationType="OneShot" DurationMin="0.875" DurationMax="1.125">
+					<MediaRefs>
+						<MediaRef Id="428826036"/>
+						<MediaRef Id="895375203"/>
+						<MediaRef Id="1036265675"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="1707141479" Name="ladder_climb" DurationType="OneShot" DurationMin="0.39514583" DurationMax="0.39514583">
@@ -292,6 +373,18 @@
 				<Event Id="137332291" Name="projectile_in_air" DurationType="OneShot" DurationMin="6" DurationMax="6">
 					<MediaRefs>
 						<MediaRef Id="544191574"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="228008419" Name="room_connect" DurationType="OneShot" DurationMin="0.625" DurationMax="0.625">
+					<MediaRefs>
+						<MediaRef Id="756116293"/>
+						<MediaRef Id="767659334"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2075466706" Name="rotate_room" DurationType="OneShot" DurationMin="0.375" DurationMax="0.5">
+					<MediaRefs>
+						<MediaRef Id="305378326"/>
+						<MediaRef Id="320129091"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="3519998062" Name="small_explosion" DurationType="OneShot" DurationMin="1.715625" DurationMax="1.715625">
@@ -354,5 +447,5 @@
 			</GameParameters>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{3CA63F32-48EB-BCAD-689E-78C47728FEE1}</FileHash>
+	<FileHash>{3F5CC959-5356-80BB-A599-B427BEFA784A}</FileHash>
 </SoundBanksInfo>
