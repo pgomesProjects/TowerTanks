@@ -470,6 +470,61 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="tank_alarm" ID="{F4B0D818-4D6B-4B8B-AB95-B111A6ADA2A0}">
+					<ChildrenList>
+						<Action Name="" ID="{7B81901B-BD84-464C-9A55-4575769D1CD4}" ShortID="723285869">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_tank-alarm" ID="{47448F89-7072-47AE-9910-9A5733009409}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="cannon_rotate" ID="{3442E508-B6C4-47FE-8890-CA74D9251E62}">
+					<ChildrenList>
+						<Action Name="" ID="{1E8471E5-BDEC-47E4-98B4-876A9F37D044}" ShortID="1046141095">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_cannon_rotate_v2" ID="{BAA18089-E804-4BB0-8F87-ABDA45CC5C5F}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="tank_creaking" ID="{CFD9E23D-B554-4030-9CB4-CDCBAE47BF37}">
+					<ChildrenList>
+						<Action Name="" ID="{FD118BA4-F62A-4261-8907-45642060C3C7}" ShortID="517627909">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_tank-creaking" ID="{E265F373-D1AC-472F-86AA-EA692E677BD4}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="steam_exhaust" ID="{A6951C9E-8870-4DF5-8644-705652A6AAF0}">
+					<ChildrenList>
+						<Action Name="" ID="{9D0CEF06-F675-431A-BF8C-157359E63186}" ShortID="300818046">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_steam-exhaust" ID="{28EA6071-4C6E-4F48-AA9D-CED281B4AD15}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="steam_exhaust_loop" ID="{FE7A8EAE-7228-4C8A-B011-AABDE40F2AC6}">
+					<ChildrenList>
+						<Action Name="" ID="{3A7D1CCC-304B-431E-97AC-D943760F2296}" ShortID="91728631">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_steam_exhaust_loop" ID="{CCEC4BD7-AF11-4C37-A376-8DAC346AC4C0}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>
