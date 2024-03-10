@@ -61,7 +61,7 @@ public class InteractableZone : MonoBehaviour
                 if (players.Contains(player.gameObject))
                 {
                     players.Remove(player.gameObject);
-                    player.currentZone = null;
+                    if (player.currentZone == this) player.currentZone = null;
                 }
             }
         }
