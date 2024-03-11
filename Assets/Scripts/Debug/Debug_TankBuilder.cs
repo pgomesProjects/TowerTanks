@@ -137,7 +137,7 @@ public class Debug_TankBuilder : MonoBehaviour
             case "Look": OnLook(ctx); break;
             case "Cancel": OnRotate(ctx); break;
             case "Cycle Interactables": OnCycle(ctx); break;
-            case "Jump": OnJump(ctx); break;
+            case "Build": OnBuild(ctx); break;
             case "Repair": OnDeploy(ctx); break;
             case "Pause": OnPause(ctx); break;
         }
@@ -231,7 +231,7 @@ public class Debug_TankBuilder : MonoBehaviour
         }
     }
 
-    public void OnJump(InputAction.CallbackContext ctx) 
+    public void OnBuild(InputAction.CallbackContext ctx) 
     {
         if (cooldown <= 0 && ctx.performed && !isDeployed)
         {

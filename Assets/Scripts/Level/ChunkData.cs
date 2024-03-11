@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class ChunkData: MonoBehaviour
 {
+    public enum ChunkType { FLAT, SLOPEUP, SLOPEDOWN };
+    public ChunkType chunkType;
+
     public bool IsActive { get; private set; }
     public bool isInitialized { get; private set; }
 

@@ -141,7 +141,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Jump",
+                    "name": "Jetpack",
                     "type": "Button",
                     "id": "673e2e8f-b50e-497e-88dd-0f2a7453af0b",
                     "expectedControlType": "Button",
@@ -856,7 +856,7 @@
                 {
                     "name": "",
                     "id": "3df3bf15-9b85-466e-8b41-9abbe2c4761a",
-                    "path": "<Gamepad>/buttonSouth",
+                    "path": "<Gamepad>/buttonWest",
                     "interactions": "SlowTap",
                     "processors": "",
                     "groups": "Gamepad",
@@ -944,7 +944,7 @@
                 {
                     "name": "",
                     "id": "f8b9dca0-5cef-41d1-a3d2-0ba3a9121b3c",
-                    "path": "<Keyboard>/space",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard and Mouse",
@@ -1036,18 +1036,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard and Mouse",
-                    "action": "Jump",
+                    "action": "Jetpack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
                     "id": "f88e34cc-a06e-4daa-87b2-0b739ebcc9b2",
-                    "path": "<Gamepad>/buttonWest",
+                    "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Jump",
+                    "action": "Jetpack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

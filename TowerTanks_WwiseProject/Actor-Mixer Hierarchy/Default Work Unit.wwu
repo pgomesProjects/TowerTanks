@@ -1063,6 +1063,265 @@
 								<ActiveSource Name="TT_SFX_jetpack_refuel_v1" ID="{0FE35D62-9871-4CBF-AA76-331E5800359D}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
+						<Sound Name="TT_SFX_steam_exhaust_loop" ID="{CCEC4BD7-AF11-4C37-A376-8DAC346AC4C0}" ShortID="284224630">
+							<PropertyList>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="TT_SFX_steam_exhaust_loop" ID="{4F5F269B-8F60-4449-A850-D0F18211569A}">
+									<Language>SFX</Language>
+									<AudioFile>TT_SFX_steam_exhaust_loop.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="442190223"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="TT_SFX_steam_exhaust_loop" ID="{4F5F269B-8F60-4449-A850-D0F18211569A}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_SFX_cannon_rotate_v2" ID="{BAA18089-E804-4BB0-8F87-ABDA45CC5C5F}" ShortID="103481105">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="TT_SFX_cannon_rotate_v2" ID="{AFE50092-EEA4-467B-BFFE-0324AB1518D6}">
+									<Language>SFX</Language>
+									<AudioFile>TT_SFX_cannon_rotate_v2.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="89869954"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="TT_SFX_cannon_rotate_v2" ID="{AFE50092-EEA4-467B-BFFE-0324AB1518D6}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<RandomSequenceContainer Name="TT_SFX_steam-exhaust" ID="{28EA6071-4C6E-4F48-AA9D-CED281B4AD15}" ShortID="801296412">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="TT_SFX_steam_exhaust" ID="{6DD8A468-C2A1-4FDF-BDC8-107B7F336802}" ShortID="64675146">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TT_SFX_steam_exhaust" ID="{FE65CB7A-2082-42E9-9260-A9D95DB7BDE0}">
+											<Language>SFX</Language>
+											<AudioFile>TT_SFX_steam_exhaust.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="172496222"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TT_SFX_steam_exhaust" ID="{FE65CB7A-2082-42E9-9260-A9D95DB7BDE0}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="TT_SFX_steam_exhaust_v1" ID="{5854271B-6034-4DEA-998D-C2701836F1FB}" ShortID="79904605">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TT_SFX_steam_exhaust_v1" ID="{8C7592AE-9BEB-4182-B714-96D242F5D841}">
+											<Language>SFX</Language>
+											<AudioFile>TT_SFX_steam_exhaust_v1.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="874009170"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TT_SFX_steam_exhaust_v1" ID="{8C7592AE-9BEB-4182-B714-96D242F5D841}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="TT_SFX_steam_exhaust_v2" ID="{4DABCE8F-D2C6-41ED-BB00-CA0FC4CC28D8}" ShortID="99312456">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TT_SFX_steam_exhaust_v2" ID="{3BBE3610-4309-4214-9529-CD11A87B2862}">
+											<Language>SFX</Language>
+											<AudioFile>TT_SFX_steam_exhaust_v2.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="905378176"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TT_SFX_steam_exhaust_v2" ID="{3BBE3610-4309-4214-9529-CD11A87B2862}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+						<RandomSequenceContainer Name="TT_SFX_tank-creaking" ID="{E265F373-D1AC-472F-86AA-EA692E677BD4}" ShortID="415035234">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="TT_SFX_tank-creaking" ID="{A02ACF91-D745-4102-98EC-7D001C805D35}" ShortID="317298298">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TT_SFX_tank-creaking" ID="{7F2061DD-4764-4651-A576-19364CB5334D}">
+											<Language>SFX</Language>
+											<AudioFile>TT_SFX_tank-creaking.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="727609140"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TT_SFX_tank-creaking" ID="{7F2061DD-4764-4651-A576-19364CB5334D}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="TT_SFX_tank-creaking_v1" ID="{B36CCC92-19A3-45AE-880B-C2D8069F4991}" ShortID="545328691">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TT_SFX_tank-creaking_v1" ID="{BC89BFA0-30F3-430B-A74A-8B22311787BA}">
+											<Language>SFX</Language>
+											<AudioFile>TT_SFX_tank-creaking_v1.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="671272586"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TT_SFX_tank-creaking_v1" ID="{BC89BFA0-30F3-430B-A74A-8B22311787BA}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="TT_SFX_tank-creaking_v2" ID="{AEDB7E2C-9BCF-4961-BA4C-7C0E535BEB3B}" ShortID="62816192">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TT_SFX_tank-creaking_v2" ID="{96EA3A9B-43A1-4398-9CC4-6F8C8B0359BE}">
+											<Language>SFX</Language>
+											<AudioFile>TT_SFX_tank-creaking_v2.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="661803067"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TT_SFX_tank-creaking_v2" ID="{96EA3A9B-43A1-4398-9CC4-6F8C8B0359BE}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+						<RandomSequenceContainer Name="TT_SFX_tank-alarm" ID="{47448F89-7072-47AE-9910-9A5733009409}" ShortID="337865011">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="TT_SFX_tank_alarm" ID="{BCA57CFC-D95A-4B56-B9D6-5264F1856CAB}" ShortID="204171529">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TT_SFX_tank_alarm" ID="{5463C445-BEEE-46F3-8154-7E5422E1DB90}">
+											<Language>SFX</Language>
+											<AudioFile>TT_SFX_tank_alarm.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="961137882"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TT_SFX_tank_alarm" ID="{5463C445-BEEE-46F3-8154-7E5422E1DB90}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="TT_SFX_tank_alarm_v1" ID="{774BFC82-E843-42CE-A921-5D2FABEF548D}" ShortID="959851167">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TT_SFX_tank_alarm_v1" ID="{60A4E1C8-E043-422B-82BD-2D3E087C95DE}">
+											<Language>SFX</Language>
+											<AudioFile>TT_SFX_tank_alarm_v1.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="828978616"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TT_SFX_tank_alarm_v1" ID="{60A4E1C8-E043-422B-82BD-2D3E087C95DE}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
 					</ChildrenList>
 				</Folder>
 				<Folder Name="BGM" ID="{2BE824B0-8D3F-4950-B4EF-7D37BEF8A834}" ShortID="185395347">

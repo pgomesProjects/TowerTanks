@@ -22,6 +22,7 @@ namespace AK
         static const AkUniqueID CANNON_FIRE = 155513425U;
         static const AkUniqueID CANNON_LOCK_IN_PLACE = 1967707158U;
         static const AkUniqueID CANNON_RELOAD = 3265936618U;
+        static const AkUniqueID CANNON_ROTATE = 946664204U;
         static const AkUniqueID CHARACTER_USE = 3289544510U;
         static const AkUniqueID COMBAT_MUSIC = 1932095129U;
         static const AkUniqueID DEATH_STINGER = 1015288770U;
@@ -46,6 +47,9 @@ namespace AK
         static const AkUniqueID ROOM_CONNECT = 228008419U;
         static const AkUniqueID ROTATE_ROOM = 2075466706U;
         static const AkUniqueID SMALL_EXPLOSION = 3519998062U;
+        static const AkUniqueID STEAM_EXHAUST = 2561646952U;
+        static const AkUniqueID STEAM_EXHAUST_LOOP = 3673494633U;
+        static const AkUniqueID TANK_CREAKING = 620130432U;
         static const AkUniqueID TANK_ENGINE = 212754890U;
         static const AkUniqueID TANK_IMPACT = 70658946U;
         static const AkUniqueID TANK_ROLLING = 299811467U;

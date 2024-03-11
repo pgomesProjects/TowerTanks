@@ -24,7 +24,7 @@ MonoBehaviour:
     ParentPath: Virtual Acoustics\Default Work Unit
     guid: 79d6e6cdcbdfcd4d9d052b236bc85600
     GuidInternal: 
-    m_lastTime: -8584933168036021592
+    m_lastTime: -8584916765201494946
     List: []
   AuxBusWwu:
   - PhysicalPath: Master-Mixer Hierarchy\Default Work Unit.wwu
@@ -38,7 +38,7 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy\Default Work Unit
     guid: 358467ebf0a09540b65ba3cce55d6389
     GuidInternal: 
-    m_lastTime: -8584933168050271859
+    m_lastTime: -8584916765227726392
     List:
     - name: Master Audio Bus
       guid: d8a41415a61d2a41a17e75ca0c2149f3
@@ -101,7 +101,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: df5fafb8b92e944290f5318847f0e90d
     GuidInternal: 
-    m_lastTime: -8584929783355872875
+    m_lastTime: -8584915875558164592
     List:
     - name: mainbank
       guid: 3a7f49372b0b1a428cab0adbe8b1c2b4
@@ -129,7 +129,7 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: 83957ce1e688d54e8b6b22beb20598dd
     GuidInternal: 
-    m_lastTime: -8584923475744920321
+    m_lastTime: -8584916454864120114
     List:
     - name: blaring_alarm
       guid: 0557db327da0a0479a6261e902cede4a
@@ -281,6 +281,23 @@ MonoBehaviour:
         ObjectType: 3
         guid: 5a0aeee6dc197446931a5304d7da7f10
       Path: Events\Default Work Unit\cannon_reload
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: cannon_rotate
+      guid: 08e54234c4b6fe478890ca74d9251e62
+      id: 946664204
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: cannon_rotate
+        ObjectType: 3
+        guid: 08e54234c4b6fe478890ca74d9251e62
+      Path: Events\Default Work Unit\cannon_rotate
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -692,6 +709,74 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
+    - name: steam_exhaust
+      guid: 9e1c95a67088f54d8644705652a6aaf0
+      id: 2561646952
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: steam_exhaust
+        ObjectType: 3
+        guid: 9e1c95a67088f54d8644705652a6aaf0
+      Path: Events\Default Work Unit\steam_exhaust
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: steam_exhaust_loop
+      guid: ae8e7afe28728a4cb011aabde40f2ac6
+      id: 3673494633
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: steam_exhaust_loop
+        ObjectType: 3
+        guid: ae8e7afe28728a4cb011aabde40f2ac6
+      Path: Events\Default Work Unit\steam_exhaust_loop
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: tank_alarm
+      guid: 18d8b0f46b4d8b4bab95b111a6ada2a0
+      id: 3127992739
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: tank_alarm
+        ObjectType: 3
+        guid: 18d8b0f46b4d8b4bab95b111a6ada2a0
+      Path: Events\Default Work Unit\tank_alarm
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: tank_creaking
+      guid: 3de2d9cf54b530409cb4cdcbae47bf37
+      id: 620130432
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: tank_creaking
+        ObjectType: 3
+        guid: 3de2d9cf54b530409cb4cdcbae47bf37
+      Path: Events\Default Work Unit\tank_creaking
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
     - name: tank_engine
       guid: 282fcd6accce3e4a8ed6193e19e045d8
       id: 212754890
@@ -857,7 +942,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\Default Work Unit
     guid: 7fd26d170457f64b9c4075e46d49e907
     GuidInternal: 
-    m_lastTime: -8584933168051321848
+    m_lastTime: -8584916765229633730
     List:
     - name: CombatLayer0Volume
       guid: 999f4b2c35a11740af640b4d29de9d1c
@@ -969,7 +1054,7 @@ MonoBehaviour:
     ParentPath: States\Default Work Unit
     guid: a0b7341f178cca44b4803208de1bf889
     GuidInternal: 
-    m_lastTime: -8584933168036051581
+    m_lastTime: -8584916765201640106
     List: []
   SwitchWwu:
   - PhysicalPath: Switches\Default Work Unit.wwu
@@ -983,7 +1068,7 @@ MonoBehaviour:
     ParentPath: Switches\Default Work Unit
     guid: 6d9d81080ab4cc4e872aa2d178ddb83f
     GuidInternal: 
-    m_lastTime: -8584933168036041584
+    m_lastTime: -8584916765201620104
     List: []
   TriggerWwu:
   - PhysicalPath: Triggers\Default Work Unit.wwu
@@ -997,10 +1082,10 @@ MonoBehaviour:
     ParentPath: Triggers\Default Work Unit
     guid: 178f1c8b56862740bb45115316763d0e
     GuidInternal: 
-    m_lastTime: -8584933168036021592
+    m_lastTime: -8584916765201494946
     List: []
   ExpandedFileSystemItemIds: 
-  ExpandedWaapiItemIds: 
+  ExpandedWaapiItemIds: 050000000600000007000000
   AutoSyncSelection: 0
   autoPopulateEnabled: 1
   currentDataSource: 0

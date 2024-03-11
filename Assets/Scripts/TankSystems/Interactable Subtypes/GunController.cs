@@ -8,6 +8,7 @@ public class GunController : TankInteractable
     [Tooltip("Default projectile which will be fired by this weapon"), SerializeField]                      private GameObject projectilePrefab;
     [Tooltip("Transform indicating direction and position in which projectiles are fired"), SerializeField] private Transform barrel;
     [Tooltip("Joint around which moving cannon assembly rotates."), SerializeField]                         private Transform pivot;
+    [Tooltip("Transforms to spawn particles from when used."), SerializeField]                              private Transform[] particleSpots;
 
     //Settings:
     [Header("Gun Settings:")]
@@ -19,8 +20,7 @@ public class GunController : TankInteractable
     [Range(0, 1)] public float moveGimbal = 0.5f;
 
     //Runtime Variables:
-
-
+ 
     //RUNTIME METHODS:
     private void Update()
     {
@@ -35,11 +35,15 @@ public class GunController : TankInteractable
     /// </summary>
     public void Fire()
     {
+        if (tank == null) tank = GameObject.Find("Tank1").GetComponent<TankController>();
+
         //Apply recoil:
         Vector2 recoilForce = -barrel.right * recoil;                                  //Get force of recoil from direction of barrel and set magnitude
         tank.treadSystem.r.AddForceAtPosition(recoilForce, barrel.transform.position); //Apply recoil force at position of barrel
 
         //Other effects:
+        int random = Random.Range(0, 2);
+        GameManager.Instance.ParticleSpawner.SpawnParticle(random, particleSpots[0], 0.1f, null);
         GameManager.Instance.AudioManager.Play("CannonFire"); //Play firing audioclip
     }
 }

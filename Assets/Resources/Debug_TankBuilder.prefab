@@ -68,6 +68,7 @@ MonoBehaviour:
   - {fileID: 855465098922572524, guid: c8a9a63fd9b16424dbb035d7907024ea, type: 3}
   - {fileID: 855465098922572524, guid: 1ff5ecd312e82094f93416dd7a78e87b, type: 3}
   roomSelected: 0
+  enableSounds: 0
   playerInputComponent: {fileID: 2096001709528450736}
 --- !u!114 &2096001709528450736
 MonoBehaviour:

@@ -12,6 +12,8 @@ public class GameManager : SerializedMonoBehaviour
     public AudioManager AudioManager { get; private set; }
     public MultiplayerManager MultiplayerManager { get; private set; }
 
+    public ParticleSpawner ParticleSpawner { get; private set; }
+
     [SerializeField, Tooltip("The list of possible rooms for the players to pick.")] public GameObject[] roomList { get; private set; }
 
     [SerializeField, Tooltip("The time for levels to fade in.")] private float fadeInTime = 1f;
@@ -33,6 +35,7 @@ public class GameManager : SerializedMonoBehaviour
         Instance = this;
         AudioManager = GetComponentInChildren<AudioManager>();
         MultiplayerManager = GetComponentInChildren<MultiplayerManager>();
+        ParticleSpawner = GetComponentInChildren<ParticleSpawner>();
     }
 
     private void OnEnable()
