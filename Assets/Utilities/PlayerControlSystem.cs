@@ -170,6 +170,15 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Mount"",
+                    ""type"": ""Button"",
+                    ""id"": ""c55ef5c2-8d1f-4ae5-bbd8-8bd5281a346f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -1063,6 +1072,28 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""action"": ""Jetpack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8a29ae4d-b6e4-4a75-9bb9-60b4a4a3933d"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Mount"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f26e8845-895b-4da5-9d98-9a9d19e23fd8"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Mount"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -1755,6 +1786,24 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SubmitCommand"",
+                    ""type"": ""Button"",
+                    ""id"": ""745b3c80-5613-47d8-8189-35090349d438"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ToggleCommandMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""15164156-73b6-49df-b18e-e07837f673a6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -1775,8 +1824,30 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""path"": ""<Mouse>/middleButton"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard and Mouse"",
                     ""action"": ""ToggleGamepadCursors"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""30efe81c-45f0-480d-8d18-b3487bd20caf"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""SubmitCommand"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""34bea205-5b2d-49ed-bf8d-c371c47b93b3"",
+                    ""path"": ""<Keyboard>/backquote"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""ToggleCommandMenu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1869,6 +1940,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         m_Player_OnLadderExit = m_Player.FindAction("On Ladder Exit", throwIfNotFound: true);
         m_Player_CannonScroll = m_Player.FindAction("Cannon Scroll", throwIfNotFound: true);
         m_Player_Jetpack = m_Player.FindAction("Jetpack", throwIfNotFound: true);
+        m_Player_Mount = m_Player.FindAction("Mount", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1886,6 +1958,8 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         // Debug
         m_Debug = asset.FindActionMap("Debug", throwIfNotFound: true);
         m_Debug_ToggleGamepadCursors = m_Debug.FindAction("ToggleGamepadCursors", throwIfNotFound: true);
+        m_Debug_SubmitCommand = m_Debug.FindAction("SubmitCommand", throwIfNotFound: true);
+        m_Debug_ToggleCommandMenu = m_Debug.FindAction("ToggleCommandMenu", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1961,6 +2035,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_OnLadderExit;
     private readonly InputAction m_Player_CannonScroll;
     private readonly InputAction m_Player_Jetpack;
+    private readonly InputAction m_Player_Mount;
     public struct PlayerActions
     {
         private @PlayerControlSystem m_Wrapper;
@@ -1981,6 +2056,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         public InputAction @OnLadderExit => m_Wrapper.m_Player_OnLadderExit;
         public InputAction @CannonScroll => m_Wrapper.m_Player_CannonScroll;
         public InputAction @Jetpack => m_Wrapper.m_Player_Jetpack;
+        public InputAction @Mount => m_Wrapper.m_Player_Mount;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -2038,6 +2114,9 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @Jetpack.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJetpack;
                 @Jetpack.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJetpack;
                 @Jetpack.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJetpack;
+                @Mount.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMount;
+                @Mount.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMount;
+                @Mount.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMount;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -2090,6 +2169,9 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @Jetpack.started += instance.OnJetpack;
                 @Jetpack.performed += instance.OnJetpack;
                 @Jetpack.canceled += instance.OnJetpack;
+                @Mount.started += instance.OnMount;
+                @Mount.performed += instance.OnMount;
+                @Mount.canceled += instance.OnMount;
             }
         }
     }
@@ -2220,11 +2302,15 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Debug;
     private IDebugActions m_DebugActionsCallbackInterface;
     private readonly InputAction m_Debug_ToggleGamepadCursors;
+    private readonly InputAction m_Debug_SubmitCommand;
+    private readonly InputAction m_Debug_ToggleCommandMenu;
     public struct DebugActions
     {
         private @PlayerControlSystem m_Wrapper;
         public DebugActions(@PlayerControlSystem wrapper) { m_Wrapper = wrapper; }
         public InputAction @ToggleGamepadCursors => m_Wrapper.m_Debug_ToggleGamepadCursors;
+        public InputAction @SubmitCommand => m_Wrapper.m_Debug_SubmitCommand;
+        public InputAction @ToggleCommandMenu => m_Wrapper.m_Debug_ToggleCommandMenu;
         public InputActionMap Get() { return m_Wrapper.m_Debug; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -2237,6 +2323,12 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @ToggleGamepadCursors.started -= m_Wrapper.m_DebugActionsCallbackInterface.OnToggleGamepadCursors;
                 @ToggleGamepadCursors.performed -= m_Wrapper.m_DebugActionsCallbackInterface.OnToggleGamepadCursors;
                 @ToggleGamepadCursors.canceled -= m_Wrapper.m_DebugActionsCallbackInterface.OnToggleGamepadCursors;
+                @SubmitCommand.started -= m_Wrapper.m_DebugActionsCallbackInterface.OnSubmitCommand;
+                @SubmitCommand.performed -= m_Wrapper.m_DebugActionsCallbackInterface.OnSubmitCommand;
+                @SubmitCommand.canceled -= m_Wrapper.m_DebugActionsCallbackInterface.OnSubmitCommand;
+                @ToggleCommandMenu.started -= m_Wrapper.m_DebugActionsCallbackInterface.OnToggleCommandMenu;
+                @ToggleCommandMenu.performed -= m_Wrapper.m_DebugActionsCallbackInterface.OnToggleCommandMenu;
+                @ToggleCommandMenu.canceled -= m_Wrapper.m_DebugActionsCallbackInterface.OnToggleCommandMenu;
             }
             m_Wrapper.m_DebugActionsCallbackInterface = instance;
             if (instance != null)
@@ -2244,6 +2336,12 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @ToggleGamepadCursors.started += instance.OnToggleGamepadCursors;
                 @ToggleGamepadCursors.performed += instance.OnToggleGamepadCursors;
                 @ToggleGamepadCursors.canceled += instance.OnToggleGamepadCursors;
+                @SubmitCommand.started += instance.OnSubmitCommand;
+                @SubmitCommand.performed += instance.OnSubmitCommand;
+                @SubmitCommand.canceled += instance.OnSubmitCommand;
+                @ToggleCommandMenu.started += instance.OnToggleCommandMenu;
+                @ToggleCommandMenu.performed += instance.OnToggleCommandMenu;
+                @ToggleCommandMenu.canceled += instance.OnToggleCommandMenu;
             }
         }
     }
@@ -2311,6 +2409,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         void OnOnLadderExit(InputAction.CallbackContext context);
         void OnCannonScroll(InputAction.CallbackContext context);
         void OnJetpack(InputAction.CallbackContext context);
+        void OnMount(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
@@ -2330,5 +2429,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
     public interface IDebugActions
     {
         void OnToggleGamepadCursors(InputAction.CallbackContext context);
+        void OnSubmitCommand(InputAction.CallbackContext context);
+        void OnToggleCommandMenu(InputAction.CallbackContext context);
     }
 }

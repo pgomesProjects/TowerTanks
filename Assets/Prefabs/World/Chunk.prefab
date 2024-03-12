@@ -98,6 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b06dab417fb7baa46b996b476b0c1faf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  chunkType: 0
   chanceToGenerateTrap: 50
   chunkTrap: {fileID: 6209146958852724132}
 --- !u!1 &6209146958852724132
@@ -174,7 +175,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.48872834, g: 0.010191203, b: 0.7314306, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

@@ -1340,7 +1340,6 @@ MonoBehaviour:
   ghostLayerPrefab: {fileID: 1362854724604262610, guid: f5ceebe7143a8944ba73657ee0a2fc33, type: 3}
   playerHUDPrefab: {fileID: 7233397024689304095, guid: 40576d2ea0d1e834aa0a94b73261c6a6, type: 3}
   playerHUDParentTransform: {fileID: 49971460}
-  gamePhaseUI: {fileID: 215388329}
   scrapValue: 25
   currentLevelEvent: {fileID: 11400000, guid: 22b317130dd13554f9f9fb3d56a2d5bc, type: 2}
   resourcesToAdd: 100
@@ -6675,7 +6674,7 @@ GameObject:
   - component: {fileID: 1176210820}
   m_Layer: 0
   m_Name: SpawnPoints
-  m_TagString: Untagged
+  m_TagString: SpawnPoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9402,7 +9401,6 @@ MonoBehaviour:
   sessionStatsMenu: {fileID: 389324183}
   goPrompt: {fileID: 938037815}
   alarmAnimation: {fileID: 810497429}
-  playerAvatarSpacing: 35
   resourcesDisplay: {fileID: 1961525137}
   minResourcesAnimationDuration: 0.5
   maxResourcesAnimationDuration: 2
