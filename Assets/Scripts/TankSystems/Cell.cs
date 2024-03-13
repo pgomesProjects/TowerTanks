@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
+using Sirenix.OdinInspector.Editor;
+using System.Linq;
 
 /// <summary>
 /// Square component which rooms are made of.
@@ -24,7 +27,11 @@ public class Cell : MonoBehaviour
     /// Connectors indicate splits between room sections.
     /// </summary>
     internal Connector[] connectors = new Connector[4]; //Connectors adjacent to this cell (in NESW order)
-    
+    /// <summary>
+    /// Couplers adjacent to this cell (connected couplers will modify cell walls).
+    /// </summary>
+    internal List<Coupler> couplers = new List<Coupler>();
+
     [Header("Cell Components:")]
     [Tooltip("Back wall of cell, will be changed depending on cell purpose.")]                  public GameObject backWall;
     [Tooltip("Pre-assigned cell walls (in NESW order) which confine players inside the tank.")] public GameObject[] walls;
@@ -32,10 +39,10 @@ public class Cell : MonoBehaviour
     //Settings:
     [Header("Cell Settings:")]
     [Tooltip("Plug interactable prefab in here to have cell generate a slot on spawn and start with it installed.")] public GameObject startingInteractable;
+    [Button("Debug Destroy Cell")] public void DebugDestroyCell() { Kill(); }
 
     //Runtime Variables:
-    [Tooltip("Which section this cell is in inside its parent room.")] internal int section;
-
+    [Tooltip("Which section this cell is in inside its parent room.")]                              internal int section;
     [Tooltip("If true, this cell will be populated with an interactable when its room is placed.")] internal bool hasInteractableSlot = false;
     [Tooltip("Ghosted interactable prepared to be installed in this cell.")]                        internal TankInteractable ghostInteractable;
     [Tooltip("Interactable currently installed in this cell.")]                                     internal TankInteractable installedInteractable;
@@ -111,5 +118,89 @@ public class Cell : MonoBehaviour
         //Adjust visuals:
         Transform slotIndicator = Instantiate(Resources.Load<RoomData>("RoomData").slotIndicator, transform).transform; //Instantiate slot indicator object
         slotIndicator.localPosition = new Vector3(0, 0, -5);                                                            //Move indicator to be centered on cell
+    }
+    /// <summary>
+    /// Deals given amount of damage to the cell.
+    /// </summary>
+    public void Damage()
+    {
+
+    }
+    /// <summary>
+    /// Obliterates cell and updates adjacency info for other cells.
+    /// </summary>
+    /// <param name="proxy">Pass true when cell is being destroyed by another cell destruction method.</param>
+    public void Kill(bool proxy = false)
+    {
+        //Validity checks:
+        if (room.isCore) return; //Do not allow cells in core room to be destroyed
+
+        //Adjacency cleanup:
+        List<Cell> detachedNeighbors = new List<Cell>(); //Create list to store neighbors which have been detached from this cell
+        for (int x = 0; x < 4; x++) //Iterate through neighbor and connector array
+        {
+            if (neighbors[x] != null) //Cell has a neighbor in this direction
+            {
+                neighbors[x].neighbors[(x + 2) % 4] = null; //Clear neighbor reference to this cell
+                detachedNeighbors.Add(neighbors[x]);        //Add neighbor to list of detached cells
+                if (connectors[x] != null) //Neighbor is attached by a connector
+                {
+                    //Connector damage/destruction:
+
+                }
+            }
+        }
+        for (int x = 0; x < couplers.Count; x++) //Iterate through couplers adjacent to cell
+        {
+            detachedNeighbors.Add(couplers[x].GetOtherCell(this)); //Get cell on other side of coupler and add to detached neighbor list
+            //NOTE: Delete floating couplers
+        }
+
+        //Breakoff detection:
+        if (!proxy && detachedNeighbors.Count > 0) //Cells being destroyed by breakoff calculation of another cell do not need to do their own calculation
+        {
+            for (int x = 0; x < detachedNeighbors.Count;) //Iterate until at the end of detached neighbors list (list may be edited mid-iteration)
+            {
+                List<Cell> connectedCells = new List<Cell>(); //Initialize a list to store cells found to be connected to detached cell
+                connectedCells.Add(detachedNeighbors[x]);     //Seed list with cell from detached neighbors list
+                for (int y = 0; y < connectedCells.Count; y++) //Iterate through list of cells connected to detached neighbor, populating as we go
+                {
+                    //Check cell identity:
+                    Cell currentCell = connectedCells[y]; //Get current cell
+                    if (currentCell.room.isCore) //Core room has been found, neighborhood will not be detached
+                    {
+                        foreach (Cell cell in connectedCells) if (detachedNeighbors.Contains(cell)) detachedNeighbors.Remove(cell); //Remove all cells in found neighborhood from potential detachments list (because they are safely connected)
+                        connectedCells.Clear();                                                                                     //Clear neighborhood list to indicate that none of these cells should be destroyed
+                        break;                                                                                                      //Break neighborhood population loop and continue to other direct neighbors of destroyed cell
+                    }
+
+                    //Populate neighbor list:
+                    for (int z = 0; z < 4; z++) //Iterate through neighbors of connected cell
+                    {
+                        Cell neighbor = currentCell.neighbors[z];                                                 //Get current neighbor
+                        if (neighbor != null && !connectedCells.Contains(neighbor)) connectedCells.Add(neighbor); //Add neighbor if it isn't already found in list
+                    }
+                    foreach (Coupler coupler in currentCell.couplers) //Iterate through couplers connected to current cell
+                    {
+                        Cell couplerNeighbor = coupler.GetOtherCell(currentCell);                                                      //Get neighbor through coupler
+                        if (couplerNeighbor != null && !connectedCells.Contains(couplerNeighbor)) connectedCells.Add(couplerNeighbor); //Add neighbor if it isn't already found in list
+                    }
+                }
+
+                //Neighborhood destruction:
+                if (connectedCells.Count > 0) //Neighborhood is no longer connected to tank base
+                {
+                    detachedNeighbors.RemoveAt(x);                             //Indicate that this neighborhood has been dealt with
+                    foreach (Cell cell in connectedCells) { cell.Kill(true); } //Destroy each cell in disconnected neighborhood (proxy setting prevents them from each having to separately check for breakoff)
+                }
+            }
+        }
+
+        //Room cleanup:
+        room.cells.Remove(this);                                   //Remove this cell from room cell list
+        if (!proxy) room.targetTank.treadSystem.ReCalculateMass(); //Re-calculate tank mass based on new cell configuration (only needs to be done once for group cell destructions)
+
+        //Cleanup:
+        Destroy(gameObject); //Destroy this cell
     }
 }

@@ -1468,6 +1468,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Debug_TankBuilder
       objectReference: {fileID: 0}
+    - target: {fileID: 5503049171991321164, guid: 13f75c373ef676a4f96b401e901fa1d2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 13f75c373ef676a4f96b401e901fa1d2, type: 3}
 --- !u!1 &1180872685

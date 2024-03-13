@@ -61,6 +61,10 @@ public class Coupler : MonoBehaviour
             //Offset wall modification:
             wall.size = vertical ? new Vector2(Mathf.Abs(wallOffset.x) + 0.1f, 1) : new Vector2(1, Mathf.Abs(wallOffset.y) + 0.1f);                                                                                               //Set wall size based on how much of the coupler intersects it
             wall.offset = vertical ? new Vector2((0.45f - (0.125f * 4 * Mathf.Abs(wallOffset.x))) * -Mathf.Sign(wallOffset.x), 0) : new Vector2(0, (0.45f - (0.125f * 4 * Mathf.Abs(wallOffset.y))) * -Mathf.Sign(wallOffset.y)); //Set wall offset based on direction wall is offset by and how much area it will cover with its new size
+
+            //Cell data update:
+            Cell cell = wall.GetComponentInParent<Cell>();              //Get cell containing wall
+            if (!cell.couplers.Contains(this)) cell.couplers.Add(this); //Indicate that this coupler is adjacent to this cell
         }
 
         //Cleanup:
@@ -96,5 +100,37 @@ public class Coupler : MonoBehaviour
             Debug.LogError("Tried to GetConnectedRoom with a room not connected to coupler!"); //Indicate error
             return null;                                                                       //Return nothing
         }
+    }
+    /// <summary>
+    /// If thisCell is adjacent to this coupler, returns closest cell on the other end of the coupler.
+    /// </summary>
+    public Cell GetOtherCell(Cell thisCell)
+    {
+        //Validity checks:
+        if (!thisCell.couplers.Contains(this)) //Given cell is not adjacent to coupler
+        {
+            Debug.LogError("GetOtherCell was given a cell which is not adjacent to it as a parameter."); //Indicate error
+            return null;                                                                                 //Return nothing
+        }
+
+        //Determine closest cell on other side:
+        if (thisCell == cellA) return cellB;      //Simply return alternate cell if given cell is recognized
+        else if (thisCell == cellB) return cellA; //Simply return alternate cell if given cell is recognized
+        else //Dig through neighbors to identify which cell to return
+        {
+            for (int x = 0; x < 4; x++) //Iterate through cell neighbors
+            {
+                Cell neighbor = thisCell.neighbors[x]; //Get neighbor
+                if (neighbor != null) //Neighbor exists
+                {
+                    if (neighbor == cellA) return cellB;      //Return alternate cell if cell's neighbor is adjacent to coupler
+                    else if (neighbor == cellB) return cellA; //Return alternate cell if cell's neighbor is adjacent to coupler
+                }
+            }
+        }
+
+        //Could not find cell:
+        Debug.LogError("GetOtherCell failed to find which side of coupler given cell was on."); //Indicate error
+        return null;                                                                            //Return nothing
     }
 }
