@@ -4,19 +4,25 @@ using UnityEngine;
 
 public class ChunkData: MonoBehaviour
 {
-    public enum ChunkType { FLAT, SLOPEUP, SLOPEDOWN };
+    public float chunkNumber;
+
+    public enum ChunkType { FLAT, SLOPEUP, SLOPEDOWN, RAMPUP, RAMPDOWN};
     public ChunkType chunkType;
 
     public bool IsActive { get; private set; }
     public bool isInitialized { get; private set; }
 
-    public const float CHUNK_WIDTH = 60f;
+    public const float CHUNK_WIDTH = 30f;
+    public float yOffset;
 
     [SerializeField, Tooltip("The chance for a trap to generate.")] private float chanceToGenerateTrap = 50f;
     [SerializeField, Tooltip("The trap GameObject.")] GameObject chunkTrap;
+    [SerializeField, Tooltip("Flag that signals the end of the level.")] GameObject flag;
+    private Transform flagSpawn; //place to spawn a flag if needed
 
     private void Awake()
     {
+        flagSpawn = transform.Find("FlagSpawn");
         UnloadChunk();
     }
 
@@ -46,6 +52,13 @@ public class ChunkData: MonoBehaviour
         }
         else
             chunkTrap.SetActive(false);
+    }
+
+    public void SpawnFlag(Color color)
+    {
+        var newflag = Instantiate(flag, flagSpawn);
+        SpriteRenderer flagSprite = newflag.transform.Find("Visuals").Find("FlagSprite").GetComponent<SpriteRenderer>();
+        flagSprite.color = color;
     }
 
     /// <summary>

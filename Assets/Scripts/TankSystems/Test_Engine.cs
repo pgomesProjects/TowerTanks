@@ -216,7 +216,7 @@ public class Test_Engine : MonoBehaviour
     {
         float riseSpeed = 1f * pressureRiseSpeed * Time.deltaTime;
         float lowerSpeed = -pressureReleaseSpeed * Time.deltaTime;
-        float pressureDif = (100f - (pressure * 0.25f)) / 100f;
+        float pressureDif = (100f - (pressure * 0.25f)) / 100f; //slows down the closer it gets to 100
 
         if (engineType == EngineType.A)
         {
@@ -259,7 +259,7 @@ public class Test_Engine : MonoBehaviour
             if (temperature > 0)
             {
                 //if (temperature < pressure) riseSpeed *= 0.5f;
-                pressure = Mathf.Lerp(pressure, temperature, riseSpeed * pressureDif);
+                pressure = Mathf.Lerp(pressure, temperature, riseSpeed * pressureDif); //Lerps pressure towards current temperature, slowed slightly by pressure dif
                 if (pressure > 100f) pressure = 100f;
             }
             else if (pressure > 0)

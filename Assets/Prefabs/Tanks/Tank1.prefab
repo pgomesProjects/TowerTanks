@@ -1081,7 +1081,8 @@ MonoBehaviour:
   treadPrefab: {fileID: 336787287087755646, guid: 2fa44d21d74e76a4390ddea6875ac19a, type: 3}
   COGHeight: -0.31
   COGWidth: 3.5
-  drivePower: 10
+  gear: 0
+  drivePower: 25
   driveDrag: 0.4
   maxAngularDrag: 3
   extraWheels: 2
