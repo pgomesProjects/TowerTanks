@@ -129,7 +129,7 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: 83957ce1e688d54e8b6b22beb20598dd
     GuidInternal: 
-    m_lastTime: -8584914710790084469
+    m_lastTime: -8584912207235372733
     List:
     - name: blaring_alarm
       guid: 0557db327da0a0479a6261e902cede4a
@@ -250,6 +250,40 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
+    - name: cannon_fire_new
+      guid: 53ee1ef591e3da42a04c05a9461c9e2b
+      id: 1779807686
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: cannon_fire_new
+        ObjectType: 3
+        guid: 53ee1ef591e3da42a04c05a9461c9e2b
+      Path: Events\Default Work Unit\cannon_fire_new
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: cannon_fire_recycled
+      guid: 9df3cc6f6f80c8458d7624434dfcf154
+      id: 3193012965
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: cannon_fire_recycled
+        ObjectType: 3
+        guid: 9df3cc6f6f80c8458d7624434dfcf154
+      Path: Events\Default Work Unit\cannon_fire_recycled
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
     - name: cannon_lock_in_place
       guid: 7fcb92acbf47db44bb1d2c55ff5ef038
       id: 1967707158
@@ -315,6 +349,40 @@ MonoBehaviour:
         ObjectType: 3
         guid: 8f05811b2fc1374983296958f1c3820a
       Path: Events\Default Work Unit\character_use
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: coal_load
+      guid: 716654f124841444a7aae773ba3308ee
+      id: 1134111855
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: coal_load
+        ObjectType: 3
+        guid: 716654f124841444a7aae773ba3308ee
+      Path: Events\Default Work Unit\coal_load
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: coal_pickup
+      guid: 5b4001ab4386644fa588689f15e18622
+      id: 2581980243
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: coal_pickup
+        ObjectType: 3
+        guid: 5b4001ab4386644fa588689f15e18622
+      Path: Events\Default Work Unit\coal_pickup
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -386,6 +454,23 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
+    - name: engine_running
+      guid: 017876c4342be942b7faeecbc82ca28f
+      id: 369266163
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: engine_running
+        ObjectType: 3
+        guid: 017876c4342be942b7faeecbc82ca28f
+      Path: Events\Default Work Unit\engine_running
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
     - name: fire_burning
       guid: 96551da30e72944c85a842220eb03011
       id: 1318321645
@@ -400,6 +485,40 @@ MonoBehaviour:
         ObjectType: 3
         guid: 96551da30e72944c85a842220eb03011
       Path: Events\Default Work Unit\fire_burning
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: footstep_dirt
+      guid: e897263592e5ca4fbe271fe04293c5b4
+      id: 1840676193
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: footstep_dirt
+        ObjectType: 3
+        guid: e897263592e5ca4fbe271fe04293c5b4
+      Path: Events\Default Work Unit\footstep_dirt
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: footstep_metal
+      guid: cc87286d16a378479cee792a2164d87c
+      id: 1285772719
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: footstep_metal
+        ObjectType: 3
+        guid: cc87286d16a378479cee792a2164d87c
+      Path: Events\Default Work Unit\footstep_metal
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1

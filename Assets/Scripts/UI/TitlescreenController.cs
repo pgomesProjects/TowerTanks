@@ -56,7 +56,7 @@ public class TitlescreenController : MonoBehaviour
         }
         else
         {
-            LevelFader.Instance?.FadeIn(1f);
+            LevelTransition.Instance?.EndTransition(1f, LevelTransition.LevelTransitionType.FADE);
         }
     }
 
@@ -74,7 +74,7 @@ public class TitlescreenController : MonoBehaviour
     {
         GameManager.Instance.AudioManager.Stop("MainMenuAmbience");
         GameManager.Instance.AudioManager.Stop("MainMenuWindAmbience");
-        GameManager.Instance.LoadScene(sceneToLoad);
+        GameManager.Instance.LoadScene(sceneToLoad, LevelTransition.LevelTransitionType.FADE);
     }
 
     public void ShowDifficulty()

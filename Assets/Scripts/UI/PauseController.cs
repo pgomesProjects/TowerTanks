@@ -152,7 +152,7 @@ public class PauseController : MonoBehaviour
 
     public void ReturnToMain()
     {
-        GameManager.Instance.LoadScene("Title", false);
+        GameManager.Instance.LoadScene("Title", LevelTransition.LevelTransitionType.FADE, false, true, true);
         Time.timeScale = 1.0f;
         GameManager.Instance.AudioManager.StopAllSounds();
     }

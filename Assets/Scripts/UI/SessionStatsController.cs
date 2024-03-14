@@ -45,7 +45,7 @@ public class SessionStatsController : MonoBehaviour
 
     private void GoToMain()
     {
-        GameManager.Instance.LoadScene("Title");
+        GameManager.Instance.LoadScene("Title", LevelTransition.LevelTransitionType.FADE);
         Time.timeScale = 1.0f;
     }
 }

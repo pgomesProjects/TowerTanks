@@ -18,6 +18,8 @@ public class GameManager : SerializedMonoBehaviour
 
     [SerializeField, Tooltip("The time for levels to fade in.")] private float fadeInTime = 1f;
     [SerializeField, Tooltip("The time for levels to fade out.")] private float fadeOutTime = 0.5f;
+    [SerializeField, Tooltip("The time for the closing gate transition.")] private float closeGateTime = 1f;
+    [SerializeField, Tooltip("The time for the opening gate transition.")] private float openGateTime = 0.5f;
     [SerializeField, Tooltip("The canvas for the loading screen.")] private GameObject loaderCanvas;
     [SerializeField, Tooltip("The loading progress bar.")] private Image progressBar;
     private float target;
@@ -53,12 +55,29 @@ public class GameManager : SerializedMonoBehaviour
         SetGamepadCursorsActive(false);
     }
 
-    public async void LoadScene(string sceneName, bool fadeOutScene = true, bool fadeInScene = true)
+    /// <summary>
+    /// Loads the next scene asynchronously.
+    /// </summary>
+    /// <param name="sceneName">The name of the scene to load in.</param>
+    /// <param name="levelTransitionType">The type of transition to display between loading scenes.</param>
+    /// <param name="transitionOnStart">If true, the starting transition plays.</param>
+    /// <param name="transitionOnEnd">If true, the ending transition plays.</param>
+    /// <param name="loadingScreen">If true, a loading screen is showing in between transitions.</param>
+    public async void LoadScene(string sceneName, LevelTransition.LevelTransitionType levelTransitionType, bool transitionOnStart = true, bool transitionOnEnd = true, bool loadingScreen = true)
     {
-        if (fadeOutScene)
+        if (transitionOnStart)
         {
-            LevelFader.Instance?.FadeOut(fadeOutTime);
-            await Task.Delay(Mathf.CeilToInt(fadeOutTime * 1000));
+            switch(levelTransitionType)
+            {
+                case LevelTransition.LevelTransitionType.FADE:
+                    LevelTransition.Instance?.StartTransition(fadeOutTime, levelTransitionType);
+                    await Task.Delay(Mathf.CeilToInt(fadeOutTime * 1000));
+                    break;
+                case LevelTransition.LevelTransitionType.GATE:
+                    LevelTransition.Instance?.StartTransition(closeGateTime, levelTransitionType);
+                    await Task.Delay(Mathf.CeilToInt(closeGateTime * 1000));
+                    break;
+            }
         }
 
         target = 0f;
@@ -68,7 +87,8 @@ public class GameManager : SerializedMonoBehaviour
         AsyncOperation scene = SceneManager.LoadSceneAsync(sceneName);
         scene.allowSceneActivation = false;
 
-        loaderCanvas?.SetActive(true);
+        if (loadingScreen)
+            loaderCanvas?.SetActive(true);
 
         do
         {
@@ -79,13 +99,24 @@ public class GameManager : SerializedMonoBehaviour
         await Task.Delay(500);
 
         scene.allowSceneActivation = true;
-        loaderCanvas?.SetActive(false);
+        if(loadingScreen)
+            loaderCanvas?.SetActive(false);
         loadingScene = false;
 
         Instance?.AudioManager.StopAllSounds();
 
-        if(fadeInScene)
-            LevelFader.Instance?.FadeIn(fadeInTime);
+        if (transitionOnEnd)
+        {
+            switch (levelTransitionType)
+            {
+                case LevelTransition.LevelTransitionType.FADE:
+                    LevelTransition.Instance?.EndTransition(fadeInTime, levelTransitionType);
+                    break;
+                case LevelTransition.LevelTransitionType.GATE:
+                    LevelTransition.Instance?.EndTransition(openGateTime, levelTransitionType);
+                    break;
+            }
+        }
     }
 
     private void Update()
