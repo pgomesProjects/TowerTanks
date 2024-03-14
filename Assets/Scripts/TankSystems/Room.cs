@@ -30,7 +30,7 @@ public class Room : MonoBehaviour
 
     //Objects & Components:
     private Room parentRoom;                                   //The room this room was mounted to
-    private List<Coupler> couplers = new List<Coupler>();      //Couplers connecting this room to other rooms
+    internal List<Coupler> couplers = new List<Coupler>();     //Couplers connecting this room to other rooms
     private List<Coupler> ghostCouplers = new List<Coupler>(); //Ghost couplers created while moving room before it is mounted
     internal List<Cell> cells = new List<Cell>();              //Individual square units which make up the room
     private Cell[][] sections;                                 //Groups of cells separated by connectors
@@ -276,7 +276,7 @@ public class Room : MonoBehaviour
             for (int y = 1; y < group.Count();) { Coupler redundantCoupler = group.ElementAt(y); ghostCouplers.Remove(redundantCoupler); Destroy(redundantCoupler.gameObject); } //Delete all other couplers in group
         }
 
-        //Generate/Update interactable ghosts:
+        //Generate/update interactable ghosts:
         Cell[] cellsWithSlots = (from cell in cells where cell.hasInteractableSlot select cell).ToArray(); //Get array of cells with interactable slots in room
         foreach (Cell cell in cellsWithSlots) //Iterate through cells in room with interactable slots
         {
@@ -361,6 +361,8 @@ public class Room : MonoBehaviour
             coupler.Mount();                     //Tell coupler it is being mounted
             couplers.Add(coupler);               //Add coupler to master list
             coupler.roomB.couplers.Add(coupler); //Add coupler to other room's master list
+            coupler.cellA.couplers.Add(coupler); //Add coupler to cell A's coupler list
+            coupler.cellB.couplers.Add(coupler); //Add coupler to cell B's coupler list
 
             //Add ladders & platforms:
             if (coupler.transform.localRotation.z == 0) //Coupler is horizontal

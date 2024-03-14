@@ -578,6 +578,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b70c767d5f6f494697d38df0c3a169f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  connectors:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  couplers: []
   backWall: {fileID: 7407573892148427567}
   walls:
   - {fileID: 7547479246852740806}

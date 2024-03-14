@@ -11,10 +11,11 @@ public class Coupler : MonoBehaviour
     //Objects & Components:
     private SpriteRenderer r; //Local renderer component
 
-    [Tooltip("First room linked to this coupler.")]               internal Room roomA;
-    [Tooltip("Second room linked to this coupler.")]              internal Room roomB;
-    [Tooltip("Cell closest to this coupler on the first room.")]  internal Cell cellA; //NOTE: Should probably be changed to "AdjacentCellsA"
-    [Tooltip("Cell closest to this coupler on the second room.")] internal Cell cellB;
+    [Tooltip("First room linked to this coupler.")]                     internal Room roomA;
+    [Tooltip("Second room linked to this coupler.")]                    internal Room roomB;
+    [Tooltip("Cell closest to this coupler on the first room.")]        internal Cell cellA;
+    [Tooltip("Cell closest to this coupler on the second room.")]       internal Cell cellB;
+    [Tooltip("Walls which are touching and affected by this coupler."), SerializeField] private Collider2D[] adjacentWalls;
 
     //Runtime Variables:
     [Tooltip("True if coupler is vertically oriented (hatch). False if coupler is horizontally oriented (door).")] internal bool vertical = true;
@@ -38,14 +39,14 @@ public class Coupler : MonoBehaviour
         //Get adjacent walls:
         List<Collider2D> overlaps = Physics2D.OverlapBoxAll(transform.position, new Vector2(0.79f, 0.25f + 0.1f), transform.rotation.z, LayerMask.GetMask("Ground")).ToList(); //Get list of walls near coupler (using box which extends laterally from coupler)
         foreach (Collider2D ownCollider in GetComponentsInChildren<Collider2D>()) overlaps.Remove(ownCollider);                                                                //Remove own colliders from list of overlapping walls
-        Collider2D[] adjacentWalls = overlaps.ToArray();                                                                                                                       //Store found walls in local array
+        adjacentWalls = overlaps.ToArray();                                                                                                                                    //Store found walls in local array
 
         //Make holes in wall colliders:
         for (int x = 0; x < adjacentWalls.Length; x++) //Iterate through each wall adjacent to coupler
         {
             //Gather initial data:
             BoxCollider2D wall = adjacentWalls[x].GetComponent<BoxCollider2D>(); //Get box collider component corresponding to each wall (needs to be more specific than generic collider type)
-            Vector2 wallOffset = transform.position - wall.transform.position; //Get position of wall relative to position of coupler
+            Vector2 wallOffset = transform.position - wall.transform.position;   //Get position of wall relative to position of coupler
 
             //Single wall bisection:
             if (vertical && Mathf.Abs(wallOffset.x) < 0.125f || !vertical && Mathf.Abs(wallOffset.y) < 0.125f) //Wall is directly aligned with coupler (in either orientation) (with rounding to account for positional error)
@@ -132,5 +133,32 @@ public class Coupler : MonoBehaviour
         //Could not find cell:
         Debug.LogError("GetOtherCell failed to find which side of coupler given cell was on."); //Indicate error
         return null;                                                                            //Return nothing
+    }
+    /// <summary>
+    /// Destroys this coupler and cleans up all references to it.
+    /// </summary>
+    public void Kill()
+    {
+        //Reference cleanup:
+        foreach (Collider2D wall in adjacentWalls) //Iterate through each wall affected by this coupler
+        {
+            if (wall == null) continue; //Skip cell walls which are already being destroyed
+            //NOTE: CHECK FOR PLAYER INSIDE
+
+            //Fix cell walls:
+            BoxCollider2D[] actualWalls = wall.GetComponents<BoxCollider2D>(); //Get box collider component(s) from wall
+            actualWalls[0].size = Vector2.one;                                 //Change wall size back to default
+            actualWalls[0].offset = Vector2.zero;                              //Move wall back to default position
+            if (actualWalls.Length > 1) Destroy(actualWalls[1]);               //If there is a second (split) wall, destroy it
+
+            //Remove from lists:
+            Cell cell = wall.GetComponentInParent<Cell>();                          //Get cell associated with this wall
+            if (cell.room.couplers.Contains(this)) cell.room.couplers.Remove(this); //Remove this coupler from memory of parent room
+            if (cell.couplers.Contains(this)) cell.couplers.Remove(this);           //Remove this coupler from memory of all adjacent cells
+            cell.KillIfDisconnected();                                              //Check to see if cell has been disconnected by this and destroy it if this is the casec
+        }
+
+        //Final cleanup:
+        Destroy(gameObject); //Destroy this coupler
     }
 }
