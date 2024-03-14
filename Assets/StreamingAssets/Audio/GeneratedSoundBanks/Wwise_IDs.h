@@ -20,10 +20,14 @@ namespace AK
         static const AkUniqueID BUTTON_HOVER = 1701177942U;
         static const AkUniqueID CANNON_AIM = 1221570156U;
         static const AkUniqueID CANNON_FIRE = 155513425U;
+        static const AkUniqueID CANNON_FIRE_NEW = 1779807686U;
+        static const AkUniqueID CANNON_FIRE_RECYCLED = 3193012965U;
         static const AkUniqueID CANNON_LOCK_IN_PLACE = 1967707158U;
         static const AkUniqueID CANNON_RELOAD = 3265936618U;
         static const AkUniqueID CANNON_ROTATE = 946664204U;
         static const AkUniqueID CHARACTER_USE = 3289544510U;
+        static const AkUniqueID COAL_LOAD = 1134111855U;
+        static const AkUniqueID COAL_PICKUP = 2581980243U;
         static const AkUniqueID COMBAT_MUSIC = 1932095129U;
         static const AkUniqueID DEATH_STINGER = 1015288770U;
         static const AkUniqueID ENGINE_DYING = 3121770429U;

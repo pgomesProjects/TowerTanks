@@ -44,6 +44,7 @@ public class GunController : TankInteractable
         //Other effects:
         int random = Random.Range(0, 2);
         GameManager.Instance.ParticleSpawner.SpawnParticle(random, particleSpots[0], 0.1f, null);
-        GameManager.Instance.AudioManager.Play("CannonFire"); //Play firing audioclip
+        GameManager.Instance.AudioManager.Play("CannonFire");
+        GameManager.Instance.AudioManager.Play("CannonThunk"); //Play firing audioclips
     }
 }
