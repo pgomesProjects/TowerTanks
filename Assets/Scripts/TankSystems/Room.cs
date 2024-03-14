@@ -30,9 +30,9 @@ public class Room : MonoBehaviour
 
     //Objects & Components:
     private Room parentRoom;                                   //The room this room was mounted to
-    private List<Coupler> couplers = new List<Coupler>();      //Couplers connecting this room to other rooms
+    internal List<Coupler> couplers = new List<Coupler>();     //Couplers connecting this room to other rooms
     private List<Coupler> ghostCouplers = new List<Coupler>(); //Ghost couplers created while moving room before it is mounted
-    internal Cell[] cells;                                     //Individual square units which make up the room
+    internal List<Cell> cells = new List<Cell>();              //Individual square units which make up the room
     private Cell[][] sections;                                 //Groups of cells separated by connectors
     private Transform connectorParent;                         //Parent object which contains all connectors
     internal RoomData roomData;                                //ScriptableObject containing data about rooms and objects spawned by them
@@ -61,9 +61,9 @@ public class Room : MonoBehaviour
     private void Awake()
     {
         //Setup runtime variables:
-        cells = GetComponentsInChildren<Cell>();         //Get references to cells in room
-        connectorParent = transform.Find("Connectors");  //Find object containing connectors
-        roomData = Resources.Load<RoomData>("RoomData"); //Get roomData object from resources folder
+        cells = new List<Cell>(GetComponentsInChildren<Cell>()); //Get references to cells in room
+        connectorParent = transform.Find("Connectors");          //Find object containing connectors
+        roomData = Resources.Load<RoomData>("RoomData");         //Get roomData object from resources folder
 
         //Set up cells:
         foreach (Cell cell in cells) cell.UpdateAdjacency();   //Have all cells in room get to know each other
@@ -108,7 +108,7 @@ public class Room : MonoBehaviour
             foreach (Cell cell in cells) { if (cell.startingInteractable != null) { startsWithInteractables = true; break; } } //Check if room has any starting interactables
             if (!startsWithInteractables) //Cell does not have any pre-set interactables
             {
-                cells[Random.Range(0, cells.Length)].DesignateInteractableSlot(); //Pick one random cell to contain the room's interactable
+                cells[Random.Range(0, cells.Count)].DesignateInteractableSlot(); //Pick one random cell to contain the room's interactable
             }
         }
         else //This is a core room
@@ -149,7 +149,7 @@ public class Room : MonoBehaviour
         SnapMove(targetPos);                                                        //Use normal snapMove method to place room
     }
     /// <summary>
-    /// Moves unmounted room as close as possible to target position while snapping to grid.
+    /// Moves unmounted room as close as possible to target position (in local space) while snapping to grid.
     /// </summary>
     /// <param name="targetPoint"></param>
     public void SnapMove(Vector2 targetPoint)
@@ -276,7 +276,7 @@ public class Room : MonoBehaviour
             for (int y = 1; y < group.Count();) { Coupler redundantCoupler = group.ElementAt(y); ghostCouplers.Remove(redundantCoupler); Destroy(redundantCoupler.gameObject); } //Delete all other couplers in group
         }
 
-        //Generate/Update interactable ghosts:
+        //Generate/update interactable ghosts:
         Cell[] cellsWithSlots = (from cell in cells where cell.hasInteractableSlot select cell).ToArray(); //Get array of cells with interactable slots in room
         foreach (Cell cell in cellsWithSlots) //Iterate through cells in room with interactable slots
         {
@@ -328,7 +328,7 @@ public class Room : MonoBehaviour
         Vector2[] newCellPositions = cells.Select(cell => (Vector2)cell.transform.position).ToArray(); //Get array of cell positions after rotation
         transform.Rotate(-eulers);                                                                     //Rotate assembly back
         connectorParent.parent = transform;                                                            //Re-child connector object after reverse rotation
-        for (int x = 0; x < cells.Length; x++) { cells[x].transform.position = newCellPositions[x]; }  //Move cells to their rotated positions
+        for (int x = 0; x < cells.Count; x++) { cells[x].transform.position = newCellPositions[x]; }   //Move cells to their rotated positions
 
         //Cell adjacency updates:
         foreach (Cell cell in cells) cell.ClearAdjacency();  //Clear all cell adjacency statuses first (prevents false neighborhood bugs)
@@ -361,6 +361,8 @@ public class Room : MonoBehaviour
             coupler.Mount();                     //Tell coupler it is being mounted
             couplers.Add(coupler);               //Add coupler to master list
             coupler.roomB.couplers.Add(coupler); //Add coupler to other room's master list
+            coupler.cellA.couplers.Add(coupler); //Add coupler to cell A's coupler list
+            coupler.cellB.couplers.Add(coupler); //Add coupler to cell B's coupler list
 
             //Add ladders & platforms:
             if (coupler.transform.localRotation.z == 0) //Coupler is horizontal
