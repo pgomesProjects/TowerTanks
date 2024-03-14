@@ -525,6 +525,90 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="coal_pickup" ID="{AB01405B-8643-4F64-A588-689F15E18622}">
+					<ChildrenList>
+						<Action Name="" ID="{2AB577C5-4DCD-4981-B122-5BB21E091EC1}" ShortID="569256672">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_coal_pickup" ID="{36544B48-5F79-417E-BE85-F2665064F50D}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="coal_load" ID="{F1546671-8424-4414-A7AA-E773BA3308EE}">
+					<ChildrenList>
+						<Action Name="" ID="{C6010C65-C7F1-4BCF-A3D6-25AF1CBB148C}" ShortID="520460688">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_coal-load_Engine" ID="{0BC92B9F-8B1F-44A6-9373-EAF2586DE534}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{582E78AF-D3E5-4016-B00B-B812618BE996}" ShortID="349910775">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_coal-load_Fire" ID="{581051D8-D36E-453A-A629-F95B89397D4D}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="engine_running" ID="{C4767801-2B34-42E9-B7FA-EECBC82CA28F}">
+					<ChildrenList>
+						<Action Name="" ID="{2C081648-22D7-4AF5-8966-C2CA96D57EE8}" ShortID="937518844">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_engine_running" ID="{AE55B66C-60EE-4714-BCC7-47D1C62E6B78}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="footstep_metal" ID="{6D2887CC-A316-4778-9CEE-792A2164D87C}">
+					<ChildrenList>
+						<Action Name="" ID="{925E846D-4CC8-4E0F-A131-89DC732D2584}" ShortID="83727750">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_footstep_metal" ID="{B9EB4E38-8610-4D4A-98AB-E2A78704E76F}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="footstep_dirt" ID="{352697E8-E592-4FCA-BE27-1FE04293C5B4}">
+					<ChildrenList>
+						<Action Name="" ID="{758B4EB2-FDA6-4AE2-A1FD-0046B2A5C383}" ShortID="328482229">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_foostep_dirt" ID="{51B6321F-DEA7-46BB-80D4-31B305B3F655}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="cannon_fire_recycled" ID="{6FCCF39D-806F-45C8-8D76-24434DFCF154}">
+					<ChildrenList>
+						<Action Name="" ID="{945257CF-D62B-422B-A032-F79072B29572}" ShortID="522728268">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_cannon_fire (recycled)" ID="{1D7405C0-9D78-4BBF-8BEA-FF7B2EA3B068}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="cannon_fire_new" ID="{F51EEE53-E391-42DA-A04C-05A9461C9E2B}">
+					<ChildrenList>
+						<Action Name="" ID="{580B7EBB-B87A-4ACA-9296-0BF080F2573E}" ShortID="232766559">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_cannon_fire (new)" ID="{61ECB6EC-2227-4A40-8817-837AAF6B74DF}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>
