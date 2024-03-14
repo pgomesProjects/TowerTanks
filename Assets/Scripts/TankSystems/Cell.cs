@@ -26,11 +26,11 @@ public class Cell : MonoBehaviour
     /// Array of up to four optional connector (spacer) pieces which attach this room to its corresponding neighbor.
     /// Connectors indicate splits between room sections.
     /// </summary>
-    internal Connector[] connectors = new Connector[4]; //Connectors adjacent to this cell (in NESW order)
+    [SerializeField] internal Connector[] connectors = new Connector[4]; //Connectors adjacent to this cell (in NESW order)
     /// <summary>
     /// Couplers adjacent to this cell (connected couplers will modify cell walls).
     /// </summary>
-    internal List<Coupler> couplers = new List<Coupler>();
+    [SerializeField] internal List<Coupler> couplers = new List<Coupler>();
 
     [Header("Cell Components:")]
     [Tooltip("Back wall of cell, will be changed depending on cell purpose.")]                  public GameObject backWall;
@@ -74,7 +74,7 @@ public class Cell : MonoBehaviour
         for (int x = 0; x < 4; x++) //Loop for four iterations (once for each direction)
         {
             if (neighbors[x] != null) continue; //Don't bother checking directions which are already occupied by neighbors
-            RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, cardinals[x], 1, (LayerMask.GetMask("Cell") | LayerMask.GetMask("Connector"))); //Check for adjacent cell in given direction
+            List<RaycastHit2D> hits = Physics2D.RaycastAll(transform.position, cardinals[x], 1, (LayerMask.GetMask("Cell") | LayerMask.GetMask("Connector"))).ToList(); //Check for adjacent cell in given direction
             foreach (RaycastHit2D hit in hits) //Iterate through hit objects
             {
                 //Update neighbors:
@@ -87,13 +87,21 @@ public class Cell : MonoBehaviour
                     neighbors[x].walls[(x + 2) % 4].SetActive(false);     //Disable neighbor's wall facing this cell
                     neighbors[x].connectors[(x + 2) % 4] = connectors[x]; //Update neighbor on known connector status
                 }
-                
+            }
+            foreach (RaycastHit2D hit in hits) //Iterate through remaining hit objects (now that neighbors have been populated)
+            {
                 //Update connectors:
-                else if (hit.transform.parent.TryGetComponent(out Connector connector)) //Adjacent connector found in current direction
+                if (hit.transform.GetComponentInParent<Connector>() != null) //Adjacent connector found in current direction
                 {
-                    if (connector.room != room) continue;                                       //Skip connectors from other rooms
-                    connectors[x] = connector;                                                  //Save information about connector to slot in current direction
-                    if (neighbors[x] != null) neighbors[x].connectors[(x + 2) % 4] = connector; //Give information to neighbor if valid
+                    //Connector updates:
+                    Connector connector = hit.transform.GetComponentInParent<Connector>(); //Get found connector object
+                    if (connector.room != room) continue;                                  //Skip connectors from other rooms
+                    connectors[x] = connector;                                             //Save information about connector to slot in current direction
+                    connector.cellA = this;                                                //Indicate to connector that it is attached to this cell
+                    
+                    //Neighbor updates:
+                    neighbors[x].connectors[(x + 2) % 4] = connector; //Give connection information to neighbor
+                    connector.cellB = neighbors[x];                   //Indicate to connector that it is attached to neighbor
                 }
             }
         }
@@ -127,9 +135,37 @@ public class Cell : MonoBehaviour
 
     }
     /// <summary>
+    /// Checks to see if this cell has been disconnected from the tank and then kills it if it has been.
+    /// </summary>
+    public void KillIfDisconnected()
+    {
+        List<Cell> connectedCells = new List<Cell>(); //Initialize a list to store cells found to be connected to this cell
+        connectedCells.Add(this);                     //Seed list with this cell
+        for (int y = 0; y < connectedCells.Count; y++) //Iterate through list of cells connected to detached neighbor, populating as we go
+        {
+            //Check cell identity:
+            Cell currentCell = connectedCells[y]; //Get current cell
+            if (currentCell.room.isCore) return; //Abort if cell chain is connected to core
+
+            //Populate neighbor list:
+            for (int z = 0; z < 4; z++) //Iterate through neighbors of connected cell
+            {
+                Cell neighbor = currentCell.neighbors[z];                                                 //Get current neighbor
+                if (neighbor != null && !connectedCells.Contains(neighbor)) connectedCells.Add(neighbor); //Add neighbor if it isn't already found in list
+            }
+            foreach (Coupler coupler in currentCell.couplers) //Iterate through couplers connected to current cell
+            {
+                Cell couplerNeighbor = coupler.GetOtherCell(currentCell);                                                      //Get neighbor through coupler
+                if (couplerNeighbor != null && !connectedCells.Contains(couplerNeighbor)) connectedCells.Add(couplerNeighbor); //Add neighbor if it isn't already found in list
+            }
+        }
+        Kill(); //Kill cell if it has not found a connection to the core
+    }
+    /// <summary>
     /// Obliterates cell and updates adjacency info for other cells.
     /// </summary>
     /// <param name="proxy">Pass true when cell is being destroyed by another cell destruction method.</param>
+    /// <param name="spareIfConnected">If true, cell will only be destroyed if it is currently disconnected from the rest of the tank.</param>
     public void Kill(bool proxy = false)
     {
         //Validity checks:
@@ -143,11 +179,6 @@ public class Cell : MonoBehaviour
             {
                 neighbors[x].neighbors[(x + 2) % 4] = null; //Clear neighbor reference to this cell
                 detachedNeighbors.Add(neighbors[x]);        //Add neighbor to list of detached cells
-                if (connectors[x] != null) //Neighbor is attached by a connector
-                {
-                    //Connector damage/destruction:
-
-                }
             }
         }
         for (int x = 0; x < couplers.Count; x++) //Iterate through couplers adjacent to cell
@@ -190,10 +221,22 @@ public class Cell : MonoBehaviour
                 //Neighborhood destruction:
                 if (connectedCells.Count > 0) //Neighborhood is no longer connected to tank base
                 {
-                    detachedNeighbors.RemoveAt(x);                             //Indicate that this neighborhood has been dealt with
-                    foreach (Cell cell in connectedCells) { cell.Kill(true); } //Destroy each cell in disconnected neighborhood (proxy setting prevents them from each having to separately check for breakoff)
+                    detachedNeighbors.RemoveAt(x);        //Indicate that this neighborhood has been dealt with
+                    foreach (Cell cell in connectedCells) //Iterate through each cell in disconnected neighborhood
+                    {
+                        cell.Kill(true); //Destroy cell (proxy setting prevents them from each having to separately check for breakoff)
+                    }
                 }
             }
+        }
+
+        //Non-object cleanup:
+        foreach (Connector connector in connectors) { if (connector != null) connector.Damage(this); } //Indicate to each attached connector that cell has been destroyed
+        while (couplers.Count > 0) //Destroy connected couplers until none are left
+        {
+            Coupler coupler = couplers[0];                            //Get reference to target coupler
+            coupler.Kill();                                           //Destroy target coupler (it should remove itself from coupler list here
+            if (couplers.Contains(coupler)) couplers.Remove(coupler); //Make SURE coupler has been removed from list
         }
 
         //Room cleanup:
