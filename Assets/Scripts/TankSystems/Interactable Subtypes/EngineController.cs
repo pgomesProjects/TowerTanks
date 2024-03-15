@@ -77,7 +77,7 @@ public class EngineController : TankInteractable
         {
             //Other effects:
             GameManager.Instance.ParticleSpawner.SpawnParticle(3, particleSpots[0], 0.1f, null);
-            GameManager.Instance.AudioManager.Play("CannonFire"); //Play loading clip
+            GameManager.Instance.AudioManager.Play("CoalLoad"); //Play loading clip
         }
     }
 }

@@ -13,6 +13,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	756560803	jetpack_startup			\Default Work Unit\jetpack_startup	
 	946664204	cannon_rotate			\Default Work Unit\cannon_rotate	
 	1015288770	death_stinger			\Default Work Unit\death_stinger	
+	1134111855	coal_load			\Default Work Unit\coal_load	
 	1141416880	throttle_click			\Default Work Unit\throttle_click	
 	1221570156	cannon_aim			\Default Work Unit\cannon_aim	
 	1266436627	jetpack_refuel			\Default Work Unit\jetpack_refuel	
@@ -22,6 +23,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	1701177942	button_hover			\Default Work Unit\button_hover	
 	1707141479	ladder_climb			\Default Work Unit\ladder_climb	
 	1707782163	main_menu_ambience			\Default Work Unit\main_menu_ambience	
+	1779807686	cannon_fire_new			\Default Work Unit\cannon_fire_new	
 	1797317650	wrench			\Default Work Unit\wrench	
 	1821032580	throttle_shift			\Default Work Unit\throttle_shift	
 	1932095129	combat_music			\Default Work Unit\combat_music	
@@ -33,9 +35,11 @@ Event	ID	Name			Wwise Object Path	Notes
 	2462051799	build_room			\Default Work Unit\build_room	
 	2496259136	Global_Unpause			\Default Work Unit\Global_Unpause	
 	2561646952	steam_exhaust			\Default Work Unit\steam_exhaust	
+	2581980243	coal_pickup			\Default Work Unit\coal_pickup	
 	2737219330	wind_ambience			\Default Work Unit\wind_ambience	
 	3121770429	engine_dying			\Default Work Unit\engine_dying	
 	3130542990	button_cancel			\Default Work Unit\button_cancel	
+	3193012965	cannon_fire_recycled			\Default Work Unit\cannon_fire_recycled	
 	3265936618	cannon_reload			\Default Work Unit\cannon_reload	
 	3289544510	character_use			\Default Work Unit\character_use	
 	3510154964	text_scroll			\Default Work Unit\text_scroll	
@@ -56,13 +60,16 @@ Game Parameter	ID	Name			Wwise Object Path	Notes
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	2061770	TT_SFX_buildUndo	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\TT_SFX_buildUndo_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_buildUndo		4164
 	3469524	TT_SFX_engine-dying-2	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\TT_SFX_engine-dying-2_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_engine-dying-2		92472
+	16839121	TT_SFX_coal-load_Fire	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\TT_SFX_coal-load_Fire_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_coal-load_Fire		11324
 	22366201	TT_SFX_cannon-reload	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\TT_SFX_cannon-reload_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_cannon-reload		21199
 	89869954	TT_SFX_cannon_rotate_v2	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\TT_SFX_cannon_rotate_v2_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_cannon_rotate_v2		52180
 	127070365	TTTT_L2_Combat_Mix_2_28_23	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\Combat\TTTT_L2_Combat_Mix_2.28.23_9EDFC787.wem		\Interactive Music Hierarchy\Default Work Unit\Combat\CombatMusicTracks\TTTT_L2_Combat_Mix_2_28_23		618743
+	168215010	TT_SFX_coal-pickup	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\TT_SFX_coal-pickup_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_coal_pickup\TT_SFX_coal-pickup		6074
 	172496222	TT_SFX_steam_exhaust	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\TT_SFX_steam_exhaust_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_steam-exhaust\TT_SFX_steam_exhaust		7439
 	188920233	TT_UI_button_cancel	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\button_cancel_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_UI_button_cancel		2461
 	238669381	TTTT_L0_Combat_Mix_2_28_23	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\Combat\TTTT_L0_Combat_Mix_2.28.23_9EDFC787.wem		\Interactive Music Hierarchy\Default Work Unit\Combat\CombatMusicTracks\TTTT_L0_Combat_Mix_2_28_23		717482
 	258066100	TT_SFX_tank-impact	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\TT_SFX_tank-impact_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_tank-impact		17957
+	285073727	TT_SFX_cannon_fire[02-25]	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\TT_SFX_cannon_fire[02-25]_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_cannon_fire (new)\TT_SFX_cannon_fire[02-25]		16095
 	305378326	TT_SFX_rotate-room_v1	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\TT_SFX_rotate-room_v1_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_rotate-room\TT_SFX_rotate-room_v1		5270
 	320129091	TT_SFX_rotate-room	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\TT_SFX_rotate-room_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_rotate-room\TT_SFX_rotate-room		6964
 	354630741	TTTT_DeathStinger_Mix_Final_2_13_22	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\TTTT_DeathStinger_Mix_Final_2.13.22_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\BGM\TTTT_DeathStinger_Mix_Final_2_13_22		205583
@@ -71,7 +78,10 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	428826036	TT_SFX_jetpack-startup_v1	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\TT_SFX_jetpack-startup_v1_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_jetpack-startup\TT_SFX_jetpack-startup_v1		7479
 	442190223	TT_SFX_steam_exhaust_loop	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\TT_SFX_steam_exhaust_loop_9EDFC787.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_steam_exhaust_loop		36929
 	476975229	TT_SFX_outside-ambience	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\TT_SFX_outside-ambience_9EDFC787.wem		\Actor-Mixer Hierarchy\Default Work Unit\BGM\TT_SFX_outside-ambience		1955829
+	500659198	TT_SFX_coal-load_Engine	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\TT_SFX_coal-load_Engine_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_coal-load_Engine		12143
+	537941924	TT_SFX_cannon_fire_v3	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\TT_SFX_cannon_fire_v3_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_cannon_fire (recycled)\TT_SFX_cannon_fire_v3		7172
 	544191574	TT_SFX_projectile-in-air	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\TT_SFX_projectile-in-air_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_projectile-in-air		76331
+	550003302	TT_SFX_cannon_fire	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\TT_SFX_cannon_fire_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_cannon_fire (recycled)\TT_SFX_cannon_fire		7376
 	563431773	TT_SFX_small-explosion	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\TT_SFX_small-explosion_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_small-explosion		17559
 	564210437	TTTT_L3_Combat_Mix_2_28_23	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\Combat\TTTT_L3_Combat_Mix_2.28.23_9EDFC787.wem		\Interactive Music Hierarchy\Default Work Unit\Combat\CombatMusicTracks\TTTT_L3_Combat_Mix_2_28_23		592894
 	564972492	TT_SFX_jetpack_rocket_loop	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\TT_SFX_jetpack_rocket_loop_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_jetpack_rocket_loop		42473
@@ -80,7 +90,9 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	595583574	TTTT_Menu_Sketch_Mix	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\TTTT_Menu_Sketch_Mix_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\BGM\TTTT_Menu_Sketch_Mix		1213436
 	608069065	TT_SFX_jetpack_refuel_v1	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\TT_SFX_jetpack_refuel_v1_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_jetpack_refuel_v1		8797
 	608155079	TT_SFX_ladder_climb	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\updated_ladder_climb_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_ladder_climb		3864
+	608483258	TT_SFX_cannon_fire_v1[02-25]	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\TT_SFX_cannon_fire_v1[02-25]_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_cannon_fire (new)\TT_SFX_cannon_fire_v1[02-25]		32835
 	616062773	TT_SFX_throttle-click	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\TT_SFX_throttle-click_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_throttle-click		8971
+	650954530	TT_SFX_cannon_fire_v1	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\TT_SFX_cannon_fire_v1_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_cannon_fire (recycled)\TT_SFX_cannon_fire_v1		9521
 	652002572	TT_SFX_metal_footstep	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\metal_footstep_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_metal_footstep		3127
 	661803067	TT_SFX_tank-creaking_v2	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\TT_SFX_tank-creaking_v2_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_tank-creaking\TT_SFX_tank-creaking_v2		19306
 	671272586	TT_SFX_tank-creaking_v1	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\TT_SFX_tank-creaking_v1_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_tank-creaking\TT_SFX_tank-creaking_v1		12240
@@ -98,13 +110,17 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	813749911	TT_UI_button_hover	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\button_hover_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_UI_button_hover		3076
 	835123090	TT_SFX_text-scroll	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\TT_SFX_text-scroll_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_text-scroll		1835
 	863978555	TT_SFX_invalidAlert	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\TT_SFX_invalidAlert_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_invalidAlert		5527
+	868853871	TT_SFX_cannon_fire_v4	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\TT_SFX_cannon_fire_v4_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_cannon_fire (recycled)\TT_SFX_cannon_fire_v4		8511
 	872036804	TT_SFX_tank-engine	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\TT_SFX_tank-engine_9EDFC787.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_tank-engine		56805
 	874009170	TT_SFX_steam_exhaust_v1	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\TT_SFX_steam_exhaust_v1_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_steam-exhaust\TT_SFX_steam_exhaust_v1		13185
 	881076302	TT_SFX_buildRoom	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\TT_SFX_buildRoom_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_build-room\TT_SFX_buildRoom		10085
 	882478931	TT_SFX_wrench	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\TT_SFX_wrench_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_wrench		12576
+	889039676	TT_SFX_cannon_fire_v2	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\TT_SFX_cannon_fire_v2_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_cannon_fire (new)\TT_SFX_cannon_fire_v2		8308
 	895375203	TT_SFX_engine-dying	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\TT_SFX_jetpack-startup_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_engine-dying		10465
 	905378176	TT_SFX_steam_exhaust_v2	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\TT_SFX_steam_exhaust_v2_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_steam-exhaust\TT_SFX_steam_exhaust_v2		11267
 	963356657	TT_SFX_blaring-alarm	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\TT_SFX_blaring-alarm_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_blaring-alarm		124137
+	981522565	TT_SFX_coal-pickup_v1	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\TT_SFX_coal-pickup_v1_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_coal_pickup\TT_SFX_coal-pickup_v1		6535
+	1032382603	TT_SFX_cannon_fire_v5	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\TT_SFX_cannon_fire_v5_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_cannon_fire (recycled)\TT_SFX_cannon_fire_v5		8636
 	1036265675	TT_SFX_jetpack-startup_v2	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\TT_SFX_jetpack-startup_v2_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_jetpack-startup\TT_SFX_jetpack-startup_v2		13983
 	1046025241	TT_SFX_large-explosion	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\TT_SFX_large-explosion_3F75BDB9.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_large-explosion		113379
 	1049821619	TT_SFX_tank-rolling	C:\Users\rprat\OneDrive\Documents\GitHub\TowerTanks\TowerTanks_WwiseProject\.cache\Linux\SFX\TT_SFX_tank-rolling_9EDFC787.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_tank-rolling		76105
