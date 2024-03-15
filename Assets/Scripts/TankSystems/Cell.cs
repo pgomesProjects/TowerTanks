@@ -46,6 +46,7 @@ public class Cell : MonoBehaviour
     [Tooltip("If true, this cell will be populated with an interactable when its room is placed.")] internal bool hasInteractableSlot = false;
     [Tooltip("Ghosted interactable prepared to be installed in this cell.")]                        internal TankInteractable ghostInteractable;
     [Tooltip("Interactable currently installed in this cell.")]                                     internal TankInteractable installedInteractable;
+    [Tooltip("True if cell destruction has already been scheduled, used to prevent conflicts.")]    private bool dying;
 
     //RUNTIME METHODS:
     private void Awake()
@@ -139,6 +140,10 @@ public class Cell : MonoBehaviour
     /// </summary>
     public void KillIfDisconnected()
     {
+        //Validity checks:
+        if (dying) return; //Do not try to kill a cell twice
+
+        //Check connection:
         List<Cell> connectedCells = new List<Cell>(); //Initialize a list to store cells found to be connected to this cell
         connectedCells.Add(this);                     //Seed list with this cell
         for (int y = 0; y < connectedCells.Count; y++) //Iterate through list of cells connected to detached neighbor, populating as we go
@@ -170,6 +175,8 @@ public class Cell : MonoBehaviour
     {
         //Validity checks:
         if (room.isCore) return; //Do not allow cells in core room to be destroyed
+        if (dying) return;       //Do not try to kill a cell twice (happens in certain edge cases
+        dying = true;            //Indicate that cell is now dying
 
         //Adjacency cleanup:
         List<Cell> detachedNeighbors = new List<Cell>(); //Create list to store neighbors which have been detached from this cell

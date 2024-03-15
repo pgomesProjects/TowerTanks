@@ -117,17 +117,13 @@ public class Coupler : MonoBehaviour
         //Determine closest cell on other side:
         if (thisCell == cellA) return cellB;      //Simply return alternate cell if given cell is recognized
         else if (thisCell == cellB) return cellA; //Simply return alternate cell if given cell is recognized
-        else //Dig through neighbors to identify which cell to return
+        else //Divide neighboring cells into sides A and B and figure out which one given cell is on
         {
-            for (int x = 0; x < 4; x++) //Iterate through cell neighbors
-            {
-                Cell neighbor = thisCell.neighbors[x]; //Get neighbor
-                if (neighbor != null) //Neighbor exists
-                {
-                    if (neighbor == cellA) return cellB;      //Return alternate cell if cell's neighbor is adjacent to coupler
-                    else if (neighbor == cellB) return cellA; //Return alternate cell if cell's neighbor is adjacent to coupler
-                }
-            }
+            Cell[] adjacentCells = adjacentWalls.Select(wall => wall.GetComponentInParent<Cell>()).ToArray(); //Get array of cells adjacent to coupler
+            Cell[] adjacentCellsA = adjacentCells.Where(cell => SameSide(cell, cellA)).ToArray();             //Get array of cells on side A of coupler
+            if (adjacentCellsA.Contains(thisCell)) return cellB; //Return alternate cell if given cell is on side A
+            Cell[] adjacentCellsB = adjacentCells.Where(cell => SameSide(cell, cellB)).ToArray();             //Get array of cells on side B of coupler
+            if (adjacentCellsB.Contains(thisCell)) return cellB; //Return alternate cell if given cell is on side B
         }
 
         //Could not find cell:
@@ -160,5 +156,15 @@ public class Coupler : MonoBehaviour
 
         //Final cleanup:
         Destroy(gameObject); //Destroy this coupler
+    }
+    /// <summary>
+    /// Returns true if both cells are on the same side of the coupler
+    /// </summary>
+    private bool SameSide(Cell cell1, Cell cell2)
+    {
+        if (vertical && Mathf.Sign(cell1.transform.localPosition.y - transform.localPosition.y) == Mathf.Sign(cell2.transform.localPosition.y - transform.localPosition.y)) return true;       //Return true if coupler is in hatch orientation and both cells are on the same side
+        else if (!vertical && Mathf.Sign(cell1.transform.localPosition.x - transform.localPosition.x) == Mathf.Sign(cell2.transform.localPosition.x - transform.localPosition.x)) return true; //Return true if coupler is in door orientation and both cells are on the same side
+        else return false;                                                                                                                                                                     //Otherwise, return false
+        
     }
 }
