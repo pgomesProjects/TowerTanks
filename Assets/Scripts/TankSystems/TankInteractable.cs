@@ -139,6 +139,14 @@ public class TankInteractable : MonoBehaviour
         }
     }
 
+    public void SecondaryUse(bool held)
+    {
+        if (type == Room.RoomType.Engineering)
+        {
+            if (engineScript != null) engineScript.repairInputHeld = held;
+        }
+    }
+
     //UTILITY METHODS:
     /// <summary>
     /// Installs interactable into target cell.

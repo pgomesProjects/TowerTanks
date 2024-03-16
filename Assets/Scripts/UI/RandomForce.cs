@@ -13,10 +13,10 @@ public class RandomForce : MonoBehaviour
         
         randomRotation = Random.Range(-10f, 10f);
         float randomS = Random.Range(1.0f, 1.8f);
-        float randomX = Random.Range(-15f, 15f);
-        if (randomX <= 0) randomX -= 10f;
-        if (randomX > 0) randomX += 10f;
-        float randomY = Random.Range(20f, 30f);
+        float randomX = Random.Range(-7f, 7f);
+        if (randomX <= 0) randomX -= 3f;
+        if (randomX > 0) randomX += 3f;
+        float randomY = Random.Range(4f, 10f);
         transform.localScale *= randomS;
         rb.AddForce(new Vector2(randomX, randomY), ForceMode2D.Impulse);
     }
