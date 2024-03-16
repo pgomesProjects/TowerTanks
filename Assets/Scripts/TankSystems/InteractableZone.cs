@@ -24,7 +24,7 @@ public class InteractableZone : MonoBehaviour
 
     public void Interact(GameObject playerID) //Try to operate the thing
     {
-        if (players.Contains(playerID))
+        if (players.Contains(playerID) && interactable.seat != null)
         {
             if (interactable.hasOperator == false) { 
                 interactable.LockIn(playerID);
@@ -37,7 +37,6 @@ public class InteractableZone : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        
         if (collider.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             PlayerMovement player = collider.GetComponent<PlayerMovement>();
@@ -46,6 +45,11 @@ public class InteractableZone : MonoBehaviour
                 //Debug.Log("Found " + player);
                 players.Add(player.gameObject);
                 player.currentZone = this;
+
+                if (interactable.type == Room.RoomType.Logistics)
+                {
+                    player.SetFuel(100f);
+                }
             }
         }
     }

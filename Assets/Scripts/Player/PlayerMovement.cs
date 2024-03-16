@@ -17,6 +17,7 @@ public class PlayerMovement : Character
     private PlayerInput playerInputComponent;
     [SerializeField] private float deAcceleration;
     [SerializeField] private float maxSpeed;
+    public float fuel;
 
     InputActionMap inputMap;
     private float vel;
@@ -51,6 +52,7 @@ public class PlayerMovement : Character
         if (jetpackInputHeld && currentState != CharacterState.OPERATING)
         {
             currentFuel -= fuelDepletionRate * Time.deltaTime;
+            if (currentFuel < 0) currentFuel = 0;
 
             if (!GameManager.Instance.AudioManager.IsPlaying("JetpackRocket"))
             {
@@ -60,16 +62,22 @@ public class PlayerMovement : Character
         else if (CheckGround() || currentState == CharacterState.CLIMBING)
         {
             currentFuel += fuelRegenerationRate * Time.deltaTime;
+            if (currentFuel > 100) currentFuel = 100;
+
+            if (GameManager.Instance.AudioManager.IsPlaying("JetpackRocket"))
+            {
+                GameManager.Instance.AudioManager.Stop("JetpackRocket");
+            }
         }
-        else if (GameManager.Instance.AudioManager.IsPlaying("JetpackRocket"))
-        {
-            GameManager.Instance.AudioManager.Stop("JetpackRocket");
-        }
+        
+        
         
         if (currentInteractable != null)
         {
             currentState = CharacterState.OPERATING;
         }
+
+        fuel = currentFuel;
     }
                 
     protected override void FixedUpdate()
@@ -126,6 +134,12 @@ public class PlayerMovement : Character
         {
             SwitchOffLadder();
         }
+    }
+
+    public void SetFuel(float value)
+    {
+        currentFuel = value;
+        //play refuel sound
     }
 
     #endregion
