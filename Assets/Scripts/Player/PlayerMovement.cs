@@ -139,7 +139,7 @@ public class PlayerMovement : Character
     public void SetFuel(float value)
     {
         currentFuel = value;
-        //play refuel sound
+        GameManager.Instance.AudioManager.Play("JetpackRefuel");
     }
 
     #endregion
