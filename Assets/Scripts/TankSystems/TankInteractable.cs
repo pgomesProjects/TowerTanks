@@ -9,7 +9,7 @@ public class TankInteractable : MonoBehaviour
     private SpriteRenderer[] renderers;    //Array of all renderers in interactable
     private protected TankController tank; //Controller script for tank this interactable is attached to
     private InteractableZone interactZone; //Hitbox for player detection
-    private Transform seat; //Transform operator snaps to while using this interactable
+    public Transform seat; //Transform operator snaps to while using this interactable
 
     //Interactable Scripts
     private GunController gunScript;
@@ -136,6 +136,14 @@ public class TankInteractable : MonoBehaviour
                 throttleScript.UseThrottle(direction);
                 cooldown = 0.1f;
             }
+        }
+    }
+
+    public void SecondaryUse(bool held)
+    {
+        if (type == Room.RoomType.Engineering)
+        {
+            if (engineScript != null) engineScript.repairInputHeld = held;
         }
     }
 

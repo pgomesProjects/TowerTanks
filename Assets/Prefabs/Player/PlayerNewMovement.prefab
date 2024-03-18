@@ -86,13 +86,16 @@ MonoBehaviour:
   groundedBoxY: 0.087
   maxYVelocity: 2
   minYVelocity: -5
-  fuelDepletionRate: 0
-  fuelRegenerationRate: 30
+  fuelDepletionRate: 30
+  fuelRegenerationRate: 10
   healthToModify: -10
-  playerSprite: {fileID: 5332867685461826563}
-  tankTreads: {fileID: 0}
+  playerInputComponent: {fileID: 0}
   deAcceleration: 100
   maxSpeed: 3
+  fuel: 0
+  currentZone: {fileID: 0}
+  isOperator: 0
+  currentInteractable: {fileID: 0}
 --- !u!70 &448350889
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

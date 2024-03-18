@@ -19,6 +19,7 @@ public class PlayerMovement : Character
     [SerializeField] private PlayerInput playerInputComponent;
     [SerializeField] private float deAcceleration;
     [SerializeField] private float maxSpeed;
+    public float fuel;
 
     InputActionMap inputMap;
     private float vel;
@@ -53,6 +54,7 @@ public class PlayerMovement : Character
         if (jetpackInputHeld && currentState != CharacterState.OPERATING)
         {
             currentFuel -= fuelDepletionRate * Time.deltaTime;
+            if (currentFuel < 0) currentFuel = 0;
 
             if (!GameManager.Instance.AudioManager.IsPlaying("JetpackRocket"))
             {
@@ -62,16 +64,22 @@ public class PlayerMovement : Character
         else if (CheckGround() || currentState == CharacterState.CLIMBING)
         {
             currentFuel += fuelRegenerationRate * Time.deltaTime;
+            if (currentFuel > 100) currentFuel = 100;
+
+            if (GameManager.Instance.AudioManager.IsPlaying("JetpackRocket"))
+            {
+                GameManager.Instance.AudioManager.Stop("JetpackRocket");
+            }
         }
-        else if (GameManager.Instance.AudioManager.IsPlaying("JetpackRocket"))
-        {
-            GameManager.Instance.AudioManager.Stop("JetpackRocket");
-        }
+        
+        
         
         if (currentInteractable != null)
         {
             currentState = CharacterState.OPERATING;
         }
+
+        fuel = currentFuel;
     }
                 
     protected override void FixedUpdate()
@@ -154,6 +162,12 @@ public class PlayerMovement : Character
         }
     }
 
+    public void SetFuel(float value)
+    {
+        currentFuel = value;
+        GameManager.Instance.AudioManager.Play("JetpackRefuel");
+    }
+
     #endregion
 
     #region Input
@@ -193,6 +207,7 @@ public class PlayerMovement : Character
             case "Control Steering": OnControlSteering(ctx); break;
             case "Interact": OnInteract(ctx); break;
             case "Cancel": OnCancel(ctx); break;
+            case "Repair": OnRepair(ctx); break;
         }
     }
 
@@ -248,6 +263,19 @@ public class PlayerMovement : Character
             if (steeringValue < -0.5f) _steeringValue = -1;
 
             currentInteractable.Shift(_steeringValue);
+        }
+    }
+
+    public void OnRepair(InputAction.CallbackContext ctx)
+    {
+        if (ctx.started)
+        {
+            if (currentInteractable != null) currentInteractable.SecondaryUse(true);
+        }
+
+        if (ctx.canceled)
+        {
+            if (currentInteractable != null) currentInteractable.SecondaryUse(false);
         }
     }
 

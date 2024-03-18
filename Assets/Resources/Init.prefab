@@ -440,17 +440,27 @@ MonoBehaviour:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: 1a3405bea9b160a42ab925fe547afefd, type: 2}
-  - name: LoadingCoal
+  - name: CoalLoad
     audioEvent:
       idInternal: 0
       valueGuidInternal: 
-      WwiseObjectReference: {fileID: 11400000, guid: 6a9d726f586a1a445a4eb3f3cf6e527d, type: 2}
+      WwiseObjectReference: {fileID: 11400000, guid: ea880f342bb541641a604db6d21bde87, type: 2}
+  - name: CoalShovel
+    audioEvent:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: 17e210452c1f363459a0d69d79aa41a8, type: 2}
   - name: CannonReload
     audioEvent:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: d01626809c3ffc742ae54eccafb50d8a, type: 2}
   - name: CannonFire
+    audioEvent:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: a83cbb662db472b4f9aee8c3cce5d72e, type: 2}
+  - name: CannonThunk
     audioEvent:
       idInternal: 0
       valueGuidInternal: 
@@ -795,6 +805,7 @@ MonoBehaviour:
   - {fileID: 8186442840391220499, guid: eb0e3e662462aaa498b4c75a51f83b3a, type: 3}
   - {fileID: 8748987186402470367, guid: 26feb4c6b89765e4ea1fdd70f38ce78a, type: 3}
   - {fileID: 7757385688290870796, guid: ed2f9f2e402650d4e8e578f7a9d87854, type: 3}
+  particleFolderPath: 
 --- !u!1 &6961505860283407432
 GameObject:
   m_ObjectHideFlags: 0

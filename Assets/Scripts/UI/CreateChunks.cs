@@ -13,7 +13,8 @@ public class CreateChunks : MonoBehaviour
     {
         int random = Random.Range(chunksMin, chunksMax + 1);
         for (int i = 0; i < random; i++) {
-            Instantiate(chunk, transform.position, Quaternion.identity);
+            var chunkSpawn = Instantiate(chunk, transform.position, Quaternion.identity);
+            chunkSpawn.transform.localScale *= 0.1f;
         }
     }
 
