@@ -2248,6 +2248,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec920a65b3ec604418e63ae58239dc55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  seat: {fileID: 0}
   type: 3
   hasOperator: 0
   projectilePrefab: {fileID: 0}
@@ -2257,6 +2258,7 @@ MonoBehaviour:
   - {fileID: 680884392771065324}
   muzzleVelocity: 100
   recoil: 90
+  rotateSpeed: 20
   gimbalRange: 30
   fire: 0
   moveGimbal: 0.5

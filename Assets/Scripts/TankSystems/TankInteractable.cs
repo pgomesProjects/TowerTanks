@@ -139,6 +139,14 @@ public class TankInteractable : MonoBehaviour
         }
     }
 
+    public void Rotate(float force) //Called from operator when they rotate the joystick
+    {
+        if (type == Room.RoomType.Weapons)
+        {
+            if (gunScript != null && cooldown <= 0) gunScript.RotateBarrel(force);
+        }
+    }
+
     public void SecondaryUse(bool held)
     {
         if (type == Room.RoomType.Engineering)

@@ -22,6 +22,20 @@ public class PlayerMovement : Character
     InputActionMap inputMap;
     private float vel;
 
+    [Header("Joystick Spin Detection Options")]
+    [SerializeField] private float spinAngleCheckUpdateTimer = 0.1f;
+    [SerializeField] [Range(0.0f, 180.0f)] private float spinValidAngleLimit = 30.0f;
+    [SerializeField] private int validSpinCheckRows = 1;
+    [SerializeField] private float cannonScrollSensitivity = 3f;
+    public bool isSpinningJoystick = false;
+    private float spinningDirection = 1; //1 = Clockwise, -1 = CounterClockwise
+    private float spinningForce = 0;
+
+    //Joystick spin detection
+    private Vector2 lastJoystickInput = Vector2.zero;
+    private bool isCheckingSpinInput = false;
+    private int validSpinCheckCounter = 0;
+
     //objects
     [Header("Interactables")]
     public InteractableZone currentZone = null;
@@ -71,10 +85,16 @@ public class PlayerMovement : Character
         }
         
         
-        
         if (currentInteractable != null)
         {
             currentState = CharacterState.OPERATING;
+
+            CheckJoystickSpinning();
+            if (isSpinningJoystick)
+            {
+                currentInteractable.Rotate(spinningForce);
+            }
+            else currentInteractable.Rotate(0);
         }
 
         fuel = currentFuel;
@@ -251,6 +271,62 @@ public class PlayerMovement : Character
         {
             if (currentInteractable != null) currentInteractable.SecondaryUse(false);
         }
+    }
+
+    private void CheckJoystickSpinning()
+    {
+        //If the current movement vector is different from the previous movement vector and spinning input is not being checked
+        if (moveInput != lastJoystickInput && !isCheckingSpinInput)
+        {
+            //Check for spin input
+            isCheckingSpinInput = true;
+            StartCoroutine(JoystickSpinningDetection());
+        }
+
+        //If the number of spin checks is equal to number of spins that are needed, the joystick has been properly spun
+        if (validSpinCheckCounter == validSpinCheckRows)
+        {
+            isSpinningJoystick = true;
+        }
+
+        //If not, the joystick is not spinning properly
+        else
+        {
+            isSpinningJoystick = false;
+        }
+    }
+
+    private IEnumerator JoystickSpinningDetection()
+    {
+        //Store the movement variable for later use
+        lastJoystickInput = moveInput;
+
+        //Wait for a bit to check for a spin angle
+        yield return new WaitForSeconds(spinAngleCheckUpdateTimer);
+
+        //If the angle between the last known movement vector and the current movement vector reaches a specified amount
+        if (Vector2.Angle(lastJoystickInput, moveInput) >= spinValidAngleLimit)
+        {
+            //Detect rotation direction
+            var spinAngle = Vector2.SignedAngle(lastJoystickInput, moveInput);
+            if (spinAngle > 0) spinningDirection = -1;
+            else if (spinAngle < 0) spinningDirection = 1;
+
+            //Assign rotation force variable
+            spinningForce = (spinAngle / 100);
+
+            //Register this as a joystick spin
+            validSpinCheckCounter++;
+            validSpinCheckCounter = Mathf.Clamp(validSpinCheckCounter, 0, validSpinCheckRows);
+        }
+        //If not, there is not enough movement to consider the action a spin. Reset
+        else
+        {
+            validSpinCheckCounter = 0;
+        }
+
+        //End the check
+        isCheckingSpinInput = false;
     }
 
     #endregion

@@ -14,10 +14,12 @@ public class GunController : TankInteractable
     [Header("Gun Settings:")]
     [Tooltip("Velocity of projectile upon exiting the barrel."), SerializeField, Min(0)]  private float muzzleVelocity;
     [Tooltip("Force exerted on tank each time weapon is fired."), SerializeField, Min(0)] private float recoil;
+    [Tooltip("Speed at which the cannon barrel rotates"), SerializeField]                 private float rotateSpeed;
     [Tooltip("Max angle (up or down) weapon joint can be rotated to."), SerializeField]   private float gimbalRange;
     [Header("Debug Controls:")]
     public bool fire;
     [Range(0, 1)] public float moveGimbal = 0.5f;
+    private Vector3 currentRotation = new Vector3(0, 0, 0);
 
     //Runtime Variables:
  
@@ -26,7 +28,7 @@ public class GunController : TankInteractable
     {
         //Debug settings:
         if (fire) { fire = false; Fire(); }
-        pivot.localEulerAngles = Vector3.forward * (Mathf.Lerp(-gimbalRange, gimbalRange, moveGimbal));
+        pivot.localEulerAngles = currentRotation;
     }
 
     //FUNCTIONALITY METHODS:
@@ -46,5 +48,22 @@ public class GunController : TankInteractable
         GameManager.Instance.ParticleSpawner.SpawnParticle(random, particleSpots[0], 0.1f, null);
         GameManager.Instance.AudioManager.Play("CannonFire");
         GameManager.Instance.AudioManager.Play("CannonThunk"); //Play firing audioclips
+    }
+
+    public void RotateBarrel(float force)
+    {
+        float speed = rotateSpeed * Time.deltaTime;
+
+        currentRotation += new Vector3(0, 0, force * speed);
+
+        if (currentRotation.z > gimbalRange) currentRotation = new Vector3(0, 0, gimbalRange);
+        if (currentRotation.z < -gimbalRange) currentRotation = new Vector3(0, 0, -gimbalRange);
+
+        //Play SFX
+        if (force != 0) 
+        {
+            if (!GameManager.Instance.AudioManager.IsPlaying("CannonRotate")) GameManager.Instance.AudioManager.Play("CannonRotate");
+        }
+        else if (GameManager.Instance.AudioManager.IsPlaying("CannonRotate")) GameManager.Instance.AudioManager.Stop("CannonRotate");
     }
 }

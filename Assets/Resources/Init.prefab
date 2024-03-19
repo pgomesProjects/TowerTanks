@@ -520,11 +520,11 @@ MonoBehaviour:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: 78b9a5e132f712e4391247cb97c41d23, type: 2}
-  - name: CannonAimSFX
+  - name: CannonRotate
     audioEvent:
       idInternal: 0
       valueGuidInternal: 
-      WwiseObjectReference: {fileID: 11400000, guid: 1e3ed50a5dee1334a87ea8d97d8c04d5, type: 2}
+      WwiseObjectReference: {fileID: 11400000, guid: 906f8e07e206c0e4abdc3ed19358488f, type: 2}
   - name: CannonLockSFX
     audioEvent:
       idInternal: 0
