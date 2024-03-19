@@ -13,19 +13,31 @@ public class Connector : MonoBehaviour
     [SerializeField] internal Cell cellB;               //Cell on second side of the connector
 
     //Runtime variables:
-    private bool damaged; //True if one cell attached to connector has been destroyed
+    private bool damaged;     //True if one cell attached to connector has been destroyed
+    private bool initialized; //Indicates whether or not connector has been set up and is ready to go
 
     //RUNTIME METHODS:
     private void Awake()
     {
+        Initialize(); //Set everything up
+    }
+
+    //FUNCTIONALITY METHODS:
+    /// <summary>
+    /// Ensures that coupler has all the information it needs to work properly.
+    /// </summary>
+    public void Initialize()
+    {
+        //Initialization check:
+        if (initialized) return; //Do not attempt to re-initialize connector
+        initialized = true;      //Indicate that connector has been initialized
+
         //Get objects & components:
         room = GetComponentInParent<Room>();                                  //Get parent room
         intactElements = transform.GetChild(0);                               //Get intact elements container
         damagedElements = transform.GetChild(1);                              //Get damaged elements container
         backWall = intactElements.GetChild(0).GetComponent<SpriteRenderer>(); //Get back wall sprite renderer
     }
-
-    //FUNCTIONALITY METHODS:
     /// <summary>
     /// Converts connector into its damaged form, done when cell on one side is destroyed.
     /// </summary>

@@ -20,10 +20,11 @@ public class TankController : MonoBehaviour
         //Get objects & components:
         treadSystem = GetComponentInChildren<TreadSystem>(); //Get tread system from children
         towerJoint = transform.Find("TowerJoint");           //Get tower joint from children
+        treadSystem.Initialize();                            //Make sure treads are initialized
 
         //Room setup:
         rooms = new List<Room>(GetComponentsInChildren<Room>()); //Get list of all rooms which spawn as children of tank (for prefab tanks)
-        foreach (Room room in rooms) //Scrub through childed room list
+        foreach (Room room in rooms) //Scrub through childed room list (should be in order of appearance under towerjoint)
         {
             room.targetTank = this; //Make this the target tank for all childed rooms
             if (room.isCore) //Found a core room
@@ -31,6 +32,13 @@ public class TankController : MonoBehaviour
                 //Core room setup:
                 if (coreRoom != null) Debug.LogError("Found two core rooms in tank " + gameObject.name); //Indicate problem if multiple core rooms are found
                 coreRoom = room;                                                                         //Get core room
+            }
+            else //Room has been added to tank for pre-mounting
+            {
+                //Pre-mount room:
+                room.UpdateRoomType(room.type);              //Apply preset room type
+                room.SnapMove(room.transform.localPosition); //Snap room to position on tank grid
+                room.Mount();                                //Mount room to tank immediately
             }
         }
         treadSystem.ReCalculateMass(); //Get center of mass based on room setup

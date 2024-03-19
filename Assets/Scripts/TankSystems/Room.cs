@@ -56,18 +56,60 @@ public class Room : MonoBehaviour
     [Tooltip("List of interactables actively placed in this room.")]                                       internal List<TankInteractable> interactables = new List<TankInteractable>();
     [Tooltip("Whether or not this room has been attached to another room yet.")]                           private bool mounted = false;
     [Tooltip("The only tank this room can be mounted to (who's home grid will be used during mounting).")] internal TankController targetTank; //NOTE: This is important for distinguishing between rooms auto-spawned for prefab tanks, and rooms which are spawned in scrap menu for mounting on an existing tank
+    private bool initialized = false; //Becomes true once one-time initial room setup has been completed (indicates room is ready to be used)
 
     //RUNTIME METHODS:
     private void Awake()
     {
+        Initialize(); //Set everything up
+    }
+    private void Update()
+    {
+        if (debugRotate) { debugRotate = false; Rotate(); UpdateRoomType(type); }
+        if (debugMoveUp) { debugMoveUp = false; SnapMoveTick(Vector2.up); UpdateRoomType(type); }
+        if (debugMoveDown) { debugMoveDown = false; SnapMoveTick(Vector2.down); UpdateRoomType(type); }
+        if (debugMoveLeft) { debugMoveLeft = false; SnapMoveTick(Vector2.left); UpdateRoomType(type); }
+        if (debugMoveRight) { debugMoveRight = false; SnapMoveTick(Vector2.right); UpdateRoomType(type); }
+        if (debugMount) { debugMount = false; Mount(); }
+    }
+
+    //FUNCTIONALITY METHODS:
+    /// <summary>
+    /// Performs all necessary setup so that room can be immediately manipulated and mounted.
+    /// </summary>
+    public void Initialize()
+    {
+        //Initialization check:
+        if (initialized) return; //Do not attempt to re-initialize a room
+        initialized = true;      //Indicate that room has been initialized
+
         //Setup runtime variables:
         cells = new List<Cell>(GetComponentsInChildren<Cell>()); //Get references to cells in room
         connectorParent = transform.Find("Connectors");          //Find object containing connectors
         roomData = Resources.Load<RoomData>("RoomData");         //Get roomData object from resources folder
+        targetTank = GetComponentInParent<TankController>();     //Get tank controller from current parent (only applicable if room spawns with tank)
 
-        //Set up cells:
-        foreach (Cell cell in cells) cell.UpdateAdjacency();   //Have all cells in room get to know each other
-        
+        //Designate interactable slots:
+        if (!isCore) //Core room does not get a random interactable slot
+        {
+            bool startsWithInteractables = false; //Initialize marker to indicate whether or not a random slot should be designated
+            foreach (Cell cell in cells) { if (cell.startingInteractable != null) { startsWithInteractables = true; break; } } //Check if room has any starting interactables
+            if (!startsWithInteractables) //Cell does not have any pre-set interactables
+            {
+                cells[Random.Range(0, cells.Count)].DesignateInteractableSlot(); //Pick one random cell to contain the room's interactable
+            }
+        }
+        else //This is a core room
+        {
+            //Core room setup:
+            mounted = true; //Core rooms start mounted
+        }
+
+        //Set up child components:
+        foreach (Connector connector in connectorParent.GetComponentsInChildren<Connector>()) connector.Initialize(); //Initialize all connectors before setting up cells
+        foreach (Cell cell in cells) cell.Initialize();                                                               //Initialize each cell before checking adjacency
+        foreach (Cell cell in cells) cell.UpdateAdjacency();                                                          //Have all cells in room get to know each other
+
         //Identify sections:
         List<List<Cell>> newSections = new List<List<Cell>>(); //Initialize lists to store section data
         List<Cell> ungroupedCells = new List<Cell>(cells);     //Create list of ungrouped cells to pull cells from
@@ -101,24 +143,6 @@ public class Room : MonoBehaviour
         }
         sections = newSections.Select(eachList => eachList.ToArray()).ToArray(); //Convert lists into stored array
 
-        //Designate interactable slots:
-        if (!isCore) //Core room does not get a random interactable slot
-        {
-            bool startsWithInteractables = false; //Initialize marker to indicate whether or not a random slot should be designated
-            foreach (Cell cell in cells) { if (cell.startingInteractable != null) { startsWithInteractables = true; break; } } //Check if room has any starting interactables
-            if (!startsWithInteractables) //Cell does not have any pre-set interactables
-            {
-                cells[Random.Range(0, cells.Count)].DesignateInteractableSlot(); //Pick one random cell to contain the room's interactable
-            }
-        }
-        else //This is a core room
-        {
-            //Core room setup:
-            mounted = true; //Core rooms start mounted
-        }
-    }
-    private void Start()
-    {
         //Designate type:
         if (randomizeType && type == RoomType.Null) //Room is being spawned with a random type
         {
@@ -126,17 +150,6 @@ public class Room : MonoBehaviour
             UpdateRoomType((RoomType)Random.Range(1, 6)); //Give room a random type and update immediately
         }
     }
-    private void Update()
-    {
-        if (debugRotate) { debugRotate = false; Rotate(); UpdateRoomType(type); }
-        if (debugMoveUp) { debugMoveUp = false; SnapMoveTick(Vector2.up); UpdateRoomType(type); }
-        if (debugMoveDown) { debugMoveDown = false; SnapMoveTick(Vector2.down); UpdateRoomType(type); }
-        if (debugMoveLeft) { debugMoveLeft = false; SnapMoveTick(Vector2.left); UpdateRoomType(type); }
-        if (debugMoveRight) { debugMoveRight = false; SnapMoveTick(Vector2.right); UpdateRoomType(type); }
-        if (debugMount) { debugMount = false; Mount(); }
-    }
-
-    //FUNCTIONALITY METHODS:
     /// <summary>
     /// Moves the cell one tick (0.25 units) in given direction.
     /// </summary>

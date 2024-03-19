@@ -37,7 +37,11 @@ public class GunController : TankInteractable
     /// </summary>
     public void Fire()
     {
-        if (tank == null) tank = GameObject.Find("Tank1").GetComponent<TankController>();
+        if (tank == null) tank = GetComponentInParent<TankController>();
+
+        //Fire projectile:
+        Projectile newProjectile = Instantiate(projectilePrefab).GetComponent<Projectile>();
+        newProjectile.Fire(barrel.position, barrel.right * muzzleVelocity);
 
         //Apply recoil:
         Vector2 recoilForce = -barrel.right * recoil;                                  //Get force of recoil from direction of barrel and set magnitude

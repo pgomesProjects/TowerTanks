@@ -47,10 +47,24 @@ public class Cell : MonoBehaviour
     [Tooltip("Ghosted interactable prepared to be installed in this cell.")]                        internal TankInteractable ghostInteractable;
     [Tooltip("Interactable currently installed in this cell.")]                                     internal TankInteractable installedInteractable;
     [Tooltip("True if cell destruction has already been scheduled, used to prevent conflicts.")]    private bool dying;
+    private bool initialized = false; //True once cell has been set up and is ready to go
 
     //RUNTIME METHODS:
     private void Awake()
     {
+        Initialize(); //Set up cell
+    }
+
+    //FUNCTIONALITY METHODS:
+    /// <summary>
+    /// Performs all necessary setup so that cell is ready to use.
+    /// </summary>
+    public void Initialize()
+    {
+        //Initialization check:
+        if (initialized) return; //Do not attempt to re-initialize cell
+        initialized = true;      //Indicate that cell has been initialized
+
         //Get objects & components:
         room = GetComponentInParent<Room>(); //Get room cell is connected to
         c = GetComponent<BoxCollider2D>();   //Get local collider
@@ -63,8 +77,6 @@ public class Cell : MonoBehaviour
             newInteractable.InstallInCell(this);                                                                   //Install interactable into this cell
         }
     }
-
-    //UTILITY METHODS:
     /// <summary>
     /// Updates list indicating which sides are open and which are adjacent to other cells.
     /// </summary>
@@ -133,7 +145,8 @@ public class Cell : MonoBehaviour
     /// </summary>
     public void Damage()
     {
-
+        //TEMP
+        Kill();
     }
     /// <summary>
     /// Checks to see if this cell has been disconnected from the tank and then kills it if it has been.

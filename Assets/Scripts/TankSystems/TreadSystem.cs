@@ -27,27 +27,16 @@ public class TreadSystem : MonoBehaviour
 
     [Header("Debug Controls:")]
     [Range(-1 , 1)] public float debugDrive;
-    
+
 
     //Runtime Variables:
+    private bool initialized; //True if tread system has already been set up
     //NOTE: Make drag proportional to number of wheels touching the ground
 
     //RUNTIME METHODS:
     private void Awake()
     {
-        //Get objects & components:
-        tankController = GetComponentInParent<TankController>(); //Get tank controller object from parent
-        r = GetComponent<Rigidbody2D>();                         //Get rigidbody component
-        wheels = GetComponentsInChildren<TreadWheel>();          //Get array of all wheels in system
-
-        //Generate treads:
-        List<Transform> newTreads = new List<Transform>(); //Instantiate list to store spawned treads
-        for (int x = 0; x < wheels.Length; x++) //Iterate once for each wheel in tank
-        {
-            Transform newTread = Instantiate(treadPrefab, transform).transform; //Instantiate new tread object
-            newTreads.Add(newTread);                                            //Add new tread to list
-        }
-        treads = newTreads.ToArray(); //Commit generated list to array
+        Initialize(); //Set up treads
     }
     private void Update()
     {
@@ -115,6 +104,28 @@ public class TreadSystem : MonoBehaviour
         Gizmos.DrawLine(transform.TransformPoint(new Vector2(-COGWidth / 2, COGHeight)), transform.TransformPoint(new Vector2(COGWidth / 2, COGHeight)));
         Gizmos.color = Color.green;
         Gizmos.DrawSphere(GetComponent<Rigidbody2D>().worldCenterOfMass, 0.2f);
+    }
+
+    //FUNCTIONALITY METHODS:
+    public void Initialize()
+    {
+        //Initialization check:
+        if (initialized) return; //Do not re-initialize treads
+        initialized = true;      //Indicate that treads have been initialized
+
+        //Get objects & components:
+        tankController = GetComponentInParent<TankController>(); //Get tank controller object from parent
+        r = GetComponent<Rigidbody2D>();                         //Get rigidbody component
+        wheels = GetComponentsInChildren<TreadWheel>();          //Get array of all wheels in system
+
+        //Generate treads:
+        List<Transform> newTreads = new List<Transform>(); //Instantiate list to store spawned treads
+        for (int x = 0; x < wheels.Length; x++) //Iterate once for each wheel in tank
+        {
+            Transform newTread = Instantiate(treadPrefab, transform).transform; //Instantiate new tread object
+            newTreads.Add(newTread);                                            //Add new tread to list
+        }
+        treads = newTreads.ToArray(); //Commit generated list to array
     }
 
     //UTILITY METHODS:
