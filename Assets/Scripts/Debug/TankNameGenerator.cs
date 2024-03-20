@@ -9,12 +9,22 @@ public class TankNameGenerator
         "Massive",
         "Gorgon",
         "Dangerous",
-        "Firey",
+        "Fiery",
         "Super",
         "Supreme",
         "Strapping",
         "Bellowing",
-        "Fierce"
+        "Fierce",
+        "Perfect",
+        "Power",
+        "Destructive",
+        "Scrappy",
+        "Patchwork",
+        "Octane",
+        "Ardent",
+        "Mammoth",
+        "Greasy",
+        "Queen's"
     };
 
     public string[] nouns = {
@@ -27,7 +37,17 @@ public class TankNameGenerator
         "Shooter",
         "Fellow",
         "Bulger",
-        "Flanker"
+        "Flanker",
+        "Beast",
+        "Rigger",
+        "Dodger",
+        "Boi",
+        "Tankard",
+        "Vessel",
+        "Revenge",
+        "Corsair",
+        "Jalopy",
+        "Heap",
     };
 
     public string GenerateRandomName()
