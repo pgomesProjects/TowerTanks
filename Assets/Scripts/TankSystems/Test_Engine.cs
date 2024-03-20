@@ -408,14 +408,14 @@ public class Test_Engine : MonoBehaviour
     public void OnMove(InputAction.CallbackContext ctx)
     {
         moveInput = ctx.ReadValue<Vector2>();
-        float moveSensitivity = 0.2f;
+        //float moveSensitivity = 0.2f;
 
     }
 
     public void OnLook(InputAction.CallbackContext ctx)
     {
         moveInput = ctx.ReadValue<Vector2>();
-        float moveSensitivity = 0.2f;
+        //float moveSensitivity = 0.2f;
     }
 
     public void OnInteract(InputAction.CallbackContext ctx)

@@ -1,15 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class TankController : MonoBehaviour
 {
+    public string TankName;
+
     //Objects & Components:
     [Tooltip("Rooms currently installed on tank.")]                                             internal List<Room> rooms;
     [Tooltip("Core room of tank (there can only be one.")]                                      internal Room coreRoom;
     [Tooltip("This tank's traction system.")]                                                   internal TreadSystem treadSystem;
     [Tooltip("Transform containing all tank rooms, point around which tower tilts.")]           private Transform towerJoint;
     [SerializeField, Tooltip("Target transform in tread system which tower joint locks onto.")] private Transform towerJointTarget;
+
+    private TextMeshProUGUI nameText;
 
     //Runtime Variables:
 
@@ -21,6 +26,11 @@ public class TankController : MonoBehaviour
         treadSystem = GetComponentInChildren<TreadSystem>(); //Get tread system from children
         towerJoint = transform.Find("TowerJoint");           //Get tower joint from children
         treadSystem.Initialize();                            //Make sure treads are initialized
+
+        nameText = GetComponentInChildren<TextMeshProUGUI>();
+
+        //Identify what tank I am
+        GetTankInfo();
 
         //Room setup:
         rooms = new List<Room>(GetComponentsInChildren<Room>()); //Get list of all rooms which spawn as children of tank (for prefab tanks)
@@ -48,6 +58,9 @@ public class TankController : MonoBehaviour
         //Tread system updates:
         towerJoint.position = towerJointTarget.position; //Move tower joint to target position
         towerJoint.rotation = towerJointTarget.rotation; //Move tower joint to target rotation
+
+        //Update name
+        nameText.text = TankName;
     }
 
     public void ChangeAllGear(int direction) //changes gear of all active throttles in the tank
@@ -58,6 +71,22 @@ public class TankController : MonoBehaviour
             for (int i = 0; i < throttles.Length; i++)
             {
                 throttles[i].ChangeGear(direction);
+            }
+        }
+    }
+
+    public void GetTankInfo()
+    {
+        var tankMan = GameObject.Find("TankManager").GetComponent<TankManager>();
+
+        if (tankMan != null)
+        {
+            foreach (TankId tank in tankMan.tanks)
+            {
+                if (tank.gameObject == gameObject) //if I'm on the list,
+                {
+                    TankName = tank.TankName; //give me my codename
+                }
             }
         }
     }

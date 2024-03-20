@@ -179,7 +179,6 @@ public class Debug_TankBuilder : MonoBehaviour
     public void OnLook(InputAction.CallbackContext ctx)
     {
         moveInput = ctx.ReadValue<Vector2>();
-        float moveSensitivity = 0.2f;
 
         if (isDeployed) //Move the Tank
         {
