@@ -694,13 +694,13 @@ PrefabInstance:
       value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 5332867684925448268, guid: 79f26049c394b4140bd0a93f14c225cd, type: 3}
-      propertyPath: playerInputComponent
-      value: 
+      propertyPath: isDebugPlayer
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5332867684925448268, guid: 79f26049c394b4140bd0a93f14c225cd, type: 3}
       propertyPath: serializationData.Prefab
       value: 
-      objectReference: {fileID: 5332867684925448268, guid: 79f26049c394b4140bd0a93f14c225cd, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 5332867684925448270, guid: 79f26049c394b4140bd0a93f14c225cd, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -777,8 +777,7 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 5332867684925448269, guid: 79f26049c394b4140bd0a93f14c225cd, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 79f26049c394b4140bd0a93f14c225cd, type: 3}
 --- !u!4 &208794807 stripped
 Transform:
@@ -4887,9 +4886,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 95025803489721963, guid: 13f75c373ef676a4f96b401e901fa1d2, type: 3}
-      propertyPath: playerInputComponent
-      value: 
+    - target: {fileID: 2096001709528450736, guid: 13f75c373ef676a4f96b401e901fa1d2, type: 3}
+      propertyPath: m_DefaultActionMap
+      value: Debug
+      objectReference: {fileID: 0}
+    - target: {fileID: 2096001709528450736, guid: 13f75c373ef676a4f96b401e901fa1d2, type: 3}
+      propertyPath: m_DefaultControlScheme
+      value: Keyboard and Mouse
       objectReference: {fileID: 0}
     - target: {fileID: 5295269391153239998, guid: 13f75c373ef676a4f96b401e901fa1d2, type: 3}
       propertyPath: m_RootOrder
@@ -4943,8 +4946,7 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 2096001709528450736, guid: 13f75c373ef676a4f96b401e901fa1d2, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 13f75c373ef676a4f96b401e901fa1d2, type: 3}
 --- !u!1 &1129337230
 GameObject:

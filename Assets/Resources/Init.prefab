@@ -355,7 +355,7 @@ MonoBehaviour:
       Entry: 6
       Data: 
   playerPrefab: {fileID: 5332867684925448268, guid: 79f26049c394b4140bd0a93f14c225cd, type: 3}
-  MultiplayerEnabled: 1
+  MultiplayerEnabled: 0
 --- !u!1 &2386267742676790645
 GameObject:
   m_ObjectHideFlags: 0
@@ -1213,6 +1213,10 @@ PrefabInstance:
     - target: {fileID: 3089197367796004085, guid: 35344d1a984a0834fbdf346dbf44c3d4, type: 3}
       propertyPath: m_Name
       value: LevelFader
+      objectReference: {fileID: 0}
+    - target: {fileID: 3089197367796004085, guid: 35344d1a984a0834fbdf346dbf44c3d4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3089197367796004086, guid: 35344d1a984a0834fbdf346dbf44c3d4, type: 3}
       propertyPath: m_RootOrder

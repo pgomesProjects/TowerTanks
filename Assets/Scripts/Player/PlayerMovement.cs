@@ -10,6 +10,7 @@ public class PlayerMovement : Character
     #region Fields and Properties
 
     //input
+    public bool isDebugPlayer;
     private Vector2 moveInput;
     private bool jetpackInputHeld;
 
@@ -51,6 +52,12 @@ public class PlayerMovement : Character
     protected override void Awake()
     {
         base.Awake();
+
+        if (isDebugPlayer)
+        {
+            PlayerInput debugInput = GameObject.Find("Debug_TankBuilder").GetComponent<PlayerInput>();
+            AddDebuggerPlayerInput(debugInput);
+        }
     }
 
     protected override void Start()
@@ -197,8 +204,16 @@ public class PlayerMovement : Character
         characterIndex = playerInputComponent.playerIndex;
 
         //Gets the player input action map so that events can be subscribed to it
-        inputMap = playerInputComponent.actions.FindActionMap("Player");
-        inputMap.actionTriggered += OnPlayerInput;
+        if (isDebugPlayer)
+        {
+            inputMap = playerInputComponent.actions.FindActionMap("Debug");
+            inputMap.actionTriggered += OnDebugInput;
+        }
+        else
+        {
+            inputMap = playerInputComponent.actions.FindActionMap("Player");
+            inputMap.actionTriggered += OnPlayerInput;
+        }
 
         //Subscribes events for control lost / regained
         playerInputComponent.onDeviceLost += OnDeviceLost;
@@ -231,6 +246,20 @@ public class PlayerMovement : Character
         }
     }
 
+    private void OnDebugInput(InputAction.CallbackContext ctx)
+    {
+        //Gets the name of the action and calls the appropriate events
+        switch (ctx.action.name)
+        {
+            case "Move": OnMove(ctx); break;
+            case "1": OnJetpack(ctx); break;
+            case "Control Steering": OnControlSteering(ctx); break;
+            case "2": OnInteract(ctx); break;
+            case "3": OnRepair(ctx); break;
+            case "4": OnCancel(ctx); break;
+        }
+    }
+
     public void OnMove(InputAction.CallbackContext ctx)
     {
         moveInput = ctx.ReadValue<Vector2>();
@@ -240,6 +269,7 @@ public class PlayerMovement : Character
             SetLadder();
         }
     }
+
     public void OnJetpack(InputAction.CallbackContext ctx)
     {
         jetpackInputHeld = ctx.ReadValue<float>() > 0;

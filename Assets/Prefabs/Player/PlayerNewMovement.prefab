@@ -89,10 +89,17 @@ MonoBehaviour:
   fuelDepletionRate: 30
   fuelRegenerationRate: 10
   healthToModify: -10
+  towerJoint: {fileID: 0}
+  playerSprite: {fileID: 0}
   playerInputComponent: {fileID: 0}
   deAcceleration: 100
   maxSpeed: 3
   fuel: 0
+  spinAngleCheckUpdateTimer: 0.1
+  spinValidAngleLimit: 30
+  validSpinCheckRows: 1
+  cannonScrollSensitivity: 3
+  isSpinningJoystick: 0
   currentZone: {fileID: 0}
   isOperator: 0
   currentInteractable: {fileID: 0}

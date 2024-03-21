@@ -38,7 +38,7 @@ public class Debug_TankBuilder : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //if (playerInputComponent != null) LinkPlayerInput(playerInputComponent);
+        if (playerInputComponent != null) LinkPlayerInput(playerInputComponent);
         tank = GameObject.Find("TreadSystem").GetComponent<Rigidbody2D>();
         if (tank != null)
         {
@@ -117,33 +117,10 @@ public class Debug_TankBuilder : MonoBehaviour
     public void LinkPlayerInput(PlayerInput newInput)
     {
         playerInputComponent = newInput;
-        playerIndex = playerInputComponent.playerIndex;
 
         //Gets the player input action map so that events can be subscribed to it
-        inputMap = playerInputComponent.actions.FindActionMap("Player");
+        inputMap = playerInputComponent.actions.FindActionMap("Debug");
         inputMap.actionTriggered += OnPlayerInput;
-
-        //Subscribes events for control lost / regained
-        playerInputComponent.onDeviceLost += OnDeviceLost;
-        playerInputComponent.onDeviceRegained += OnDeviceRegained;
-    }
-
-    public void LinkPlayerHUD(PlayerHUD newHUD)
-    {
-        playerHUD = newHUD;
-        playerHUD.InitializeHUD(playerIndex);
-    }
-
-    public void OnDeviceLost(PlayerInput playerInput)
-    {
-        Debug.Log("Player " + (playerIndex + 1) + " Controller Disconnected!");
-        FindObjectOfType<CornerUIController>().OnDeviceLost(playerIndex);
-    }
-
-    public void OnDeviceRegained(PlayerInput playerInput)
-    {
-        Debug.Log("Player " + (playerIndex + 1) + " Controller Reconnected!");
-        FindObjectOfType<CornerUIController>().OnDeviceRegained(playerIndex);
     }
 
     private void OnPlayerInput(InputAction.CallbackContext ctx)
@@ -151,13 +128,12 @@ public class Debug_TankBuilder : MonoBehaviour
         //Gets the name of the action and calls the appropriate events
         switch (ctx.action.name)
         {
+            case "1": OnBuild(ctx); break;
             case "Move": OnMove(ctx); break;
             case "Look": OnLook(ctx); break;
-            case "Cancel": OnRotate(ctx); break;
-            case "Cycle Interactables": OnCycle(ctx); break;
-            case "Build": OnBuild(ctx); break;
-            case "Repair": OnDeploy(ctx); break;
-            case "Pause": OnPause(ctx); break;
+            case "3": OnRotate(ctx); break;
+            case "Cycle": OnCycle(ctx); break;
+            case "4": OnDeploy(ctx); break;
         }
     }
 
@@ -221,7 +197,6 @@ public class Debug_TankBuilder : MonoBehaviour
         {
             if (ctx.performed)
             {
-                Debug.Log("Sex");
                 if (enableSounds) GameManager.Instance.AudioManager.Play("RotateRoom");
                 room.debugRotate = true;
             }
@@ -230,19 +205,15 @@ public class Debug_TankBuilder : MonoBehaviour
 
     public void OnCycle(InputAction.CallbackContext ctx) //Cycle to the next Room in the List
     {
+        var input = ctx.ReadValue<Vector2>();
 
-        if (room != null && ctx.performed)
+        if (room != null && ctx.started)
         {
-            if (ctx.ReadValue<float>() > 0)
-            {
-                roomSelected += 1;
-                if (roomSelected >= roomList.Length) roomSelected = 0;
-            }
-            else
-            {
-                roomSelected -= 1;
-                if (roomSelected < 0) roomSelected = roomList.Length - 1;
-            }
+            roomSelected += Mathf.RoundToInt(input.x);
+            if (roomSelected >= roomList.Length) roomSelected = 0;
+           
+            if (roomSelected < 0) roomSelected = roomList.Length - 1;
+            
             SpawnRoom(random: false, roomToSpawn: roomSelected);
             if (enableSounds) GameManager.Instance.AudioManager.Play("UseSFX");
         }
@@ -272,6 +243,7 @@ public class Debug_TankBuilder : MonoBehaviour
         tank.isKinematic = false;
         if (!isDeployed && enableSounds) GameManager.Instance.AudioManager.Play("TankIdle");
         isDeployed = true;
+        if (room != null) Destroy(room.gameObject);
     }
 
     public void OnPause(InputAction.CallbackContext ctx) //Reset Tank
