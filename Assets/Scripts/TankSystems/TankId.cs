@@ -8,14 +8,7 @@ public class TankId
 {
     [InlineButton("GenerateName", SdfIconType.Dice6Fill, "")]
     public string TankName;
-    
-    public void GenerateName()
-    {
-        var generator = new TankNameGenerator();
-        TankName = generator.GenerateRandomName();
-
-        if (gameObject != null) gameObject.GetComponent<TankController>().TankName = TankName;
-    }
+    private TankController tankScript;
 
     public enum TankType { PLAYER, ENEMY };
     public TankType tankType;
@@ -23,11 +16,28 @@ public class TankId
     //Components
     public GameObject gameObject;
 
+    public void GenerateName()
+    {
+        var generator = new TankNameGenerator();
+        TankName = generator.GenerateRandomName();
+
+        if (gameObject != null)
+        { 
+            tankScript.TankName = TankName;
+        }
+    }
+
     [HorizontalGroup("Horizontal Buttons")]
     [VerticalGroup("Horizontal Buttons/Column 1")]
     [Button("Destroy")] public void Destroy()
     {
-
+        if (tankType != TankType.PLAYER)
+        {
+            tankScript = gameObject.GetComponent<TankController>();
+            tankScript.BlowUp(true);
+            TankManager tankMan = GameObject.Find("TankManager").GetComponent<TankManager>();
+            if (tankMan != null) tankMan.tanks.Remove(this);
+        }
     }
     [VerticalGroup("Horizontal Buttons/Column 2")]
     [Button("Repair")]

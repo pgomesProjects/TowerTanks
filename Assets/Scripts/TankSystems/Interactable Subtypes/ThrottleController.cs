@@ -7,7 +7,6 @@ public class ThrottleController : TankInteractable
     //Objects & Components
     [Tooltip("Transforms to spawn particles from when used."), SerializeField] private Transform[] particleSpots;
     [Tooltip("Joint around which throttle shaft rotates."), SerializeField] private Transform pivot;
-    private TreadSystem treadSystem;
 
     //Settings:
     [Header("Throttle Settings:")]
@@ -25,11 +24,7 @@ public class ThrottleController : TankInteractable
     public bool shiftLeft;
 
     //Runtime variables
-    public void Start()
-    {
-        treadSystem = GameObject.Find("TreadSystem").GetComponent<TreadSystem>();
-    }
-
+   
     // RUNTIME METHODS:
     void Update()
     {
@@ -52,13 +47,12 @@ public class ThrottleController : TankInteractable
         float updatedAngle = Mathf.Lerp(currentAngle, previousAngle, (shiftTimer / 0.1f));
         pivot.localEulerAngles = new Vector3(0, 0, updatedAngle); //updates the throttle shaft to its correct rotation
 
-        if (treadSystem != null) treadSystem.debugDrive = -(updatedAngle / maxAngle);
+        if (tank != null) tank.treadSystem.debugDrive = -(updatedAngle / maxAngle);
     }
 
     public void UseThrottle(int direction) //called from operator -> sends message to tankController to change gears in all throttles
     {
-        if (tank == null) tank = GameObject.Find("Tank1").GetComponent<TankController>();
-        tank.ChangeAllGear(direction);
+        if (tank != null) tank.ChangeAllGear(direction);
     }
 
 
@@ -83,6 +77,6 @@ public class ThrottleController : TankInteractable
         currentAngle = gear * (maxAngle / speedSettings);
 
         shiftTimer = 0.1f;
-        treadSystem.gear = -gear;
+        if (tank != null)  tank.treadSystem.gear = -gear;
     }
 }

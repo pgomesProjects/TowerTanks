@@ -7,13 +7,11 @@ using UnityEngine.SceneManagement;
 public class Debug_TankBuilder : MonoBehaviour
 {
     //Assets
-    public Rigidbody2D tank;
-    private TreadSystem treads;
+    public TankController[] tanks;
     public Room room;
     public GameObject[] roomList;
     public int roomSelected;
     public bool enableSounds;
-    private Transform resetPoint;
 
     //Input
     private Vector2 moveInput;
@@ -39,12 +37,16 @@ public class Debug_TankBuilder : MonoBehaviour
     void Start()
     {
         if (playerInputComponent != null) LinkPlayerInput(playerInputComponent);
-        tank = GameObject.Find("TreadSystem").GetComponent<Rigidbody2D>();
-        if (tank != null)
+
+        //Find all tanks we're debugging & freeze them
+        tanks = FindObjectsOfType<TankController>();
+        if (tanks.Length > 0)
         {
-            tank.isKinematic = true; //Freeze the tank while we're building
-            treads = tank.gameObject.GetComponent<TreadSystem>();
-            resetPoint = treads.transform;
+            foreach (TankController tank in tanks)
+            {
+                var rb = tank.treadSystem.GetComponent<Rigidbody2D>();
+                rb.isKinematic = true;
+            }
         }
     }
 
@@ -103,14 +105,6 @@ public class Debug_TankBuilder : MonoBehaviour
             room = _room.GetComponent<Room>();
             cooldown = 0.1f;
         }
-    }
-
-    private void ResetTank() //Resets tank position to first transform
-    {
-        treads.transform.position = resetPoint.position;
-        treads.transform.rotation = resetPoint.rotation;
-        tank.isKinematic = true; //Freeze the tank while we're building
-        if (isDeployed) isDeployed = false;
     }
 
     #region Input
@@ -176,7 +170,7 @@ public class Debug_TankBuilder : MonoBehaviour
 
         if (isDeployed) //Move the Tank
         {
-            treads.debugDrive = moveInput.x;
+            //treads.debugDrive = moveInput.x;
             if (enableSounds)
             {
                 if (Mathf.Abs(moveInput.x) > 0.1f)
@@ -238,10 +232,16 @@ public class Debug_TankBuilder : MonoBehaviour
         }
     }
 
-    public void OnDeploy(InputAction.CallbackContext ctx) //Deploy the Tank
+    public void OnDeploy(InputAction.CallbackContext ctx) //Deploy the Tanks
     {
-        tank.isKinematic = false;
-        if (!isDeployed && enableSounds) GameManager.Instance.AudioManager.Play("TankIdle");
+        if (tanks.Length > 0)
+        {
+            foreach (TankController tank in tanks)
+            {
+                var rb = tank.treadSystem.GetComponent<Rigidbody2D>();
+                rb.isKinematic = false;
+            }
+        }
         isDeployed = true;
         if (room != null) Destroy(room.gameObject);
     }

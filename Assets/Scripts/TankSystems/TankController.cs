@@ -86,8 +86,15 @@ public class TankController : MonoBehaviour
                 if (tank.gameObject == gameObject) //if I'm on the list,
                 {
                     TankName = tank.TankName; //give me my codename
+                    gameObject.name = "Tank (" + TankName + ")";
                 }
             }
         }
+    }
+
+    public void BlowUp(bool immediate)
+    {
+        if (immediate) DestroyImmediate(gameObject);
+        else Destroy(gameObject);
     }
 }
