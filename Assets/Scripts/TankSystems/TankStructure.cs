@@ -1,14 +1,53 @@
+using Sirenix.OdinInspector;
 using System.Collections.Generic;
+using UnityEngine;
 
 [System.Serializable]
 public class TankStructure
-{
+{ 
     private Dictionary<int, List<int>> adjacencyList;
 
     public TankStructure()
     {
         adjacencyList = new Dictionary<int, List<int>>();
     }
+
+    //Debug Tools
+/*    [Button(ButtonSizes.Medium)]
+    private void TestAddRoom()
+    {
+        AddRoom(debugRoomToAdd);
+    }
+
+    [Button(ButtonSizes.Medium)]
+    private void TestAddAdjacency()
+    {
+        AddAdjacency(debugFirstRoomAdjacency, debugSecondRoomAdjacency);
+    }
+
+    [Button(ButtonSizes.Medium)]
+    private void TestFindPath()
+    {
+        GetPathBetweenRooms(debugStartingRoom, debugEndingRoom);
+    }
+
+    [Button(ButtonSizes.Medium)]
+    private void TestPrintTank()
+    {
+        PrintTankStructure();
+    }
+
+    public int debugRoomToAdd;
+    public int debugFirstRoomAdjacency;
+    public int debugSecondRoomAdjacency;
+    public int debugStartingRoom;
+    public int debugEndingRoom;
+
+  private void Awake()
+    {
+        adjacencyList = new Dictionary<int, List<int>>();
+    }
+*/
 
     /// <summary>
     /// Adds a room to the total list of rooms.
