@@ -24,13 +24,11 @@ public class BuildingManager : MonoBehaviour
     public static BuildingManager Instance;
 
     private List<WorldRoom> worldRoomObjects;
-    private Camera main;
 
     private void Awake()
     {
         Instance = this;
         worldRoomObjects = new List<WorldRoom>();
-        main = Camera.main;
     }
 
     // Start is called before the first frame update
@@ -40,6 +38,11 @@ public class BuildingManager : MonoBehaviour
         gamePhaseUI?.ShowPhase(GAMESTATE.BUILDING);
     }
 
+    /// <summary>
+    /// Spawns a room in the world that the players can move around.
+    /// </summary>
+    /// <param name="roomToSpawn">The room to spawn into the world.</param>
+    /// <param name="playerCursorTransform">The player cursor to follow.</param>
     public void SpawnRoom(int roomToSpawn, RectTransform playerCursorTransform)
     {
         Room currentRoom = GameManager.Instance?.roomList[roomToSpawn].GetComponent<Room>();

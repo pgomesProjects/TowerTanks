@@ -90,6 +90,7 @@ public class RoomBuildingMenu : SerializedMonoBehaviour
             int roomIndexRange = Random.Range(0, GameManager.Instance.roomList.Length);
             SelectableRoomObject newRoom = Instantiate(roomIconPrefab, roomListTransform);
             newRoom.GetComponentInChildren<TextMeshProUGUI>().text = GameManager.Instance.roomList[roomIndexRange].name.ToString();
+            newRoom.SetRoomID(roomIndexRange);
             newRoom.OnSelected.AddListener(OnRoomSelected);
         }
     }
@@ -107,6 +108,9 @@ public class RoomBuildingMenu : SerializedMonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Gives all of the players rooms that they can move around.
+    /// </summary>
     private void GivePlayersRooms()
     {
         foreach(var room in roomSelections)

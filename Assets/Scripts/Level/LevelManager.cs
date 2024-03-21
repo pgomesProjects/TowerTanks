@@ -40,7 +40,7 @@ public class LevelManager : SerializedMonoBehaviour
 
     private GameObject currentGhostLayer;
 
-    private Transform[] spawnPoints;
+    private Transform spawnPoint;
 
     private Dictionary<string, int> itemPrice;
 
@@ -79,6 +79,7 @@ public class LevelManager : SerializedMonoBehaviour
         itemPrice = new Dictionary<string, int>();
         PopulateItemDictionary();
         currentSessionStats = ScriptableObject.CreateInstance<SessionStats>();
+        spawnPoint = GameObject.FindGameObjectWithTag("SpawnPoint").transform;
     }
 
     private void Start()
@@ -114,7 +115,7 @@ public class LevelManager : SerializedMonoBehaviour
         }*/
         
         TransitionGameState();
-        AddLayer(); //Add another layer
+        //AddLayer(); //Add another layer
 
         if (GameSettings.debugMode)
             totalScrapValue = 99999;
@@ -137,7 +138,6 @@ public class LevelManager : SerializedMonoBehaviour
     private void SpawnAllPlayers()
     {
         playerParent = GameObject.FindGameObjectWithTag("PlayerContainer")?.transform;
-        spawnPoints = FindObjectOfType<SpawnPoints>()?.spawnPoints;
 
         foreach(PlayerInput playerInput in GameManager.Instance.MultiplayerManager.GetPlayerInputs())
             SpawnPlayer(playerInput);
@@ -148,7 +148,9 @@ public class LevelManager : SerializedMonoBehaviour
         PlayerMovement character = Instantiate(GameManager.Instance.MultiplayerManager.GetPlayerPrefab());
         character.LinkPlayerInput(playerInput);
         character.GetComponent<Rigidbody2D>().isKinematic = false;
-        character.transform.position = spawnPoints[playerInput.playerIndex].position;
+        Vector3 playerPos = spawnPoint.position;
+        playerPos.x += UnityEngine.Random.Range(-0.25f, 0.25f);
+        character.transform.position = playerPos;
         character.transform.SetParent(playerParent);
         character.transform.GetComponentInChildren<Renderer>().material.SetColor("_Color", GameManager.Instance.MultiplayerManager.GetPlayerColors()[playerInput.playerIndex]);
         //character.SetPlayerMove(true);
