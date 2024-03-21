@@ -575,6 +575,11 @@ MonoBehaviour:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: c14da81abfb11a643a2fb5afc25c3260, type: 2}
+  - name: ShellImpact
+    audioEvent:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: dea51c787da16a045bcde1aba4c62f91, type: 2}
   - name: ThrottleClick
     audioEvent:
       idInternal: 0
@@ -910,6 +915,7 @@ MonoBehaviour:
   - {fileID: 8186442840391220499, guid: eb0e3e662462aaa498b4c75a51f83b3a, type: 3}
   - {fileID: 8748987186402470367, guid: 26feb4c6b89765e4ea1fdd70f38ce78a, type: 3}
   - {fileID: 7757385688290870796, guid: ed2f9f2e402650d4e8e578f7a9d87854, type: 3}
+  - {fileID: 7851507033924257024, guid: c365443ed657eb242913738f810d43be, type: 3}
   particleFolderPath: 
 --- !u!1 &6961505860283407432
 GameObject:

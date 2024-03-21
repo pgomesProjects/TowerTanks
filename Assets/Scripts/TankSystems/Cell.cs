@@ -265,5 +265,9 @@ public class Cell : MonoBehaviour
 
         //Cleanup:
         Destroy(gameObject); //Destroy this cell
+
+        //Other Effects
+        GameManager.Instance.AudioManager.Play("MedExplosionSFX", gameObject);
+        GameManager.Instance.ParticleSpawner.SpawnParticle(5, transform, 0.15f, null);
     }
 }

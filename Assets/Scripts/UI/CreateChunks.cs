@@ -14,13 +14,7 @@ public class CreateChunks : MonoBehaviour
         int random = Random.Range(chunksMin, chunksMax + 1);
         for (int i = 0; i < random; i++) {
             var chunkSpawn = Instantiate(chunk, transform.position, Quaternion.identity);
-            chunkSpawn.transform.localScale *= 0.1f;
+            //chunkSpawn.transform.localScale *= 0.1f;
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
