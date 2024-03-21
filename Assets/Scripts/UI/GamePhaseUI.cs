@@ -25,22 +25,21 @@ public class GamePhaseUI : MonoBehaviour
     /// <param name="newPhase">The new game phase.</param>
     public void ShowPhase(GAMESTATE newPhase)
     {
-        phaseUICanvasGroup.alpha = 1f;
         string phaseText = "";
         switch (newPhase)
         {
             case GAMESTATE.BUILDING:
+                phaseUICanvasGroup.alpha = 1f;
                 phaseText = "Building Phase";
+                levelPhaseText.text = phaseText;
+                Invoke("EndingAnimation", 0.5f);
                 OnBuildingPhase?.Invoke();
                 break;
             case GAMESTATE.COMBAT:
-                phaseText = "Combat Phase";
+                //phaseText = "Combat Phase";
                 OnCombatPhase?.Invoke();
                 break;
         }
-
-        levelPhaseText.text = phaseText;
-        Invoke("EndingAnimation", 0.5f);
     }
 
     private void EndingAnimation()

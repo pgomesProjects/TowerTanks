@@ -73,7 +73,7 @@ public class RoomBuildingMenu : SerializedMonoBehaviour
 
     public void GoToCombatScene()
     {
-        GameManager.Instance.LoadScene("GameScene");
+        GameManager.Instance.LoadScene("GameScene", LevelTransition.LevelTransitionType.GATE, true, true, false);
     }
 
     /// <summary>
