@@ -56,11 +56,11 @@ public class PlayerMovement : Character
     protected override void Start()
     {
         base.Start();
-        if (GameSettings.debugMode)
-        {
-            playerInputComponent = FindObjectOfType<Debug_TankBuilder>()?.GetComponent<PlayerInput>();
-            if (playerInputComponent != null) LinkPlayerInput(playerInputComponent); //if it is null, it will be set by multiplayer manager. can be set in inspector as an override for testing
-        }
+    }
+
+    public void AddDebuggerPlayerInput(PlayerInput debugPlayerInput)
+    {
+        LinkPlayerInput(debugPlayerInput);
     }
 
     protected override void Update()

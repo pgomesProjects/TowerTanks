@@ -75,6 +75,12 @@ public class MultiplayerManager : SerializedMonoBehaviour
         playerInput.onDeviceRegained += OnDeviceRegained;
 
         OnPlayerConnected?.Invoke(playerInput);
+
+        if(GameSettings.debugMode && playerIndex == 0)
+        {
+            GameObject.FindGameObjectWithTag("DebugPlayer")?.GetComponent<PlayerMovement>().AddDebuggerPlayerInput(playerInput);
+            FindObjectOfType<Debug_TankBuilder>()?.LinkPlayerInput(playerInput);
+        }
     }
 
     public void SetUIControlScheme()

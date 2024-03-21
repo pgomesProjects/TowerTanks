@@ -32,6 +32,7 @@ TagManager:
   - Scrap
   - CursorCanvas
   - SpawnPoint
+  - DebugPlayer
   layers:
   - Default
   - TransparentFX

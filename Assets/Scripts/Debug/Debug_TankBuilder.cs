@@ -27,10 +27,18 @@ public class Debug_TankBuilder : MonoBehaviour
     private PlayerHUD playerHUD;
     private float vel;
 
+    private PlayerControlSystem playerControlSystem;
+
+    private void Awake()
+    {
+        playerControlSystem = new PlayerControlSystem();
+        //playerControlSystem.Player.Cancel.performed += _ => OnRotate(_);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        if (playerInputComponent != null) LinkPlayerInput(playerInputComponent);
+        //if (playerInputComponent != null) LinkPlayerInput(playerInputComponent);
         tank = GameObject.Find("TreadSystem").GetComponent<Rigidbody2D>();
         if (tank != null)
         {
@@ -38,6 +46,16 @@ public class Debug_TankBuilder : MonoBehaviour
             treads = tank.gameObject.GetComponent<TreadSystem>();
             resetPoint = treads.transform;
         }
+    }
+
+    private void OnEnable()
+    {
+        playerControlSystem?.Enable();
+    }
+
+    private void OnDisable()
+    {
+        playerControlSystem?.Disable();
     }
 
     // Update is called once per frame
@@ -199,11 +217,11 @@ public class Debug_TankBuilder : MonoBehaviour
 
     public void OnRotate(InputAction.CallbackContext ctx) //Rotate the Room 90 deg
     {
-
         if (room != null)
         {
             if (ctx.performed)
             {
+                Debug.Log("Sex");
                 if (enableSounds) GameManager.Instance.AudioManager.Play("RotateRoom");
                 room.debugRotate = true;
             }
