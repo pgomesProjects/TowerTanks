@@ -22,7 +22,8 @@ public class TankId
         TankName = generator.GenerateRandomName();
 
         if (gameObject != null)
-        { 
+        {
+            tankScript = gameObject.GetComponent<TankController>();
             tankScript.TankName = TankName;
         }
     }

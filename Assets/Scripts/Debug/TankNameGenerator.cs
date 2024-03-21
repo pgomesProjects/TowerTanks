@@ -24,7 +24,17 @@ public class TankNameGenerator
         "Ardent",
         "Mammoth",
         "Greasy",
-        "Queen's"
+        "Queen's",
+        "Black",
+        "Silver",
+        "Rusty",
+        "Towering",
+        "Unstoppable",
+        "Killer",
+        "Violent",
+        "Mechanized",
+        "Inferno",
+        "Ultra",
     };
 
     public string[] nouns = {
@@ -48,6 +58,15 @@ public class TankNameGenerator
         "Corsair",
         "Jalopy",
         "Heap",
+        "Defender",
+        "Tower",
+        "Province",
+        "Dog",
+        "Mobile",
+        "Rustbucket",
+        "Bogey",
+        "Contraption",
+        "Gizmo"
     };
 
     public string GenerateRandomName()
