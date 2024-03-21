@@ -249,3 +249,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248c0f1be4a27d842bcc1f1bd95cedac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  commandMenuPrefab: {fileID: 6392016781606806869, guid: 4b4a0d0faaada4740ad702d31be53d00, type: 3}
