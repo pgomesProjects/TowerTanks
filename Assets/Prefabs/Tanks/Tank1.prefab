@@ -736,7 +736,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1677695872598849026}
   - component: {fileID: 1677695872598849027}
-  - component: {fileID: 5949879474703637688}
   m_Layer: 0
   m_Name: Tank1
   m_TagString: Untagged
@@ -773,19 +772,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23bec43f57e14ed43b60076d04799daa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TankName: 
   towerJointTarget: {fileID: 1677695871312723229}
---- !u!114 &5949879474703637688
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1677695872598849025}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c9f3ecbb77c031478ff8aae996dd1a4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1677695872621142252
 GameObject:
   m_ObjectHideFlags: 0
