@@ -49,13 +49,13 @@ public class RoomBuildingMenu : SerializedMonoBehaviour
     private void OnEnable()
     {
         GamePhaseUI.OnBuildingPhase += OpenMenu;
-        GamePhaseUI.OnCombatPhase += CloseMenu;
+        GamePhaseUI.OnCombatPhase += GoToCombatScene;
     }
 
     private void OnDisable()
     {
         GamePhaseUI.OnBuildingPhase -= OpenMenu;
-        GamePhaseUI.OnCombatPhase -= CloseMenu;
+        GamePhaseUI.OnCombatPhase -= GoToCombatScene;
     }
 
     public void OpenMenu()
@@ -68,7 +68,12 @@ public class RoomBuildingMenu : SerializedMonoBehaviour
     public void CloseMenu()
     {
         LeanTween.move(buildingMenuRectTransform, startingMenuPos, menuAniDuration).setEase(closeMenuEaseType);
-        LeanTween.move(buildingBackgroundRectTransform, startingBackgroundPos, backgroundAniDuration).setEase(hideBackgroundEaseType);
+        LeanTween.move(buildingBackgroundRectTransform, startingBackgroundPos, backgroundAniDuration).setEase(hideBackgroundEaseType).setOnComplete(() => StartBuilding());
+    }
+
+    public void GoToCombatScene()
+    {
+        GameManager.Instance.LoadScene("GameScene");
     }
 
     /// <summary>
@@ -108,14 +113,20 @@ public class RoomBuildingMenu : SerializedMonoBehaviour
         }
     }
 
+    private void StartBuilding()
+    {
+        foreach (PlayerData player in GameManager.Instance.MultiplayerManager.GetAllPlayers())
+            player.isBuilding = true;
+    }
+
     /// <summary>
     /// Gives all of the players rooms that they can move around.
     /// </summary>
     private void GivePlayersRooms()
     {
-        foreach(var room in roomSelections)
+        foreach (var room in roomSelections)
         {
-            BuildingManager.Instance.SpawnRoom(room.currentRoomID, room.currentPlayer.GetComponent<GamepadCursor>().GetCursorTransform());
+            BuildingManager.Instance.SpawnRoom(room.currentRoomID, room.currentPlayer);
         }
     }
 }

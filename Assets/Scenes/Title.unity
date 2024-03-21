@@ -4472,7 +4472,7 @@ MonoBehaviour:
   optionsMenuSelected: {fileID: 2674183664572493345}
   difficultySettingsMenuSelected: {fileID: 1257045553}
   skipTutorialMenuSelected: {fileID: 726812428}
-  sceneToLoad: GameScene
+  sceneToLoad: BuildTankScene
 --- !u!114 &1084138872
 MonoBehaviour:
   m_ObjectHideFlags: 0
