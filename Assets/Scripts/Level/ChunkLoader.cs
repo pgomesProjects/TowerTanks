@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using Sirenix.OdinInspector;
 
 public class ChunkLoader : MonoBehaviour
 {
@@ -25,16 +27,40 @@ public class ChunkLoader : MonoBehaviour
     [SerializeField, Tooltip("When spawning flat chunks, how many it should spawn in a row. Higher = higher stretches of flat terrain")] public int flatBias = 1;
     [SerializeField, Tooltip("When spawning sloped chunks, how many it should spawn in a row. Higher = bigger hills")] public int hillBias = 1;
     [SerializeField, Tooltip("When true, guarantees that the same bias can't happen twice in a row")] public bool strictBiases;
-    public int[] spawnerWeights;
+    private int[] spawnerWeights;
     private int currentBias = 0;
     private bool biasJustEnded = false;
+    private float chunkCounter = 0f;
+    private float previousY = 0f;
+    private int previousChunk = 0;
+
+    //Input
+    private PlayerInput playerInputComponent;
+    InputActionMap inputMap;
+
+    [PropertySpace]
+    [BoxGroup("Level Builder")]
+    [SerializeField, Tooltip("Allows the use of debug controls to create a custom level during runtime. Enables a helper Canvas UI. Disables procedural level spawning.")]
+    private bool enableLevelBuilder;
+    private bool alt = false;
+    public GameObject levelBuilderUI;
 
     private void Awake()
     {
-        SetupSpawner();
-
+        playerInputComponent = GetComponent<PlayerInput>();
+        if (playerInputComponent != null) LinkPlayerInput(playerInputComponent);
+       
         // Create and initialize the object pool
-        InitializeChunks(1);
+        if (!enableLevelBuilder)
+        {
+            SetupSpawner(); //determine spawner weights
+            InitializeChunks(1); //Spawn the level randomly
+            if (levelBuilderUI != null) levelBuilderUI.SetActive(false);
+        }
+        else
+        {
+            InitializeStarterChunk();
+        }
     }
 
     private void SetupSpawner()
@@ -58,20 +84,24 @@ public class ChunkLoader : MonoBehaviour
         }
     }
 
+    private void InitializeStarterChunk()
+    {
+        //Initialize starting chunk
+        startingChunk.InitializeChunk(Vector3.zero);
+        groundPool.Add(startingChunk);
+    }
     /// <summary>
     /// Creates an object pool of chunks, starting with the starting chunk, and then places them. If directions is 1, chunks will only spawn to the right.
     /// </summary>
     private void InitializeChunks(int directions)
     {
-        //Initialize starting chunk
-        startingChunk.InitializeChunk(Vector3.zero);
-        groundPool.Add(startingChunk);
+        InitializeStarterChunk();
 
         float direction = -1f;
         if (directions == 1) direction = 1f;
-        float chunkCounter = 0f;
-        float previousY = 0f;
-        int previousChunk = 0;
+        chunkCounter = 0f;
+        previousY = 0f;
+        previousChunk = 0;
 
         //Creates each chunk in the world
         for (int i = 1; i < poolSize; i++)
@@ -86,7 +116,7 @@ public class ChunkLoader : MonoBehaviour
                     chunkCounter++;
             }
 
-            ChunkData chunkData = InstantiateChunk(new Vector3(ChunkData.CHUNK_WIDTH * chunkCounter * direction, previousY, 0f), previousChunk);
+            ChunkData chunkData = InstantiateChunk(new Vector3(ChunkData.CHUNK_WIDTH * chunkCounter * direction, previousY, 0f), previousChunk, -1);
             groundPool.Add(chunkData);
             chunkData.chunkNumber = chunkCounter;
 
@@ -124,7 +154,7 @@ public class ChunkLoader : MonoBehaviour
                 for (int b = 0; b < currentBias; b++)
                 {
                     chunkCounter++;
-                    chunkData = InstantiateChunk(new Vector3(ChunkData.CHUNK_WIDTH * chunkCounter * direction, previousY, 0f), previousChunk);
+                    chunkData = InstantiateChunk(new Vector3(ChunkData.CHUNK_WIDTH * chunkCounter * direction, previousY, 0f), previousChunk, -1);
                     groundPool.Add(chunkData);
                     chunkData.chunkNumber = chunkCounter;
 
@@ -152,9 +182,9 @@ public class ChunkLoader : MonoBehaviour
     /// </summary>
     /// <param name="spawnPosition">The position for the chunk to spawn at.</param>
     /// <returns>The data of the newly spawned chunk.</returns>
-    private ChunkData InstantiateChunk(Vector3 spawnPosition, int previousChunk)
+    private ChunkData InstantiateChunk(Vector3 spawnPosition, int previousChunk, int chunk)
     {
-        int chunk = DetermineChunkType();
+        if (chunk == -1) chunk = DetermineChunkType();
         if (currentBias > 0) chunk = previousChunk;
 
         int newChunk = Random.Range(0, chunkPrefabs.Length);
@@ -219,6 +249,110 @@ public class ChunkLoader : MonoBehaviour
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(playerTank.position, RENDER_DISTANCE);
     }
+
+    #region LevelBuilder
+    [BoxGroup("Level Builder")]
+    [HorizontalGroup("Level Builder/Buttons")]
+    [VerticalGroup("Level Builder/Buttons/Column 1")]
+    [Button("Toggle")] public void ToggleLevelBuilder() 
+    {
+        if (enableLevelBuilder) enableLevelBuilder = false;
+        else enableLevelBuilder = true;
+        levelBuilderUI.SetActive(enableLevelBuilder);
+    }
+    [BoxGroup("Level Builder")]
+    [HorizontalGroup("Level Builder/Buttons")]
+    [VerticalGroup("Level Builder/Buttons/Column 2")]
+    [Button("Save")]
+    public void SaveLevel()
+    {
+        //Save the level layout to a scriptable object?
+    }
+
+    public void SpawnChunk(InputAction.CallbackContext ctx, int chunk)
+    {
+        if (ctx.started)
+        {
+            int direction = 1;
+            chunkCounter++;
+
+            if (chunk != 0 && alt) chunk += 1;
+
+            ChunkData chunkData = InstantiateChunk(new Vector3(ChunkData.CHUNK_WIDTH * chunkCounter * direction, previousY, 0f), previousChunk, chunk);
+            groundPool.Add(chunkData);
+            chunkData.chunkNumber = chunkCounter;
+
+            if (chunkData.yOffset != 0) previousY += chunkData.yOffset; //Offsets Y position for next chunk to follow
+
+            levelBuilderUI.transform.position = chunkData.transform.position;
+            Vector3 offsetPos = new Vector3(0, chunkData.yOffset, 0);
+            levelBuilderUI.transform.position += offsetPos;
+        }
+    }
+
+    public void SwapType(InputAction.CallbackContext ctx)
+    {
+        if (ctx.started)
+        {
+            if (alt) alt = false;
+            else if (!alt) alt = true;
+
+            foreach (Transform child in levelBuilderUI.transform)
+            {
+                Transform _child = child.Find("Visual");
+                if (_child != null) _child.Rotate(0, 180, 0);
+            }
+        }
+    }
+
+    public void DeletePreviousChunk(InputAction.CallbackContext ctx)
+    {
+        if (ctx.started)
+        {
+            int index = groundPool.Count - 1;
+            GameObject chunk = groundPool[index].gameObject;
+
+            if (index > 0)
+            {
+                chunkCounter -= 1;
+                groundPool.RemoveAt(index);
+                Destroy(chunk);
+
+                ChunkData chunkData = groundPool[index - 1];
+                previousY = chunkData.transform.position.y;
+
+                levelBuilderUI.transform.position = chunkData.transform.position;
+                Vector3 offsetPos = new Vector3(chunkData.transform.position.x, previousY + chunkData.yOffset, 0);
+                levelBuilderUI.transform.position = offsetPos;
+            }
+        }
+    }
+
+    #endregion
+
+    #region Input
+    public void LinkPlayerInput(PlayerInput newInput)
+    {
+        playerInputComponent = newInput;
+
+        //Gets the player input action map so that events can be subscribed to it
+        inputMap = playerInputComponent.actions.FindActionMap("Debug");
+        inputMap.actionTriggered += OnPlayerInput;
+    }
+
+    private void OnPlayerInput(InputAction.CallbackContext ctx)
+    {
+        //Gets the name of the action and calls the appropriate events
+        switch (ctx.action.name)
+        {
+            case "1": SpawnChunk(ctx, 0); break;
+            case "2": SpawnChunk(ctx, 1); break;
+            case "3": SpawnChunk(ctx, 3); break;
+            case "4": DeletePreviousChunk(ctx); break;
+            case "Cycle": SwapType(ctx); break;
+        }
+    }
+    #endregion
 }
 
 

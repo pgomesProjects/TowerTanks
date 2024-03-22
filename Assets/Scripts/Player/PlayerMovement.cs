@@ -56,7 +56,7 @@ public class PlayerMovement : Character
         if (isDebugPlayer)
         {
             PlayerInput debugInput = GameObject.Find("Debug_TankBuilder").GetComponent<PlayerInput>();
-            AddDebuggerPlayerInput(debugInput);
+            if (debugInput != null) AddDebuggerPlayerInput(debugInput);
         }
     }
 
@@ -143,12 +143,12 @@ public class PlayerMovement : Character
         if (ladder != null)
         {
             currentLadder = ladder;
-            Debug.Log("Ladder found");
+            //Debug.Log("Ladder found");
         }
         else
         {
             currentLadder = null;
-            Debug.Log("Ladder not found");
+            //Debug.Log("Ladder not found");
         }
         
         float force = transform.right.x * moveInput.x * moveSpeed; 

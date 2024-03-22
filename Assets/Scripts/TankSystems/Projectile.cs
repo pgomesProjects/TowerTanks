@@ -73,6 +73,7 @@ public class Projectile : MonoBehaviour
         Collider2D hit = Physics2D.OverlapCircle(position, radius, layerMask);
         if (hit != null) Hit(hit);
     }
+
     private void Hit(Collider2D target)
     {
         if (target != null && target.GetComponentInParent<Cell>() != null)
