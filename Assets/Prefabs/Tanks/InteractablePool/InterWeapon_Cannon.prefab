@@ -2256,7 +2256,7 @@ MonoBehaviour:
   pivot: {fileID: 917774235144409439}
   particleSpots:
   - {fileID: 680884392771065324}
-  muzzleVelocity: 0.2
+  muzzleVelocity: 0.25
   recoil: 90
   rotateSpeed: 20
   gimbalRange: 30

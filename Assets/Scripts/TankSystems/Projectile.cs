@@ -6,6 +6,7 @@ public class Projectile : MonoBehaviour
 {
     //Objects & Components:
     public LayerMask layerMask;
+    private Transform smokeTrail;
 
     //Settings:
     public float damage;  //Damage projectile will deal upon hitting a valid target
@@ -18,6 +19,11 @@ public class Projectile : MonoBehaviour
     private float timeAlive;
 
     //RUNTIME METHODS:
+    private void Awake()
+    {
+        smokeTrail = transform.Find("smokeTrail");
+    }
+
     private void Update()
     {
         velocity += gravity * Time.deltaTime * Vector2.down;
@@ -82,8 +88,16 @@ public class Projectile : MonoBehaviour
             GameManager.Instance.AudioManager.Play("ShellImpact", gameObject);
         }
 
+        //Effects
         GameManager.Instance.AudioManager.Play("ExplosionSFX", gameObject);
         GameManager.Instance.ParticleSpawner.SpawnParticle(Random.Range(0, 2), transform, 0.1f, null);
+
+        //Seperate smoketrail
+        smokeTrail.parent = null;
+        Lifetime lt = smokeTrail.gameObject.AddComponent<Lifetime>();
+        ParticleSystem ps = smokeTrail.gameObject.GetComponent<ParticleSystem>();
+        ps.Stop();
+        lt.lifeTime = 0.5f;
         Destroy(gameObject);
     }
 }

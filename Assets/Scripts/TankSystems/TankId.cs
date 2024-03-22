@@ -15,6 +15,7 @@ public class TankId
 
     //Components
     public GameObject gameObject;
+    public TankDesign design;
 
     public void GenerateName()
     {
@@ -41,10 +42,14 @@ public class TankId
         }
     }
     [VerticalGroup("Horizontal Buttons/Column 2")]
-    [Button("Repair")]
-    public void Repair()
+    [Button("Build"), Tooltip("Press during runtime to construct the tank based on the current design")]
+    public void Build()
     {
-
+        if (gameObject != null)
+        {
+            tankScript = gameObject.GetComponent<TankController>();
+            tankScript.Build(design);
+        }
     }
 
 }

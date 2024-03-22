@@ -97,4 +97,26 @@ public class TankController : MonoBehaviour
         if (immediate) DestroyImmediate(gameObject);
         else Destroy(gameObject);
     }
+
+    public void Build(TankDesign tankDesign) //Called from TankManager when constructing a specific design
+    {
+        for (int i = 0; i < tankDesign.buildingSteps.Length; i++) //Loop through all the steps in the design
+        {
+            //Get variables of the step
+            Room room = Instantiate(tankDesign.buildingSteps[i].room.GetComponent<Room>(), towerJoint, false);
+            Room.RoomType type = tankDesign.buildingSteps[i].roomType;
+            Vector3 spawnVector = tankDesign.buildingSteps[i].localSpawnVector;
+            int rotate = tankDesign.buildingSteps[i].rotate;
+
+            //Execute the step
+            room.UpdateRoomType(type);
+            room.transform.position += spawnVector;
+            for (int r = 0; r < rotate + 4; r++)
+            {
+                room.Rotate(); 
+                room.UpdateRoomType(type);
+            }
+            room.Mount();
+        }
+    }
 }
