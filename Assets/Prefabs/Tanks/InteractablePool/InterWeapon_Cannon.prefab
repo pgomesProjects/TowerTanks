@@ -2257,7 +2257,7 @@ MonoBehaviour:
   particleSpots:
   - {fileID: 680884392771065324}
   muzzleVelocity: 0.25
-  recoil: 90
+  recoil: 10
   rotateSpeed: 20
   gimbalRange: 30
   fire: 0

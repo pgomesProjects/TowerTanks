@@ -4,85 +4,38 @@ using UnityEngine;
 
 public class TankNameGenerator
 {
-    public string[] adjectives = {
-        "Jolly",
-        "Massive",
-        "Gorgon",
-        "Dangerous",
-        "Fiery",
-        "Super",
-        "Supreme",
-        "Strapping",
-        "Bellowing",
-        "Fierce",
-        "Perfect",
-        "Power",
-        "Destructive",
-        "Scrappy",
-        "Patchwork",
-        "Octane",
-        "Ardent",
-        "Mammoth",
-        "Greasy",
-        "Queen's",
-        "Black",
-        "Silver",
-        "Rusty",
-        "Towering",
-        "Unstoppable",
-        "Killer",
-        "Violent",
-        "Mechanized",
-        "Inferno",
-        "Ultra",
-    };
-
-    public string[] nouns = {
-        "Roger",
-        "Machine",
-        "Guzzler",
-        "Demon",
-        "Frontier",
-        "Striker",
-        "Shooter",
-        "Fellow",
-        "Bulger",
-        "Flanker",
-        "Beast",
-        "Rigger",
-        "Dodger",
-        "Boi",
-        "Tankard",
-        "Vessel",
-        "Revenge",
-        "Corsair",
-        "Jalopy",
-        "Heap",
-        "Defender",
-        "Tower",
-        "Province",
-        "Dog",
-        "Mobile",
-        "Rustbucket",
-        "Bogey",
-        "Contraption",
-        "Gizmo"
-    };
+    TankNames names = Resources.Load<TankNames>("TankNames/TestNames");
 
     public string GenerateRandomName()
     {
         string name = "The ";
 
-        int random = Random.Range(0, adjectives.Length);
+        string adjective = GetRandomAdjective();
 
-        name += adjectives[random];
+        name += adjective;
 
         name += " ";
 
-        random = Random.Range(0, nouns.Length);
+        string noun = GetRandomNoun();
 
-        name += nouns[random];
+        name += noun;
 
         return name;
+    }
+
+    public string GetRandomAdjective()
+    {
+        int random = Random.Range(0, names.adjectives.Length);
+        string adjective = names.adjectives[random];
+
+        return adjective;
+    }
+
+    public string GetRandomNoun()
+    {
+        int random = Random.Range(0, names.nouns.Length);
+        string noun = names.nouns[random];
+
+        return noun;
     }
 }

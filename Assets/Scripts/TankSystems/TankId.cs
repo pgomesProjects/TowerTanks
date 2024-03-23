@@ -16,6 +16,7 @@ public class TankId
     //Components
     public GameObject gameObject;
     public TankDesign design;
+    [SerializeField, Tooltip("If true, builds the current design on this tank when the game starts")] public bool buildOnStart;
 
     public void GenerateName()
     {
@@ -26,6 +27,7 @@ public class TankId
         {
             tankScript = gameObject.GetComponent<TankController>();
             tankScript.TankName = TankName;
+            gameObject.name = TankName;
         }
     }
 

@@ -53,6 +53,25 @@ public class TankController : MonoBehaviour
         }
         treadSystem.ReCalculateMass(); //Get center of mass based on room setup
     }
+    private void Start()
+    {
+        var tankMan = GameObject.Find("TankManager").GetComponent<TankManager>();
+
+        if (tankMan != null)
+        {
+            foreach (TankId tank in tankMan.tanks)
+            {
+                if (tank.gameObject == gameObject) //if I'm on the list,
+                {
+                    if (tank.buildOnStart)
+                    {
+                        Build(tank.design);
+                    }
+                }
+            }
+        }
+    }
+
     private void Update()
     {
         //Tread system updates:
