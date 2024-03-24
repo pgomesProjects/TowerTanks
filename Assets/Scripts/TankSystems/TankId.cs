@@ -21,7 +21,9 @@ public class TankId
     public void GenerateName()
     {
         var generator = new TankNameGenerator();
-        TankName = generator.GenerateRandomName();
+        TankNames nameType = null;
+        if (tankType == TankType.ENEMY) nameType = Resources.Load<TankNames>("TankNames/PirateNames");
+        TankName = generator.GenerateRandomName(nameType);
 
         if (gameObject != null)
         {

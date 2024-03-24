@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class TankNameGenerator
 {
-    TankNames names = Resources.Load<TankNames>("TankNames/TestNames");
+    TankNames names;
 
-    public string GenerateRandomName()
+    public string GenerateRandomName(TankNames nameType = null)
     {
+        names = nameType;
+        if (names == null) names = Resources.Load<TankNames>("TankNames/TestNames");
+
         string name = "The ";
 
         string adjective = GetRandomAdjective();

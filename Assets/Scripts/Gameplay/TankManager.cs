@@ -17,7 +17,9 @@ public class TankManager : SerializedMonoBehaviour
     {
         TankId newtank = new TankId();
         newtank.tankType = TankId.TankType.ENEMY;
-        newtank.TankName = new TankNameGenerator().GenerateRandomName();
+
+        TankNames nameType = Resources.Load<TankNames>("TankNames/PirateNames");
+        newtank.TankName = new TankNameGenerator().GenerateRandomName(nameType);
         newtank.gameObject = Instantiate(tankPrefab, tankSpawnPoint, false);
         newtank.gameObject.name = newtank.TankName;
 
