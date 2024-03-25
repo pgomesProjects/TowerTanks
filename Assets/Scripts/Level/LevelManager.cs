@@ -22,6 +22,7 @@ public class LevelManager : SerializedMonoBehaviour
     [SerializeField, Tooltip("The parent that holds all of the player HUD objects.")] private RectTransform playerHUDParentTransform;
     [SerializeField, Tooltip("The value of a singular scrap piece.")] private int scrapValue;
     [SerializeField, Tooltip("The level event data that dictates how the level must be run.")] private LevelEvents currentLevelEvent;
+    [SerializeField, Tooltip("The component that tracks the objective information.")] private ObjectiveTracker objectiveTracker;
 
     public static LevelManager Instance;
 
@@ -44,6 +45,7 @@ public class LevelManager : SerializedMonoBehaviour
     private Dictionary<string, int> itemPrice;
 
     //Events
+    public static Action<LevelEvents> OnMissionStart;
     public static Action<int, bool> OnResourcesUpdated;
     public static Action OnCombatEnded;
     public static Action<int> OnGamePaused;
@@ -56,6 +58,12 @@ public class LevelManager : SerializedMonoBehaviour
     private void TestAddResources()
     {
         UpdateResources(resourcesToAdd);
+    }
+
+    [Button("Complete Mission")]
+    private void AutoCompleteMission()
+    {
+        CompleteMission();
     }
 
     public int resourcesToAdd = 100;
@@ -113,17 +121,20 @@ public class LevelManager : SerializedMonoBehaviour
             totalScrapValue = 99999;
 
         OnResourcesUpdated?.Invoke(totalScrapValue, false);
+        OnMissionStart?.Invoke(currentLevelEvent);
         isSettingUpOnStart = false;
     }
 
     private void OnEnable()
     {
         GameManager.Instance.MultiplayerManager.OnPlayerConnected += SpawnPlayer;
+        ObjectiveTracker.OnMissionComplete += CompleteMission;
     }
 
     private void OnDisable()
     {
         GameManager.Instance.MultiplayerManager.OnPlayerConnected -= SpawnPlayer;
+        ObjectiveTracker.OnMissionComplete -= CompleteMission;
     }
 
     private void SpawnAllPlayers()
@@ -465,6 +476,11 @@ public class LevelManager : SerializedMonoBehaviour
         GameManager.Instance.AudioManager.Play("DeathStinger");
 
         OnGameOver?.Invoke();
+    }
+
+    private void CompleteMission()
+    {
+        GameManager.Instance.LoadScene("BuildTankScene", LevelTransition.LevelTransitionType.GATE, true, true, false);
     }
 
     public int GetScrapValue() => scrapValue;
