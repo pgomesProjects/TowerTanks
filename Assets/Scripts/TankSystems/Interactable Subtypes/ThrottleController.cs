@@ -31,8 +31,8 @@ public class ThrottleController : TankInteractable
         UpdateThrottle();
 
         //Debug 
-        if (shiftLeft) { shiftLeft = false; ChangeGear(-1); }
-        if (shiftRight) { shiftRight = false; ChangeGear(1); }
+        if (shiftLeft) { shiftLeft = false; UseThrottle(-1); }
+        if (shiftRight) { shiftRight = false; UseThrottle(1); }
 
         currentSpeed = -gear;
     }

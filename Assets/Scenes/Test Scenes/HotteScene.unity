@@ -3280,17 +3280,7 @@ MonoBehaviour:
     tankType: 1
     gameObject: {fileID: 1970602905}
     design: {fileID: 11400000, guid: 5cb1541cee8843440b9858293deca6c4, type: 2}
-    buildOnStart: 0
-  - TankName: The Rusty Dodger
-    tankType: 1
-    gameObject: {fileID: 0}
-    design: {fileID: 0}
-    buildOnStart: 0
-  - TankName: The Perfect Demon
-    tankType: 1
-    gameObject: {fileID: 0}
-    design: {fileID: 0}
-    buildOnStart: 0
+    buildOnStart: 1
 --- !u!1 &515206412
 GameObject:
   m_ObjectHideFlags: 0
@@ -16598,6 +16588,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TankName: The Jolly Boi
   towerJointTarget: {fileID: 1183828659}
+  coreHealth: 500
+  shiftRight: 0
+  shiftLeft: 0
 --- !u!4 &1970602907
 Transform:
   m_ObjectHideFlags: 0

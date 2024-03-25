@@ -143,10 +143,13 @@ public class Cell : MonoBehaviour
     /// <summary>
     /// Deals given amount of damage to the cell.
     /// </summary>
-    public void Damage()
+    public void Damage(float amount)
     {
-        //TEMP
-        Kill();
+        if (room.isCore)
+        {
+            room.targetTank.Damage(amount);
+        }
+        else Kill(); 
     }
     /// <summary>
     /// Checks to see if this cell has been disconnected from the tank and then kills it if it has been.

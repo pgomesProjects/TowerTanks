@@ -84,7 +84,7 @@ public class Projectile : MonoBehaviour
     {
         if (target != null && target.GetComponentInParent<Cell>() != null)
         {
-            target.GetComponentInParent<Cell>().Damage();
+            target.GetComponentInParent<Cell>().Damage(75);
             GameManager.Instance.AudioManager.Play("ShellImpact", gameObject);
         }
 

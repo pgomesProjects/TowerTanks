@@ -14,10 +14,15 @@ public class TankController : MonoBehaviour
     [Tooltip("Transform containing all tank rooms, point around which tower tilts.")]           private Transform towerJoint;
     [SerializeField, Tooltip("Target transform in tread system which tower joint locks onto.")] private Transform towerJointTarget;
 
+    //Important Variables
+    [SerializeField] public float coreHealth = 500;
+
     private TextMeshProUGUI nameText;
 
     //Runtime Variables:
-
+    [Header("Debug")] 
+    public bool shiftRight;
+    public bool shiftLeft;
 
     //RUNTIME METHODS:
     private void Awake()
@@ -78,6 +83,10 @@ public class TankController : MonoBehaviour
         towerJoint.position = towerJointTarget.position; //Move tower joint to target position
         towerJoint.rotation = towerJointTarget.rotation; //Move tower joint to target rotation
 
+        //Debug 
+        if (shiftLeft) { shiftLeft = false; ChangeAllGear(-1); }
+        if (shiftRight) { shiftRight = false; ChangeAllGear(1); }
+
         //Update name
         nameText.text = TankName;
     }
@@ -108,6 +117,15 @@ public class TankController : MonoBehaviour
                     gameObject.name = "Tank (" + TankName + ")";
                 }
             }
+        }
+    }
+
+    public void Damage(float amount)
+    {
+        coreHealth -= amount;
+        if (coreHealth <= 0)
+        {
+            BlowUp(false);
         }
     }
 
