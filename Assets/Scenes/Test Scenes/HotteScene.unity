@@ -11075,13 +11075,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groundParentTransform: {fileID: 975085553}
   startingChunk: {fileID: 421784667}
+  playerTank: {fileID: 1018531887}
   chunkPrefabs:
   - {fileID: 9005999142902347037, guid: 55a2de1c12df41647b2333975b669960, type: 3}
   - {fileID: 9005999142902347037, guid: e5efa2eaaa2c9eb449f27c8317f2d22f, type: 3}
   - {fileID: 9005999142902347037, guid: 06ff124588cc7374a9bf4d92d5686616, type: 3}
   - {fileID: 9005999142902347037, guid: cbcc0b334ac2a38448a05834a3b2ed26, type: 3}
   - {fileID: 9005999142902347037, guid: bc42ca57f9535f64390f84bb12911e54, type: 3}
-  playerTank: {fileID: 1018531887}
+  presets:
+  - {fileID: 5300777585851316023, guid: a34f31d338c6af749aaf23139a313968, type: 3}
+  - {fileID: 5300777585851316023, guid: 3f9b55df25ebdc9499bee15e1254821f, type: 3}
   poolSize: 50
   RENDER_DISTANCE: 1000
   flatness: 10
@@ -11090,6 +11093,7 @@ MonoBehaviour:
   flatBias: 0
   hillBias: 0
   strictBiases: 0
+  presetness: 3
   enableLevelBuilder: 0
   levelBuilderUI: {fileID: 1659328985}
 --- !u!4 &1388751039

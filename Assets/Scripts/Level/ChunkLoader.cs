@@ -9,7 +9,7 @@ public class ChunkLoader : MonoBehaviour
     [Header("Objects")]
     [SerializeField, Tooltip("The parent to keep all ground pieces in when spawned.")] private Transform groundParentTransform;
     [SerializeField, Tooltip("The chunk that the level starts with.")] private ChunkData startingChunk;
-    [SerializeField, Tooltip("The chunk prefabs to use for spawning new chunks.")] private ChunkData[] chunkPrefabs;
+    
 
     public Transform playerTank;
 
@@ -17,6 +17,8 @@ public class ChunkLoader : MonoBehaviour
     private List<ChunkData> groundPool = new List<ChunkData>();
 
     [Header("Chunk Pool")]
+    [SerializeField, Tooltip("The chunk prefabs to use for spawning new chunks.")] private ChunkData[] chunkPrefabs;
+    [SerializeField, Tooltip("The preset prefabs to use for spawning new preset chunk groups.")] private GameObject[] presets;
     [SerializeField, Tooltip("How many chunks to spawn in the level.")] public int poolSize = 50;
     [SerializeField, Tooltip("How far away from the tank a chunk is allowed to render from.")] public float RENDER_DISTANCE = 100f;
 
@@ -27,7 +29,8 @@ public class ChunkLoader : MonoBehaviour
     [SerializeField, Tooltip("When spawning flat chunks, how many it should spawn in a row. Higher = higher stretches of flat terrain")] public int flatBias = 1;
     [SerializeField, Tooltip("When spawning sloped chunks, how many it should spawn in a row. Higher = bigger hills")] public int hillBias = 1;
     [SerializeField, Tooltip("When true, guarantees that the same bias can't happen twice in a row")] public bool strictBiases;
-    private int[] spawnerWeights;
+    [SerializeField, Tooltip("Weight of spawning preset chunk groups from the preset list when determining a chunk to spawn")] public int presetness = 1;
+    private string[] spawnerWeights;
     private int currentBias = 0;
     private bool biasJustEnded = false;
     private float chunkCounter = 0f;
@@ -66,20 +69,25 @@ public class ChunkLoader : MonoBehaviour
     private void SetupSpawner()
     {
         int count = 0;
-        spawnerWeights = new int[flatness + hillyness + rampyness]; //0-29
+        spawnerWeights = new string[flatness + hillyness + rampyness + presetness]; //sets up total weight values
         for (int i = 0; i < flatness; i++) //add flat weights
         {
-            spawnerWeights[count] = 0;
+            spawnerWeights[count] = "FLAT";
             count++;
         }
-        for (int i = 0; i < hillyness; i++) //add flat weights
+        for (int i = 0; i < hillyness; i++) //add slope weights
         {
-            spawnerWeights[count] = 1;
+            spawnerWeights[count] = "SLOPE";
             count++;
         }
-        for (int i = 0; i < rampyness; i++) //add flat weights
+        for (int i = 0; i < rampyness; i++) //add ramp weights
         {
-            spawnerWeights[count] = 2;
+            spawnerWeights[count] = "RAMP";
+            count++;
+        }
+        for (int i = 0; i < presetness; i++) //add preset weights
+        {
+            spawnerWeights[count] = "PRESET";
             count++;
         }
     }
@@ -116,11 +124,22 @@ public class ChunkLoader : MonoBehaviour
                     chunkCounter++;
             }
 
-            ChunkData chunkData = InstantiateChunk(new Vector3(ChunkData.CHUNK_WIDTH * chunkCounter * direction, previousY, 0f), previousChunk, -1);
-            groundPool.Add(chunkData);
-            chunkData.chunkNumber = chunkCounter;
+            ChunkData chunkData = null;
 
-            if (chunkData.yOffset != 0) previousY += chunkData.yOffset; //Offsets Y position for next chunk to follow
+            bool presetCheck = CheckForPreset();
+
+            if (presetCheck)
+            {
+                chunkData = SpawnPreset(true, new Vector3(ChunkData.CHUNK_WIDTH * chunkCounter * direction, previousY, 0f));
+            }
+            else
+            {
+                chunkData = InstantiateChunk(new Vector3(ChunkData.CHUNK_WIDTH * chunkCounter * direction, previousY, 0f), previousChunk, -1);
+                groundPool.Add(chunkData);
+                chunkData.chunkNumber = chunkCounter;
+            }
+
+            if (chunkData.yOffset != 0 && chunkData != null) previousY += chunkData.yOffset; //Offsets Y position for next chunk to follow
 
             //Biases
             if (chunkData.chunkType == ChunkData.ChunkType.FLAT)
@@ -211,11 +230,11 @@ public class ChunkLoader : MonoBehaviour
     private int DetermineChunkType()
     {
         int chunkToSpawn = 0;
-        int random = Random.Range(0, spawnerWeights.Length);
+        int random = Random.Range(0, spawnerWeights.Length - presetness);
 
-        if (spawnerWeights[random] == 0) chunkToSpawn = 0;                  //Flat
-        if (spawnerWeights[random] == 1) chunkToSpawn = Random.Range(1, 3); //Slope
-        if (spawnerWeights[random] == 2) chunkToSpawn = Random.Range(3, 5); //Ramp
+        if (spawnerWeights[random] == "FLAT") chunkToSpawn = 0;                  //Flat
+        if (spawnerWeights[random] == "SLOPE") chunkToSpawn = Random.Range(1, 3); //Slope
+        if (spawnerWeights[random] == "RAMP") chunkToSpawn = Random.Range(3, 5); //Ramp
 
         return chunkToSpawn;
 
@@ -237,6 +256,42 @@ public class ChunkLoader : MonoBehaviour
                 chunkData.UnloadChunk();
         }
     }
+
+    #region Presets
+    private bool CheckForPreset()
+    {
+        int random = Random.Range(0, spawnerWeights.Length);
+        if (spawnerWeights[random] == "PRESET") return true;
+        else return false;
+    }
+
+    private ChunkData SpawnPreset(bool randomized, Vector3 spawnPosition, int presetID = -1)
+    {
+        ChunkData lastChunk = null;
+
+        if (randomized) { presetID = Random.Range(0, presets.Length); } //Chooses a random preset
+
+        GameObject preset = Instantiate(presets[presetID], spawnPosition, presets[presetID].transform.rotation);
+        preset.transform.SetParent(groundParentTransform);
+        
+        foreach (Transform child in preset.transform)
+        {
+            if (child.name == "Chunk")
+            {
+                ChunkData chunkData = child.GetComponent<ChunkData>();
+                groundPool.Add(chunkData);
+                chunkData.chunkNumber = chunkCounter;
+                chunkData.InitializeChunk(chunkData.transform.localPosition);
+
+                chunkCounter++;
+
+                lastChunk = chunkData;
+            }
+        }
+        chunkCounter -= 1;
+        return lastChunk;
+    }
+    #endregion
 
     private void Update()
     {

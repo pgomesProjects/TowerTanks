@@ -6,7 +6,7 @@ public class ChunkData: MonoBehaviour
 {
     public float chunkNumber;
 
-    public enum ChunkType { FLAT, SLOPEUP, SLOPEDOWN, RAMPUP, RAMPDOWN};
+    public enum ChunkType { FLAT, SLOPEUP, SLOPEDOWN, RAMPUP, RAMPDOWN, PRESET};
     public ChunkType chunkType;
 
     public bool IsActive { get; private set; }
