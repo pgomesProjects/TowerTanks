@@ -14,8 +14,9 @@ public class ChunkWeight
     [InlineButton("AddTen", "+10")]
     [InlineButton("AddFive", "+5")]
     [InlineButton("AddOne", "+1")]
-    public int weight;
-    public bool isPreset;
+    [Tooltip("Weight of this chunk being chosen when rolling for a random chunk")] public int weight;
+    [Tooltip("When spawning this chunk, the spawner will spawn this many copies of it in a row")] public int bias;
+    [Tooltip("Spawner checks whether or not this is a multichunk preset group")] public bool isPreset;
 
     public void AddOne()
     {

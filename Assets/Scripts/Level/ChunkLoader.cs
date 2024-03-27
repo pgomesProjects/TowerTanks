@@ -10,7 +10,6 @@ public class ChunkLoader : MonoBehaviour
     [SerializeField, Tooltip("The parent to keep all ground pieces in when spawned.")] private Transform groundParentTransform;
     [SerializeField, Tooltip("The chunk that the level starts with.")] private ChunkData startingChunk;
     
-
     public Transform playerTank;
 
     // The object pool for the ground chunks
@@ -23,15 +22,13 @@ public class ChunkLoader : MonoBehaviour
     private int presetCount = 0;
 
     [Header("Procedural Variables")]
-    [SerializeField, Tooltip("When spawning flat chunks, how many it should spawn in a row. Higher = higher stretches of flat terrain")] public int flatBias = 1;
-    [SerializeField, Tooltip("When spawning sloped chunks, how many it should spawn in a row. Higher = bigger hills")] public int hillBias = 1;
-    [SerializeField, Tooltip("When true, guarantees that the same bias can't happen twice in a row")] public bool strictBiases;
+    [SerializeField, Tooltip("When false, the same bias can't happen twice in a row")] public bool biasesCanRepeat;
     private string[] spawnerWeights;
     private int currentBias = 0;
     private bool biasJustEnded = false;
     private float chunkCounter = 0f;
     private float previousY = 0f;
-    private int previousChunk = 0;
+    private GameObject previousChunk = null;
 
     //Input
     private PlayerInput playerInputComponent;
@@ -104,7 +101,6 @@ public class ChunkLoader : MonoBehaviour
         if (directions == 1) direction = 1f;
         chunkCounter = 0f;
         previousY = 0f;
-        previousChunk = 0;
 
         //Creates each chunk in the world
         for (int i = 1; i < poolSize; i++)
@@ -129,7 +125,7 @@ public class ChunkLoader : MonoBehaviour
             }
             else
             {
-                chunkData = InstantiateChunk(new Vector3(ChunkData.CHUNK_WIDTH * chunkCounter * direction, previousY, 0f), previousChunk);
+                chunkData = InstantiateChunk(new Vector3(ChunkData.CHUNK_WIDTH * chunkCounter * direction, previousY, 0f));
                 groundPool.Add(chunkData);
                 chunkData.chunkNumber = chunkCounter;
             }
@@ -137,41 +133,22 @@ public class ChunkLoader : MonoBehaviour
             if (chunkData.yOffset != 0 && chunkData != null) previousY += chunkData.yOffset; //Offsets Y position for next chunk to follow
 
             //Biases
-            if (chunkData.chunkType == ChunkData.ChunkType.FLAT)
-            {
-                previousChunk = 0;
-                if (flatBias > 0 && currentBias == 0) { currentBias = flatBias; }
-            }
-            else if (chunkData.chunkType == ChunkData.ChunkType.SLOPEUP)
-            {
-                previousChunk = 1;
-                if (hillBias > 0 && currentBias == 0) { currentBias = hillBias; }
-            }
-            else if (chunkData.chunkType == ChunkData.ChunkType.SLOPEDOWN)
-            {
-                previousChunk = 2;
-                if (hillBias > 0 && currentBias == 0) { currentBias = hillBias; }
-            }
-            else if (chunkData.chunkType == ChunkData.ChunkType.RAMPUP)
-            {
-                previousChunk = 3;
-                //if (hillBias > 0 && currentBias == 0) { currentBias = hillBias; }
-            }
-            else if (chunkData.chunkType == ChunkData.ChunkType.RAMPDOWN)
-            {
-                previousChunk = 4;
-                //if (hillBias > 0 && currentBias == 0) { currentBias = hillBias; }
-            }
-
             if (currentBias > 0) //spawn additional chunks if there's a bias in place
             {
                 for (int b = 0; b < currentBias; b++)
                 {
-                    chunkCounter++;
-                    chunkData = InstantiateChunk(new Vector3(ChunkData.CHUNK_WIDTH * chunkCounter * direction, previousY, 0f), previousChunk);
-                    groundPool.Add(chunkData);
-                    chunkData.chunkNumber = chunkCounter;
-
+                    if (previousChunk.GetComponent<ChunkData>() != null) //it's a normal chunk
+                    {
+                        chunkCounter++;
+                        chunkData = InstantiateChunk(new Vector3(ChunkData.CHUNK_WIDTH * chunkCounter * direction, previousY, 0f), previousChunk);
+                        groundPool.Add(chunkData);
+                        chunkData.chunkNumber = chunkCounter;
+                    }
+                    else
+                    {
+                        chunkCounter++;
+                        chunkData = SpawnPreset(false, new Vector3(ChunkData.CHUNK_WIDTH * chunkCounter * direction, previousY, 0f), previousChunk);
+                    }
                     if (chunkData.yOffset != 0) previousY += chunkData.yOffset;
                 }
                 biasJustEnded = true;
@@ -196,26 +173,48 @@ public class ChunkLoader : MonoBehaviour
     /// </summary>
     /// <param name="spawnPosition">The position for the chunk to spawn at.</param>
     /// <returns>The data of the newly spawned chunk.</returns>
-    private ChunkData InstantiateChunk(Vector3 spawnPosition, int previousChunk, GameObject chunk = null)
+    private ChunkData InstantiateChunk(Vector3 spawnPosition, GameObject chunk = null)
     {
         if (chunk == null) chunk = DetermineChunkType(); //gets a random chunk
-        /*if (currentBias > 0) chunk = previousChunk;
 
-        int newChunk = Random.Range(0, chunkPrefabs.Length);
-        if (biasJustEnded && strictBiases) //guarentees the next chunk will be different than the previous
+        int _chunkCount = 0;
+        foreach (ChunkWeight weight in chunkPrefabs) //determines if there's more than 1 non-preset chunk available
         {
-            while (newChunk == previousChunk)
+            if (weight.isPreset == false) _chunkCount += 1;
+        }
+
+        if (biasJustEnded && !biasesCanRepeat && _chunkCount > 1) //guarentees the next chunk will be different than the previous
+        {
+            while (chunk == previousChunk)
             {
-                newChunk = Random.Range(0, chunkPrefabs.Length);
+                int _presetCount = 0;
+                foreach(ChunkWeight weight in chunkPrefabs)
+                {
+                    if (weight.isPreset) _presetCount += 1;
+                }
+                int random = Random.Range(0, chunkPrefabs.Length - _presetCount);
+                chunk = chunkPrefabs[random].chunkPrefab;
             }
-            chunk = newChunk;
             biasJustEnded = false;
-        }*/
+        }
         
         GameObject _newChunkTransform = Instantiate(chunk, spawnPosition, chunk.transform.rotation);
         ChunkData newChunkTransform = _newChunkTransform.GetComponent<ChunkData>();
         newChunkTransform.transform.SetParent(groundParentTransform);
         newChunkTransform.InitializeChunk(spawnPosition);
+        previousChunk = chunk;
+
+        //Check for bias
+        foreach(ChunkWeight weight in chunkPrefabs)
+        {
+            if (weight.bias > 0 && (weight.chunkPrefab == previousChunk))
+            {
+                if (currentBias == 0)
+                {
+                    currentBias = weight.bias;
+                }
+            }
+        }
 
         return newChunkTransform;
     }
@@ -273,10 +272,9 @@ public class ChunkLoader : MonoBehaviour
         return false;
     }
 
-    private ChunkData SpawnPreset(bool randomized, Vector3 spawnPosition)
+    private ChunkData SpawnPreset(bool randomized, Vector3 spawnPosition, GameObject preset = null)
     {
         ChunkData lastChunk = null; //chunkdata to return so that the spawner knows where to spawn the next chunk
-        GameObject preset = null; //preset we're gonna spawn
 
         if (randomized) //Chooses a random preset of the possible presets in the spawner
         {
@@ -304,10 +302,27 @@ public class ChunkLoader : MonoBehaviour
             preset = presets[random];
         }
 
-        GameObject _preset = Instantiate(preset, spawnPosition, preset.transform.rotation);
+        int _presetCount = 0;
+        foreach (ChunkWeight weight in chunkPrefabs)
+        {
+            if (weight.isPreset && weight.weight > 0) _presetCount += 1;
+        }
+
+        if (biasJustEnded && !biasesCanRepeat && _presetCount > 1) //guarentees the next chunk will be different than the previous
+        {
+            while (preset == previousChunk)
+            {
+                int random = Random.Range(chunkPrefabs.Length - _presetCount, chunkPrefabs.Length);
+                preset = chunkPrefabs[random].chunkPrefab;
+            }
+            biasJustEnded = false;
+        }
+
+        GameObject _preset = Instantiate(preset, spawnPosition, preset.transform.rotation); //spawn the preset
         _preset.transform.SetParent(groundParentTransform);
+        previousChunk = preset;
         
-        foreach (Transform child in _preset.transform)
+        foreach (Transform child in _preset.transform) //initialize all the child chunks in the preset
         {
             if (child.name == "Chunk")
             {
@@ -322,6 +337,18 @@ public class ChunkLoader : MonoBehaviour
             }
         }
         chunkCounter -= 1;
+
+        //Check for bias
+        foreach (ChunkWeight weight in chunkPrefabs)
+        {
+            if (weight.bias > 0 && (weight.chunkPrefab == previousChunk))
+            {
+                if (currentBias == 0)
+                {
+                    currentBias = weight.bias;
+                }
+            }
+        }
         return lastChunk;
     }
     #endregion
