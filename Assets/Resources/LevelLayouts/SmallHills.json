@@ -1,0 +1,33 @@
+{
+    "chunks": [
+        "TestChunkFLAT",
+        "TestChunkFLAT",
+        "TestChunkFLAT",
+        "TestChunkFLAT",
+        "TestChunkFLAT",
+        "TestChunkSlopeUP",
+        "TestChunkSlopeUP",
+        "TestChunkSlopeUP",
+        "TestChunkSlopeUP",
+        "TestChunkSlopeDOWN",
+        "TestChunkSlopeDOWN",
+        "TestChunkSlopeDOWN",
+        "TestChunkSlopeDOWN",
+        "MetalRampUP",
+        "MetalRampUP",
+        "MetalRampUP",
+        "MetalRampDOWN",
+        "MetalRampDOWN",
+        "TestChunkSlopeUP",
+        "TestChunkSlopeUP",
+        "TestChunkSlopeUP",
+        "TestChunkSlopeDOWN",
+        "TestChunkSlopeDOWN",
+        "TestChunkFLAT",
+        "TestChunkFLAT",
+        "TestChunkFLAT",
+        "TestChunkFLAT",
+        "TestChunkFLAT",
+        "TestChunkFLAT"
+    ]
+}

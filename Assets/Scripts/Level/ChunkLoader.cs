@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using System.IO;
 using UnityEngine.InputSystem;
 using Sirenix.OdinInspector;
 
@@ -371,20 +372,128 @@ public class ChunkLoader : MonoBehaviour
     [BoxGroup("Level Builder")]
     [HorizontalGroup("Level Builder/Buttons")]
     [VerticalGroup("Level Builder/Buttons/Column 1")]
-    [Button("Toggle")] public void ToggleLevelBuilder() 
+    [Button("Toggle"), Tooltip("Toggles the level builder & associated UI")] public void ToggleLevelBuilder() 
     {
         if (enableLevelBuilder) enableLevelBuilder = false;
         else enableLevelBuilder = true;
         levelBuilderUI.SetActive(enableLevelBuilder);
     }
+
     [BoxGroup("Level Builder")]
     [HorizontalGroup("Level Builder/Buttons")]
     [VerticalGroup("Level Builder/Buttons/Column 2")]
-    [Button("Save")]
+    [Button("Save"), Tooltip("Saves the current level as a new layout")]
     public void SaveLevel()
     {
-        LevelLayout level = new LevelLayout();
-        AssetDatabase.CreateAsset(level, "Assets/Resources/LevelLayouts/MyLevelLayout.asset");
+        LevelLayout layout = new LevelLayout(); //Setup new layout
+
+        int levelSize = 0;
+        foreach (Transform chunk in groundParentTransform) //Establish the size of the layout array of the new asset
+        {
+            levelSize++;
+        }
+        layout.chunks = new string[levelSize];
+
+        int counter = 0;
+        foreach (Transform chunk in groundParentTransform) //Assign chunks to the new layout array
+        {
+            string chunkName = chunk.name;
+            chunkName = chunkName.Replace("(Clone)", "");
+            layout.chunks[counter] = chunkName;
+            counter++;
+        }
+
+        string json = JsonUtility.ToJson(layout, true);
+
+        if (File.Exists("Assets/Resources/LevelLayouts/LevelLayoutFile.json")) { Debug.LogError("File exists. Overwriting Existing File."); }
+        File.WriteAllText("Assets/Resources/LevelLayouts/LevelLayoutFile.json", json);
+        AssetDatabase.Refresh();
+    }
+
+    [BoxGroup("Level Builder")]
+    [HorizontalGroup("Level Builder/Buttons")]
+    [VerticalGroup("Level Builder/Buttons/Column 2")]
+    [Button("Load"), Tooltip("Loads a level from the currently selected layout. If layout is null, loads a random layout.")]
+    public void LoadLevel()
+    {
+        string json = selectedLayout.text;
+        if (json != null)
+        {
+            LevelLayout layout = JsonUtility.FromJson<LevelLayout>(json);
+            //Debug.Log("" + layout.chunks[0] + ", " + layout.chunks[1] + "...");
+            InitializeChunksFromLayout(layout);
+        }
+    }
+
+    [Tooltip("Level layout to load")]
+    public TextAsset selectedLayout;
+
+    public void InitializeChunksFromLayout(LevelLayout layout)
+    {
+        float direction = 1f;
+        chunkCounter = 0f;
+        previousY = 0f;
+
+        int _poolSize = 0;
+        foreach(string chunk in layout.chunks) //Determine level size
+        {
+            foreach (ChunkWeight weight in chunkPrefabs) //presets add multiple chunks
+            {
+                if (weight.chunkPrefab.name == chunk)
+                {
+                    if (weight.isPreset)
+                    {
+                        foreach(Transform child in weight.chunkPrefab.transform)
+                        {
+                            _poolSize++;
+                        }
+                        _poolSize -= 1;
+                    }
+                }
+            }
+            _poolSize++;
+        }
+
+        //Creates each chunk in the world
+        foreach (string chunk in layout.chunks)
+        {
+            chunkCounter++;
+            ChunkData chunkData;
+            GameObject chunkToSpawn = null;
+            bool spawnPreset = false;
+            foreach(ChunkWeight weight in chunkPrefabs) //check to see if the chunk from the layout is in the current prefab palette
+            {
+                if (weight.chunkPrefab.name == chunk)
+                {
+                    chunkToSpawn = weight.chunkPrefab;
+                    if (weight.isPreset) spawnPreset = true;
+                }
+            }
+
+            if (spawnPreset)
+            {
+                chunkData = InstantiatePreset(false, new Vector3(ChunkData.CHUNK_WIDTH * chunkCounter * direction, previousY, 0f), chunkToSpawn);
+            }
+            else
+            {
+                chunkData = InstantiateChunk(new Vector3(ChunkData.CHUNK_WIDTH * chunkCounter * direction, previousY, 0f), chunkToSpawn);
+                groundPool.Add(chunkData);
+                chunkData.chunkNumber = chunkCounter;
+            }
+
+            if (chunkData.yOffset != 0 && chunkData != null) previousY += chunkData.yOffset; //Offsets Y position for next chunk to follow
+
+            //Spawn a flag on the last chunk
+            if (chunkCounter == _poolSize)
+            {
+                chunkData.SpawnFlag(Color.red);
+            }
+
+            if (chunkCounter == Mathf.Round(_poolSize * 0.5f)) //Spawn a flag at the halfway mark
+            {
+                chunkData.SpawnFlag(Color.blue);
+            }
+        }
     }
 
     public void SpawnChunk(InputAction.CallbackContext ctx, int chunkID)
