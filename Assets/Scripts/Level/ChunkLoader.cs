@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 using UnityEngine.InputSystem;
 using Sirenix.OdinInspector;
 
@@ -121,7 +122,7 @@ public class ChunkLoader : MonoBehaviour
 
             if (presetCheck)
             {
-                chunkData = SpawnPreset(true, new Vector3(ChunkData.CHUNK_WIDTH * chunkCounter * direction, previousY, 0f));
+                chunkData = InstantiatePreset(true, new Vector3(ChunkData.CHUNK_WIDTH * chunkCounter * direction, previousY, 0f));
             }
             else
             {
@@ -147,7 +148,7 @@ public class ChunkLoader : MonoBehaviour
                     else
                     {
                         chunkCounter++;
-                        chunkData = SpawnPreset(false, new Vector3(ChunkData.CHUNK_WIDTH * chunkCounter * direction, previousY, 0f), previousChunk);
+                        chunkData = InstantiatePreset(false, new Vector3(ChunkData.CHUNK_WIDTH * chunkCounter * direction, previousY, 0f), previousChunk);
                     }
                     if (chunkData.yOffset != 0) previousY += chunkData.yOffset;
                 }
@@ -272,7 +273,7 @@ public class ChunkLoader : MonoBehaviour
         return false;
     }
 
-    private ChunkData SpawnPreset(bool randomized, Vector3 spawnPosition, GameObject preset = null)
+    private ChunkData InstantiatePreset(bool randomized, Vector3 spawnPosition, GameObject preset = null)
     {
         ChunkData lastChunk = null; //chunkdata to return so that the spawner knows where to spawn the next chunk
 
@@ -349,6 +350,7 @@ public class ChunkLoader : MonoBehaviour
                 }
             }
         }
+
         return lastChunk;
     }
     #endregion
@@ -381,27 +383,82 @@ public class ChunkLoader : MonoBehaviour
     [Button("Save")]
     public void SaveLevel()
     {
-        //Save the level layout to a scriptable object?
+        LevelLayout level = new LevelLayout();
+        AssetDatabase.CreateAsset(level, "Assets/Resources/LevelLayouts/MyLevelLayout.asset");
     }
 
-    public void SpawnChunk(InputAction.CallbackContext ctx, int chunk)
+    public void SpawnChunk(InputAction.CallbackContext ctx, int chunkID)
     {
         if (ctx.started)
         {
             int direction = 1;
             chunkCounter++;
 
-            if (chunk != 0 && alt) chunk += 1;
+            GameObject chunk = chunkPrefabs[chunkID].chunkPrefab;
+            if (chunk != null && alt && chunkID != 0)
+            {
+                if (chunkID == 1) chunk = chunkPrefabs[2].chunkPrefab;
+                if (chunkID == 3) chunk = chunkPrefabs[4].chunkPrefab;
+            }
 
-            ChunkData chunkData = InstantiateChunk(new Vector3(ChunkData.CHUNK_WIDTH * chunkCounter * direction, previousY, 0f), previousChunk); //last argument needs to be what gameobject you're spawning
-            groundPool.Add(chunkData);
-            chunkData.chunkNumber = chunkCounter;
+            if (chunk != null)
+            {
+                ChunkData chunkData = InstantiateChunk(new Vector3(ChunkData.CHUNK_WIDTH * chunkCounter * direction, previousY, 0f), chunk);
+                groundPool.Add(chunkData);
+                chunkData.chunkNumber = chunkCounter;
 
-            if (chunkData.yOffset != 0) previousY += chunkData.yOffset; //Offsets Y position for next chunk to follow
+                if (chunkData.yOffset != 0) previousY += chunkData.yOffset; //Offsets Y position for next chunk to follow
 
-            levelBuilderUI.transform.position = chunkData.transform.position;
-            Vector3 offsetPos = new Vector3(0, chunkData.yOffset, 0);
-            levelBuilderUI.transform.position += offsetPos;
+                //Updates the UI's position
+                levelBuilderUI.transform.position = chunkData.transform.position;
+                Vector3 offsetPos = new Vector3(0, chunkData.yOffset, 0);
+                levelBuilderUI.transform.position += offsetPos;
+            }
+        }
+    }
+
+    public void SpawnPreset(InputAction.CallbackContext ctx, int presetID)
+    {
+        if (ctx.started)
+        {
+            ChunkData lastChunk = null;
+            GameObject preset = null;
+            int direction = 1;
+
+            if (presetID < chunkPrefabs.Length)
+            {
+                preset = chunkPrefabs[presetID].chunkPrefab;
+            }
+
+            if (preset != null)
+            {
+                chunkCounter++;
+                GameObject _preset = Instantiate(preset, new Vector3(ChunkData.CHUNK_WIDTH * chunkCounter * direction, previousY, 0f), preset.transform.rotation); //spawn the preset
+                _preset.transform.SetParent(groundParentTransform);
+                previousChunk = preset;
+
+                foreach (Transform child in _preset.transform) //initialize all the child chunks in the preset
+                {
+                    if (child.name == "Chunk")
+                    {
+                        ChunkData chunkData = child.GetComponent<ChunkData>();
+                        groundPool.Add(chunkData);
+                        chunkData.chunkNumber = chunkCounter;
+                        chunkData.InitializeChunk(chunkData.transform.localPosition);
+
+                        chunkCounter++;
+
+                        lastChunk = chunkData;
+                    }
+                }
+                chunkCounter -= 1;
+                if (lastChunk.yOffset != 0) previousY += lastChunk.yOffset;
+
+                //Updates the UI's position
+                levelBuilderUI.transform.position = lastChunk.transform.position;
+                Vector3 offsetPos = new Vector3(0, lastChunk.yOffset, 0);
+                levelBuilderUI.transform.position += offsetPos;
+            }
         }
     }
 
@@ -436,9 +493,11 @@ public class ChunkLoader : MonoBehaviour
                 ChunkData chunkData = groundPool[index - 1];
                 previousY = chunkData.transform.position.y;
 
+                //Updates the Ui's position
                 levelBuilderUI.transform.position = chunkData.transform.position;
                 Vector3 offsetPos = new Vector3(chunkData.transform.position.x, previousY + chunkData.yOffset, 0);
                 levelBuilderUI.transform.position = offsetPos;
+                previousY = offsetPos.y;
             }
         }
     }
@@ -462,8 +521,15 @@ public class ChunkLoader : MonoBehaviour
         {
             case "1": SpawnChunk(ctx, 0); break;
             case "2": SpawnChunk(ctx, 1); break;
-            case "3": SpawnChunk(ctx, 3); break;
-            case "4": DeletePreviousChunk(ctx); break;
+            case "3": SpawnChunk(ctx, 2); break;
+            case "4": SpawnChunk(ctx, 3); break;
+            case "5": SpawnChunk(ctx, 4); break;
+            case "6": SpawnPreset(ctx, 5); break;
+            case "7": SpawnPreset(ctx, 6); break;
+            case "8": SpawnPreset(ctx, 7); break;
+            case "9": SpawnPreset(ctx, 8); break;
+            case "0": SpawnChunk(ctx, 9); break;
+            case "Cancel": DeletePreviousChunk(ctx); break;
             case "Cycle": SwapType(ctx); break;
         }
     }
