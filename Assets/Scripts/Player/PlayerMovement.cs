@@ -32,7 +32,7 @@ public class PlayerMovement : Character
     [SerializeField] private float cannonScrollSensitivity = 3f;
     public bool isSpinningJoystick = false;
     private float spinningDirection = 1; //1 = Clockwise, -1 = CounterClockwise
-    private float spinningForce = 0;
+    public float spinningForce = 0;
 
     //Joystick spin detection
     private Vector2 lastJoystickInput = Vector2.zero;

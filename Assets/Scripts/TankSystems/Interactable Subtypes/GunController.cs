@@ -51,11 +51,11 @@ public class GunController : TankInteractable
         //Other effects:
         int random = Random.Range(0, 2);
         GameManager.Instance.ParticleSpawner.SpawnParticle(random, particleSpots[0], 0.1f, null);
-        GameManager.Instance.AudioManager.Play("CannonFire");
-        GameManager.Instance.AudioManager.Play("CannonThunk"); //Play firing audioclips
+        GameManager.Instance.AudioManager.Play("CannonFire", gameObject);
+        GameManager.Instance.AudioManager.Play("CannonThunk", gameObject); //Play firing audioclips
     }
 
-    public void RotateBarrel(float force)
+    public void RotateBarrel(float force, bool withSound)
     {
         float speed = rotateSpeed * Time.deltaTime;
 
@@ -65,10 +65,13 @@ public class GunController : TankInteractable
         if (currentRotation.z < -gimbalRange) currentRotation = new Vector3(0, 0, -gimbalRange);
 
         //Play SFX
-        if (force != 0) 
+        if (withSound)
         {
-            if (!GameManager.Instance.AudioManager.IsPlaying("CannonRotate")) GameManager.Instance.AudioManager.Play("CannonRotate");
+            if (force != 0)
+            {
+                if (!GameManager.Instance.AudioManager.IsPlaying("CannonRotate", gameObject)) GameManager.Instance.AudioManager.Play("CannonRotate", gameObject);
+            }
+            else if (GameManager.Instance.AudioManager.IsPlaying("CannonRotate", gameObject)) GameManager.Instance.AudioManager.Stop("CannonRotate", gameObject);
         }
-        else if (GameManager.Instance.AudioManager.IsPlaying("CannonRotate")) GameManager.Instance.AudioManager.Stop("CannonRotate");
     }
 }

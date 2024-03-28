@@ -148,7 +148,7 @@ public class TankInteractable : MonoBehaviour
     {
         if (type == Room.RoomType.Weapons)
         {
-            if (gunScript != null && cooldown <= 0) gunScript.RotateBarrel(force);
+            if (gunScript != null && cooldown <= 0) gunScript.RotateBarrel(force, true);
         }
     }
 

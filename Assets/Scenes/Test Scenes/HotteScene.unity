@@ -1971,7 +1971,7 @@ PrefabInstance:
     - target: {fileID: 5332867684925448268, guid: 79f26049c394b4140bd0a93f14c225cd, type: 3}
       propertyPath: serializationData.Prefab
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 5332867684925448268, guid: 79f26049c394b4140bd0a93f14c225cd, type: 3}
     - target: {fileID: 5332867684925448270, guid: 79f26049c394b4140bd0a93f14c225cd, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -4232,12 +4232,12 @@ MonoBehaviour:
     tankType: 0
     gameObject: {fileID: 1411317892}
     design: {fileID: 4900000, guid: 185bb0b7c06c31646b32a53ea5d475ed, type: 3}
-    buildOnStart: 0
+    buildOnStart: 1
   - TankName: The Ruthless Rustbucket
     tankType: 1
     gameObject: {fileID: 2038614412}
     design: {fileID: 4900000, guid: 845f54f97cf655f45b5cddbdaafd716e, type: 3}
-    buildOnStart: 0
+    buildOnStart: 1
 --- !u!1 &515206412
 GameObject:
   m_ObjectHideFlags: 0
