@@ -125,9 +125,9 @@ public class Debug_TankBuilder : MonoBehaviour
             case "1": OnBuild(ctx); break;
             case "Move": OnMove(ctx); break;
             case "Look": OnLook(ctx); break;
-            case "3": OnRotate(ctx); break;
+            case "4": OnRotate(ctx); break;
             case "Cycle": OnCycle(ctx); break;
-            case "4": OnDeploy(ctx); break;
+            case "Cancel": OnDeploy(ctx); break;
         }
     }
 

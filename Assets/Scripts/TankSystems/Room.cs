@@ -43,6 +43,7 @@ public class Room : MonoBehaviour
     [SerializeField, Tooltip("If true, room type will be randomized upon spawn (IF spawn type is null).")] protected bool randomizeType = false; 
     [Header("Debug Moving:")]
     public bool debugRotate;
+    public int debugRotation = 0;
     public bool debugMoveUp;
     public bool debugMoveDown;
     public bool debugMoveLeft;
@@ -331,6 +332,10 @@ public class Room : MonoBehaviour
     /// </summary>
     public void Rotate(bool clockwise = true)
     {
+        //Used for detecting rotation in json files
+        debugRotation++;
+        if (debugRotation > 3) debugRotation = 0;
+
         //Validity checks:
         if (mounted) { Debug.LogError("Tried to rotate room while mounted!"); return; } //Do not allow mounted rooms to be rotated
 

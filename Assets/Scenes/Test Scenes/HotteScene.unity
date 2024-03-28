@@ -2226,7 +2226,7 @@ MonoBehaviour:
   - TankName: The Supreme Potato
     tankType: 0
     gameObject: {fileID: 1411317892}
-    design: {fileID: 11400000, guid: 778660c9c9a2a7542a813975b528bdb6, type: 2}
+    design: {fileID: 4900000, guid: 6b0e7f3eba8f300419ae8e0f21da1b96, type: 3}
     buildOnStart: 1
 --- !u!1 &515206412
 GameObject:

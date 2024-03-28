@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 using TMPro;
 
 public class TankController : MonoBehaviour
@@ -68,9 +69,15 @@ public class TankController : MonoBehaviour
             {
                 if (tank.gameObject == gameObject) //if I'm on the list,
                 {
-                    if (tank.buildOnStart)
+                    if (tank.buildOnStart && tank.design != null)
                     {
-                        Build(tank.design);
+                        string json = tank.design.text;
+                        if (json != null)
+                        {
+                            TankDesign _design = JsonUtility.FromJson<TankDesign>(json);
+                            //Debug.Log("" + layout.chunks[0] + ", " + layout.chunks[1] + "...");
+                            Build(_design);
+                        }
                     }
                 }
             }
@@ -140,20 +147,79 @@ public class TankController : MonoBehaviour
         for (int i = 0; i < tankDesign.buildingSteps.Length; i++) //Loop through all the steps in the design
         {
             //Get variables of the step
-            Room room = Instantiate(tankDesign.buildingSteps[i].room.GetComponent<Room>(), towerJoint, false);
+            GameObject room = null;
+            foreach(GameObject prefab in GameManager.Instance.roomList) //Find the prefab we want to spawn
+            {
+                if (prefab.name == tankDesign.buildingSteps[i].roomID)
+                {
+                    room = prefab;
+                }
+            }
+            Room roomScript = Instantiate(room.GetComponent<Room>(), towerJoint, false);
             Room.RoomType type = tankDesign.buildingSteps[i].roomType;
             Vector3 spawnVector = tankDesign.buildingSteps[i].localSpawnVector;
             int rotate = tankDesign.buildingSteps[i].rotate;
 
             //Execute the step
-            room.UpdateRoomType(type);
-            room.transform.position += spawnVector;
+            roomScript.UpdateRoomType(type);
+            roomScript.transform.position += spawnVector;
             for (int r = 0; r < rotate + 4; r++)
             {
-                room.Rotate(); 
-                room.UpdateRoomType(type);
+                roomScript.Rotate(); 
+                roomScript.UpdateRoomType(type);
             }
-            room.Mount();
+            roomScript.Mount();
         }
+    }
+
+    public TankDesign GetCurrentDesign()
+    {
+        TankDesign design = new TankDesign();
+
+        int roomCount = 0;
+        //Find out how many steps are needed for this design
+        foreach(Transform room in towerJoint)
+        {
+            Room roomScript = room.GetComponent<Room>();
+            if (roomScript != null && roomScript.isCore == false)
+            {
+                roomCount++;
+            }
+        }
+
+        if (roomCount > 0) design.buildingSteps = new BuildStep[roomCount]; //Set up the instructions
+        else
+        {
+            Debug.LogError("You're trying to create a blank design. Place some rooms first.");
+            return null;
+        }
+
+        for (int i = 0; i < design.buildingSteps.Length; i++)
+        {
+            design.buildingSteps[i] = new BuildStep(); //Initialize steps
+        }
+
+        roomCount = 0;
+        //Fill out instructions with details
+        foreach(Transform room in towerJoint)
+        {
+            Room roomScript = room.GetComponent<Room>();
+            if (roomScript != null && roomScript.isCore == false)
+            {
+                string roomID = room.name.Replace("(Clone)", "");
+                design.buildingSteps[roomCount].roomID = roomID; //Name of the room's prefab
+                design.buildingSteps[roomCount].roomType = roomScript.type; //The room's current type
+                design.buildingSteps[roomCount].localSpawnVector = room.transform.localPosition; //The room's local position relative to the tank
+                design.buildingSteps[roomCount].rotate = roomScript.debugRotation; //How many times the room has been rotated before being placed
+                //TODO:
+                //Where the interactable slot is located?
+                //Cell damage values?
+                //Which cells are in tact?
+                roomCount++;
+            }
+        }
+
+        design.TankName = TankName; //Name the design after the current tank
+        return design;
     }
 }

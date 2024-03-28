@@ -1,6 +1,8 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 using Sirenix.OdinInspector;
 
 [System.Serializable]
@@ -15,7 +17,8 @@ public class TankId
 
     //Components
     public GameObject gameObject;
-    public TankDesign design;
+    [Tooltip("Level layout to load")]
+    public TextAsset design;
     [SerializeField, Tooltip("If true, builds the current design on this tank when the game starts")] public bool buildOnStart;
 
     public void GenerateName()
@@ -51,8 +54,35 @@ public class TankId
     {
         if (gameObject != null)
         {
+            string json = design.text;
+            if (json != null)
+            {
+                TankDesign _design = JsonUtility.FromJson<TankDesign>(json);
+                //Debug.Log("" + layout.chunks[0] + ", " + layout.chunks[1] + "...");
+                tankScript = gameObject.GetComponent<TankController>();
+                tankScript.Build(_design);
+            }
+        }
+    }
+    [VerticalGroup("Horizontal Buttons/Column 2")]
+    [Button("Save"), Tooltip("Saves the current tank as a new tank design")]
+    public void SaveDesign()
+    {
+        if (gameObject != null)
+        {
+            //Get the current design
             tankScript = gameObject.GetComponent<TankController>();
-            tankScript.Build(design);
+            TankDesign design = tankScript.GetCurrentDesign();
+            if (design != null) //Debug.Log("I got a design called " + design.TankName + "." + " It's first room is " + design.buildingSteps[0].roomID);
+            {
+                //Convert it into a json
+                string json = JsonUtility.ToJson(design, true);
+                string path = "Assets/Resources/TankDesigns/" + design.TankName + ".json";
+
+                if (File.Exists(path)) { Debug.LogError("File exists. Overwriting Existing File."); }
+                File.WriteAllText(path, json);
+                AssetDatabase.Refresh();
+            }
         }
     }
 

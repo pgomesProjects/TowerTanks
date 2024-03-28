@@ -35,9 +35,4 @@ public class TankManager : SerializedMonoBehaviour
     {
         tankSpawnPoint.position += new Vector3(15, 0, 0);
     }
-
-    public void ConstructTank(Transform parentTank)
-    {
-
-    }
 }

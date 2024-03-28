@@ -1,0 +1,85 @@
+{
+    "TankName": "The Mechanized Bulger",
+    "buildingSteps": [
+        {
+            "roomID": "Room_Line4C",
+            "roomType": 5,
+            "localSpawnVector": {
+                "x": 0.0,
+                "y": 4.75,
+                "z": 0.0
+            },
+            "rotate": 1
+        },
+        {
+            "roomID": "Room_Line2A",
+            "roomType": 3,
+            "localSpawnVector": {
+                "x": 2.25,
+                "y": 2.5,
+                "z": 0.0
+            },
+            "rotate": 3
+        },
+        {
+            "roomID": "Room_Elbow4A",
+            "roomType": 4,
+            "localSpawnVector": {
+                "x": 3.5,
+                "y": 1.25,
+                "z": 0.0
+            },
+            "rotate": 2
+        },
+        {
+            "roomID": "Room_Block4A",
+            "roomType": 2,
+            "localSpawnVector": {
+                "x": -1.75,
+                "y": 1.75,
+                "z": 0.0
+            },
+            "rotate": 0
+        },
+        {
+            "roomID": "Room_Z4B",
+            "roomType": 4,
+            "localSpawnVector": {
+                "x": 2.5,
+                "y": 4.75,
+                "z": 0.0
+            },
+            "rotate": 1
+        },
+        {
+            "roomID": "Room_Elbow4A_Flipped",
+            "roomType": 3,
+            "localSpawnVector": {
+                "x": 1.25,
+                "y": 6.0,
+                "z": 0.0
+            },
+            "rotate": 0
+        },
+        {
+            "roomID": "Room_Elbow4B_Flipped",
+            "roomType": 1,
+            "localSpawnVector": {
+                "x": -2.25,
+                "y": 6.0,
+                "z": 0.0
+            },
+            "rotate": 0
+        },
+        {
+            "roomID": "Room_Line2A",
+            "roomType": 2,
+            "localSpawnVector": {
+                "x": -2.25,
+                "y": 3.5,
+                "z": 0.0
+            },
+            "rotate": 1
+        }
+    ]
+}
