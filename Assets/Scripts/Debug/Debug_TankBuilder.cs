@@ -128,6 +128,7 @@ public class Debug_TankBuilder : MonoBehaviour
             case "4": OnRotate(ctx); break;
             case "Cycle": OnCycle(ctx); break;
             case "Cancel": OnDeploy(ctx); break;
+            case "Flip": OnFlip(ctx); break;
         }
     }
 
@@ -244,6 +245,15 @@ public class Debug_TankBuilder : MonoBehaviour
         }
         isDeployed = true;
         if (room != null) Destroy(room.gameObject);
+    }
+
+    public void OnFlip(InputAction.CallbackContext ctx)
+    {
+        if (ctx.started && room != null)
+        {
+            room.FlipAll();
+            if (enableSounds) GameManager.Instance.AudioManager.Play("RotateRoom");
+        }
     }
 
     public void OnPause(InputAction.CallbackContext ctx) //Reset Tank

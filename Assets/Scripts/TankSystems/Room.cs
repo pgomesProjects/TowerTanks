@@ -48,6 +48,7 @@ public class Room : MonoBehaviour
     public bool debugMoveDown;
     public bool debugMoveLeft;
     public bool debugMoveRight;
+    public bool flipOnStart;
     [Space()]
     public bool debugMount;
     [Space()]
@@ -72,6 +73,7 @@ public class Room : MonoBehaviour
         if (debugMoveLeft) { debugMoveLeft = false; SnapMoveTick(Vector2.left); UpdateRoomType(type); }
         if (debugMoveRight) { debugMoveRight = false; SnapMoveTick(Vector2.right); UpdateRoomType(type); }
         if (debugMount) { debugMount = false; Mount(); }
+        if (flipOnStart) { flipOnStart = false; FlipAll(); }
     }
 
     //FUNCTIONALITY METHODS:
@@ -486,5 +488,14 @@ public class Room : MonoBehaviour
             if (cell != null && cell.hasInteractableSlot) return cell;
         }
         return cell;
+    }
+
+    public void FlipAll()
+    {
+        TankInteractable[] interactables = GetComponentsInChildren<TankInteractable>();
+        foreach(TankInteractable interactable in interactables)
+        {
+            interactable.Flip();
+        }
     }
 }

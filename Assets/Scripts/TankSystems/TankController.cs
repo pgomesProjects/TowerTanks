@@ -186,6 +186,7 @@ public class TankController : MonoBehaviour
             //Execute the step
             roomScript.UpdateRoomType(type);
             roomScript.transform.position += spawnVector;
+            if (tankDesign.buildingSteps[i].direction != 1) roomScript.flipOnStart = true;
             for (int r = 0; r < rotate + 4; r++)
             {
                 roomScript.Rotate(); 
@@ -238,6 +239,7 @@ public class TankController : MonoBehaviour
                 design.buildingSteps[roomCount].cellWithSlot = roomScript.GetCellWithInteractable().gameObject.name; //Name of the cell in this room with an interactable slot
                 string interID = roomScript.GetCellWithInteractable().installedInteractable.gameObject.name.Replace("(Clone)", "");
                 design.buildingSteps[roomCount].interactable = interID; //Name of the interactable in the cell
+                design.buildingSteps[roomCount].direction = roomScript.GetCellWithInteractable().installedInteractable.direction; //direction the interactable is facing
                 //TODO:
                 //Is this an enemy or player design?
                 //Cell damage values?

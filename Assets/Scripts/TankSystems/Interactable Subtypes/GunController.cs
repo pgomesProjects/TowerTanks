@@ -28,6 +28,7 @@ public class GunController : TankInteractable
     {
         //Debug settings:
         if (fire) { fire = false; Fire(); }
+        
         pivot.localEulerAngles = currentRotation;
     }
 
@@ -58,7 +59,7 @@ public class GunController : TankInteractable
     {
         float speed = rotateSpeed * Time.deltaTime;
 
-        currentRotation += new Vector3(0, 0, force * speed);
+        currentRotation += new Vector3(0, 0, force * speed * direction);
 
         if (currentRotation.z > gimbalRange) currentRotation = new Vector3(0, 0, gimbalRange);
         if (currentRotation.z < -gimbalRange) currentRotation = new Vector3(0, 0, -gimbalRange);

@@ -4231,12 +4231,12 @@ MonoBehaviour:
   - TankName: The Supreme Potato
     tankType: 0
     gameObject: {fileID: 1411317892}
-    design: {fileID: 4900000, guid: 0ae7f54292a46314da4951bdac3723a3, type: 3}
+    design: {fileID: 4900000, guid: 185bb0b7c06c31646b32a53ea5d475ed, type: 3}
     buildOnStart: 0
   - TankName: The Ruthless Rustbucket
     tankType: 1
     gameObject: {fileID: 2038614412}
-    design: {fileID: 4900000, guid: 0ae7f54292a46314da4951bdac3723a3, type: 3}
+    design: {fileID: 4900000, guid: 845f54f97cf655f45b5cddbdaafd716e, type: 3}
     buildOnStart: 0
 --- !u!1 &515206412
 GameObject:
@@ -17129,6 +17129,7 @@ MonoBehaviour:
   debugMoveDown: 0
   debugMoveLeft: 0
   debugMoveRight: 0
+  flipOnStart: 0
   debugMount: 0
   type: 0
 --- !u!1 &1952923012

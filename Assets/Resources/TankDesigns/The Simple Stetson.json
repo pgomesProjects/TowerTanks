@@ -1,29 +1,29 @@
 {
-    "TankName": "The Supreme Potato",
+    "TankName": "The Simple Stetson",
     "buildingSteps": [
         {
-            "roomID": "Room_Elbow4A",
+            "roomID": "Room_Elbow4A_Flipped",
             "roomType": 4,
             "localSpawnVector": {
-                "x": 3.5,
-                "y": 1.25,
-                "z": 0.0
-            },
-            "rotate": 2,
-            "cellWithSlot": "Cell_1",
-            "interactable": "InteractableTemplate",
-            "direction": 1.0
-        },
-        {
-            "roomID": "Room_Elbow4B",
-            "roomType": 2,
-            "localSpawnVector": {
-                "x": -2.25,
+                "x": -3.5,
                 "y": 1.25,
                 "z": 0.0
             },
             "rotate": 0,
-            "cellWithSlot": "Cell_2",
+            "cellWithSlot": "Cell_0",
+            "interactable": "InteractableTemplate",
+            "direction": 1.0
+        },
+        {
+            "roomID": "Room_Elbow4A_Flipped",
+            "roomType": 2,
+            "localSpawnVector": {
+                "x": 2.25,
+                "y": 1.25,
+                "z": 0.0
+            },
+            "rotate": 2,
+            "cellWithSlot": "Cell_0",
             "interactable": "InterEngineer_Boiler",
             "direction": 1.0
         },
@@ -31,39 +31,39 @@
             "roomID": "Room_Tee4C_Flipped",
             "roomType": 3,
             "localSpawnVector": {
-                "x": 0.0,
+                "x": -0.25,
                 "y": 2.5,
                 "z": 0.0
             },
             "rotate": 0,
             "cellWithSlot": "Cell_0",
             "interactable": "InterWeapon_Cannon",
-            "direction": 1.0
+            "direction": -1.0
         },
         {
             "roomID": "Room_Line2A",
-            "roomType": 3,
+            "roomType": 4,
             "localSpawnVector": {
-                "x": 3.5,
+                "x": -3.5,
                 "y": 2.5,
                 "z": 0.0
             },
-            "rotate": 3,
-            "cellWithSlot": "Cell_1",
-            "interactable": "InterWeapon_Cannon",
+            "rotate": 1,
+            "cellWithSlot": "Cell_0",
+            "interactable": "InteractableTemplate",
             "direction": 1.0
         },
         {
-            "roomID": "Room_Line4A",
-            "roomType": 5,
+            "roomID": "Room_Tee4B",
+            "roomType": 2,
             "localSpawnVector": {
-                "x": -3.5,
-                "y": 3.25,
+                "x": 3.5,
+                "y": 1.25,
                 "z": 0.0
             },
             "rotate": 1,
-            "cellWithSlot": "Cell_1",
-            "interactable": "InterLogistics_Refuel",
+            "cellWithSlot": "Cell_0",
+            "interactable": "InterEngineer_Boiler",
             "direction": 1.0
         }
     ]

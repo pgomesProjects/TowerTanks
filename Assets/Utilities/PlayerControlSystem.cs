@@ -1939,6 +1939,15 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Flip"",
+                    ""type"": ""Button"",
+                    ""id"": ""1a8c1cfd-0198-443d-b089-0aae59b8c32d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -2645,6 +2654,28 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""action"": ""Cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0170e96f-3295-4ed9-9ff7-f81cf7a1a921"",
+                    ""path"": ""<Gamepad>/leftStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Flip"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""67bbe2f2-2a10-4cfc-815a-3e5477a51881"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Flip"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -2770,6 +2801,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         m_Debug__9 = m_Debug.FindAction("9", throwIfNotFound: true);
         m_Debug__0 = m_Debug.FindAction("0", throwIfNotFound: true);
         m_Debug_Cycle = m_Debug.FindAction("Cycle", throwIfNotFound: true);
+        m_Debug_Flip = m_Debug.FindAction("Flip", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -3129,6 +3161,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
     private readonly InputAction m_Debug__9;
     private readonly InputAction m_Debug__0;
     private readonly InputAction m_Debug_Cycle;
+    private readonly InputAction m_Debug_Flip;
     public struct DebugActions
     {
         private @PlayerControlSystem m_Wrapper;
@@ -3151,6 +3184,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         public InputAction @_9 => m_Wrapper.m_Debug__9;
         public InputAction @_0 => m_Wrapper.m_Debug__0;
         public InputAction @Cycle => m_Wrapper.m_Debug_Cycle;
+        public InputAction @Flip => m_Wrapper.m_Debug_Flip;
         public InputActionMap Get() { return m_Wrapper.m_Debug; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -3214,6 +3248,9 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @Cycle.started -= m_Wrapper.m_DebugActionsCallbackInterface.OnCycle;
                 @Cycle.performed -= m_Wrapper.m_DebugActionsCallbackInterface.OnCycle;
                 @Cycle.canceled -= m_Wrapper.m_DebugActionsCallbackInterface.OnCycle;
+                @Flip.started -= m_Wrapper.m_DebugActionsCallbackInterface.OnFlip;
+                @Flip.performed -= m_Wrapper.m_DebugActionsCallbackInterface.OnFlip;
+                @Flip.canceled -= m_Wrapper.m_DebugActionsCallbackInterface.OnFlip;
             }
             m_Wrapper.m_DebugActionsCallbackInterface = instance;
             if (instance != null)
@@ -3272,6 +3309,9 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @Cycle.started += instance.OnCycle;
                 @Cycle.performed += instance.OnCycle;
                 @Cycle.canceled += instance.OnCycle;
+                @Flip.started += instance.OnFlip;
+                @Flip.performed += instance.OnFlip;
+                @Flip.canceled += instance.OnFlip;
             }
         }
     }
@@ -3376,5 +3416,6 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         void On_9(InputAction.CallbackContext context);
         void On_0(InputAction.CallbackContext context);
         void OnCycle(InputAction.CallbackContext context);
+        void OnFlip(InputAction.CallbackContext context);
     }
 }

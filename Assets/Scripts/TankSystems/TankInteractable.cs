@@ -26,7 +26,10 @@ public class TankInteractable : MonoBehaviour
     [Tooltip("True if interactable is a ghost and is currently unuseable.")] internal bool ghosted;
     [Tooltip("True if a user is currently operating this system")]           public bool hasOperator;
     [Tooltip("User currently interacting with this system.")]                internal PlayerMovement operatorID;
+    [Tooltip("Direction this interactable is facing. (1 = right; -1 = left)")] public float direction = 1;
 
+    //Debug
+    public bool flip = false;
     private float introBuffer = 0.2f; //small window when a new operator enters the interactable where they can't use it
     private float cooldown;
 
@@ -70,6 +73,8 @@ public class TankInteractable : MonoBehaviour
         {
             cooldown -= Time.deltaTime;
         }
+
+        if (flip) { flip = false; Flip(); }
     }
 
     public void LockIn(GameObject playerID) //Called from InteractableZone.cs when a user locks in to the interactable
@@ -209,6 +214,20 @@ public class TankInteractable : MonoBehaviour
             parentCell.ghostInteractable = null;     //Clear ghost interactable slot
             parentCell.installedInteractable = this; //Make this parent's installed interactable
             parentCell.room.interactables.Add(this); //Add reference to parent room
+        }
+    }
+
+    public void Flip()
+    {
+        if (direction == 1)
+        {
+            transform.Rotate(new Vector3(0, 180, 0));
+            direction = -1;
+        }
+        else
+        {
+            transform.Rotate(new Vector3(0, -180, 0));
+            direction = 1;
         }
     }
 }

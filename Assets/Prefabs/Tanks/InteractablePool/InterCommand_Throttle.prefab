@@ -437,11 +437,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b22175ab1bb0f634ca1410ea14d13669, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  seat: {fileID: 0}
   type: 1
   hasOperator: 0
+  direction: 1
+  flip: 0
   particleSpots: []
   pivot: {fileID: 7149395123773397907}
   speedSettings: 2
+  currentSpeed: 0
   shiftRight: 0
   shiftLeft: 0
 --- !u!1 &7431721311491376393
