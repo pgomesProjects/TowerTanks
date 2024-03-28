@@ -156,9 +156,32 @@ public class TankController : MonoBehaviour
                 }
             }
             Room roomScript = Instantiate(room.GetComponent<Room>(), towerJoint, false);
+            roomScript.randomizeType = false;
             Room.RoomType type = tankDesign.buildingSteps[i].roomType;
             Vector3 spawnVector = tankDesign.buildingSteps[i].localSpawnVector;
             int rotate = tankDesign.buildingSteps[i].rotate;
+
+            //Add any needed interactables
+            Cell cell;
+            Transform cells = roomScript.transform.Find("Cells");
+            foreach (Transform child in cells)
+            {
+                cell = child.GetComponent<Cell>();
+                if (cell != null)
+                {
+                    if (cell.gameObject.name == tankDesign.buildingSteps[i].cellWithSlot) //Find matching cell
+                    {
+                        cell.DesignateInteractableSlot();
+                        foreach(GameObject interactable in GameManager.Instance.interactableList)
+                        {
+                            if (interactable.name == tankDesign.buildingSteps[i].interactable) //Find matching interactable
+                            {
+                                cell.startingInteractable = interactable;
+                            }
+                        }
+                    }
+                }
+            }
 
             //Execute the step
             roomScript.UpdateRoomType(type);
@@ -211,10 +234,15 @@ public class TankController : MonoBehaviour
                 design.buildingSteps[roomCount].roomType = roomScript.type; //The room's current type
                 design.buildingSteps[roomCount].localSpawnVector = room.transform.localPosition; //The room's local position relative to the tank
                 design.buildingSteps[roomCount].rotate = roomScript.debugRotation; //How many times the room has been rotated before being placed
+
+                design.buildingSteps[roomCount].cellWithSlot = roomScript.GetCellWithInteractable().gameObject.name; //Name of the cell in this room with an interactable slot
+                string interID = roomScript.GetCellWithInteractable().installedInteractable.gameObject.name.Replace("(Clone)", "");
+                design.buildingSteps[roomCount].interactable = interID; //Name of the interactable in the cell
                 //TODO:
-                //Where the interactable slot is located?
+                //Is this an enemy or player design?
                 //Cell damage values?
                 //Which cells are in tact?
+                //Where cargo is located in the tank?
                 roomCount++;
             }
         }

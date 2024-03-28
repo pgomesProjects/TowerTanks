@@ -71,6 +71,11 @@ MonoBehaviour:
     - {fileID: 855465098922572524, guid: a7d47268a060f9a4bb31ea7be64a5f82, type: 3}
     - {fileID: 855465098922572524, guid: c8a9a63fd9b16424dbb035d7907024ea, type: 3}
     - {fileID: 855465098922572524, guid: 1ff5ecd312e82094f93416dd7a78e87b, type: 3}
+    - {fileID: 7281501281902775960, guid: 2e51fe5fceaee5e41916aae7949336c8, type: 3}
+    - {fileID: 917774235452588900, guid: 34b0c3d4656ef5045ac437235b33d2f3, type: 3}
+    - {fileID: 8306713773444683921, guid: 81dde3955239f28438ad5263ed2c4a16, type: 3}
+    - {fileID: 7281501281902775960, guid: 4b503e72c2ea1f74a90e1375e08df7b7, type: 3}
+    - {fileID: 7281501281902775960, guid: ba2bd2897f49b9843a470260d31727ad, type: 3}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -139,6 +144,33 @@ MonoBehaviour:
     - Name: 
       Entry: 10
       Data: 18
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: interactableList
+      Entry: 7
+      Data: 1|UnityEngine.GameObject[], UnityEngine.CoreModule
+    - Name: 
+      Entry: 12
+      Data: 5
+    - Name: 
+      Entry: 10
+      Data: 19
+    - Name: 
+      Entry: 10
+      Data: 20
+    - Name: 
+      Entry: 10
+      Data: 21
+    - Name: 
+      Entry: 10
+      Data: 22
+    - Name: 
+      Entry: 10
+      Data: 23
     - Name: 
       Entry: 13
       Data: 

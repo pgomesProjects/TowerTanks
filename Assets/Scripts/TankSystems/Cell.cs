@@ -43,7 +43,7 @@ public class Cell : MonoBehaviour
 
     //Runtime Variables:
     [Tooltip("Which section this cell is in inside its parent room.")]                              internal int section;
-    [Tooltip("If true, this cell will be populated with an interactable when its room is placed.")] internal bool hasInteractableSlot = false;
+    [SerializeField, Tooltip("If true, this cell will be populated with an interactable when its room is placed.")] internal bool hasInteractableSlot = false;
     [Tooltip("Ghosted interactable prepared to be installed in this cell.")]                        internal TankInteractable ghostInteractable;
     [Tooltip("Interactable currently installed in this cell.")]                                     internal TankInteractable installedInteractable;
     [Tooltip("True if cell destruction has already been scheduled, used to prevent conflicts.")]    private bool dying;

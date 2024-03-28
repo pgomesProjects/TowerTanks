@@ -40,7 +40,7 @@ public class Room : MonoBehaviour
     //Settings:
     [Header("Template Settings:")]
     [Tooltip("Indicates whether or not this is the tank's indestructible core room.")]                     public bool isCore = false;
-    [SerializeField, Tooltip("If true, room type will be randomized upon spawn (IF spawn type is null).")] protected bool randomizeType = false; 
+    [SerializeField, Tooltip("If true, room type will be randomized upon spawn (IF spawn type is null).")] public bool randomizeType = false; 
     [Header("Debug Moving:")]
     public bool debugRotate;
     public int debugRotation = 0;
@@ -90,21 +90,7 @@ public class Room : MonoBehaviour
         roomData = Resources.Load<RoomData>("RoomData");         //Get roomData object from resources folder
         targetTank = GetComponentInParent<TankController>();     //Get tank controller from current parent (only applicable if room spawns with tank)
 
-        //Designate interactable slots:
-        if (!isCore) //Core room does not get a random interactable slot
-        {
-            bool startsWithInteractables = false; //Initialize marker to indicate whether or not a random slot should be designated
-            foreach (Cell cell in cells) { if (cell.startingInteractable != null) { startsWithInteractables = true; break; } } //Check if room has any starting interactables
-            if (!startsWithInteractables) //Cell does not have any pre-set interactables
-            {
-                cells[Random.Range(0, cells.Count)].DesignateInteractableSlot(); //Pick one random cell to contain the room's interactable
-            }
-        }
-        else //This is a core room
-        {
-            //Core room setup:
-            mounted = true; //Core rooms start mounted
-        }
+        //old spot for interactable slot code
 
         //Set up child components:
         foreach (Connector connector in connectorParent.GetComponentsInChildren<Connector>()) connector.Initialize(); //Initialize all connectors before setting up cells
@@ -151,6 +137,26 @@ public class Room : MonoBehaviour
             UpdateRoomType((RoomType)Random.Range(1, 6)); //Give room a random type and update immediately
         }
     }
+
+    public void Start()
+    {
+        //Designate interactable slots:
+        if (!isCore) //Core room does not get a random interactable slot
+        {
+            bool startsWithInteractables = false; //Initialize marker to indicate whether or not a random slot should be designated
+            foreach (Cell cell in cells) { if (cell.startingInteractable != null) { startsWithInteractables = true; break; } } //Check if room has any starting interactables
+            if (!startsWithInteractables) //Cell does not have any pre-set interactables
+            {
+                cells[Random.Range(0, cells.Count)].DesignateInteractableSlot(); //Pick one random cell to contain the room's interactable
+            }
+        }
+        else //This is a core room
+        {
+            //Core room setup:
+            mounted = true; //Core rooms start mounted
+        }
+    }
+
     /// <summary>
     /// Moves the cell one tick (0.25 units) in given direction.
     /// </summary>
@@ -468,5 +474,17 @@ public class Room : MonoBehaviour
         if (interactable.type != RoomType.Null && interactable.type != cell.room.type) return false; //Non-null interactables cannot be placed in rooms which do not match their type
         //MORE TO COME HERE
         return true; //Indicate interactable can be placed if it passes all tests
+    }
+
+    public Cell GetCellWithInteractable() //Called from TankController when evaluating rooms for TankDesign layouts
+    {
+        Cell cell = null;
+        Transform cells = transform.Find("Cells");
+        foreach(Transform child in cells)
+        {
+            cell = child.GetComponent<Cell>();
+            if (cell != null && cell.hasInteractableSlot) return cell;
+        }
+        return cell;
     }
 }

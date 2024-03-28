@@ -15,6 +15,7 @@ public class GameManager : SerializedMonoBehaviour
     public ParticleSpawner ParticleSpawner { get; private set; }
 
     [SerializeField, Tooltip("The list of possible rooms for the players to pick.")] public GameObject[] roomList { get; private set; }
+    [SerializeField, Tooltip("The list of possible interactables for the players to pick.")] public GameObject[] interactableList { get; private set; }
 
     [SerializeField, Tooltip("The time for levels to fade in.")] private float fadeInTime = 1f;
     [SerializeField, Tooltip("The time for levels to fade out.")] private float fadeOutTime = 0.5f;
