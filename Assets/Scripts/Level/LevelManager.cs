@@ -460,8 +460,10 @@ public class LevelManager : SerializedMonoBehaviour
         }
     }
 
-    private void GameOver()
+    public void GameOver()
     {
+        levelPhase = GAMESTATE.GAMEOVER;
+
         //Stop all of the in-game sounds
         GameManager.Instance.AudioManager.StopAllSounds();
 

@@ -238,6 +238,7 @@ public class PlayerMovement : Character
         switch (ctx.action.name)
         {
             case "Move": OnMove(ctx); break;
+            case "Pause": OnPause(ctx); break;
             case "Jetpack": OnJetpack(ctx);  break;
             case "Control Steering": OnControlSteering(ctx); break;
             case "Interact": OnInteract(ctx); break;
@@ -252,6 +253,7 @@ public class PlayerMovement : Character
         switch (ctx.action.name)
         {
             case "Move": OnMove(ctx); break;
+            case "Pause": OnPause(ctx); break;
             case "1": OnJetpack(ctx); break;
             case "Control Steering": OnControlSteering(ctx); break;
             case "2": OnInteract(ctx); break;
@@ -267,6 +269,21 @@ public class PlayerMovement : Character
         if (ctx.started && moveInput.y > 0)
         {
             SetLadder();
+        }
+    }
+
+    public void OnPause(InputAction.CallbackContext ctx)
+    {
+        //If the player presses the pause button
+        if (ctx.started)
+        {
+
+            if (!LevelManager.Instance.isPaused)
+            {
+                //Pause the game
+                Debug.Log("Player " + characterIndex + " Paused.");
+                LevelManager.Instance?.PauseToggle(characterIndex);
+            }
         }
     }
 

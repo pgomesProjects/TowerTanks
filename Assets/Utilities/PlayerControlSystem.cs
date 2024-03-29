@@ -1815,6 +1815,15 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""3a667ac8-1f36-4caa-896a-d3e21e6d697f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Look"",
                     ""type"": ""Value"",
                     ""id"": ""a8eba0f8-9eff-4802-a395-9379da60aa35"",
@@ -2676,6 +2685,39 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""action"": ""Flip"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1206a684-a1bd-4809-9a28-1e6a6b61b740"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cbc9defb-c4f9-48ac-8c45-6ceeaa553a12"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d5668318-dad7-485c-a74c-a1b36dc44929"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -2787,6 +2829,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         m_Debug_SubmitCommand = m_Debug.FindAction("SubmitCommand", throwIfNotFound: true);
         m_Debug_ToggleCommandMenu = m_Debug.FindAction("ToggleCommandMenu", throwIfNotFound: true);
         m_Debug_Move = m_Debug.FindAction("Move", throwIfNotFound: true);
+        m_Debug_Pause = m_Debug.FindAction("Pause", throwIfNotFound: true);
         m_Debug_Look = m_Debug.FindAction("Look", throwIfNotFound: true);
         m_Debug_Cancel = m_Debug.FindAction("Cancel", throwIfNotFound: true);
         m_Debug_ControlSteering = m_Debug.FindAction("Control Steering", throwIfNotFound: true);
@@ -3147,6 +3190,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
     private readonly InputAction m_Debug_SubmitCommand;
     private readonly InputAction m_Debug_ToggleCommandMenu;
     private readonly InputAction m_Debug_Move;
+    private readonly InputAction m_Debug_Pause;
     private readonly InputAction m_Debug_Look;
     private readonly InputAction m_Debug_Cancel;
     private readonly InputAction m_Debug_ControlSteering;
@@ -3170,6 +3214,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         public InputAction @SubmitCommand => m_Wrapper.m_Debug_SubmitCommand;
         public InputAction @ToggleCommandMenu => m_Wrapper.m_Debug_ToggleCommandMenu;
         public InputAction @Move => m_Wrapper.m_Debug_Move;
+        public InputAction @Pause => m_Wrapper.m_Debug_Pause;
         public InputAction @Look => m_Wrapper.m_Debug_Look;
         public InputAction @Cancel => m_Wrapper.m_Debug_Cancel;
         public InputAction @ControlSteering => m_Wrapper.m_Debug_ControlSteering;
@@ -3206,6 +3251,9 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @Move.started -= m_Wrapper.m_DebugActionsCallbackInterface.OnMove;
                 @Move.performed -= m_Wrapper.m_DebugActionsCallbackInterface.OnMove;
                 @Move.canceled -= m_Wrapper.m_DebugActionsCallbackInterface.OnMove;
+                @Pause.started -= m_Wrapper.m_DebugActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_DebugActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_DebugActionsCallbackInterface.OnPause;
                 @Look.started -= m_Wrapper.m_DebugActionsCallbackInterface.OnLook;
                 @Look.performed -= m_Wrapper.m_DebugActionsCallbackInterface.OnLook;
                 @Look.canceled -= m_Wrapper.m_DebugActionsCallbackInterface.OnLook;
@@ -3267,6 +3315,9 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
                 @Look.started += instance.OnLook;
                 @Look.performed += instance.OnLook;
                 @Look.canceled += instance.OnLook;
@@ -3402,6 +3453,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         void OnSubmitCommand(InputAction.CallbackContext context);
         void OnToggleCommandMenu(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnCancel(InputAction.CallbackContext context);
         void OnControlSteering(InputAction.CallbackContext context);
