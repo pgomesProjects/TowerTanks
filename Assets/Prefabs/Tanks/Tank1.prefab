@@ -871,6 +871,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1677695872598849026}
   - component: {fileID: 1677695872598849027}
+  - component: {fileID: -1844445078350209630}
   m_Layer: 0
   m_Name: Tank1
   m_TagString: Untagged
@@ -908,7 +909,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TankName: 
+  tankType: 0
+  coreHealth: 500
   towerJointTarget: {fileID: 1677695871312723229}
+  shiftRight: 0
+  shiftLeft: 0
+--- !u!114 &-1844445078350209630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1677695872598849025}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 889c5509cf4f9f34c9386c09c9102fd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  state: 0
+  decisionCooldown: 4
+  distanceToPlayer: 0
+  maxDetectionRange: 200
+  maxEngagementRange: 100
+  minEngagementRange: 50
 --- !u!1 &1677695872621142252
 GameObject:
   m_ObjectHideFlags: 0
@@ -1787,6 +1810,10 @@ PrefabInstance:
     - target: {fileID: 855465098922572527, guid: 41d970ec662df1f4489d206e0ff2298f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1991650565181322582, guid: 41d970ec662df1f4489d206e0ff2298f, type: 3}
+      propertyPath: startingInteractable
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3803730043941654035, guid: 41d970ec662df1f4489d206e0ff2298f, type: 3}
       propertyPath: m_LocalPosition.y

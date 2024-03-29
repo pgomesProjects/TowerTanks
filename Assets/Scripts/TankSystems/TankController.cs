@@ -6,7 +6,10 @@ using TMPro;
 
 public class TankController : MonoBehaviour
 {
+    //Important Variables
     public string TankName;
+    [SerializeField] public TankId.TankType tankType;
+    [SerializeField] public float coreHealth = 500;
 
     //Objects & Components:
     [Tooltip("Rooms currently installed on tank.")]                                             internal List<Room> rooms;
@@ -14,9 +17,6 @@ public class TankController : MonoBehaviour
     [Tooltip("This tank's traction system.")]                                                   internal TreadSystem treadSystem;
     [Tooltip("Transform containing all tank rooms, point around which tower tilts.")]           private Transform towerJoint;
     [SerializeField, Tooltip("Target transform in tread system which tower joint locks onto.")] private Transform towerJointTarget;
-
-    //Important Variables
-    [SerializeField] public float coreHealth = 500;
 
     private TextMeshProUGUI nameText;
 
@@ -82,6 +82,12 @@ public class TankController : MonoBehaviour
                 }
             }
         }
+
+        //Enemy Logic
+        if (tankType == TankId.TankType.ENEMY)
+        {
+            EnableCannonBrains(false);
+        }
     }
 
     private void Update()
@@ -122,6 +128,7 @@ public class TankController : MonoBehaviour
                 {
                     TankName = tank.TankName; //give me my codename
                     gameObject.name = "Tank (" + TankName + ")";
+                    tankType = tank.tankType;
                 }
             }
         }
@@ -251,5 +258,17 @@ public class TankController : MonoBehaviour
 
         design.TankName = TankName; //Name the design after the current tank
         return design;
+    }
+
+    public void EnableCannonBrains(bool enabled)
+    {
+        SimpleCannonBrain[] brains = GetComponentsInChildren<SimpleCannonBrain>();
+        foreach(SimpleCannonBrain brain in brains)
+        {
+            brain.enabled = enabled;
+        }
+
+        SimpleTankBrain _brain = GetComponent<SimpleTankBrain>();
+        _brain.enabled = true;
     }
 }

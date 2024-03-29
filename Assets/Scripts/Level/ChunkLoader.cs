@@ -364,8 +364,8 @@ public class ChunkLoader : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(playerTank.position, RENDER_DISTANCE);
+        //Gizmos.color = Color.green;
+        //Gizmos.DrawWireSphere(playerTank.position, RENDER_DISTANCE);
     }
 
     #region LevelBuilder
