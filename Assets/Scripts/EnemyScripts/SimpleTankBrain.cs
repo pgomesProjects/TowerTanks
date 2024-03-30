@@ -7,7 +7,7 @@ public class SimpleTankBrain : MonoBehaviour
     public enum TankBehavior { 
         PATROL, //Moving back and forth in a set pattern
         PURSUE, //Detects the player - moving into range
-        ENGAGE, //In optimal range, tries to stay at a distance & shoots cannons
+        ENGAGE, //In optimal range, tries to maintain distance & shoots cannons
         FLEE, //Trying to run away
         SURRENDER //Throws Up White Flag
     }

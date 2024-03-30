@@ -3834,12 +3834,12 @@ MonoBehaviour:
   - TankName: The Supreme Potato
     tankType: 0
     gameObject: {fileID: 1411317892}
-    design: {fileID: 4900000, guid: 0ae7f54292a46314da4951bdac3723a3, type: 3}
+    design: {fileID: 4900000, guid: 185bb0b7c06c31646b32a53ea5d475ed, type: 3}
     buildOnStart: 1
   - TankName: The Scrapper's Dog
     tankType: 1
     gameObject: {fileID: 2001970108}
-    design: {fileID: 4900000, guid: 845f54f97cf655f45b5cddbdaafd716e, type: 3}
+    design: {fileID: 4900000, guid: 07128b33684f2044c80a27de8cb188a8, type: 3}
     buildOnStart: 1
 --- !u!1 &515206412
 GameObject:
