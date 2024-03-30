@@ -162,7 +162,7 @@ public abstract class Character : SerializedMonoBehaviour
 
     protected virtual void OperateInteractable()
     {
-
+        rb.velocity = Vector2.zero;
     }
 
     public void CancelInteraction()

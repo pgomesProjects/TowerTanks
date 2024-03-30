@@ -387,7 +387,7 @@ MonoBehaviour:
       Entry: 6
       Data: 
   playerPrefab: {fileID: 5332867684925448268, guid: 79f26049c394b4140bd0a93f14c225cd, type: 3}
-  MultiplayerEnabled: 0
+  MultiplayerEnabled: 1
 --- !u!1 &2386267742676790645
 GameObject:
   m_ObjectHideFlags: 0

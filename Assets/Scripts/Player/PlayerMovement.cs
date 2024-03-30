@@ -268,7 +268,7 @@ public class PlayerMovement : Character
         
         if (ctx.started && moveInput.y > 0)
         {
-            SetLadder();
+            //SetLadder();
         }
     }
 
