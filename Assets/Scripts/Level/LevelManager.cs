@@ -79,7 +79,8 @@ public class LevelManager : SerializedMonoBehaviour
         itemPrice = new Dictionary<string, int>();
         PopulateItemDictionary();
         currentSessionStats = ScriptableObject.CreateInstance<SessionStats>();
-        spawnPoint = GameObject.FindGameObjectWithTag("SpawnPoint").transform;
+        spawnPoint = playerParent.transform;
+            //GameObject.FindGameObjectWithTag("SpawnPoint").transform;
     }
 
     private void Start()
@@ -147,6 +148,8 @@ public class LevelManager : SerializedMonoBehaviour
 
     private void SpawnPlayer(PlayerInput playerInput)
     {
+        spawnPoint = playerParent.transform;
+
         PlayerMovement character = Instantiate(GameManager.Instance.MultiplayerManager.GetPlayerPrefab());
         character.LinkPlayerInput(playerInput);
         character.GetComponent<Rigidbody2D>().isKinematic = false;

@@ -23,7 +23,7 @@ public class PlayerMovement : Character
     public float fuel;
 
     InputActionMap inputMap;
-    private float vel;
+    private bool isHoldingDown = false;
 
     [Header("Joystick Spin Detection Options")]
     [SerializeField] private float spinAngleCheckUpdateTimer = 0.1f;
@@ -44,6 +44,11 @@ public class PlayerMovement : Character
     public InteractableZone currentZone = null;
     public bool isOperator; //true if player is currently operating an interactable
     public TankInteractable currentInteractable; //what interactable player is currently operating
+
+    [Header("Objects")]
+    public LayerMask carryableObjects;
+    public bool isCarryingSomething; //true if player is currently carrying something
+    public Cargo currentObject; //what object the player is currently carrying
 
     #endregion
 
@@ -106,7 +111,15 @@ public class PlayerMovement : Character
             else currentInteractable.Rotate(0);
         }
 
+        if (currentObject != null)
+        {
+            currentObject.transform.position = hands.position;
+        }
+
         fuel = currentFuel;
+
+        if (moveInput.y <= -0.5) isHoldingDown = true;
+        else isHoldingDown = false;
     }
                 
     protected override void FixedUpdate()
@@ -297,7 +310,7 @@ public class PlayerMovement : Character
     {
         if (ctx.started)
         {
-            if (currentZone != null)
+            if (currentZone != null && !isHoldingDown)
             {
                 currentZone.Interact(this.gameObject);
             }
@@ -305,6 +318,11 @@ public class PlayerMovement : Character
             if (currentInteractable != null && isOperator)
             {
                 currentInteractable.Use();
+            }
+
+            if (currentInteractable == null && !isCarryingSomething && isHoldingDown)
+            {
+                Pickup();
             }
         }
     }
@@ -316,6 +334,12 @@ public class PlayerMovement : Character
             if (currentInteractable != null)
             {
                 currentInteractable.Exit(true);
+            }
+
+            if (currentObject != null)
+            {
+                if (isHoldingDown) { currentObject.Drop(this, false, moveInput); }
+                else currentObject.Drop(this, true, moveInput);
             }
         }
     }
@@ -405,6 +429,35 @@ public class PlayerMovement : Character
     #endregion
 
     #region Character Functions
+
+    public void Pickup()
+    {
+        Vector2 zone = new Vector2(1.2f, 1.2f);
+        List<Cargo> objects = new List<Cargo>();
+        Collider2D[] colliders = Physics2D.OverlapBoxAll(transform.position, zone, 0f, carryableObjects);
+
+        if (colliders.Length > 0)
+        {
+            foreach (Collider2D collider in colliders) //Look through each collider we're touching
+            {
+                Cargo item = collider.transform.GetComponent<Cargo>();
+                if (item != null) objects.Add(item); //Add it to the list of cargo 
+            }
+
+            float distance = 5f;
+            foreach (Cargo item in objects)
+            {
+                float _distance = Vector2.Distance(item.transform.position, transform.position);
+                if (_distance < distance) distance = _distance;
+            }
+
+            foreach (Cargo item in objects)
+            {
+                float _distance = Vector2.Distance(item.transform.position, transform.position);
+                if (_distance == distance) item.Pickup(this);
+            }
+        }
+    }
 
     protected override void OnCharacterDeath()
     {

@@ -95,7 +95,7 @@ public class EngineController : TankInteractable
         else
         {
             //Other effects:
-            GameManager.Instance.ParticleSpawner.SpawnParticle(3, particleSpots[0], 0.15f, null);
+            GameManager.Instance.ParticleSpawner.SpawnParticle(3, particleSpots[0].position, 0.15f, null);
             GameManager.Instance.AudioManager.Play("CoalLoad"); //Play loading clip
         }
     }
@@ -119,7 +119,7 @@ public class EngineController : TankInteractable
         if (smokePuffTimer >= smokePuffRate)
         {
             smokePuffTimer = 0;
-            GameManager.Instance.ParticleSpawner.SpawnParticle(3, particleSpots[0], 0.1f, null);
+            GameManager.Instance.ParticleSpawner.SpawnParticle(3, particleSpots[0].position, 0.1f, null);
         }
     }
 
@@ -293,7 +293,7 @@ public class EngineController : TankInteractable
 
     public void Explode()
     {
-        GameManager.Instance.ParticleSpawner.SpawnParticle(4, particleSpots[1], 0.1f, null);
+        GameManager.Instance.ParticleSpawner.SpawnParticle(4, particleSpots[1].position, 0.1f, null);
         GameManager.Instance.AudioManager.Play("LargeExplosionSFX");
     }
 

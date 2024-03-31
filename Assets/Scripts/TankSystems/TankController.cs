@@ -20,10 +20,17 @@ public class TankController : MonoBehaviour
 
     private TextMeshProUGUI nameText;
 
+    [Header("Cargo")]
+    public GameObject[] cargoHold;
+
     //Runtime Variables:
     [Header("Debug")] 
     public bool shiftRight;
     public bool shiftLeft;
+    public bool damage;
+
+    public bool isDying = false; //true when the tank is in the process of blowing up
+    private float deathSequenceTimer = 0;
 
     //RUNTIME METHODS:
     private void Awake()
@@ -86,7 +93,9 @@ public class TankController : MonoBehaviour
         //Enemy Logic
         if (tankType == TankId.TankType.ENEMY)
         {
+            coreHealth *= 0.5f;
             EnableCannonBrains(false);
+            AddCargo();
         }
     }
 
@@ -99,9 +108,16 @@ public class TankController : MonoBehaviour
         //Debug 
         if (shiftLeft) { shiftLeft = false; ChangeAllGear(-1); }
         if (shiftRight) { shiftRight = false; ChangeAllGear(1); }
+        if (damage) { damage = false; Damage(100); }
 
         //Update name
         nameText.text = TankName;
+
+        //Death Sequence Events
+        if (isDying)
+        {
+            DeathSequenceEvents();
+        }
     }
 
     public void ChangeAllGear(int direction) //changes gear of all active throttles in the tank
@@ -134,19 +150,90 @@ public class TankController : MonoBehaviour
         }
     }
 
+    public void AddCargo()
+    {
+        int random = Random.Range(2, 8);
+        cargoHold = new GameObject[random];
+        for (int i = 0; i < cargoHold.Length; i++)
+        {
+            int _random = Random.Range(0, GameManager.Instance.cargoList.Length);
+            cargoHold[i] = GameManager.Instance.cargoList[_random];
+        }
+    }
+
     public void Damage(float amount)
     {
         coreHealth -= amount;
         if (coreHealth <= 0)
         {
-            BlowUp(false);
+            if (!isDying)
+            {
+                StartCoroutine(DeathSequence(2.5f));
+            }
         }
+    }
+
+    public void DeathSequenceEvents()
+    {
+        deathSequenceTimer -= Time.deltaTime;
+        if (deathSequenceTimer <= 0)
+        {
+            int randomParticle = Random.Range(0, 3);
+            float randomX = Random.Range(-4f, 4f);
+            float randomY = Random.Range(0, 2f);
+            float randomS = Random.Range(0.1f, 0.2f);
+
+            Vector2 randomPos = new Vector2(treadSystem.transform.position.x + randomX, treadSystem.transform.position.y + randomY);
+
+            GameManager.Instance.ParticleSpawner.SpawnParticle(randomParticle, randomPos, randomS, treadSystem.transform);
+
+            GameManager.Instance.AudioManager.Play("ExplosionSFX", treadSystem.gameObject);
+            GameManager.Instance.AudioManager.Play("LargeExplosionSFX", treadSystem.gameObject);
+
+            deathSequenceTimer = Random.Range(0.1f, 0.2f);
+        }
+    }
+
+    public IEnumerator DeathSequence(float duration)
+    {
+        isDying = true;
+        yield return new WaitForSeconds(duration);
+        BlowUp(false);
     }
 
     public void BlowUp(bool immediate)
     {
         if (immediate) DestroyImmediate(gameObject);
-        else Destroy(gameObject);
+        else
+        {
+            Cell[] cells = GetComponentsInChildren<Cell>();
+            foreach(Cell cell in cells)
+            {
+                //Destroy all cells
+                cell.Kill();
+
+                //Blow up the core
+                if (cell.room.isCore)
+                {
+                    GameManager.Instance.ParticleSpawner.SpawnParticle(5, cell.transform.position, 0.15f, null);
+                }
+            }
+
+            //Spawn Cargo
+            foreach(GameObject _cargo in cargoHold)
+            {
+                GameObject flyingCargo = Instantiate(_cargo, treadSystem.transform.position, treadSystem.transform.rotation, null);
+                float randomX = Random.Range(-10f, 10f);
+                float randomY = Random.Range(5f, 20f);
+                float randomT = Random.Range(-16f, 16f);
+                Vector2 _random = new Vector2(randomX, randomY);
+
+                Rigidbody2D rb = flyingCargo.GetComponent<Rigidbody2D>();
+                rb.AddForce(_random * 40);
+                rb.AddTorque(randomT * 10);
+            }
+            Destroy(gameObject);
+        }
     }
 
     public void Build(TankDesign tankDesign) //Called from TankManager when constructing a specific design

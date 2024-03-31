@@ -271,6 +271,6 @@ public class Cell : MonoBehaviour
 
         //Other Effects
         GameManager.Instance.AudioManager.Play("MedExplosionSFX", gameObject);
-        GameManager.Instance.ParticleSpawner.SpawnParticle(5, transform, 0.15f, null);
+        GameManager.Instance.ParticleSpawner.SpawnParticle(5, transform.position, 0.15f, null);
     }
 }

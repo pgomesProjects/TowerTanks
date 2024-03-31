@@ -352,7 +352,7 @@ public class Test_Engine : MonoBehaviour
 
     public void Explode()
     {
-        GameManager.Instance.ParticleSpawner.SpawnParticle(4, explosionSpot, 15f, null);
+        GameManager.Instance.ParticleSpawner.SpawnParticle(4, explosionSpot.position, 15f, null);
         GameManager.Instance.AudioManager.Play("LargeExplosionSFX");
     }
 

@@ -59,6 +59,9 @@ public class TreadSystem : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        //Check for stall
+        if (tankController.isDying) debugDrive = 0;
+
         //Add wheel force:
         float driveMagnitude = (drivePower * -debugDrive) / (wheels.Length - extraWheels); //Get force being exerted by each grounded drive wheel
         if (Mathf.Abs(debugDrive) < 0.15f) driveMagnitude = 0;                             //Add dead zone to debug drive controller

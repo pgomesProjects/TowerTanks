@@ -20,17 +20,17 @@ public class ParticleSpawner : MonoBehaviour
     /// Spawns particle system of given name at given position.
     /// </summary>
     /// <param name="effectName">Name of particle effect, must be in particle list.</param>
-    public void SpawnParticle(string effectName, Vector2 position, float scale = 1)
+    /*public void SpawnParticle(string effectName, Vector2 position, float scale = 1)
     {
 
-    }
+    }*/
     /// <summary>
     /// Spawns given particle system from array.
     /// </summary>
     /// <param name="id">Array ID of target particle system.</param>
-    public void SpawnParticle(int id, Transform spawnPoint, float scale, Transform parent)
+    public void SpawnParticle(int id, Vector2 spawnPoint, float scale, Transform parent = null)
     {
-        var particle = Instantiate(particles[id], spawnPoint.position, Quaternion.identity, parent); //set parent to null if you want it to spawn in world space
+        var particle = Instantiate(particles[id], spawnPoint, Quaternion.identity, parent); //set parent to null if you want it to spawn in world space
         particle.transform.localScale *= scale;
     }
 }

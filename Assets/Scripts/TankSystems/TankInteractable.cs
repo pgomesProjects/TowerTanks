@@ -87,6 +87,7 @@ public class TankInteractable : MonoBehaviour
             operatorID.currentInteractable = this;
             operatorID.isOperator = true;
             operatorID.gameObject.GetComponent<Rigidbody2D>().isKinematic = true;
+            if (operatorID.currentObject != null) operatorID.currentObject.Drop(operatorID, false, Vector2.zero);
 
             Debug.Log(operatorID + " is in!");
             GameManager.Instance.AudioManager.Play("UseSFX");

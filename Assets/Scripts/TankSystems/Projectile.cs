@@ -90,7 +90,7 @@ public class Projectile : MonoBehaviour
 
         //Effects
         GameManager.Instance.AudioManager.Play("ExplosionSFX", gameObject);
-        GameManager.Instance.ParticleSpawner.SpawnParticle(Random.Range(0, 2), transform, 0.1f, null);
+        GameManager.Instance.ParticleSpawner.SpawnParticle(Random.Range(0, 2), transform.position, 0.1f, null);
 
         //Seperate smoketrail
         smokeTrail.parent = null;

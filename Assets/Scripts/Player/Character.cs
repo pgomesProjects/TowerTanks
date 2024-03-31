@@ -16,6 +16,7 @@ public abstract class Character : SerializedMonoBehaviour
     protected Bounds ladderBounds;
     protected PlayerHUD characterHUD;
     protected int characterIndex;
+    protected Transform hands;
 
     [Header("Character Information")]
     [SerializeField] protected CharacterSettings characterSettings;
@@ -55,6 +56,7 @@ public abstract class Character : SerializedMonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         currentHealth = characterSettings.maxHealth;
+        hands = transform.Find("Hands");
     }
 
     protected virtual void Start()
