@@ -4055,7 +4055,7 @@ MonoBehaviour:
   - TankName: The Lawless Vessel
     tankType: 1
     gameObject: {fileID: 1461368861}
-    design: {fileID: 4900000, guid: 845f54f97cf655f45b5cddbdaafd716e, type: 3}
+    design: {fileID: 4900000, guid: aecb783de59916340b00ac621243d679, type: 3}
     buildOnStart: 1
 --- !u!1 &515206412
 GameObject:
@@ -13100,7 +13100,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1461368861}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 99, y: 14.1, z: 0}
+  m_LocalPosition: {x: 176.6, y: 14.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -17373,6 +17373,9 @@ MonoBehaviour:
   treadPrefab: {fileID: 336787287087755646, guid: 2fa44d21d74e76a4390ddea6875ac19a, type: 3}
   COGHeight: -0.31
   COGWidth: 3.5
+  totalWeight: 0
+  currentEngines: 0
+  engineWeightCapacity: 750
   gear: 0
   drivePower: 25
   driveDrag: 0.4

@@ -912,8 +912,11 @@ MonoBehaviour:
   tankType: 0
   coreHealth: 500
   towerJointTarget: {fileID: 1677695871312723229}
+  cargoHold: []
   shiftRight: 0
   shiftLeft: 0
+  damage: 0
+  isDying: 0
 --- !u!114 &-1844445078350209630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1241,6 +1244,9 @@ MonoBehaviour:
   treadPrefab: {fileID: 336787287087755646, guid: 2fa44d21d74e76a4390ddea6875ac19a, type: 3}
   COGHeight: -0.31
   COGWidth: 3.5
+  totalWeight: 0
+  currentEngines: 0
+  engineWeightCapacity: 750
   gear: 0
   drivePower: 25
   driveDrag: 0.4
@@ -1823,6 +1829,10 @@ PrefabInstance:
       propertyPath: startingInteractable
       value: 
       objectReference: {fileID: 917774235452588900, guid: 34b0c3d4656ef5045ac437235b33d2f3, type: 3}
+    - target: {fileID: 5921910976592485695, guid: 41d970ec662df1f4489d206e0ff2298f, type: 3}
+      propertyPath: startingInteractable
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6813428791001785362, guid: 41d970ec662df1f4489d206e0ff2298f, type: 3}
       propertyPath: startingInteractable
       value: 

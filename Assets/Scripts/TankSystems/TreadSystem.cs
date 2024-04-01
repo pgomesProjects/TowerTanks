@@ -15,8 +15,11 @@ public class TreadSystem : MonoBehaviour
     [Header("Center of Gravity Settings:")]
     [Tooltip("Height at which center of gravity is locked relative to tread system.")] public float COGHeight;
     [Tooltip("Extents of center of gravity (affects how far tank can lean).")]         public float COGWidth;
+    [Tooltip("How much weight the tank currently has")] public float totalWeight = 0;
 
     [Header("Drive Settings:")]
+    [Tooltip("Number of currently powered engines")] public int currentEngines = 0;
+    [Tooltip("How much weight each engine compensates for. (Higher => Engines are more powerful)")] public float engineWeightCapacity;
     [Tooltip("Current direction the tank is set to move in. 0 = Neutral")] public int gear;
     [Tooltip("Maximum motor torque exerted by tread motor (acceleration)"), Min(0)] public float drivePower;
     [Tooltip("Force resisting motion of tank while driving"), Min(0)]               public float driveDrag;
@@ -63,6 +66,7 @@ public class TreadSystem : MonoBehaviour
         if (tankController.isDying) debugDrive = 0;
 
         //Add wheel force:
+        drivePower = 15 * (engineWeightCapacity * (currentEngines / totalWeight));
         float driveMagnitude = (drivePower * -debugDrive) / (wheels.Length - extraWheels); //Get force being exerted by each grounded drive wheel
         if (Mathf.Abs(debugDrive) < 0.15f) driveMagnitude = 0;                             //Add dead zone to debug drive controller
 
@@ -152,6 +156,7 @@ public class TreadSystem : MonoBehaviour
         }
 
         //Calculation:
+        totalWeight = cellCount * 50f;
         avgCellPos /= cellCount;                                                                         //Get average position of cells
         r.centerOfMass = new Vector2(Mathf.Clamp(avgCellPos.x, -COGWidth / 2, COGWidth / 2), COGHeight); //Constrain center mass to line segment controlled in settings (for tank handling reliability)
     }

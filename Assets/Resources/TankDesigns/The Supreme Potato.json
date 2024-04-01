@@ -55,7 +55,7 @@
         },
         {
             "roomID": "Room_Line4A",
-            "roomType": 5,
+            "roomType": 2,
             "localSpawnVector": {
                 "x": -3.5,
                 "y": 3.25,
@@ -63,7 +63,7 @@
             },
             "rotate": 1,
             "cellWithSlot": "Cell_1",
-            "interactable": "InterLogistics_Refuel",
+            "interactable": "InterEngineer_Boiler",
             "direction": 1.0
         }
     ]

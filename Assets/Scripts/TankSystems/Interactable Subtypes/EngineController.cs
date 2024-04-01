@@ -11,6 +11,7 @@ public class EngineController : TankInteractable
     public enum EngineType { A, B }; //A = Temperature Mechanics, B = no Temperature Mechanic (purely visual)
     [Header("Engine Settings:")]
     public EngineType engineType;
+    public bool isPowered;
     
     private float smokePuffRate = 1f;
     private float smokePuffTimer = 0;
@@ -78,25 +79,46 @@ public class EngineController : TankInteractable
         UpdateUI();
 
         if (hasOperator == false) repairInputHeld = false;
+
+        //Add to Tank Engine Count
+        if (pressure > 0)
+        {
+            if (!isPowered)
+            {
+                isPowered = true;
+                tank.treadSystem.currentEngines += 1;
+            }
+        }
+        else
+        {
+            if (isPowered)
+            {
+                isPowered = false;
+                tank.treadSystem.currentEngines -= 1;
+            }
+        }
     }
 
     //FUNCTIONALITY METHODS:
     /// <summary>
     /// Loads (amount) coal into the engine.
     /// </summary>
-    public void LoadCoal(int amount)
+    public void LoadCoal(int amount, bool enableSounds = true)
     {
         //Increase coal total:
         coal += amount;
-        if (coal > maxCoal)
+        if (enableSounds)
         {
-            GameManager.Instance.AudioManager.Play("InvalidAlert"); //Can't do that, sir
-        }
-        else
-        {
-            //Other effects:
-            GameManager.Instance.ParticleSpawner.SpawnParticle(3, particleSpots[0].position, 0.15f, null);
-            GameManager.Instance.AudioManager.Play("CoalLoad"); //Play loading clip
+            if (coal > maxCoal)
+            {
+                GameManager.Instance.AudioManager.Play("InvalidAlert"); //Can't do that, sir
+            }
+            else
+            {
+                //Other effects:
+                GameManager.Instance.ParticleSpawner.SpawnParticle(3, particleSpots[0].position, 0.15f, null);
+                GameManager.Instance.AudioManager.Play("CoalLoad", this.gameObject); //Play loading clip
+            }
         }
     }
 
@@ -232,17 +254,17 @@ public class EngineController : TankInteractable
                     overdriveActive = true;
                 }
 
-                /*if (!GameManager.Instance.AudioManager.IsPlaying("SteamExhaustLoop"))
+                if (!GameManager.Instance.AudioManager.IsPlaying("SteamExhaustLoop", gameObject))
                 {
-                    GameManager.Instance.AudioManager.Play("SteamExhaustLoop");
-                }*/
+                    GameManager.Instance.AudioManager.Play("SteamExhaustLoop", gameObject);
+                }
             }
             else
             {
-                /*if (GameManager.Instance.AudioManager.IsPlaying("SteamExhaustLoop"))
+                if (GameManager.Instance.AudioManager.IsPlaying("SteamExhaustLoop", gameObject))
                 {
-                    GameManager.Instance.AudioManager.Stop("SteamExhaustLoop");
-                }*/
+                    GameManager.Instance.AudioManager.Stop("SteamExhaustLoop", gameObject);
+                }
                 overdriveActive = false;
             }
 
@@ -251,7 +273,7 @@ public class EngineController : TankInteractable
                 if (overdriveActive)
                 {
                     pressureReleaseCd = 2.0f;
-                    GameManager.Instance.AudioManager.Play("SteamExhaust");
+                    GameManager.Instance.AudioManager.Play("SteamExhaust", gameObject);
                 }
                 overdriveActive = false;
             }
@@ -294,7 +316,8 @@ public class EngineController : TankInteractable
     public void Explode()
     {
         GameManager.Instance.ParticleSpawner.SpawnParticle(4, particleSpots[1].position, 0.1f, null);
-        GameManager.Instance.AudioManager.Play("LargeExplosionSFX");
+        GameManager.Instance.AudioManager.Play("LargeExplosionSFX", gameObject);
+        parentCell.Damage(100);
     }
 
     public void UpdateUI()
@@ -340,4 +363,8 @@ public class EngineController : TankInteractable
         }
     }
 
+    public void OnDestroy()
+    {
+        if (isPowered) tank.treadSystem.currentEngines -= 1;
+    }
 }

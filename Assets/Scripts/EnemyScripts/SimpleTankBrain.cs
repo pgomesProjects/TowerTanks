@@ -27,6 +27,9 @@ public class SimpleTankBrain : MonoBehaviour
     [SerializeField, Tooltip("How far away the enemy wants to engage the player from")] public float maxEngagementRange;
     [SerializeField, Tooltip("Wants to stay beyond this threshold when engaging the player")] public float minEngagementRange;
 
+    //Other 
+    private float engineCooldownTimer = 0;
+
     public void Awake()
     {
         tank = GetComponent<TankController>();
@@ -72,6 +75,13 @@ public class SimpleTankBrain : MonoBehaviour
             case TankBehavior.PURSUE: Pursue(); break;
             case TankBehavior.ENGAGE: Engage(); break;
             case TankBehavior.FLEE: Flee(); break;
+        }
+
+        engineCooldownTimer -= Time.deltaTime;
+        if (engineCooldownTimer <= 0)
+        {
+            engineCooldownTimer = 10f;
+            LoadAllEngines(1);
         }
     }
 
@@ -212,6 +222,15 @@ public class SimpleTankBrain : MonoBehaviour
             if (gun != null) return true;
         }
         return false;
+    }
+
+    public void LoadAllEngines(int amount)
+    {
+        EngineController[] engines = GetComponentsInChildren<EngineController>();
+        foreach(EngineController engine in engines)
+        {
+            engine.LoadCoal(amount, false);
+        }
     }
 
     public void OnDrawGizmosSelected()
