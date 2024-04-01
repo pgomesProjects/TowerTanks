@@ -12,7 +12,7 @@ public enum GAMESTATE
 
 public class LevelManager : SerializedMonoBehaviour
 {
-    [SerializeField] private PlayerTankController playerTank;
+    [SerializeField] private TankController playerTank;
     [SerializeField] private Transform layerParent;
     [SerializeField] private Transform playerParent;
     [SerializeField] private GameObject layerPrefab;
@@ -23,6 +23,7 @@ public class LevelManager : SerializedMonoBehaviour
     [SerializeField, Tooltip("The value of a singular scrap piece.")] private int scrapValue;
     [SerializeField, Tooltip("The level event data that dictates how the level must be run.")] private LevelEvents currentLevelEvent;
     [SerializeField, Tooltip("The component that tracks the objective information.")] private ObjectiveTracker objectiveTracker;
+    [SerializeField, Tooltip("The component that tracks tank information.")] private TankManager tankManager;
 
     public static LevelManager Instance;
 
@@ -80,6 +81,8 @@ public class LevelManager : SerializedMonoBehaviour
         PopulateItemDictionary();
         currentSessionStats = ScriptableObject.CreateInstance<SessionStats>();
         spawnPoint = playerParent.transform;
+        tankManager = GameObject.Find("TankManager").GetComponent<TankManager>();
+        playerTank = tankManager.tanks[0].gameObject.GetComponent<TankController>();
             //GameObject.FindGameObjectWithTag("SpawnPoint").transform;
     }
 
@@ -214,7 +217,7 @@ public class LevelManager : SerializedMonoBehaviour
         //Purchase a layer
         AddLayer();
         RemoveGhostLayer();
-        GetPlayerTank().GetLayerAt(playerBuilding.currentLayer).GetComponent<GhostInteractables>().CreateGhostInteractables(playerBuilding);
+        //GetPlayerTank().GetLayerAt(playerBuilding.currentLayer).GetComponent<GhostInteractables>().CreateGhostInteractables(playerBuilding);
     }
 
     private void AddLayer()
@@ -233,7 +236,7 @@ public class LevelManager : SerializedMonoBehaviour
         AdjustCameraPosition();
 
         //Add layer to the list of layers
-        playerTank.GetLayers().Add(newLayer.GetComponent<LayerManager>());
+        //playerTank.GetLayers().Add(newLayer.GetComponent<LayerManager>());
 
         if (!isSettingUpOnStart)
         {
@@ -244,10 +247,10 @@ public class LevelManager : SerializedMonoBehaviour
         }
 
         //Adjust the weight of the tank
-        playerTank.AdjustTankWeight(totalLayers);
+        //playerTank.AdjustTankWeight(totalLayers);
 
         //Adjust the outside of the tank
-        playerTank.AdjustOutsideLayerObjects();
+        //playerTank.AdjustOutsideLayerObjects();
 
         if (totalLayers > currentSessionStats.maxHeight)
             currentSessionStats.maxHeight = totalLayers;
@@ -323,7 +326,7 @@ public class LevelManager : SerializedMonoBehaviour
         if (totalLayers == 0)
         {
             Debug.Log("Tank Is Destroyed!");
-            playerTank.DestroyTank();
+            //playerTank.DestroyTank();
             //Switch from gameplay to game over
             TransitionGameState();
             return;
@@ -369,7 +372,7 @@ public class LevelManager : SerializedMonoBehaviour
         }
 
         //Adjust the weight of the tank
-        playerTank.AdjustTankWeight(totalLayers);
+        //playerTank.AdjustTankWeight(totalLayers);
     }
 
     public void ResetPlayerCamera()
@@ -391,7 +394,7 @@ public class LevelManager : SerializedMonoBehaviour
 
     public void PrepareBeforeCombat()
     {
-        GetPlayerTank()?.ResetTankDistance();
+        //GetPlayerTank()?.ResetTankDistance();
         OnCombatEnded?.Invoke();
     }
 
@@ -489,7 +492,7 @@ public class LevelManager : SerializedMonoBehaviour
     }
 
     public int GetScrapValue() => scrapValue;
-    public PlayerTankController GetPlayerTank() => playerTank;
+    public TankController GetPlayerTank() => playerTank;
 
     private void OnDestroy()
     {

@@ -924,7 +924,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1677695872598849025}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 889c5509cf4f9f34c9386c09c9102fd8, type: 3}
   m_Name: 
@@ -932,9 +932,9 @@ MonoBehaviour:
   state: 0
   decisionCooldown: 4
   distanceToPlayer: 0
-  maxDetectionRange: 200
-  maxEngagementRange: 100
-  minEngagementRange: 50
+  maxDetectionRange: 160
+  maxEngagementRange: 80
+  minEngagementRange: 30
 --- !u!1 &1677695872621142252
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,6 +12,7 @@ public class TutorialEvents : CustomEvent
 
     public override void CheckForCustomEvent(int indexNumber)
     {
+        /*
         switch (indexNumber)
         {
             //Interact Dumpster Prompt
@@ -129,6 +130,7 @@ public class TutorialEvents : CustomEvent
                 LockPlayers();
                 break;
         }
+        */
     }
 
     private void UnlockPlayers()

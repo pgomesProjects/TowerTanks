@@ -28,10 +28,20 @@ MonoBehaviour:
   - Lawless
   - War
   - Queen's
+  - Royal
+  - Terrible
+  - Creaking
+  - Patchwork
+  - Merciless
+  - Bellowing
+  - Midnight
+  - Northward
+  - Stinging
+  - Rusty
   nouns:
   - Boat
   - Revenge
-  - Rustbucket
+  - Mate
   - Keg
   - Trawler
   - Shark
@@ -44,3 +54,13 @@ MonoBehaviour:
   - Gunship
   - Province
   - Dutchman
+  - Scavenger
+  - Dabloon
+  - Harpoon
+  - Siren
+  - Kraken
+  - Whale
+  - Barnacle
+  - Junker
+  - Navigator
+  - Guzzler

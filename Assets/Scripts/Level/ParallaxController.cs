@@ -13,7 +13,7 @@ public class ParallaxController : MonoBehaviour
     //Tiles the width of the background to give it room to parallax
     private float tileMultiplier = 3;
 
-    private PlayerTankController playerTank;
+    private TankController playerTank;
 
     // Start is called before the first frame update
     void Start()
@@ -26,9 +26,10 @@ public class ParallaxController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //NEED TO ADJUST THIS FOR NEW TANK SPEED VALUES
         //Get the speed of the player tank moving and adjusts the parallax speed by it's stored speed value
-        if(playerTank != null)
-            currentParallaxSpeed = ((-playerTank.GetBaseTankSpeed() * playerTank.GetThrottleMultiplier()) + automaticSpeed) * parallaxSpeed;
+        if (playerTank != null)
+            currentParallaxSpeed = 0;  //((-playerTank.GetBaseTankSpeed() * playerTank.GetThrottleMultiplier()) + automaticSpeed) * parallaxSpeed; NEED TO ADJUST THIS
 
         MoveBackground();
     }

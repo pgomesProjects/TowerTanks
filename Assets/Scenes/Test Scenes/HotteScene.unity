@@ -13085,7 +13085,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TankName: The Lawless Vessel
   tankType: 0
-  coreHealth: 500
+  coreHealth: 50
   towerJointTarget: {fileID: 468358330}
   cargoHold: []
   shiftRight: 0
