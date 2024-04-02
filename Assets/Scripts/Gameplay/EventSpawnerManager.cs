@@ -101,7 +101,7 @@ public class EventSpawnerManager : MonoBehaviour
     public void SpawnNewEnemy()
     {
         //Finding new spawn point
-        float chunkX = (currentChunk + 8) * ChunkData.CHUNK_WIDTH; //Find the chunk that's 5 chunks away from current chunk
+        float chunkX = (currentChunk + 8) * ChunkData.CHUNK_WIDTH; //Find the chunk that's 8 chunks away from current chunk
         Vector3 findPos = new Vector3(chunkX, 0, 0);
         Vector3 newSpawnPoint = chunkLoader.GetChunkAtPosition(findPos).transform.position; //Get it's position
 

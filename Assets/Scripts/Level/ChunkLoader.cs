@@ -622,7 +622,7 @@ public class ChunkLoader : MonoBehaviour
         ChunkData chunk = null;
         foreach(ChunkData _chunk in groundPool)
         {
-            if (_chunk.transform.position.x >= position.x)
+            if (_chunk.transform.position.x <= position.x && _chunk.transform.position.x + ChunkData.CHUNK_WIDTH > position.x)
             {
                 chunk = _chunk;
             }

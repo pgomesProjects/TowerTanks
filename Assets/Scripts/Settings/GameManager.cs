@@ -14,10 +14,10 @@ public class GameManager : SerializedMonoBehaviour
 
     public ParticleSpawner ParticleSpawner { get; private set; }
 
-    [SerializeField, Tooltip("The list of possible rooms for the players to pick.")] public GameObject[] roomList { get; private set; }
+    [SerializeField, Tooltip("The list of possible rooms for the players to pick.")] public GameObject[] roomList;
     [SerializeField, Tooltip("The list of possible interactables for the players to pick.")] public GameObject[] interactableList { get; private set; }
 
-    [SerializeField, Tooltip("The list of possible cargo types for tanks to carry.")] public GameObject[] cargoList { get; private set; }
+    [SerializeField, Tooltip("The list of possible cargo types for tanks to carry.")] public GameObject[] cargoList;
 
     [SerializeField, Tooltip("The time for levels to fade in.")] private float fadeInTime = 1f;
     [SerializeField, Tooltip("The time for levels to fade out.")] private float fadeOutTime = 0.5f;
