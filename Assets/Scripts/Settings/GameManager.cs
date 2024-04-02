@@ -29,6 +29,8 @@ public class GameManager : SerializedMonoBehaviour
     private float loadMaxDelta = 3f;
     private bool loadingScene = false;
 
+    public TankDesign tankDesign;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)

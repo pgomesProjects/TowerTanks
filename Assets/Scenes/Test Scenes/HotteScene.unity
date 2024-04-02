@@ -4051,7 +4051,7 @@ MonoBehaviour:
     tankType: 0
     gameObject: {fileID: 1411317892}
     design: {fileID: 4900000, guid: 0ae7f54292a46314da4951bdac3723a3, type: 3}
-    buildOnStart: 1
+    buildOnStart: 0
   - TankName: The Lawless Vessel
     tankType: 1
     gameObject: {fileID: 1461368861}
@@ -10914,6 +10914,7 @@ MonoBehaviour:
   scrapValue: 25
   currentLevelEvent: {fileID: 11400000, guid: 22b317130dd13554f9f9fb3d56a2d5bc, type: 2}
   objectiveTracker: {fileID: 0}
+  tankManager: {fileID: 0}
   resourcesToAdd: 100
 --- !u!4 &1152782961
 Transform:
