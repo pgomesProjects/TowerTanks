@@ -33,6 +33,7 @@ TagManager:
   - CursorCanvas
   - SpawnPoint
   - DebugPlayer
+  - Destructible
   layers:
   - Default
   - TransparentFX

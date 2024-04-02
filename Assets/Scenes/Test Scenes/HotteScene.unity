@@ -5092,6 +5092,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 975085553}
     m_Modifications:
+    - target: {fileID: 1656039896013798289, guid: 55a2de1c12df41647b2333975b669960, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 3766360497705465845, guid: 55a2de1c12df41647b2333975b669960, type: 3}
       propertyPath: m_Name
       value: TestChunkFLAT
@@ -6637,7 +6641,11 @@ MonoBehaviour:
     bias: 0
     isPreset: 1
   poolSize: 50
-  RENDER_DISTANCE: 60
+  RENDER_DISTANCE: 600
+  obstacles:
+  - {fileID: 7245675298519190089, guid: 8d1ac7cdbdbefb843bad6d3cd7f79167, type: 3}
+  - {fileID: 951168179812281977, guid: 28228dd6287a00544b1d07b5430181b8, type: 3}
+  obstacleChance: 20
   biasesCanRepeat: 0
   enableLevelBuilder: 0
   levelBuilderUI: {fileID: 1659328985}

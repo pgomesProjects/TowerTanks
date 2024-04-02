@@ -119,7 +119,7 @@ MonoBehaviour:
   maxYVelocity: 2
   minYVelocity: -5
   fuelDepletionRate: 30
-  fuelRegenerationRate: 10
+  fuelRegenerationRate: 20
   healthToModify: -10
   isDebugPlayer: 0
   towerJoint: {fileID: 0}

@@ -25,6 +25,10 @@ public class ChunkLoader : MonoBehaviour
     [SerializeField, Tooltip("How far away from the tank a chunk is allowed to render from.")] public float RENDER_DISTANCE = 100f;
     private int presetCount = 0;
 
+    // The object pool for obstacles
+    public GameObject[] obstacles;
+    public float obstacleChance;
+
     [Header("Procedural Variables")]
     [SerializeField, Tooltip("When false, the same bias can't happen twice in a row")] public bool biasesCanRepeat;
     private string[] spawnerWeights;
@@ -209,6 +213,10 @@ public class ChunkLoader : MonoBehaviour
         newChunkTransform.InitializeChunk(spawnPosition);
         previousChunk = chunk;
 
+        //Roll for obstacle
+        int randomObstacle = Random.Range(0, obstacles.Length);
+        newChunkTransform.GenerateObstacle(obstacles[randomObstacle], obstacleChance);
+
         //Check for bias
         foreach(ChunkWeight weight in chunkPrefabs)
         {
@@ -353,6 +361,10 @@ public class ChunkLoader : MonoBehaviour
                 groundPool.Add(chunkData);
                 chunkData.chunkNumber = chunkCounter;
                 chunkData.InitializeChunk(chunkData.transform.localPosition);
+
+                //Roll for obstacle
+                int randomObstacle = Random.Range(0, obstacles.Length);
+                chunkData.GenerateObstacle(obstacles[randomObstacle], obstacleChance);
 
                 chunkCounter++;
 

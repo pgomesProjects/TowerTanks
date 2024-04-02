@@ -87,7 +87,7 @@ public class PlayerMovement : Character
                 GameManager.Instance.AudioManager.Play("JetpackRocket");
             }
         }
-        else if (CheckGround() || currentState == CharacterState.CLIMBING)
+        else if (CheckGround() || currentState == CharacterState.OPERATING)
         {
             currentFuel += fuelRegenerationRate * Time.deltaTime;
             if (currentFuel > 100) currentFuel = 100;

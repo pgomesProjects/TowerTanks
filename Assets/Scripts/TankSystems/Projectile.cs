@@ -88,6 +88,12 @@ public class Projectile : MonoBehaviour
             GameManager.Instance.AudioManager.Play("ShellImpact", gameObject);
         }
 
+        if (target != null && target.CompareTag("Destructible"))
+        {
+            target.GetComponent<DestructibleObject>().Damage(75);
+            GameManager.Instance.AudioManager.Play("ShellImpact", gameObject);
+        }
+
         //Effects
         GameManager.Instance.AudioManager.Play("ExplosionSFX", gameObject);
         GameManager.Instance.ParticleSpawner.SpawnParticle(Random.Range(0, 2), transform.position, 0.1f, null);
