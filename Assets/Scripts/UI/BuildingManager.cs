@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.LowLevel;
 using UnityEngine.UIElements;
 
 public class BuildingManager : MonoBehaviour
@@ -10,18 +11,29 @@ public class BuildingManager : MonoBehaviour
     {
         public PlayerInput playerInput { get; private set; }
         public RectTransform cursorTransform { get; private set; }
+        public Room roomObject { get; private set; }
         public Transform roomTransform { get; private set; }
         public bool isMounted { get; private set; }
 
-        public WorldRoom(PlayerInput playerInput, Transform roomTransform)
+        public WorldRoom(PlayerInput playerInput, Room roomObject, Transform roomTransform)
         {
             this.playerInput = playerInput;
-            this.roomTransform = roomTransform;
+            this.roomObject = roomObject;
             cursorTransform = playerInput.GetComponent<GamepadCursor>().GetCursorTransform();
+            this.roomTransform = roomTransform;
             isMounted = false;
         }
 
-        public void Mount() => isMounted = true;
+        public void Mount()
+        {
+            isMounted = roomObject.Mount();
+
+            if(isMounted)
+            {
+                Debug.Log("Room Mounted!");
+                GameManager.Instance.AudioManager.Play("ConnectRoom");
+            }
+        }
     }
 
     [SerializeField, Tooltip("Building canvas.")] private Canvas buildingCanvas;
@@ -30,12 +42,15 @@ public class BuildingManager : MonoBehaviour
 
     public static BuildingManager Instance;
 
+    private TankController defaultPlayerTank;
     private List<WorldRoom> worldRoomObjects;
 
     private void Awake()
     {
         Instance = this;
         worldRoomObjects = new List<WorldRoom>();
+        defaultPlayerTank = FindObjectOfType<TankController>();
+        defaultPlayerTank.TankName = "The Supreme Potato But In-Game";
     }
 
     // Start is called before the first frame update
@@ -43,6 +58,9 @@ public class BuildingManager : MonoBehaviour
     {
         GameManager.Instance?.SetGamepadCursorsActive(true);
         gamePhaseUI?.ShowPhase(GAMESTATE.BUILDING);
+        
+        if(GameManager.Instance.tankDesign != null)
+            defaultPlayerTank.Build(GameManager.Instance.tankDesign);
     }
 
     /// <summary>
@@ -52,9 +70,8 @@ public class BuildingManager : MonoBehaviour
     /// <param name="playerInput">The player to follow.</param>
     public void SpawnRoom(int roomToSpawn, PlayerInput playerInput)
     {
-        Room currentRoom = GameManager.Instance?.roomList[roomToSpawn].GetComponent<Room>();
-        GameObject roomObject = Instantiate(currentRoom.gameObject, roomParentTransform);
-        worldRoomObjects.Add(new WorldRoom(playerInput, roomObject.transform));
+        GameObject roomObject = Instantiate(GameManager.Instance?.roomList[roomToSpawn], roomParentTransform);
+        worldRoomObjects.Add(new WorldRoom(playerInput, roomObject.GetComponent<Room>(), roomObject.transform));
     }
 
     private void Update()
@@ -70,30 +87,62 @@ public class BuildingManager : MonoBehaviour
                 targetPosition = Camera.main.ScreenToWorldPoint(targetPosition);
                 targetPosition.z = 0f;
 
+                room.roomObject.SnapMove(targetPosition);
+
                 // Set the position of the game object to follow the RectTransform
-                room.roomTransform.position = targetPosition;
+                //room.roomTransform.position = targetPosition;
             }
         }
     }
 
-    public void MountRoom(PlayerInput playerInput)
+    public void RotateRoom(PlayerInput playerInput)
     {
-        for(int i = 0; i < worldRoomObjects.Count; i++)
+        WorldRoom playerRoom = GetPlayerRoom(playerInput);
+
+        if (!playerRoom.isMounted)
         {
-            if (!worldRoomObjects[i].isMounted)
+            GameManager.Instance.AudioManager.Play("RotateRoom");
+            playerRoom.roomObject.debugRotate = true;
+        }
+    }
+
+    public bool MountRoom(PlayerInput playerInput)
+    {
+        WorldRoom playerRoom = GetPlayerRoom(playerInput);
+
+        if (!playerRoom.isMounted)
+        {
+            playerRoom.Mount();
+
+            //If the mounting for the room failed, return false
+            if (!playerRoom.isMounted)
+                return false;
+
+            if (AllRoomsMounted())
             {
-                if (worldRoomObjects[i].playerInput == playerInput)
-                {
-                    Debug.Log("Room Mounted!");
-                    worldRoomObjects[i].Mount();
-
-                    if (AllRoomsMounted())
-                        gamePhaseUI?.ShowPhase(GAMESTATE.COMBAT);
-
-                    break;
-                }
+                FinishTank();
             }
         }
+
+        return true;
+    }
+
+    private void FinishTank()
+    {
+        TankDesign currentTankDesign = defaultPlayerTank.GetCurrentDesign();
+        GameManager.Instance.tankDesign = currentTankDesign;
+        gamePhaseUI?.ShowPhase(GAMESTATE.COMBAT);
+    }
+
+    private WorldRoom GetPlayerRoom(PlayerInput playerInput)
+    {
+        for (int i = 0; i < worldRoomObjects.Count; i++)
+        {
+            if (worldRoomObjects[i].playerInput == playerInput)
+                return worldRoomObjects[i];
+        }
+
+        return null;
     }
 
     public bool AllRoomsMounted()

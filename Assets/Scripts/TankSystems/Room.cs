@@ -366,11 +366,11 @@ public class Room : MonoBehaviour
     /// <summary>
     /// Attaches this room to another room or the tank base (based on current position of the room and couplers).
     /// </summary>
-    public void Mount()
+    public bool Mount()
     {
         //Validity checks:
-        if (mounted) { Debug.LogError("Tried to mount room which is already mounted!"); return; }                              //Cannot mount rooms which are already mounted
-        if (ghostCouplers.Count == 0) { Debug.Log("Tried to mount room which is not connected to any other rooms!"); return; } //Cannot mount rooms which are not connected to the tank
+        if (mounted) { Debug.LogError("Tried to mount room which is already mounted!"); return true; }                              //Cannot mount rooms which are already mounted
+        if (ghostCouplers.Count == 0) { Debug.Log("Tried to mount room which is not connected to any other rooms!"); return false; } //Cannot mount rooms which are not connected to the tank
 
         //Un-ghost interactables:
         Cell[] cellsWithSlots = (from cell in cells where cell.hasInteractableSlot select cell).ToArray(); //Get array of cells with interactable slots in room (NOTE: Maybe keep this as a public variable and have cells update it themselves)
@@ -437,6 +437,8 @@ public class Room : MonoBehaviour
         ghostCouplers.Clear();                                                              //Clear ghost couplers list
         mounted = true;                                                                     //Indicate that room is now mounted
         //GameManager.Instance.AudioManager.Play("BuildRoom");
+
+        return mounted;
     }
     /// <summary>
     /// Changes room type to given value.

@@ -89,7 +89,6 @@ public class LevelManager : SerializedMonoBehaviour
     private void Start()
     {
         isSettingUpOnStart = true;
-        SpawnAllPlayers();
         GameManager.Instance.AudioManager.Play("MainMenuWindAmbience");
 
         //Starting resources
@@ -106,19 +105,21 @@ public class LevelManager : SerializedMonoBehaviour
                 break;
         }
 
-/*        if (GameSettings.skipTutorial)
-        {
-            TransitionGameState();
+        /*        if (GameSettings.skipTutorial)
+                {
+                    TransitionGameState();
 
-            AddLayer(); //Add another layer
-        }
-        else
-        {
-            totalScrapValue += 200;
-            GameObject.FindGameObjectWithTag("Resources").gameObject.SetActive(false);
-        }*/
-        
+                    AddLayer(); //Add another layer
+                }
+                else
+                {
+                    totalScrapValue += 200;
+                    GameObject.FindGameObjectWithTag("Resources").gameObject.SetActive(false);
+                }*/
+
+        BuildPlayerTank();
         TransitionGameState();
+        SpawnAllPlayers();
         //AddLayer(); //Add another layer
 
         if (GameSettings.debugMode)
@@ -139,6 +140,15 @@ public class LevelManager : SerializedMonoBehaviour
     {
         GameManager.Instance.MultiplayerManager.OnPlayerConnected -= SpawnPlayer;
         ObjectiveTracker.OnMissionComplete -= CompleteMission;
+    }
+
+    private void BuildPlayerTank()
+    {
+        if(GameManager.Instance.tankDesign != null)
+        {
+            Debug.Log("Building Last Tank Saved...");
+            playerTank.Build(GameManager.Instance.tankDesign);
+        }
     }
 
     private void SpawnAllPlayers()

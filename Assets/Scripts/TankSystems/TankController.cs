@@ -66,7 +66,7 @@ public class TankController : MonoBehaviour
     }
     private void Start()
     {
-        var tankMan = GameObject.Find("TankManager").GetComponent<TankManager>();
+        var tankMan = GameObject.Find("TankManager")?.GetComponent<TankManager>();
 
         if (tankMan != null)
         {
@@ -136,7 +136,7 @@ public class TankController : MonoBehaviour
 
     public void GetTankInfo()
     {
-        var tankMan = GameObject.Find("TankManager").GetComponent<TankManager>();
+        var tankMan = GameObject.Find("TankManager")?.GetComponent<TankManager>();
 
         if (tankMan != null)
         {
