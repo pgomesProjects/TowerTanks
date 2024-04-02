@@ -14,6 +14,7 @@ public class ChunkLoader : MonoBehaviour
     
     public Transform playerTank;
     public float currentChunk; //which chunk the player is currently on
+    private TankManager tankManager;
 
     // The object pool for the ground chunks
     private List<ChunkData> groundPool = new List<ChunkData>();
@@ -48,6 +49,7 @@ public class ChunkLoader : MonoBehaviour
     {
         playerInputComponent = GetComponent<PlayerInput>();
         if (playerInputComponent != null) LinkPlayerInput(playerInputComponent);
+        tankManager = GameObject.Find("TankManager")?.GetComponent<TankManager>();
        
         // Create and initialize the object pool
         if (!enableLevelBuilder)
@@ -252,13 +254,26 @@ public class ChunkLoader : MonoBehaviour
             float chunkDistance = Vector3.Distance(playerTransform, chunkTransform);
 
             //Check if it's close enough to consider it the current chunk
-            if (chunkDistance <= 1f) currentChunk = chunkData.chunkNumber;
+            if (chunkDistance <= 3f) currentChunk = chunkData.chunkNumber;
 
-            //If the chunk is within the render distance, load it. If not, unload it.
-            if (chunkDistance <= RENDER_DISTANCE)
-                chunkData.LoadChunk();
-            else
-                chunkData.UnloadChunk();
+            //If the chunk is within the render distance of any tank, load it. If not, unload it.
+            foreach(TankId tank in tankManager.tanks)
+            {
+                if (tank.gameObject != null)
+                {
+                    Vector3 tankTransform = new Vector3(tank.gameObject.transform.Find("TreadSystem").position.x, 0, 0);
+                    chunkDistance = Vector3.Distance(tankTransform, chunkTransform);
+                    if (chunkDistance <= RENDER_DISTANCE)
+                    {
+                        chunkData.LoadChunk();
+                        break;
+                    }
+                    else
+                    {
+                        chunkData.UnloadChunk();
+                    }
+                }
+            }
         }
     }
 

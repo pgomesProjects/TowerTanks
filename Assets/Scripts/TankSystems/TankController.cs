@@ -20,6 +20,8 @@ public class TankController : MonoBehaviour
 
     private TextMeshProUGUI nameText;
 
+    private TankManager tankManager;
+
     [Header("Cargo")]
     public GameObject[] cargoHold;
 
@@ -66,11 +68,11 @@ public class TankController : MonoBehaviour
     }
     private void Start()
     {
-        var tankMan = GameObject.Find("TankManager")?.GetComponent<TankManager>();
+        tankManager = GameObject.Find("TankManager")?.GetComponent<TankManager>();
 
-        if (tankMan != null)
+        if (tankManager != null)
         {
-            foreach (TankId tank in tankMan.tanks)
+            foreach (TankId tank in tankManager.tanks)
             {
                 if (tank.gameObject == gameObject) //if I'm on the list,
                 {
@@ -136,11 +138,11 @@ public class TankController : MonoBehaviour
 
     public void GetTankInfo()
     {
-        var tankMan = GameObject.Find("TankManager")?.GetComponent<TankManager>();
+        tankManager = GameObject.Find("TankManager")?.GetComponent<TankManager>();
 
-        if (tankMan != null)
+        if (tankManager != null)
         {
-            foreach (TankId tank in tankMan.tanks)
+            foreach (TankId tank in tankManager.tanks)
             {
                 if (tank.gameObject == gameObject) //if I'm on the list,
                 {
@@ -170,6 +172,8 @@ public class TankController : MonoBehaviour
         {
             if (!isDying)
             {
+                EventSpawnerManager spawner = GameObject.Find("LevelManager")?.GetComponent<EventSpawnerManager>();
+                spawner.EnemyDestroyed(this);
                 StartCoroutine(DeathSequence(2.5f));
             }
         }

@@ -5759,6 +5759,7 @@ MonoBehaviour:
   currentEncounter: 
   maxEvents: 1
   currentChunk: 0
+  lastChunk: 0
   chunksTraveled: 0
   minTriggerDistance: 4
   maxTriggerDistance: 12
@@ -6636,7 +6637,7 @@ MonoBehaviour:
     bias: 0
     isPreset: 1
   poolSize: 50
-  RENDER_DISTANCE: 1000
+  RENDER_DISTANCE: 60
   biasesCanRepeat: 0
   enableLevelBuilder: 0
   levelBuilderUI: {fileID: 1659328985}

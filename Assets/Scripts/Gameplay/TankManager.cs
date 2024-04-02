@@ -16,7 +16,7 @@ public class TankManager : SerializedMonoBehaviour
     
     [TabGroup("Runtime Actions")]
     [Button("Spawn New Tank", ButtonSizes.Small)]
-    public void SpawnTank(bool spawnEnemy = true, bool spawnBuilt = false)
+    public TankController SpawnTank(bool spawnEnemy = true, bool spawnBuilt = false)
     {
         TankId newtank = new TankId();
 
@@ -38,11 +38,13 @@ public class TankManager : SerializedMonoBehaviour
         }
 
         //Assign Values
-        newtank.gameObject.GetComponent<TankController>().TankName = newtank.TankName;
-        newtank.gameObject.GetComponent<TankController>().tankType = newtank.tankType;
+        TankController tankScript = newtank.gameObject.GetComponent<TankController>();
+        tankScript.TankName = newtank.TankName;
+        tankScript.tankType = newtank.tankType;
         newtank.gameObject.transform.parent = null;
 
         tanks.Add(newtank);
+        return tankScript;
     }
     
     public void MoveSpawnPoint(Vector3 newPosition)

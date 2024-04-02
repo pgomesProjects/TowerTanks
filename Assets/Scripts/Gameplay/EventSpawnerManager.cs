@@ -22,7 +22,7 @@ public class EventSpawnerManager : MonoBehaviour
 
     [Header("Spawner Variables")]
     [SerializeField, Tooltip("The current chunk the player tank is on")] public float currentChunk = 0;
-    private float lastChunk = 0;
+    [SerializeField, Tooltip("The chunk players have to travel passed for it to be considered new territory")] private float lastChunk = 0;
     [SerializeField, Tooltip("The number of chunks the player tank has traveled since the last event marker")] public float chunksTraveled = 0;
     [SerializeField, Tooltip("The minimum distance in chunks players need to travel before another event can trigger")] public float minTriggerDistance;
     [SerializeField, Tooltip("The maximum distance in chunks players need to travel before another event can trigger")] public float maxTriggerDistance;
@@ -32,6 +32,7 @@ public class EventSpawnerManager : MonoBehaviour
     private float eventSpawnTimer = 0;
 
     private TankController playerTank;
+    private List<TankController> enemies = new List<TankController>();
 
     private void Awake()
     {
@@ -57,7 +58,7 @@ public class EventSpawnerManager : MonoBehaviour
     public void UpdateCurrentChunk()
     {
         currentChunk = chunkLoader.currentChunk;
-        if(currentChunk > lastChunk) 
+        if(currentChunk > lastChunk && !currentEncounter.Contains(EventType.ENEMY)) 
         {
             lastChunk = currentChunk;
             chunksTraveled += 1;
@@ -96,6 +97,7 @@ public class EventSpawnerManager : MonoBehaviour
             case EventType.FRIENDLY: Debug.Log("Spawning Friendly!"); break;
             case EventType.TUTORIAL: Debug.Log("Spawning Tutorial Event!"); break;
         }
+        chunksTraveled = 0;
     }
 
     public void SpawnNewEnemy()
@@ -110,6 +112,22 @@ public class EventSpawnerManager : MonoBehaviour
         levelManager.tankManager.tankSpawnPoint.position += new Vector3(0, 20, 0);
 
         //Spawn new enemy tank
-        levelManager.tankManager.SpawnTank(true, true);
+        TankController newtank = levelManager.tankManager.SpawnTank(true, true);
+        enemies.Add(newtank);
+    }
+
+    public void EnemyDestroyed(TankController tank)
+    {
+        if (enemies.Contains(tank))
+        {
+            enemies.Remove(tank);
+            currentEncounter.Remove(EventType.ENEMY);
+        }
+        if (enemies.Count == 0) 
+        {
+            Vector3 destroyedPos = tank.treadSystem.transform.position;
+            float newMarker = chunkLoader.GetChunkAtPosition(destroyedPos).chunkNumber;
+            if (newMarker != -1) lastChunk = newMarker;
+        }
     }
 }
