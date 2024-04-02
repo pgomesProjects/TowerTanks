@@ -38,7 +38,7 @@ public class SimpleCannonBrain : MonoBehaviour
         else
         {
             float randomForce = Random.Range(-1.2f, 1.2f);
-            StartCoroutine(AimCannon(randomForce));
+            //StartCoroutine(AimCannon(randomForce));
 
             float randomOffset = Random.Range(-2f, 2f);
             aimTimer = 0 + randomOffset;

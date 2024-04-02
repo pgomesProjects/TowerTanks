@@ -80,7 +80,7 @@ public class SimpleTankBrain : MonoBehaviour
         engineCooldownTimer -= Time.deltaTime;
         if (engineCooldownTimer <= 0)
         {
-            engineCooldownTimer = 10f;
+            engineCooldownTimer = 12f;
             LoadAllEngines(1);
         }
     }
