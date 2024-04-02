@@ -28,6 +28,7 @@ public class TankController : MonoBehaviour
     public bool shiftRight;
     public bool shiftLeft;
     public bool damage;
+    public bool addEngine;
 
     public bool isDying = false; //true when the tank is in the process of blowing up
     private float deathSequenceTimer = 0;
@@ -41,9 +42,6 @@ public class TankController : MonoBehaviour
         treadSystem.Initialize();                            //Make sure treads are initialized
 
         nameText = GetComponentInChildren<TextMeshProUGUI>();
-
-        //Identify what tank I am
-        GetTankInfo();
 
         //Room setup:
         rooms = new List<Room>(GetComponentsInChildren<Room>()); //Get list of all rooms which spawn as children of tank (for prefab tanks)
@@ -90,6 +88,9 @@ public class TankController : MonoBehaviour
             }
         }
 
+        //Identify what tank I am
+        GetTankInfo();
+
         //Enemy Logic
         if (tankType == TankId.TankType.ENEMY)
         {
@@ -109,6 +110,7 @@ public class TankController : MonoBehaviour
         if (shiftLeft) { shiftLeft = false; ChangeAllGear(-1); }
         if (shiftRight) { shiftRight = false; ChangeAllGear(1); }
         if (damage) { damage = false; Damage(100); }
+        if (addEngine) { addEngine = false; treadSystem.currentEngines += 1; }
 
         //Update name
         nameText.text = TankName;

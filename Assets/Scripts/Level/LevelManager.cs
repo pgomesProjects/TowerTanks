@@ -12,7 +12,7 @@ public enum GAMESTATE
 
 public class LevelManager : SerializedMonoBehaviour
 {
-    [SerializeField] private TankController playerTank;
+    [SerializeField] public TankController playerTank;
     [SerializeField] private Transform layerParent;
     [SerializeField] private Transform playerParent;
     [SerializeField] private GameObject layerPrefab;
@@ -23,7 +23,7 @@ public class LevelManager : SerializedMonoBehaviour
     [SerializeField, Tooltip("The value of a singular scrap piece.")] private int scrapValue;
     [SerializeField, Tooltip("The level event data that dictates how the level must be run.")] private LevelEvents currentLevelEvent;
     [SerializeField, Tooltip("The component that tracks the objective information.")] private ObjectiveTracker objectiveTracker;
-    [SerializeField, Tooltip("The component that tracks tank information.")] private TankManager tankManager;
+    [SerializeField, Tooltip("The component that tracks tank information.")] public TankManager tankManager;
 
     public static LevelManager Instance;
 

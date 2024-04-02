@@ -13,6 +13,7 @@ public class ChunkLoader : MonoBehaviour
     [SerializeField, Tooltip("The chunk that the level starts with.")] private ChunkData startingChunk;
     
     public Transform playerTank;
+    public float currentChunk; //which chunk the player is currently on
 
     // The object pool for the ground chunks
     private List<ChunkData> groundPool = new List<ChunkData>();
@@ -246,7 +247,12 @@ public class ChunkLoader : MonoBehaviour
     {
         foreach (ChunkData chunkData in groundPool)
         {
-            float chunkDistance = Vector3.Distance(playerTank.position, chunkData.transform.position);
+            Vector3 playerTransform = new Vector3(playerTank.position.x, 0, 0);
+            Vector3 chunkTransform = new Vector3(chunkData.transform.position.x, 0, 0);
+            float chunkDistance = Vector3.Distance(playerTransform, chunkTransform);
+
+            //Check if it's close enough to consider it the current chunk
+            if (chunkDistance <= 1f) currentChunk = chunkData.chunkNumber;
 
             //If the chunk is within the render distance, load it. If not, unload it.
             if (chunkDistance <= RENDER_DISTANCE)
@@ -611,6 +617,19 @@ public class ChunkLoader : MonoBehaviour
         }
     }
 
+    public ChunkData GetChunkAtPosition(Vector3 position)
+    {
+        ChunkData chunk = null;
+        foreach(ChunkData _chunk in groundPool)
+        {
+            if (_chunk.transform.position.x >= position.x)
+            {
+                chunk = _chunk;
+            }
+        }
+
+        return chunk;
+    }
     #endregion
 
     #region Input

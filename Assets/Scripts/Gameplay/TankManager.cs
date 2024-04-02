@@ -9,31 +9,44 @@ public class TankManager : SerializedMonoBehaviour
     public Transform tankSpawnPoint;
 
     [PropertySpace]
+    public List<TextAsset> enemyTankDesigns = new List<TextAsset>();
+
+    [PropertySpace]
     public List<TankId> tanks = new List<TankId>();
     
     [TabGroup("Runtime Actions")]
     [Button("Spawn New Tank", ButtonSizes.Small)]
-    public void SpawnTank()
+    public void SpawnTank(bool spawnEnemy = true, bool spawnBuilt = false)
     {
         TankId newtank = new TankId();
-        newtank.tankType = TankId.TankType.ENEMY;
 
-        TankNames nameType = Resources.Load<TankNames>("TankNames/PirateNames");
-        newtank.TankName = new TankNameGenerator().GenerateRandomName(nameType);
-        newtank.gameObject = Instantiate(tankPrefab, tankSpawnPoint, false);
-        newtank.gameObject.name = newtank.TankName;
-        newtank.tankType = TankId.TankType.ENEMY;
+        if (spawnEnemy)
+        {
+            TankNames nameType = Resources.Load<TankNames>("TankNames/PirateNames");
+            newtank.TankName = new TankNameGenerator().GenerateRandomName(nameType);
+            newtank.gameObject = Instantiate(tankPrefab, tankSpawnPoint, false);
+            newtank.gameObject.name = newtank.TankName;
+            newtank.tankType = TankId.TankType.ENEMY;
 
-        //Assign Name
+            int random = Random.Range(0, enemyTankDesigns.Count);
+            newtank.design = enemyTankDesigns[random];
+
+            if (spawnBuilt)
+            {
+                newtank.buildOnStart = true;
+            }
+        }
+
+        //Assign Values
         newtank.gameObject.GetComponent<TankController>().TankName = newtank.TankName;
+        newtank.gameObject.GetComponent<TankController>().tankType = newtank.tankType;
         newtank.gameObject.transform.parent = null;
 
         tanks.Add(newtank);
     }
-    [TabGroup("Runtime Actions")]
-    [Button("Move Spawn Point")]
-    public void MoveSpawnPoint()
+    
+    public void MoveSpawnPoint(Vector3 newPosition)
     {
-        tankSpawnPoint.position += new Vector3(15, 0, 0);
+        tankSpawnPoint.position = newPosition;
     }
 }
