@@ -591,6 +591,9 @@ MonoBehaviour:
   - {fileID: 1006130015887727865}
   - {fileID: 5348483250243960654}
   startingInteractable: {fileID: 0}
+  hasInteractableSlot: 0
+  maxHealth: 75
+  health: 0
 --- !u!61 &4807245302401017544
 BoxCollider2D:
   m_ObjectHideFlags: 0

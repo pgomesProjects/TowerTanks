@@ -48,11 +48,20 @@ public class Cell : MonoBehaviour
     [Tooltip("Interactable currently installed in this cell.")]                                     internal TankInteractable installedInteractable;
     [Tooltip("True if cell destruction has already been scheduled, used to prevent conflicts.")]    private bool dying;
     private bool initialized = false; //True once cell has been set up and is ready to go
+    [Tooltip("Maximum hitpoints this cell can have when fully repaired.")] public float maxHealth;
+    [Tooltip("Current hitpoints this cell has.")] public float health;
 
     //RUNTIME METHODS:
     private void Awake()
     {
         Initialize(); //Set up cell
+    }
+
+    private void Start()
+    {
+        //Assign Values
+        if (room.type == Room.RoomType.Defense) maxHealth *= 2f; //Armor has 2x hitpoints
+        health = maxHealth;
     }
 
     //FUNCTIONALITY METHODS:
@@ -68,6 +77,7 @@ public class Cell : MonoBehaviour
         //Get objects & components:
         room = GetComponentInParent<Room>(); //Get room cell is connected to
         c = GetComponent<BoxCollider2D>();   //Get local collider
+        health = maxHealth;
 
         //Check special conditions:
         if (startingInteractable != null) //Cell starts with an interactable
@@ -149,12 +159,17 @@ public class Cell : MonoBehaviour
         {
             room.targetTank.Damage(amount);
         }
-        else Kill(); 
+        else
+        {
+            if (room.type == Room.RoomType.Defense) amount -= 25f; //Armor reduces incoming damage
+            health -= amount;
+            if (health <= 0) Kill();
+        }
     }
-    /// <summary>
-    /// Checks to see if this cell has been disconnected from the tank and then kills it if it has been.
-    /// </summary>
-    public void KillIfDisconnected()
+        /// <summary>
+        /// Checks to see if this cell has been disconnected from the tank and then kills it if it has been.
+        /// </summary>
+        public void KillIfDisconnected()
     {
         //Validity checks:
         if (dying) return; //Do not try to kill a cell twice
