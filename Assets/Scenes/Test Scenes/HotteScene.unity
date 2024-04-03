@@ -7225,6 +7225,11 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!4 &1538535699 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 653320214817922089, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+  m_PrefabInstance: {fileID: 1677695872066042756}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1540835644
 GameObject:
   m_ObjectHideFlags: 0
@@ -9872,6 +9877,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -1844445078350209630, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: flag
+      value: 
+      objectReference: {fileID: 1538535699}
+    - target: {fileID: -1844445078350209630, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
@@ -9929,6 +9938,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1677695872800944110, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
       propertyPath: m_BodyType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2687768884453491569, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:

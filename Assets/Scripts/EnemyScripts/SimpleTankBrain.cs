@@ -15,6 +15,7 @@ public class SimpleTankBrain : MonoBehaviour
     private TankController tank;
     private TankManager tankMan;
     private GunController[] guns;
+    public Transform flag;
 
     //Ai Variables
     [SerializeField, Tooltip("Time in seconds between each decision this tank makes")] public float decisionCooldown;
@@ -67,6 +68,16 @@ public class SimpleTankBrain : MonoBehaviour
                 state = TankBehavior.FLEE;
                 Debug.Log("Ah shit");
             }
+
+            if (state != TankBehavior.SURRENDER)
+            {
+                if (tank.treadSystem.currentEngines <= 0)
+                {
+                    flag.gameObject.SetActive(true);
+                    Debug.Log("You have bested me.");
+                    state = TankBehavior.SURRENDER;
+                }
+            }
         }
 
         switch (state)
@@ -75,6 +86,7 @@ public class SimpleTankBrain : MonoBehaviour
             case TankBehavior.PURSUE: Pursue(); break;
             case TankBehavior.ENGAGE: Engage(); break;
             case TankBehavior.FLEE: Flee(); break;
+            case TankBehavior.SURRENDER: Surrender(); break;
         }
 
         engineCooldownTimer -= Time.deltaTime;
@@ -206,6 +218,25 @@ public class SimpleTankBrain : MonoBehaviour
         if (decisionTimer <= 0)
         {
             if (tank.treadSystem.gear < 2)
+            {
+                Debug.Log("Zoinks! I'm gettin outa here!");
+                tank.shiftRight = true;
+            }
+
+            decisionTimer = 0.5f;
+        }
+    }
+
+    public void Surrender()
+    {
+        if (decisionTimer <= 0)
+        {
+            if (tank.treadSystem.gear > 0)
+            {
+                tank.shiftLeft = true;
+            }
+
+            if (tank.treadSystem.gear < 0)
             {
                 tank.shiftRight = true;
             }
