@@ -28,6 +28,16 @@ MonoBehaviour:
   - Overlocked
   - Pavlovian
   - Advanced
+  - Windup
+  - Robo
+  - Nuclear
+  - Antimatter
+  - Executive
+  - Mechanized
+  - Giga
+  - Nitrous
+  - Anti
+  - Scrapyard
   nouns:
   - Grunt
   - Trojan
@@ -44,3 +54,13 @@ MonoBehaviour:
   - Engine
   - Dynamo
   - Greaser
+  - Unit
+  - Terminator
+  - Machine
+  - Motherboard
+  - Battery
+  - Pylon
+  - Monitor
+  - Rig
+  - Drone
+  - Titan
