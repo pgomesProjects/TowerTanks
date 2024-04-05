@@ -52,42 +52,22 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 855465098922572524, guid: 425833f9203f7524fbb7395b07c49613, type: 3}
-    - {fileID: 855465098922572524, guid: 0e2f209746c77a04fb197813b0d75d43, type: 3}
-    - {fileID: 855465098922572524, guid: 918a267e177953742b1690c3783c59a1, type: 3}
-    - {fileID: 855465098922572524, guid: 4c04a21b2f5cd1141bb4dc750a1dc01c, type: 3}
-    - {fileID: 855465098922572524, guid: 58db6f32a2ebb6e4cb7be33a1709a890, type: 3}
-    - {fileID: 855465098922572524, guid: 174d8810eb244e44eb11447c224f87b8, type: 3}
-    - {fileID: 855465098922572524, guid: bb4119894f945184a9b17c0fcaa7efe9, type: 3}
-    - {fileID: 855465098922572524, guid: c70f96b998f38064cbf2fde7c7f26cc2, type: 3}
-    - {fileID: 855465098922572524, guid: d391f617010909b498f89d1a5a57aa3a, type: 3}
-    - {fileID: 855465098922572524, guid: 27a0c0c4ad114fc439dc3fb68286e606, type: 3}
-    - {fileID: 855465098922572524, guid: 23b5c873e2247474a81655a1b79b98c3, type: 3}
-    - {fileID: 855465098922572524, guid: d2e560ec488005f4c998b705c7763577, type: 3}
-    - {fileID: 855465098922572524, guid: 53043493c4f9dd542becd99e50494169, type: 3}
-    - {fileID: 855465098922572524, guid: 78ae4479a8f953c478d91dadfa1530e6, type: 3}
-    - {fileID: 855465098922572524, guid: 015bef292bb9b914b9cb1082cee66bf7, type: 3}
-    - {fileID: 855465098922572524, guid: ce7b7f9052bae4645ba11a2306b8beed, type: 3}
-    - {fileID: 855465098922572524, guid: a7d47268a060f9a4bb31ea7be64a5f82, type: 3}
-    - {fileID: 855465098922572524, guid: c8a9a63fd9b16424dbb035d7907024ea, type: 3}
-    - {fileID: 855465098922572524, guid: 1ff5ecd312e82094f93416dd7a78e87b, type: 3}
     - {fileID: 7281501281902775960, guid: 2e51fe5fceaee5e41916aae7949336c8, type: 3}
     - {fileID: 917774235452588900, guid: 34b0c3d4656ef5045ac437235b33d2f3, type: 3}
     - {fileID: 8306713773444683921, guid: 81dde3955239f28438ad5263ed2c4a16, type: 3}
     - {fileID: 7281501281902775960, guid: 4b503e72c2ea1f74a90e1375e08df7b7, type: 3}
     - {fileID: 7281501281902775960, guid: ba2bd2897f49b9843a470260d31727ad, type: 3}
-    - {fileID: 3642906957018620649, guid: 3fced5b46cb66c44f99395b2f109e3ad, type: 3}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
-    - Name: roomList
+    - Name: interactableList
       Entry: 7
       Data: 0|UnityEngine.GameObject[], UnityEngine.CoreModule
     - Name: 
       Entry: 12
-      Data: 19
+      Data: 5
     - Name: 
       Entry: 10
       Data: 0
@@ -104,101 +84,42 @@ MonoBehaviour:
       Entry: 10
       Data: 4
     - Name: 
-      Entry: 10
-      Data: 5
-    - Name: 
-      Entry: 10
-      Data: 6
-    - Name: 
-      Entry: 10
-      Data: 7
-    - Name: 
-      Entry: 10
-      Data: 8
-    - Name: 
-      Entry: 10
-      Data: 9
-    - Name: 
-      Entry: 10
-      Data: 10
-    - Name: 
-      Entry: 10
-      Data: 11
-    - Name: 
-      Entry: 10
-      Data: 12
-    - Name: 
-      Entry: 10
-      Data: 13
-    - Name: 
-      Entry: 10
-      Data: 14
-    - Name: 
-      Entry: 10
-      Data: 15
-    - Name: 
-      Entry: 10
-      Data: 16
-    - Name: 
-      Entry: 10
-      Data: 17
-    - Name: 
-      Entry: 10
-      Data: 18
-    - Name: 
       Entry: 13
       Data: 
     - Name: 
       Entry: 8
       Data: 
-    - Name: interactableList
-      Entry: 7
-      Data: 1|UnityEngine.GameObject[], UnityEngine.CoreModule
-    - Name: 
-      Entry: 12
-      Data: 5
-    - Name: 
-      Entry: 10
-      Data: 19
-    - Name: 
-      Entry: 10
-      Data: 20
-    - Name: 
-      Entry: 10
-      Data: 21
-    - Name: 
-      Entry: 10
-      Data: 22
-    - Name: 
-      Entry: 10
-      Data: 23
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: cargoList
-      Entry: 7
-      Data: 2|UnityEngine.GameObject[], UnityEngine.CoreModule
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 10
-      Data: 24
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
+  roomList:
+  - {fileID: 855465098922572524, guid: 425833f9203f7524fbb7395b07c49613, type: 3}
+  - {fileID: 855465098922572524, guid: 0e2f209746c77a04fb197813b0d75d43, type: 3}
+  - {fileID: 855465098922572524, guid: 918a267e177953742b1690c3783c59a1, type: 3}
+  - {fileID: 855465098922572524, guid: 4c04a21b2f5cd1141bb4dc750a1dc01c, type: 3}
+  - {fileID: 855465098922572524, guid: 58db6f32a2ebb6e4cb7be33a1709a890, type: 3}
+  - {fileID: 855465098922572524, guid: 174d8810eb244e44eb11447c224f87b8, type: 3}
+  - {fileID: 855465098922572524, guid: bb4119894f945184a9b17c0fcaa7efe9, type: 3}
+  - {fileID: 855465098922572524, guid: c70f96b998f38064cbf2fde7c7f26cc2, type: 3}
+  - {fileID: 855465098922572524, guid: d391f617010909b498f89d1a5a57aa3a, type: 3}
+  - {fileID: 855465098922572524, guid: 27a0c0c4ad114fc439dc3fb68286e606, type: 3}
+  - {fileID: 855465098922572524, guid: 23b5c873e2247474a81655a1b79b98c3, type: 3}
+  - {fileID: 855465098922572524, guid: d2e560ec488005f4c998b705c7763577, type: 3}
+  - {fileID: 855465098922572524, guid: 53043493c4f9dd542becd99e50494169, type: 3}
+  - {fileID: 855465098922572524, guid: 78ae4479a8f953c478d91dadfa1530e6, type: 3}
+  - {fileID: 855465098922572524, guid: 015bef292bb9b914b9cb1082cee66bf7, type: 3}
+  - {fileID: 855465098922572524, guid: ce7b7f9052bae4645ba11a2306b8beed, type: 3}
+  - {fileID: 855465098922572524, guid: a7d47268a060f9a4bb31ea7be64a5f82, type: 3}
+  - {fileID: 855465098922572524, guid: c8a9a63fd9b16424dbb035d7907024ea, type: 3}
+  - {fileID: 855465098922572524, guid: 1ff5ecd312e82094f93416dd7a78e87b, type: 3}
+  cargoList:
+  - {fileID: 3642906957018620649, guid: 3fced5b46cb66c44f99395b2f109e3ad, type: 3}
   fadeInTime: 1
   fadeOutTime: 0.5
   closeGateTime: 1
   openGateTime: 0.5
   loaderCanvas: {fileID: 6961505860615057902}
   progressBar: {fileID: 3983473102911642745}
+  tankDesign:
+    TankName: 
+    buildingSteps: []
 --- !u!1 &1903508510957378736
 GameObject:
   m_ObjectHideFlags: 0

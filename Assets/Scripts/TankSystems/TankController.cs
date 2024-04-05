@@ -31,6 +31,7 @@ public class TankController : MonoBehaviour
     public bool shiftLeft;
     public bool damage;
     public bool addEngine;
+    public bool fireAllCannons;
 
     public bool isDying = false; //true when the tank is in the process of blowing up
     private float deathSequenceTimer = 0;
@@ -113,6 +114,7 @@ public class TankController : MonoBehaviour
         if (shiftRight) { shiftRight = false; ChangeAllGear(1); }
         if (damage) { damage = false; Damage(100); }
         if (addEngine) { addEngine = false; treadSystem.currentEngines += 1; }
+        if (fireAllCannons) { fireAllCannons = false; FireAllCannons(); }
 
         //Update name
         nameText.text = TankName;
@@ -133,6 +135,15 @@ public class TankController : MonoBehaviour
             {
                 throttles[i].ChangeGear(direction);
             }
+        }
+    }
+
+    public void FireAllCannons()
+    {
+        GunController[] cannons = GetComponentsInChildren<GunController>();
+        foreach(GunController cannon in cannons)
+        {
+            cannon.Fire();
         }
     }
 

@@ -2226,8 +2226,12 @@ MonoBehaviour:
   - {fileID: 4900000, guid: 845f54f97cf655f45b5cddbdaafd716e, type: 3}
   - {fileID: 4900000, guid: 46c406a077c4d2c46ab3265201c1c9cb, type: 3}
   - {fileID: 4900000, guid: aecb783de59916340b00ac621243d679, type: 3}
+  - {fileID: 4900000, guid: 2b290a1f1d549af47982322023504d04, type: 3}
   - {fileID: 4900000, guid: 186f6f49053e223408a0cbc423f5ef4b, type: 3}
+  - {fileID: 4900000, guid: 9c38265d0767b1141bf8cc348890cb6e, type: 3}
   - {fileID: 4900000, guid: 07128b33684f2044c80a27de8cb188a8, type: 3}
+  - {fileID: 4900000, guid: 8b1a12644bbf5b04c93f281ed05f4c13, type: 3}
+  - {fileID: 4900000, guid: 566d1a856563b8643a920316711eaaa5, type: 3}
   tanks:
   - TankName: The Supreme Potato
     tankType: 0
