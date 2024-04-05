@@ -33,7 +33,7 @@
 				<GameParameter Id="4287925136" Name="CombatLayer2Volume"/>
 			</GameParameters>
 		</SoundBank>
-		<SoundBank Id="2880737896" Type="User" Language="SFX" Hash="{F395FEC3-290A-29F5-4CE7-44274309342F}">
+		<SoundBank Id="2880737896" Type="User" Language="SFX" Hash="{D3FF7020-10F7-1433-F361-C2467894B808}">
 			<ShortName>mainbank</ShortName>
 			<Path>mainbank.bnk</Path>
 			<Media>
@@ -579,5 +579,5 @@
 			</GameParameters>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{C61709A9-25F8-062A-2557-5ABB6D53F3FF}</FileHash>
+	<FileHash>{1CDFD1C1-A508-6951-ABE3-619EA8125DD1}</FileHash>
 </SoundBanksInfo>

@@ -82,19 +82,22 @@ public class PlayerMovement : Character
             currentFuel -= fuelDepletionRate * Time.deltaTime;
             if (currentFuel < 0) currentFuel = 0;
 
-            if (!GameManager.Instance.AudioManager.IsPlaying("JetpackRocket"))
+            if (!GameManager.Instance.AudioManager.IsPlaying("JetpackRocket", gameObject))
             {
-                GameManager.Instance.AudioManager.Play("JetpackRocket");
+                GameManager.Instance.AudioManager.Play("JetpackRocket", gameObject);
             }
         }
-        else if (CheckGround() || currentState == CharacterState.OPERATING)
+        else 
         {
-            currentFuel += fuelRegenerationRate * Time.deltaTime;
-            if (currentFuel > 100) currentFuel = 100;
-
-            if (GameManager.Instance.AudioManager.IsPlaying("JetpackRocket"))
+            if (CheckGround() || currentState == CharacterState.OPERATING)
             {
-                GameManager.Instance.AudioManager.Stop("JetpackRocket");
+                currentFuel += fuelRegenerationRate * Time.deltaTime;
+                if (currentFuel > 100) currentFuel = 100;
+            }
+
+            if (GameManager.Instance.AudioManager.IsPlaying("JetpackRocket", gameObject))
+            {
+                GameManager.Instance.AudioManager.Stop("JetpackRocket", gameObject);
             }
         }
         
@@ -205,7 +208,7 @@ public class PlayerMovement : Character
     public void SetFuel(float value)
     {
         currentFuel = value;
-        GameManager.Instance.AudioManager.Play("JetpackRefuel");
+        GameManager.Instance.AudioManager.Play("JetpackRefuel", gameObject);
     }
 
     #endregion
@@ -303,7 +306,7 @@ public class PlayerMovement : Character
     public void OnJetpack(InputAction.CallbackContext ctx)
     {
         jetpackInputHeld = ctx.ReadValue<float>() > 0;
-        if (ctx.ReadValue<float>() > 0 && currentState != CharacterState.OPERATING) GameManager.Instance.AudioManager.Play("JetpackStartup");
+        if (ctx.ReadValue<float>() > 0 && currentState != CharacterState.OPERATING) GameManager.Instance.AudioManager.Play("JetpackStartup", gameObject);
     }
 
     public void OnInteract(InputAction.CallbackContext ctx)

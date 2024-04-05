@@ -964,6 +964,13 @@
 							</ActiveSourceList>
 						</Sound>
 						<RandomSequenceContainer Name="TT_SFX_jetpack-startup" ID="{68C35D55-FCFA-4EC7-9848-125037ED2F00}" ShortID="796941217">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-14</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>

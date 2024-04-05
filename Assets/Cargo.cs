@@ -36,6 +36,8 @@ public class Cargo : MonoBehaviour
     void Start()
     {
         currentHolder = null;
+        StartCoroutine(Initialize());
+        StartCoroutine(InitializeTrail());
     }
 
     // Update is called once per frame
@@ -48,28 +50,32 @@ public class Cargo : MonoBehaviour
             transform.rotation = new Quaternion(0, 0, 0, 0);
         }
 
-        if (initCooldown > 0) initCooldown -= Time.deltaTime;
-        else
-        {
-            if (box2D.enabled == false) box2D.enabled = true;
-        }
-
-        if (trailCooldown > 0) trailCooldown -= Time.deltaTime;
-        else
-        {
-            if (trail.enabled == true) trail.enabled = false;
-        }
-
         CheckForOnboard();
+    }
+
+    private IEnumerator Initialize()
+    {
+        yield return new WaitForSeconds(initCooldown);
+        if (box2D.enabled == false) box2D.enabled = true;
+        
+    }
+
+    private IEnumerator InitializeTrail()
+    {
+        yield return new WaitForSeconds(trailCooldown);
+        if (trail.enabled == true) trail.enabled = false;
     }
 
     public void Pickup(PlayerMovement player)
     {
-        currentHolder = player;
-        player.isCarryingSomething = true;
-        player.currentObject = this;
+        if (currentHolder == null)
+        {
+            currentHolder = player;
+            player.isCarryingSomething = true;
+            player.currentObject = this;
 
-        GameManager.Instance.AudioManager.Play("UseSFX");
+            GameManager.Instance.AudioManager.Play("UseSFX");
+        }
     }
 
     public void Drop(PlayerMovement player, bool throwing, Vector2 direction)
