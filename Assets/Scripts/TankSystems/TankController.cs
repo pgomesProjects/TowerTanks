@@ -285,7 +285,7 @@ public class TankController : MonoBehaviour
 
             //Execute the step
             roomScript.UpdateRoomType(type);
-            roomScript.transform.position += spawnVector;
+            roomScript.transform.localPosition = spawnVector;
             if (tankDesign.buildingSteps[i].direction != 1) roomScript.flipOnStart = true;
             for (int r = 0; r < rotate + 4; r++)
             {
