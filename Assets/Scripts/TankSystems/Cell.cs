@@ -162,6 +162,7 @@ public class Cell : MonoBehaviour
         else
         {
             if (room.type == Room.RoomType.Defense) amount -= 25f; //Armor reduces incoming damage
+            if (amount < 0) amount = 0;
             health -= amount;
             if (health <= 0) Kill();
         }

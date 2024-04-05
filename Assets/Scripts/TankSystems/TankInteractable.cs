@@ -47,6 +47,11 @@ public class TankInteractable : MonoBehaviour
     }
     private void OnDestroy()
     {
+        if (hasOperator)
+        {
+            Exit(false);
+        }
+
         //Destruction Cleanup:
         if (parentCell != null) //Interactable is mounted in a cell
         {
@@ -54,7 +59,10 @@ public class TankInteractable : MonoBehaviour
             if (parentCell.installedInteractable == this) parentCell.installedInteractable = null;                                   //Remove reference from parent cell
             if (parentCell.room != null && parentCell.room.interactables.Contains(this)) parentCell.room.interactables.Remove(this); //Remove reference from parent room
         }
+    }
 
+    private void OnDisable()
+    {
         if (hasOperator)
         {
             Exit(false);
