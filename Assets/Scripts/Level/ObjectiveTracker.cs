@@ -44,15 +44,18 @@ public class ObjectiveTracker : MonoBehaviour
         {
             case ObjectiveType.TravelDistance:
 
-                //Calculate the distance between the tank and the target
-                float distance = targetDistance - playerTank.transform.position.x;
-
-                //If the target has been reached, complete the objective
-                if (distance <= 0)
+                if (playerTank != null)
                 {
-                    Debug.Log("Tank has passed the target.");
-                    OnMissionComplete?.Invoke();
-                    missionActive = false;
+                    //Calculate the distance between the tank and the target
+                    float distance = targetDistance - playerTank.transform.position.x;
+
+                    //If the target has been reached, complete the objective
+                    if (distance <= 0)
+                    {
+                        Debug.Log("Tank has passed the target.");
+                        OnMissionComplete?.Invoke();
+                        missionActive = false;
+                    }
                 }
                 break;
         }

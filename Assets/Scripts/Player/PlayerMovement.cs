@@ -364,7 +364,11 @@ public class PlayerMovement : Character
     {
         if (ctx.started)
         {
+            //Interactables
             if (currentInteractable != null) currentInteractable.SecondaryUse(true);
+
+            //Items
+            if (currentObject != null) currentObject.Use();
         }
 
         if (ctx.canceled)

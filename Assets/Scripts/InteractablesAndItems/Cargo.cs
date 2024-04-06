@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class Cargo : MonoBehaviour
 {
-    public enum CargoType { SCRAP, AMMO }
+    public enum CargoType { SCRAP, AMMO, EXPLOSIVE }
     public CargoType type;
 
     public float amount;
 
-    private PlayerMovement currentHolder;
+    internal PlayerMovement currentHolder;
     private Rigidbody2D rb;
     private BoxCollider2D box2D;
+    private CircleCollider2D circle2D;
     private float initCooldown; //time it takes for collider to enable
     
     private TrailRenderer trail;
@@ -25,15 +26,35 @@ public class Cargo : MonoBehaviour
     public void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        box2D = GetComponent<BoxCollider2D>();
-        box2D.enabled = false;
+        switch (type) 
+        {
+            case CargoType.SCRAP: 
+                {
+                    box2D = GetComponent<BoxCollider2D>();
+                    box2D.enabled = false;
+                } 
+                break;
+            case CargoType.AMMO:
+                {
+                    box2D = GetComponent<BoxCollider2D>();
+                    box2D.enabled = false;
+                }
+                break;
+            case CargoType.EXPLOSIVE: 
+                {
+                    circle2D = GetComponent<CircleCollider2D>();
+                    circle2D.enabled = false;
+                }
+                break;
+        }
+        
         initCooldown = 0.5f;
         trail = GetComponentInChildren<TrailRenderer>();
         trailCooldown = 4f;
     }
 
     // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
         currentHolder = null;
         StartCoroutine(Initialize());
@@ -41,12 +62,13 @@ public class Cargo : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    public void Update()
     {
         if (currentHolder != null)
         {
             if (rb.isKinematic == false) rb.isKinematic = true;
-            if (box2D.enabled == true) box2D.enabled = false;
+            if (box2D != null && box2D.enabled == true) box2D.enabled = false;
+            if (circle2D != null && circle2D.enabled == true) circle2D.enabled = false;
             transform.rotation = new Quaternion(0, 0, 0, 0);
         }
 
@@ -56,8 +78,8 @@ public class Cargo : MonoBehaviour
     private IEnumerator Initialize()
     {
         yield return new WaitForSeconds(initCooldown);
-        if (box2D.enabled == false) box2D.enabled = true;
-        
+        if (box2D != null && box2D.enabled == false) box2D.enabled = true;
+        if (circle2D != null && circle2D.enabled == false) circle2D.enabled = true;
     }
 
     private IEnumerator InitializeTrail()
@@ -81,7 +103,8 @@ public class Cargo : MonoBehaviour
     public void Drop(PlayerMovement player, bool throwing, Vector2 direction)
     {
         rb.isKinematic = false;
-        box2D.enabled = true;
+        if (box2D != null) box2D.enabled = true;
+        if (circle2D != null) circle2D.enabled = true;
 
         if (throwing)
         {
@@ -94,6 +117,17 @@ public class Cargo : MonoBehaviour
         player.currentObject = null;
 
         GameManager.Instance.AudioManager.Play("ButtonCancel");
+    }
+
+    public void Use() //called from Holder when pressing Alt
+    {
+        if (type == CargoType.EXPLOSIVE)
+        {
+            Cargo_Explosive script = GetComponent<Cargo_Explosive>();
+            script.isLit = true;
+
+            GameManager.Instance.AudioManager.Play("UseSFX", gameObject);
+        }
     }
 
     public void CheckForOnboard()
@@ -109,6 +143,15 @@ public class Cargo : MonoBehaviour
         {
             transform.parent = null;
             isOnTank = false;
+        }
+    }
+
+    public void OnDestroy()
+    {
+        if (currentHolder != null)
+        {
+            currentHolder.isCarryingSomething = false;
+            currentHolder.currentObject = null;
         }
     }
 }

@@ -184,7 +184,7 @@ public class TankController : MonoBehaviour
             if (!isDying)
             {
                 EventSpawnerManager spawner = GameObject.Find("LevelManager")?.GetComponent<EventSpawnerManager>();
-                spawner.EnemyDestroyed(this);
+                if (tankType == TankId.TankType.ENEMY) spawner.EnemyDestroyed(this);
                 StartCoroutine(DeathSequence(2.5f));
             }
         }
