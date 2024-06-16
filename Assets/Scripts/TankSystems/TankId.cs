@@ -79,7 +79,7 @@ public class TankId
                 string json = JsonUtility.ToJson(design, true);
                 string path = "Assets/Resources/TankDesigns/" + design.TankName + ".json";
 
-                if (File.Exists(path)) { Debug.LogError("File exists. Overwriting Existing File."); }
+                if (File.Exists(path)) { Debug.LogWarning("File exists. Overwriting Existing File."); }
                 File.WriteAllText(path, json);
                 AssetDatabase.Refresh();
             }

@@ -256,6 +256,16 @@ public class TankController : MonoBehaviour
 
     public void Build(TankDesign tankDesign) //Called from TankManager when constructing a specific design
     {
+        //Build core interactables:
+        foreach (BuildStep.CellInterAssignment cellInter in tankDesign.coreInteractables) //Iterate through each interactable assignment for core cells
+        {
+            Cell target = coreRoom.transform.GetChild(0).Find(cellInter.cellName).GetComponent<Cell>();                                                                                                  //Get target cell from core
+            TankInteractable interactable = Instantiate(Resources.Load<RoomData>("RoomData").interactableList.FirstOrDefault(item => item.name == cellInter.interRef)).GetComponent<TankInteractable>(); //Get reference to and spawn in designated interactable
+            interactable.InstallInCell(target);                                                                                                                                                          //Install interactable in target cell
+            if (cellInter.flipped) interactable.Flip();                                                                                                                                                  //Flip interactable if ordered
+        }
+
+        //Build rooms:
         for (int i = 0; i < tankDesign.buildingSteps.Length; i++) //Loop through all the steps in the design
         {
             //Get variables of the step
@@ -322,29 +332,35 @@ public class TankController : MonoBehaviour
         }
 
         roomCount = 0;
+
         //Fill out instructions with details
         foreach(Transform room in towerJoint)
         {
             Room roomScript = room.GetComponent<Room>();
-            if (roomScript != null && roomScript.isCore == false)
+            if (roomScript != null)
             {
-                //Get room info:
-                string roomID = room.name.Replace("(Clone)", "");
-                design.buildingSteps[roomCount].roomID = roomID; //Name of the room's prefab
-                design.buildingSteps[roomCount].roomType = roomScript.type; //The room's current type
-                design.buildingSteps[roomCount].localSpawnVector = room.transform.localPosition; //The room's local position relative to the tank
-                design.buildingSteps[roomCount].rotate = roomScript.debugRotation; //How many times the room has been rotated before being placed
-
                 //Get interactables:
                 List<BuildStep.CellInterAssignment> cellInters = new List<BuildStep.CellInterAssignment>(); //Create list to store cell interactable assignments
                 foreach(TankInteractable interactable in roomScript.GetComponentsInChildren<TankInteractable>()) //Iterate through interactables in room
                 {
                     string cellName = interactable.parentCell.name;              //Get reference name for cell with interactable
                     string interName = interactable.name.Replace("(Clone)", ""); //Get reference string for installed interactable
-                    bool flipStatus = interactable.direction == 1;               //Determine whether or not interactable is flipped
+                    bool flipStatus = interactable.direction == -1;              //Determine whether or not interactable is flipped
                     cellInters.Add(new BuildStep.CellInterAssignment(cellName, interName, flipStatus)); //Add an interactable designator with reference to cell and interactable name
                 }
+                if (roomScript.isCore) //Store interactables for core room but do not try to store spawn information
+                {
+                    design.coreInteractables = cellInters.ToArray(); //Save core list of interactables to special list for spawning stuff in the core
+                    continue;                                        //Skip the rest of the building steps (core is not built like the rest of the tank)
+                }
                 design.buildingSteps[roomCount].cellInteractables = cellInters.ToArray(); //Save interactables to design
+
+                //Get room info:
+                string roomID = room.name.Replace("(Clone)", "");
+                design.buildingSteps[roomCount].roomID = roomID; //Name of the room's prefab
+                design.buildingSteps[roomCount].roomType = roomScript.type; //The room's current type
+                design.buildingSteps[roomCount].localSpawnVector = room.transform.localPosition; //The room's local position relative to the tank
+                design.buildingSteps[roomCount].rotate = roomScript.debugRotation; //How many times the room has been rotated before being placed
                 
                 //TODO:
                 //Is this an enemy or player design?

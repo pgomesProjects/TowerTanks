@@ -9892,6 +9892,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: The Supreme Potato
       objectReference: {fileID: 0}
+    - target: {fileID: 1677695872598849025, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1677695872598849026, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -10198,7 +10202,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1001 &8204606652085396194
 PrefabInstance:
   m_ObjectHideFlags: 0
