@@ -10,9 +10,7 @@
                 "z": 0.0
             },
             "rotate": 2,
-            "cellWithSlot": "Cell_1",
-            "interactable": "InteractableTemplate",
-            "direction": 1.0
+            "cellInteractables": []
         },
         {
             "roomID": "Room_Elbow4B",
@@ -23,9 +21,7 @@
                 "z": 0.0
             },
             "rotate": 0,
-            "cellWithSlot": "Cell_2",
-            "interactable": "InterEngineer_Boiler",
-            "direction": 1.0
+            "cellInteractables": []
         },
         {
             "roomID": "Room_Tee4C_Flipped",
@@ -36,9 +32,7 @@
                 "z": 0.0
             },
             "rotate": 0,
-            "cellWithSlot": "Cell_0",
-            "interactable": "InterWeapon_Cannon",
-            "direction": 1.0
+            "cellInteractables": []
         },
         {
             "roomID": "Room_Line2A",
@@ -49,9 +43,12 @@
                 "z": 0.0
             },
             "rotate": 3,
-            "cellWithSlot": "Cell_1",
-            "interactable": "InterWeapon_Cannon",
-            "direction": 1.0
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_1",
+                    "interRef": "InterWeapon_Cannon"
+                }
+            ]
         },
         {
             "roomID": "Room_Line4A",
@@ -62,9 +59,7 @@
                 "z": 0.0
             },
             "rotate": 1,
-            "cellWithSlot": "Cell_1",
-            "interactable": "InterEngineer_Boiler",
-            "direction": 1.0
+            "cellInteractables": []
         }
     ]
 }

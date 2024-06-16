@@ -26,15 +26,16 @@ public class Cell : MonoBehaviour
     /// Array of up to four optional connector (spacer) pieces which attach this room to its corresponding neighbor.
     /// Connectors indicate splits between room sections.
     /// </summary>
-    [SerializeField] internal Connector[] connectors = new Connector[4]; //Connectors adjacent to this cell (in NESW order)
+    internal Connector[] connectors = new Connector[4]; //Connectors adjacent to this cell (in NESW order)
     /// <summary>
     /// Couplers adjacent to this cell (connected couplers will modify cell walls).
     /// </summary>
-    [SerializeField] internal List<Coupler> couplers = new List<Coupler>();
+    internal List<Coupler> couplers = new List<Coupler>();
 
     [Header("Cell Components:")]
     [Tooltip("Back wall of cell, will be changed depending on cell purpose.")]                  public GameObject backWall;
     [Tooltip("Pre-assigned cell walls (in NESW order) which confine players inside the tank.")] public GameObject[] walls;
+    [SerializeField, Tooltip("The interactable currently installed in this cell (if any).")]    internal TankInteractable interactable;
 
     //Settings:
     [Button("Debug Destroy Cell")] public void DebugDestroyCell() { Kill(); }

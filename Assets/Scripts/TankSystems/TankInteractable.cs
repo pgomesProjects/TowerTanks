@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
+using Sirenix.OdinInspector.Editor;
 
 [Tooltip("Controller for elements which players (and enemies) interact with to control and use the tank.")]
 public class TankInteractable : MonoBehaviour
@@ -17,9 +19,13 @@ public class TankInteractable : MonoBehaviour
     private ThrottleController throttleScript;
 
     //Settings:
-    [Header("Placement Constraints:")]
-    [Tooltip("The room type this interactable is designed to be placed in.")] public Room.RoomType type;
     //ADD SPATIAL CONSTRAINT SYSTEM
+    [Button("Debug Place")] public void DebugPlace()
+    {
+        Collider2D targetColl = Physics2D.OverlapArea(transform.position + new Vector3(-0.1f, 0.1f), transform.position + new Vector3(0.1f, -0.1f), LayerMask.GetMask("Cell")); //Try to get cell collider interactable is on top of
+        if (targetColl == null || !targetColl.TryGetComponent(out Cell cell)) { Debug.LogWarning("Could not find cell."); return; }                                             //Cancel if interactable is not on a cell
+        InstallInCell(targetColl.GetComponent<Cell>());                                                                                                                         //Install interactable in target cell
+    }
 
     //Runtime Variables:
     [Tooltip("The cell this interactable is currently installed within.")]   internal Cell parentCell;
@@ -128,43 +134,27 @@ public class TankInteractable : MonoBehaviour
 
     public void Use() //Called from operator when they press Interact
     {
-        if (type == Room.RoomType.Weapons)
-        {
-            if (gunScript != null && cooldown <= 0) gunScript.Fire();
-        }
-
-        if (type == Room.RoomType.Engineering)
-        {
-            if (engineScript != null && cooldown <= 0) engineScript.LoadCoal(1);
-        }
+        if (gunScript != null && cooldown <= 0) gunScript.Fire();
+        if (engineScript != null && cooldown <= 0) engineScript.LoadCoal(1);
     }
 
     public void Shift(int direction) //Called from operator when they flick L-Stick L/R
     {
-        if (type == Room.RoomType.Command)
+        if (throttleScript != null && cooldown <= 0)
         {
-            if (throttleScript != null && cooldown <= 0)
-            {
-                throttleScript.UseThrottle(direction);
-                cooldown = 0.1f;
-            }
+            throttleScript.UseThrottle(direction);
+            cooldown = 0.1f;
         }
     }
 
     public void Rotate(float force) //Called from operator when they rotate the joystick
     {
-        if (type == Room.RoomType.Weapons)
-        {
-            if (gunScript != null && cooldown <= 0) gunScript.RotateBarrel(force, true);
-        }
+        if (gunScript != null && cooldown <= 0) gunScript.RotateBarrel(force, true);
     }
 
     public void SecondaryUse(bool held)
     {
-        if (type == Room.RoomType.Engineering)
-        {
-            if (engineScript != null) engineScript.repairInputHeld = held;
-        }
+        if (engineScript != null) engineScript.repairInputHeld = held;
     }
 
     //UTILITY METHODS:
@@ -173,7 +163,7 @@ public class TankInteractable : MonoBehaviour
     /// </summary>
     /// <param name="target">The cell interactable will be installed in.</param>
     /// <param name="installAsGhost">Pass true to install interactable as a ghost.</param>
-    public bool InstallInCell(Cell target, bool installAsGhost = false)
+    public bool InstallInCell(Cell target)
     {
         //Universal installation:
         parentCell = target;                       //Get reference to target cell
@@ -181,7 +171,8 @@ public class TankInteractable : MonoBehaviour
         transform.localPosition = Vector3.zero;    //Match position with target cell
         transform.localEulerAngles = Vector3.zero; //Match rotation with target cell
 
-        //ADD CELL INSTALLATION LOGIC HERE
+        //Cell installation:
+        target.interactable = this; //Give cell reference to the interactable installed in it
 
         //Cleanup:
         tank = GetComponentInParent<TankController>(); //Get tank controller interactable is being attached to

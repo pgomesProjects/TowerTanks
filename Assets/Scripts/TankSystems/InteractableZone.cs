@@ -45,11 +45,6 @@ public class InteractableZone : MonoBehaviour
                 //Debug.Log("Found " + player);
                 players.Add(player.gameObject);
                 player.currentZone = this;
-
-                if (interactable.type == Room.RoomType.Logistics)
-                {
-                    player.SetFuel(100f);
-                }
             }
         }
     }
