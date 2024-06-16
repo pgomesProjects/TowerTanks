@@ -251,7 +251,6 @@ public class Debug_TankBuilder : MonoBehaviour
     {
         if (ctx.started && room != null)
         {
-            room.FlipAll();
             if (enableSounds) GameManager.Instance.AudioManager.Play("RotateRoom");
         }
     }

@@ -55,9 +55,7 @@ public class TankInteractable : MonoBehaviour
         //Destruction Cleanup:
         if (parentCell != null) //Interactable is mounted in a cell
         {
-            if (parentCell.ghostInteractable == this) parentCell.ghostInteractable = null;                                           //Remove ghost reference from parent cell
-            if (parentCell.installedInteractable == this) parentCell.installedInteractable = null;                                   //Remove reference from parent cell
-            if (parentCell.room != null && parentCell.room.interactables.Contains(this)) parentCell.room.interactables.Remove(this); //Remove reference from parent room
+            
         }
     }
 
@@ -183,47 +181,11 @@ public class TankInteractable : MonoBehaviour
         transform.localPosition = Vector3.zero;    //Match position with target cell
         transform.localEulerAngles = Vector3.zero; //Match rotation with target cell
 
-        //Optional installation modes:
-        if (installAsGhost) //Interactable is being installed as a ghost
-        {
-            ChangeGhostStatus(true);             //Put interactable into ghost mode
-            parentCell.ghostInteractable = this; //Designate this as its parent's ghost interactable
-        }
-        else //Interactable is being fully installed
-        {
-            parentCell.installedInteractable = this; //Designate this as its parent's installed interactable
-            parentCell.room.interactables.Add(this); //Add reference to parent room
-        }
+        //ADD CELL INSTALLATION LOGIC HERE
 
         //Cleanup:
         tank = GetComponentInParent<TankController>(); //Get tank controller interactable is being attached to
         return true;                                   //Indicate that interactable was successfully installed in target cell
-    }
-    /// <summary>
-    /// Changes interactactable to or from a ghost of itself.
-    /// </summary>
-    /// <param name="makeGhost">Pass true to make interactable a ghost, false to make interactable real (you should generally destroy interactables instead of turning them back into ghosts).</param>
-    public void ChangeGhostStatus(bool makeGhost = false)
-    {
-        //Validity checks:
-        if (makeGhost == ghosted) return; //Ignore if command is redundant
-
-        //Change visuals:
-        foreach (SpriteRenderer r in renderers)
-        {
-            Color newColor = r.color;          //Get color from sprite
-            newColor.a = makeGhost ? 0.5f : 1; //Make color transparent/opaque
-            r.color = newColor;                //Apply new color to sprite
-        }
-
-        //Update status:
-        ghosted = makeGhost; //Update status indicator
-        if (parentCell != null && !makeGhost) //Interactable is a ghost being committed to its parent cell
-        {
-            parentCell.ghostInteractable = null;     //Clear ghost interactable slot
-            parentCell.installedInteractable = this; //Make this parent's installed interactable
-            parentCell.room.interactables.Add(this); //Add reference to parent room
-        }
     }
 
     public void Flip()

@@ -282,12 +282,12 @@ public class TankController : MonoBehaviour
                 {
                     if (cell.gameObject.name == tankDesign.buildingSteps[i].cellWithSlot) //Find matching cell
                     {
-                        cell.DesignateInteractableSlot();
                         foreach(GameObject interactable in GameManager.Instance.interactableList)
                         {
                             if (interactable.name == tankDesign.buildingSteps[i].interactable) //Find matching interactable
                             {
-                                cell.startingInteractable = interactable;
+                                //NEW INTERACTABLE INSTALLATION LOGIC NEEDS TO BE ADDED HERE
+                                //cell.startingInteractable = interactable;
                             }
                         }
                     }
@@ -347,14 +347,16 @@ public class TankController : MonoBehaviour
                 design.buildingSteps[roomCount].localSpawnVector = room.transform.localPosition; //The room's local position relative to the tank
                 design.buildingSteps[roomCount].rotate = roomScript.debugRotation; //How many times the room has been rotated before being placed
 
-                design.buildingSteps[roomCount].cellWithSlot = roomScript.GetCellWithInteractable().gameObject.name; //Name of the cell in this room with an interactable slot
-                string interID = roomScript.GetCellWithInteractable().installedInteractable.gameObject.name.Replace("(Clone)", "");
-                design.buildingSteps[roomCount].interactable = interID; //Name of the interactable in the cell
-                design.buildingSteps[roomCount].direction = roomScript.GetCellWithInteractable().installedInteractable.direction; //direction the interactable is facing
+                //design.buildingSteps[roomCount].cellWithSlot = roomScript.GetCellWithInteractable().gameObject.name; //Name of the cell in this room with an interactable slot
+                //string interID = roomScript.GetCellWithInteractable().installedInteractable.gameObject.name.Replace("(Clone)", "");
+                //design.buildingSteps[roomCount].interactable = interID; //Name of the interactable in the cell
+                //design.buildingSteps[roomCount].direction = roomScript.GetCellWithInteractable().installedInteractable.direction; //direction the interactable is facing
+                
                 //TODO:
+                //Add in cell-by-cell interactable locating ad saving
                 //Is this an enemy or player design?
                 //Cell damage values?
-                //Which cells are in tact?
+                //Which cells are intact?
                 //Where cargo is located in the tank?
                 roomCount++;
             }

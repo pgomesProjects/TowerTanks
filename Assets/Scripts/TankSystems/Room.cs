@@ -55,7 +55,6 @@ public class Room : MonoBehaviour
 
     //Runtime Variables:
     [Tooltip("Which broad purpose this room serves.")]                                                     public RoomType type;
-    [Tooltip("List of interactables actively placed in this room.")]                                       internal List<TankInteractable> interactables = new List<TankInteractable>();
     [Tooltip("Whether or not this room has been attached to another room yet.")]                           private bool mounted = false;
     [Tooltip("The only tank this room can be mounted to (who's home grid will be used during mounting).")] internal TankController targetTank; //NOTE: This is important for distinguishing between rooms auto-spawned for prefab tanks, and rooms which are spawned in scrap menu for mounting on an existing tank
     private bool initialized = false; //Becomes true once one-time initial room setup has been completed (indicates room is ready to be used)
@@ -73,7 +72,6 @@ public class Room : MonoBehaviour
         if (debugMoveLeft) { debugMoveLeft = false; SnapMoveTick(Vector2.left); UpdateRoomType(type); }
         if (debugMoveRight) { debugMoveRight = false; SnapMoveTick(Vector2.right); UpdateRoomType(type); }
         if (debugMount) { debugMount = false; Mount(); }
-        if (flipOnStart) { flipOnStart = false; FlipAll(); }
     }
 
     //FUNCTIONALITY METHODS:
@@ -142,19 +140,9 @@ public class Room : MonoBehaviour
 
     public void Start()
     {
-        //Designate interactable slots:
-        if (!isCore) //Core room does not get a random interactable slot
+        //Core room-specific setup:
+        if (isCore) //This is the tank's core room
         {
-            bool startsWithInteractables = false; //Initialize marker to indicate whether or not a random slot should be designated
-            foreach (Cell cell in cells) { if (cell.startingInteractable != null) { startsWithInteractables = true; break; } } //Check if room has any starting interactables
-            if (!startsWithInteractables) //Cell does not have any pre-set interactables
-            {
-                cells[Random.Range(0, cells.Count)].DesignateInteractableSlot(); //Pick one random cell to contain the room's interactable
-            }
-        }
-        else //This is a core room
-        {
-            //Core room setup:
             mounted = true; //Core rooms start mounted
         }
     }
@@ -297,43 +285,6 @@ public class Room : MonoBehaviour
             group = group.OrderBy(otherCoupler => coupler.transform.rotation.z == 0 ? otherCoupler.transform.position.x : otherCoupler.transform.position.y);                    //Organize list from down to up and left to right
             for (int y = 1; y < group.Count();) { Coupler redundantCoupler = group.ElementAt(y); ghostCouplers.Remove(redundantCoupler); Destroy(redundantCoupler.gameObject); } //Delete all other couplers in group
         }
-
-        //Generate/update interactable ghosts:
-        Cell[] cellsWithSlots = (from cell in cells where cell.hasInteractableSlot select cell).ToArray(); //Get array of cells with interactable slots in room
-        foreach (Cell cell in cellsWithSlots) //Iterate through cells in room with interactable slots
-        {
-            //Check for existing ghost to update:
-            if (cell.ghostInteractable != null) //Cell already has a ghost interactable
-            {
-                //Check ghost validity:
-                if (!CheckInteractableValidity(cell.ghostInteractable, cell)) //Current ghost interactable is now invalid and needs to be replaced
-                {
-                    Destroy(cell.ghostInteractable.gameObject); //Destroy ghost
-                    cell.ghostInteractable = null;              //Clear cell's ghost interactable status
-                }
-                else //Current ghost is valid and can be updated
-                {
-                    cell.ghostInteractable.transform.localEulerAngles = Vector3.zero; //Make sure interactable is always oriented correctly with cell
-                    continue;                                                         //Do not go on to re-spawn interactable ghost
-                }
-            }
-
-            //Find valid candidates:
-            List<GameObject> validInteractables = new List<GameObject>(); //Start a list of interactable prefabs which could be placed in this cell slot
-            foreach (GameObject interactable in roomData.interactableList) //Iterate through list of all interactables in game data
-            {
-                if (interactable.TryGetComponent(out TankInteractable interController)) //Get interactable controller
-                {
-                    if (CheckInteractableValidity(interController, cell)) validInteractables.Add(interactable); //Add placeable interactables to list
-                }
-                else { Debug.LogError("Prefab " + interactable.name + " in roomData interactable list is missing a TankInteractable component."); } //Log error if interactable controller component is missing from prefab
-            }
-
-            //Generate new ghost:
-            if (validInteractables.Count == 0) continue; //Do not attempt to spawn a ghost if there are no valid candidates
-            TankInteractable newInteractable = Instantiate(validInteractables[0]).GetComponent<TankInteractable>(); //Instantiate a new interactable
-            newInteractable.InstallInCell(cell, true);                                                              //Install interactalbe into cell as a ghost
-        }
     }
     /// <summary>
     /// Rotates unmounted room around its pivot.
@@ -371,13 +322,6 @@ public class Room : MonoBehaviour
         //Validity checks:
         if (mounted) { Debug.LogError("Tried to mount room which is already mounted!"); return true; }                              //Cannot mount rooms which are already mounted
         if (ghostCouplers.Count == 0) { Debug.Log("Tried to mount room which is not connected to any other rooms!"); return false; } //Cannot mount rooms which are not connected to the tank
-
-        //Un-ghost interactables:
-        Cell[] cellsWithSlots = (from cell in cells where cell.hasInteractableSlot select cell).ToArray(); //Get array of cells with interactable slots in room (NOTE: Maybe keep this as a public variable and have cells update it themselves)
-        foreach (Cell cell in cellsWithSlots) //Iterate through cells with interactable slots
-        {
-            if (cell.ghostInteractable != null) cell.ghostInteractable.ChangeGhostStatus(false); //Un-ghost interactables
-        }
 
         //Un-ghost couplers:
         List<Cell> ladderCells = new List<Cell>(); //Initialize list to keep track of cells which need ladders added to them
@@ -472,32 +416,4 @@ public class Room : MonoBehaviour
     /// <summary>
     /// Returns true if given interactable prefab can be placed in given cell right now.
     /// </summary>
-    public static bool CheckInteractableValidity(TankInteractable interactable, Cell cell)
-    {
-        if (!cell.hasInteractableSlot) { return false; }                                             //Interactable cannot be placed in cell without slot
-        if (interactable.type != RoomType.Null && interactable.type != cell.room.type) return false; //Non-null interactables cannot be placed in rooms which do not match their type
-        //MORE TO COME HERE
-        return true; //Indicate interactable can be placed if it passes all tests
-    }
-
-    public Cell GetCellWithInteractable() //Called from TankController when evaluating rooms for TankDesign layouts
-    {
-        Cell cell = null;
-        Transform cells = transform.Find("Cells");
-        foreach(Transform child in cells)
-        {
-            cell = child.GetComponent<Cell>();
-            if (cell != null && cell.hasInteractableSlot) return cell;
-        }
-        return cell;
-    }
-
-    public void FlipAll()
-    {
-        TankInteractable[] interactables = GetComponentsInChildren<TankInteractable>();
-        foreach(TankInteractable interactable in interactables)
-        {
-            interactable.Flip();
-        }
-    }
 }

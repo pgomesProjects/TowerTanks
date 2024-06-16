@@ -37,19 +37,16 @@ public class Cell : MonoBehaviour
     [Tooltip("Pre-assigned cell walls (in NESW order) which confine players inside the tank.")] public GameObject[] walls;
 
     //Settings:
-    [Header("Cell Settings:")]
-    [Tooltip("Plug interactable prefab in here to have cell generate a slot on spawn and start with it installed.")] public GameObject startingInteractable;
     [Button("Debug Destroy Cell")] public void DebugDestroyCell() { Kill(); }
 
     //Runtime Variables:
-    [Tooltip("Which section this cell is in inside its parent room.")]                              internal int section;
-    [SerializeField, Tooltip("If true, this cell will be populated with an interactable when its room is placed.")] internal bool hasInteractableSlot = false;
-    [Tooltip("Ghosted interactable prepared to be installed in this cell.")]                        internal TankInteractable ghostInteractable;
-    [Tooltip("Interactable currently installed in this cell.")]                                     internal TankInteractable installedInteractable;
-    [Tooltip("True if cell destruction has already been scheduled, used to prevent conflicts.")]    private bool dying;
-    private bool initialized = false; //True once cell has been set up and is ready to go
+        //Gameplay:
     [Tooltip("Maximum hitpoints this cell can have when fully repaired.")] public float maxHealth;
-    [Tooltip("Current hitpoints this cell has.")] public float health;
+    [Tooltip("Current hitpoints this cell has.")]                          public float health;
+    [Tooltip("Which section this cell is in inside its parent room.")]     internal int section;
+        //Meta
+    [Tooltip("True if cell destruction has already been scheduled, used to prevent conflicts.")] private bool dying;
+    [Tooltip("True once cell has been set up and is ready to go.")]                              private bool initialized = false;
 
     //RUNTIME METHODS:
     private void Awake()
@@ -78,14 +75,6 @@ public class Cell : MonoBehaviour
         room = GetComponentInParent<Room>(); //Get room cell is connected to
         c = GetComponent<BoxCollider2D>();   //Get local collider
         health = maxHealth;
-
-        //Check special conditions:
-        if (startingInteractable != null) //Cell starts with an interactable
-        {
-            DesignateInteractableSlot();                                                                           //Designate cell as having an interactable slot
-            TankInteractable newInteractable = Instantiate(startingInteractable).GetComponent<TankInteractable>(); //Instantiate interactable
-            newInteractable.InstallInCell(this);                                                                   //Install interactable into this cell
-        }
     }
     /// <summary>
     /// Updates list indicating which sides are open and which are adjacent to other cells.
@@ -137,18 +126,6 @@ public class Cell : MonoBehaviour
         neighbors = new Cell[4];                                 //Clear neighbors
         connectors = new Connector[4];                           //Clear connectors
         foreach (GameObject wall in walls) wall.SetActive(true); //Reset walls
-    }
-    /// <summary>
-    /// Indicate that this cell will contain an interactable upon room placement.
-    /// </summary>
-    public void DesignateInteractableSlot()
-    {
-        //Cleanup:
-        hasInteractableSlot = true; //Indicate that cell has an interactable slot
-
-        //Adjust visuals:
-        Transform slotIndicator = Instantiate(Resources.Load<RoomData>("RoomData").slotIndicator, transform).transform; //Instantiate slot indicator object
-        slotIndicator.localPosition = new Vector3(0, 0, -5);                                                            //Move indicator to be centered on cell
     }
     /// <summary>
     /// Deals given amount of damage to the cell.
