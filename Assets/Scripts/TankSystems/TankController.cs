@@ -289,6 +289,7 @@ public class TankController : MonoBehaviour
                 Cell target = roomScript.transform.GetChild(0).Find(cellInter.cellName).GetComponent<Cell>();                                                                                                //Get target cell from room
                 TankInteractable interactable = Instantiate(Resources.Load<RoomData>("RoomData").interactableList.FirstOrDefault(item => item.name == cellInter.interRef)).GetComponent<TankInteractable>(); //Get reference to and spawn in designated interactable
                 interactable.InstallInCell(target);                                                                                                                                                          //Install interactable in target cell
+                if (cellInter.flipped) interactable.Flip();                                                                                                                                                  //Flip interactable if ordered
             }
         }
     }
@@ -338,14 +339,12 @@ public class TankController : MonoBehaviour
                 List<BuildStep.CellInterAssignment> cellInters = new List<BuildStep.CellInterAssignment>(); //Create list to store cell interactable assignments
                 foreach(TankInteractable interactable in roomScript.GetComponentsInChildren<TankInteractable>()) //Iterate through interactables in room
                 {
-                    cellInters.Add(new BuildStep.CellInterAssignment(interactable.parentCell.name, interactable.name.Replace("(Clone)", ""))); //Add an interactable designator with reference to cell and interactable name
+                    string cellName = interactable.parentCell.name;              //Get reference name for cell with interactable
+                    string interName = interactable.name.Replace("(Clone)", ""); //Get reference string for installed interactable
+                    bool flipStatus = interactable.direction == 1;               //Determine whether or not interactable is flipped
+                    cellInters.Add(new BuildStep.CellInterAssignment(cellName, interName, flipStatus)); //Add an interactable designator with reference to cell and interactable name
                 }
                 design.buildingSteps[roomCount].cellInteractables = cellInters.ToArray(); //Save interactables to design
-
-                //design.buildingSteps[roomCount].cellWithSlot = roomScript.GetCellWithInteractable().gameObject.name; //Name of the cell in this room with an interactable slot
-                //string interID = roomScript.GetCellWithInteractable().installedInteractable.gameObject.name.Replace("(Clone)", "");
-                //design.buildingSteps[roomCount].interactable = interID; //Name of the interactable in the cell
-                //design.buildingSteps[roomCount].direction = roomScript.GetCellWithInteractable().installedInteractable.direction; //direction the interactable is facing
                 
                 //TODO:
                 //Is this an enemy or player design?

@@ -28,14 +28,14 @@ public class TankInteractable : MonoBehaviour
     }
 
     //Runtime Variables:
-    [Tooltip("The cell this interactable is currently installed within.")]   internal Cell parentCell;
-    [Tooltip("True if interactable is a ghost and is currently unuseable.")] internal bool ghosted;
-    [Tooltip("True if a user is currently operating this system")]           public bool hasOperator;
-    [Tooltip("User currently interacting with this system.")]                internal PlayerMovement operatorID;
+    [Tooltip("The cell this interactable is currently installed within.")]     internal Cell parentCell;
+    [Tooltip("True if interactable is a ghost and is currently unuseable.")]   internal bool ghosted;
+    [Tooltip("True if a user is currently operating this system")]             public bool hasOperator;
+    [Tooltip("User currently interacting with this system.")]                  internal PlayerMovement operatorID;
     [Tooltip("Direction this interactable is facing. (1 = right; -1 = left)")] public float direction = 1;
 
     //Debug
-    public bool flip = false;
+    public bool debugFlip = false;
     private float introBuffer = 0.2f; //small window when a new operator enters the interactable where they can't use it
     private float cooldown;
 
@@ -86,7 +86,7 @@ public class TankInteractable : MonoBehaviour
             cooldown -= Time.deltaTime;
         }
 
-        if (flip) { flip = false; Flip(); }
+        if (debugFlip) { debugFlip = false; Flip(); }
     }
 
     public void LockIn(GameObject playerID) //Called from InteractableZone.cs when a user locks in to the interactable

@@ -46,7 +46,8 @@
             "cellInteractables": [
                 {
                     "cellName": "Cell_1",
-                    "interRef": "InterWeapon_Cannon"
+                    "interRef": "InterWeapon_Cannon",
+                    "flipped": 1
                 }
             ]
         },

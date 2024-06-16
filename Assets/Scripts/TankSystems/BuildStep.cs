@@ -14,11 +14,13 @@ public class BuildStep
     {
         [Tooltip("Name of the cell with the interactable.")] public string cellName;
         [Tooltip("Name of interactable prefab in folder.")]  public string interRef;
+        [Tooltip("True if interactable is flipped.")]        public bool flipped;
 
-        public CellInterAssignment(string cell, string interactable)
+        public CellInterAssignment(string cell, string interactable, bool flip = false)
         {
             this.cellName = cell;         //Assign cell name
             this.interRef = interactable; //Assign interactable reference
+            this.flipped = flip;          //Assign interactable direction
         }
     }
 
