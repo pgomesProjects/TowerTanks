@@ -1,0 +1,18 @@
+{
+    "name": "TowerTanks.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:7e5857c4760ad0b43aebfc61c511cc3d"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

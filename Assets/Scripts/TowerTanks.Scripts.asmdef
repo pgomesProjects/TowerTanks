@@ -1,0 +1,30 @@
+{
+    "name": "TowerTanks.Scripts",
+    "rootNamespace": "",
+    "references": [
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:4307f53044263cf4b835bd812fc161a4",
+        "GUID:c579267770062bf448e75eb160330b7f",
+        "GUID:15fc0a57446b3144c949da3e2b9737a9",
+        "GUID:4bcac142a5c378d4cb779c524fa6e24c",
+        "GUID:f7d78ecd7666c4743b15ad38895dfb27",
+        "GUID:03767eacb7a4a1149bac3ca31b886278",
+        "GUID:9a108f91b722b4041a96dff8e937090b",
+        "GUID:746ab16093e4cec44879f511abb1ce74",
+        "GUID:258e6b2a4a8f89f43b505dc50067769f",
+        "GUID:fb9400bb67147f7459dc4bbc7776767f",
+        "GUID:e8101e9246d67c84290b770958821a15",
+        "GUID:0b185cca79482984db6f18a79087a858",
+        "GUID:cfa9f4c3ed8dd1243a1b3d7d2ea120bd"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
