@@ -2250,16 +2250,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seat: {fileID: 0}
-  type: 3
   hasOperator: 0
   direction: 1
-  flip: 0
+  debugFlip: 0
   projectilePrefab: {fileID: 2026841927693228562, guid: 0192140aff1560b4687b143a3b7cd16b, type: 3}
   barrel: {fileID: 917774233809804083}
   pivot: {fileID: 917774235144409439}
   particleSpots:
   - {fileID: 680884392771065324}
-  muzzleVelocity: 0.3
+  muzzleVelocity: 45
   recoil: 15
   rotateSpeed: 20
   gimbalRange: 30

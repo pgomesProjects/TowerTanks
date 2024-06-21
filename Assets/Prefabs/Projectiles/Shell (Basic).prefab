@@ -52,7 +52,7 @@ MonoBehaviour:
   damage: 100
   maxLife: 5
   radius: 0.18
-  gravity: 0.2
+  gravity: 30
 --- !u!1 &2082292639589091566
 GameObject:
   m_ObjectHideFlags: 0

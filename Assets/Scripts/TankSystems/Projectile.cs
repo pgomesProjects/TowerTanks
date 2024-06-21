@@ -40,7 +40,7 @@ public class Projectile : MonoBehaviour
         Collider2D hit = Physics2D.OverlapCircle(transform.position, radius, layerMask);
         if (hit == null)
         {
-            hit = Physics2D.CircleCast(transform.position, radius, velocity, velocity.magnitude, layerMask).collider;
+            hit = Physics2D.CircleCast(transform.position, radius, velocity, (velocity.magnitude * Time.deltaTime), layerMask).collider;
         }
         if (hit != null)
         {
@@ -49,7 +49,7 @@ public class Projectile : MonoBehaviour
         }
         else
         {
-            Vector2 newPos = (Vector2)transform.position + velocity;
+            Vector2 newPos = (Vector2)transform.position + (velocity * Time.deltaTime);
             transform.position = newPos;
         }
     }
