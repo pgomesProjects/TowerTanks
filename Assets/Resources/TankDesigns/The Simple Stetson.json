@@ -1,5 +1,5 @@
 {
-    "TankName": "The Creaking Shark",
+    "TankName": "The Simple Stetson",
     "coreInteractables": [
         {
             "cellName": "Cell_2",
@@ -49,7 +49,7 @@
                 {
                     "cellName": "Cell_0",
                     "interRef": "InterWeapon_Cannon",
-                    "flipped": false
+                    "flipped": true
                 }
             ]
         },
@@ -62,13 +62,7 @@
                 "z": 0.0
             },
             "rotate": 1,
-            "cellInteractables": [
-                {
-                    "cellName": "Cell_1",
-                    "interRef": "InterWeapon_Cannon",
-                    "flipped": true
-                }
-            ]
+            "cellInteractables": []
         },
         {
             "roomID": "Room_Tee4B",
