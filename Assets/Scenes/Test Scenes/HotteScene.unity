@@ -701,7 +701,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5332867684925448264, guid: 79f26049c394b4140bd0a93f14c225cd, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5332867684925448264, guid: 79f26049c394b4140bd0a93f14c225cd, type: 3}
       propertyPath: m_TagString
@@ -9888,6 +9888,38 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1677695871689777843, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: damper
+      value: 0.78
+      objectReference: {fileID: 0}
+    - target: {fileID: 1677695871689777843, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: maxSpringSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1677695871704018046, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: damper
+      value: 0.78
+      objectReference: {fileID: 0}
+    - target: {fileID: 1677695871704018046, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: maxSpringSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1677695871938463207, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: damper
+      value: 0.78
+      objectReference: {fileID: 0}
+    - target: {fileID: 1677695871938463207, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: maxSpringSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1677695872170932320, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: damper
+      value: 0.78
+      objectReference: {fileID: 0}
+    - target: {fileID: 1677695872170932320, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: maxSpringSpeed
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1677695872598849025, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
       propertyPath: m_Name
       value: The Supreme Potato
@@ -9940,6 +9972,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1677695872726487012, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: damper
+      value: 0.78
+      objectReference: {fileID: 0}
+    - target: {fileID: 1677695872726487012, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: maxSpringSpeed
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1677695872800944108, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -9947,6 +9987,30 @@ PrefabInstance:
     - target: {fileID: 1677695872800944110, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
       propertyPath: m_BodyType
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1677695872800944111, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: maxSpeed
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1677695872800944111, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: acceleration
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1677695873077091904, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: damper
+      value: 0.78
+      objectReference: {fileID: 0}
+    - target: {fileID: 1677695873077091904, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: maxSpringSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1677695873107766404, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: damper
+      value: 0.78
+      objectReference: {fileID: 0}
+    - target: {fileID: 1677695873107766404, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: maxSpringSpeed
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2687768884453491569, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
       propertyPath: m_IsActive
@@ -10202,7 +10266,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1001 &8204606652085396194
 PrefabInstance:
   m_ObjectHideFlags: 0

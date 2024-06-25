@@ -15,14 +15,12 @@ public class TreadSystem : MonoBehaviour
     [Header("Center of Gravity Settings:")]
     [Tooltip("Height at which center of gravity is locked relative to tread system.")] public float COGHeight;
     [Tooltip("Extents of center of gravity (affects how far tank can lean).")]         public float COGWidth;
-    [Tooltip("How much weight the tank currently has")] public float totalWeight = 0;
+    [Tooltip("How much weight the tank currently has")]                                public float totalWeight = 0;
 
     [Header("Drive Settings:")]
-    [Tooltip("Number of currently powered engines")] public int currentEngines = 0;
-    [Tooltip("How much weight each engine compensates for. (Higher => Engines are more powerful)")] public float engineWeightCapacity;
-    [Tooltip("Current direction the tank is set to move in. 0 = Neutral")] public int gear;
-    [Tooltip("Maximum motor torque exerted by tread motor (acceleration)"), Min(0)] public float drivePower;
-    [Tooltip("Force resisting motion of tank while driving"), Min(0)]               public float driveDrag;
+    [Tooltip("Greatest speed tank can achieve at maximum gear.")]                              public float maxSpeed = 100;
+    [Min(1), Tooltip("Number of positions throttle can be in (includes neutral and reverse)")] public int gearPositions = 5;
+    [SerializeField, Tooltip("Rate at which tank accelerates to target speed.")]               private float acceleration;
 
     [Header("Traction Settings:")]
     [Tooltip("Angular drag when all (non-extra) wheels are on the ground."), Min(0)] public float maxAngularDrag;
@@ -33,8 +31,10 @@ public class TreadSystem : MonoBehaviour
 
 
     //Runtime Variables:
-    private bool initialized; //True if tread system has already been set up
-    //NOTE: Make drag proportional to number of wheels touching the ground
+    private bool initialized;    //True if tread system has already been set up
+    internal int gear;           //Basic designator for current direction and speed the tank is set to move in (0 = Neutral)
+    internal int currentEngines; //Current number of engines acting on tread system (deprecated?)
+    private float throttleValue; //Current value of the throttle, adjusted over time based on acceleration and gear for smooth movement
 
     //RUNTIME METHODS:
     private void Awake()
@@ -66,9 +66,12 @@ public class TreadSystem : MonoBehaviour
         if (tankController.isDying) debugDrive = 0;
 
         //Add wheel force:
-        drivePower = 15 * (engineWeightCapacity * (currentEngines / totalWeight));
-        float driveMagnitude = (drivePower * -debugDrive) / (wheels.Length - extraWheels); //Get force being exerted by each grounded drive wheel
-        if (Mathf.Abs(debugDrive) < 0.15f) driveMagnitude = 0;                             //Add dead zone to debug drive controller
+        throttleValue = Mathf.MoveTowards(throttleValue, gear / (float)((gearPositions - 1) / 2), acceleration * Time.fixedDeltaTime); //Get value between -1 and 1 representing tank throttle, adjusted over time for smoothness
+        Vector2 targetTankSpeed = transform.right * maxSpeed * throttleValue;                                                          //Get target speed based on tank throttle
+        Vector2 deltaSpeed = targetTankSpeed - r.velocity;                                                                             //Get value which would change current speed to target speed
+        Vector2 baseWheelAccel = deltaSpeed / Time.fixedDeltaTime;                                                                     //Get ideal acceleration value which each wheel will use to compute actual force (apply actual acceleration to smooth out speed changes)
+        //float driveMagnitude = speedDelta.magnitude / (wheels.Length - extraWheels); //Get force being exerted by each grounded drive wheel
+        //if (Mathf.Abs(debugDrive) < 0.15f) driveMagnitude = 0;                             //Add dead zone to debug drive controller
 
         int groundedWheels = 0; //Initialize variable to track how many wheels are grounded
         foreach (TreadWheel wheel in wheels) //Iterate through wheel list
@@ -86,17 +89,21 @@ public class TreadSystem : MonoBehaviour
                 if (wheel.lastGroundHit.collider != null) //Wheel has valid information about hit ground
                 {
                     //Apply drive torque:
-                    if (driveMagnitude != 0) //Tank is currently being driven
+                    Vector2 wheelAccel = Vector3.Project(baseWheelAccel, Vector2.Perpendicular(wheel.lastGroundHit.normal)); //Project base acceleration onto vector representing direction wheel is capable of producing force in (depends on ground angle)
+                    wheelAccel /= (wheels.Length - extraWheels);                                                             //Divide wheel acceleration value by number of main wheels so that tank is most stable when all wheels are on the ground
+                    Debug.DrawRay(wheel.lastGroundHit.point, wheelAccel);
+                    r.AddForceAtPosition(wheelAccel, wheel.lastGroundHit.point, ForceMode2D.Force);
+                    /*if (driveMagnitude != 0) //Tank is currently being driven
                     {
                         Vector2 driveForce = Vector2.Perpendicular(wheel.lastGroundHit.normal) * driveMagnitude; //Get force being applied by this wheel
                         //APPLY TRACTION MULTIPLIER
                         r.AddForceAtPosition(driveForce, wheel.lastGroundHit.point, ForceMode2D.Force); //Add force at wheel's position of contact
-                    }
+                    }*/
                 }
 
                 //Apply extra forces:
-                float dragCoefficient = driveDrag;                            //Get base drag coefficient from drive setting
-                r.AddForce(-r.velocity * dragCoefficient, ForceMode2D.Force); //Apply drag to constrain tank max speed
+                //float dragCoefficient = driveDrag;                            //Get base drag coefficient from drive setting
+                //r.AddForce(-r.velocity * dragCoefficient, ForceMode2D.Force); //Apply drag to constrain tank max speed
             }
         }
 

@@ -132,6 +132,7 @@ public class TankController : MonoBehaviour
         ThrottleController[] throttles = GetComponentsInChildren<ThrottleController>();
         if (throttles.Length > 0)
         {
+            treadSystem.gear = throttles[0].gear; //Tell tread system what gear it is in
             for (int i = 0; i < throttles.Length; i++)
             {
                 throttles[i].ChangeGear(direction);

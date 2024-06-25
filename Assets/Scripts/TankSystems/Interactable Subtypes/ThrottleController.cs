@@ -17,7 +17,7 @@ public class ThrottleController : TankInteractable
  
     public int speedSettings; //number of different speed settings in either direction
     public int currentSpeed;
-    private int gear; //what gear the throttle is currently in (default: neutral (0))
+    internal int gear; //what gear the throttle is currently in (default: neutral (0))
 
     [Header("Debug Controls:")]
     public bool shiftRight;
@@ -47,7 +47,7 @@ public class ThrottleController : TankInteractable
         float updatedAngle = Mathf.Lerp(currentAngle, previousAngle, (shiftTimer / 0.1f));
         pivot.localEulerAngles = new Vector3(0, 0, updatedAngle); //updates the throttle shaft to its correct rotation
 
-        if (tank != null) tank.treadSystem.debugDrive = -(updatedAngle / maxAngle);
+        //if (tank != null) tank.treadSystem.debugDrive = -(updatedAngle / maxAngle);
     }
 
     public void UseThrottle(int direction) //called from operator -> sends message to tankController to change gears in all throttles
