@@ -19,6 +19,7 @@ public class LevelManager : SerializedMonoBehaviour
     [SerializeField] private GameObject ghostLayerPrefab;
     [SerializeField, Tooltip("The list of possible rooms for the players to pick.")] public GameObject[] roomList { get; private set; }
     [SerializeField, Tooltip("The prefab for the player HUD piece.")] private PlayerHUD playerHUDPrefab;
+    [SerializeField, Tooltip("The TargetGroup that holds the information for following players.")] private PlayerCameraFollowController playerCameraFollowController;
     [SerializeField, Tooltip("The parent that holds all of the player HUD objects.")] private RectTransform playerHUDParentTransform;
     [SerializeField, Tooltip("The value of a singular scrap piece.")] private int scrapValue;
     [SerializeField, Tooltip("The level event data that dictates how the level must be run.")] private LevelEvents currentLevelEvent;
@@ -174,6 +175,7 @@ public class LevelManager : SerializedMonoBehaviour
         //character.SetPlayerMove(true);
         PlayerHUD newPlayerHUD = Instantiate(playerHUDPrefab, playerHUDParentTransform);
         character.LinkPlayerHUD(newPlayerHUD);
+        playerCameraFollowController.AddPlayerToTargetGroup(character.transform);
     }
 
     /// <summary>
