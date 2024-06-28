@@ -1,5 +1,12 @@
 {
-    "TankName": "The Battle Buster",
+    "TankName": "The Creaking Shark",
+    "coreInteractables": [
+        {
+            "cellName": "Cell_2",
+            "interRef": "InterCommand_Throttle",
+            "flipped": false
+        }
+    ],
     "buildingSteps": [
         {
             "roomID": "Room_Elbow4B_Flipped",
@@ -10,9 +17,7 @@
                 "z": 0.0
             },
             "rotate": 0,
-            "cellWithSlot": "Cell_0",
-            "interactable": "InteractableTemplate",
-            "direction": 1.0
+            "cellInteractables": []
         },
         {
             "roomID": "Room_Tee4C",
@@ -23,9 +28,13 @@
                 "z": 0.0
             },
             "rotate": 0,
-            "cellWithSlot": "Cell_3",
-            "interactable": "InterEngineer_Boiler",
-            "direction": 1.0
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_2",
+                    "interRef": "InterEngineer_Boiler",
+                    "flipped": false
+                }
+            ]
         },
         {
             "roomID": "Room_Line2B",
@@ -36,9 +45,13 @@
                 "z": 0.0
             },
             "rotate": 1,
-            "cellWithSlot": "Cell_1",
-            "interactable": "InterEngineer_Boiler",
-            "direction": 1.0
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_1",
+                    "interRef": "InterEngineer_Boiler",
+                    "flipped": false
+                }
+            ]
         },
         {
             "roomID": "Room_Line2A",
@@ -49,9 +62,13 @@
                 "z": 0.0
             },
             "rotate": 3,
-            "cellWithSlot": "Cell_0",
-            "interactable": "InterWeapon_Cannon",
-            "direction": -1.0
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_0",
+                    "interRef": "InterWeapon_Cannon",
+                    "flipped": true
+                }
+            ]
         },
         {
             "roomID": "Room_Elbow4A_Flipped",
@@ -62,9 +79,13 @@
                 "z": 0.0
             },
             "rotate": 3,
-            "cellWithSlot": "Cell_3",
-            "interactable": "InterWeapon_Cannon",
-            "direction": -1.0
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_3",
+                    "interRef": "InterWeapon_Cannon",
+                    "flipped": true
+                }
+            ]
         },
         {
             "roomID": "Room_Line2A",
@@ -75,9 +96,7 @@
                 "z": 0.0
             },
             "rotate": 0,
-            "cellWithSlot": "Cell_1",
-            "interactable": "InteractableTemplate",
-            "direction": 1.0
+            "cellInteractables": []
         },
         {
             "roomID": "Room_Elbow4A_Flipped",
@@ -88,9 +107,7 @@
                 "z": 0.0
             },
             "rotate": 0,
-            "cellWithSlot": "Cell_2",
-            "interactable": "InteractableTemplate",
-            "direction": 1.0
+            "cellInteractables": []
         },
         {
             "roomID": "Room_Tee4A",
@@ -101,9 +118,13 @@
                 "z": 0.0
             },
             "rotate": 1,
-            "cellWithSlot": "Cell_2",
-            "interactable": "InterEngineer_Boiler",
-            "direction": 1.0
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_0",
+                    "interRef": "InterEngineer_Boiler",
+                    "flipped": false
+                }
+            ]
         },
         {
             "roomID": "Room_Elbow4B",
@@ -114,9 +135,13 @@
                 "z": 0.0
             },
             "rotate": 2,
-            "cellWithSlot": "Cell_3",
-            "interactable": "InterWeapon_Cannon",
-            "direction": -1.0
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_3",
+                    "interRef": "InterWeapon_Cannon",
+                    "flipped": true
+                }
+            ]
         },
         {
             "roomID": "Room_Block4A",
@@ -127,9 +152,13 @@
                 "z": 0.0
             },
             "rotate": 0,
-            "cellWithSlot": "Cell_0",
-            "interactable": "InterLogistics_Refuel",
-            "direction": 1.0
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_2",
+                    "interRef": "InterLogistics_Refuel",
+                    "flipped": false
+                }
+            ]
         },
         {
             "roomID": "Room_Line4A",
@@ -140,9 +169,7 @@
                 "z": 0.0
             },
             "rotate": 3,
-            "cellWithSlot": "Cell_3",
-            "interactable": "InteractableTemplate",
-            "direction": 1.0
+            "cellInteractables": []
         },
         {
             "roomID": "Room_Elbow4B",
@@ -153,9 +180,13 @@
                 "z": 0.0
             },
             "rotate": 0,
-            "cellWithSlot": "Cell_1",
-            "interactable": "InterCommand_Throttle",
-            "direction": 1.0
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_2",
+                    "interRef": "InterCommand_Throttle",
+                    "flipped": false
+                }
+            ]
         },
         {
             "roomID": "Room_Block4A",
@@ -166,9 +197,13 @@
                 "z": 0.0
             },
             "rotate": 0,
-            "cellWithSlot": "Cell_2",
-            "interactable": "InterLogistics_Refuel",
-            "direction": 1.0
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_1",
+                    "interRef": "InterLogistics_Refuel",
+                    "flipped": false
+                }
+            ]
         },
         {
             "roomID": "Room_Block4A",
@@ -179,9 +214,13 @@
                 "z": 0.0
             },
             "rotate": 0,
-            "cellWithSlot": "Cell_1",
-            "interactable": "InterLogistics_Refuel",
-            "direction": 1.0
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_0",
+                    "interRef": "InterLogistics_Refuel",
+                    "flipped": false
+                }
+            ]
         },
         {
             "roomID": "Room_Elbow4B_Flipped",
@@ -192,9 +231,13 @@
                 "z": 0.0
             },
             "rotate": 1,
-            "cellWithSlot": "Cell_3",
-            "interactable": "InterWeapon_Cannon",
-            "direction": 1.0
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_1",
+                    "interRef": "InterWeapon_Cannon",
+                    "flipped": false
+                }
+            ]
         },
         {
             "roomID": "Room_Line2B",
@@ -205,9 +248,7 @@
                 "z": 0.0
             },
             "rotate": 0,
-            "cellWithSlot": "Cell_0",
-            "interactable": "InteractableTemplate",
-            "direction": 1.0
+            "cellInteractables": []
         }
     ]
 }

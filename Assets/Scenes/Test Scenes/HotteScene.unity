@@ -2223,13 +2223,13 @@ MonoBehaviour:
   tankPrefab: {fileID: 1677695872598849025, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
   tankSpawnPoint: {fileID: 1684163093}
   enemyTankDesigns:
-  - {fileID: 4900000, guid: 845f54f97cf655f45b5cddbdaafd716e, type: 3}
+  - {fileID: 4900000, guid: e4a4b2cff2a8ed84caf6d14275621189, type: 3}
   - {fileID: 4900000, guid: 46c406a077c4d2c46ab3265201c1c9cb, type: 3}
   - {fileID: 4900000, guid: aecb783de59916340b00ac621243d679, type: 3}
   - {fileID: 4900000, guid: 2b290a1f1d549af47982322023504d04, type: 3}
-  - {fileID: 4900000, guid: 186f6f49053e223408a0cbc423f5ef4b, type: 3}
+  - {fileID: 4900000, guid: 7995271edfdf1d647baebb2fde1f9804, type: 3}
   - {fileID: 4900000, guid: 9c38265d0767b1141bf8cc348890cb6e, type: 3}
-  - {fileID: 4900000, guid: 07128b33684f2044c80a27de8cb188a8, type: 3}
+  - {fileID: 4900000, guid: 94857bee71ba89c4984ad4797a726802, type: 3}
   - {fileID: 4900000, guid: 8b1a12644bbf5b04c93f281ed05f4c13, type: 3}
   - {fileID: 4900000, guid: 566d1a856563b8643a920316711eaaa5, type: 3}
   tanks:
@@ -9888,6 +9888,38 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1677695871689777843, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: damper
+      value: 0.78
+      objectReference: {fileID: 0}
+    - target: {fileID: 1677695871689777843, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: maxSpringSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1677695871704018046, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: damper
+      value: 0.78
+      objectReference: {fileID: 0}
+    - target: {fileID: 1677695871704018046, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: maxSpringSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1677695871938463207, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: damper
+      value: 0.78
+      objectReference: {fileID: 0}
+    - target: {fileID: 1677695871938463207, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: maxSpringSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1677695872170932320, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: damper
+      value: 0.78
+      objectReference: {fileID: 0}
+    - target: {fileID: 1677695872170932320, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: maxSpringSpeed
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1677695872598849025, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
       propertyPath: m_Name
       value: The Supreme Potato
@@ -9940,6 +9972,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1677695872726487012, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: damper
+      value: 0.78
+      objectReference: {fileID: 0}
+    - target: {fileID: 1677695872726487012, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: maxSpringSpeed
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1677695872800944108, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -9947,6 +9987,30 @@ PrefabInstance:
     - target: {fileID: 1677695872800944110, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
       propertyPath: m_BodyType
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1677695872800944111, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: maxSpeed
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1677695872800944111, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: acceleration
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1677695873077091904, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: damper
+      value: 0.78
+      objectReference: {fileID: 0}
+    - target: {fileID: 1677695873077091904, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: maxSpringSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1677695873107766404, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: damper
+      value: 0.78
+      objectReference: {fileID: 0}
+    - target: {fileID: 1677695873107766404, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: maxSpringSpeed
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2687768884453491569, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
       propertyPath: m_IsActive

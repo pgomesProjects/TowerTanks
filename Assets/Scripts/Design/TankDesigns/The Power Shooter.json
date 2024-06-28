@@ -1,5 +1,12 @@
 {
     "TankName": "The Power Shooter",
+    "coreInteractables": [
+        {
+            "cellName": "Cell_2",
+            "interRef": "InterCommand_Throttle",
+            "flipped": false
+        }
+    ],
     "buildingSteps": [
         {
             "roomID": "Room_Tee4C_Flipped",
@@ -10,9 +17,7 @@
                 "z": 0.0
             },
             "rotate": 1,
-            "cellWithSlot": "Cell_2",
-            "interactable": "InteractableTemplate",
-            "direction": 1.0
+            "cellInteractables": []
         },
         {
             "roomID": "Room_Line4A",
@@ -23,9 +28,13 @@
                 "z": 0.0
             },
             "rotate": 0,
-            "cellWithSlot": "Cell_1",
-            "interactable": "InterEngineer_Boiler",
-            "direction": 1.0
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_1",
+                    "interRef": "InterEngineer_Boiler",
+                    "flipped": false
+                }
+            ]
         },
         {
             "roomID": "Room_Tee4B",
@@ -36,9 +45,13 @@
                 "z": 0.0
             },
             "rotate": 1,
-            "cellWithSlot": "Cell_2",
-            "interactable": "InterEngineer_Boiler",
-            "direction": 1.0
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_0",
+                    "interRef": "InterEngineer_Boiler",
+                    "flipped": false
+                }
+            ]
         },
         {
             "roomID": "Room_Block4A",
@@ -49,9 +62,13 @@
                 "z": 0.0
             },
             "rotate": 1,
-            "cellWithSlot": "Cell_1",
-            "interactable": "InterWeapon_Cannon",
-            "direction": -1.0
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_1",
+                    "interRef": "InterWeapon_Cannon",
+                    "flipped": true
+                }
+            ]
         },
         {
             "roomID": "Room_Block4A",
@@ -62,9 +79,7 @@
                 "z": 0.0
             },
             "rotate": 0,
-            "cellWithSlot": "Cell_0",
-            "interactable": "InteractableTemplate",
-            "direction": 1.0
+            "cellInteractables": []
         },
         {
             "roomID": "Room_Elbow4A_Flipped",
@@ -75,9 +90,13 @@
                 "z": 0.0
             },
             "rotate": 1,
-            "cellWithSlot": "Cell_0",
-            "interactable": "InterWeapon_Cannon",
-            "direction": -1.0
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_0",
+                    "interRef": "InterWeapon_Cannon",
+                    "flipped": true
+                }
+            ]
         },
         {
             "roomID": "Room_Line2A",
@@ -88,9 +107,13 @@
                 "z": 0.0
             },
             "rotate": 0,
-            "cellWithSlot": "Cell_0",
-            "interactable": "InterWeapon_Cannon",
-            "direction": -1.0
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_0",
+                    "interRef": "InterWeapon_Cannon",
+                    "flipped": true
+                }
+            ]
         }
     ]
 }
