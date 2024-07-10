@@ -5099,9 +5099,29 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 975085553}
     m_Modifications:
+    - target: {fileID: 801505083565531132, guid: 55a2de1c12df41647b2333975b669960, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1372034088680711591, guid: 55a2de1c12df41647b2333975b669960, type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1526581371669013675, guid: 55a2de1c12df41647b2333975b669960, type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 1656039896013798289, guid: 55a2de1c12df41647b2333975b669960, type: 3}
       propertyPath: m_RootOrder
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2182343647866508265, guid: 55a2de1c12df41647b2333975b669960, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2355798455428410826, guid: 55a2de1c12df41647b2333975b669960, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3766360497705465845, guid: 55a2de1c12df41647b2333975b669960, type: 3}
       propertyPath: m_Name
@@ -5762,7 +5782,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1152782959}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5caba13bbcd110f4a8251e2622b5b659, type: 3}
   m_Name: 
@@ -6640,11 +6660,11 @@ MonoBehaviour:
     bias: 0
     isPreset: 0
   - chunkPrefab: {fileID: 5300777585851316023, guid: a34f31d338c6af749aaf23139a313968, type: 3}
-    weight: 1
+    weight: 3
     bias: 0
     isPreset: 1
   - chunkPrefab: {fileID: 5300777585851316023, guid: 3f9b55df25ebdc9499bee15e1254821f, type: 3}
-    weight: 2
+    weight: 1
     bias: 0
     isPreset: 1
   poolSize: 50
@@ -6652,7 +6672,7 @@ MonoBehaviour:
   obstacles:
   - {fileID: 7245675298519190089, guid: 8d1ac7cdbdbefb843bad6d3cd7f79167, type: 3}
   - {fileID: 951168179812281977, guid: 28228dd6287a00544b1d07b5430181b8, type: 3}
-  obstacleChance: 20
+  obstacleChance: 0
   biasesCanRepeat: 0
   enableLevelBuilder: 0
   levelBuilderUI: {fileID: 1659328985}
@@ -9990,7 +10010,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1677695872800944111, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
       propertyPath: maxSpeed
-      value: 8
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 1677695872800944111, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
       propertyPath: acceleration
