@@ -674,6 +674,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   damper: 0.78
+  nonStick: 0
   generateWheelGuard: 1
   hideDebugs: 0
 --- !u!212 &1677695871689777842
@@ -812,6 +813,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   damper: 0.78
+  nonStick: 0
   generateWheelGuard: 1
   hideDebugs: 0
 --- !u!212 &1677695871704018045
@@ -950,6 +952,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   damper: 0.78
+  nonStick: 0
   generateWheelGuard: 1
   hideDebugs: 0
 --- !u!212 &1677695871938463206
@@ -1088,6 +1091,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   damper: 0.78
+  nonStick: 0
   generateWheelGuard: 1
   hideDebugs: 0
 --- !u!212 &1677695872170932327
@@ -1525,6 +1529,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   damper: 0.78
+  nonStick: 0
   generateWheelGuard: 1
   hideDebugs: 0
 --- !u!212 &1677695872726487003
@@ -1642,11 +1647,42 @@ MonoBehaviour:
   COGWidth: 3.5
   totalWeight: 0
   maxSpeed: 8
+  maxAcceleration: 0.7
+  accelerationDamping: 0.1
   gearPositions: 5
-  acceleration: 0.8
+  wheelStickiness: 15
+  wheelStickCompressionCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -5.4604344
+      outSlope: -5.4604344
+      tangentMode: 0
+      weightedMode: 2
+      inWeight: 0
+      outWeight: 0.15933694
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -0.0016688957
+      outSlope: -1
+      tangentMode: 1
+      weightedMode: 1
+      inWeight: 0.3251015
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  parkingBrakeWait: 0
+  parkingBrakeStrength: 0
+  baseAirDragForce: 30
   maxAngularDrag: 3
   extraWheels: 2
-  debugDrive: 0
+  maxTipAngle: 45
+  tipAngleBufferZone: 10
+  tipPreventionForce: 50
 --- !u!50 &1677695872800944110
 Rigidbody2D:
   serializedVersion: 4
@@ -1863,6 +1899,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   damper: 0.78
+  nonStick: 0
   generateWheelGuard: 1
   hideDebugs: 0
 --- !u!212 &1677695873077091911
@@ -2001,6 +2038,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   damper: 0.78
+  nonStick: 0
   generateWheelGuard: 1
   hideDebugs: 0
 --- !u!212 &1677695873107766651

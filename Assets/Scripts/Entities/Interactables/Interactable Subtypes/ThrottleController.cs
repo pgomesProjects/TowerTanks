@@ -77,6 +77,6 @@ public class ThrottleController : TankInteractable
         currentAngle = gear * (maxAngle / speedSettings);
 
         shiftTimer = 0.1f;
-        if (tank != null)  tank.treadSystem.gear = -gear;
+        if (tank != null)  tank.treadSystem.ChangeGear(gear);
     }
 }
