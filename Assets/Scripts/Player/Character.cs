@@ -16,6 +16,9 @@ public abstract class Character : SerializedMonoBehaviour
     protected Bounds ladderBounds;
     protected PlayerHUD characterHUD;
     protected int characterIndex;
+    
+    private Transform currentCellJoint;
+    private int cellLayerIndex = 15;
 
     [Header("Character Information")]
     [SerializeField] protected CharacterSettings characterSettings;
@@ -68,6 +71,16 @@ public abstract class Character : SerializedMonoBehaviour
     {
         currentFuel = Mathf.Clamp(currentFuel, 0, characterSettings.fuelAmount);
         //Debug.Log($"Current Fuel: {currentFuel}");
+        var cellJoint = Physics2D.OverlapBox(
+            transform.position,
+            transform.localScale,
+            0f, 
+            1 << cellLayerIndex).gameObject.transform;
+        if (currentCellJoint != cellJoint)
+        {
+            currentCellJoint = cellJoint;
+            transform.SetParent(currentCellJoint);
+        }
     }
 
     protected virtual void FixedUpdate()

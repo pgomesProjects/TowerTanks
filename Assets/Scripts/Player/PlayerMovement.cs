@@ -8,12 +8,11 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : Character
 {
     #region Fields and Properties
-
+    
     //input
     private Vector2 moveInput;
     private bool jetpackInputHeld;
-
-    [SerializeField] private Transform towerJoint;
+    
     [SerializeField] private Transform playerSprite;
 
     [SerializeField] private PlayerInput playerInputComponent;
@@ -52,7 +51,7 @@ public class PlayerMovement : Character
         {
             currentFuel += fuelRegenerationRate * Time.deltaTime;
         }
-
+        
         base.Update();
     }
 
@@ -90,12 +89,10 @@ public class PlayerMovement : Character
         if (ladder != null)
         {
             currentLadder = ladder;
-            Debug.Log("Ladder found");
         }
         else
         {
             currentLadder = null;
-            Debug.Log("Ladder not found");
         }
         
         float force = transform.right.x * moveInput.x * moveSpeed; 
