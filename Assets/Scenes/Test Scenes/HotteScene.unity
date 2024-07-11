@@ -6778,7 +6778,7 @@ MonoBehaviour:
   m_Follow: {fileID: 571350633}
   m_Lens:
     FieldOfView: 60
-    OrthographicSize: 11
+    OrthographicSize: 4.5
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
@@ -7577,7 +7577,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 11
+  orthographic size: 4.5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -9937,6 +9937,10 @@ PrefabInstance:
       value: 0.78
       objectReference: {fileID: 0}
     - target: {fileID: 1677695872170932320, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: nonStick
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1677695872170932320, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
       propertyPath: maxSpringSpeed
       value: 1
       objectReference: {fileID: 0}
@@ -9997,6 +10001,10 @@ PrefabInstance:
       value: 0.78
       objectReference: {fileID: 0}
     - target: {fileID: 1677695872726487012, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: nonStick
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1677695872726487012, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
       propertyPath: maxSpringSpeed
       value: 1
       objectReference: {fileID: 0}
@@ -10007,14 +10015,6 @@ PrefabInstance:
     - target: {fileID: 1677695872800944110, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
       propertyPath: m_BodyType
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1677695872800944111, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
-      propertyPath: maxSpeed
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 1677695872800944111, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
-      propertyPath: acceleration
-      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 1677695873077091904, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
       propertyPath: damper

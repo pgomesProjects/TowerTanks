@@ -15,9 +15,10 @@ public class TreadWheel : MonoBehaviour
     [Tooltip("Maximum speed at which wheels can spring to target position when compressed."), Min(0)]          public float maxSqueezeSpeed;
     [Tooltip("Extra radius around wheel used to maintain ground status when wheel is decompressing."), Min(0)] public float groundDetectBuffer;
     [Space()]
-    [Tooltip("How much force wheel suspension exerts to support tank."), Min(0)]            public float stiffness;
-    [Tooltip("Curve representing suspension stiffness based on wheel compression amount.")] public AnimationCurve stiffnessCurve;
-    [Tooltip("Force which opposes suspension motion and allows tank to come to a rest.")]   public float damper;
+    [Tooltip("How much force wheel suspension exerts to support tank."), Min(0)]               public float stiffness;
+    [Tooltip("Curve representing suspension stiffness based on wheel compression amount.")]    public AnimationCurve stiffnessCurve;
+    [Tooltip("Force which opposes suspension motion and allows tank to come to a rest.")]      public float damper;
+    [Tooltip("Prevents wheel from applying stick force to surfaces (good for extra wheels).")] public bool nonStick;
     [Header("Other Settings:")]
     [Tooltip("Causes wheel to generate a collider which prevents tank from squishing it into the ground once it's reached its compression limit.")] public bool generateWheelGuard = true;
     [Tooltip("Hides debug visualization meshes on wheels.")]                                                                                        public bool hideDebugs;
@@ -30,7 +31,7 @@ public class TreadWheel : MonoBehaviour
 
     internal float springSpeed;          //Speed at which wheel is currently moving along spring
     internal float compressionValue;     //Value between 0 - 1 representing how compressed this wheel currently is
-    private float prevCompressionValue;  //Compression value from last update
+    internal float prevCompressionValue; //Compression value from last update
 
     //RUNTIME METHODS:
     private void Awake()
@@ -57,7 +58,7 @@ public class TreadWheel : MonoBehaviour
         //Update wheel position:
         Vector2 backstopPos = transform.parent.TransformPoint(basePosition + (Vector2.up * maxSuspensionDepth)); //Get position wheel will move to when most compressed
         Vector2 extendPos = transform.parent.TransformPoint(basePosition);                                       //Get position wheel could be at when most extended
-        bool prevGrounded = grounded;
+        bool prevGrounded = grounded;                                                                            //Update grounded status
         if (Physics2D.OverlapCircle(backstopPos, radius, LayerMask.GetMask("Ground")) != null) //There is ground intersecting with wheel backstop position
         {
             grounded = true;                  //Indicate that wheel is grounded
