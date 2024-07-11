@@ -9908,6 +9908,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 869851817114869758, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: m_RootOrder
+      value: 17
+      objectReference: {fileID: 0}
     - target: {fileID: 1677695871689777843, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
       propertyPath: damper
       value: 0.78
@@ -10016,6 +10020,26 @@ PrefabInstance:
       propertyPath: m_BodyType
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1677695872800944111, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: wheelStickCompressionCurve.m_Curve.Array.data[0].inSlope
+      value: -5.4604344
+      objectReference: {fileID: 0}
+    - target: {fileID: 1677695872800944111, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: wheelStickCompressionCurve.m_Curve.Array.data[1].inSlope
+      value: -0.0016688957
+      objectReference: {fileID: 0}
+    - target: {fileID: 1677695872800944111, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: wheelStickCompressionCurve.m_Curve.Array.data[0].outSlope
+      value: -5.4604344
+      objectReference: {fileID: 0}
+    - target: {fileID: 1677695872800944111, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: wheelStickCompressionCurve.m_Curve.Array.data[1].inWeight
+      value: 0.3251015
+      objectReference: {fileID: 0}
+    - target: {fileID: 1677695872800944111, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: wheelStickCompressionCurve.m_Curve.Array.data[0].outWeight
+      value: 0.15933694
+      objectReference: {fileID: 0}
     - target: {fileID: 1677695873077091904, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
       propertyPath: damper
       value: 0.78
@@ -10031,10 +10055,22 @@ PrefabInstance:
     - target: {fileID: 1677695873107766404, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
       propertyPath: maxSpringSpeed
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2522518207209193251, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: m_RootOrder
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 2687768884453491569, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5737081894243415607, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: m_RootOrder
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7506389015692032920, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: m_RootOrder
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5949879474703637688, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
