@@ -181,6 +181,14 @@ public class PlayerMovement : Character
         {
             SetLadder();
         }
+        
+        if (moveInput.y < 0)
+        {
+            if (CheckSurfaceCollider().gameObject.TryGetComponent(out PlatformCollisionSwitcher collSwitcher))
+            {
+                StartCoroutine(collSwitcher.DisableCollision(GetComponent<Collider2D>()));
+            }
+        }
     }
     public void OnJetpack(InputAction.CallbackContext ctx) => jetpackInputHeld = ctx.ReadValue<float>() > 0;
 

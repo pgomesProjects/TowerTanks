@@ -132,6 +132,14 @@ public abstract class Character : SerializedMonoBehaviour
         
     }
 
+    protected Collider2D CheckSurfaceCollider()
+    {
+        return Physics2D.OverlapBox(new Vector2(transform.position.x,
+                                                     transform.position.y - transform.localScale.y / 2),
+                                                   new Vector2(groundedBoxX, groundedBoxY),
+                                                   0f);
+    }
+
     protected abstract void MoveCharacter();
     
     protected abstract void ClimbLadder();
