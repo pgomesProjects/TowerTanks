@@ -7,7 +7,7 @@ public abstract class Character : SerializedMonoBehaviour
 {
     #region Fields and Properties
 
-    protected enum CharacterState { CLIMBING, NONCLIMBING, OPERATING }; //Simple state system, in the future this will probably be refactored
+    protected enum CharacterState { CLIMBING, NONCLIMBING }; //Simple state system, in the future this will probably be refactored
     protected CharacterState currentState;                   //to an FSM.
 
     //Components
@@ -16,7 +16,9 @@ public abstract class Character : SerializedMonoBehaviour
     protected Bounds ladderBounds;
     protected PlayerHUD characterHUD;
     protected int characterIndex;
-    protected Transform hands;
+    
+    private Transform currentCellJoint;
+    private int cellLayerIndex = 15;
 
     [Header("Character Information")]
     [SerializeField] protected CharacterSettings characterSettings;
@@ -33,6 +35,9 @@ public abstract class Character : SerializedMonoBehaviour
 
     [SerializeField] protected float maxYVelocity, minYVelocity;
 
+    [Header("Jetpack values")]
+    [SerializeField] protected float fuelDepletionRate;
+    [SerializeField] protected float fuelRegenerationRate;
     protected float currentFuel;
 
     //temp
@@ -52,19 +57,12 @@ public abstract class Character : SerializedMonoBehaviour
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        hands = transform.Find("Hands");
-
-        if (characterSettings == null)
-        {
-            Debug.LogWarning("Warning: No Character Settings Loaded. Loading Default.");
-            characterSettings = (CharacterSettings)UnityEditor.AssetDatabase.LoadAssetAtPath("Assets/Data/Character Settings/DefaultCharacterSettings.asset", typeof(CharacterSettings));
-        }
         currentHealth = characterSettings.maxHealth;
-        currentFuel = characterSettings.fuelAmount;
     }
 
     protected virtual void Start()
     {
+        currentFuel = characterSettings.fuelAmount;
         currentState = CharacterState.NONCLIMBING;
         moveSpeedHalved = moveSpeed / 2;
     }
@@ -73,15 +71,27 @@ public abstract class Character : SerializedMonoBehaviour
     {
         currentFuel = Mathf.Clamp(currentFuel, 0, characterSettings.fuelAmount);
         //Debug.Log($"Current Fuel: {currentFuel}");
+        var cellJoint = Physics2D.OverlapBox(
+            transform.position,
+            transform.localScale,
+            0f, 
+            1 << cellLayerIndex).gameObject.transform;
+        if (currentCellJoint != cellJoint)
+        {
+            currentCellJoint = cellJoint;
+            transform.SetParent(currentCellJoint);
+        }
     }
 
     protected virtual void FixedUpdate()
     {
         if (currentState == CharacterState.NONCLIMBING) MoveCharacter();
 
-        else if (currentState == CharacterState.CLIMBING) ClimbLadder();
-
-        else if (currentState == CharacterState.OPERATING) OperateInteractable();
+        else if (currentState == CharacterState.CLIMBING)
+        {
+            DetectLadderBounds();
+            ClimbLadder();
+        }
     }
 
     protected virtual void OnDrawGizmos()
@@ -93,7 +103,7 @@ public abstract class Character : SerializedMonoBehaviour
 
     protected virtual void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Climbable"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Ladder"))
         {
             Debug.Log("ladder found");
             currentLadder = other.gameObject;
@@ -102,7 +112,7 @@ public abstract class Character : SerializedMonoBehaviour
 
     protected virtual void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Climbable"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Ladder"))
         {
             currentLadder = null;
         }
@@ -122,7 +132,17 @@ public abstract class Character : SerializedMonoBehaviour
         
     }
 
+    protected Collider2D CheckSurfaceCollider()
+    {
+        return Physics2D.OverlapBox(new Vector2(transform.position.x,
+                                                     transform.position.y - transform.localScale.y / 2),
+                                                   new Vector2(groundedBoxX, groundedBoxY),
+                                                   0f);
+    }
+
     protected abstract void MoveCharacter();
+    
+    protected abstract void ClimbLadder();
 
     protected void PropelJetpack()
     {
@@ -141,10 +161,11 @@ public abstract class Character : SerializedMonoBehaviour
 
     }
 
-    protected virtual void ClimbLadder()
+
+    protected virtual void DetectLadderBounds()
     {
         // Create a LayerMask for the ladder layer.
-        int ladderLayerIndex = LayerMask.NameToLayer("Climbable");
+        int ladderLayerIndex = LayerMask.NameToLayer("Ladder");
         LayerMask ladderLayer = 1 << ladderLayerIndex;
 
 
@@ -155,6 +176,7 @@ public abstract class Character : SerializedMonoBehaviour
         {
             // For each ladder, add its bounds to ladderBounds.
             ladderBounds.Encapsulate(ladder.bounds);
+            
         }
     }
 
@@ -165,23 +187,11 @@ public abstract class Character : SerializedMonoBehaviour
         rb.velocity = Vector2.zero;
     }
 
-    protected virtual void OperateInteractable()
-    {
-        rb.velocity = Vector2.zero;
-    }
-
-    public void CancelInteraction()
-    {
-        currentState = CharacterState.NONCLIMBING;
-    }
-
     public void LinkPlayerHUD(PlayerHUD newHUD)
     {
         characterHUD = newHUD;
         characterHUD.InitializeHUD(characterIndex);
     }
-
-    public Vector2 GetVelocity() => rb.velocity;
     #endregion
 
     #region Character Functions
