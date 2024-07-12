@@ -226,7 +226,7 @@ public class PlayerController : SerializedMonoBehaviour
                 //Clamp the player's position to be within the range of the tank
                 Vector3 playerPos = transform.localPosition;
 
-                playerPos.x = Mathf.Clamp(playerPos.x, -LevelManager.Instance.GetPlayerTank().tankBarrierRange, LevelManager.Instance.GetPlayerTank().tankBarrierRange);
+                //playerPos.x = Mathf.Clamp(playerPos.x, -LevelManager.Instance.GetPlayerTank().tankBarrierRange, LevelManager.Instance.GetPlayerTank().tankBarrierRange);
                 transform.localPosition = playerPos;
 
                 //If the input is moving the player right and the player is facing left
@@ -592,21 +592,25 @@ public class PlayerController : SerializedMonoBehaviour
         //If build mode is active
         if (buildModeActive)
         {
+            /*
             Debug.Log("Build Mode For Player " + (playerIndex + 1) + ": On");
             if (!IsPlayerOutsideTank())
                 LevelManager.Instance.GetPlayerTank().GetLayerAt(currentLayer).GetComponent<GhostInteractables>().CreateGhostInteractables(this);
             else if(IsHoldingScrap())
                 LevelManager.Instance.AddGhostLayer();
+            */
         }
 
         //If build mode is not active
         else
         {
+            /*
             Debug.Log("Build Mode For Player " + (playerIndex + 1) + ": Off");
             if(!IsPlayerOutsideTank())
                 LevelManager.Instance.GetPlayerTank().GetLayerAt(currentLayer).GetComponent<GhostInteractables>().DestroyGhostInteractables(this);
             else
                 LevelManager.Instance.RemoveGhostLayer();
+            */
         }
     }
 
@@ -706,8 +710,8 @@ public class PlayerController : SerializedMonoBehaviour
         if (buildModeActive) return false;        //If the player is in build mode, return false
 
         FireBehavior fire = null;
-        if (LevelManager.Instance.GetPlayerTank().GetLayerAt(currentLayer) != null)
-            fire = LevelManager.Instance.GetPlayerTank().GetLayerAt(currentLayer).GetComponentInChildren<FireBehavior>();
+        /*if (LevelManager.Instance.GetPlayerTank().GetLayerAt(currentLayer) != null)
+            fire = LevelManager.Instance.GetPlayerTank().GetLayerAt(currentLayer).GetComponentInChildren<FireBehavior>();*/
 
         //If the layer the player is on is on fire
         if (fire != null && fire.IsLayerOnFire())
@@ -736,7 +740,7 @@ public class PlayerController : SerializedMonoBehaviour
     {
         if (IsPlayerOutsideTank()) return false;  //If the player is outside of the tank, return false
 
-        LayerManager layerHealth = LevelManager.Instance.GetPlayerTank().GetLayerAt(currentLayer);
+        /*LayerManager layerHealth = LevelManager.Instance.GetPlayerTank().GetLayerAt(currentLayer);
 
         //If the layer the player is damaged and the player has scrap, use the wrench
         if (layerHealth.GetLayerHealth() < layerHealth.GetMaxHealth() && scrapHolder.childCount > 0)
@@ -748,23 +752,26 @@ public class PlayerController : SerializedMonoBehaviour
             }
             return true;
         }
+        */
 
         return false;
     }
 
     private void UseFireRemover()
     {
+        /*
         FireBehavior fire = LevelManager.Instance.GetPlayerTank().GetLayerAt(currentLayer).GetComponentInChildren<FireBehavior>();
         fire.gameObject.SetActive(false);   //Gets rid of the fire
         isRepairingLayer = false;
 
         LevelManager.Instance.CancelAllLayerRepairs();
+        */
     }
 
     private void UseWrench()
     {
         //Restore the layer the player is on to max health
-        LayerManager layerHealth = LevelManager.Instance.GetPlayerTank().GetLayerAt(currentLayer);
+        /*LayerManager layerHealth = LevelManager.Instance.GetPlayerTank().GetLayerAt(currentLayer);
 
         int healthToMax = layerHealth.GetMaxHealth() - layerHealth.GetLayerHealth();    //Get the amount of health needed to repair the layer to max
         int scrapRequired = (int)Mathf.CeilToInt(healthToMax / 25f) * scrapToRepair;    //Get the amount of scrap required to repair to max health (x scrap per 25% health)
@@ -782,6 +789,7 @@ public class PlayerController : SerializedMonoBehaviour
         UseScrap(price);
 
         LevelManager.Instance.CancelAllLayerRepairs();
+        */
     }
 
     public void DisplayPlayerAction(PlayerActions currentAction)
@@ -827,7 +835,7 @@ public class PlayerController : SerializedMonoBehaviour
                 case PlayerActions.EXTINGUISHING:
                     playerAnimator.SetBool("IsExtinguishing", true);
                     currentActionSpeed = fireRemoverSpeed;
-                    LevelManager.Instance.GetPlayerTank().GetLayerAt(currentLayer).GetComponentInChildren<FireBehavior>().AddPlayerPuttingOutFire(this);
+                    //LevelManager.Instance.GetPlayerTank().GetLayerAt(currentLayer).GetComponentInChildren<FireBehavior>().AddPlayerPuttingOutFire(this);
                     break;
                 case PlayerActions.SELLING:
                     progressFill.color = sellColor;
@@ -896,9 +904,11 @@ public class PlayerController : SerializedMonoBehaviour
 
         if (playerAnimator.GetBool("IsExtinguishing"))
         {
+            /*
             FireBehavior fire = LevelManager.Instance.GetPlayerTank().GetLayerAt(currentLayer).GetComponentInChildren<FireBehavior>();
             if (fire != null)
                 fire.RemovePlayerPuttingOutFire(this);
+            */
         }
 
         ResetAnimatorBools();
@@ -1087,6 +1097,7 @@ public class PlayerController : SerializedMonoBehaviour
 
     private void DropItem(bool throwItem)
     {
+        /*
         //Remove the item from the player and put it back in the level
         itemHeld.GetComponent<Rigidbody2D>().gravityScale = itemHeld.GetDefaultGravityScale();
         itemHeld.GetComponent<Rigidbody2D>().isKinematic = false;
@@ -1130,6 +1141,7 @@ public class PlayerController : SerializedMonoBehaviour
         }
 
         itemHeld = null;
+        */
     }
 
     private Vector2 GetThrowVector(float radians)

@@ -67,12 +67,12 @@ public class LayerTransitionManager : MonoBehaviour
                 LevelManager.Instance.HideGhostLayer();
 
             //Destroy the ghost interactables from the previous layer, if any
-            if (currentPlayer.previousLayer + 1 <= LevelManager.Instance.totalLayers)
-                LevelManager.Instance.GetPlayerTank().GetLayerAt(currentPlayer.previousLayer).GetComponent<GhostInteractables>().DestroyGhostInteractables(currentPlayer);
+            if (currentPlayer.previousLayer + 1 <= LevelManager.Instance.totalLayers) { }
+                //LevelManager.Instance.GetPlayerTank().GetLayerAt(currentPlayer.previousLayer).GetComponent<GhostInteractables>().DestroyGhostInteractables(currentPlayer);
 
             //If the player is not on the top of the tank, create ghost interactables
-            if (currentPlayer.currentLayer + 1 <= LevelManager.Instance.totalLayers)
-                LevelManager.Instance.GetPlayerTank().GetLayerAt(currentPlayer.currentLayer).GetComponent<GhostInteractables>().CreateGhostInteractables(currentPlayer);
+            if (currentPlayer.currentLayer + 1 <= LevelManager.Instance.totalLayers) { }
+                //LevelManager.Instance.GetPlayerTank().GetLayerAt(currentPlayer.currentLayer).GetComponent<GhostInteractables>().CreateGhostInteractables(currentPlayer);
         }
     }
 

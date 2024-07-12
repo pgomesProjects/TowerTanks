@@ -54,7 +54,7 @@ public class EnemyController : MonoBehaviour
     // Start is called before the first frame update
     protected void Start()
     {
-        playerTank = LevelManager.Instance.GetPlayerTank();
+        playerTank = null; //LevelManager.Instance.GetPlayerTank();
 
         currentSpeed = speed;
         canMove = true;

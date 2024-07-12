@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
+using Sirenix.OdinInspector;
 
 [RequireComponent(typeof(PlayerInputManager))]
-public class MultiplayerManager : MonoBehaviour
+public class MultiplayerManager : SerializedMonoBehaviour
 {
     internal PlayerInputManager playerInputManager { get; private set; }
     internal static bool[] connectedControllers;
@@ -17,6 +18,18 @@ public class MultiplayerManager : MonoBehaviour
     public Action<PlayerInput> OnPlayerConnected;
     public Action<int> OnPlayerLost, OnPlayerRegained;
 
+    [Button(ButtonSizes.Medium)]
+    private void ToggleMultiplayerDebug()
+    {
+        MultiplayerEnabled = !MultiplayerEnabled;
+
+        if(MultiplayerEnabled)
+            playerInputManager?.EnableJoining();
+        if (!MultiplayerEnabled)
+            playerInputManager?.DisableJoining();
+    }
+    public bool MultiplayerEnabled;
+
     private void Awake()
     {
         playerInputManager = GetComponent<PlayerInputManager>();
@@ -25,6 +38,11 @@ public class MultiplayerManager : MonoBehaviour
         for (int i = 0; i < connectedControllers.Length; i++)
             connectedControllers[i] = false;
         playerInputManager.EnableJoining();
+
+        if (MultiplayerEnabled)
+            playerInputManager?.EnableJoining();
+        if (!MultiplayerEnabled)
+            playerInputManager?.DisableJoining();
     }
 
     // Start is called before the first frame update
@@ -57,6 +75,12 @@ public class MultiplayerManager : MonoBehaviour
         playerInput.onDeviceRegained += OnDeviceRegained;
 
         OnPlayerConnected?.Invoke(playerInput);
+
+        if(GameSettings.debugMode && playerIndex == 0)
+        {
+            GameObject.FindGameObjectWithTag("DebugPlayer")?.GetComponent<PlayerMovement>().AddDebuggerPlayerInput(playerInput);
+            FindObjectOfType<Debug_TankBuilder>()?.LinkPlayerInput(playerInput);
+        }
     }
 
     public void SetUIControlScheme()
@@ -78,5 +102,6 @@ public class MultiplayerManager : MonoBehaviour
 
     public Color[] GetPlayerColors() => playerColors;
     public PlayerInput[] GetPlayerInputs() => transform.GetComponentsInChildren<PlayerInput>();
+    public PlayerData[] GetAllPlayers() => transform.GetComponentsInChildren<PlayerData>();
     public PlayerMovement GetPlayerPrefab() => playerPrefab;
 }

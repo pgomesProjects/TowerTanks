@@ -49,6 +49,7 @@ MonoBehaviour:
   isCore: 0
   randomizeType: 1
   debugRotate: 0
+  debugRotation: 0
   debugMoveUp: 0
   debugMoveDown: 0
   debugMoveLeft: 0

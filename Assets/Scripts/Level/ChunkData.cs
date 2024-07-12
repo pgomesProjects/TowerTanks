@@ -4,16 +4,24 @@ using UnityEngine;
 
 public class ChunkData: MonoBehaviour
 {
+    public float chunkNumber;
+
+    public enum ChunkType { FLAT, SLOPEUP, SLOPEDOWN, RAMPUP, RAMPDOWN, PRESET};
+    public ChunkType chunkType;
+
     public bool IsActive { get; private set; }
     public bool isInitialized { get; private set; }
 
-    public const float CHUNK_WIDTH = 60f;
+    public const float CHUNK_WIDTH = 30f;
+    public float yOffset;
 
-    [SerializeField, Tooltip("The chance for a trap to generate.")] private float chanceToGenerateTrap = 50f;
-    [SerializeField, Tooltip("The trap GameObject.")] GameObject chunkTrap;
+    [SerializeField, Tooltip("Flag that signals the end of the level.")] GameObject flag;
+    [SerializeField, Tooltip("Position on this chunk to spawn a flag")] private Transform flagSpawn; //place to spawn a flag if needed
+    [SerializeField, Tooltip("Positions on this chunk to spawn obstacles")] private Transform[] obstacleSpawns; //place to spawn a flag if needed
 
     private void Awake()
     {
+        flagSpawn = transform.Find("FlagSpawn");
         UnloadChunk();
     }
 
@@ -26,23 +34,28 @@ public class ChunkData: MonoBehaviour
         if (!isInitialized)
         {
             transform.localPosition = position;
-            GenerateTrap();
             isInitialized = true;
         }
     }
 
     /// <summary>
-    /// Generates a random trap.
+    /// Generates a random obstacle at a random spawn point on the chunk.
     /// </summary>
-    private void GenerateTrap()
+    public void GenerateObstacle(GameObject obstacle, float spawnChance)
     {
-        if (Random.Range(0f, 100f) <= chanceToGenerateTrap)
+        if (Random.Range(0f, 100f) <= spawnChance && obstacleSpawns.Length > 0)
         {
-            chunkTrap.GetComponent<SpriteRenderer>().color = new Color(Random.value, Random.value, Random.value);
-            chunkTrap.SetActive(true);
+            int random = Random.Range(0, obstacleSpawns.Length);
+            Transform randomSpawn = obstacleSpawns[random];
+            DestructibleObject newObstacle = Instantiate(obstacle, randomSpawn.position, randomSpawn.rotation, transform).GetComponent<DestructibleObject>();
         }
-        else
-            chunkTrap.SetActive(false);
+    }
+
+    public void SpawnFlag(Color color)
+    {
+        var newflag = Instantiate(flag, flagSpawn);
+        SpriteRenderer flagSprite = newflag.transform.Find("Visuals").Find("FlagSprite").GetComponent<SpriteRenderer>();
+        flagSprite.color = color;
     }
 
     /// <summary>

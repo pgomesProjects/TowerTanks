@@ -12,7 +12,7 @@ public enum GAMESTATE
 
 public class LevelManager : SerializedMonoBehaviour
 {
-    [SerializeField] private PlayerTankController playerTank;
+    [SerializeField] public TankController playerTank;
     [SerializeField] private Transform layerParent;
     [SerializeField] private Transform playerParent;
     [SerializeField] private GameObject layerPrefab;
@@ -20,9 +20,10 @@ public class LevelManager : SerializedMonoBehaviour
     [SerializeField, Tooltip("The list of possible rooms for the players to pick.")] public GameObject[] roomList { get; private set; }
     [SerializeField, Tooltip("The prefab for the player HUD piece.")] private PlayerHUD playerHUDPrefab;
     [SerializeField, Tooltip("The parent that holds all of the player HUD objects.")] private RectTransform playerHUDParentTransform;
-    [SerializeField, Tooltip("The UI that shows the transition between game phases.")] private GamePhaseUI gamePhaseUI;
     [SerializeField, Tooltip("The value of a singular scrap piece.")] private int scrapValue;
     [SerializeField, Tooltip("The level event data that dictates how the level must be run.")] private LevelEvents currentLevelEvent;
+    [SerializeField, Tooltip("The component that tracks the objective information.")] private ObjectiveTracker objectiveTracker;
+    [SerializeField, Tooltip("The component that tracks tank information.")] public TankManager tankManager;
 
     public static LevelManager Instance;
 
@@ -40,11 +41,12 @@ public class LevelManager : SerializedMonoBehaviour
 
     private GameObject currentGhostLayer;
 
-    private Transform[] spawnPoints;
+    private Transform spawnPoint;
 
     private Dictionary<string, int> itemPrice;
 
     //Events
+    public static Action<LevelEvents> OnMissionStart;
     public static Action<int, bool> OnResourcesUpdated;
     public static Action OnCombatEnded;
     public static Action<int> OnGamePaused;
@@ -59,14 +61,13 @@ public class LevelManager : SerializedMonoBehaviour
         UpdateResources(resourcesToAdd);
     }
 
-    public int resourcesToAdd = 100;
-
-    [Button(ButtonSizes.Medium)]
-    private void AdvancePhase()
+    [Button("Complete Mission")]
+    private void AutoCompleteMission()
     {
-        TransitionGamePhase(levelPhase == GAMESTATE.BUILDING ? GAMESTATE.COMBAT : GAMESTATE.BUILDING);
-        Debug.Log("Current Level Phase: " + levelPhase.ToString());
+        CompleteMission();
     }
+
+    public int resourcesToAdd = 100;
 
     private void Awake()
     {
@@ -79,12 +80,15 @@ public class LevelManager : SerializedMonoBehaviour
         itemPrice = new Dictionary<string, int>();
         PopulateItemDictionary();
         currentSessionStats = ScriptableObject.CreateInstance<SessionStats>();
+        spawnPoint = playerParent.transform;
+        tankManager = GameObject.Find("TankManager").GetComponent<TankManager>();
+        playerTank = tankManager.tanks[0].gameObject.GetComponent<TankController>();
+            //GameObject.FindGameObjectWithTag("SpawnPoint").transform;
     }
 
     private void Start()
     {
         isSettingUpOnStart = true;
-        SpawnAllPlayers();
         GameManager.Instance.AudioManager.Play("MainMenuWindAmbience");
 
         //Starting resources
@@ -101,43 +105,55 @@ public class LevelManager : SerializedMonoBehaviour
                 break;
         }
 
-/*        if (GameSettings.skipTutorial)
-        {
-            TransitionGameState();
+        /*        if (GameSettings.skipTutorial)
+                {
+                    TransitionGameState();
 
-            AddLayer(); //Add another layer
-        }
-        else
-        {
-            totalScrapValue += 200;
-            GameObject.FindGameObjectWithTag("Resources").gameObject.SetActive(false);
-        }*/
-        
+                    AddLayer(); //Add another layer
+                }
+                else
+                {
+                    totalScrapValue += 200;
+                    GameObject.FindGameObjectWithTag("Resources").gameObject.SetActive(false);
+                }*/
+
+        BuildPlayerTank();
         TransitionGameState();
-        AddLayer(); //Add another layer
+        SpawnAllPlayers();
+        //AddLayer(); //Add another layer
 
         if (GameSettings.debugMode)
             totalScrapValue = 99999;
 
         OnResourcesUpdated?.Invoke(totalScrapValue, false);
-        TransitionGamePhase(GAMESTATE.BUILDING);
+        OnMissionStart?.Invoke(currentLevelEvent);
         isSettingUpOnStart = false;
     }
 
     private void OnEnable()
     {
         GameManager.Instance.MultiplayerManager.OnPlayerConnected += SpawnPlayer;
+        ObjectiveTracker.OnMissionComplete += CompleteMission;
     }
 
     private void OnDisable()
     {
         GameManager.Instance.MultiplayerManager.OnPlayerConnected -= SpawnPlayer;
+        ObjectiveTracker.OnMissionComplete -= CompleteMission;
+    }
+
+    private void BuildPlayerTank()
+    {
+        if(GameManager.Instance.tankDesign != null)
+        {
+            Debug.Log("Building Last Tank Saved...");
+            playerTank.Build(GameManager.Instance.tankDesign);
+        }
     }
 
     private void SpawnAllPlayers()
     {
         playerParent = GameObject.FindGameObjectWithTag("PlayerContainer")?.transform;
-        spawnPoints = FindObjectOfType<SpawnPoints>()?.spawnPoints;
 
         foreach(PlayerInput playerInput in GameManager.Instance.MultiplayerManager.GetPlayerInputs())
             SpawnPlayer(playerInput);
@@ -145,10 +161,14 @@ public class LevelManager : SerializedMonoBehaviour
 
     private void SpawnPlayer(PlayerInput playerInput)
     {
+        spawnPoint = playerParent.transform;
+
         PlayerMovement character = Instantiate(GameManager.Instance.MultiplayerManager.GetPlayerPrefab());
         character.LinkPlayerInput(playerInput);
         character.GetComponent<Rigidbody2D>().isKinematic = false;
-        character.transform.position = spawnPoints[playerInput.playerIndex].position;
+        Vector3 playerPos = spawnPoint.position;
+        playerPos.x += UnityEngine.Random.Range(-0.25f, 0.25f);
+        character.transform.position = playerPos;
         character.transform.SetParent(playerParent);
         character.transform.GetComponentInChildren<Renderer>().material.SetColor("_Color", GameManager.Instance.MultiplayerManager.GetPlayerColors()[playerInput.playerIndex]);
         //character.SetPlayerMove(true);
@@ -207,7 +227,7 @@ public class LevelManager : SerializedMonoBehaviour
         //Purchase a layer
         AddLayer();
         RemoveGhostLayer();
-        GetPlayerTank().GetLayerAt(playerBuilding.currentLayer).GetComponent<GhostInteractables>().CreateGhostInteractables(playerBuilding);
+        //GetPlayerTank().GetLayerAt(playerBuilding.currentLayer).GetComponent<GhostInteractables>().CreateGhostInteractables(playerBuilding);
     }
 
     private void AddLayer()
@@ -226,7 +246,7 @@ public class LevelManager : SerializedMonoBehaviour
         AdjustCameraPosition();
 
         //Add layer to the list of layers
-        playerTank.GetLayers().Add(newLayer.GetComponent<LayerManager>());
+        //playerTank.GetLayers().Add(newLayer.GetComponent<LayerManager>());
 
         if (!isSettingUpOnStart)
         {
@@ -237,10 +257,10 @@ public class LevelManager : SerializedMonoBehaviour
         }
 
         //Adjust the weight of the tank
-        playerTank.AdjustTankWeight(totalLayers);
+        //playerTank.AdjustTankWeight(totalLayers);
 
         //Adjust the outside of the tank
-        playerTank.AdjustOutsideLayerObjects();
+        //playerTank.AdjustOutsideLayerObjects();
 
         if (totalLayers > currentSessionStats.maxHeight)
             currentSessionStats.maxHeight = totalLayers;
@@ -316,7 +336,7 @@ public class LevelManager : SerializedMonoBehaviour
         if (totalLayers == 0)
         {
             Debug.Log("Tank Is Destroyed!");
-            playerTank.DestroyTank();
+            //playerTank.DestroyTank();
             //Switch from gameplay to game over
             TransitionGameState();
             return;
@@ -362,7 +382,7 @@ public class LevelManager : SerializedMonoBehaviour
         }
 
         //Adjust the weight of the tank
-        playerTank.AdjustTankWeight(totalLayers);
+        //playerTank.AdjustTankWeight(totalLayers);
     }
 
     public void ResetPlayerCamera()
@@ -384,24 +404,8 @@ public class LevelManager : SerializedMonoBehaviour
 
     public void PrepareBeforeCombat()
     {
-        GetPlayerTank()?.ResetTankDistance();
+        //GetPlayerTank()?.ResetTankDistance();
         OnCombatEnded?.Invoke();
-    }
-
-    public void TransitionGamePhase(GAMESTATE newPhase)
-    {
-        levelPhase = newPhase;
-        gamePhaseUI?.ShowPhase(newPhase);
-
-        switch (newPhase)
-        {
-            case GAMESTATE.BUILDING:
-                GameManager.Instance.SetGamepadCursorsActive(true);
-                break;
-            case GAMESTATE.COMBAT:
-                GameManager.Instance.SetGamepadCursorsActive(false);
-                break;
-        }
     }
 
     public void TransitionGameState()
@@ -472,8 +476,10 @@ public class LevelManager : SerializedMonoBehaviour
         }
     }
 
-    private void GameOver()
+    public void GameOver()
     {
+        levelPhase = GAMESTATE.GAMEOVER;
+
         //Stop all of the in-game sounds
         GameManager.Instance.AudioManager.StopAllSounds();
 
@@ -490,8 +496,13 @@ public class LevelManager : SerializedMonoBehaviour
         OnGameOver?.Invoke();
     }
 
+    private void CompleteMission()
+    {
+        GameManager.Instance.LoadScene("BuildTankScene", LevelTransition.LevelTransitionType.GATE, true, true, false);
+    }
+
     public int GetScrapValue() => scrapValue;
-    public PlayerTankController GetPlayerTank() => playerTank;
+    public TankController GetPlayerTank() => playerTank;
 
     private void OnDestroy()
     {

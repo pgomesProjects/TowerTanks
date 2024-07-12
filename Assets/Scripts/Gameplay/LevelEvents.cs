@@ -24,4 +24,21 @@ public class LevelEvents : ScriptableObject
 
     //Survive For Amount Of Time options
     public int secondsToSurviveFor;
+
+    public string GetObjectiveName()
+    {
+        switch (objectiveType)
+        {
+            case ObjectiveType.DefeatEnemies:
+                return "Defeat Enemies!";
+
+            case ObjectiveType.SurviveForAmountOfTime:
+                return "Keep Your Tank Alive!";
+
+            case ObjectiveType.TravelDistance:
+                return "Reach The Objective!";
+        }
+
+        return "No Title Found";
+    }
 }

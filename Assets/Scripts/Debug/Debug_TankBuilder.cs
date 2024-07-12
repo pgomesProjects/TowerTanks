@@ -7,13 +7,11 @@ using UnityEngine.SceneManagement;
 public class Debug_TankBuilder : MonoBehaviour
 {
     //Assets
-    public Rigidbody2D tank;
-    private TreadSystem treads;
+    public TankController[] tanks;
     public Room room;
     public GameObject[] roomList;
     public int roomSelected;
     public bool enableSounds;
-    private Transform resetPoint;
 
     //Input
     private Vector2 moveInput;
@@ -27,17 +25,39 @@ public class Debug_TankBuilder : MonoBehaviour
     private PlayerHUD playerHUD;
     private float vel;
 
+    private PlayerControlSystem playerControlSystem;
+
+    private void Awake()
+    {
+        playerControlSystem = new PlayerControlSystem();
+        //playerControlSystem.Player.Cancel.performed += _ => OnRotate(_);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         if (playerInputComponent != null) LinkPlayerInput(playerInputComponent);
-        tank = GameObject.Find("TreadSystem").GetComponent<Rigidbody2D>();
-        if (tank != null)
+
+        //Find all tanks we're debugging & freeze them
+        tanks = FindObjectsOfType<TankController>();
+        if (tanks.Length > 0)
         {
-            tank.isKinematic = true; //Freeze the tank while we're building
-            treads = tank.gameObject.GetComponent<TreadSystem>();
-            resetPoint = treads.transform;
+            foreach (TankController tank in tanks)
+            {
+                var rb = tank.treadSystem.GetComponent<Rigidbody2D>();
+                rb.isKinematic = true;
+            }
         }
+    }
+
+    private void OnEnable()
+    {
+        playerControlSystem?.Enable();
+    }
+
+    private void OnDisable()
+    {
+        playerControlSystem?.Disable();
     }
 
     // Update is called once per frame
@@ -87,45 +107,14 @@ public class Debug_TankBuilder : MonoBehaviour
         }
     }
 
-    private void ResetTank() //Resets tank position to first transform
-    {
-        treads.transform.position = resetPoint.position;
-        treads.transform.rotation = resetPoint.rotation;
-        tank.isKinematic = true; //Freeze the tank while we're building
-        if (isDeployed) isDeployed = false;
-    }
-
     #region Input
     public void LinkPlayerInput(PlayerInput newInput)
     {
         playerInputComponent = newInput;
-        playerIndex = playerInputComponent.playerIndex;
 
         //Gets the player input action map so that events can be subscribed to it
-        inputMap = playerInputComponent.actions.FindActionMap("Player");
+        inputMap = playerInputComponent.actions.FindActionMap("Debug");
         inputMap.actionTriggered += OnPlayerInput;
-
-        //Subscribes events for control lost / regained
-        playerInputComponent.onDeviceLost += OnDeviceLost;
-        playerInputComponent.onDeviceRegained += OnDeviceRegained;
-    }
-
-    public void LinkPlayerHUD(PlayerHUD newHUD)
-    {
-        playerHUD = newHUD;
-        playerHUD.InitializeHUD(playerIndex);
-    }
-
-    public void OnDeviceLost(PlayerInput playerInput)
-    {
-        Debug.Log("Player " + (playerIndex + 1) + " Controller Disconnected!");
-        FindObjectOfType<CornerUIController>().OnDeviceLost(playerIndex);
-    }
-
-    public void OnDeviceRegained(PlayerInput playerInput)
-    {
-        Debug.Log("Player " + (playerIndex + 1) + " Controller Reconnected!");
-        FindObjectOfType<CornerUIController>().OnDeviceRegained(playerIndex);
     }
 
     private void OnPlayerInput(InputAction.CallbackContext ctx)
@@ -133,13 +122,13 @@ public class Debug_TankBuilder : MonoBehaviour
         //Gets the name of the action and calls the appropriate events
         switch (ctx.action.name)
         {
+            case "1": OnBuild(ctx); break;
             case "Move": OnMove(ctx); break;
             case "Look": OnLook(ctx); break;
-            case "Cancel": OnRotate(ctx); break;
-            case "Cycle Interactables": OnCycle(ctx); break;
-            case "Jump": OnJump(ctx); break;
-            case "Repair": OnDeploy(ctx); break;
-            case "Pause": OnPause(ctx); break;
+            case "4": OnRotate(ctx); break;
+            case "Cycle": OnCycle(ctx); break;
+            case "Cancel": OnDeploy(ctx); break;
+            case "Flip": OnFlip(ctx); break;
         }
     }
 
@@ -179,11 +168,10 @@ public class Debug_TankBuilder : MonoBehaviour
     public void OnLook(InputAction.CallbackContext ctx)
     {
         moveInput = ctx.ReadValue<Vector2>();
-        float moveSensitivity = 0.2f;
 
         if (isDeployed) //Move the Tank
         {
-            treads.debugDrive = moveInput.x;
+            //treads.debugDrive = moveInput.x;
             if (enableSounds)
             {
                 if (Mathf.Abs(moveInput.x) > 0.1f)
@@ -200,7 +188,6 @@ public class Debug_TankBuilder : MonoBehaviour
 
     public void OnRotate(InputAction.CallbackContext ctx) //Rotate the Room 90 deg
     {
-
         if (room != null)
         {
             if (ctx.performed)
@@ -213,25 +200,21 @@ public class Debug_TankBuilder : MonoBehaviour
 
     public void OnCycle(InputAction.CallbackContext ctx) //Cycle to the next Room in the List
     {
+        var input = ctx.ReadValue<Vector2>();
 
-        if (room != null && ctx.performed)
+        if (room != null && ctx.started)
         {
-            if (ctx.ReadValue<float>() > 0)
-            {
-                roomSelected += 1;
-                if (roomSelected >= roomList.Length) roomSelected = 0;
-            }
-            else
-            {
-                roomSelected -= 1;
-                if (roomSelected < 0) roomSelected = roomList.Length - 1;
-            }
+            roomSelected += Mathf.RoundToInt(input.x);
+            if (roomSelected >= roomList.Length) roomSelected = 0;
+           
+            if (roomSelected < 0) roomSelected = roomList.Length - 1;
+            
             SpawnRoom(random: false, roomToSpawn: roomSelected);
             if (enableSounds) GameManager.Instance.AudioManager.Play("UseSFX");
         }
     }
 
-    public void OnJump(InputAction.CallbackContext ctx) 
+    public void OnBuild(InputAction.CallbackContext ctx) 
     {
         if (cooldown <= 0 && ctx.performed && !isDeployed)
         {
@@ -250,11 +233,26 @@ public class Debug_TankBuilder : MonoBehaviour
         }
     }
 
-    public void OnDeploy(InputAction.CallbackContext ctx) //Deploy the Tank
+    public void OnDeploy(InputAction.CallbackContext ctx) //Deploy the Tanks
     {
-        tank.isKinematic = false;
-        if (!isDeployed && enableSounds) GameManager.Instance.AudioManager.Play("TankIdle");
+        if (tanks.Length > 0)
+        {
+            foreach (TankController tank in tanks)
+            {
+                var rb = tank.treadSystem.GetComponent<Rigidbody2D>();
+                rb.isKinematic = false;
+            }
+        }
         isDeployed = true;
+        if (room != null) Destroy(room.gameObject);
+    }
+
+    public void OnFlip(InputAction.CallbackContext ctx)
+    {
+        if (ctx.started && room != null)
+        {
+            if (enableSounds) GameManager.Instance.AudioManager.Play("RotateRoom");
+        }
     }
 
     public void OnPause(InputAction.CallbackContext ctx) //Reset Tank

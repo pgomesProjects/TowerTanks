@@ -6,7 +6,7 @@ public class MoveWithTank : MonoBehaviour
 {
     public Transform target; // The target to follow
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (target == null)
         {

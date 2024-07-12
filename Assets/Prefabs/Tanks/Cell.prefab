@@ -578,6 +578,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b70c767d5f6f494697d38df0c3a169f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  connectors:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  couplers: []
   backWall: {fileID: 7407573892148427567}
   walls:
   - {fileID: 7547479246852740806}
@@ -585,6 +591,9 @@ MonoBehaviour:
   - {fileID: 1006130015887727865}
   - {fileID: 5348483250243960654}
   startingInteractable: {fileID: 0}
+  hasInteractableSlot: 0
+  maxHealth: 75
+  health: 0
 --- !u!61 &4807245302401017544
 BoxCollider2D:
   m_ObjectHideFlags: 0

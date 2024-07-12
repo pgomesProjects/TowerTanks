@@ -20,9 +20,14 @@ namespace AK
         static const AkUniqueID BUTTON_HOVER = 1701177942U;
         static const AkUniqueID CANNON_AIM = 1221570156U;
         static const AkUniqueID CANNON_FIRE = 155513425U;
+        static const AkUniqueID CANNON_FIRE_NEW = 1779807686U;
+        static const AkUniqueID CANNON_FIRE_RECYCLED = 3193012965U;
         static const AkUniqueID CANNON_LOCK_IN_PLACE = 1967707158U;
         static const AkUniqueID CANNON_RELOAD = 3265936618U;
+        static const AkUniqueID CANNON_ROTATE = 946664204U;
         static const AkUniqueID CHARACTER_USE = 3289544510U;
+        static const AkUniqueID COAL_LOAD = 1134111855U;
+        static const AkUniqueID COAL_PICKUP = 2581980243U;
         static const AkUniqueID COMBAT_MUSIC = 1932095129U;
         static const AkUniqueID DEATH_STINGER = 1015288770U;
         static const AkUniqueID ENGINE_DYING = 3121770429U;
@@ -32,6 +37,9 @@ namespace AK
         static const AkUniqueID GLOBAL_UNPAUSE = 2496259136U;
         static const AkUniqueID INVALID_ALERT = 2191775701U;
         static const AkUniqueID ITEM_PICKUP = 566396871U;
+        static const AkUniqueID JETPACK_REFUEL = 1266436627U;
+        static const AkUniqueID JETPACK_ROCKET_LOOP = 3943443513U;
+        static const AkUniqueID JETPACK_STARTUP = 756560803U;
         static const AkUniqueID LADDER_CLIMB = 1707141479U;
         static const AkUniqueID LARGE_EXPLOSION = 531217250U;
         static const AkUniqueID LOADING_COAL = 164337995U;
@@ -43,6 +51,9 @@ namespace AK
         static const AkUniqueID ROOM_CONNECT = 228008419U;
         static const AkUniqueID ROTATE_ROOM = 2075466706U;
         static const AkUniqueID SMALL_EXPLOSION = 3519998062U;
+        static const AkUniqueID STEAM_EXHAUST = 2561646952U;
+        static const AkUniqueID STEAM_EXHAUST_LOOP = 3673494633U;
+        static const AkUniqueID TANK_CREAKING = 620130432U;
         static const AkUniqueID TANK_ENGINE = 212754890U;
         static const AkUniqueID TANK_IMPACT = 70658946U;
         static const AkUniqueID TANK_ROLLING = 299811467U;

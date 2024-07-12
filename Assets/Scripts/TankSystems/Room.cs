@@ -30,9 +30,9 @@ public class Room : MonoBehaviour
 
     //Objects & Components:
     private Room parentRoom;                                   //The room this room was mounted to
-    private List<Coupler> couplers = new List<Coupler>();      //Couplers connecting this room to other rooms
+    internal List<Coupler> couplers = new List<Coupler>();     //Couplers connecting this room to other rooms
     private List<Coupler> ghostCouplers = new List<Coupler>(); //Ghost couplers created while moving room before it is mounted
-    internal Cell[] cells;                                     //Individual square units which make up the room
+    internal List<Cell> cells = new List<Cell>();              //Individual square units which make up the room
     private Cell[][] sections;                                 //Groups of cells separated by connectors
     private Transform connectorParent;                         //Parent object which contains all connectors
     internal RoomData roomData;                                //ScriptableObject containing data about rooms and objects spawned by them
@@ -40,34 +40,63 @@ public class Room : MonoBehaviour
     //Settings:
     [Header("Template Settings:")]
     [Tooltip("Indicates whether or not this is the tank's indestructible core room.")]                     public bool isCore = false;
-    [SerializeField, Tooltip("If true, room type will be randomized upon spawn (IF spawn type is null).")] protected bool randomizeType = false; 
+    [SerializeField, Tooltip("If true, room type will be randomized upon spawn (IF spawn type is null).")] public bool randomizeType = false; 
     [Header("Debug Moving:")]
     public bool debugRotate;
+    public int debugRotation = 0;
     public bool debugMoveUp;
     public bool debugMoveDown;
     public bool debugMoveLeft;
     public bool debugMoveRight;
+    public bool flipOnStart;
     [Space()]
     public bool debugMount;
     [Space()]
 
     //Runtime Variables:
     [Tooltip("Which broad purpose this room serves.")]                                                     public RoomType type;
-    [Tooltip("List of interactables actively placed in this room.")]                                       internal List<TankInteractable> interactables = new List<TankInteractable>();
     [Tooltip("Whether or not this room has been attached to another room yet.")]                           private bool mounted = false;
     [Tooltip("The only tank this room can be mounted to (who's home grid will be used during mounting).")] internal TankController targetTank; //NOTE: This is important for distinguishing between rooms auto-spawned for prefab tanks, and rooms which are spawned in scrap menu for mounting on an existing tank
+    private bool initialized = false; //Becomes true once one-time initial room setup has been completed (indicates room is ready to be used)
 
     //RUNTIME METHODS:
     private void Awake()
     {
-        //Setup runtime variables:
-        cells = GetComponentsInChildren<Cell>();         //Get references to cells in room
-        connectorParent = transform.Find("Connectors");  //Find object containing connectors
-        roomData = Resources.Load<RoomData>("RoomData"); //Get roomData object from resources folder
+        Initialize(); //Set everything up
+    }
+    private void Update()
+    {
+        if (debugRotate) { debugRotate = false; Rotate(); UpdateRoomType(type); }
+        if (debugMoveUp) { debugMoveUp = false; SnapMoveTick(Vector2.up); UpdateRoomType(type); }
+        if (debugMoveDown) { debugMoveDown = false; SnapMoveTick(Vector2.down); UpdateRoomType(type); }
+        if (debugMoveLeft) { debugMoveLeft = false; SnapMoveTick(Vector2.left); UpdateRoomType(type); }
+        if (debugMoveRight) { debugMoveRight = false; SnapMoveTick(Vector2.right); UpdateRoomType(type); }
+        if (debugMount) { debugMount = false; Mount(); }
+    }
 
-        //Set up cells:
-        foreach (Cell cell in cells) cell.UpdateAdjacency();   //Have all cells in room get to know each other
-        
+    //FUNCTIONALITY METHODS:
+    /// <summary>
+    /// Performs all necessary setup so that room can be immediately manipulated and mounted.
+    /// </summary>
+    public void Initialize()
+    {
+        //Initialization check:
+        if (initialized) return; //Do not attempt to re-initialize a room
+        initialized = true;      //Indicate that room has been initialized
+
+        //Setup runtime variables:
+        cells = new List<Cell>(GetComponentsInChildren<Cell>()); //Get references to cells in room
+        connectorParent = transform.Find("Connectors");          //Find object containing connectors
+        roomData = Resources.Load<RoomData>("RoomData");         //Get roomData object from resources folder
+        targetTank = GetComponentInParent<TankController>();     //Get tank controller from current parent (only applicable if room spawns with tank)
+
+        //old spot for interactable slot code
+
+        //Set up child components:
+        foreach (Connector connector in connectorParent.GetComponentsInChildren<Connector>()) connector.Initialize(); //Initialize all connectors before setting up cells
+        foreach (Cell cell in cells) cell.Initialize();                                                               //Initialize each cell before checking adjacency
+        foreach (Cell cell in cells) cell.UpdateAdjacency();                                                          //Have all cells in room get to know each other
+
         //Identify sections:
         List<List<Cell>> newSections = new List<List<Cell>>(); //Initialize lists to store section data
         List<Cell> ungroupedCells = new List<Cell>(cells);     //Create list of ungrouped cells to pull cells from
@@ -101,24 +130,6 @@ public class Room : MonoBehaviour
         }
         sections = newSections.Select(eachList => eachList.ToArray()).ToArray(); //Convert lists into stored array
 
-        //Designate interactable slots:
-        if (!isCore) //Core room does not get a random interactable slot
-        {
-            bool startsWithInteractables = false; //Initialize marker to indicate whether or not a random slot should be designated
-            foreach (Cell cell in cells) { if (cell.startingInteractable != null) { startsWithInteractables = true; break; } } //Check if room has any starting interactables
-            if (!startsWithInteractables) //Cell does not have any pre-set interactables
-            {
-                cells[Random.Range(0, cells.Length)].DesignateInteractableSlot(); //Pick one random cell to contain the room's interactable
-            }
-        }
-        else //This is a core room
-        {
-            //Core room setup:
-            mounted = true; //Core rooms start mounted
-        }
-    }
-    private void Start()
-    {
         //Designate type:
         if (randomizeType && type == RoomType.Null) //Room is being spawned with a random type
         {
@@ -126,17 +137,16 @@ public class Room : MonoBehaviour
             UpdateRoomType((RoomType)Random.Range(1, 6)); //Give room a random type and update immediately
         }
     }
-    private void Update()
+
+    public void Start()
     {
-        if (debugRotate) { debugRotate = false; Rotate(); UpdateRoomType(type); }
-        if (debugMoveUp) { debugMoveUp = false; SnapMoveTick(Vector2.up); UpdateRoomType(type); }
-        if (debugMoveDown) { debugMoveDown = false; SnapMoveTick(Vector2.down); UpdateRoomType(type); }
-        if (debugMoveLeft) { debugMoveLeft = false; SnapMoveTick(Vector2.left); UpdateRoomType(type); }
-        if (debugMoveRight) { debugMoveRight = false; SnapMoveTick(Vector2.right); UpdateRoomType(type); }
-        if (debugMount) { debugMount = false; Mount(); }
+        //Core room-specific setup:
+        if (isCore) //This is the tank's core room
+        {
+            mounted = true; //Core rooms start mounted
+        }
     }
 
-    //FUNCTIONALITY METHODS:
     /// <summary>
     /// Moves the cell one tick (0.25 units) in given direction.
     /// </summary>
@@ -149,7 +159,7 @@ public class Room : MonoBehaviour
         SnapMove(targetPos);                                                        //Use normal snapMove method to place room
     }
     /// <summary>
-    /// Moves unmounted room as close as possible to target position while snapping to grid.
+    /// Moves unmounted room as close as possible to target position (in local space) while snapping to grid.
     /// </summary>
     /// <param name="targetPoint"></param>
     public void SnapMove(Vector2 targetPoint)
@@ -275,49 +285,16 @@ public class Room : MonoBehaviour
             group = group.OrderBy(otherCoupler => coupler.transform.rotation.z == 0 ? otherCoupler.transform.position.x : otherCoupler.transform.position.y);                    //Organize list from down to up and left to right
             for (int y = 1; y < group.Count();) { Coupler redundantCoupler = group.ElementAt(y); ghostCouplers.Remove(redundantCoupler); Destroy(redundantCoupler.gameObject); } //Delete all other couplers in group
         }
-
-        //Generate/Update interactable ghosts:
-        Cell[] cellsWithSlots = (from cell in cells where cell.hasInteractableSlot select cell).ToArray(); //Get array of cells with interactable slots in room
-        foreach (Cell cell in cellsWithSlots) //Iterate through cells in room with interactable slots
-        {
-            //Check for existing ghost to update:
-            if (cell.ghostInteractable != null) //Cell already has a ghost interactable
-            {
-                //Check ghost validity:
-                if (!CheckInteractableValidity(cell.ghostInteractable, cell)) //Current ghost interactable is now invalid and needs to be replaced
-                {
-                    Destroy(cell.ghostInteractable.gameObject); //Destroy ghost
-                    cell.ghostInteractable = null;              //Clear cell's ghost interactable status
-                }
-                else //Current ghost is valid and can be updated
-                {
-                    cell.ghostInteractable.transform.localEulerAngles = Vector3.zero; //Make sure interactable is always oriented correctly with cell
-                    continue;                                                         //Do not go on to re-spawn interactable ghost
-                }
-            }
-
-            //Find valid candidates:
-            List<GameObject> validInteractables = new List<GameObject>(); //Start a list of interactable prefabs which could be placed in this cell slot
-            foreach (GameObject interactable in roomData.interactableList) //Iterate through list of all interactables in game data
-            {
-                if (interactable.TryGetComponent(out TankInteractable interController)) //Get interactable controller
-                {
-                    if (CheckInteractableValidity(interController, cell)) validInteractables.Add(interactable); //Add placeable interactables to list
-                }
-                else { Debug.LogError("Prefab " + interactable.name + " in roomData interactable list is missing a TankInteractable component."); } //Log error if interactable controller component is missing from prefab
-            }
-
-            //Generate new ghost:
-            if (validInteractables.Count == 0) continue; //Do not attempt to spawn a ghost if there are no valid candidates
-            TankInteractable newInteractable = Instantiate(validInteractables[0]).GetComponent<TankInteractable>(); //Instantiate a new interactable
-            newInteractable.InstallInCell(cell, true);                                                              //Install interactalbe into cell as a ghost
-        }
     }
     /// <summary>
     /// Rotates unmounted room around its pivot.
     /// </summary>
     public void Rotate(bool clockwise = true)
     {
+        //Used for detecting rotation in json files
+        debugRotation++;
+        if (debugRotation > 3) debugRotation = 0;
+
         //Validity checks:
         if (mounted) { Debug.LogError("Tried to rotate room while mounted!"); return; } //Do not allow mounted rooms to be rotated
 
@@ -328,7 +305,7 @@ public class Room : MonoBehaviour
         Vector2[] newCellPositions = cells.Select(cell => (Vector2)cell.transform.position).ToArray(); //Get array of cell positions after rotation
         transform.Rotate(-eulers);                                                                     //Rotate assembly back
         connectorParent.parent = transform;                                                            //Re-child connector object after reverse rotation
-        for (int x = 0; x < cells.Length; x++) { cells[x].transform.position = newCellPositions[x]; }  //Move cells to their rotated positions
+        for (int x = 0; x < cells.Count; x++) { cells[x].transform.position = newCellPositions[x]; }   //Move cells to their rotated positions
 
         //Cell adjacency updates:
         foreach (Cell cell in cells) cell.ClearAdjacency();  //Clear all cell adjacency statuses first (prevents false neighborhood bugs)
@@ -340,18 +317,11 @@ public class Room : MonoBehaviour
     /// <summary>
     /// Attaches this room to another room or the tank base (based on current position of the room and couplers).
     /// </summary>
-    public void Mount()
+    public bool Mount()
     {
         //Validity checks:
-        if (mounted) { Debug.LogError("Tried to mount room which is already mounted!"); return; }                              //Cannot mount rooms which are already mounted
-        if (ghostCouplers.Count == 0) { Debug.Log("Tried to mount room which is not connected to any other rooms!"); return; } //Cannot mount rooms which are not connected to the tank
-
-        //Un-ghost interactables:
-        Cell[] cellsWithSlots = (from cell in cells where cell.hasInteractableSlot select cell).ToArray(); //Get array of cells with interactable slots in room (NOTE: Maybe keep this as a public variable and have cells update it themselves)
-        foreach (Cell cell in cellsWithSlots) //Iterate through cells with interactable slots
-        {
-            if (cell.ghostInteractable != null) cell.ghostInteractable.ChangeGhostStatus(false); //Un-ghost interactables
-        }
+        if (mounted) { Debug.LogError("Tried to mount room which is already mounted!"); return true; }                              //Cannot mount rooms which are already mounted
+        if (ghostCouplers.Count == 0) { Debug.Log("Tried to mount room which is not connected to any other rooms!"); return false; } //Cannot mount rooms which are not connected to the tank
 
         //Un-ghost couplers:
         List<Cell> ladderCells = new List<Cell>(); //Initialize list to keep track of cells which need ladders added to them
@@ -361,6 +331,8 @@ public class Room : MonoBehaviour
             coupler.Mount();                     //Tell coupler it is being mounted
             couplers.Add(coupler);               //Add coupler to master list
             coupler.roomB.couplers.Add(coupler); //Add coupler to other room's master list
+            coupler.cellA.couplers.Add(coupler); //Add coupler to cell A's coupler list
+            coupler.cellB.couplers.Add(coupler); //Add coupler to cell B's coupler list
 
             //Add ladders & platforms:
             if (coupler.transform.localRotation.z == 0) //Coupler is horizontal
@@ -409,6 +381,8 @@ public class Room : MonoBehaviour
         ghostCouplers.Clear();                                                              //Clear ghost couplers list
         mounted = true;                                                                     //Indicate that room is now mounted
         //GameManager.Instance.AudioManager.Play("BuildRoom");
+
+        return mounted;
     }
     /// <summary>
     /// Changes room type to given value.
@@ -442,11 +416,4 @@ public class Room : MonoBehaviour
     /// <summary>
     /// Returns true if given interactable prefab can be placed in given cell right now.
     /// </summary>
-    public static bool CheckInteractableValidity(TankInteractable interactable, Cell cell)
-    {
-        if (!cell.hasInteractableSlot) { return false; }                                             //Interactable cannot be placed in cell without slot
-        if (interactable.type != RoomType.Null && interactable.type != cell.room.type) return false; //Non-null interactables cannot be placed in rooms which do not match their type
-        //MORE TO COME HERE
-        return true; //Indicate interactable can be placed if it passes all tests
-    }
 }

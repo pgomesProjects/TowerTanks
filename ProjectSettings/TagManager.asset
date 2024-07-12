@@ -31,6 +31,10 @@ TagManager:
   - Dumpster
   - Scrap
   - CursorCanvas
+  - SpawnPoint
+  - DebugPlayer
+  - Destructible
+  - Cargo
   layers:
   - Default
   - TransparentFX
@@ -51,8 +55,8 @@ TagManager:
   - Connector
   - Treads
   - Coupler
-  - 
-  - 
+  - InteractHitbox
+  - Projectiles
   - 
   - 
   - 

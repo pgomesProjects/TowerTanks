@@ -128,10 +128,10 @@ public class EnemySpawnManager : MonoBehaviour
         {
             if(LevelManager.Instance.GetPlayerTank() != null)
             {
-                if (LevelManager.Instance.GetPlayerTank().SpawnDistanceReached())
+                /*if (LevelManager.Instance.GetPlayerTank().SpawnDistanceReached())
                 {
                     GetReadyForEnemySpawn();
-                }
+                }*/
             }
         }
 
