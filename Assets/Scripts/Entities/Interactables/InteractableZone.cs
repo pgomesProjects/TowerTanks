@@ -45,6 +45,7 @@ public class InteractableZone : MonoBehaviour
                 //Debug.Log("Found " + player);
                 players.Add(player.gameObject);
                 player.currentZone = this;
+                player.DisplayPlayerAction(Character.CharacterActions.INTERACTING);
             }
         }
     }
@@ -61,6 +62,7 @@ public class InteractableZone : MonoBehaviour
                 {
                     players.Remove(player.gameObject);
                     if (player.currentZone == this) player.currentZone = null;
+                    player.DisplayPlayerAction(Character.CharacterActions.NONE);
                 }
             }
         }

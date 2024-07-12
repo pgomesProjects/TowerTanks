@@ -7,7 +7,9 @@ public abstract class Character : SerializedMonoBehaviour
 {
     #region Fields and Properties
 
-    protected enum CharacterState { CLIMBING, NONCLIMBING }; //Simple state system, in the future this will probably be refactored
+    public enum CharacterActions { NONE, BUILDING, REPAIRING, EXTINGUISHING, SELLING, INTERACTING };
+    protected enum CharacterState { CLIMBING, NONCLIMBING };
+
     protected CharacterState currentState;                   //to an FSM.
 
     //Components

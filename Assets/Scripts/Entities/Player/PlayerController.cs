@@ -15,12 +15,6 @@ public enum PlayerStat
     PROGRESS
 }
 
-public struct PlayerButtonPrompt
-{
-    public Sprite buttonSprite;
-    public string buttonText;
-}
-
 public class PlayerController : SerializedMonoBehaviour
 {
     public enum PlayerActions { NONE, BUILDING, REPAIRING, EXTINGUISHING, SELLING, INTERACTING };

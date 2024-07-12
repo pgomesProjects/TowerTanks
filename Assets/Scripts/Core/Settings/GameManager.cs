@@ -6,6 +6,12 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+public struct PlayerButtonPrompt
+{
+    public Sprite buttonSprite;
+    public string buttonText;
+}
+
 public class GameManager : SerializedMonoBehaviour
 {
     public static GameManager Instance { get; private set; }
@@ -13,6 +19,9 @@ public class GameManager : SerializedMonoBehaviour
     public MultiplayerManager MultiplayerManager { get; private set; }
 
     public ParticleSpawner ParticleSpawner { get; private set; }
+
+    [DictionaryDrawerSettings(KeyLabel = "Player Action", ValueLabel = "Player Binding")]
+    public Dictionary<Character.CharacterActions, PlayerButtonPrompt> playerButtonPrompts = new Dictionary<Character.CharacterActions, PlayerButtonPrompt>();
 
     [SerializeField, Tooltip("The list of possible rooms for the players to pick.")] public GameObject[] roomList;
     [SerializeField, Tooltip("The list of possible interactables for the players to pick.")] public GameObject[] interactableList { get; private set; }

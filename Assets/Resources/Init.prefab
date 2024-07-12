@@ -57,6 +57,7 @@ MonoBehaviour:
     - {fileID: 8306713773444683921, guid: 81dde3955239f28438ad5263ed2c4a16, type: 3}
     - {fileID: 7281501281902775960, guid: 4b503e72c2ea1f74a90e1375e08df7b7, type: 3}
     - {fileID: 7281501281902775960, guid: ba2bd2897f49b9843a470260d31727ad, type: 3}
+    - {fileID: -7783586629661608857, guid: 3be263eccd052b043b80aac2816cea0a, type: 3}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -83,6 +84,53 @@ MonoBehaviour:
     - Name: 
       Entry: 10
       Data: 4
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: playerButtonPrompts
+      Entry: 7
+      Data: 1|System.Collections.Generic.Dictionary`2[[Character+CharacterActions,
+        TowerTanks.Scripts],[PlayerButtonPrompt, TowerTanks.Scripts]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 2|System.Collections.Generic.EnumEqualityComparer`1[[Character+CharacterActions,
+        TowerTanks.Scripts]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 5
+    - Name: $v
+      Entry: 7
+      Data: PlayerButtonPrompt, TowerTanks.Scripts
+    - Name: buttonSprite
+      Entry: 10
+      Data: 5
+    - Name: buttonText
+      Entry: 1
+      Data: <sprite = 0 tint = 1>
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 13
       Data: 
@@ -357,7 +405,7 @@ MonoBehaviour:
       Entry: 6
       Data: 
   playerPrefab: {fileID: 5332867684925448268, guid: 79f26049c394b4140bd0a93f14c225cd, type: 3}
-  MultiplayerEnabled: 0
+  MultiplayerEnabled: 1
 --- !u!1 &2386267742676790645
 GameObject:
   m_ObjectHideFlags: 0

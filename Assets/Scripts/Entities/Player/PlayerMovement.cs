@@ -162,6 +162,20 @@ public class PlayerMovement : Character
         FindObjectOfType<CornerUIController>().OnDeviceRegained(characterIndex);
     }
 
+    public void DisplayPlayerAction(CharacterActions currentAction)
+    {
+        //Displays the current button prompt based on the action given
+        PlayerButtonPrompt currentButtonPromptData;
+
+        if (currentAction == CharacterActions.NONE)
+            characterHUD.ShowButtonPrompt(null);
+        else
+        {
+            GameManager.Instance.playerButtonPrompts.TryGetValue(currentAction, out currentButtonPromptData);
+            characterHUD.ShowButtonPrompt(currentButtonPromptData.buttonSprite);
+        }
+    }
+
     private void OnPlayerInput(InputAction.CallbackContext ctx)
     {
         //Gets the name of the action and calls the appropriate events
