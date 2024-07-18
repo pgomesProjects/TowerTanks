@@ -7,7 +7,7 @@ public abstract class Character : SerializedMonoBehaviour
 {
     #region Fields and Properties
 
-    protected enum CharacterState { CLIMBING, NONCLIMBING }; //Simple state system, in the future this will probably be refactored
+    protected enum CharacterState { CLIMBING, NONCLIMBING, OPERATING }; //Simple state system, in the future this will probably be refactored
     protected CharacterState currentState;                   //to an FSM.
 
     //Components
@@ -16,9 +16,7 @@ public abstract class Character : SerializedMonoBehaviour
     protected Bounds ladderBounds;
     protected PlayerHUD characterHUD;
     protected int characterIndex;
-    
-    private Transform currentCellJoint;
-    private int cellLayerIndex = 15;
+    protected Transform hands;
 
     [Header("Character Information")]
     [SerializeField] protected CharacterSettings characterSettings;
@@ -39,6 +37,10 @@ public abstract class Character : SerializedMonoBehaviour
     [SerializeField] protected float fuelDepletionRate;
     [SerializeField] protected float fuelRegenerationRate;
     protected float currentFuel;
+    
+    //internal movement
+    private Transform currentCellJoint;
+    private int cellLayerIndex = 15;
 
     //temp
     protected float moveSpeedHalved; // once we have a state machine for the player, we wont need these silly fields.
@@ -58,6 +60,7 @@ public abstract class Character : SerializedMonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         currentHealth = characterSettings.maxHealth;
+        hands = transform.Find("Hands");
     }
 
     protected virtual void Start()
@@ -70,7 +73,7 @@ public abstract class Character : SerializedMonoBehaviour
     protected virtual void Update()
     {
         currentFuel = Mathf.Clamp(currentFuel, 0, characterSettings.fuelAmount);
-        //Debug.Log($"Current Fuel: {currentFuel}");
+        
         var cellJoint = Physics2D.OverlapBox(
             transform.position,
             transform.localScale,
@@ -87,11 +90,9 @@ public abstract class Character : SerializedMonoBehaviour
     {
         if (currentState == CharacterState.NONCLIMBING) MoveCharacter();
 
-        else if (currentState == CharacterState.CLIMBING)
-        {
-            DetectLadderBounds();
-            ClimbLadder();
-        }
+        else if (currentState == CharacterState.CLIMBING) ClimbLadder();
+
+        else if (currentState == CharacterState.OPERATING) OperateInteractable();
     }
 
     protected virtual void OnDrawGizmos()
@@ -103,7 +104,7 @@ public abstract class Character : SerializedMonoBehaviour
 
     protected virtual void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Ladder"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Climbable"))
         {
             Debug.Log("ladder found");
             currentLadder = other.gameObject;
@@ -112,7 +113,7 @@ public abstract class Character : SerializedMonoBehaviour
 
     protected virtual void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Ladder"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Climbable"))
         {
             currentLadder = null;
         }
@@ -132,17 +133,7 @@ public abstract class Character : SerializedMonoBehaviour
         
     }
 
-    protected Collider2D CheckSurfaceCollider()
-    {
-        return Physics2D.OverlapBox(new Vector2(transform.position.x,
-                                                     transform.position.y - transform.localScale.y / 2),
-                                                   new Vector2(groundedBoxX, groundedBoxY),
-                                                   0f);
-    }
-
     protected abstract void MoveCharacter();
-    
-    protected abstract void ClimbLadder();
 
     protected void PropelJetpack()
     {
@@ -161,11 +152,10 @@ public abstract class Character : SerializedMonoBehaviour
 
     }
 
-
-    protected virtual void DetectLadderBounds()
+    protected virtual void ClimbLadder()
     {
         // Create a LayerMask for the ladder layer.
-        int ladderLayerIndex = LayerMask.NameToLayer("Ladder");
+        int ladderLayerIndex = LayerMask.NameToLayer("Climbable");
         LayerMask ladderLayer = 1 << ladderLayerIndex;
 
 
@@ -176,7 +166,6 @@ public abstract class Character : SerializedMonoBehaviour
         {
             // For each ladder, add its bounds to ladderBounds.
             ladderBounds.Encapsulate(ladder.bounds);
-            
         }
     }
 
@@ -185,6 +174,16 @@ public abstract class Character : SerializedMonoBehaviour
         currentState = CharacterState.NONCLIMBING;
         rb.bodyType = RigidbodyType2D.Dynamic;
         rb.velocity = Vector2.zero;
+    }
+
+    protected virtual void OperateInteractable()
+    {
+        rb.velocity = Vector2.zero;
+    }
+
+    public void CancelInteraction()
+    {
+        currentState = CharacterState.NONCLIMBING;
     }
 
     public void LinkPlayerHUD(PlayerHUD newHUD)

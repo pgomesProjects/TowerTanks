@@ -693,7 +693,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 303283892}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5332867684925448264, guid: 79f26049c394b4140bd0a93f14c225cd, type: 3}
       propertyPath: m_Name
@@ -737,7 +737,7 @@ PrefabInstance:
       objectReference: {fileID: 5332867684925448268, guid: 79f26049c394b4140bd0a93f14c225cd, type: 3}
     - target: {fileID: 5332867684925448270, guid: 79f26049c394b4140bd0a93f14c225cd, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 5332867684925448270, guid: 79f26049c394b4140bd0a93f14c225cd, type: 3}
       propertyPath: m_LocalScale.x
@@ -753,11 +753,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5332867684925448270, guid: 79f26049c394b4140bd0a93f14c225cd, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0
+      value: 0.003000021
       objectReference: {fileID: 0}
     - target: {fileID: 5332867684925448270, guid: 79f26049c394b4140bd0a93f14c225cd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.19
+      value: 4.2000003
       objectReference: {fileID: 0}
     - target: {fileID: 5332867684925448270, guid: 79f26049c394b4140bd0a93f14c225cd, type: 3}
       propertyPath: m_LocalPosition.z
@@ -813,11 +813,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 79f26049c394b4140bd0a93f14c225cd, type: 3}
---- !u!4 &208794807 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5332867684925448270, guid: 79f26049c394b4140bd0a93f14c225cd, type: 3}
-  m_PrefabInstance: {fileID: 208794801}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &239944366
 GameObject:
   m_ObjectHideFlags: 0
@@ -1038,7 +1033,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 303283892}
-  - component: {fileID: 303283891}
   m_Layer: 0
   m_Name: PlayerContainer
   m_TagString: PlayerContainer
@@ -1046,19 +1040,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &303283891
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 303283890}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3494d6f9eb2f7084aa52c41fa7754354, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 571350633}
 --- !u!4 &303283892
 Transform:
   m_ObjectHideFlags: 0
@@ -1070,8 +1051,7 @@ Transform:
   m_LocalPosition: {x: 0.003000021, y: 4.01, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 208794807}
+  m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2233,10 +2213,10 @@ MonoBehaviour:
   - {fileID: 4900000, guid: 8b1a12644bbf5b04c93f281ed05f4c13, type: 3}
   - {fileID: 4900000, guid: 566d1a856563b8643a920316711eaaa5, type: 3}
   tanks:
-  - TankName: The Supreme Potato
+  - TankName: The Mammoth Demon
     tankType: 0
     gameObject: {fileID: 1411317892}
-    design: {fileID: 4900000, guid: 0ae7f54292a46314da4951bdac3723a3, type: 3}
+    design: {fileID: 4900000, guid: 94857bee71ba89c4984ad4797a726802, type: 3}
     buildOnStart: 1
 --- !u!1 &515206412
 GameObject:
@@ -9950,7 +9930,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1677695872598849025, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
       propertyPath: m_Name
-      value: The Supreme Potato
+      value: The Mammoth Demon
       objectReference: {fileID: 0}
     - target: {fileID: 1677695872598849025, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
       propertyPath: m_IsActive
