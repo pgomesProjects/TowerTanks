@@ -284,6 +284,16 @@ public class PlayerMovement : Character
         {
             //SetLadder();
         }
+        Debug.Log("About to check for input");
+        if (moveInput.y < 0)
+        {
+            Debug.Log("Found down input");
+            if (CheckSurfaceCollider().gameObject.TryGetComponent(out PlatformCollisionSwitcher collSwitcher))
+            {
+                Debug.Log("Disabling collision");
+                StartCoroutine(collSwitcher.DisableCollision(GetComponent<Collider2D>()));
+            }
+        }
     }
 
     public void OnPause(InputAction.CallbackContext ctx)
