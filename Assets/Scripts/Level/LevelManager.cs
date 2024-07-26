@@ -170,7 +170,6 @@ public class LevelManager : SerializedMonoBehaviour
         Vector3 playerPos = spawnPoint.position;
         playerPos.x += UnityEngine.Random.Range(-0.25f, 0.25f);
         character.transform.position = playerPos;
-        character.transform.SetParent(playerParent);
         character.transform.GetComponentInChildren<Renderer>().material.SetColor("_Color", GameManager.Instance.MultiplayerManager.GetPlayerColors()[playerInput.playerIndex]);
         //character.SetPlayerMove(true);
         PlayerHUD newPlayerHUD = Instantiate(playerHUDPrefab, playerHUDParentTransform);
