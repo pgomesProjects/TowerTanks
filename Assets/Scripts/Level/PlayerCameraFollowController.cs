@@ -28,7 +28,7 @@ public class PlayerCameraFollowController : MonoBehaviour
 
     private void Update()
     {
-        Vector3 groupCenter = Vector3.zero; //TODO: get the tank's position
+/*        Vector3 groupCenter = Vector3.zero; //TODO: get the tank's position
 
         for (int i = 0; i < cinemachineTargetGroup.m_Targets.Length; i++)
         {
@@ -41,6 +41,6 @@ public class PlayerCameraFollowController : MonoBehaviour
             {
                 cinemachineTargetGroup.m_Targets[i].weight = Mathf.Lerp(1, 0, distance / maxDistanceFromCenter); // Smooth transition
             }
-        }
+        }*/
     }
 }

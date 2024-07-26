@@ -203,6 +203,13 @@ public class PlayerMovement : Character
         }
     }
 
+    public void SetJetpackInput(bool isJetpackHeld)
+    {
+        jetpackInputHeld = isJetpackHeld;
+    }
+
+    public float GetFuel() => currentFuel;
+
     public void SetFuel(float value)
     {
         currentFuel = value;
