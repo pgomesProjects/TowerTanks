@@ -32,6 +32,7 @@ public class TankInteractable : MonoBehaviour
     [Tooltip("True if interactable is a ghost and is currently unuseable.")]   internal bool ghosted;
     [Tooltip("True if a user is currently operating this system")]             public bool hasOperator;
     [Tooltip("User currently interacting with this system.")]                  internal PlayerMovement operatorID;
+    [Tooltip("Whether or not interact can be held down to use this interactable continuously"), SerializeField] public bool isContinuous;
     [Tooltip("Direction this interactable is facing. (1 = right; -1 = left)")] public float direction = 1;
 
     //Debug
@@ -134,7 +135,10 @@ public class TankInteractable : MonoBehaviour
 
     public void Use() //Called from operator when they press Interact
     {
-        if (gunScript != null && cooldown <= 0) gunScript.Fire();
+        if (gunScript != null && cooldown <= 0)
+        {
+            gunScript.Fire();
+        }
         if (engineScript != null && cooldown <= 0) engineScript.LoadCoal(1);
     }
 
