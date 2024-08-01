@@ -12,7 +12,10 @@ public class GunController : TankInteractable
     [Tooltip("Scale particles are multiplied by when used by this weapon"), SerializeField]                 private float particleScale;
 
     //Settings:
+    public enum GunType { CANNON, MACHINEGUN, MORTAR };
+
     [Header("Gun Settings:")]
+    [Tooltip("What type of weapon this is"), SerializeField] public GunType gunType;
     [Tooltip("Velocity of projectile upon exiting the barrel."), SerializeField, Min(0)]  private float muzzleVelocity;
     [Tooltip("Force exerted on tank each time weapon is fired."), SerializeField, Min(0)] private float recoil;
     [Tooltip("Speed at which the cannon barrel rotates"), SerializeField]                 private float rotateSpeed;
@@ -20,15 +23,41 @@ public class GunController : TankInteractable
     [Tooltip("Cooldown in seconds between when the weapon can fire"), SerializeField, Min(0)] private float rateOfFire;
     private float fireCooldownTimer;
     [Tooltip("Radius of Degrees of the Cone of Fire for this weapon's projectiles"), SerializeField, Min(0)] private float spread;
-    
+
+    //Gun Specific Settings
+
+    //Cannon
+
+    //Machine Gun
+    private float spinupTime = 0.8f; //while fire is held down, how much time it takes before it starts shooting
+    private float spinupTimer = 0;
+    private float spinTime = 0.5f; //how long the barrel will keep spinning for after shooting before it starts to slow down again
+    private float spinTimer = 0;
+
+    private float overheatTime = 5f; //how long the operator can keep shooting for before the weapon overheats
+    private float overheatTimer = 0f;
+    private bool isOverheating = false;
+    private float smokePuffRate = 0.3f;
+    private float smokePuffTimer = 0;
+
+    private SpriteRenderer heatRenderer;
+
+    //Mortar
+
     [Header("Debug Controls:")]
     public bool fire;
     [Range(0, 1)] public float moveGimbal = 0.5f;
     private Vector3 currentRotation = new Vector3(0, 0, 0);
 
     //Runtime Variables:
- 
+
     //RUNTIME METHODS:
+
+    private void Start()
+    {
+        if (gunType == GunType.MACHINEGUN) { heatRenderer = transform.Find("Visuals/JointParent/MachineGun_Heat").GetComponent<SpriteRenderer>(); }
+    }
+
     private void Update()
     {
         //Debug settings:
@@ -41,6 +70,57 @@ public class GunController : TankInteractable
         {
             fireCooldownTimer -= Time.deltaTime;
         }
+
+        //Gun Specific
+        if (gunType == GunType.CANNON) { };
+
+        if (gunType == GunType.MACHINEGUN) {
+
+            if (spinupTimer > 0) //Calculate barrel spin timings
+            {
+                if ((operatorID != null && operatorID.interactInputHeld == false) || operatorID == null || isOverheating)
+                {
+                    if (spinTimer > 0)
+                    {
+                        spinTimer -= Time.deltaTime;
+                    }
+                    else
+                    {
+                        spinupTimer -= Time.deltaTime;
+                    }
+                }
+            }
+
+            if (overheatTimer > 0 && spinTimer <= 0) //Track overheat timer
+            {
+                overheatTimer -= Time.deltaTime;
+            }
+            else
+            {
+                if (overheatTimer <= 0) isOverheating = false;
+            }
+
+            if (isOverheating)
+            {
+                smokePuffTimer += Time.deltaTime;
+                if (smokePuffTimer >= smokePuffRate)
+                {
+                    smokePuffTimer = 0;
+                    GameManager.Instance.ParticleSpawner.SpawnParticle(3, particleSpots[1].position, 0.1f, null);
+                }
+            }
+
+            if (heatRenderer != null) //update heat sprite renderer
+            {
+                float alpha = Mathf.Lerp(0, 150f, (overheatTimer / overheatTime) * Time.deltaTime);
+                Color newColor = heatRenderer.color;
+                newColor.a = alpha;
+                heatRenderer.color = newColor;
+            }
+
+        };
+
+        if (gunType == GunType.MORTAR) { };
     }
 
     //FUNCTIONALITY METHODS:
@@ -49,9 +129,40 @@ public class GunController : TankInteractable
     /// </summary>
     public void Fire()
     {
+        bool canFire = true;
         if (tank == null) tank = GetComponentInParent<TankController>();
 
-        if (fireCooldownTimer <= 0)
+        //Gun Specific
+        if (gunType == GunType.CANNON) { };
+
+        if (gunType == GunType.MACHINEGUN)
+        {
+            if (isOverheating == false)
+            {
+                if (spinupTimer < spinupTime)
+                {
+                    canFire = false;
+                    if (isOverheating == false) spinupTimer += Time.deltaTime;
+                }
+                else
+                {
+                    canFire = true;
+                    spinTimer = spinTime;
+                    overheatTimer += Time.deltaTime;
+                }
+            }
+
+            if (overheatTimer > overheatTime)
+            {
+                isOverheating = true;
+            }
+
+            if (isOverheating) canFire = false;
+        };
+
+        if (gunType == GunType.MORTAR) { };
+
+        if (fireCooldownTimer <= 0 && canFire)
         {
             //Adjust for Spread
             float randomSpread = Random.Range(-spread, spread);

@@ -13,7 +13,7 @@ public class PlayerMovement : Character
     public bool isDebugPlayer;
     private Vector2 moveInput;
     private bool jetpackInputHeld;
-    private bool interactInputHeld;
+    public bool interactInputHeld;
 
     [SerializeField] private Transform towerJoint;
     [SerializeField] private Transform playerSprite;
