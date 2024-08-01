@@ -31,13 +31,13 @@ public class GunController : TankInteractable
     //Machine Gun
     private float spinupTime = 0.8f; //while fire is held down, how much time it takes before it starts shooting
     private float spinupTimer = 0;
-    private float spinTime = 0.5f; //how long the barrel will keep spinning for after shooting before it starts to slow down again
+    private float spinTime = 0.6f; //how long the barrel will keep spinning for after shooting before it starts to slow down again
     private float spinTimer = 0;
 
-    private float overheatTime = 5f; //how long the operator can keep shooting for before the weapon overheats
+    private float overheatTime = 6f; //how long the operator can keep shooting for before the weapon overheats
     private float overheatTimer = 0f;
     private bool isOverheating = false;
-    private float smokePuffRate = 0.3f;
+    private float smokePuffRate = 0.3f; //how much the gun should smoke when overheating (lower = more smoke)
     private float smokePuffTimer = 0;
 
     private SpriteRenderer heatRenderer;
