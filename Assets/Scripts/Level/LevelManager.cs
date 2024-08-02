@@ -24,6 +24,7 @@ public class LevelManager : SerializedMonoBehaviour
     [SerializeField, Tooltip("The level event data that dictates how the level must be run.")] private LevelEvents currentLevelEvent;
     [SerializeField, Tooltip("The component that tracks the objective information.")] private ObjectiveTracker objectiveTracker;
     [SerializeField, Tooltip("The component that tracks tank information.")] public TankManager tankManager;
+    public float enemiesDestroyed;
 
     public static LevelManager Instance;
 
@@ -501,12 +502,34 @@ public class LevelManager : SerializedMonoBehaviour
         OnGameOver?.Invoke();
     }
 
+    public void AddObjectiveValue(ObjectiveType type, float amount)
+    {
+        if(currentLevelEvent.objectiveType == type)
+        {
+            if (type == ObjectiveType.DefeatEnemies)
+            {
+                enemiesDestroyed += amount;
+                StartCoroutine(ConditionChecker());
+            }
+        }
+    }
+
+    private IEnumerator ConditionChecker()
+    {
+        yield return new WaitForSeconds(3f);
+        CheckLevelConditions();
+    }
+
     private void CheckLevelConditions()
     {
         if(currentLevelEvent.objectiveType == ObjectiveType.DefeatEnemies)
         {
             //TODO: check to see if you've killed em all
-            //currentLevelEvent.enemiesToDefeat
+            if (enemiesDestroyed >= currentLevelEvent.enemiesToDefeat)
+            {
+                //Complete the Mission
+                CompleteMission();
+            }
         }
     }
 
