@@ -15,7 +15,7 @@ MonoBehaviour:
   levelName: Test Level
   levelDescription: This is a test description for a test level. This is something
     that would be used in the campaign mode map.
-  objectiveType: 0
+  objectiveType: 1
   metersToTravel: 1500
-  enemiesToDefeat: 3
+  enemiesToDefeat: 1
   secondsToSurviveFor: 0

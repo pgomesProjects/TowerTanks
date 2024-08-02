@@ -156,11 +156,16 @@ public class LevelManager : SerializedMonoBehaviour
         playerParent = GameObject.FindGameObjectWithTag("PlayerContainer")?.transform;
 
         foreach(PlayerInput playerInput in GameManager.Instance.MultiplayerManager.GetPlayerInputs())
-            SpawnPlayer(playerInput);
+        {
+            if(playerInput.playerIndex >= 0)
+                SpawnPlayer(playerInput);
+        }
     }
 
     private void SpawnPlayer(PlayerInput playerInput)
     {
+        Debug.Log("Spawning Player " + (playerInput.playerIndex + 1).ToString());
+
         spawnPoint = playerParent.transform;
 
         PlayerMovement character = Instantiate(GameManager.Instance.MultiplayerManager.GetPlayerPrefab());
@@ -494,6 +499,15 @@ public class LevelManager : SerializedMonoBehaviour
         GameManager.Instance.AudioManager.Play("DeathStinger");
 
         OnGameOver?.Invoke();
+    }
+
+    private void CheckLevelConditions()
+    {
+        if(currentLevelEvent.objectiveType == ObjectiveType.DefeatEnemies)
+        {
+            //TODO: check to see if you've killed em all
+            //currentLevelEvent.enemiesToDefeat
+        }
     }
 
     private void CompleteMission()
