@@ -7,6 +7,7 @@ public class Projectile : MonoBehaviour
     //Objects & Components:
     public LayerMask layerMask;
     private Transform smokeTrail;
+    public float particleScale;
 
     //Settings:
     public float damage;  //Damage projectile will deal upon hitting a valid target
@@ -84,19 +85,19 @@ public class Projectile : MonoBehaviour
     {
         if (target != null && target.GetComponentInParent<Cell>() != null)
         {
-            target.GetComponentInParent<Cell>().Damage(75);
+            target.GetComponentInParent<Cell>().Damage(damage);
             GameManager.Instance.AudioManager.Play("ShellImpact", gameObject);
         }
 
         if (target != null && target.CompareTag("Destructible"))
         {
-            target.GetComponent<DestructibleObject>().Damage(75);
+            target.GetComponent<DestructibleObject>().Damage(damage);
             GameManager.Instance.AudioManager.Play("ShellImpact", gameObject);
         }
 
         //Effects
         GameManager.Instance.AudioManager.Play("ExplosionSFX", gameObject);
-        GameManager.Instance.ParticleSpawner.SpawnParticle(Random.Range(0, 2), transform.position, 0.1f, null);
+        GameManager.Instance.ParticleSpawner.SpawnParticle(Random.Range(0, 2), transform.position, particleScale, null);
 
         //Seperate smoketrail
         smokeTrail.parent = null;
