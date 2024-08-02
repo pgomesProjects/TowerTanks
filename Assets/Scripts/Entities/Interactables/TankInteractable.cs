@@ -12,6 +12,7 @@ public class TankInteractable : MonoBehaviour
     private protected TankController tank; //Controller script for tank this interactable is attached to
     private InteractableZone interactZone; //Hitbox for player detection
     public Transform seat; //Transform operator snaps to while using this interactable
+    [Tooltip("Reference to this interactable's prefab.")] public GameObject prefabRef;
 
     //Interactable Scripts
     private GunController gunScript;
@@ -28,11 +29,13 @@ public class TankInteractable : MonoBehaviour
     }
 
     //Runtime Variables:
-    [Tooltip("The cell this interactable is currently installed within.")]     internal Cell parentCell;
-    [Tooltip("True if interactable is a ghost and is currently unuseable.")]   internal bool ghosted;
-    [Tooltip("True if a user is currently operating this system")]             public bool hasOperator;
-    [Tooltip("User currently interacting with this system.")]                  internal PlayerMovement operatorID;
-    [Tooltip("Direction this interactable is facing. (1 = right; -1 = left)")] public float direction = 1;
+    [Tooltip("The cell this interactable is currently installed within.")]                                      internal Cell parentCell;
+    [Tooltip("True if interactable is a ghost and is currently unuseable.")]                                    internal bool ghosted;
+    [Tooltip("True if a user is currently operating this system")]                                              public bool hasOperator;
+    [Tooltip("User currently interacting with this system.")]                                                   internal PlayerMovement operatorID;
+    [Tooltip("Whether or not interact can be held down to use this interactable continuously"), SerializeField] public bool isContinuous;
+    [Tooltip("Direction this interactable is facing. (1 = right; -1 = left)")]                                  public float direction = 1;
+    [Tooltip("Unique identifier associating this interactable with a stack item")]                              internal int stackId = 0;
 
     //Debug
     public bool debugFlip = false;
@@ -134,7 +137,10 @@ public class TankInteractable : MonoBehaviour
 
     public void Use() //Called from operator when they press Interact
     {
-        if (gunScript != null && cooldown <= 0) gunScript.Fire();
+        if (gunScript != null && cooldown <= 0)
+        {
+            gunScript.Fire();
+        }
         if (engineScript != null && cooldown <= 0) engineScript.LoadCoal(1);
     }
 

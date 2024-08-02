@@ -6060,8 +6060,8 @@ MonoBehaviour:
   currentChunk: 0
   lastChunk: 0
   chunksTraveled: 0
-  minTriggerDistance: 3
-  maxTriggerDistance: 7
+  minTriggerDistance: 1
+  maxTriggerDistance: 3
   eventSpawnCooldown: 4
 --- !u!1 &1190790778
 GameObject:
@@ -7110,7 +7110,11 @@ MonoBehaviour:
   m_Follow: {fileID: 1212025955}
   m_Lens:
     FieldOfView: 60
+<<<<<<< HEAD
     OrthographicSize: 15
+=======
+    OrthographicSize: 12
+>>>>>>> too-hotte-branch
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
@@ -7134,7 +7138,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1423981398}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 4.25, z: -10}
+  m_LocalPosition: {x: 8.533333, y: 9.049999, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7985,7 +7989,11 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
+<<<<<<< HEAD
   orthographic size: 15
+=======
+  orthographic size: 12
+>>>>>>> too-hotte-branch
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -8009,7 +8017,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1624372791}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 4.25, z: -10}
+  m_LocalPosition: {x: 8.533333, y: 9.049999, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8641,8 +8649,8 @@ MonoBehaviour:
   m_YDamping: 1
   m_ZDamping: 1
   m_TargetMovementOnly: 1
-  m_ScreenX: 0.5
-  m_ScreenY: 0.5
+  m_ScreenX: 0.3
+  m_ScreenY: 0.7
   m_CameraDistance: 10
   m_DeadZoneWidth: 0
   m_DeadZoneHeight: 0

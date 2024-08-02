@@ -86,7 +86,7 @@
             "cellInteractables": [
                 {
                     "cellName": "Cell_1",
-                    "interRef": "InterWeapon_Cannon",
+                    "interRef": "InterWeapon_MachineGun",
                     "flipped": false
                 }
             ]
