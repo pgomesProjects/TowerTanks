@@ -49,7 +49,6 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 1220936
-  particleScale: 0.1
   damage: 100
   maxLife: 5
   radius: 0.18

@@ -107,11 +107,6 @@ public class PlayerMovement : Character
         {
             currentState = CharacterState.OPERATING;
 
-            if (interactInputHeld && currentInteractable.isContinuous)
-            {
-                currentInteractable.Use();
-            }
-
             CheckJoystickSpinning();
             if (isSpinningJoystick)
             {
@@ -345,8 +340,6 @@ public class PlayerMovement : Character
 
     public void OnInteract(InputAction.CallbackContext ctx)
     {
-        interactInputHeld = ctx.ReadValue<float>() > 0;
-
         if (ctx.started)
         {
             if (currentZone != null && !isHoldingDown)
