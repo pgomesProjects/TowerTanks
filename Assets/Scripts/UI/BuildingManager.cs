@@ -39,6 +39,7 @@ public class BuildingManager : MonoBehaviour
     [SerializeField, Tooltip("Building canvas.")] private Canvas buildingCanvas;
     [SerializeField, Tooltip("The UI that shows the transition between game phases.")] private GamePhaseUI gamePhaseUI;
     [SerializeField, Tooltip("The transform for all of the room pieces.")] private Transform roomParentTransform;
+    [SerializeField, Tooltip("The Spawn Point for all players in the build scene.")] private Transform spawnPoint;
 
     public static BuildingManager Instance;
 
@@ -118,9 +119,18 @@ public class BuildingManager : MonoBehaviour
             if (!playerRoom.isMounted)
                 return false;
 
+            PlayerMovement character = Instantiate(GameManager.Instance.MultiplayerManager.GetPlayerPrefab());
+            character.LinkPlayerInput(playerInput);
+            character.GetComponent<Rigidbody2D>().isKinematic = false;
+            Vector3 playerPos = spawnPoint.position;
+            playerPos.x += UnityEngine.Random.Range(-0.25f, 0.25f);
+            character.transform.position = playerPos;
+            character.transform.GetComponentInChildren<Renderer>().material.SetColor("_Color", GameManager.Instance.MultiplayerManager.GetPlayerColors()[playerInput.playerIndex]);
+            //character.SetPlayerMove(true);
+
             if (AllRoomsMounted())
             {
-                FinishTank();
+                //FinishTank();
             }
         }
 

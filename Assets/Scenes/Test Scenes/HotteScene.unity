@@ -5745,6 +5745,7 @@ MonoBehaviour:
   currentLevelEvent: {fileID: 11400000, guid: 22b317130dd13554f9f9fb3d56a2d5bc, type: 2}
   objectiveTracker: {fileID: 0}
   tankManager: {fileID: 0}
+  enemiesDestroyed: 0
   resourcesToAdd: 100
 --- !u!4 &1152782961
 Transform:

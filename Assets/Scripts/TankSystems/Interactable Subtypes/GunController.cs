@@ -209,4 +209,11 @@ public class GunController : TankInteractable
             else if (GameManager.Instance.AudioManager.IsPlaying("CannonRotate", gameObject)) GameManager.Instance.AudioManager.Stop("CannonRotate", gameObject);
         }
     }
+
+    //DEBUG METHODS:
+    public void ChangeRateOfFire(float multiplier)
+    {
+        float newROF = rateOfFire * multiplier;
+        rateOfFire = newROF;
+    }
 }

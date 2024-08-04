@@ -32,7 +32,8 @@ public class TankController : MonoBehaviour
     public bool shiftLeft;
     public bool damage;
     public bool addEngine;
-    public bool fireAllCannons;
+    public bool fireAllWeapons;
+    public bool overchargeAllWeapons;
 
     public bool isDying = false; //true when the tank is in the process of blowing up
     private float deathSequenceTimer = 0;
@@ -115,7 +116,8 @@ public class TankController : MonoBehaviour
         if (shiftRight) { shiftRight = false; ChangeAllGear(1); }
         if (damage) { damage = false; Damage(100); }
         if (addEngine) { addEngine = false; treadSystem.currentEngines += 1; }
-        if (fireAllCannons) { fireAllCannons = false; FireAllCannons(); }
+        if (fireAllWeapons) { fireAllWeapons = false; FireAllCannons(); }
+        if (overchargeAllWeapons) { overchargeAllWeapons = false; OverchargeAllWeapons(); }
 
         //Update name
         nameText.text = TankName;
@@ -146,6 +148,15 @@ public class TankController : MonoBehaviour
         foreach(GunController cannon in cannons)
         {
             cannon.Fire();
+        }
+    }
+
+    public void OverchargeAllWeapons()
+    {
+        GunController[] weapons = GetComponentsInChildren<GunController>();
+        foreach (GunController weapon in weapons)
+        {
+            weapon.ChangeRateOfFire(0.5f);
         }
     }
 
@@ -251,6 +262,18 @@ public class TankController : MonoBehaviour
                 rb.AddForce(_random * 40);
                 rb.AddTorque(randomT * 10);
             }
+
+            //Update Objectives & Analytics
+            LevelManager levelman = GameObject.Find("LevelManager")?.GetComponent<LevelManager>();
+
+            if (levelman != null)
+            {
+                //If we're checking for enemies destroyed, add 1 to the Objective
+                levelman.AddObjectiveValue(ObjectiveType.DefeatEnemies, 1); 
+
+                //TODO: Add 1 to Global Check for enemies destroyed (Analytics)
+            }
+
             Destroy(gameObject);
         }
     }

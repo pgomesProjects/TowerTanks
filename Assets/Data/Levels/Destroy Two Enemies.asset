@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3e5e6254ce35d8c44956948c70672447, type: 3}
-  m_Name: New Level Event
+  m_Name: Destroy Two Enemies
   m_EditorClassIdentifier: 
   levelName: Test Level
   levelDescription: This is a test description for a test level. This is something
     that would be used in the campaign mode map.
-  objectiveType: 0
+  objectiveType: 1
   metersToTravel: 1500
-  enemiesToDefeat: 3
+  enemiesToDefeat: 2
   secondsToSurviveFor: 0

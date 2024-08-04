@@ -242,6 +242,21 @@ public class PlayerMovement : Character
         playerInputComponent.onDeviceRegained += OnDeviceRegained;
     }
 
+    public void OnDisable()
+    {
+        if(playerInputComponent != null)
+        {
+            if(isDebugPlayer)
+                playerInputComponent.onActionTriggered -= OnDebugInput;
+
+            else
+                playerInputComponent.onActionTriggered -= OnPlayerInput;
+
+            playerInputComponent.onDeviceLost -= OnDeviceLost;
+            playerInputComponent.onDeviceRegained -= OnDeviceRegained;
+        }
+    }
+
     public void OnDeviceLost(PlayerInput playerInput)
     {
         Debug.Log("Player " + (characterIndex + 1) + " Controller Disconnected!");
