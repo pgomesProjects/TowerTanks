@@ -27,6 +27,10 @@ public class TankInteractable : MonoBehaviour
         if (targetColl == null || !targetColl.TryGetComponent(out Cell cell)) { Debug.LogWarning("Could not find cell."); return; }                                             //Cancel if interactable is not on a cell
         InstallInCell(targetColl.GetComponent<Cell>());                                                                                                                         //Install interactable in target cell
     }
+    [Button("Debug Destroy")] public void DebugDestroy()
+    {
+        Destroy(gameObject); //Destroy interactable
+    }
 
     //Runtime Variables:
     [Tooltip("The cell this interactable is currently installed within.")]                                      internal Cell parentCell;
@@ -54,7 +58,7 @@ public class TankInteractable : MonoBehaviour
         throttleScript = GetComponent<ThrottleController>();
 
     }
-    private void OnDestroy()
+    public virtual void OnDestroy()
     {
         if (hasOperator)
         {
@@ -64,8 +68,11 @@ public class TankInteractable : MonoBehaviour
         //Destruction Cleanup:
         if (parentCell != null) //Interactable is mounted in a cell
         {
-            
+            parentCell.interactable = null; //Clear cell reference to this interactable
         }
+
+        //Stack update:
+        if (tank.tankType == TankId.TankType.PLAYER) StackManager.AddToStack(this); //Add interactable data to stack upon destruction (if it is in a player tank)
     }
 
     private void OnDisable()

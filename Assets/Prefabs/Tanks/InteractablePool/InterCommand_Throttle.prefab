@@ -438,10 +438,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seat: {fileID: 0}
-  type: 1
+  prefabRef: {fileID: 7281501281902775960}
   hasOperator: 0
+  isContinuous: 0
   direction: 1
-  flip: 0
+  debugFlip: 0
   particleSpots: []
   pivot: {fileID: 7149395123773397907}
   speedSettings: 2

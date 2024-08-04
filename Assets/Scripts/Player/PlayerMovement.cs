@@ -266,6 +266,7 @@ public class PlayerMovement : Character
             case "Interact": OnInteract(ctx); break;
             case "Cancel": OnCancel(ctx); break;
             case "Repair": OnRepair(ctx); break;
+            case "Build": OnBuild(ctx); break;
         }
     }
 
@@ -336,6 +337,12 @@ public class PlayerMovement : Character
                 Pickup();
             }
         }
+    }
+
+    public void OnBuild(InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed) print("started building");
+        else if (ctx.canceled) print("stopped building");
     }
 
     public void OnCancel(InputAction.CallbackContext ctx)

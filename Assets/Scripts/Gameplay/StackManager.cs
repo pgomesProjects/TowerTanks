@@ -46,7 +46,7 @@ public class StackManager : MonoBehaviour
     /// Adds interactable to the stack so that it can be generated from there (can be with an interactable which has always been added).
     /// </summary>
     /// <param name="interactable">Interactable to be added.</param>
-    public void AddToStack(TankInteractable interactable)
+    public static void AddToStack(TankInteractable interactable)
     {
         //Find/Generate stack item:
         StackItem item = null; //Initialize container to store relevant stack item
@@ -65,12 +65,13 @@ public class StackManager : MonoBehaviour
             item.interactablePrefab = interactable.prefabRef; //Get reference to prefab so interactable can be respwaned later
         }
         stack.Add(item); //Add item to bottom of stack
+        print("added item to stack, stack now contains " + stack.Count + " items");
     }
 
     /// <summary>
-    /// Removes the interactable on top of the stack and returns it, updating its stack information
+    /// Removes the interactable on top of the stack and returns a SPAWNED instance of it.
     /// </summary>
-    public GameObject TakeTopStackItem()
+    public static TankInteractable BuildTopStackItem()
     {
         //Validity checks:
         if (stack.Count == 0) //Stack is empty
@@ -84,10 +85,15 @@ public class StackManager : MonoBehaviour
         inactiveStack.Add(takenItem);   //Add taken item to inactive stack
         stack.RemoveAt(0);              //Remove item from main stack
 
-        //Item updates:
+        //Stack item updates:
         takenItem.deployments++; //Update deployment counter
 
+        //Build interactable:
+        TankInteractable newInteractable = Instantiate(takenItem.interactablePrefab).GetComponent<TankInteractable>(); //Instantiate new interactable from known prefab
+        newInteractable.stackId = takenItem.uid;                                                                       //Assign id so that interactable may be called back later
+
         //Cleanup:
-        return takenItem.interactablePrefab; //Return prefab from taken stack item
+        print("removed item from stack, stack now contains " + stack.Count + " items");
+        return newInteractable; //Return prefab from taken stack item
     }
 }

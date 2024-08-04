@@ -1216,12 +1216,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cf76339ebb9bd54a982d6521d220750, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 2
+  seat: {fileID: 0}
+  prefabRef: {fileID: 8306713773444683921}
   hasOperator: 0
+  isContinuous: 0
+  direction: 1
+  debugFlip: 0
   particleSpots:
   - {fileID: 4223996395297889378}
   - {fileID: 828606465616710838}
   engineType: 1
+  isPowered: 0
   coal: 0
   maxCoal: 5
   coalBurnSpeed: 0.5

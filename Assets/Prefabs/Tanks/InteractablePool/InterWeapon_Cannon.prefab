@@ -2250,6 +2250,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seat: {fileID: 0}
+  prefabRef: {fileID: 917774235452588900}
   hasOperator: 0
   isContinuous: 0
   direction: 1
@@ -2260,11 +2261,13 @@ MonoBehaviour:
   particleSpots:
   - {fileID: 680884392771065324}
   particleScale: 0.1
+  gunType: 0
   muzzleVelocity: 45
   recoil: 15
   rotateSpeed: 20
   gimbalRange: 30
   rateOfFire: 2.5
+  spread: 0
   fire: 0
   moveGimbal: 0.5
 --- !u!114 &716291927565912710

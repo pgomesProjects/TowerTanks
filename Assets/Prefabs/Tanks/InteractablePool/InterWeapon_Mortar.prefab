@@ -161,4 +161,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8e0cebe543844b458649258c7c31848, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 0
+  seat: {fileID: 0}
+  prefabRef: {fileID: 7281501281902775960}
+  hasOperator: 0
+  isContinuous: 0
+  direction: 1
+  debugFlip: 0

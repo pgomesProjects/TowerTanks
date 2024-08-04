@@ -1063,7 +1063,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seat: {fileID: 0}
-  prefabRef: {fileID: 0}
+  prefabRef: {fileID: 1789302742507130491}
   hasOperator: 0
   isContinuous: 1
   direction: 1
