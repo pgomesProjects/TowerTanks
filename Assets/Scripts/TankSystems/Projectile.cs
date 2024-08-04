@@ -11,6 +11,8 @@ public class Projectile : MonoBehaviour
 
     //Settings:
     public float damage;  //Damage projectile will deal upon hitting a valid target
+    public bool hasSplashDamage; //Whether or not this projectile deals splash damage
+    public SplashData[] splashData; //Contains all values related to different splash damage zones
     public float maxLife; //Maximum amount of time projectile can spend before it auto-destructs
     public float radius;  //Radius around projectile which is used to check for hits
     public float gravity;
@@ -59,6 +61,16 @@ public class Projectile : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, radius);
+
+        if (hasSplashDamage)
+        {
+            foreach (SplashData splash in splashData)
+            {
+                Color tempColor = Color.yellow;
+                Gizmos.color = tempColor;
+                Gizmos.DrawWireSphere(transform.position, splash.splashRadius);
+            }
+        }
     }
 
     private void LateUpdate()
@@ -83,6 +95,7 @@ public class Projectile : MonoBehaviour
 
     private void Hit(Collider2D target)
     {
+        //Handle Projectile Direct Damage
         if (target != null && target.GetComponentInParent<Cell>() != null)
         {
             target.GetComponentInParent<Cell>().Damage(damage);
@@ -93,6 +106,28 @@ public class Projectile : MonoBehaviour
         {
             target.GetComponent<DestructibleObject>().Damage(damage);
             GameManager.Instance.AudioManager.Play("ShellImpact", gameObject);
+        }
+
+        //Handle Projectile Splash Damage
+        if (hasSplashDamage) 
+        {
+            foreach (SplashData splash in splashData)
+            {
+                Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, splash.splashRadius, layerMask);
+                foreach (Collider2D collider in colliders)
+                {
+                    Cell cellScript = collider.gameObject.GetComponent<Cell>();
+                    if (cellScript != null)
+                    {
+                        cellScript.Damage(splash.splashDamage);
+                    }
+
+                    if (collider.CompareTag("Destructible"))
+                    {
+                        collider.gameObject.GetComponent<DestructibleObject>().Damage(splash.splashDamage);
+                    }
+                }
+            }
         }
 
         //Effects
