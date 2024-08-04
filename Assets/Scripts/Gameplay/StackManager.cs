@@ -8,7 +8,7 @@ public class StackManager : MonoBehaviour
     //Classes, Enums & Structs:
     public class StackItem
     {
-        [Tooltip("The interactable associated with this stack item.")] public GameObject interactablePrefab;
+        [Tooltip("Name of prefab used to spawn interactable.")]        public string interactableName;
         [Tooltip("Identification number unique to this stack item.")]  public int uid;
         [Tooltip("How many times this item has been built.")]          public int deployments;
     }
@@ -60,9 +60,9 @@ public class StackManager : MonoBehaviour
         }
         if (item == null) //No stack item has been found
         {
-            item = new StackItem();                           //Create new stack item
-            item.uid = GetNewUid();                           //Generate a new ID for stack item
-            item.interactablePrefab = interactable.prefabRef; //Get reference to prefab so interactable can be respwaned later
+            item = new StackItem();                                           //Create new stack item
+            item.uid = GetNewUid();                                           //Generate a new ID for stack item
+            item.interactableName = interactable.name.Replace("(Clone)", ""); //Get reference to prefab so interactable can be respwaned later
         }
         stack.Add(item); //Add item to bottom of stack
         print("added item to stack, stack now contains " + stack.Count + " items");
@@ -89,8 +89,9 @@ public class StackManager : MonoBehaviour
         takenItem.deployments++; //Update deployment counter
 
         //Build interactable:
-        TankInteractable newInteractable = Instantiate(takenItem.interactablePrefab).GetComponent<TankInteractable>(); //Instantiate new interactable from known prefab
-        newInteractable.stackId = takenItem.uid;                                                                       //Assign id so that interactable may be called back later
+        GameObject interactablePrefab = Resources.Load<RoomData>("RoomData").interactableList.FirstOrDefault(item => item.name == takenItem.interactableName); //Get prefab corresponding to name recorded in stack item
+        TankInteractable newInteractable = Instantiate(interactablePrefab).GetComponent<TankInteractable>();                                                   //Instantiate new interactable from known prefab
+        newInteractable.stackId = takenItem.uid;                                                                                                               //Assign id so that interactable may be called back later
 
         //Cleanup:
         print("removed item from stack, stack now contains " + stack.Count + " items");

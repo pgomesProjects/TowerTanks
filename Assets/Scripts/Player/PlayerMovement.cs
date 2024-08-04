@@ -46,6 +46,10 @@ public class PlayerMovement : Character
     public bool isOperator; //true if player is currently operating an interactable
     public TankInteractable currentInteractable; //what interactable player is currently operating
 
+    [SerializeField, Tooltip("Time it takes player to build an interactable.")] private float buildTime;
+    private Cell buildCell;         //Cell player is currently building a stack interactable in (null if not building)
+    private float timeBuilding = 0; //Time spent in build mode
+
     [Header("Objects")]
     public LayerMask carryableObjects;
     public bool isCarryingSomething; //true if player is currently carrying something
@@ -78,6 +82,17 @@ public class PlayerMovement : Character
 
     protected override void Update()
     {
+        //Interactable building:
+        if (buildCell != null) //Player is currently in build mode
+        {
+            timeBuilding += Time.deltaTime; //Increment build time tracker
+            if (timeBuilding >= buildTime) //Player has finished build
+            {
+                StackManager.BuildTopStackItem().InstallInCell(buildCell); //Install interactable from top of stack into designated build cell
+                StopBuilding();                                            //Indicate that build has stopped
+            }
+        }
+
         if (jetpackInputHeld && currentState != CharacterState.OPERATING)
         {
             currentFuel -= fuelDepletionRate * Time.deltaTime;
@@ -327,12 +342,16 @@ public class PlayerMovement : Character
 
     public void OnJetpack(InputAction.CallbackContext ctx)
     {
+        if (buildCell != null) return;
+
         jetpackInputHeld = ctx.ReadValue<float>() > 0;
         if (ctx.ReadValue<float>() > 0 && currentState != CharacterState.OPERATING) GameManager.Instance.AudioManager.Play("JetpackStartup", gameObject);
     }
 
     public void OnInteract(InputAction.CallbackContext ctx)
     {
+        if (buildCell != null) return;
+
         interactInputHeld = ctx.ReadValue<float>() > 0;
 
         if (ctx.started)
@@ -356,8 +375,25 @@ public class PlayerMovement : Character
 
     public void OnBuild(InputAction.CallbackContext ctx)
     {
-        if (ctx.performed) print("started building");
-        else if (ctx.canceled) print("stopped building");
+        if (StackManager.stack.Count > 0 && ctx.performed && !isOperator)
+        {
+            //Check if build is valid:
+            Collider2D cellColl = Physics2D.OverlapPoint(transform.position, LayerMask.GetMask("Cell")); //Get cell player is currently on top of (if any)
+            if (cellColl != null && cellColl.TryGetComponent(out Cell cell)) //Player is on top of a cell
+            {
+                if (cell.room.targetTank.tankType == TankId.TankType.PLAYER && cell.interactable == null && cell.playerBuilding == null) //Cell is friendly and unoccupied
+                {
+                    buildCell = cell;           //Indicate that player is building in this cell
+                    cell.playerBuilding = this; //Indicate that this player is building in given cell
+                    print("started building");
+                } else print("tried to start building");
+            }
+        }
+        
+        if (buildCell != null && ctx.canceled) //Player is cancelling a build
+        {
+            StopBuilding(); //Stop building
+        }
     }
 
     public void OnCancel(InputAction.CallbackContext ctx)
@@ -392,6 +428,8 @@ public class PlayerMovement : Character
 
     public void OnRepair(InputAction.CallbackContext ctx)
     {
+        if (buildCell != null) return;
+
         if (ctx.started)
         {
             //Interactables
@@ -495,11 +533,19 @@ public class PlayerMovement : Character
             }
         }
     }
+    public void StopBuilding()
+    {
+        if (buildCell == null) return;   //Do nothing if player is not building
+        buildCell.playerBuilding = null; //Indicate to cell that it is no longer being built in
+        buildCell = null;                //Clear cell reference
+        buildTime = 0;                   //Reset build time tracker
+        print("stopped building");
+    }
 
     protected override void OnCharacterDeath()
     {
         //TODO: implement something to happen upon the player dying
     }
-
+    
     #endregion
 }

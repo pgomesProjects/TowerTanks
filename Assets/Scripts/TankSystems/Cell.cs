@@ -48,6 +48,7 @@ public class Cell : MonoBehaviour
         //Meta
     [Tooltip("True if cell destruction has already been scheduled, used to prevent conflicts.")] private bool dying;
     [Tooltip("True once cell has been set up and is ready to go.")]                              private bool initialized = false;
+    [Tooltip("Player which is currently building an interactable in this cell.")]                internal PlayerMovement playerBuilding;
 
     //RUNTIME METHODS:
     private void Awake()
@@ -255,6 +256,7 @@ public class Cell : MonoBehaviour
             coupler.Kill();                                           //Destroy target coupler (it should remove itself from coupler list here
             if (couplers.Contains(coupler)) couplers.Remove(coupler); //Make SURE coupler has been removed from list
         }
+        if (playerBuilding) playerBuilding.StopBuilding(); //Force player to stop building if a player is building in this cell
 
         //Room cleanup:
         room.cells.Remove(this);                                   //Remove this cell from room cell list
