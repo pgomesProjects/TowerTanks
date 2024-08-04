@@ -312,6 +312,7 @@ public class PlayerMovement : Character
             case "2": OnInteract(ctx); break;
             case "3": OnRepair(ctx); break;
             case "4": OnCancel(ctx); break;
+            case "Build": OnBuild(ctx); break;
         }
     }
 
