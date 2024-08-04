@@ -42,6 +42,10 @@ public class TankInteractable : MonoBehaviour
     [Tooltip("Unique identifier associating this interactable with a stack item")]                              internal int stackId = 0;
 
     //Debug
+    public bool debugMoveUp;
+    public bool debugMoveDown;
+    public bool debugMoveLeft;
+    public bool debugMoveRight;
     public bool debugFlip = false;
     private float introBuffer = 0.2f; //small window when a new operator enters the interactable where they can't use it
     private float cooldown;
@@ -72,7 +76,7 @@ public class TankInteractable : MonoBehaviour
         }
 
         //Stack update:
-        if (tank.tankType == TankId.TankType.PLAYER) StackManager.AddToStack(this); //Add interactable data to stack upon destruction (if it is in a player tank)
+        if (tank != null && tank.tankType == TankId.TankType.PLAYER) StackManager.AddToStack(this); //Add interactable data to stack upon destruction (if it is in a player tank)
     }
 
     private void OnDisable()
@@ -97,6 +101,10 @@ public class TankInteractable : MonoBehaviour
         }
 
         if (debugFlip) { debugFlip = false; Flip(); }
+        if (debugMoveUp) { debugMoveUp = false; SnapMoveTick(Vector2.up); }
+        if (debugMoveDown) { debugMoveDown = false; SnapMoveTick(Vector2.down); }
+        if (debugMoveLeft) { debugMoveLeft = false; SnapMoveTick(Vector2.left); }
+        if (debugMoveRight) { debugMoveRight = false; SnapMoveTick(Vector2.right); }
     }
 
     public void LockIn(GameObject playerID) //Called from InteractableZone.cs when a user locks in to the interactable
@@ -182,7 +190,7 @@ public class TankInteractable : MonoBehaviour
         parentCell = target;                       //Get reference to target cell
         transform.parent = parentCell.transform;   //Child to target cell
         transform.localPosition = Vector3.zero;    //Match position with target cell
-        transform.localEulerAngles = Vector3.zero; //Match rotation with target cell
+        //transform.localEulerAngles = Vector3.zero; //Match rotation with target cell
 
         //Cell installation:
         target.interactable = this; //Give cell reference to the interactable installed in it
@@ -190,6 +198,31 @@ public class TankInteractable : MonoBehaviour
         //Cleanup:
         tank = GetComponentInParent<TankController>(); //Get tank controller interactable is being attached to
         return true;                                   //Indicate that interactable was successfully installed in target cell
+    }
+
+    public void SnapMoveTick(Vector2 direction)
+    {
+        //Get target position:
+        direction = direction.normalized;                                           //Make sure direction is normalized
+        Vector2 targetPos = (Vector2)transform.localPosition + (direction * 0.25f); //Get target position based off of current position
+        SnapMove(targetPos);                                                        //Use normal snapMove method to place room
+    }
+
+    public void SnapMove(Vector2 targetPoint)
+    {
+        //Validity checks:
+        if (tank != null) //Interactable is already mounted
+        {
+            Debug.LogError("Tried to move interactable while it is mounted!"); //Log error
+            return;                                                    //Cancel move
+        }
+
+        //Constrain to grid:
+        Vector2 newPoint = targetPoint * 4;                                       //Multiply position by four so that it can be rounded to nearest quarter unit
+        newPoint = new Vector2(Mathf.Round(newPoint.x), Mathf.Round(newPoint.y)); //Round position to nearest unit
+        newPoint /= 4;                                                            //Divide result after rounding to get actual value
+        transform.localPosition = newPoint;                                       //Apply new position
+        //transform.localEulerAngles = Vector3.zero;                                //Zero out rotation relative to parent tank
     }
 
     public void Flip()

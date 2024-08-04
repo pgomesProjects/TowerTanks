@@ -9891,8 +9891,14 @@ MonoBehaviour:
   - {fileID: 855465098922572524, guid: a7d47268a060f9a4bb31ea7be64a5f82, type: 3}
   - {fileID: 855465098922572524, guid: c8a9a63fd9b16424dbb035d7907024ea, type: 3}
   - {fileID: 855465098922572524, guid: 1ff5ecd312e82094f93416dd7a78e87b, type: 3}
+  roomData: {fileID: 11400000, guid: c47d7515be5aba7448593e1b7023ed53, type: 2}
   roomSelected: 0
+  interactableSelected: 0
+  currentMode: 0
+  moveCooldown: 0.05
+  moveCooldownTimer: 0
   enableSounds: 1
+  moveInput: {x: 0, y: 0}
   playerInputComponent: {fileID: 2096001710620190511}
 --- !u!1001 &1677695872066042756
 PrefabInstance:
