@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -138,6 +139,11 @@ public class GameManager : SerializedMonoBehaviour
     {
         GameSettings.showGamepadCursors = setActive;
         foreach (var cursor in FindObjectsOfType<GamepadCursor>())
-            cursor.RefreshCursor();
+            cursor.RefreshCursor(setActive);
+    }
+
+    public void SetPlayerCursorActive(GamepadCursor currentPlayer, bool setActive)
+    {
+        currentPlayer.RefreshCursor(setActive);
     }
 }

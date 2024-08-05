@@ -9,6 +9,7 @@ public class PlayerData : MonoBehaviour
     public InputActionMap playerInputMap { get; private set; }
     public Vector2 movementData { get; private set; }
     internal bool isBuilding;
+    internal bool isReadyingUp;
 
     private void Awake()
     {
@@ -34,6 +35,7 @@ public class PlayerData : MonoBehaviour
             case "Move": OnMove(ctx); break;
             case "Rotate": OnRotate(ctx); break;
             case "Mount": OnMount(ctx); break;
+            case "ReadyUp": OnReadyUp(ctx); break;
         }
     }
 
@@ -72,5 +74,26 @@ public class PlayerData : MonoBehaviour
         {
             isBuilding = !BuildingManager.Instance.MountRoom(playerInput);
         }
+    }
+
+    private void OnReadyUp(InputAction.CallbackContext ctx)
+    {
+        if (isReadyingUp && ctx.started)
+        {
+            BuildingManager.Instance.GetReadyUpManager().ReadyPlayer(playerInput.playerIndex, !BuildingManager.Instance.GetReadyUpManager().IsPlayerReady(playerInput.playerIndex));
+        }
+    }
+
+    public static PlayerData ToPlayerData(PlayerInput playerInput)
+    {
+        foreach (PlayerData player in GameManager.Instance.MultiplayerManager.GetAllPlayers())
+        {
+            if (player.playerInput == playerInput)
+                return player;
+        }
+
+        Debug.Log("No Player Data Found.");
+
+        return null;
     }
 }

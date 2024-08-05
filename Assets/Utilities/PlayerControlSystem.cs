@@ -181,6 +181,15 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""ReadyUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""a0686885-8b23-4d55-a3f9-6a25125c770f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Rotate"",
                     ""type"": ""Button"",
                     ""id"": ""9bddef73-9f62-488e-82b3-d86bd08cf075"",
@@ -1123,6 +1132,28 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
                     ""action"": ""Mount"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9a19eb1d-afea-43b3-865d-5cb005c5b4a6"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""ReadyUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c685cafa-59ac-4b56-af3d-024745fec699"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""ReadyUp"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -2871,6 +2902,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         m_Player_CannonScroll = m_Player.FindAction("Cannon Scroll", throwIfNotFound: true);
         m_Player_Jetpack = m_Player.FindAction("Jetpack", throwIfNotFound: true);
         m_Player_Mount = m_Player.FindAction("Mount", throwIfNotFound: true);
+        m_Player_ReadyUp = m_Player.FindAction("ReadyUp", throwIfNotFound: true);
         m_Player_Rotate = m_Player.FindAction("Rotate", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
@@ -2985,6 +3017,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_CannonScroll;
     private readonly InputAction m_Player_Jetpack;
     private readonly InputAction m_Player_Mount;
+    private readonly InputAction m_Player_ReadyUp;
     private readonly InputAction m_Player_Rotate;
     public struct PlayerActions
     {
@@ -3007,6 +3040,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         public InputAction @CannonScroll => m_Wrapper.m_Player_CannonScroll;
         public InputAction @Jetpack => m_Wrapper.m_Player_Jetpack;
         public InputAction @Mount => m_Wrapper.m_Player_Mount;
+        public InputAction @ReadyUp => m_Wrapper.m_Player_ReadyUp;
         public InputAction @Rotate => m_Wrapper.m_Player_Rotate;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
@@ -3068,6 +3102,9 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @Mount.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMount;
                 @Mount.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMount;
                 @Mount.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMount;
+                @ReadyUp.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReadyUp;
+                @ReadyUp.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReadyUp;
+                @ReadyUp.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReadyUp;
                 @Rotate.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRotate;
                 @Rotate.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRotate;
                 @Rotate.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRotate;
@@ -3126,6 +3163,9 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @Mount.started += instance.OnMount;
                 @Mount.performed += instance.OnMount;
                 @Mount.canceled += instance.OnMount;
+                @ReadyUp.started += instance.OnReadyUp;
+                @ReadyUp.performed += instance.OnReadyUp;
+                @ReadyUp.canceled += instance.OnReadyUp;
                 @Rotate.started += instance.OnRotate;
                 @Rotate.performed += instance.OnRotate;
                 @Rotate.canceled += instance.OnRotate;
@@ -3511,6 +3551,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         void OnCannonScroll(InputAction.CallbackContext context);
         void OnJetpack(InputAction.CallbackContext context);
         void OnMount(InputAction.CallbackContext context);
+        void OnReadyUp(InputAction.CallbackContext context);
         void OnRotate(InputAction.CallbackContext context);
     }
     public interface IUIActions

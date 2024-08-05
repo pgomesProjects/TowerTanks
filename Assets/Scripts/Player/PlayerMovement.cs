@@ -75,6 +75,21 @@ public class PlayerMovement : Character
         base.Start();
     }
 
+    private void OnDisable()
+    {
+        if (playerInputComponent != null)
+        {
+            if (isDebugPlayer)
+                inputMap.actionTriggered -= OnDebugInput;
+
+            else
+                inputMap.actionTriggered -= OnPlayerInput;
+
+            playerInputComponent.onDeviceLost -= OnDeviceLost;
+            playerInputComponent.onDeviceRegained -= OnDeviceRegained;
+        }
+    }
+
     public void AddDebuggerPlayerInput(PlayerInput debugPlayerInput)
     {
         LinkPlayerInput(debugPlayerInput);
@@ -255,21 +270,6 @@ public class PlayerMovement : Character
         //Subscribes events for control lost / regained
         playerInputComponent.onDeviceLost += OnDeviceLost;
         playerInputComponent.onDeviceRegained += OnDeviceRegained;
-    }
-
-    public void OnDisable()
-    {
-        if(playerInputComponent != null)
-        {
-            if(isDebugPlayer)
-                playerInputComponent.onActionTriggered -= OnDebugInput;
-
-            else
-                playerInputComponent.onActionTriggered -= OnPlayerInput;
-
-            playerInputComponent.onDeviceLost -= OnDeviceLost;
-            playerInputComponent.onDeviceRegained -= OnDeviceRegained;
-        }
     }
 
     public void OnDeviceLost(PlayerInput playerInput)
@@ -547,6 +547,6 @@ public class PlayerMovement : Character
     {
         //TODO: implement something to happen upon the player dying
     }
-    
+
     #endregion
 }
