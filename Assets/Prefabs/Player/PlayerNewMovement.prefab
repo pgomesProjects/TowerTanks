@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 5332867684925448271}
   - component: {fileID: 5332867684925448268}
   - component: {fileID: 448350889}
+  - component: {fileID: -2921341399011078923}
   m_Layer: 3
   m_Name: PlayerNewMovement
   m_TagString: Untagged
@@ -122,6 +123,7 @@ MonoBehaviour:
   fuelRegenerationRate: 20
   healthToModify: -10
   isDebugPlayer: 0
+  interactInputHeld: 0
   towerJoint: {fileID: 0}
   playerSprite: {fileID: 0}
   playerInputComponent: {fileID: 0}
@@ -137,6 +139,7 @@ MonoBehaviour:
   currentZone: {fileID: 0}
   isOperator: 0
   currentInteractable: {fileID: 0}
+  buildTime: 0
   carryableObjects:
     serializedVersion: 2
     m_Bits: 512
@@ -158,6 +161,59 @@ CapsuleCollider2D:
   m_Offset: {x: -0.0037293686, y: 0}
   m_Size: {x: 0.7091221, y: 1}
   m_Direction: 0
+--- !u!114 &-2921341399011078923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5332867684925448264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34666e50ed586b141a99cb4f99e0a1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderResolution: 500
+  baseOrthoSize: 1.2
+  baseBubbleRadius: 3
+  bubbleDistFromEdge: -0.34
+  transitionCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 2
+      inWeight: 0
+      outWeight: 0.34532773
+    - serializedVersion: 3
+      time: 0.76547223
+      value: 1.1275018
+      inSlope: -0.023289893
+      outSlope: -0.023289893
+      tangentMode: 0
+      weightedMode: 3
+      inWeight: 0.36729324
+      outWeight: 0.48335168
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: -0.32384813
+      outSlope: -0.32384813
+      tangentMode: 0
+      weightedMode: 1
+      inWeight: 0.503255
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  transitionTime: 0.2
+  useDynamicBubbleSize: 0
+  minBubbleRadius: 0
+  maxVisDistance: 0
 --- !u!1 &5332867685461826562
 GameObject:
   m_ObjectHideFlags: 0
