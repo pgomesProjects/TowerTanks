@@ -182,6 +182,7 @@ public class GunController : TankInteractable
             if (overheatTimer > overheatTime)
             {
                 isOverheating = true;
+                GameManager.Instance.AudioManager.Play("SteamExhaust", gameObject);
             }
 
             if (isOverheating) canFire = false;
@@ -220,8 +221,22 @@ public class GunController : TankInteractable
             //Other effects:
             int random = Random.Range(0, 2);
             GameManager.Instance.ParticleSpawner.SpawnParticle(random, particleSpots[0].position, particleScale, null);
-            GameManager.Instance.AudioManager.Play("CannonFire", gameObject);
-            GameManager.Instance.AudioManager.Play("CannonThunk", gameObject); //Play firing audioclips
+            if (gunType == GunType.CANNON)
+            {
+                GameManager.Instance.AudioManager.Play("CannonFire", gameObject);
+                GameManager.Instance.AudioManager.Play("CannonThunk", gameObject); //Play firing audioclips
+            }
+
+            if (gunType == GunType.MACHINEGUN)
+            {
+                GameManager.Instance.AudioManager.Play("CannonFire", gameObject);
+            }
+
+            if (gunType == GunType.MORTAR)
+            {
+                GameManager.Instance.AudioManager.Play("CannonThunk", gameObject);
+                GameManager.Instance.AudioManager.Play("ProjectileInAirSFX", gameObject);
+            }
 
             //Set Cooldown
             fireCooldownTimer = rateOfFire;
