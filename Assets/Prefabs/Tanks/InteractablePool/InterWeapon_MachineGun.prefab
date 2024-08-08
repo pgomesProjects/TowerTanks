@@ -1103,7 +1103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2302162089f3edc4d9c67a91a197a6ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireCooldown: 3
+  fireCooldown: 0.1
   aimCooldown: 5
   isRotating: 0
 --- !u!1 &1789302742572182765

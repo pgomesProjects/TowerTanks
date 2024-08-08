@@ -147,7 +147,7 @@ public class TankController : MonoBehaviour
         GunController[] cannons = GetComponentsInChildren<GunController>();
         foreach(GunController cannon in cannons)
         {
-            cannon.Fire();
+            cannon.Fire(true);
         }
     }
 

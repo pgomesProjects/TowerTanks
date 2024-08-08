@@ -1869,7 +1869,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seat: {fileID: 0}
+  stackName: 
   prefabRef: {fileID: 5015744295796166023}
+  uiImage: {fileID: 0}
   hasOperator: 0
   isContinuous: 0
   canAim: 0
@@ -1892,9 +1894,6 @@ MonoBehaviour:
   gimbalRange: 0
   rateOfFire: 3
   spread: 0
-  maxChargeTime: 2.4
-  minChargeTime: 0.4
-  chargeTimer: 0
   fire: 0
   moveGimbal: 0.5
 --- !u!114 &4672433656717689957
@@ -1909,8 +1908,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2302162089f3edc4d9c67a91a197a6ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireCooldown: 3
+  fireCooldown: 5
   aimCooldown: 5
+  cooldownOffset: 1
   isRotating: 0
 --- !u!1 &5015744295915063545
 GameObject:

@@ -158,7 +158,7 @@ public class TankInteractable : MonoBehaviour
     {
         if (gunScript != null && cooldown <= 0)
         {
-            gunScript.Fire();
+            gunScript.Fire(false);
         }
         if (engineScript != null && cooldown <= 0) engineScript.LoadCoal(1);
     }
@@ -167,7 +167,7 @@ public class TankInteractable : MonoBehaviour
     {
         if (gunScript != null && gunScript.gunType == GunController.GunType.MORTAR)
         {
-            gunScript.Fire();
+            gunScript.Fire(false);
         }
     }
 

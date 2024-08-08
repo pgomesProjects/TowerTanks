@@ -68,7 +68,7 @@ public class GunController : TankInteractable
     private void Update()
     {
         //Debug settings:
-        if (fire) { fire = false; Fire(); }
+        if (fire) { fire = false; Fire(true); }
         
         pivot.localEulerAngles = currentRotation;
 
@@ -154,7 +154,7 @@ public class GunController : TankInteractable
     /// <summary>
     /// Fires the weapon, once.
     /// </summary>
-    public void Fire()
+    public void Fire(bool overrideConditions)
     {
         bool canFire = true;
         if (tank == null) tank = GetComponentInParent<TankController>();
@@ -177,6 +177,11 @@ public class GunController : TankInteractable
                     spinTimer = spinTime;
                     overheatTimer += Time.deltaTime;
                 }
+
+                if (overrideConditions)
+                {
+                    canFire = true;
+                }
             }
 
             if (overheatTimer > overheatTime)
@@ -192,14 +197,20 @@ public class GunController : TankInteractable
         {
             canFire = false;
 
-            if (chargeTimer >= minChargeTime)
+            if ((chargeTimer >= minChargeTime) || overrideConditions)
             {
                 canFire = true;
                 chargeTimer = 0;
             }
+
+            if (overrideConditions)
+            {
+                float newVelocity = Random.Range((minVelocity + 15f), maxVelocity);
+                muzzleVelocity = newVelocity;
+            }
         };
 
-        if (fireCooldownTimer <= 0 && canFire)
+        if ((fireCooldownTimer <= 0 || overrideConditions) && canFire)
         {
             Vector3 tempRotation = barrel.localEulerAngles;
 

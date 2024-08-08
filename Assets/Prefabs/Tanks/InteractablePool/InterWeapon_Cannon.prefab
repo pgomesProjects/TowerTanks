@@ -2275,9 +2275,6 @@ MonoBehaviour:
   gimbalRange: 30
   rateOfFire: 2.5
   spread: 0
-  maxChargeTime: 2.4
-  minChargeTime: 0.4
-  chargeTimer: 0
   fire: 0
   moveGimbal: 0.5
 --- !u!114 &716291927565912710
@@ -2294,6 +2291,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fireCooldown: 3
   aimCooldown: 5
+  cooldownOffset: 2
   isRotating: 0
 --- !u!1 &917774235521835506
 GameObject:
