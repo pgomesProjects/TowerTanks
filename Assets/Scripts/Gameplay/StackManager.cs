@@ -179,6 +179,7 @@ public class StackManager : MonoBehaviour
         {
             if (item.uiPanel == null) item.GenerateUIPanel(); //Generate a ui panel for item if it doesn't have one
             else item.ShowUIPanel();                          //Simply make item visible otherwise
+            item.uiPanel.SetAsFirstSibling();                 //Have this panel render under others
         }
     }
 
