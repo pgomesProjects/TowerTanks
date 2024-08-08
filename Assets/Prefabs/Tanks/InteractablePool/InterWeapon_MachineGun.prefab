@@ -1066,7 +1066,12 @@ MonoBehaviour:
   prefabRef: {fileID: 1789302742507130491}
   hasOperator: 0
   isContinuous: 1
+  canAim: 1
   direction: 1
+  debugMoveUp: 0
+  debugMoveDown: 0
+  debugMoveLeft: 0
+  debugMoveRight: 0
   debugFlip: 0
   projectilePrefab: {fileID: 2367129227070595597, guid: ad2c16d34a64efd4ab5a6515dab7366a, type: 3}
   barrel: {fileID: 1789302742944060972}
@@ -1081,7 +1086,7 @@ MonoBehaviour:
   rotateSpeed: 20
   gimbalRange: 30
   rateOfFire: 0.1
-  spread: 5
+  spread: 3
   fire: 0
   moveGimbal: 0.5
 --- !u!114 &2132648102038243225
@@ -3279,7 +3284,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 7
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 0.3882353, b: 0, a: 0.7058824}
+  m_Color: {r: 1, g: 0.3882353, b: 0, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

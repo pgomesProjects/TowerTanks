@@ -38,6 +38,7 @@ public class TankInteractable : MonoBehaviour
     [Tooltip("True if a user is currently operating this system")]                                              public bool hasOperator;
     [Tooltip("User currently interacting with this system.")]                                                   internal PlayerMovement operatorID;
     [Tooltip("Whether or not interact can be held down to use this interactable continuously"), SerializeField] public bool isContinuous;
+    [Tooltip("Whether or not this interactable can be aimed in some way"), SerializeField]                      public bool canAim;
     [Tooltip("Direction this interactable is facing. (1 = right; -1 = left)")]                                  public float direction = 1;
     [Tooltip("Unique identifier associating this interactable with a stack item")]                              internal int stackId = 0;
 
@@ -157,6 +158,14 @@ public class TankInteractable : MonoBehaviour
             gunScript.Fire();
         }
         if (engineScript != null && cooldown <= 0) engineScript.LoadCoal(1);
+    }
+
+    public void CancelUse() //Called from operator when they release Interact
+    {
+        if (gunScript != null && gunScript.gunType == GunController.GunType.MORTAR)
+        {
+            gunScript.Fire();
+        }
     }
 
     public void Shift(int direction) //Called from operator when they flick L-Stick L/R

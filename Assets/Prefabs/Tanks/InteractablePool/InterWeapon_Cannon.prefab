@@ -2253,6 +2253,7 @@ MonoBehaviour:
   prefabRef: {fileID: 917774235452588900}
   hasOperator: 0
   isContinuous: 0
+  canAim: 1
   direction: 1
   debugMoveUp: 0
   debugMoveDown: 0
@@ -2272,6 +2273,9 @@ MonoBehaviour:
   gimbalRange: 30
   rateOfFire: 2.5
   spread: 0
+  maxChargeTime: 2.4
+  minChargeTime: 0.4
+  chargeTimer: 0
   fire: 0
   moveGimbal: 0.5
 --- !u!114 &716291927565912710
