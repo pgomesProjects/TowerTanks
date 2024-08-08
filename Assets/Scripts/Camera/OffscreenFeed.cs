@@ -15,19 +15,22 @@ public class OffscreenFeed : MonoBehaviour
 
     //Settings:
     [Header("Camera Settings:")]
-    [SerializeField, Tooltip("Resolution of output texture."), Min(1)]                                       private int renderResolution = 100;
-    [SerializeField, Tooltip("Sets orthographic size of camera."), Min(0)]                                   private float baseOrthoSize;
-    [SerializeField, Tooltip("Default radial size of display bubble."), Min(0.01f)]                          private float baseBubbleRadius;
-    [SerializeField, Tooltip("Distance from edge of screen bubble is placed at.")]                           private float bubbleDistFromEdge;
-    [SerializeField, Tooltip("Curve describing animation when bubble appears or disappears.")]               private AnimationCurve transitionCurve;
-    [SerializeField, Tooltip("How much time it takes for bubble to transition between states."), Min(0.01f)] private float transitionTime = 0.01f;
+    [SerializeField, Tooltip("Resolution of output texture."), Min(1)]                                                            private int renderResolution = 100;
+    [SerializeField, Tooltip("Sets orthographic size of camera."), Min(0)]                                                        private float baseOrthoSize;
+    [SerializeField, Tooltip("Default radial size of display bubble."), Min(0.01f)]                                               private float baseBubbleRadius;
+    [SerializeField, Tooltip("Distance from edge of screen bubble is placed at.")]                                                private float bubbleDistFromEdge;
+    [SerializeField, Tooltip("Curve describing animation when bubble appears or disappears.")]                                    private AnimationCurve transitionCurve;
+    [SerializeField, Tooltip("How much time it takes for bubble to transition between states."), Min(0.01f)]                      private float transitionTime = 0.01f;
+    [SerializeField, Tooltip("Starting point of animation where bubble slides onscreen (should be based on bubbleDistFromEdge.")] private float transitionSlideDist;
     [SerializeField, Tooltip("This enables functionality for display bubble to change size depending on distance from screen bounds.")] private bool useDynamicBubbleSize;
     [ShowIf("useDynamicBubbleSize"), SerializeField, Tooltip("Smallest size display bubble can get (largest is baseBubbleSize).")]      private float minBubbleRadius;
     [ShowIf("useDynamicBubbleSize"), SerializeField, Tooltip("Distance from screen bounds at which bubble disappears.")]                private float maxVisDistance;
 
     //Runtime Variables:
-    private bool prevEnabled; //Whether or not visualization bubble was enabled last frame
-    private float transTime;  //Time since last transition
+    private bool prevEnabled;           //Whether or not visualization bubble was enabled last frame
+    private float transTime;            //Time since last transition
+    private Vector2 lastPointNormal;    //Latest direction of bubble point
+    private Vector2 lastWorldTargetPos; //Latest world position of bubble
 
     //UNITY METHODS:
     private void Awake()
@@ -55,11 +58,9 @@ public class OffscreenFeed : MonoBehaviour
     {
         //Bubble updates:
         Vector2 viewportPos = Camera.main.WorldToViewportPoint(transform.position); //Get position of object relative to camera viewport
-        bool bubbleActive = viewportPos.x < 0 || viewportPos.x > 1 || viewportPos.y < 0 || viewportPos.y > 1; //Get value indicating whether or not bubble should be active
-        if (bubbleActive || transTime > 0) //Bubble is being actively updated
+        if (viewportPos.x < 0 || viewportPos.x > 1 || viewportPos.y < 0 || viewportPos.y > 1) //Object is outside camera viewport
         {
-            //Check for initial activation:
-            if (bubbleActive && !prevEnabled) //Object has just left camera view
+            if (!prevEnabled) //Object has just left camera view
             {
                 cam.gameObject.SetActive(true);          //Activate camera
                 bubbleObject.gameObject.SetActive(true); //Activate visualization bubble
@@ -67,26 +68,39 @@ public class OffscreenFeed : MonoBehaviour
             }
 
             //Handle transition:
-            if (bubbleActive && transTime != transitionTime) transTime = Mathf.Min(transTime + Time.deltaTime, transitionTime); //Increment transition timer, capping out at max transition time
-            else if (!bubbleActive && transTime != 0) transTime = Mathf.Max(transTime - Time.deltaTime, 0);                     //Decrement transition timer so that animation plays in reverse
-            float interpolant = transitionCurve.Evaluate(transTime / transitionTime);                                           //Get interpolant value to animate bubble movement
+            if (transTime != transitionTime) transTime = Mathf.Min(transTime + Time.deltaTime, transitionTime); //Increment transition timer, capping out at max transition time
+            float interpolant = transitionCurve.Evaluate(transTime / transitionTime);                           //Get interpolant value to animate bubble movement
 
             //Update bubble direction:
             Vector2 colliderPoint = Camera.main.GetComponentInChildren<Collider2D>().ClosestPoint(transform.position); //Get point on camera collider closest to current position of object
-            Vector2 normal = ((Vector2)transform.position - colliderPoint).normalized;                                 //Get direction between point on collider and object position
-            bubblePoint.localEulerAngles = Vector3.forward * Vector2.SignedAngle(Vector2.up, normal);                  //Rotate bubble point to align with side of camera collider
+            lastPointNormal = ((Vector2)transform.position - colliderPoint).normalized;                                //Get direction between point on collider and object position
+            bubblePoint.localEulerAngles = Vector3.forward * Vector2.SignedAngle(Vector2.up, lastPointNormal);         //Rotate bubble point to align with side of camera collider
             cam.gameObject.transform.localEulerAngles = Vector3.zero;                                                  //Make sure camera rotation is zeroed out
 
             //Update bubble position:
-            Vector2 worldPos = colliderPoint + (-normal * (bubbleDistFromEdge + (baseBubbleRadius / 2))); //Get world (relative to camera) position of bubble point
-            Vector2 targetPos = Camera.main.WorldToScreenPoint(worldPos);                                 //Get bubble's target position (in UI space) relative to edge of camera view
-            bubbleObject.position = targetPos;
+            lastWorldTargetPos = colliderPoint + (-lastPointNormal * (bubbleDistFromEdge + (baseBubbleRadius / 2)));          //Get world (relative to camera) position of target bubble point
+            Vector2 targetPos = Camera.main.WorldToScreenPoint(lastWorldTargetPos);                                           //Get bubble's target position (in UI space) relative to edge of camera view
+            Vector2 originPos = Camera.main.WorldToScreenPoint(lastWorldTargetPos + (lastPointNormal * transitionSlideDist)); //Get starting position of slide animation
+            bubbleObject.position = Vector2.LerpUnclamped(originPos, targetPos, interpolant);                                 //Animate bubble towards (or away from) target position
 
             //Update bubble scale:
             bubbleObject.localScale = interpolant * (baseBubbleRadius / 2) * Vector3.one; //Set bubble size (animate using interpolant value)
 
-            //Check for deactivation:
-            if (!bubbleActive && prevEnabled && transTime == 0) //Object has left camera view and bubble has finished animation
+            //Update camera:
+            cam.orthographicSize = baseOrthoSize; //Set orthographic size of camera (SHOULD ONLY HAPPEN IN EDITOR)
+        }
+        else if (prevEnabled) //Object has just entered camera view
+        {
+            //Handle transition:
+            transTime = Mathf.Max(transTime - Time.deltaTime, 0);                                                             //Decrement transition timer so that animation plays in reverse
+            float interpolant = transitionCurve.Evaluate(transTime / transitionTime);                                         //Get interpolant value from animation curve
+            bubbleObject.localScale = interpolant * (baseBubbleRadius / 2) * Vector3.one;                                     //Set bubble size with interpolant value
+            Vector2 targetPos = Camera.main.WorldToScreenPoint(lastWorldTargetPos);                                           //Get target position for this animation based on data saved from before object entered camera view
+            Vector2 originPos = Camera.main.WorldToScreenPoint(lastWorldTargetPos + (lastPointNormal * transitionSlideDist)); //Get origin position for this animation based on data saved from before object entered camera view
+            bubbleObject.position = Vector2.LerpUnclamped(originPos, targetPos, interpolant);                                 //Animate bubble
+
+            //Hide bubble:
+            if (transTime == 0) //Transition has finished
             {
                 cam.gameObject.SetActive(false);          //Deactivate camera
                 bubbleObject.gameObject.SetActive(false); //Deactivate visualization bubble

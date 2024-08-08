@@ -174,8 +174,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   renderResolution: 500
-  baseOrthoSize: 1.2
-  baseBubbleRadius: 3
+  baseOrthoSize: 0.67
+  baseBubbleRadius: 3.21
   bubbleDistFromEdge: -0.34
   transitionCurve:
     serializedVersion: 2
@@ -211,6 +211,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   transitionTime: 0.2
+  transitionSlideDist: 1.4
   useDynamicBubbleSize: 0
   minBubbleRadius: 0
   maxVisDistance: 0
