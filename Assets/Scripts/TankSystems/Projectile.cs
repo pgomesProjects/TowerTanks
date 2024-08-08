@@ -135,11 +135,15 @@ public class Projectile : MonoBehaviour
         GameManager.Instance.ParticleSpawner.SpawnParticle(Random.Range(0, 2), transform.position, particleScale, null);
 
         //Seperate smoketrail
-        smokeTrail.parent = null;
-        Lifetime lt = smokeTrail.gameObject.AddComponent<Lifetime>();
-        ParticleSystem ps = smokeTrail.gameObject.GetComponent<ParticleSystem>();
-        ps.Stop();
-        lt.lifeTime = 0.5f;
+        if (smokeTrail != null)
+        {
+            smokeTrail.parent = null;
+            Lifetime lt = smokeTrail.gameObject.AddComponent<Lifetime>();
+            ParticleSystem ps = smokeTrail.gameObject.GetComponent<ParticleSystem>();
+            ps.Stop();
+            lt.lifeTime = 0.5f;
+        }
+
         Destroy(gameObject);
     }
 }
