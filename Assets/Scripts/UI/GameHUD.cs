@@ -6,10 +6,13 @@ using TMPro;
 
 public class GameHUD : MonoBehaviour
 {
+    [Tooltip("Singleton instance of this script in game.")] public static GameHUD main;
+
     [SerializeField, Tooltip("The controller for the pause menu.")] private PauseController pauseMenu;
     [SerializeField, Tooltip("The GameObject for the game over menu.")] private GameObject gameOverMenu;
     [SerializeField, Tooltip("The delay (in seconds) for the game over screen to show.")] private float gameOverDelay;
     [SerializeField, Tooltip("The controller for the session stats menu.")] private SessionStatsController sessionStatsMenu;
+    [SerializeField, Tooltip("UI displaying what is in player's stack.")] private GameObject stackUI;
 
     [SerializeField, Tooltip("The prompt that tells the player to advance forward.")] private GoArrowAnimation goPrompt;
     [SerializeField, Tooltip("The alarm animation for incoming enemies.")] private AlarmAnimation alarmAnimation;
@@ -33,6 +36,12 @@ public class GameHUD : MonoBehaviour
     private bool resourcesUpdated;
 
     // Start is called before the first frame update
+    private void Awake()
+    {
+        //Initialize:
+        main = this; //Set main game hud to this script
+        StackManager.activeStackUI = stackUI; //Send stackUI object reference to stack manager
+    }
     void Start()
     {
         resourcesDisplay.anchoredPosition = new Vector2(startResourcesPosX, resourcesDisplay.anchoredPosition.y);
@@ -41,6 +50,10 @@ public class GameHUD : MonoBehaviour
 
         if (GameSettings.debugMode)
             resourcesDisplayNumber.text = "Inf.";
+    }
+    private void OnDestroy()
+    {
+        if (StackManager.activeStackUI == stackUI) StackManager.activeStackUI = null; //Clear stackManager reference upon destruction
     }
 
     private void OnEnable()

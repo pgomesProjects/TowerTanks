@@ -9,6 +9,11 @@ public class SimpleCannonBrain : MonoBehaviour
     private float fireTimer;
     public float aimCooldown;
     private float aimTimer;
+    public float cooldownOffset;
+
+    private float clip;
+    private float clipMin = 12;
+    private float clipMax = 30;
 
     public bool isRotating;
     private float currentForce = 0;
@@ -22,6 +27,7 @@ public class SimpleCannonBrain : MonoBehaviour
     {
         fireTimer = 0;
         aimTimer = 0;
+        clip = Random.Range(clipMin, clipMax);
     }
 
     // Update is called once per frame
@@ -29,9 +35,19 @@ public class SimpleCannonBrain : MonoBehaviour
     {
         if (fireTimer < fireCooldown) fireTimer += Time.deltaTime;
         else {
-            gunScript.Fire();
-            float randomOffset = Random.Range(-2f, 2f);
+            gunScript.Fire(true);
+            float randomOffset = Random.Range(-cooldownOffset, cooldownOffset);
             fireTimer = 0 + randomOffset;
+
+            if (gunScript.gunType == GunController.GunType.MACHINEGUN)
+            {
+                clip -= 1;
+                if (clip <= 0)
+                {
+                    fireTimer = Random.Range(-4, -1);
+                    clip = Random.Range(clipMin, clipMax);
+                }
+            }
         }
 
         if (aimTimer < aimCooldown) aimTimer += Time.deltaTime;

@@ -86,7 +86,7 @@
             "cellInteractables": [
                 {
                     "cellName": "Cell_1",
-                    "interRef": "InterWeapon_Cannon",
+                    "interRef": "InterWeapon_MachineGun",
                     "flipped": false
                 }
             ]
@@ -100,7 +100,13 @@
                 "z": 0.0
             },
             "rotate": 1,
-            "cellInteractables": []
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_0",
+                    "interRef": "InterWeapon_Mortar",
+                    "flipped": false
+                }
+            ]
         }
     ]
 }

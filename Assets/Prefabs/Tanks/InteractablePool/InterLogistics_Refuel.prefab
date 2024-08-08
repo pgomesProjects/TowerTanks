@@ -746,8 +746,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8e0cebe543844b458649258c7c31848, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 5
+  seat: {fileID: 0}
+  stackName: Pack Fuel Nodule
+  prefabRef: {fileID: 7281501281902775960}
+  uiImage: {fileID: 21300000, guid: af6398f9c5ae02f459893c668b9879d2, type: 2}
   hasOperator: 0
+  isContinuous: 0
+  direction: 1
+  debugMoveUp: 0
+  debugMoveDown: 0
+  debugMoveLeft: 0
+  debugMoveRight: 0
+  debugFlip: 0
 --- !u!1 &8797160612183239546
 GameObject:
   m_ObjectHideFlags: 0

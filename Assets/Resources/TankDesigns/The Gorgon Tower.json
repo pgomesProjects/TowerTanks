@@ -111,6 +111,11 @@
                     "cellName": "Cell_0",
                     "interRef": "InterWeapon_Cannon",
                     "flipped": true
+                },
+                {
+                    "cellName": "Cell_1",
+                    "interRef": "InterWeapon_Cannon",
+                    "flipped": true
                 }
             ]
         },
@@ -154,6 +159,11 @@
             "cellInteractables": [
                 {
                     "cellName": "Cell_0",
+                    "interRef": "InterWeapon_Cannon",
+                    "flipped": true
+                },
+                {
+                    "cellName": "Cell_1",
                     "interRef": "InterWeapon_Cannon",
                     "flipped": true
                 }
@@ -199,7 +209,7 @@
             "cellInteractables": [
                 {
                     "cellName": "Cell_3",
-                    "interRef": "InterWeapon_Cannon",
+                    "interRef": "InterWeapon_Mortar",
                     "flipped": true
                 }
             ]
@@ -230,13 +240,7 @@
                 "z": 0.0
             },
             "rotate": 2,
-            "cellInteractables": [
-                {
-                    "cellName": "Cell_0",
-                    "interRef": "InterWeapon_Cannon",
-                    "flipped": false
-                }
-            ]
+            "cellInteractables": []
         },
         {
             "roomID": "Room_Block4A",
@@ -292,13 +296,7 @@
                 "z": 0.0
             },
             "rotate": 2,
-            "cellInteractables": [
-                {
-                    "cellName": "Cell_0",
-                    "interRef": "InterWeapon_Cannon",
-                    "flipped": false
-                }
-            ]
+            "cellInteractables": []
         },
         {
             "roomID": "Room_Elbow4B",
@@ -320,13 +318,7 @@
                 "z": 0.0
             },
             "rotate": 0,
-            "cellInteractables": [
-                {
-                    "cellName": "Cell_3",
-                    "interRef": "InterWeapon_Cannon",
-                    "flipped": false
-                }
-            ]
+            "cellInteractables": []
         },
         {
             "roomID": "Room_Tee4B",
@@ -385,7 +377,7 @@
             "cellInteractables": [
                 {
                     "cellName": "Cell_0",
-                    "interRef": "InterWeapon_Cannon",
+                    "interRef": "InterWeapon_Mortar",
                     "flipped": true
                 }
             ]
@@ -402,7 +394,12 @@
             "cellInteractables": [
                 {
                     "cellName": "Cell_0",
-                    "interRef": "InterWeapon_Cannon",
+                    "interRef": "InterWeapon_MachineGun",
+                    "flipped": true
+                },
+                {
+                    "cellName": "Cell_2",
+                    "interRef": "InterWeapon_MachineGun",
                     "flipped": true
                 }
             ]

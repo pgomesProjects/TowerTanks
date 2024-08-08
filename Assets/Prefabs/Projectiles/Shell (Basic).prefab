@@ -49,7 +49,12 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 1220936
+  particleScale: 0.2
   damage: 100
+  hasSplashDamage: 1
+  splashData:
+  - splashDamage: 50
+    splashRadius: 0.75
   maxLife: 5
   radius: 0.18
   gravity: 30

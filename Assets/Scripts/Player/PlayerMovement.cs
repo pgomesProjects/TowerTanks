@@ -14,6 +14,10 @@ public class PlayerMovement : Character
     private Vector2 moveInput;
     private bool jetpackInputHeld;
     
+    public bool interactInputHeld;
+
+    [SerializeField] private Transform towerJoint;
+    [SerializeField] private Transform playerSprite;
 
     [SerializeField] private PlayerInput playerInputComponent;
     [SerializeField] private float deAcceleration;
@@ -42,6 +46,10 @@ public class PlayerMovement : Character
     public InteractableZone currentZone = null;
     public bool isOperator; //true if player is currently operating an interactable
     public TankInteractable currentInteractable; //what interactable player is currently operating
+
+    [SerializeField, Tooltip("Time it takes player to build an interactable.")] private float buildTime;
+    private Cell buildCell;         //Cell player is currently building a stack interactable in (null if not building)
+    private float timeBuilding = 0; //Time spent in build mode
 
     [Header("Objects")]
     public LayerMask carryableObjects;
@@ -75,6 +83,17 @@ public class PlayerMovement : Character
 
     protected override void Update()
     {
+        //Interactable building:
+        if (buildCell != null) //Player is currently in build mode
+        {
+            timeBuilding += Time.deltaTime; //Increment build time tracker
+            if (timeBuilding >= buildTime) //Player has finished build
+            {
+                StackManager.BuildTopStackItem().InstallInCell(buildCell); //Install interactable from top of stack into designated build cell
+                StopBuilding();                                            //Indicate that build has stopped
+            }
+        }
+
         if (jetpackInputHeld && currentState != CharacterState.OPERATING)
         {
             currentFuel -= fuelDepletionRate * Time.deltaTime;
@@ -104,12 +123,20 @@ public class PlayerMovement : Character
         {
             currentState = CharacterState.OPERATING;
 
-            CheckJoystickSpinning();
-            if (isSpinningJoystick)
+            if (interactInputHeld && currentInteractable.isContinuous)
             {
-                currentInteractable.Rotate(spinningForce);
+                currentInteractable.Use();
             }
-            else currentInteractable.Rotate(0);
+
+            if (currentInteractable.canAim)
+            {
+                CheckJoystickSpinning();
+                if (isSpinningJoystick)
+                {
+                    currentInteractable.Rotate(spinningForce);
+                }
+                else currentInteractable.Rotate(0);
+            }
         }
 
         if (currentObject != null)
@@ -234,6 +261,21 @@ public class PlayerMovement : Character
         playerInputComponent.onDeviceRegained += OnDeviceRegained;
     }
 
+    public void OnDisable()
+    {
+        if(playerInputComponent != null)
+        {
+            if(isDebugPlayer)
+                playerInputComponent.onActionTriggered -= OnDebugInput;
+
+            else
+                playerInputComponent.onActionTriggered -= OnPlayerInput;
+
+            playerInputComponent.onDeviceLost -= OnDeviceLost;
+            playerInputComponent.onDeviceRegained -= OnDeviceRegained;
+        }
+    }
+
     public void OnDeviceLost(PlayerInput playerInput)
     {
         Debug.Log("Player " + (characterIndex + 1) + " Controller Disconnected!");
@@ -258,6 +300,7 @@ public class PlayerMovement : Character
             case "Interact": OnInteract(ctx); break;
             case "Cancel": OnCancel(ctx); break;
             case "Repair": OnRepair(ctx); break;
+            case "Build": OnBuild(ctx); break;
         }
     }
 
@@ -273,6 +316,7 @@ public class PlayerMovement : Character
             case "2": OnInteract(ctx); break;
             case "3": OnRepair(ctx); break;
             case "4": OnCancel(ctx); break;
+            case "Build": OnBuild(ctx); break;
         }
     }
 
@@ -310,12 +354,18 @@ public class PlayerMovement : Character
 
     public void OnJetpack(InputAction.CallbackContext ctx)
     {
+        if (buildCell != null) return;
+
         jetpackInputHeld = ctx.ReadValue<float>() > 0;
         if (ctx.ReadValue<float>() > 0 && currentState != CharacterState.OPERATING) GameManager.Instance.AudioManager.Play("JetpackStartup", gameObject);
     }
 
     public void OnInteract(InputAction.CallbackContext ctx)
     {
+        if (buildCell != null) return;
+
+        interactInputHeld = ctx.ReadValue<float>() > 0;
+
         if (ctx.started)
         {
             if (currentZone != null && !isHoldingDown)
@@ -332,6 +382,37 @@ public class PlayerMovement : Character
             {
                 Pickup();
             }
+        }
+
+        if (ctx.performed)
+        {
+            if (currentInteractable != null)
+            {
+                currentInteractable.CancelUse();
+            }
+        }
+    }
+
+    public void OnBuild(InputAction.CallbackContext ctx)
+    {
+        if (StackManager.stack.Count > 0 && ctx.performed && !isOperator)
+        {
+            //Check if build is valid:
+            Collider2D cellColl = Physics2D.OverlapPoint(transform.position, LayerMask.GetMask("Cell")); //Get cell player is currently on top of (if any)
+            if (cellColl != null && cellColl.TryGetComponent(out Cell cell)) //Player is on top of a cell
+            {
+                if (cell.room.targetTank.tankType == TankId.TankType.PLAYER && cell.interactable == null && cell.playerBuilding == null) //Cell is friendly and unoccupied
+                {
+                    buildCell = cell;           //Indicate that player is building in this cell
+                    cell.playerBuilding = this; //Indicate that this player is building in given cell
+                    print("started building");
+                } else print("tried to start building");
+            }
+        }
+        
+        if (buildCell != null && ctx.canceled) //Player is cancelling a build
+        {
+            StopBuilding(); //Stop building
         }
     }
 
@@ -367,6 +448,8 @@ public class PlayerMovement : Character
 
     public void OnRepair(InputAction.CallbackContext ctx)
     {
+        if (buildCell != null) return;
+
         if (ctx.started)
         {
             //Interactables
@@ -470,11 +553,19 @@ public class PlayerMovement : Character
             }
         }
     }
+    public void StopBuilding()
+    {
+        if (buildCell == null) return;   //Do nothing if player is not building
+        buildCell.playerBuilding = null; //Indicate to cell that it is no longer being built in
+        buildCell = null;                //Clear cell reference
+        buildTime = 0;                   //Reset build time tracker
+        print("stopped building");
+    }
 
     protected override void OnCharacterDeath()
     {
         //TODO: implement something to happen upon the player dying
     }
-
+    
     #endregion
 }

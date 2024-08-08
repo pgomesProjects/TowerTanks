@@ -9,50 +9,249 @@ public class GunController : TankInteractable
     [Tooltip("Transform indicating direction and position in which projectiles are fired"), SerializeField] private Transform barrel;
     [Tooltip("Joint around which moving cannon assembly rotates."), SerializeField]                         private Transform pivot;
     [Tooltip("Transforms to spawn particles from when used."), SerializeField]                              private Transform[] particleSpots;
+    [Tooltip("Scale particles are multiplied by when used by this weapon"), SerializeField]                 private float particleScale;
 
     //Settings:
+    public enum GunType { CANNON, MACHINEGUN, MORTAR };
+
     [Header("Gun Settings:")]
+    [Tooltip("What type of weapon this is"), SerializeField] public GunType gunType;
     [Tooltip("Velocity of projectile upon exiting the barrel."), SerializeField, Min(0)]  private float muzzleVelocity;
     [Tooltip("Force exerted on tank each time weapon is fired."), SerializeField, Min(0)] private float recoil;
     [Tooltip("Speed at which the cannon barrel rotates"), SerializeField]                 private float rotateSpeed;
     [Tooltip("Max angle (up or down) weapon joint can be rotated to."), SerializeField]   private float gimbalRange;
+    [Tooltip("Cooldown in seconds between when the weapon can fire"), SerializeField, Min(0)] private float rateOfFire;
+    private float fireCooldownTimer;
+    [Tooltip("Radius of Degrees of the Cone of Fire for this weapon's projectiles"), SerializeField, Min(0)] private float spread;
+
+    //Gun Specific Settings
+
+    //Cannon
+
+    //Machine Gun
+    private float spinupTime = 0.8f; //while fire is held down, how much time it takes before it starts shooting
+    private float spinupTimer = 0;
+    private float spinTime = 0.6f; //how long the barrel will keep spinning for after shooting before it starts to slow down again
+    private float spinTimer = 0;
+
+    private float overheatTime = 8f; //how long the operator can keep shooting for before the weapon overheats
+    private float overheatTimer = 0f;
+    private bool isOverheating = false;
+    private float smokePuffRate = 0.3f; //how much the gun should smoke when overheating (lower = more smoke)
+    private float smokePuffTimer = 0;
+
+    private SpriteRenderer heatRenderer;
+
+    //Mortar
+    private float maxVelocity;
+    private float minVelocity = 20f;
+    private float maxChargeTime = 2.4f; //maximum duration weapon can be charged before firing
+    private float minChargeTime = 0.4f; //minimum duration the weapon needs to be charged before it can fire
+    private float chargeTimer = 0;
+
+
     [Header("Debug Controls:")]
     public bool fire;
     [Range(0, 1)] public float moveGimbal = 0.5f;
     private Vector3 currentRotation = new Vector3(0, 0, 0);
 
     //Runtime Variables:
- 
+
     //RUNTIME METHODS:
+
+    private void Start()
+    {
+        if (gunType == GunType.MACHINEGUN) { heatRenderer = transform.Find("Visuals/JointParent/MachineGun_Heat").GetComponent<SpriteRenderer>(); }
+        if (gunType == GunType.MORTAR) { maxVelocity = muzzleVelocity; }
+    }
+
     private void Update()
     {
         //Debug settings:
-        if (fire) { fire = false; Fire(); }
+        if (fire) { fire = false; Fire(true); }
         
         pivot.localEulerAngles = currentRotation;
+
+        //Cooldown
+        if (fireCooldownTimer > 0)
+        {
+            fireCooldownTimer -= Time.deltaTime;
+        }
+
+        //Gun Specific
+        if (gunType == GunType.CANNON) { };
+
+        if (gunType == GunType.MACHINEGUN) {
+
+            if (spinupTimer > 0) //Calculate barrel spin timings
+            {
+                if ((operatorID != null && operatorID.interactInputHeld == false) || operatorID == null || isOverheating)
+                {
+                    if (spinTimer > 0)
+                    {
+                        spinTimer -= Time.deltaTime;
+                    }
+                    else
+                    {
+                        spinupTimer -= Time.deltaTime;
+                    }
+                }
+            }
+
+            if (overheatTimer > 0 && spinTimer <= 0) //Track overheat timer
+            {
+                overheatTimer -= (Time.deltaTime * 2f);
+            }
+            else
+            {
+                if (overheatTimer <= 0) isOverheating = false;
+            }
+
+            if (isOverheating)
+            {
+                smokePuffTimer += Time.deltaTime;
+                if (smokePuffTimer >= smokePuffRate)
+                {
+                    smokePuffTimer = 0;
+                    GameManager.Instance.ParticleSpawner.SpawnParticle(3, particleSpots[1].position, 0.1f, null);
+                }
+            }
+
+            if (heatRenderer != null) //update heat sprite renderer
+            {
+                float alpha = Mathf.Lerp(0, 150f, (overheatTimer / overheatTime) * Time.deltaTime);
+                Color newColor = heatRenderer.color;
+                newColor.a = alpha;
+                heatRenderer.color = newColor;
+            }
+
+        };
+
+        if (gunType == GunType.MORTAR) 
+        {
+            if (operatorID != null && operatorID.interactInputHeld && fireCooldownTimer <= 0)
+            {
+                if (chargeTimer < maxChargeTime)
+                {
+                    chargeTimer += Time.deltaTime;
+                }
+            }
+            else
+            {
+                if (chargeTimer > 0)
+                {
+                    chargeTimer -= Time.deltaTime;
+                }
+            }
+
+            //Adjust velocity based on charge
+            float newVelocity = Mathf.Lerp(minVelocity, maxVelocity, (chargeTimer / maxChargeTime));
+            muzzleVelocity = newVelocity;
+        };
     }
 
     //FUNCTIONALITY METHODS:
     /// <summary>
     /// Fires the weapon, once.
     /// </summary>
-    public void Fire()
+    public void Fire(bool overrideConditions)
     {
+        bool canFire = true;
         if (tank == null) tank = GetComponentInParent<TankController>();
 
-        //Fire projectile:
-        Projectile newProjectile = Instantiate(projectilePrefab).GetComponent<Projectile>();
-        newProjectile.Fire(barrel.position, barrel.right * muzzleVelocity);
+        //Gun Specific
+        if (gunType == GunType.CANNON) { };
 
-        //Apply recoil:
-        Vector2 recoilForce = -barrel.right * recoil;                                  //Get force of recoil from direction of barrel and set magnitude
-        tank.treadSystem.r.AddForceAtPosition(recoilForce, barrel.transform.position); //Apply recoil force at position of barrel
+        if (gunType == GunType.MACHINEGUN)
+        {
+            if (isOverheating == false)
+            {
+                if (spinupTimer < spinupTime)
+                {
+                    canFire = false;
+                    if (isOverheating == false) spinupTimer += Time.deltaTime;
+                }
+                else
+                {
+                    canFire = true;
+                    spinTimer = spinTime;
+                    overheatTimer += Time.deltaTime;
+                }
 
-        //Other effects:
-        int random = Random.Range(0, 2);
-        GameManager.Instance.ParticleSpawner.SpawnParticle(random, particleSpots[0].position, 0.1f, null);
-        GameManager.Instance.AudioManager.Play("CannonFire", gameObject);
-        GameManager.Instance.AudioManager.Play("CannonThunk", gameObject); //Play firing audioclips
+                if (overrideConditions)
+                {
+                    canFire = true;
+                }
+            }
+
+            if (overheatTimer > overheatTime)
+            {
+                isOverheating = true;
+                GameManager.Instance.AudioManager.Play("SteamExhaust", gameObject);
+            }
+
+            if (isOverheating) canFire = false;
+        };
+
+        if (gunType == GunType.MORTAR) 
+        {
+            canFire = false;
+
+            if ((chargeTimer >= minChargeTime) || overrideConditions)
+            {
+                canFire = true;
+                chargeTimer = 0;
+            }
+
+            if (overrideConditions)
+            {
+                float newVelocity = Random.Range((minVelocity + 15f), maxVelocity);
+                muzzleVelocity = newVelocity;
+            }
+        };
+
+        if ((fireCooldownTimer <= 0 || overrideConditions) && canFire)
+        {
+            Vector3 tempRotation = barrel.localEulerAngles;
+
+            //Adjust for Spread
+            float randomSpread = Random.Range(-spread, spread);
+            barrel.localEulerAngles += new Vector3(0, 0, randomSpread);
+
+            //Fire projectile:
+            Projectile newProjectile = Instantiate(projectilePrefab).GetComponent<Projectile>();
+            newProjectile.Fire(barrel.position, barrel.right * muzzleVelocity);
+
+            //Apply recoil:
+            Vector2 recoilForce = -barrel.right * recoil;                                  //Get force of recoil from direction of barrel and set magnitude
+            tank.treadSystem.r.AddForceAtPosition(recoilForce, barrel.transform.position); //Apply recoil force at position of barrel
+
+            //Revert from Spread
+            barrel.localEulerAngles = tempRotation;
+
+            //Other effects:
+            int random = Random.Range(0, 2);
+            GameManager.Instance.ParticleSpawner.SpawnParticle(random, particleSpots[0].position, particleScale, null);
+            if (gunType == GunType.CANNON)
+            {
+                GameManager.Instance.AudioManager.Play("CannonFire", gameObject);
+                GameManager.Instance.AudioManager.Play("CannonThunk", gameObject); //Play firing audioclips
+            }
+
+            if (gunType == GunType.MACHINEGUN)
+            {
+                GameManager.Instance.AudioManager.Play("CannonFire", gameObject);
+            }
+
+            if (gunType == GunType.MORTAR)
+            {
+                GameManager.Instance.AudioManager.Play("CannonThunk", gameObject);
+                GameManager.Instance.AudioManager.Play("ProjectileInAirSFX", gameObject);
+            }
+
+            //Set Cooldown
+            fireCooldownTimer = rateOfFire;
+        }
     }
 
     public void RotateBarrel(float force, bool withSound)
@@ -73,5 +272,12 @@ public class GunController : TankInteractable
             }
             else if (GameManager.Instance.AudioManager.IsPlaying("CannonRotate", gameObject)) GameManager.Instance.AudioManager.Stop("CannonRotate", gameObject);
         }
+    }
+
+    //DEBUG METHODS:
+    public void ChangeRateOfFire(float multiplier)
+    {
+        float newROF = rateOfFire * multiplier;
+        rateOfFire = newROF;
     }
 }

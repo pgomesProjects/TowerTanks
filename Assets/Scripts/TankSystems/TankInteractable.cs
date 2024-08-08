@@ -19,6 +19,10 @@ public class TankInteractable : MonoBehaviour
     private ThrottleController throttleScript;
 
     //Settings:
+    [Header("Stack Properties:")]
+    [Tooltip("Display name for interactable while in stack.")]    public string stackName;
+    [Tooltip("Reference to this interactable's prefab.")]         public GameObject prefabRef;
+    [Tooltip("Image used to represent this interactable in UI.")] public Sprite uiImage;
     //ADD SPATIAL CONSTRAINT SYSTEM
     [Button("Debug Place")] public void DebugPlace()
     {
@@ -26,15 +30,26 @@ public class TankInteractable : MonoBehaviour
         if (targetColl == null || !targetColl.TryGetComponent(out Cell cell)) { Debug.LogWarning("Could not find cell."); return; }                                             //Cancel if interactable is not on a cell
         InstallInCell(targetColl.GetComponent<Cell>());                                                                                                                         //Install interactable in target cell
     }
+    [Button("Debug Destroy")] public void DebugDestroy()
+    {
+        Destroy(gameObject); //Destroy interactable
+    }
 
     //Runtime Variables:
-    [Tooltip("The cell this interactable is currently installed within.")]     internal Cell parentCell;
-    [Tooltip("True if interactable is a ghost and is currently unuseable.")]   internal bool ghosted;
-    [Tooltip("True if a user is currently operating this system")]             public bool hasOperator;
-    [Tooltip("User currently interacting with this system.")]                  internal PlayerMovement operatorID;
-    [Tooltip("Direction this interactable is facing. (1 = right; -1 = left)")] public float direction = 1;
+    [Tooltip("The cell this interactable is currently installed within.")]                                      internal Cell parentCell;
+    [Tooltip("True if interactable is a ghost and is currently unuseable.")]                                    internal bool ghosted;
+    [Tooltip("True if a user is currently operating this system")]                                              public bool hasOperator;
+    [Tooltip("User currently interacting with this system.")]                                                   internal PlayerMovement operatorID;
+    [Tooltip("Whether or not interact can be held down to use this interactable continuously"), SerializeField] public bool isContinuous;
+    [Tooltip("Whether or not this interactable can be aimed in some way"), SerializeField]                      public bool canAim;
+    [Tooltip("Direction this interactable is facing. (1 = right; -1 = left)")]                                  public float direction = 1;
+    [Tooltip("Unique identifier associating this interactable with a stack item")]                              internal int stackId = 0;
 
     //Debug
+    public bool debugMoveUp;
+    public bool debugMoveDown;
+    public bool debugMoveLeft;
+    public bool debugMoveRight;
     public bool debugFlip = false;
     private float introBuffer = 0.2f; //small window when a new operator enters the interactable where they can't use it
     private float cooldown;
@@ -51,7 +66,7 @@ public class TankInteractable : MonoBehaviour
         throttleScript = GetComponent<ThrottleController>();
 
     }
-    private void OnDestroy()
+    public virtual void OnDestroy()
     {
         if (hasOperator)
         {
@@ -61,8 +76,11 @@ public class TankInteractable : MonoBehaviour
         //Destruction Cleanup:
         if (parentCell != null) //Interactable is mounted in a cell
         {
-            
+            parentCell.interactable = null; //Clear cell reference to this interactable
         }
+
+        //Stack update:
+        if (tank != null && tank.tankType == TankId.TankType.PLAYER) StackManager.AddToStack(this); //Add interactable data to stack upon destruction (if it is in a player tank)
     }
 
     private void OnDisable()
@@ -87,6 +105,10 @@ public class TankInteractable : MonoBehaviour
         }
 
         if (debugFlip) { debugFlip = false; Flip(); }
+        if (debugMoveUp) { debugMoveUp = false; SnapMoveTick(Vector2.up); }
+        if (debugMoveDown) { debugMoveDown = false; SnapMoveTick(Vector2.down); }
+        if (debugMoveLeft) { debugMoveLeft = false; SnapMoveTick(Vector2.left); }
+        if (debugMoveRight) { debugMoveRight = false; SnapMoveTick(Vector2.right); }
     }
 
     public void LockIn(GameObject playerID) //Called from InteractableZone.cs when a user locks in to the interactable
@@ -134,8 +156,19 @@ public class TankInteractable : MonoBehaviour
 
     public void Use() //Called from operator when they press Interact
     {
-        if (gunScript != null && cooldown <= 0) gunScript.Fire();
+        if (gunScript != null && cooldown <= 0)
+        {
+            gunScript.Fire(false);
+        }
         if (engineScript != null && cooldown <= 0) engineScript.LoadCoal(1);
+    }
+
+    public void CancelUse() //Called from operator when they release Interact
+    {
+        if (gunScript != null && gunScript.gunType == GunController.GunType.MORTAR)
+        {
+            gunScript.Fire(false);
+        }
     }
 
     public void Shift(int direction) //Called from operator when they flick L-Stick L/R
@@ -166,10 +199,10 @@ public class TankInteractable : MonoBehaviour
     public bool InstallInCell(Cell target)
     {
         //Universal installation:
-        parentCell = target;                       //Get reference to target cell
-        transform.parent = parentCell.transform;   //Child to target cell
-        transform.localPosition = Vector3.zero;    //Match position with target cell
-        transform.localEulerAngles = Vector3.zero; //Match rotation with target cell
+        parentCell = target;                                                                                     //Get reference to target cell
+        transform.parent = parentCell.transform;                                                                 //Child to target cell
+        transform.localPosition = Vector3.zero;                                                                  //Match position with target cell
+        transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, 0); //Match rotation with target cell
 
         //Cell installation:
         target.interactable = this; //Give cell reference to the interactable installed in it
@@ -177,6 +210,31 @@ public class TankInteractable : MonoBehaviour
         //Cleanup:
         tank = GetComponentInParent<TankController>(); //Get tank controller interactable is being attached to
         return true;                                   //Indicate that interactable was successfully installed in target cell
+    }
+
+    public void SnapMoveTick(Vector2 direction)
+    {
+        //Get target position:
+        direction = direction.normalized;                                           //Make sure direction is normalized
+        Vector2 targetPos = (Vector2)transform.localPosition + (direction * 0.25f); //Get target position based off of current position
+        SnapMove(targetPos);                                                        //Use normal snapMove method to place room
+    }
+
+    public void SnapMove(Vector2 targetPoint)
+    {
+        //Validity checks:
+        if (tank != null) //Interactable is already mounted
+        {
+            Debug.LogError("Tried to move interactable while it is mounted!"); //Log error
+            return;                                                    //Cancel move
+        }
+
+        //Constrain to grid:
+        Vector2 newPoint = targetPoint * 4;                                       //Multiply position by four so that it can be rounded to nearest quarter unit
+        newPoint = new Vector2(Mathf.Round(newPoint.x), Mathf.Round(newPoint.y)); //Round position to nearest unit
+        newPoint /= 4;                                                            //Divide result after rounding to get actual value
+        transform.localPosition = newPoint;                                       //Apply new position
+        //transform.localEulerAngles = Vector3.zero;                                //Zero out rotation relative to parent tank
     }
 
     public void Flip()

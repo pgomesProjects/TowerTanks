@@ -87,7 +87,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""id"": ""11cbd562-83ca-40da-b91a-5889ca182bd4"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""Hold(duration=0.6)"",
                     ""initialStateCheck"": false
                 },
                 {
@@ -1882,6 +1882,15 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
+                    ""name"": ""Build"",
+                    ""type"": ""Button"",
+                    ""id"": ""0af2f424-2efc-4c1b-853f-81eaf23ffcea"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Hold(duration=0.6)"",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""1"",
                     ""type"": ""Button"",
                     ""id"": ""bbb6f721-6448-4509-a3c4-f14b2ebdbabe"",
@@ -2749,6 +2758,28 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""98b90e11-427f-45ff-8ce7-da967c262c43"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Build"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a48fe5f0-7875-4631-bc89-386dc798e95b"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Build"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -2865,6 +2896,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         m_Debug_Look = m_Debug.FindAction("Look", throwIfNotFound: true);
         m_Debug_Cancel = m_Debug.FindAction("Cancel", throwIfNotFound: true);
         m_Debug_ControlSteering = m_Debug.FindAction("Control Steering", throwIfNotFound: true);
+        m_Debug_Build = m_Debug.FindAction("Build", throwIfNotFound: true);
         m_Debug__1 = m_Debug.FindAction("1", throwIfNotFound: true);
         m_Debug__2 = m_Debug.FindAction("2", throwIfNotFound: true);
         m_Debug__3 = m_Debug.FindAction("3", throwIfNotFound: true);
@@ -3234,6 +3266,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
     private readonly InputAction m_Debug_Look;
     private readonly InputAction m_Debug_Cancel;
     private readonly InputAction m_Debug_ControlSteering;
+    private readonly InputAction m_Debug_Build;
     private readonly InputAction m_Debug__1;
     private readonly InputAction m_Debug__2;
     private readonly InputAction m_Debug__3;
@@ -3258,6 +3291,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         public InputAction @Look => m_Wrapper.m_Debug_Look;
         public InputAction @Cancel => m_Wrapper.m_Debug_Cancel;
         public InputAction @ControlSteering => m_Wrapper.m_Debug_ControlSteering;
+        public InputAction @Build => m_Wrapper.m_Debug_Build;
         public InputAction @_1 => m_Wrapper.m_Debug__1;
         public InputAction @_2 => m_Wrapper.m_Debug__2;
         public InputAction @_3 => m_Wrapper.m_Debug__3;
@@ -3303,6 +3337,9 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @ControlSteering.started -= m_Wrapper.m_DebugActionsCallbackInterface.OnControlSteering;
                 @ControlSteering.performed -= m_Wrapper.m_DebugActionsCallbackInterface.OnControlSteering;
                 @ControlSteering.canceled -= m_Wrapper.m_DebugActionsCallbackInterface.OnControlSteering;
+                @Build.started -= m_Wrapper.m_DebugActionsCallbackInterface.OnBuild;
+                @Build.performed -= m_Wrapper.m_DebugActionsCallbackInterface.OnBuild;
+                @Build.canceled -= m_Wrapper.m_DebugActionsCallbackInterface.OnBuild;
                 @_1.started -= m_Wrapper.m_DebugActionsCallbackInterface.On_1;
                 @_1.performed -= m_Wrapper.m_DebugActionsCallbackInterface.On_1;
                 @_1.canceled -= m_Wrapper.m_DebugActionsCallbackInterface.On_1;
@@ -3367,6 +3404,9 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @ControlSteering.started += instance.OnControlSteering;
                 @ControlSteering.performed += instance.OnControlSteering;
                 @ControlSteering.canceled += instance.OnControlSteering;
+                @Build.started += instance.OnBuild;
+                @Build.performed += instance.OnBuild;
+                @Build.canceled += instance.OnBuild;
                 @_1.started += instance.On_1;
                 @_1.performed += instance.On_1;
                 @_1.canceled += instance.On_1;
@@ -3498,6 +3538,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         void OnLook(InputAction.CallbackContext context);
         void OnCancel(InputAction.CallbackContext context);
         void OnControlSteering(InputAction.CallbackContext context);
+        void OnBuild(InputAction.CallbackContext context);
         void On_1(InputAction.CallbackContext context);
         void On_2(InputAction.CallbackContext context);
         void On_3(InputAction.CallbackContext context);

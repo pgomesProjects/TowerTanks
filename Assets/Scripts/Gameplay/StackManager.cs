@@ -1,0 +1,216 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using System.Linq;
+using UnityEngine.UI;
+using TMPro;
+using System.Linq;
+
+public class StackManager : MonoBehaviour
+{
+    //Classes, Enums & Structs:
+    public class StackItem
+    {
+        //Basic Data:
+        [Tooltip("Name of prefab used to spawn interactable.")]       public string interactableName;
+        [Tooltip("Identification number unique to this stack item.")] public int uid;
+        [Tooltip("How many times this item has been built.")]         public int deployments;
+
+        //References:
+        [Tooltip("Interactable prefab associated with this item.")] public GameObject prefab;
+        [Tooltip("UI object representing this stack item.")]        public RectTransform uiPanel;
+
+        //Animation Variables:
+        [Tooltip("Tracker for time since panel position data has been updated.")] public float timeSinceAnimUpdate;
+        [Tooltip("Position at start of current animation.")]                      public Vector2 prevPosition;
+
+        //OPERATION METHODS:
+        /// <summary>
+        /// Generates and fills in data for a UI panel representing this stack item.
+        /// </summary>
+        public void GenerateUIPanel()
+        {
+            //Initialize:
+            if (activeStackUI == null) { Debug.LogError("Tried to generate a UI panel while stackUI was not active"); return; }               //Prevent system from generating UI while HUD is inactive
+            RectTransform newPanel = Instantiate(StackManager.main.stackItemUIPrefab, activeStackUI.transform).GetComponent<RectTransform>(); //Generate empty UI panel in stack UI object
+            TankInteractable interactableScript = prefab.GetComponent<TankInteractable>();                                                    //Get script from prefab so data can be parsed from it
+
+            //Set panel properties:
+            newPanel.GetChild(1).GetComponent<Image>().sprite = interactableScript.uiImage;           //Set UI image
+            newPanel.GetChild(2).GetComponent<TextMeshProUGUI>().text = interactableScript.stackName; //Set UI name
+            uiPanel = newPanel;                                                                       //Give item a reference to its UI panel
+
+            //Prep animation:
+            if (stack.Count == 1) //This is the first item in the stack
+            {
+                newPanel.localPosition = GetTargetPos();            //Set position instantly
+                timeSinceAnimUpdate = StackManager.main.ySlideTime; //Do not set to animate
+            }
+            else //Other items are already in the stack
+            {
+                newPanel.localPosition = stack[^2].uiPanel.localPosition; //Set position to that of previous item in stack
+                timeSinceAnimUpdate = 0;                                  //Have animation begin
+            }
+            prevPosition = newPanel.localPosition; //Simply set previous position to current
+        }
+        /// <summary>
+        /// Deactivates UI panel (for when item is built).
+        /// </summary>
+        public void HideUIPanel()
+        {
+            uiPanel.gameObject.SetActive(false); //Make panel invisible
+        }
+        /// <summary>
+        /// Activate or update UI panel (for when item is destroyed (again)).
+        /// </summary>
+        public void ShowUIPanel()
+        {
+            uiPanel.gameObject.SetActive(true); //Make panel visible
+
+            //Prep animation:
+            if (stack.IndexOf(this) == 0) //This is the first item in the stack
+            {
+                uiPanel.localPosition = GetTargetPos();             //Set position instantly
+                timeSinceAnimUpdate = StackManager.main.ySlideTime; //Do not set to animate
+            }
+            else //Other items are already in the stack
+            {
+                uiPanel.localPosition = stack[^2].uiPanel.localPosition; //Set position to that of previous item in stack
+                timeSinceAnimUpdate = 0;                                 //Have animation begin
+            }
+            prevPosition = uiPanel.localPosition; //Simply set previous position to current
+        }
+        /// <summary>
+        /// Updates animation status of UI panel (for when an item is removed).
+        /// </summary>
+        public void UpdateUIPanel()
+        {
+            prevPosition = uiPanel.localPosition; //Set current position to previous so that panel can animate from here
+            timeSinceAnimUpdate = 0;              //Have panel begin animating and let GetTargetPos do the work
+        }
+
+        //DATA METHODS:
+        /// <summary>
+        /// Returns the local position this stack item's UI should be at based on its position in the stack.
+        /// </summary>
+        public Vector2 GetTargetPos() { return new Vector2(StackManager.main.firstItemPosition.x, StackManager.main.firstItemPosition.y - (StackManager.main.targetItemSeparation * stack.IndexOf(this))); } 
+    }
+
+    //STATIC STUFF:
+    [Tooltip("Single persistent instance of stack manager in game.")]                                            public static StackManager main;
+    [Tooltip("The stack is a list of all non-installed interactables stored in players' collective inventory.")] public static List<StackItem> stack = new List<StackItem>();
+    [Tooltip("List of currently-deployed stack items (may be returned to the stack).")]                          public static List<StackItem> inactiveStack = new List<StackItem>();
+    [Tooltip("Reference to active stackUI object (needs to be set by HUD controller).")]                         public static GameObject activeStackUI;
+
+    private static int lastTakenUid = 0; //Last assigned uid (uids are assigned sequentially). All uids are >0. Used to prevent duplicate uids
+    /// <summary>
+    /// Generates a unique identification number for a new stack item.
+    /// </summary>
+    public static int GetNewUid()
+    {
+        lastTakenUid++;      //Increment last taken uid tracker
+        return lastTakenUid; //Send new uid
+    }
+
+    //Objects & Components:
+    [SerializeField, Tooltip("Reference to prefab for stack item UI instances.")] private GameObject stackItemUIPrefab;
+
+    //Settings:
+    [Header("Stack UI Properties:")]
+    [SerializeField, Tooltip("Base UI position of item on top of stack.")]                                                               private Vector2 firstItemPosition;
+    [SerializeField, Tooltip("Target Y distance between stack items.")]                                                                  private float targetItemSeparation;
+    [Space()]
+    [SerializeField, Tooltip("Time panel elements have to slide to new positions after an item is removed from or added to the stack."), Min(0.01f)] private float ySlideTime;
+    [SerializeField, Tooltip("Curve describing movement of Y slide animation.")]                                                                     private AnimationCurve ySlideCurve;
+
+    //Runtime Variables:
+
+    //RUNTIME METHODS:
+    private void Awake()
+    {
+        //Initialization:
+        if (main != null) { Destroy(this); } else { main = this; } //Singleton-ize this script in scene
+    }
+    private void Update()
+    {
+        //Update stack item positions:
+        foreach (StackItem item in stack) //Iterate through items in the stack
+        {
+            if (item.timeSinceAnimUpdate < ySlideTime) //Animate until animation time has been completed
+            {
+                item.timeSinceAnimUpdate = Mathf.Min(item.timeSinceAnimUpdate + Time.deltaTime, ySlideTime);    //Update time tracker
+                float timeValue = ySlideCurve.Evaluate(item.timeSinceAnimUpdate / ySlideTime);                  //Get interpolation value
+                Vector2 newPosition = Vector2.LerpUnclamped(item.prevPosition, item.GetTargetPos(), timeValue); //Get new position for stack item
+                item.uiPanel.transform.localPosition = newPosition;                                             //Set new position
+            }
+        }
+    }
+
+    //OPERATION METHODS:
+    /// <summary>
+    /// Adds interactable to the stack so that it can be generated from there (can be with an interactable which has always been added).
+    /// </summary>
+    /// <param name="interactable">Interactable to be added.</param>
+    public static void AddToStack(TankInteractable interactable)
+    {
+        //Find/Generate stack item:
+        StackItem item = null; //Initialize container to store relevant stack item
+        if (interactable.stackId != 0) //Interactable has previously been a stack item
+        {
+            foreach (StackItem inactiveItem in inactiveStack) { if (inactiveItem.uid == interactable.stackId) item = inactiveItem; break; } //Find stack item in inactive items list
+            if (item != null) //Stack item has been found in inactive stack
+            {
+                inactiveStack.Remove(item); //Remove item from inactive stack
+            }
+        }
+        if (item == null) //No stack item has been found
+        {
+            //Basic stack item characteristics:
+            item = new StackItem();                                                                                                   //Create new stack item
+            item.uid = GetNewUid();                                                                                                   //Generate a new ID for stack item
+            item.interactableName = interactable.name.Replace("(Clone)", "");                                                         //Get reference to prefab so interactable can be respwaned later
+            item.prefab = Resources.Load<RoomData>("RoomData").interactableList.FirstOrDefault(x => x.name == item.interactableName); //Get prefab reference so interactable script can be checked for more info
+        }
+        stack.Add(item); //Add item to bottom of stack
+        print("added item to stack, stack now contains " + stack.Count + " items");
+
+        //UI Update:
+        if (activeStackUI != null) //UI system is active
+        {
+            if (item.uiPanel == null) item.GenerateUIPanel(); //Generate a ui panel for item if it doesn't have one
+            else item.ShowUIPanel();                          //Simply make item visible otherwise
+            item.uiPanel.SetAsFirstSibling();                 //Have this panel render under others
+        }
+    }
+
+    /// <summary>
+    /// Removes the interactable on top of the stack and returns a SPAWNED instance of it.
+    /// </summary>
+    public static TankInteractable BuildTopStackItem()
+    {
+        //Validity checks:
+        if (stack.Count == 0) //Stack is empty
+        {
+            Debug.LogError("Tried to take item from empty stack."); //Indicate problem
+            return null;                                            //Return nothing
+        }
+
+        //Move item out of stack:
+        StackItem takenItem = stack[0]; //Get item on top of stack
+        inactiveStack.Add(takenItem);   //Add taken item to inactive stack
+        stack.RemoveAt(0);              //Remove item from main stack
+
+        //Stack item updates:
+        takenItem.deployments++;                                //Update deployment counter
+        takenItem.HideUIPanel();                                //Hide UI
+        foreach (StackItem item in stack) item.UpdateUIPanel(); //Update positions of all other items in the stack
+
+        //Build interactable:
+        TankInteractable newInteractable = Instantiate(takenItem.prefab).GetComponent<TankInteractable>(); //Instantiate new interactable from known prefab
+        newInteractable.stackId = takenItem.uid;                                                           //Assign id so that interactable may be called back later
+
+        //Cleanup:
+        print("removed item from stack, stack now contains " + stack.Count + " items");
+        return newInteractable; //Return prefab from taken stack item
+    }
+}

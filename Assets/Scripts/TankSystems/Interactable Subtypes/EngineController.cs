@@ -363,8 +363,9 @@ public class EngineController : TankInteractable
         }
     }
 
-    public void OnDestroy()
+    public override void OnDestroy()
     {
+        base.OnDestroy();
         if (isPowered) tank.treadSystem.currentEngines -= 1;
     }
 }
