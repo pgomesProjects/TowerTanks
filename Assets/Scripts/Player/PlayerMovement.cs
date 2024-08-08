@@ -127,12 +127,15 @@ public class PlayerMovement : Character
                 currentInteractable.Use();
             }
 
-            CheckJoystickSpinning();
-            if (isSpinningJoystick)
+            if (currentInteractable.canAim)
             {
-                currentInteractable.Rotate(spinningForce);
+                CheckJoystickSpinning();
+                if (isSpinningJoystick)
+                {
+                    currentInteractable.Rotate(spinningForce);
+                }
+                else currentInteractable.Rotate(0);
             }
-            else currentInteractable.Rotate(0);
         }
 
         if (currentObject != null)
@@ -370,6 +373,14 @@ public class PlayerMovement : Character
             if (currentInteractable == null && !isCarryingSomething && isHoldingDown)
             {
                 Pickup();
+            }
+        }
+
+        if (ctx.performed)
+        {
+            if (currentInteractable != null)
+            {
+                currentInteractable.CancelUse();
             }
         }
     }
