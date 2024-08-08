@@ -52,44 +52,12 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects:
-    - {fileID: 7281501281902775960, guid: 2e51fe5fceaee5e41916aae7949336c8, type: 3}
-    - {fileID: 917774235452588900, guid: 34b0c3d4656ef5045ac437235b33d2f3, type: 3}
-    - {fileID: 8306713773444683921, guid: 81dde3955239f28438ad5263ed2c4a16, type: 3}
-    - {fileID: 7281501281902775960, guid: 4b503e72c2ea1f74a90e1375e08df7b7, type: 3}
-    - {fileID: 7281501281902775960, guid: ba2bd2897f49b9843a470260d31727ad, type: 3}
+    ReferencedUnityObjects: []
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes:
-    - Name: interactableList
-      Entry: 7
-      Data: 0|UnityEngine.GameObject[], UnityEngine.CoreModule
-    - Name: 
-      Entry: 12
-      Data: 5
-    - Name: 
-      Entry: 10
-      Data: 0
-    - Name: 
-      Entry: 10
-      Data: 1
-    - Name: 
-      Entry: 10
-      Data: 2
-    - Name: 
-      Entry: 10
-      Data: 3
-    - Name: 
-      Entry: 10
-      Data: 4
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
+    SerializationNodes: []
   roomList:
   - {fileID: 855465098922572524, guid: 425833f9203f7524fbb7395b07c49613, type: 3}
   - {fileID: 855465098922572524, guid: 0e2f209746c77a04fb197813b0d75d43, type: 3}
@@ -512,6 +480,61 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c5d56c36fe14584eb3d1f6918d8da46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stackItemUIPrefab: {fileID: 6291298602020990936, guid: 3b378f90732a1ef46963fba055af46ea, type: 3}
+  firstItemPosition: {x: 56.2, y: -79}
+  targetItemSeparation: 108
+  ySlideTime: 0.5
+  ySlideCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0.008374541
+      outSlope: 0.008374541
+      tangentMode: 0
+      weightedMode: 2
+      inWeight: 0
+      outWeight: 0.29643506
+    - serializedVersion: 3
+      time: 0.51638776
+      value: 1.1502149
+      inSlope: -0.006145252
+      outSlope: -0.006145252
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.25632036
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.73918873
+      value: 0.9738696
+      inSlope: -0.023377089
+      outSlope: -0.023377089
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.34539214
+      outWeight: 0.57310814
+    - serializedVersion: 3
+      time: 0.8948429
+      value: 1.0169079
+      inSlope: 0.004040285
+      outSlope: 0.004040285
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 1
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &4980786828227978950
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,7 +12,6 @@ public class TankInteractable : MonoBehaviour
     private protected TankController tank; //Controller script for tank this interactable is attached to
     private InteractableZone interactZone; //Hitbox for player detection
     public Transform seat; //Transform operator snaps to while using this interactable
-    [Tooltip("Reference to this interactable's prefab.")] public GameObject prefabRef;
 
     //Interactable Scripts
     private GunController gunScript;
@@ -20,6 +19,10 @@ public class TankInteractable : MonoBehaviour
     private ThrottleController throttleScript;
 
     //Settings:
+    [Header("Stack Properties:")]
+    [Tooltip("Display name for interactable while in stack.")]    public string stackName;
+    [Tooltip("Reference to this interactable's prefab.")]         public GameObject prefabRef;
+    [Tooltip("Image used to represent this interactable in UI.")] public Sprite uiImage;
     //ADD SPATIAL CONSTRAINT SYSTEM
     [Button("Debug Place")] public void DebugPlace()
     {

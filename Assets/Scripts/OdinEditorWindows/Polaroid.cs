@@ -36,8 +36,10 @@ public class Polaroid : OdinEditorWindow
 
         //Store texture as sprite:
         Sprite outputSprite = Sprite.Create(outputTex, rect, Vector2.zero); //Generate output sprite
-        var path = "Assets/" + saveLocation + saveName + ".asset";          //Generate name of path to save sprite to
-        AssetDatabase.CreateAsset(outputSprite, path);                      //Save sprite as asset in designated folder
+        var spritePath = "Assets/" + saveLocation + saveName + ".asset";    //Generate name of path to save sprite to
+        var texPath = "Assets/" + saveLocation + saveName + "_tex.asset";   //Generate name of path to save texture to
+        AssetDatabase.CreateAsset(outputTex, texPath);                      //Save texture as asset in designated folder
+        AssetDatabase.CreateAsset(outputSprite, spritePath);                //Save sprite as asset in designated folder
     }
     [SerializeField, Tooltip("Width and height of output texture (in pixels)."), Min(1)] private int outputResolution = 1000;
     [SerializeField, Tooltip("How large the camera frame is."), Min(0)]                  private float size = 1;
