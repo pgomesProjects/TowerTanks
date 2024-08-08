@@ -1,5 +1,5 @@
 {
-    "TankName": "The Red Whale",
+    "TankName": "The Queen's Destroyer",
     "coreInteractables": [
         {
             "cellName": "Cell_2",
@@ -40,6 +40,11 @@
             },
             "rotate": 0,
             "cellInteractables": [
+                {
+                    "cellName": "Cell_1",
+                    "interRef": "InterWeapon_MachineGun",
+                    "flipped": true
+                },
                 {
                     "cellName": "Cell_2",
                     "interRef": "InterEngineer_Boiler",
@@ -349,7 +354,13 @@
                 "z": 0.0
             },
             "rotate": 0,
-            "cellInteractables": []
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_0",
+                    "interRef": "InterWeapon_Mortar",
+                    "flipped": true
+                }
+            ]
         },
         {
             "roomID": "Room_Tee4C_Flipped",
@@ -371,13 +382,7 @@
                 "z": 0.0
             },
             "rotate": 1,
-            "cellInteractables": [
-                {
-                    "cellName": "Cell_0",
-                    "interRef": "InterWeapon_Cannon",
-                    "flipped": false
-                }
-            ]
+            "cellInteractables": []
         },
         {
             "roomID": "Room_Z4B",
@@ -388,7 +393,13 @@
                 "z": 0.0
             },
             "rotate": 0,
-            "cellInteractables": []
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_0",
+                    "interRef": "InterWeapon_Mortar",
+                    "flipped": true
+                }
+            ]
         },
         {
             "roomID": "Room_Tee4C",

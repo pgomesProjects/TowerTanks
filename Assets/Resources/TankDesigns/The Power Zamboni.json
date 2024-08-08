@@ -20,7 +20,7 @@
             "cellInteractables": [
                 {
                     "cellName": "Cell_3",
-                    "interRef": "InterWeapon_Cannon",
+                    "interRef": "InterWeapon_MachineGun",
                     "flipped": true
                 }
             ]
@@ -65,7 +65,7 @@
             "cellInteractables": [
                 {
                     "cellName": "Cell_3",
-                    "interRef": "InterWeapon_Cannon",
+                    "interRef": "InterWeapon_MachineGun",
                     "flipped": true
                 }
             ]
@@ -222,7 +222,7 @@
             "cellInteractables": [
                 {
                     "cellName": "Cell_0",
-                    "interRef": "InterWeapon_Cannon",
+                    "interRef": "InterWeapon_Mortar",
                     "flipped": true
                 }
             ]
@@ -236,6 +236,17 @@
                 "z": 0.0
             },
             "rotate": 3,
+            "cellInteractables": []
+        },
+        {
+            "roomID": "Room_Z4B",
+            "roomType": 4,
+            "localSpawnVector": {
+                "x": 2.5,
+                "y": 8.5,
+                "z": 0.0
+            },
+            "rotate": 1,
             "cellInteractables": []
         }
     ]
