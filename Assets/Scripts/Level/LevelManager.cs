@@ -24,7 +24,7 @@ public class LevelManager : SerializedMonoBehaviour
     [SerializeField, Tooltip("The level event data that dictates how the level must be run.")] private LevelEvents currentLevelEvent;
     [SerializeField, Tooltip("The component that tracks the objective information.")] private ObjectiveTracker objectiveTracker;
     [SerializeField, Tooltip("The component that tracks tank information.")] public TankManager tankManager;
-    public static float enemiesDestroyed;
+    [SerializeField] public static float enemiesDestroyed;
 
     public static LevelManager Instance;
 
@@ -185,17 +185,17 @@ public class LevelManager : SerializedMonoBehaviour
     {
         int newInt = 1;
 
-        if (enemiesDestroyed > 2)
+        if (enemiesDestroyed > 1)
         {
             newInt = 2;
         }
 
-        if (enemiesDestroyed > 4)
+        if (enemiesDestroyed > 3)
         {
             newInt = 3;
         }
 
-        if (enemiesDestroyed > 6)
+        if (enemiesDestroyed > 5)
         {
             newInt = 4;
         }
