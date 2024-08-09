@@ -330,6 +330,7 @@ public class PlayerMovement : Character
         }
         if (moveInput.y < 0)
         {
+            if (CheckSurfaceCollider().gameObject == null) return;
             if (CheckSurfaceCollider().gameObject.TryGetComponent(out PlatformCollisionSwitcher collSwitcher))
             {
                 StartCoroutine(collSwitcher.DisableCollision(GetComponent<Collider2D>()));

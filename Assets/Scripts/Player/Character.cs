@@ -29,7 +29,7 @@ public abstract class Character : SerializedMonoBehaviour
     [SerializeField] protected float extraGravityForce;
     [SerializeField] protected float climbSpeed;
     [Range(0, 2)]
-    [SerializeField] protected float groundedBoxX, groundedBoxY;
+    [SerializeField] protected float groundedBoxX, groundedBoxY, groundBoxOffset;
 
     [SerializeField] protected float maxYVelocity, minYVelocity;
 
@@ -99,7 +99,7 @@ public abstract class Character : SerializedMonoBehaviour
     {
         //visualizes the grounded box for debugging
         Gizmos.color = Color.green;
-        Gizmos.DrawWireCube(new Vector2(transform.position.x, transform.position.y - transform.localScale.y), new Vector3(groundedBoxX, groundedBoxY, 0));
+        Gizmos.DrawWireCube(new Vector2(transform.position.x, transform.position.y - groundBoxOffset), new Vector3(groundedBoxX, groundedBoxY, 0));
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D other)
@@ -126,7 +126,7 @@ public abstract class Character : SerializedMonoBehaviour
     {
         LayerMask groundLayer = (1 << LayerMask.NameToLayer("Ground"));
         return Physics2D.OverlapBox(new Vector2(transform.position.x,
-                                                     transform.position.y - transform.localScale.y),
+                                                     transform.position.y - groundBoxOffset),
                                                    new Vector2(groundedBoxX, groundedBoxY),
                                                    0f,
                                                    groundLayer);
