@@ -5,12 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5398b79a-e478-4a7d-b865-f9c27d850513" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Player/CharacterLegFloater.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Player/CharacterLegFloater.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Player/PlayerNewMovement.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Player/PlayerNewMovement.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Test Scenes/HotteScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Test Scenes/HotteScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Character.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Character.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TankSystems/PlatformCollisionSwitcher.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TankSystems/PlatformCollisionSwitcher.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.TowerTanks/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TowerTanks/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/CharacterLegFloater.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/CharacterLegFloater.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

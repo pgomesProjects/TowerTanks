@@ -63,14 +63,12 @@ public class CharacterLegFloater : MonoBehaviour
         // Check and update right foot position independently
         if (Vector3.Distance(rightFootHit, currentRightCastPoint.point) > distanceBetweenRightStep)
         {
-            Debug.Log("Right foot hit");
             rightFootHit = currentRightCastPoint.point;
         }
 
         // Check and update left foot position independently
         if (Vector3.Distance(leftFootHit, currentLeftCastPoint.point) > distanceBetweenLeftStep)
         {
-            Debug.Log("Left foot hit");
             leftFootHit = currentLeftCastPoint.point;
         }
     }
