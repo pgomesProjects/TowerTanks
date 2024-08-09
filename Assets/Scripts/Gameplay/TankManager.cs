@@ -9,14 +9,14 @@ public class TankManager : SerializedMonoBehaviour
     public Transform tankSpawnPoint;
 
     [PropertySpace]
-    public List<TextAsset> enemyTankDesigns = new List<TextAsset>();
+    public List<EnemyTankDesign> enemyTankDesigns = new List<EnemyTankDesign>();
 
     [PropertySpace]
     public List<TankId> tanks = new List<TankId>();
     
     [TabGroup("Runtime Actions")]
     [Button("Spawn New Tank", ButtonSizes.Small)]
-    public TankController SpawnTank(bool spawnEnemy = true, bool spawnBuilt = false)
+    public TankController SpawnTank(int tier, bool spawnEnemy = true, bool spawnBuilt = false)
     {
         TankId newtank = new TankId();
 
@@ -28,8 +28,9 @@ public class TankManager : SerializedMonoBehaviour
             newtank.gameObject.name = newtank.TankName;
             newtank.tankType = TankId.TankType.ENEMY;
 
-            int random = Random.Range(0, enemyTankDesigns.Count);
-            newtank.design = enemyTankDesigns[random];
+            //Determine tank design
+            int random = Random.Range(0, 4);
+            newtank.design = enemyTankDesigns[tier - 1].designs[random];
 
             if (spawnBuilt)
             {

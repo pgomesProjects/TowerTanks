@@ -111,8 +111,11 @@ public class EventSpawnerManager : MonoBehaviour
         levelManager.tankManager.MoveSpawnPoint(newSpawnPoint);
         levelManager.tankManager.tankSpawnPoint.position += new Vector3(0, 20, 0);
 
+        //Determine Tier
+        int tier = levelManager.GetEnemyTier();
+
         //Spawn new enemy tank
-        TankController newtank = levelManager.tankManager.SpawnTank(true, true);
+        TankController newtank = levelManager.tankManager.SpawnTank(tier, true, true);
         enemies.Add(newtank);
     }
 
