@@ -24,7 +24,7 @@ public class LevelManager : SerializedMonoBehaviour
     [SerializeField, Tooltip("The level event data that dictates how the level must be run.")] private LevelEvents currentLevelEvent;
     [SerializeField, Tooltip("The component that tracks the objective information.")] private ObjectiveTracker objectiveTracker;
     [SerializeField, Tooltip("The component that tracks tank information.")] public TankManager tankManager;
-    public float enemiesDestroyed;
+    public static float enemiesDestroyed;
 
     public static LevelManager Instance;
 
@@ -179,6 +179,28 @@ public class LevelManager : SerializedMonoBehaviour
         //character.SetPlayerMove(true);
         PlayerHUD newPlayerHUD = Instantiate(playerHUDPrefab, playerHUDParentTransform);
         character.LinkPlayerHUD(newPlayerHUD);
+    }
+
+    public int GetEnemyTier()
+    {
+        int newInt = 1;
+
+        if (enemiesDestroyed > 2)
+        {
+            newInt = 2;
+        }
+
+        if (enemiesDestroyed > 4)
+        {
+            newInt = 3;
+        }
+
+        if (enemiesDestroyed > 6)
+        {
+            newInt = 4;
+        }
+
+        return newInt;
     }
 
     /// <summary>
