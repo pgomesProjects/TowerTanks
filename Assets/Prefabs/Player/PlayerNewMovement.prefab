@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 5332867684925448270}
   - component: {fileID: 5332867684925448271}
   - component: {fileID: 5332867684925448268}
+  - component: {fileID: 3485665717998681217}
   - component: {fileID: 448350889}
   - component: {fileID: -2921341399011078923}
   m_Layer: 3
@@ -102,7 +103,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 2
+    SerializedFormat: 0
     SerializedBytes: 
     ReferencedUnityObjects: []
     SerializedBytesString: 
@@ -145,6 +146,26 @@ MonoBehaviour:
     m_Bits: 512
   isCarryingSomething: 0
   currentObject: {fileID: 0}
+--- !u!114 &3485665717998681217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5332867684925448264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e9684f5a5acc3b41aa0269e7589c45e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 5332867684925448271}
+  rayLength: 0.5
+  standingRideHeight: 0.4
+  rideSpringStrength: 100
+  rideSpringDamper: 13
+  raycastOrigin: {fileID: 5332867684925448270}
+  distanceBetweenLeftStep: 0.2
+  distanceBetweenRightStep: 0.3
 --- !u!70 &448350889
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
