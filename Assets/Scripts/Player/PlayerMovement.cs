@@ -13,6 +13,7 @@ public class PlayerMovement : Character
     public bool isDebugPlayer;
     private Vector2 moveInput;
     private bool jetpackInputHeld;
+    
     public bool interactInputHeld;
 
     [SerializeField] private Transform towerJoint;
@@ -142,12 +143,15 @@ public class PlayerMovement : Character
                 currentInteractable.Use();
             }
 
-            CheckJoystickSpinning();
-            if (isSpinningJoystick)
+            if (currentInteractable.canAim)
             {
-                currentInteractable.Rotate(spinningForce);
+                CheckJoystickSpinning();
+                if (isSpinningJoystick)
+                {
+                    currentInteractable.Rotate(spinningForce);
+                }
+                else currentInteractable.Rotate(0);
             }
-            else currentInteractable.Rotate(0);
         }
 
         if (currentObject != null)
@@ -159,6 +163,8 @@ public class PlayerMovement : Character
 
         if (moveInput.y <= -0.5) isHoldingDown = true;
         else isHoldingDown = false;
+        
+        base.Update();
     }
                 
     protected override void FixedUpdate()
@@ -195,12 +201,10 @@ public class PlayerMovement : Character
         if (ladder != null)
         {
             currentLadder = ladder;
-            //Debug.Log("Ladder found");
         }
         else
         {
             currentLadder = null;
-            //Debug.Log("Ladder not found");
         }
         
         float force = transform.right.x * moveInput.x * moveSpeed; 
@@ -324,6 +328,13 @@ public class PlayerMovement : Character
         {
             //SetLadder();
         }
+        if (moveInput.y < 0)
+        {
+            if (CheckSurfaceCollider().gameObject.TryGetComponent(out PlatformCollisionSwitcher collSwitcher))
+            {
+                StartCoroutine(collSwitcher.DisableCollision(GetComponent<Collider2D>()));
+            }
+        }
     }
 
     public void OnPause(InputAction.CallbackContext ctx)
@@ -370,6 +381,14 @@ public class PlayerMovement : Character
             if (currentInteractable == null && !isCarryingSomething && isHoldingDown)
             {
                 Pickup();
+            }
+        }
+
+        if (ctx.performed)
+        {
+            if (currentInteractable != null)
+            {
+                currentInteractable.CancelUse();
             }
         }
     }

@@ -12,7 +12,6 @@ public class TankInteractable : MonoBehaviour
     private protected TankController tank; //Controller script for tank this interactable is attached to
     private InteractableZone interactZone; //Hitbox for player detection
     public Transform seat; //Transform operator snaps to while using this interactable
-    [Tooltip("Reference to this interactable's prefab.")] public GameObject prefabRef;
 
     //Interactable Scripts
     private GunController gunScript;
@@ -20,6 +19,10 @@ public class TankInteractable : MonoBehaviour
     private ThrottleController throttleScript;
 
     //Settings:
+    [Header("Stack Properties:")]
+    [Tooltip("Display name for interactable while in stack.")]    public string stackName;
+    [Tooltip("Reference to this interactable's prefab.")]         public GameObject prefabRef;
+    [Tooltip("Image used to represent this interactable in UI.")] public Sprite uiImage;
     //ADD SPATIAL CONSTRAINT SYSTEM
     [Button("Debug Place")] public void DebugPlace()
     {
@@ -38,6 +41,7 @@ public class TankInteractable : MonoBehaviour
     [Tooltip("True if a user is currently operating this system")]                                              public bool hasOperator;
     [Tooltip("User currently interacting with this system.")]                                                   internal PlayerMovement operatorID;
     [Tooltip("Whether or not interact can be held down to use this interactable continuously"), SerializeField] public bool isContinuous;
+    [Tooltip("Whether or not this interactable can be aimed in some way"), SerializeField]                      public bool canAim;
     [Tooltip("Direction this interactable is facing. (1 = right; -1 = left)")]                                  public float direction = 1;
     [Tooltip("Unique identifier associating this interactable with a stack item")]                              internal int stackId = 0;
 
@@ -154,9 +158,17 @@ public class TankInteractable : MonoBehaviour
     {
         if (gunScript != null && cooldown <= 0)
         {
-            gunScript.Fire();
+            gunScript.Fire(false);
         }
         if (engineScript != null && cooldown <= 0) engineScript.LoadCoal(1);
+    }
+
+    public void CancelUse() //Called from operator when they release Interact
+    {
+        if (gunScript != null && gunScript.gunType == GunController.GunType.MORTAR)
+        {
+            gunScript.Fire(false);
+        }
     }
 
     public void Shift(int direction) //Called from operator when they flick L-Stick L/R
@@ -187,10 +199,10 @@ public class TankInteractable : MonoBehaviour
     public bool InstallInCell(Cell target)
     {
         //Universal installation:
-        parentCell = target;                       //Get reference to target cell
-        transform.parent = parentCell.transform;   //Child to target cell
-        transform.localPosition = Vector3.zero;    //Match position with target cell
-        //transform.localEulerAngles = Vector3.zero; //Match rotation with target cell
+        parentCell = target;                                                                                     //Get reference to target cell
+        transform.parent = parentCell.transform;                                                                 //Child to target cell
+        transform.localPosition = Vector3.zero;                                                                  //Match position with target cell
+        transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, 0); //Match rotation with target cell
 
         //Cell installation:
         target.interactable = this; //Give cell reference to the interactable installed in it

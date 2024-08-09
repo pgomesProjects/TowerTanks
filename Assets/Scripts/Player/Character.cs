@@ -37,6 +37,10 @@ public abstract class Character : SerializedMonoBehaviour
     [SerializeField] protected float fuelDepletionRate;
     [SerializeField] protected float fuelRegenerationRate;
     protected float currentFuel;
+    
+    //internal movement
+    private Transform currentCellJoint;
+    private int cellLayerIndex = 15;
 
     //temp
     protected float moveSpeedHalved; // once we have a state machine for the player, we wont need these silly fields.
@@ -69,7 +73,17 @@ public abstract class Character : SerializedMonoBehaviour
     protected virtual void Update()
     {
         currentFuel = Mathf.Clamp(currentFuel, 0, characterSettings.fuelAmount);
-        //Debug.Log($"Current Fuel: {currentFuel}");
+        
+        var cellJoint = Physics2D.OverlapBox(
+            transform.position,
+            transform.localScale,
+            0f, 
+            1 << cellLayerIndex)?.gameObject.transform;
+        if (currentCellJoint != cellJoint)
+        {
+            currentCellJoint = cellJoint;
+            transform.SetParent(currentCellJoint);
+        } 
     }
 
     protected virtual void FixedUpdate()
@@ -117,6 +131,15 @@ public abstract class Character : SerializedMonoBehaviour
                                                    0f,
                                                    groundLayer);
         
+    }
+    
+    protected Collider2D CheckSurfaceCollider()
+    {
+        return Physics2D.OverlapBox(new Vector2(transform.position.x,
+                transform.position.y - transform.localScale.y / 2),
+            new Vector2(groundedBoxX, groundedBoxY),
+            0f,
+            1 << 18);
     }
 
     protected abstract void MoveCharacter();

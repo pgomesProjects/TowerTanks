@@ -263,6 +263,11 @@ public class Cell : MonoBehaviour
         if (!proxy) room.targetTank.treadSystem.ReCalculateMass(); //Re-calculate tank mass based on new cell configuration (only needs to be done once for group cell destructions)
 
         //Cleanup:
+        Character player = GetComponentInChildren<Character>();
+        if (player != null)
+        {
+            player.transform.parent = null; // removes the player from the cell before destruction if present
+        }
         Destroy(gameObject); //Destroy this cell
 
         //Other Effects

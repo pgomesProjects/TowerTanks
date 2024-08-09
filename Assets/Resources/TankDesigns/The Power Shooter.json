@@ -65,7 +65,7 @@
             "cellInteractables": [
                 {
                     "cellName": "Cell_1",
-                    "interRef": "InterWeapon_Cannon",
+                    "interRef": "InterWeapon_MachineGun",
                     "flipped": true
                 }
             ]
@@ -91,11 +91,11 @@
             },
             "rotate": 1,
             "cellInteractables": [
-                {
-                    "cellName": "Cell_0",
-                    "interRef": "InterWeapon_Cannon",
-                    "flipped": true
-                }
+              {
+                "cellName": "Cell_0",
+                "interRef": "InterWeapon_MachineGun",
+                "flipped": true
+              }
             ]
         },
         {
@@ -108,11 +108,11 @@
             },
             "rotate": 0,
             "cellInteractables": [
-                {
-                    "cellName": "Cell_0",
-                    "interRef": "InterWeapon_Cannon",
-                    "flipped": true
-                }
+              {
+                "cellName": "Cell_0",
+                "interRef": "InterWeapon_MachineGun",
+                "flipped": true
+              }
             ]
         }
     ]
