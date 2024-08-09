@@ -212,6 +212,8 @@ MonoBehaviour:
     m_RotationOrder: 4
   transitionTime: 0.2
   transitionSlideDist: 1.4
+  scaleBubbleWithCamera: 1
+  scaleOrthoWithCamera: 0
   useDynamicBubbleSize: 0
   minBubbleRadius: 0
   maxVisDistance: 0

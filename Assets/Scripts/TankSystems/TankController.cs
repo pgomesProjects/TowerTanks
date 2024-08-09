@@ -26,7 +26,7 @@ public class TankController : MonoBehaviour
     [Header("Cargo")]
     public GameObject[] cargoHold;
 
-    //Runtime Variables:
+    //Settings:
     [Header("Debug")] 
     public bool shiftRight;
     public bool shiftLeft;
@@ -35,6 +35,8 @@ public class TankController : MonoBehaviour
     public bool fireAllWeapons;
     public bool overchargeAllWeapons;
 
+    //Runtime Variables:
+    [Tooltip("One of the cells which is in the uppermost position in the tank.")] internal Cell highestCell;
     public bool isDying = false; //true when the tank is in the process of blowing up
     private float deathSequenceTimer = 0;
 
