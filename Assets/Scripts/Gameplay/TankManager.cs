@@ -16,7 +16,7 @@ public class TankManager : SerializedMonoBehaviour
     
     [TabGroup("Runtime Actions")]
     [Button("Spawn New Tank", ButtonSizes.Small)]
-    public TankController SpawnTank(int tier, bool spawnEnemy = true, bool spawnBuilt = false)
+    public TankController SpawnTank(int tier = 1, bool spawnEnemy = true, bool spawnBuilt = false)
     {
         TankId newtank = new TankId();
 

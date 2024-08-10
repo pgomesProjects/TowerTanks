@@ -160,7 +160,7 @@ public class TankInteractable : MonoBehaviour
         {
             gunScript.Fire(false);
         }
-        if (engineScript != null && cooldown <= 0) engineScript.LoadCoal(1);
+        if (engineScript != null && cooldown <= 0) engineScript.LoadCoal(1, true, true);
     }
 
     public void CancelUse() //Called from operator when they release Interact

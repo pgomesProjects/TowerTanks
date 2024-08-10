@@ -1313,7 +1313,8 @@ MonoBehaviour:
   shiftLeft: 0
   damage: 0
   addEngine: 0
-  fireAllCannons: 0
+  fireAllWeapons: 0
+  overchargeAllWeapons: 0
   isDying: 0
 --- !u!114 &-1844445078350209630
 MonoBehaviour:
@@ -1646,9 +1647,11 @@ MonoBehaviour:
   COGHeight: -0.31
   COGWidth: 3.5
   totalWeight: 0
+  useEngines: 1
   maxSpeed: 8
   maxAcceleration: 0.7
   accelerationDamping: 0.1
+  speedShiftRate: 2
   gearPositions: 5
   wheelStickiness: 15
   wheelStickCompressionCurve:
@@ -1683,6 +1686,7 @@ MonoBehaviour:
   maxTipAngle: 45
   tipAngleBufferZone: 10
   tipPreventionForce: 50
+  currentEngines: 0
 --- !u!50 &1677695872800944110
 Rigidbody2D:
   serializedVersion: 4
