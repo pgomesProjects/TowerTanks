@@ -24,6 +24,7 @@ public class GamepadCursor : MonoBehaviour
     private Color cursorColor;
 
     private bool cursorActive;
+    private bool cursorCanMove;
 
     private void OnEnable()
     {
@@ -71,7 +72,7 @@ public class GamepadCursor : MonoBehaviour
     /// </summary>
     private void UpdateMotion()
     {
-        if (!cursorActive)
+        if (!cursorActive || !cursorCanMove)
             return;
 
         InputDevice currentDevice = playerInput.devices[0];
@@ -277,7 +278,7 @@ public class GamepadCursor : MonoBehaviour
         InitializeCursor();
         localGamepadCursorTransform = Instantiate(cursorTransform, canvasRectTransform);
         localGamepadCursorTransform.GetComponent<Image>().color = cursorColor;
-        RefreshCursor();
+        RefreshCursor(GameSettings.showGamepadCursors);
     }
 
     /// <summary>
@@ -296,15 +297,21 @@ public class GamepadCursor : MonoBehaviour
         canvasRectTransform = canvas.GetComponent<RectTransform>();
     }
 
-    public void RefreshCursor()
+    public void RefreshCursor(bool isCursorActive)
     {
-        cursorActive = GameSettings.showGamepadCursors;
+        cursorActive = isCursorActive;
 
         //If there is no local gamepad cursor, create one
         if (localGamepadCursorTransform == null)
             CreateGamepadCursor(cursorColor);
 
         localGamepadCursorTransform.GetComponent<Image>().color = new Color(cursorColor.r, cursorColor.g, cursorColor.b, cursorActive ? 1: 0);
+        cursorCanMove = cursorActive;
+    }
+
+    public void SetCursorMove(bool cursorMove)
+    {
+        cursorCanMove = cursorMove;
     }
 
     public RectTransform GetCursorTransform() => localGamepadCursorTransform;

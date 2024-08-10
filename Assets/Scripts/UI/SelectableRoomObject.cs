@@ -68,4 +68,10 @@ public class SelectableRoomObject : MonoBehaviour, IPointerEnterHandler, IPointe
         Debug.Log("Selected By Player " + (playerInput.playerIndex + 1).ToString());
         OnSelected?.Invoke(playerInput, roomID);
     }
+
+    public void DeselectRoom()
+    {
+        draggableImage.color = defaultColor;
+        isSelected = false;
+    }
 }

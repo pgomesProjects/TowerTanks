@@ -99,7 +99,7 @@ public abstract class Character : SerializedMonoBehaviour
     {
         //visualizes the grounded box for debugging
         Gizmos.color = Color.green;
-        Gizmos.DrawWireCube(new Vector2(transform.position.x, transform.position.y - transform.localScale.y / 2), new Vector3(groundedBoxX, groundedBoxY, 0));
+        Gizmos.DrawWireCube(new Vector2(transform.position.x, transform.position.y - transform.localScale.y), new Vector3(groundedBoxX, groundedBoxY, 0));
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D other)
@@ -126,7 +126,7 @@ public abstract class Character : SerializedMonoBehaviour
     {
         LayerMask groundLayer = (1 << LayerMask.NameToLayer("Ground"));
         return Physics2D.OverlapBox(new Vector2(transform.position.x,
-                                                     transform.position.y - transform.localScale.y / 2),
+                                                     transform.position.y - transform.localScale.y),
                                                    new Vector2(groundedBoxX, groundedBoxY),
                                                    0f,
                                                    groundLayer);
@@ -136,7 +136,7 @@ public abstract class Character : SerializedMonoBehaviour
     protected Collider2D CheckSurfaceCollider()
     {
         return Physics2D.OverlapBox(new Vector2(transform.position.x,
-                transform.position.y - transform.localScale.y / 2),
+                transform.position.y - transform.localScale.y),
             new Vector2(groundedBoxX, groundedBoxY),
             0f,
             1 << 18);
