@@ -2223,15 +2223,30 @@ MonoBehaviour:
   tankPrefab: {fileID: 1677695872598849025, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
   tankSpawnPoint: {fileID: 1684163093}
   enemyTankDesigns:
-  - {fileID: 4900000, guid: e4a4b2cff2a8ed84caf6d14275621189, type: 3}
-  - {fileID: 4900000, guid: 46c406a077c4d2c46ab3265201c1c9cb, type: 3}
-  - {fileID: 4900000, guid: aecb783de59916340b00ac621243d679, type: 3}
-  - {fileID: 4900000, guid: 2b290a1f1d549af47982322023504d04, type: 3}
-  - {fileID: 4900000, guid: 7995271edfdf1d647baebb2fde1f9804, type: 3}
-  - {fileID: 4900000, guid: 9c38265d0767b1141bf8cc348890cb6e, type: 3}
-  - {fileID: 4900000, guid: 94857bee71ba89c4984ad4797a726802, type: 3}
-  - {fileID: 4900000, guid: 8b1a12644bbf5b04c93f281ed05f4c13, type: 3}
-  - {fileID: 4900000, guid: 566d1a856563b8643a920316711eaaa5, type: 3}
+  - tier: 1
+    designs:
+    - {fileID: 4900000, guid: e4a4b2cff2a8ed84caf6d14275621189, type: 3}
+    - {fileID: 4900000, guid: 37c74f6a94aeb6f4cac8f33184d25f6a, type: 3}
+    - {fileID: 4900000, guid: aecb783de59916340b00ac621243d679, type: 3}
+    - {fileID: 4900000, guid: 46c406a077c4d2c46ab3265201c1c9cb, type: 3}
+  - tier: 2
+    designs:
+    - {fileID: 4900000, guid: 7995271edfdf1d647baebb2fde1f9804, type: 3}
+    - {fileID: 4900000, guid: 2b290a1f1d549af47982322023504d04, type: 3}
+    - {fileID: 4900000, guid: f98cb2c4ff7b7c745918733f3ee80aaa, type: 3}
+    - {fileID: 4900000, guid: 0db20fc899de977409a0e4132480ae16, type: 3}
+  - tier: 3
+    designs:
+    - {fileID: 4900000, guid: 8b1a12644bbf5b04c93f281ed05f4c13, type: 3}
+    - {fileID: 4900000, guid: d2b925f81df8bba4a91ae62dc49c2bc9, type: 3}
+    - {fileID: 4900000, guid: e4fe768acd4a59140b83a675be060836, type: 3}
+    - {fileID: 4900000, guid: 9106a67c4a057394f80cf5559fde3ff3, type: 3}
+  - tier: 4
+    designs:
+    - {fileID: 4900000, guid: 566d1a856563b8643a920316711eaaa5, type: 3}
+    - {fileID: 4900000, guid: 94857bee71ba89c4984ad4797a726802, type: 3}
+    - {fileID: 4900000, guid: 871697c44b6024a4abb06b2b3938c926, type: 3}
+    - {fileID: 4900000, guid: ec9a43e8f905b0a4d9de0d5d2ec1ed54, type: 3}
   tanks:
   - TankName: The Supreme Potato
     tankType: 0
@@ -5798,7 +5813,6 @@ MonoBehaviour:
   currentLevelEvent: {fileID: 11400000, guid: 22b317130dd13554f9f9fb3d56a2d5bc, type: 2}
   objectiveTracker: {fileID: 0}
   tankManager: {fileID: 0}
-  enemiesDestroyed: 0
   resourcesToAdd: 100
 --- !u!4 &1152782961
 Transform:
