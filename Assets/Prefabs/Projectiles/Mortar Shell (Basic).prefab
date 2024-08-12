@@ -969,7 +969,7 @@ MonoBehaviour:
   - splashDamage: 75
     splashRadius: 1.25
   - splashDamage: 50
-    splashRadius: 2.5
+    splashRadius: 2
   maxLife: 10
   radius: 0.18
   gravity: 30

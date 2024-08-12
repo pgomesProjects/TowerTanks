@@ -40,6 +40,11 @@ public class TankController : MonoBehaviour
     public bool isDying = false; //true when the tank is in the process of blowing up
     private float deathSequenceTimer = 0;
 
+    //UI
+    private SpriteRenderer damageSprite;
+    [Tooltip("How long damage visual effect persists for")] private float damageTime;
+    private float damageTimer;
+
     //RUNTIME METHODS:
     private void Awake()
     {
@@ -49,6 +54,7 @@ public class TankController : MonoBehaviour
         treadSystem.Initialize();                            //Make sure treads are initialized
 
         nameText = GetComponentInChildren<TextMeshProUGUI>();
+        damageSprite = towerJoint.transform.Find("DiageticUI")?.GetComponent<SpriteRenderer>();
 
         //Room setup:
         rooms = new List<Room>(GetComponentsInChildren<Room>()); //Get list of all rooms which spawn as children of tank (for prefab tanks)
@@ -129,6 +135,26 @@ public class TankController : MonoBehaviour
         {
             DeathSequenceEvents();
         }
+
+        //UI
+        if (damageTimer > 0)
+        {
+            UpdateUI();
+        }
+    }
+
+    private void UpdateUI()
+    {
+        Color newColor = damageSprite.color;
+        newColor.a = Mathf.Lerp(0, 255f, (damageTimer / damageTime) * Time.deltaTime);
+        damageSprite.color = newColor;
+
+        damageTimer -= Time.deltaTime;
+        if (damageTimer < 0)
+        {
+            damageTimer = 0;
+            damageTime = 0;
+        }
     }
 
     public void ChangeAllGear(int direction) //changes gear of all active throttles in the tank
@@ -194,6 +220,11 @@ public class TankController : MonoBehaviour
     public void Damage(float amount)
     {
         coreHealth -= amount;
+
+        //UI
+        damageTime += (amount / 50f);
+        damageTimer = damageTime;
+
         if (coreHealth <= 0)
         {
             if (!isDying)

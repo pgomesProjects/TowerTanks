@@ -95,10 +95,16 @@ public class Projectile : MonoBehaviour
 
     private void Hit(Collider2D target)
     {
+        List<Collider2D> hitThisFrame = new List<Collider2D>(); //Create Temp List for Colliders Hit
+        hitThisFrame.Add(target); //Add Direct Hit to Collider
+        bool damagedCoreThisFrame = false;
+
         //Handle Projectile Direct Damage
         if (target != null && target.GetComponentInParent<Cell>() != null)
         {
-            target.GetComponentInParent<Cell>().Damage(damage);
+            Cell cellHit = target.GetComponentInParent<Cell>();
+            cellHit.Damage(damage);
+            if (cellHit.room.isCore) damagedCoreThisFrame = true;
             GameManager.Instance.AudioManager.Play("ShellImpact", gameObject);
         }
 
@@ -111,24 +117,35 @@ public class Projectile : MonoBehaviour
         //Handle Projectile Splash Damage
         if (hasSplashDamage) 
         {
-            foreach (SplashData splash in splashData)
+            foreach (SplashData splash in splashData) //Handle for each individual splash zone
             {
                 Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, splash.splashRadius, layerMask);
                 foreach (Collider2D collider in colliders)
                 {
-                    Cell cellScript = collider.gameObject.GetComponent<Cell>();
-                    if (cellScript != null)
+                    if (!hitThisFrame.Contains(collider)) //If the Collider has not been damaged by any other damage sources in this event this frame
                     {
-                        cellScript.Damage(splash.splashDamage);
-                    }
+                        hitThisFrame.Add(collider); 
 
-                    if (collider.CompareTag("Destructible"))
-                    {
-                        collider.gameObject.GetComponent<DestructibleObject>().Damage(splash.splashDamage);
+                        Cell cellScript = collider.gameObject.GetComponent<Cell>();
+                        if (cellScript != null)
+                        {
+                            if (!damagedCoreThisFrame)
+                            {
+                                cellScript.Damage(splash.splashDamage);
+                                if (cellScript.room.isCore) damagedCoreThisFrame = true;
+                            }
+                        }
+
+                        if (collider.CompareTag("Destructible"))
+                        {
+                            collider.gameObject.GetComponent<DestructibleObject>().Damage(splash.splashDamage);
+                        }
                     }
                 }
             }
         }
+
+        hitThisFrame.Clear();
 
         //Effects
         GameManager.Instance.AudioManager.Play("ExplosionSFX", gameObject);
