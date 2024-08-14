@@ -19,6 +19,7 @@ public abstract class Character : SerializedMonoBehaviour
     protected Transform hands;
     protected bool isAlive;
     protected Transform characterVisualParent;
+    protected Color characterColor = new Color(1, 1, 1, 1);
 
     [Header("Character Information")]
     [SerializeField] protected CharacterSettings characterSettings;
@@ -298,5 +299,6 @@ public abstract class Character : SerializedMonoBehaviour
         characterVisualParent?.gameObject.SetActive(true);
     }
 
+    public Color GetCharacterColor() => characterColor;
     #endregion
 }
