@@ -171,14 +171,18 @@ public class LevelManager : SerializedMonoBehaviour
 
         PlayerMovement character = Instantiate(GameManager.Instance.MultiplayerManager.GetPlayerPrefab());
         character.LinkPlayerInput(playerInput);
-        character.GetComponent<Rigidbody2D>().isKinematic = false;
-        Vector3 playerPos = spawnPoint.position;
-        playerPos.x += UnityEngine.Random.Range(-0.25f, 0.25f);
-        character.transform.position = playerPos;
+        MoveCharacterToSpawn(character);
         character.transform.GetComponentInChildren<Renderer>().material.SetColor("_Color", GameManager.Instance.MultiplayerManager.GetPlayerColors()[playerInput.playerIndex]);
         //character.SetPlayerMove(true);
         PlayerHUD newPlayerHUD = Instantiate(playerHUDPrefab, playerHUDParentTransform);
         character.LinkPlayerHUD(newPlayerHUD);
+    }
+
+    public void MoveCharacterToSpawn(Character characterObject)
+    {
+        Vector3 charPos = spawnPoint.position;
+        charPos.x += UnityEngine.Random.Range(-0.25f, 0.25f);
+        characterObject.transform.position = charPos;
     }
 
     public int GetEnemyTier()

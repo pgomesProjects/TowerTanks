@@ -197,6 +197,15 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Persona3"",
+                    ""type"": ""Button"",
+                    ""id"": ""8023a4e2-3693-4e27-afe4-95d2740fa2ce"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Hold(duration=3)"",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -917,39 +926,6 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""f8347421-ea68-42c7-a46a-29e5fa954464"",
-                    ""path"": ""<Gamepad>/buttonEast"",
-                    ""interactions"": ""Press"",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Cancel"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""9ab3c459-b069-491e-9f7a-832d7c619e79"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard and Mouse"",
-                    ""action"": ""Cancel"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""5a4a12a7-c2af-4819-a647-292348843b4e"",
-                    ""path"": ""<Keyboard>/q"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard and Mouse"",
-                    ""action"": ""Cancel"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""f08a9278-885c-4279-a46f-21e2f33d1fd6"",
                     ""path"": ""<Gamepad>/buttonNorth"",
                     ""interactions"": """",
@@ -1154,6 +1130,72 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
                     ""action"": ""ReadyUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5daeb624-566d-4c3d-9dbe-e6e1a8f1db4b"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Persona3"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""61c13684-11f0-46f6-8267-f1989f961416"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Persona3"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""12c41c1e-37c2-440b-be25-d8517539d621"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Persona3"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f8347421-ea68-42c7-a46a-29e5fa954464"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9ab3c459-b069-491e-9f7a-832d7c619e79"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5a4a12a7-c2af-4819-a647-292348843b4e"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -2904,6 +2946,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         m_Player_Mount = m_Player.FindAction("Mount", throwIfNotFound: true);
         m_Player_ReadyUp = m_Player.FindAction("ReadyUp", throwIfNotFound: true);
         m_Player_Rotate = m_Player.FindAction("Rotate", throwIfNotFound: true);
+        m_Player_Persona3 = m_Player.FindAction("Persona3", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -3019,6 +3062,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Mount;
     private readonly InputAction m_Player_ReadyUp;
     private readonly InputAction m_Player_Rotate;
+    private readonly InputAction m_Player_Persona3;
     public struct PlayerActions
     {
         private @PlayerControlSystem m_Wrapper;
@@ -3042,6 +3086,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         public InputAction @Mount => m_Wrapper.m_Player_Mount;
         public InputAction @ReadyUp => m_Wrapper.m_Player_ReadyUp;
         public InputAction @Rotate => m_Wrapper.m_Player_Rotate;
+        public InputAction @Persona3 => m_Wrapper.m_Player_Persona3;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -3108,6 +3153,9 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @Rotate.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRotate;
                 @Rotate.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRotate;
                 @Rotate.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRotate;
+                @Persona3.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPersona3;
+                @Persona3.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPersona3;
+                @Persona3.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPersona3;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -3169,6 +3217,9 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @Rotate.started += instance.OnRotate;
                 @Rotate.performed += instance.OnRotate;
                 @Rotate.canceled += instance.OnRotate;
+                @Persona3.started += instance.OnPersona3;
+                @Persona3.performed += instance.OnPersona3;
+                @Persona3.canceled += instance.OnPersona3;
             }
         }
     }
@@ -3553,6 +3604,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         void OnMount(InputAction.CallbackContext context);
         void OnReadyUp(InputAction.CallbackContext context);
         void OnRotate(InputAction.CallbackContext context);
+        void OnPersona3(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
