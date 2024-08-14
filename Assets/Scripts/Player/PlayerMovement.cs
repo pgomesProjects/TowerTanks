@@ -56,6 +56,10 @@ public class PlayerMovement : Character
     public bool isCarryingSomething; //true if player is currently carrying something
     public Cargo currentObject; //what object the player is currently carrying
 
+    private float maxShakeIntensity = 0.5f;
+    private float currentShakeTime;
+    private bool isShaking = false;
+
     #endregion
 
     #region Unity Methods
@@ -100,6 +104,9 @@ public class PlayerMovement : Character
     {
         base.Update();
         if (!isAlive) return;
+
+        if (isShaking)
+            ShakePlayer();
 
         //Interactable building:
         if (buildCell != null) //Player is currently in build mode
@@ -275,6 +282,8 @@ public class PlayerMovement : Character
         //Subscribes events for control lost / regained
         playerInputComponent.onDeviceLost += OnDeviceLost;
         playerInputComponent.onDeviceRegained += OnDeviceRegained;
+
+        characterColor = GameManager.Instance.MultiplayerManager.GetPlayerColors()[newInput.playerIndex];
     }
 
     public void OnDeviceLost(PlayerInput playerInput)
@@ -482,9 +491,45 @@ public class PlayerMovement : Character
     {
         if (!isAlive) return;
 
+        if (ctx.started)
+        {
+            isShaking = true;
+            currentShakeTime = 0f;
+        }
+
         if (ctx.performed)
         {
+            characterVisualParent.localPosition = Vector3.zero;
             SelfDestruct();
+            isShaking = false;
+        }
+
+        if (ctx.canceled)
+        {
+            characterVisualParent.localPosition = Vector3.zero;
+            isShaking = false;
+        }
+    }
+
+    private void ShakePlayer()
+    {
+        currentShakeTime += Time.deltaTime;
+
+        float maxShakeTime = 3f;
+
+        if (currentShakeTime >= 1f)
+        {
+            // Normalize the shake intensity between 1 second and 3 seconds
+            float normalizedTime = Mathf.Clamp01((currentShakeTime - 1f) / (maxShakeTime - 1f));
+            float shakeIntensity = normalizedTime * maxShakeIntensity;
+
+            // Use Perlin noise for smooth random movement in each axis
+            float offsetX = (Mathf.PerlinNoise(Time.time * 10f, 0f) - 0.5f) * 2f * shakeIntensity;
+            float offsetY = (Mathf.PerlinNoise(Time.time * 10f, 100f) - 0.5f) * 2f * shakeIntensity;
+            float offsetZ = (Mathf.PerlinNoise(Time.time * 10f, 200f) - 0.5f) * 2f * shakeIntensity;
+
+            // Apply the shake offset to the characterVisualParent's local position
+            characterVisualParent.localPosition = new Vector3(offsetX, offsetY, offsetZ);
         }
     }
 
