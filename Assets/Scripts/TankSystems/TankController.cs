@@ -157,6 +157,82 @@ public class TankController : MonoBehaviour
         }
     }
 
+    public void RammingSpeed(float direction) //direction --> 1 = right, -1 = left
+    {
+        Cell topCell = coreRoom.cells[0];
+        Cell bottomCell = coreRoom.cells[0];
+
+        foreach (Room room in rooms)
+        {
+            List<Cell> _topCells = new List<Cell>();
+
+            //Find TopMost Cell
+            foreach (Cell cell in room.cells)
+            {
+                Vector2 cellPos = topCell.transform.position; //Get current TopMost Cell's position
+                if (cell != null) cellPos = cell.transform.position; //Get selected cell's position
+
+                if (cellPos.y > topCell.transform.position.y) //If selected cell's y position is greater than the current TopMost Cell's,
+                {
+                    _topCells.Clear(); //clear list of Top Cells
+                    topCell = cell;  //Make it the new TopMost Cell
+                    _topCells.Add(cell); //Add it to the list
+                }
+                else if (cellPos.y == topCell.transform.position.y) //If selected cell's y position is the same as the TopMost Cell,
+                {
+                    _topCells.Add(cell); //Add it to the list
+                }
+
+                if (_topCells.Count > 1) //If there's more than 1 Cell tied for highest y position
+                {
+                    foreach (Cell _cell in _topCells) //Find the Left / Right Most Cell 
+                    {
+                        if (direction == -1)
+                        {
+                            //Find RightMost Cell
+                            if (_cell.transform.position.x > topCell.transform.position.x) 
+                            {
+                                topCell = _cell;
+                            }
+                        }
+
+                        if (direction == 1)
+                        {
+                            //Find LeftMost Cell
+                            if (_cell.transform.position.x < topCell.transform.position.x)
+                            {
+                                topCell = _cell;
+                            }
+                        }
+                    }
+                }
+
+                //Turn Off Speedlines
+                cell.ShowSpeedTrails(false, 0);
+            }
+
+            _topCells.Clear();
+        }
+
+        //Apply Speedlines to both Cells
+        topCell.ShowSpeedTrails(true, 1);
+        bottomCell.ShowSpeedTrails(true, -1);
+
+        //Apply Ramming Condition to all Cells
+
+    }
+
+    public void DisableSpeedTrails()
+    {
+        foreach (Room room in rooms)
+        {
+            foreach (Cell cell in room.cells)
+            {
+                cell.ShowSpeedTrails(false, 0);
+            }
+        }
+    }
+
     public void ChangeAllGear(int direction) //changes gear of all active throttles in the tank
     {
         ThrottleController[] throttles = GetComponentsInChildren<ThrottleController>();

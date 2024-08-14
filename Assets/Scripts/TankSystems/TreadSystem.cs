@@ -16,10 +16,11 @@ public class TreadSystem : MonoBehaviour
     [Tooltip("Height at which center of gravity is locked relative to tread system.")] public float COGHeight;
     [Tooltip("Extents of center of gravity (affects how far tank can lean).")]         public float COGWidth;
     [Tooltip("How much weight the tank currently has")]                                public float totalWeight = 0;
-    [Tooltip("True = Engines determine tank's overall speed & acceleration, False = Set manual values")] public bool useEngines;
 
     [Header("Drive Settings:")]
+    [Tooltip("True = Engines determine tank's overall speed & acceleration, False = Set manual values")]       public bool useEngines;
     [Tooltip("Greatest speed tank can achieve at maximum gear.")]                                              public float maxSpeed = 100;
+    [Tooltip("Current x Velocity of the tank's rigidbody")]                                                    public float actualSpeed;
     [SerializeField, Tooltip("Rate at which tank accelerates to target speed (in units per second squared).")] private float maxAcceleration;
     [Range(0, 1), SerializeField, Tooltip("Lerp value used to smooth out end of acceleration phases.")]        private float accelerationDamping = 0.5f;
     [SerializeField, Tooltip("Rate at which tank adjusts target speed based on current powered engines")]      private float speedShiftRate = 2f;
@@ -38,6 +39,9 @@ public class TreadSystem : MonoBehaviour
     [Range(0, 90), SerializeField, Tooltip("Maximum angle (left or right) at which tank can be tipped.")]                                             private float maxTipAngle;
     [Min(0), SerializeField, Tooltip("Radial area (inside max tip angle) where torque will be applied to prevent tank from reaching max tip angle.")] private float tipAngleBufferZone;
     [Min(0), SerializeField, Tooltip("Scale of force applied to prevent tippage.")]                                                                   private float tipPreventionForce;
+
+    [Header("Ramming & Collision Settings:")]
+    [SerializeField, Tooltip("Minimum Speed for Ramming Effects to Apply")]         public float rammingSpeed;
 
     //Runtime Variables:
     private bool initialized;    //True if tread system has already been set up
@@ -75,6 +79,18 @@ public class TreadSystem : MonoBehaviour
 
         //Calculate Speed
         if (useEngines) CalculateSpeed();
+
+        //Print Speed
+        actualSpeed = r.velocity.x;
+        if (Mathf.Abs(actualSpeed) >= rammingSpeed)
+        {
+            float sign = Mathf.Sign(actualSpeed);
+            tankController.RammingSpeed(sign);
+        }
+        else
+        {
+            tankController.DisableSpeedTrails();
+        }
     }
     private void FixedUpdate()
     {
