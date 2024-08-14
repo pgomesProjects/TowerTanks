@@ -87,7 +87,7 @@ public class TreadSystem : MonoBehaviour
             float sign = Mathf.Sign(actualSpeed);
             tankController.RammingSpeed(sign);
         }
-        else
+        else if (Mathf.Abs(actualSpeed) < 1)
         {
             tankController.DisableSpeedTrails();
         }

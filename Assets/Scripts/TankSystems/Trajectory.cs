@@ -16,7 +16,8 @@ public class Trajectory : MonoBehaviour
     {
         List<Vector3> listOfTrajectoryPoints = new List<Vector3>(trajectoryPoints);
 
-        float g = Physics2D.gravity.magnitude * gravityScale;
+        float g = gravityScale;
+        //Physics2D.gravity.magnitude * gravityScale <- previous calculation
 
         float velocity = initialVelocity.magnitude;
         float angle = Mathf.Atan2(initialVelocity.y, initialVelocity.x);
