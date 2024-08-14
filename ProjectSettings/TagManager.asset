@@ -35,6 +35,7 @@ TagManager:
   - DebugPlayer
   - Destructible
   - Cargo
+  - CharacterVisual
   layers:
   - Default
   - TransparentFX

@@ -98,6 +98,9 @@ public class PlayerMovement : Character
 
     protected override void Update()
     {
+        base.Update();
+        if (!isAlive) return;
+
         //Interactable building:
         if (buildCell != null) //Player is currently in build mode
         {
@@ -163,8 +166,6 @@ public class PlayerMovement : Character
 
         if (moveInput.y <= -0.5) isHoldingDown = true;
         else isHoldingDown = false;
-        
-        base.Update();
     }
                 
     protected override void FixedUpdate()
@@ -301,6 +302,7 @@ public class PlayerMovement : Character
             case "Cancel": OnCancel(ctx); break;
             case "Repair": OnRepair(ctx); break;
             case "Build": OnBuild(ctx); break;
+            case "Persona3": OnSelfDestruct(ctx); break;
         }
     }
 
@@ -317,11 +319,14 @@ public class PlayerMovement : Character
             case "3": OnRepair(ctx); break;
             case "4": OnCancel(ctx); break;
             case "Build": OnBuild(ctx); break;
+            case "Persona3": OnSelfDestruct(ctx); break;
         }
     }
 
     public void OnMove(InputAction.CallbackContext ctx)
     {
+        if (!isAlive) return;
+
         moveInput = ctx.ReadValue<Vector2>();
         
         if (ctx.started && moveInput.y > 0)
@@ -354,6 +359,7 @@ public class PlayerMovement : Character
 
     public void OnJetpack(InputAction.CallbackContext ctx)
     {
+        if (!isAlive) return;
         if (buildCell != null) return;
 
         jetpackInputHeld = ctx.ReadValue<float>() > 0;
@@ -362,6 +368,7 @@ public class PlayerMovement : Character
 
     public void OnInteract(InputAction.CallbackContext ctx)
     {
+        if (!isAlive) return;
         if (buildCell != null) return;
 
         interactInputHeld = ctx.ReadValue<float>() > 0;
@@ -395,6 +402,8 @@ public class PlayerMovement : Character
 
     public void OnBuild(InputAction.CallbackContext ctx)
     {
+        if (!isAlive) return;
+
         if (StackManager.stack.Count > 0 && ctx.performed && !isOperator)
         {
             //Check if build is valid:
@@ -418,6 +427,8 @@ public class PlayerMovement : Character
 
     public void OnCancel(InputAction.CallbackContext ctx)
     {
+        if (!isAlive) return;
+
         if (ctx.started)
         {
             if (currentInteractable != null)
@@ -435,6 +446,8 @@ public class PlayerMovement : Character
 
     public void OnControlSteering(InputAction.CallbackContext ctx)
     {
+        if (!isAlive) return;
+
         float steeringValue = ctx.ReadValue<float>();
         int _steeringValue = 0;
         if (currentInteractable != null && isOperator && Mathf.Abs(steeringValue) > 0.5f)
@@ -462,6 +475,16 @@ public class PlayerMovement : Character
         if (ctx.canceled)
         {
             if (currentInteractable != null) currentInteractable.SecondaryUse(false);
+        }
+    }
+
+    public void OnSelfDestruct(InputAction.CallbackContext ctx)
+    {
+        if (!isAlive) return;
+
+        if (ctx.performed)
+        {
+            SelfDestruct();
         }
     }
 
@@ -562,9 +585,14 @@ public class PlayerMovement : Character
         print("stopped building");
     }
 
-    protected override void OnCharacterDeath()
+    protected override void OnCharacterDeath(bool isRespawnable = true)
     {
-        //TODO: implement something to happen upon the player dying
+        base.OnCharacterDeath(isRespawnable);
+    }
+
+    protected override void ResetPlayer()
+    {
+        base.ResetPlayer();
     }
 
     #endregion
