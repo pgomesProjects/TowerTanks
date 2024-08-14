@@ -4,11 +4,9 @@ using UnityEngine;
 
 public class Trajectory : MonoBehaviour
 {
-    private const int N_TRAJECTORY_POINTS = 10; //The number of points to show on the line renderer
-
-    public static List<Vector3> GetTrajectory(Vector3 start, Vector2 initialVelocity, float gravityScale)
+    public static List<Vector3> GetTrajectory(Vector3 start, Vector2 initialVelocity, float gravityScale, int trajectoryPoints = 10)
     {
-        List<Vector3> trajectoryPoints = new List<Vector3>(N_TRAJECTORY_POINTS);
+        List<Vector3> listOfTrajectoryPoints = new List<Vector3>(trajectoryPoints);
 
         float g = Physics2D.gravity.magnitude * gravityScale;
 
@@ -17,15 +15,15 @@ public class Trajectory : MonoBehaviour
 
         float timeStep = 0.1f;
         float fTime = 0f;
-        for (int i = 0; i < N_TRAJECTORY_POINTS; i++)
+        for (int i = 0; i < trajectoryPoints; i++)
         {
             float dx = velocity * fTime * Mathf.Cos(angle);
             float dy = velocity * fTime * Mathf.Sin(angle) - (g * fTime * fTime / 2f);
             Vector3 pos = new Vector3(start.x + dx, start.y + dy, 0);
-            trajectoryPoints.Add(pos);
+            listOfTrajectoryPoints.Add(pos);
             fTime += timeStep;
         }
 
-        return trajectoryPoints;
+        return listOfTrajectoryPoints;
     }
 }
