@@ -12,6 +12,7 @@ public abstract class Character : SerializedMonoBehaviour
 
     //Components
     protected Rigidbody2D rb;
+    protected CapsuleCollider2D characterHitbox;
     protected GameObject currentLadder;
     protected Bounds ladderBounds;
     protected PlayerHUD characterHUD;
@@ -73,6 +74,7 @@ public abstract class Character : SerializedMonoBehaviour
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        characterHitbox = GetComponent<CapsuleCollider2D>();
         currentHealth = characterSettings.maxHealth;
         hands = transform.transform.Find("Hands");
         characterVisualParent = transform.GetChild(0);
@@ -227,7 +229,7 @@ public abstract class Character : SerializedMonoBehaviour
 
     #region Character Functions
 
-    protected void ModifyHealth(float newHealth)
+    public void ModifyHealth(float newHealth)
     {
         currentHealth += newHealth;
         currentHealth = Mathf.Clamp(currentHealth, 0f, characterSettings.maxHealth);
@@ -263,6 +265,7 @@ public abstract class Character : SerializedMonoBehaviour
         }
 
         rb.isKinematic = true;
+        characterHitbox.enabled = false;
         characterVisualParent?.gameObject.SetActive(false);
         isAlive = false;
         ResetPlayer();
@@ -296,6 +299,7 @@ public abstract class Character : SerializedMonoBehaviour
         characterHUD?.ShowRespawnTimer(false);
         LevelManager.Instance?.MoveCharacterToSpawn(this);
         rb.isKinematic = false;
+        characterHitbox.enabled = true;
         characterVisualParent?.gameObject.SetActive(true);
     }
 

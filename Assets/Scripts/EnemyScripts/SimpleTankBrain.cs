@@ -63,11 +63,12 @@ public class SimpleTankBrain : MonoBehaviour
         //Check to see if we should flee
         if (decisionTimer <= 0 && CheckGuns() == false)
         {
+            /*
             if (state != TankBehavior.FLEE)
             {
                 state = TankBehavior.FLEE;
                 Debug.Log("Ah shit");
-            }
+            }*/
 
             if (state != TankBehavior.SURRENDER)
             {

@@ -100,7 +100,7 @@ public class Projectile : MonoBehaviour
         bool damagedCoreThisFrame = false;
 
         //Handle Projectile Direct Damage
-        if (target != null && target.GetComponentInParent<Cell>() != null)
+        if (target != null && target.GetComponentInParent<Cell>() != null) //Hit Cell
         {
             Cell cellHit = target.GetComponentInParent<Cell>();
             cellHit.Damage(damage);
@@ -108,10 +108,16 @@ public class Projectile : MonoBehaviour
             GameManager.Instance.AudioManager.Play("ShellImpact", gameObject);
         }
 
-        if (target != null && target.CompareTag("Destructible"))
+        if (target != null && target.CompareTag("Destructible")) //Hit Destructible Object
         {
             target.GetComponent<DestructibleObject>().Damage(damage);
             GameManager.Instance.AudioManager.Play("ShellImpact", gameObject);
+        }
+
+        if (target != null && target.GetComponentInParent<Character>() != null) //Hit Character
+        {
+            Character character = target.GetComponentInParent<Character>();
+            character.ModifyHealth(-damage);
         }
 
         //Handle Projectile Splash Damage
@@ -139,6 +145,12 @@ public class Projectile : MonoBehaviour
                         if (collider.CompareTag("Destructible"))
                         {
                             collider.gameObject.GetComponent<DestructibleObject>().Damage(splash.splashDamage);
+                        }
+
+                        Character character = collider.gameObject.GetComponent<Character>();
+                        if (character != null)
+                        {
+                            character.ModifyHealth(-splash.splashDamage);
                         }
                     }
                 }
