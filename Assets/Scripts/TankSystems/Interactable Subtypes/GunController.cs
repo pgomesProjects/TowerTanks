@@ -30,7 +30,7 @@ public class GunController : TankInteractable
     //Cannon
 
     //Machine Gun
-    private float spinupTime = 0.8f; //while fire is held down, how much time it takes before it starts shooting
+    private float spinupTime = 0.1f; //while fire is held down, how much time it takes before it starts shooting
     private float spinupTimer = 0;
     private float spinTime = 0.6f; //how long the barrel will keep spinning for after shooting before it starts to slow down again
     private float spinTimer = 0;
@@ -210,7 +210,9 @@ public class GunController : TankInteractable
             if (overheatTimer > overheatTime)
             {
                 isOverheating = true;
-                GameManager.Instance.AudioManager.Play("SteamExhaust", gameObject);
+                if (GameManager.Instance.AudioManager.IsPlaying("SteamExhaust", gameObject) == false) { 
+                    GameManager.Instance.AudioManager.Play("SteamExhaust", gameObject); 
+                }
             }
 
             if (isOverheating) canFire = false;

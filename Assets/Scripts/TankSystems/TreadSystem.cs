@@ -19,6 +19,8 @@ public class TreadSystem : MonoBehaviour
 
     [Header("Drive Settings:")]
     [Tooltip("True = Engines determine tank's overall speed & acceleration, False = Set manual values")]       public bool useEngines;
+    [SerializeField, Tooltip("Current number of active engines in the tank")]                                  internal int currentEngines;
+    [SerializeField, Tooltip("Base multiplier that affects how much power each individual engine has on the tank's speed")] internal float speedFactor;
     [Tooltip("Greatest speed tank can achieve at maximum gear.")]                                              public float maxSpeed = 100;
     [Tooltip("Current x Velocity of the tank's rigidbody")]                                                    public float actualSpeed;
     [SerializeField, Tooltip("Rate at which tank accelerates to target speed (in units per second squared).")] private float maxAcceleration;
@@ -45,7 +47,6 @@ public class TreadSystem : MonoBehaviour
 
     //Runtime Variables:
     private bool initialized;    //True if tread system has already been set up
-    [SerializeField] internal int currentEngines; //Current number of engines acting on tread system (deprecated?)
     internal int gear;           //Basic designator for current direction and speed the tank is set to move in (0 = Neutral)
     private float throttleValue; //Current value of the throttle, adjusted over time based on acceleration and gear for smooth movement
     private float timeInGear;    //Time (in seconds) treads have spent in current gear
@@ -233,7 +234,7 @@ public class TreadSystem : MonoBehaviour
     public void CalculateSpeed()
     {
         //Speed
-        float c_maxSpeed = 4f * (750f * ((currentEngines + 1) / totalWeight));
+        float c_maxSpeed = speedFactor * (750f * ((currentEngines + 1) / totalWeight));
 
         if (c_maxSpeed < 1f) c_maxSpeed = 1f; //minimum speed
         if (c_maxSpeed > 50f) c_maxSpeed = 50f; //maximum speed
@@ -241,7 +242,7 @@ public class TreadSystem : MonoBehaviour
         maxSpeed = Mathf.MoveTowards(maxSpeed, c_maxSpeed, speedShiftRate * Time.deltaTime);
 
         //Acceleration
-        float c_maxAcceleration = 0.6f + ((currentEngines + 1) * 0.1f);
+        float c_maxAcceleration = 0.4f + ((currentEngines + 1) * 0.1f);
 
         maxAcceleration = c_maxAcceleration;
     }

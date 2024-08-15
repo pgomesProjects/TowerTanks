@@ -1649,7 +1649,10 @@ MonoBehaviour:
   COGWidth: 3.5
   totalWeight: 0
   useEngines: 1
+  currentEngines: 0
+  speedFactor: 3
   maxSpeed: 8
+  actualSpeed: 0
   maxAcceleration: 0.7
   accelerationDamping: 0.1
   speedShiftRate: 2
@@ -1687,7 +1690,7 @@ MonoBehaviour:
   maxTipAngle: 45
   tipAngleBufferZone: 10
   tipPreventionForce: 50
-  currentEngines: 0
+  rammingSpeed: 10
 --- !u!50 &1677695872800944110
 Rigidbody2D:
   serializedVersion: 4
