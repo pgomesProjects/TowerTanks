@@ -264,6 +264,11 @@ public abstract class Character : SerializedMonoBehaviour
             currentRespawnTime = respawnTime;
         }
 
+        //TODO: (Ryan)
+        //Needs to drop any objects/tools currently holding/equipped
+        //Needs to be kicked out of any interactable they're operating
+        //Needs to be unparented from anything they're parented to
+
         rb.isKinematic = true;
         characterHitbox.enabled = false;
         characterVisualParent?.gameObject.SetActive(false);
