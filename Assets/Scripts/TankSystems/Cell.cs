@@ -32,10 +32,15 @@ public class Cell : MonoBehaviour
     /// </summary>
     internal List<Coupler> couplers = new List<Coupler>();
 
+    //UI
+    internal SpriteRenderer damageSprite;
+
     [Header("Cell Components:")]
     [Tooltip("Back wall of cell, will be changed depending on cell purpose.")]                  public GameObject backWall;
     [Tooltip("Pre-assigned cell walls (in NESW order) which confine players inside the tank.")] public GameObject[] walls;
     [SerializeField, Tooltip("The interactable currently installed in this cell (if any).")]    internal TankInteractable interactable;
+    public TrailRenderer[] speedTrails;
+    public enum TankPosition { TOP = 1, BOTTOM = -1 };
 
     //Settings:
     [Button("Debug Destroy Cell")] public void DebugDestroyCell() { Kill(); }
@@ -45,6 +50,8 @@ public class Cell : MonoBehaviour
     [Tooltip("Maximum hitpoints this cell can have when fully repaired.")] public float maxHealth;
     [Tooltip("Current hitpoints this cell has.")]                          public float health;
     [Tooltip("Which section this cell is in inside its parent room.")]     internal int section;
+    [Tooltip("How long damage visual effect persists for")]                private float damageTime;
+                                                                           private float damageTimer;
         //Meta
     [Tooltip("True if cell destruction has already been scheduled, used to prevent conflicts.")] private bool dying;
     [Tooltip("True once cell has been set up and is ready to go.")]                              private bool initialized = false;
@@ -63,6 +70,56 @@ public class Cell : MonoBehaviour
         health = maxHealth;
     }
 
+    private void Update()
+    {
+        if (damageTimer > 0)
+        {
+            UpdateUI();
+        }
+    }
+
+    //RUNTIME METHODS:
+    private void UpdateUI()
+    {
+        Color newColor = damageSprite.color;
+        newColor.a = Mathf.Lerp(0, 255f, (damageTimer / damageTime) * Time.deltaTime);
+        damageSprite.color = newColor;
+
+        damageTimer -= Time.deltaTime;
+        if (damageTimer < 0)
+        {
+            damageTimer = 0;
+            damageTime = 0;
+        }
+    }
+
+    public void ShowSpeedTrails(bool onOff, int topBottom) //True = On, False = Off -- 1 = Top, -1 = Bottom, 0 = Both
+    {
+        if (topBottom == (int)TankPosition.TOP)
+        {
+            if (onOff == true)
+            {
+                speedTrails[0].enabled = true;
+            }
+            else { speedTrails[0].enabled = false; }
+        }
+
+        if (topBottom == (int)TankPosition.BOTTOM)
+        {
+            if (onOff == true)
+            {
+                speedTrails[1].enabled = true;
+            }
+            else { speedTrails[1].enabled = false; }
+        }
+
+        if (onOff == false && topBottom == 0)
+        {
+            speedTrails[0].enabled = false;
+            speedTrails[1].enabled = false;
+        }
+    }
+
     //FUNCTIONALITY METHODS:
     /// <summary>
     /// Performs all necessary setup so that cell is ready to use.
@@ -77,6 +134,7 @@ public class Cell : MonoBehaviour
         room = GetComponentInParent<Room>(); //Get room cell is connected to
         c = GetComponent<BoxCollider2D>();   //Get local collider
         health = maxHealth;
+        damageSprite = transform.Find("DiageticUI")?.GetComponent<SpriteRenderer>();
     }
     /// <summary>
     /// Updates list indicating which sides are open and which are adjacent to other cells.
@@ -141,7 +199,12 @@ public class Cell : MonoBehaviour
         else
         {
             if (room.type == Room.RoomType.Defense) amount -= 25f; //Armor reduces incoming damage
-            if (amount < 0) amount = 0;
+            if (amount < 0) { amount = 0; }
+            else
+            {
+                damageTime += (amount / 50f);
+                damageTimer = damageTime;
+            }
             health -= amount;
             if (health <= 0) Kill();
         }
@@ -263,6 +326,11 @@ public class Cell : MonoBehaviour
         if (!proxy) room.targetTank.treadSystem.ReCalculateMass(); //Re-calculate tank mass based on new cell configuration (only needs to be done once for group cell destructions)
 
         //Cleanup:
+        Character player = GetComponentInChildren<Character>();
+        if (player != null)
+        {
+            player.transform.parent = null; // removes the player from the cell before destruction if present
+        }
         Destroy(gameObject); //Destroy this cell
 
         //Other Effects

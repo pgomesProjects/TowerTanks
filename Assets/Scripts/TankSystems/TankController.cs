@@ -26,7 +26,7 @@ public class TankController : MonoBehaviour
     [Header("Cargo")]
     public GameObject[] cargoHold;
 
-    //Runtime Variables:
+    //Settings:
     [Header("Debug")] 
     public bool shiftRight;
     public bool shiftLeft;
@@ -35,8 +35,15 @@ public class TankController : MonoBehaviour
     public bool fireAllWeapons;
     public bool overchargeAllWeapons;
 
+    //Runtime Variables:
+    [Tooltip("One of the cells which is in the uppermost position in the tank.")] internal Cell highestCell;
     public bool isDying = false; //true when the tank is in the process of blowing up
     private float deathSequenceTimer = 0;
+
+    //UI
+    private SpriteRenderer damageSprite;
+    [Tooltip("How long damage visual effect persists for")] private float damageTime;
+    private float damageTimer;
 
     //RUNTIME METHODS:
     private void Awake()
@@ -47,6 +54,7 @@ public class TankController : MonoBehaviour
         treadSystem.Initialize();                            //Make sure treads are initialized
 
         nameText = GetComponentInChildren<TextMeshProUGUI>();
+        damageSprite = towerJoint.transform.Find("DiageticUI")?.GetComponent<SpriteRenderer>();
 
         //Room setup:
         rooms = new List<Room>(GetComponentsInChildren<Room>()); //Get list of all rooms which spawn as children of tank (for prefab tanks)
@@ -127,6 +135,102 @@ public class TankController : MonoBehaviour
         {
             DeathSequenceEvents();
         }
+
+        //UI
+        if (damageTimer > 0)
+        {
+            UpdateUI();
+        }
+    }
+
+    private void UpdateUI()
+    {
+        Color newColor = damageSprite.color;
+        newColor.a = Mathf.Lerp(0, 255f, (damageTimer / damageTime) * Time.deltaTime);
+        damageSprite.color = newColor;
+
+        damageTimer -= Time.deltaTime;
+        if (damageTimer < 0)
+        {
+            damageTimer = 0;
+            damageTime = 0;
+        }
+    }
+
+    public void RammingSpeed(float direction) //direction --> 1 = right, -1 = left
+    {
+        Cell topCell = coreRoom.cells[0];
+        Cell bottomCell = coreRoom.cells[0];
+
+        foreach (Room room in rooms)
+        {
+            List<Cell> _topCells = new List<Cell>();
+
+            //Find TopMost Cell
+            foreach (Cell cell in room.cells)
+            {
+                Vector2 cellPos = topCell.transform.position; //Get current TopMost Cell's position
+                if (cell != null) cellPos = cell.transform.position; //Get selected cell's position
+
+                if (cellPos.y > topCell.transform.position.y) //If selected cell's y position is greater than the current TopMost Cell's,
+                {
+                    _topCells.Clear(); //clear list of Top Cells
+                    topCell = cell;  //Make it the new TopMost Cell
+                    _topCells.Add(cell); //Add it to the list
+                }
+                else if (cellPos.y == topCell.transform.position.y) //If selected cell's y position is the same as the TopMost Cell,
+                {
+                    _topCells.Add(cell); //Add it to the list
+                }
+
+                if (_topCells.Count > 1) //If there's more than 1 Cell tied for highest y position
+                {
+                    foreach (Cell _cell in _topCells) //Find the Left / Right Most Cell 
+                    {
+                        if (direction == -1)
+                        {
+                            //Find RightMost Cell
+                            if (_cell.transform.position.x > topCell.transform.position.x) 
+                            {
+                                topCell = _cell;
+                            }
+                        }
+
+                        if (direction == 1)
+                        {
+                            //Find LeftMost Cell
+                            if (_cell.transform.position.x < topCell.transform.position.x)
+                            {
+                                topCell = _cell;
+                            }
+                        }
+                    }
+                }
+
+                //Turn Off Speedlines
+                cell.ShowSpeedTrails(false, 0);
+            }
+
+            _topCells.Clear();
+        }
+
+        //Apply Speedlines to both Cells
+        topCell.ShowSpeedTrails(true, 1);
+        bottomCell.ShowSpeedTrails(true, -1);
+
+        //Apply Ramming Condition to all Cells
+
+    }
+
+    public void DisableSpeedTrails()
+    {
+        foreach (Room room in rooms)
+        {
+            foreach (Cell cell in room.cells)
+            {
+                cell.ShowSpeedTrails(false, 0);
+            }
+        }
     }
 
     public void ChangeAllGear(int direction) //changes gear of all active throttles in the tank
@@ -192,6 +296,11 @@ public class TankController : MonoBehaviour
     public void Damage(float amount)
     {
         coreHealth -= amount;
+
+        //UI
+        damageTime += (amount / 50f);
+        damageTimer = damageTime;
+
         if (coreHealth <= 0)
         {
             if (!isDying)

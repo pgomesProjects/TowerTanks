@@ -10,6 +10,7 @@ public class GunController : TankInteractable
     [Tooltip("Joint around which moving cannon assembly rotates."), SerializeField]                         private Transform pivot;
     [Tooltip("Transforms to spawn particles from when used."), SerializeField]                              private Transform[] particleSpots;
     [Tooltip("Scale particles are multiplied by when used by this weapon"), SerializeField]                 private float particleScale;
+    [Tooltip("Line Renderer used for trajectories"), SerializeField]                                        private LineRenderer trajectoryLine;
 
     //Settings:
     public enum GunType { CANNON, MACHINEGUN, MORTAR };
@@ -62,7 +63,11 @@ public class GunController : TankInteractable
     private void Start()
     {
         if (gunType == GunType.MACHINEGUN) { heatRenderer = transform.Find("Visuals/JointParent/MachineGun_Heat").GetComponent<SpriteRenderer>(); }
-        if (gunType == GunType.MORTAR) { maxVelocity = muzzleVelocity; }
+        if (gunType == GunType.MORTAR) {
+            trajectoryLine.positionCount = 100;
+            //trajectoryLine.enabled = false;
+            maxVelocity = muzzleVelocity; 
+        }
     }
 
     private void Update()
@@ -131,13 +136,31 @@ public class GunController : TankInteractable
         {
             if (operatorID != null && operatorID.interactInputHeld && fireCooldownTimer <= 0)
             {
+                //Increase Charge Time
                 if (chargeTimer < maxChargeTime)
                 {
                     chargeTimer += Time.deltaTime;
                 }
+
+                if (chargeTimer >= minChargeTime)
+                {
+                    //Show trajectory based on velocity
+                    Color playerColor = operatorID.GetCharacterColor();
+                    trajectoryLine.startColor = playerColor;
+                    trajectoryLine.endColor = playerColor;
+
+                    trajectoryLine.enabled = true;
+                    List<Vector3> trajectoryPoints = Trajectory.GetTrajectory(barrel.position, barrel.right * muzzleVelocity, 30, 100);
+                    for (int i = 0; i < trajectoryPoints.Count; i++)
+                    {
+                        trajectoryLine.SetPosition(i, trajectoryPoints[i]);
+                    }
+                }
+
             }
             else
             {
+                trajectoryLine.enabled = false;
                 if (chargeTimer > 0)
                 {
                     chargeTimer -= Time.deltaTime;

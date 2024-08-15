@@ -56,6 +56,10 @@ public class PlayerMovement : Character
     public bool isCarryingSomething; //true if player is currently carrying something
     public Cargo currentObject; //what object the player is currently carrying
 
+    private float maxShakeIntensity = 0.5f;
+    private float currentShakeTime;
+    private bool isShaking = false;
+
     #endregion
 
     #region Unity Methods
@@ -76,6 +80,21 @@ public class PlayerMovement : Character
         base.Start();
     }
 
+    private void OnDisable()
+    {
+        if (playerInputComponent != null)
+        {
+            if (isDebugPlayer)
+                inputMap.actionTriggered -= OnDebugInput;
+
+            else
+                inputMap.actionTriggered -= OnPlayerInput;
+
+            playerInputComponent.onDeviceLost -= OnDeviceLost;
+            playerInputComponent.onDeviceRegained -= OnDeviceRegained;
+        }
+    }
+
     public void AddDebuggerPlayerInput(PlayerInput debugPlayerInput)
     {
         LinkPlayerInput(debugPlayerInput);
@@ -83,6 +102,12 @@ public class PlayerMovement : Character
 
     protected override void Update()
     {
+        base.Update();
+        if (!isAlive) return;
+
+        if (isShaking)
+            ShakePlayer();
+
         //Interactable building:
         if (buildCell != null) //Player is currently in build mode
         {
@@ -148,8 +173,6 @@ public class PlayerMovement : Character
 
         if (moveInput.y <= -0.5) isHoldingDown = true;
         else isHoldingDown = false;
-        
-        base.Update();
     }
                 
     protected override void FixedUpdate()
@@ -259,21 +282,8 @@ public class PlayerMovement : Character
         //Subscribes events for control lost / regained
         playerInputComponent.onDeviceLost += OnDeviceLost;
         playerInputComponent.onDeviceRegained += OnDeviceRegained;
-    }
 
-    public void OnDisable()
-    {
-        if(playerInputComponent != null)
-        {
-            if(isDebugPlayer)
-                playerInputComponent.onActionTriggered -= OnDebugInput;
-
-            else
-                playerInputComponent.onActionTriggered -= OnPlayerInput;
-
-            playerInputComponent.onDeviceLost -= OnDeviceLost;
-            playerInputComponent.onDeviceRegained -= OnDeviceRegained;
-        }
+        characterColor = GameManager.Instance.MultiplayerManager.GetPlayerColors()[newInput.playerIndex];
     }
 
     public void OnDeviceLost(PlayerInput playerInput)
@@ -301,6 +311,7 @@ public class PlayerMovement : Character
             case "Cancel": OnCancel(ctx); break;
             case "Repair": OnRepair(ctx); break;
             case "Build": OnBuild(ctx); break;
+            case "Persona3": OnSelfDestruct(ctx); break;
         }
     }
 
@@ -317,11 +328,14 @@ public class PlayerMovement : Character
             case "3": OnRepair(ctx); break;
             case "4": OnCancel(ctx); break;
             case "Build": OnBuild(ctx); break;
+            case "Persona3": OnSelfDestruct(ctx); break;
         }
     }
 
     public void OnMove(InputAction.CallbackContext ctx)
     {
+        if (!isAlive) return;
+
         moveInput = ctx.ReadValue<Vector2>();
         
         if (ctx.started && moveInput.y > 0)
@@ -354,6 +368,7 @@ public class PlayerMovement : Character
 
     public void OnJetpack(InputAction.CallbackContext ctx)
     {
+        if (!isAlive) return;
         if (buildCell != null) return;
 
         jetpackInputHeld = ctx.ReadValue<float>() > 0;
@@ -362,6 +377,7 @@ public class PlayerMovement : Character
 
     public void OnInteract(InputAction.CallbackContext ctx)
     {
+        if (!isAlive) return;
         if (buildCell != null) return;
 
         interactInputHeld = ctx.ReadValue<float>() > 0;
@@ -395,6 +411,8 @@ public class PlayerMovement : Character
 
     public void OnBuild(InputAction.CallbackContext ctx)
     {
+        if (!isAlive) return;
+
         if (StackManager.stack.Count > 0 && ctx.performed && !isOperator)
         {
             //Check if build is valid:
@@ -418,6 +436,8 @@ public class PlayerMovement : Character
 
     public void OnCancel(InputAction.CallbackContext ctx)
     {
+        if (!isAlive) return;
+
         if (ctx.started)
         {
             if (currentInteractable != null)
@@ -435,6 +455,8 @@ public class PlayerMovement : Character
 
     public void OnControlSteering(InputAction.CallbackContext ctx)
     {
+        if (!isAlive) return;
+
         float steeringValue = ctx.ReadValue<float>();
         int _steeringValue = 0;
         if (currentInteractable != null && isOperator && Mathf.Abs(steeringValue) > 0.5f)
@@ -462,6 +484,52 @@ public class PlayerMovement : Character
         if (ctx.canceled)
         {
             if (currentInteractable != null) currentInteractable.SecondaryUse(false);
+        }
+    }
+
+    public void OnSelfDestruct(InputAction.CallbackContext ctx)
+    {
+        if (!isAlive) return;
+
+        if (ctx.started)
+        {
+            isShaking = true;
+            currentShakeTime = 0f;
+        }
+
+        if (ctx.performed)
+        {
+            characterVisualParent.localPosition = Vector3.zero;
+            SelfDestruct();
+            isShaking = false;
+        }
+
+        if (ctx.canceled)
+        {
+            characterVisualParent.localPosition = Vector3.zero;
+            isShaking = false;
+        }
+    }
+
+    private void ShakePlayer()
+    {
+        currentShakeTime += Time.deltaTime;
+
+        float maxShakeTime = 3f;
+
+        if (currentShakeTime >= 1f)
+        {
+            // Normalize the shake intensity between 1 second and 3 seconds
+            float normalizedTime = Mathf.Clamp01((currentShakeTime - 1f) / (maxShakeTime - 1f));
+            float shakeIntensity = normalizedTime * maxShakeIntensity;
+
+            // Use Perlin noise for smooth random movement in each axis
+            float offsetX = (Mathf.PerlinNoise(Time.time * 10f, 0f) - 0.5f) * 2f * shakeIntensity;
+            float offsetY = (Mathf.PerlinNoise(Time.time * 10f, 100f) - 0.5f) * 2f * shakeIntensity;
+            float offsetZ = (Mathf.PerlinNoise(Time.time * 10f, 200f) - 0.5f) * 2f * shakeIntensity;
+
+            // Apply the shake offset to the characterVisualParent's local position
+            characterVisualParent.localPosition = new Vector3(offsetX, offsetY, offsetZ);
         }
     }
 
@@ -562,10 +630,15 @@ public class PlayerMovement : Character
         print("stopped building");
     }
 
-    protected override void OnCharacterDeath()
+    protected override void OnCharacterDeath(bool isRespawnable = true)
     {
-        //TODO: implement something to happen upon the player dying
+        base.OnCharacterDeath(isRespawnable);
     }
-    
+
+    protected override void ResetPlayer()
+    {
+        base.ResetPlayer();
+    }
+
     #endregion
 }

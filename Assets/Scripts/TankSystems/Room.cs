@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using CustomEnums;
+using Cinemachine;
 
 /// <summary>
 /// Basic structural element which tanks are built from.
@@ -370,9 +371,6 @@ public class Room : MonoBehaviour
                 }
             }
         }
-        
-        //Update tank info:
-        transform.parent = couplers[0].roomB.transform.parent; //Child room to parent of the rest of the rooms (home tank)
 
         //Cleanup:
         if (targetTank == null) targetTank = couplers[0].GetConnectedRoom(this).targetTank; //Get target tank from a mounted room if necessary
@@ -381,6 +379,20 @@ public class Room : MonoBehaviour
         ghostCouplers.Clear();                                                              //Clear ghost couplers list
         mounted = true;                                                                     //Indicate that room is now mounted
         //GameManager.Instance.AudioManager.Play("BuildRoom");
+
+        //Update camera:
+        Cell tallestCell = null;                                                                                                                                                       //Create place to store uppermost cell in tank
+        foreach (Cell cell in targetTank.GetComponentsInChildren<Cell>()) if (tallestCell == null || cell.transform.position.y > tallestCell.transform.position.y) tallestCell = cell; //Find highest cell in entire tank
+        if (CameraManipulator.main != null && CameraManipulator.main.playerTankCamera != null) //Make sure camera manipulator component is present in scene
+        {
+            CinemachineTargetGroup targetGroup = CameraManipulator.main.playerTankCamera.GetComponentInChildren<CinemachineTargetGroup>();           //Get target group component from tank virtual camera
+            if (targetTank.highestCell != tallestCell && targetTank.highestCell != null) targetGroup.RemoveMember(targetTank.highestCell.transform); //Remove previous highest cell (if it has changed)
+            if (targetTank.highestCell != tallestCell) targetGroup.AddMember(tallestCell.transform, 1, 0);                                           //Have camera follower bounds include tallest cell on tank
+        }
+
+        //Update tank info:
+        transform.parent = couplers[0].roomB.transform.parent; //Child room to parent of the rest of the rooms (home tank)
+        targetTank.highestCell = tallestCell;                  //Store info in tank
 
         return mounted;
     }

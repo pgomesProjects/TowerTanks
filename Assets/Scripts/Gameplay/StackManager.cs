@@ -4,7 +4,6 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.UI;
 using TMPro;
-using System.Linq;
 
 public class StackManager : MonoBehaviour
 {
@@ -130,6 +129,11 @@ public class StackManager : MonoBehaviour
     {
         //Initialization:
         if (main != null) { Destroy(this); } else { main = this; } //Singleton-ize this script in scene
+    }
+    private void Start()
+    {
+        //Populate stack UI:
+        foreach (StackItem item in stack) item.GenerateUIPanel(); //Iterate through entire stack
     }
     private void Update()
     {

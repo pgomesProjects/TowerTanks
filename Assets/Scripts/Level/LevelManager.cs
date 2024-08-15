@@ -24,7 +24,7 @@ public class LevelManager : SerializedMonoBehaviour
     [SerializeField, Tooltip("The level event data that dictates how the level must be run.")] private LevelEvents currentLevelEvent;
     [SerializeField, Tooltip("The component that tracks the objective information.")] private ObjectiveTracker objectiveTracker;
     [SerializeField, Tooltip("The component that tracks tank information.")] public TankManager tankManager;
-    public float enemiesDestroyed;
+    [SerializeField] public static float enemiesDestroyed;
 
     public static LevelManager Instance;
 
@@ -171,14 +171,40 @@ public class LevelManager : SerializedMonoBehaviour
 
         PlayerMovement character = Instantiate(GameManager.Instance.MultiplayerManager.GetPlayerPrefab());
         character.LinkPlayerInput(playerInput);
-        character.GetComponent<Rigidbody2D>().isKinematic = false;
-        Vector3 playerPos = spawnPoint.position;
-        playerPos.x += UnityEngine.Random.Range(-0.25f, 0.25f);
-        character.transform.position = playerPos;
+        MoveCharacterToSpawn(character);
         character.transform.GetComponentInChildren<Renderer>().material.SetColor("_Color", GameManager.Instance.MultiplayerManager.GetPlayerColors()[playerInput.playerIndex]);
         //character.SetPlayerMove(true);
         PlayerHUD newPlayerHUD = Instantiate(playerHUDPrefab, playerHUDParentTransform);
         character.LinkPlayerHUD(newPlayerHUD);
+    }
+
+    public void MoveCharacterToSpawn(Character characterObject)
+    {
+        Vector3 charPos = spawnPoint.position;
+        charPos.x += UnityEngine.Random.Range(-0.25f, 0.25f);
+        characterObject.transform.position = charPos;
+    }
+
+    public int GetEnemyTier()
+    {
+        int newInt = 1;
+
+        if (enemiesDestroyed > 1)
+        {
+            newInt = 2;
+        }
+
+        if (enemiesDestroyed > 3)
+        {
+            newInt = 3;
+        }
+
+        if (enemiesDestroyed > 5)
+        {
+            newInt = 4;
+        }
+
+        return newInt;
     }
 
     /// <summary>

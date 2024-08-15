@@ -6,19 +6,65 @@ using TMPro;
 using UnityEngine.InputSystem;
 using Sirenix.OdinInspector;
 
+public class PlayerRoomSelection
+{
+    private PlayerData currentPlayer;
+    private List<int> currentRooms;
+    private int roomsPlaced;
+    private int maxRoomsToPlace;
+
+    public PlayerRoomSelection(PlayerData currentPlayer)
+    {
+        this.currentPlayer = currentPlayer;
+        this.currentRooms = new List<int>();
+        this.roomsPlaced = 0;
+        this.maxRoomsToPlace = RoomBuildingMenu.MAX_ROOMS_TO_PLACE;
+    }
+
+    public PlayerRoomSelection(PlayerData currentPlayer, int maxRoomsToPlace)
+    {
+        this.currentPlayer = currentPlayer;
+        this.currentRooms = new List<int>(RoomBuildingMenu.MAX_ROOMS_TO_PLACE);
+        this.roomsPlaced = 0;
+        this.maxRoomsToPlace = maxRoomsToPlace;
+    }
+
+    public void AddRoomID(int currentRoomID)
+    {
+        currentRooms.Add(currentRoomID);
+    }
+
+    public void MountRoom() => roomsPlaced++;
+
+    public PlayerInput GetCurrentPlayerInput() => currentPlayer.playerInput;
+    public int GetRoomAt(int index) => currentRooms[index];
+    public int GetMaxRoomsToPlace() => maxRoomsToPlace;
+    public int GetRoomToPlace() => currentRooms[roomsPlaced];
+    public bool AllRoomsSelected() => currentRooms.Count >= maxRoomsToPlace;
+    public bool AllRoomsMounted() => roomsPlaced >= maxRoomsToPlace;
+
+    public void SetMaxRoomsToPlace(int maxRoomsToPlace)
+    {
+        this.maxRoomsToPlace = maxRoomsToPlace;
+        ResetSelection();
+    }
+
+    public void ResetSelection()
+    {
+        this.roomsPlaced = 0;
+        currentRooms.Clear();
+    }
+
+    public override string ToString()
+    {
+        return "Player " + (this.currentPlayer.playerInput.playerIndex + 1).ToString() + " | " + this.roomsPlaced + " Rooms Placed Out Of " + this.maxRoomsToPlace;
+    }
+}
+
 public class RoomBuildingMenu : SerializedMonoBehaviour
 {
-    private struct PlayerRoomSelection
-    {
-        public PlayerInput currentPlayer;
-        public int currentRoomID;
 
-        public PlayerRoomSelection(PlayerInput currentPlayer, int currentRoomID)
-        {
-            this.currentPlayer = currentPlayer;
-            this.currentRoomID = currentRoomID;
-        }
-    }
+    public const int MAX_ROOMS_TO_PLACE = 4;
 
     [SerializeField, Tooltip("The prefab that generates data for a room that the players can pick.")] private SelectableRoomObject roomIconPrefab;
     [SerializeField, Tooltip("The transform to store the selectable rooms.")] private Transform roomListTransform;
@@ -37,12 +83,14 @@ public class RoomBuildingMenu : SerializedMonoBehaviour
     private Vector3 startingMenuPos;
     private int roomsSelected;
 
+    private List<SelectableRoomObject> roomButtons;
     private List<PlayerRoomSelection> roomSelections;
 
     private void Awake()
     {
         startingBackgroundPos = buildingBackgroundRectTransform.anchoredPosition;
         startingMenuPos = buildingMenuRectTransform.anchoredPosition;
+        roomButtons = new List<SelectableRoomObject>();
         roomSelections = new List<PlayerRoomSelection>();
     }
 
@@ -50,12 +98,27 @@ public class RoomBuildingMenu : SerializedMonoBehaviour
     {
         GamePhaseUI.OnBuildingPhase += OpenMenu;
         GamePhaseUI.OnCombatPhase += GoToCombatScene;
+        GameManager.Instance.MultiplayerManager.OnPlayerConnected += AddPlayerToSelection;
     }
 
     private void OnDisable()
     {
         GamePhaseUI.OnBuildingPhase -= OpenMenu;
         GamePhaseUI.OnCombatPhase -= GoToCombatScene;
+        GameManager.Instance.MultiplayerManager.OnPlayerConnected -= AddPlayerToSelection;
+    }
+
+    public void AddPlayerToSelection(PlayerInput playerInput)
+    {
+        StartCoroutine(WaitForAddPlayerToSelection(playerInput));
+    }
+
+    private IEnumerator WaitForAddPlayerToSelection(PlayerInput playerInput)
+    {
+        yield return null;
+
+        roomSelections.Add(new PlayerRoomSelection(PlayerData.ToPlayerData(playerInput)));
+        SetRoomSelections();
     }
 
     public void OpenMenu()
@@ -85,28 +148,85 @@ public class RoomBuildingMenu : SerializedMonoBehaviour
         foreach(Transform rooms in roomListTransform)
             Destroy(rooms.gameObject);
 
-        roomSelections.Clear();
-
-        roomsSelected = 0;
-
         //Spawn in four random rooms and display their names
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < MAX_ROOMS_TO_PLACE; i++)
         {
             int roomIndexRange = Random.Range(0, GameManager.Instance.roomList.Length);
             SelectableRoomObject newRoom = Instantiate(roomIconPrefab, roomListTransform);
             newRoom.GetComponentInChildren<TextMeshProUGUI>().text = GameManager.Instance.roomList[roomIndexRange].name.ToString();
             newRoom.SetRoomID(roomIndexRange);
             newRoom.OnSelected.AddListener(OnRoomSelected);
+            roomButtons.Add(newRoom);
+        }
+
+        roomSelections.Clear();
+
+        foreach (PlayerData player in GameManager.Instance.MultiplayerManager.GetAllPlayers())
+            roomSelections.Add(new PlayerRoomSelection(player));
+
+        SetRoomSelections();
+    }
+
+    private void SetRoomSelections()
+    {
+        foreach (SelectableRoomObject roomButton in roomButtons)
+            roomButton.DeselectRoom();
+
+        roomsSelected = 0;
+
+        int playerCount = roomSelections.Count;
+
+        Debug.Log("Player Count: " + playerCount);
+
+        switch (playerCount)
+        {
+            //One player: 4 rooms per player
+            case 1:
+                for (int i = 0; i < playerCount; i++)
+                    roomSelections[i].SetMaxRoomsToPlace(4);
+                break;
+            //Two players: 2 rooms per player
+            case 2:
+                for (int i = 0; i < playerCount; i++)
+                    roomSelections[i].SetMaxRoomsToPlace(2);
+                break;
+            //Three players: 2 rooms for player one, 1 room for the rest
+            case 3:
+                for (int i = 0; i < playerCount; i++)
+                {
+                    if(i == 0)
+                    {
+                        roomSelections[i].SetMaxRoomsToPlace(2);
+                        continue;
+                    }
+
+                    roomSelections[i].SetMaxRoomsToPlace(1);
+                }
+                break;
+            //Four players: 1 room per player
+            case 4:
+                for (int i = 0; i < playerCount; i++)
+                    roomSelections[i].SetMaxRoomsToPlace(1);
+                break;
         }
     }
 
     private void OnRoomSelected(PlayerInput playerSelected, int currentRoomID)
     {
         roomsSelected++;
-        roomSelections.Add(new PlayerRoomSelection(playerSelected, currentRoomID));
+        PlayerRoomSelection currentSelector = GetPlayerSelectionData(playerSelected);
+        currentSelector.AddRoomID(currentRoomID);
+
+        if (currentSelector.AllRoomsSelected())
+        {
+            PlayerData currentPlayerData = PlayerData.ToPlayerData(playerSelected);
+
+            Debug.Log("Player " + (currentPlayerData.playerInput.playerIndex + 1).ToString() + " Has Stopped Selecting.");
+            playerSelected.GetComponent<GamepadCursor>().SetCursorMove(false);
+        }
 
         //If everyone has selected a room, move onto the next step
-        if(roomsSelected >= GameManager.Instance.MultiplayerManager.playerInputManager.playerCount)
+        if (roomsSelected >= MAX_ROOMS_TO_PLACE)
         {
             CloseMenu();
             GivePlayersRooms();
@@ -126,7 +246,20 @@ public class RoomBuildingMenu : SerializedMonoBehaviour
     {
         foreach (var room in roomSelections)
         {
-            BuildingManager.Instance.SpawnRoom(room.currentRoomID, room.currentPlayer);
+            BuildingManager.Instance.SpawnRoom(room.GetRoomAt(0), room);
         }
+
+        GameManager.Instance.SetGamepadCursorsActive(true);
+    }
+
+    private PlayerRoomSelection GetPlayerSelectionData(PlayerInput currentPlayer)
+    {
+        foreach (PlayerRoomSelection selection in roomSelections)
+        {
+            if (selection.GetCurrentPlayerInput() == currentPlayer)
+                return selection;
+        }
+
+        return null;
     }
 }

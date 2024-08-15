@@ -8,6 +8,7 @@ using Sirenix.OdinInspector;
 [System.Serializable]
 public class TankId
 {
+    [InlineButton("MatchName", SdfIconType.ArrowDown, "")]
     [InlineButton("GenerateName", SdfIconType.Dice6Fill, "")]
     public string TankName;
     private TankController tankScript;
@@ -20,6 +21,18 @@ public class TankId
     [Tooltip("Level layout to load")]
     public TextAsset design;
     [SerializeField, Tooltip("If true, builds the current design on this tank when the game starts")] public bool buildOnStart;
+
+    public void MatchName() //Matches the Tank's name with the current design - good for overwriting designs
+    {
+        TankName = design.name;
+
+        if (gameObject != null)
+        {
+            tankScript = gameObject.GetComponent<TankController>();
+            tankScript.TankName = TankName;
+            gameObject.name = TankName;
+        }
+    }
 
     public void GenerateName()
     {

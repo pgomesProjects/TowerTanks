@@ -17,6 +17,9 @@ public abstract class Character : SerializedMonoBehaviour
     protected PlayerHUD characterHUD;
     protected int characterIndex;
     protected Transform hands;
+    protected bool isAlive;
+    protected Transform characterVisualParent;
+    protected Color characterColor = new Color(1, 1, 1, 1);
 
     [Header("Character Information")]
     [SerializeField] protected CharacterSettings characterSettings;
@@ -37,6 +40,11 @@ public abstract class Character : SerializedMonoBehaviour
     [SerializeField] protected float fuelDepletionRate;
     [SerializeField] protected float fuelRegenerationRate;
     protected float currentFuel;
+
+    [SerializeField] private float characterDeathParticleSize = 0.03f;
+    [SerializeField] protected float respawnTime = 3f;
+    private float currentRespawnTime;
+    private bool isRespawning;
     
     //internal movement
     private Transform currentCellJoint;
@@ -51,6 +59,12 @@ public abstract class Character : SerializedMonoBehaviour
     {
         ModifyHealth(healthToModify);
     }
+
+    [Button(ButtonSizes.Medium)]
+    private void DebugKillPlayer()
+    {
+        SelfDestruct();
+    }
     public int healthToModify = -10;
 
     #endregion
@@ -60,18 +74,27 @@ public abstract class Character : SerializedMonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         currentHealth = characterSettings.maxHealth;
-        hands = transform.Find("Hands");
+        hands = transform.transform.Find("Hands");
+        characterVisualParent = transform.GetChild(0);
     }
 
     protected virtual void Start()
     {
-        currentFuel = characterSettings.fuelAmount;
-        currentState = CharacterState.NONCLIMBING;
-        moveSpeedHalved = moveSpeed / 2;
+        ResetPlayer();
+        isAlive = true;
     }
 
     protected virtual void Update()
     {
+
+        if (!isAlive)
+        {
+            if (isRespawning)
+                RespawnTimer();
+
+            return;
+        }
+
         currentFuel = Mathf.Clamp(currentFuel, 0, characterSettings.fuelAmount);
         
         var cellJoint = Physics2D.OverlapBox(
@@ -83,7 +106,7 @@ public abstract class Character : SerializedMonoBehaviour
         {
             currentCellJoint = cellJoint;
             transform.SetParent(currentCellJoint);
-        } 
+        }
     }
 
     protected virtual void FixedUpdate()
@@ -211,15 +234,71 @@ public abstract class Character : SerializedMonoBehaviour
 
         //Shake the character HUD if they are taking damage
         if (newHealth < 0)
-            characterHUD.ShakePlayerHUD(0.25f, 7f);
+            characterHUD?.ShakePlayerHUD(0.25f, 7f);
 
-        characterHUD.DamageAvatar(1f - (currentHealth / characterSettings.maxHealth), 0.25f);
+        characterHUD?.DamageAvatar(1f - (currentHealth / characterSettings.maxHealth), 0.25f);
 
         if (currentHealth <= 0)
             OnCharacterDeath();
     }
 
-    protected abstract void OnCharacterDeath();
+    protected void SelfDestruct()
+    {
+        currentHealth = 0;
+        characterHUD?.DamageAvatar(1f - (currentHealth / characterSettings.maxHealth), 0.01f);
+        OnCharacterDeath();
+    }
 
+    protected virtual void OnCharacterDeath(bool isRespawnable = true)
+    {
+        GameManager.Instance.AudioManager.Play("ExplosionSFX", gameObject);
+        GameManager.Instance.ParticleSpawner.SpawnParticle(Random.Range(0, 2), transform.position, characterDeathParticleSize, null);
+
+        isRespawning = isRespawnable;
+
+        if (isRespawning)
+        {
+            characterHUD?.ShowRespawnTimer(true);
+            currentRespawnTime = respawnTime;
+        }
+
+        rb.isKinematic = true;
+        characterVisualParent?.gameObject.SetActive(false);
+        isAlive = false;
+        ResetPlayer();
+    }
+
+    protected virtual void ResetPlayer()
+    {
+        currentHealth = characterSettings.maxHealth;
+        currentFuel = characterSettings.fuelAmount;
+        currentState = CharacterState.NONCLIMBING;
+        moveSpeedHalved = moveSpeed / 2;
+    }
+
+    private void RespawnTimer()
+    {
+        currentRespawnTime -= Time.deltaTime;
+
+        characterHUD?.UpdateRespawnBar(1 - (currentRespawnTime / respawnTime), currentRespawnTime);
+
+        if (currentRespawnTime <= 0f)
+        {
+            RespawnPlayer();
+            isRespawning = false;
+            isAlive = true;
+        }
+    }
+
+    private void RespawnPlayer()
+    {
+        characterHUD?.DamageAvatar(1f - (currentHealth / characterSettings.maxHealth), 0.01f);
+        characterHUD?.ShowRespawnTimer(false);
+        LevelManager.Instance?.MoveCharacterToSpawn(this);
+        rb.isKinematic = false;
+        characterVisualParent?.gameObject.SetActive(true);
+    }
+
+    public Color GetCharacterColor() => characterColor;
     #endregion
 }

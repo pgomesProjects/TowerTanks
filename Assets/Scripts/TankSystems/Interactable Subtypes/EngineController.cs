@@ -103,7 +103,7 @@ public class EngineController : TankInteractable
     /// <summary>
     /// Loads (amount) coal into the engine.
     /// </summary>
-    public void LoadCoal(int amount, bool enableSounds = true)
+    public void LoadCoal(int amount, bool enableSounds = true, bool surgeSpeed = false)
     {
         //Increase coal total:
         coal += amount;
@@ -119,6 +119,12 @@ public class EngineController : TankInteractable
                 GameManager.Instance.ParticleSpawner.SpawnParticle(3, particleSpots[0].position, 0.15f, null);
                 GameManager.Instance.AudioManager.Play("CoalLoad", this.gameObject); //Play loading clip
             }
+        }
+
+        //Small Speed Boost
+        if ((coal < maxCoal) && surgeSpeed)
+        {
+            StartCoroutine(tank.treadSystem.SpeedSurge(0.7f, 2));
         }
     }
 

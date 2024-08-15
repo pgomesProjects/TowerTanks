@@ -35,6 +35,7 @@ TagManager:
   - DebugPlayer
   - Destructible
   - Cargo
+  - CharacterVisual
   layers:
   - Default
   - TransparentFX
@@ -57,7 +58,7 @@ TagManager:
   - Coupler
   - InteractHitbox
   - Projectiles
-  - 
+  - Camera
   - 
   - 
   - 
