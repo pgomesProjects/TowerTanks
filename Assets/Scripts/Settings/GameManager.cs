@@ -48,12 +48,27 @@ public class GameManager : SerializedMonoBehaviour
 
     private void OnEnable()
     {
+        SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.sceneUnloaded += OnSceneUnloaded;
     }
 
     private void OnDisable()
     {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
         SceneManager.sceneUnloaded -= OnSceneUnloaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
+    {
+        switch ((GAMESCENE)scene.buildIndex)
+        {
+            case GAMESCENE.BUILDING:
+                GameSettings.showGamepadCursors = true;
+                break;
+            default:
+                GameSettings.showGamepadCursors = false;
+                break;
+        }
     }
 
     private void OnSceneUnloaded(Scene scene)
