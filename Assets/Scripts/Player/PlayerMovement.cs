@@ -232,7 +232,7 @@ public class PlayerMovement : Character
     }
 
 
-    protected override void ClimbLadder() //todo: parent the player to the ladder and then when exit, child back to towerjoint
+    protected override void ClimbLadder()
     {
         Bounds currentLadderBounds = currentLadder.GetComponent<Collider2D>().bounds;
         ladderBounds = new Bounds( new Vector3(currentLadderBounds.center.x, ladderBounds.center.y, ladderBounds.center.z), ladderBounds.size);
@@ -342,7 +342,8 @@ public class PlayerMovement : Character
         {
             //SetLadder();
         }
-        if (moveInput.y < 0)
+        
+        if (moveInput.y < 0 && CheckSurfaceCollider() != null)
         {
             if (CheckSurfaceCollider().gameObject.TryGetComponent(out PlatformCollisionSwitcher collSwitcher))
             {
