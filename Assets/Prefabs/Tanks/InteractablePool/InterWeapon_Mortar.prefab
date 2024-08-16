@@ -1987,7 +1987,7 @@ MonoBehaviour:
   particleScale: 0.1
   trajectoryLine: {fileID: 1850942337884954217}
   gunType: 2
-  muzzleVelocity: 70
+  muzzleVelocity: 63
   recoil: 0
   rotateSpeed: 0
   gimbalRange: 0

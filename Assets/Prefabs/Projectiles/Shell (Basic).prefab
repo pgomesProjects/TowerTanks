@@ -49,15 +49,17 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 1220936
-  particleScale: 0.2
+  particleScale: 0.25
   damage: 100
   hasSplashDamage: 1
   splashData:
   - splashDamage: 50
     splashRadius: 0.75
-  maxLife: 5
+  isTunneling: 0
+  maxLife: 1.1
   radius: 0.18
-  gravity: 30
+  drag: 0
+  gravity: 15
 --- !u!1 &2082292639589091566
 GameObject:
   m_ObjectHideFlags: 0

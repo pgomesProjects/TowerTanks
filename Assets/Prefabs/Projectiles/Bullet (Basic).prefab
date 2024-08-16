@@ -52,8 +52,10 @@ MonoBehaviour:
   damage: 5
   hasSplashDamage: 0
   splashData: []
-  maxLife: 1
+  isTunneling: 0
+  maxLife: 0.7
   radius: 0.06
+  drag: 0
   gravity: 5
 --- !u!1 &4843549763213045103
 GameObject:

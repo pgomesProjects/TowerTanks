@@ -190,8 +190,11 @@ public class Cell : MonoBehaviour
     /// <summary>
     /// Deals given amount of damage to the cell.
     /// </summary>
-    public void Damage(float amount)
+    public float Damage(float amount)
     {
+        float tempHealth = health;
+        float healthLost = 0;
+
         if (room.isCore)
         {
             room.targetTank.Damage(amount);
@@ -206,8 +209,15 @@ public class Cell : MonoBehaviour
                 damageTimer = damageTime;
             }
             health -= amount;
+
+            if (health < 0) health = 0;
+            healthLost = tempHealth - health;
+            if (room.type == Room.RoomType.Defense) healthLost += 25f;
+
             if (health <= 0) Kill();
         }
+
+        return healthLost;
     }
         /// <summary>
         /// Checks to see if this cell has been disconnected from the tank and then kills it if it has been.

@@ -76,8 +76,8 @@ public abstract class Character : SerializedMonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         characterHitbox = GetComponent<CapsuleCollider2D>();
         currentHealth = characterSettings.maxHealth;
-        hands = transform.transform.Find("Hands");
         characterVisualParent = transform.GetChild(0);
+        hands = characterVisualParent.Find("Hands");
     }
 
     protected virtual void Start()
@@ -229,10 +229,15 @@ public abstract class Character : SerializedMonoBehaviour
 
     #region Character Functions
 
-    public void ModifyHealth(float newHealth)
+    public float ModifyHealth(float newHealth)
     {
+        float tempHealth = currentHealth;
+        float healthDif = 0;
+
         currentHealth += newHealth;
         currentHealth = Mathf.Clamp(currentHealth, 0f, characterSettings.maxHealth);
+
+        healthDif = tempHealth - currentHealth;
 
         //Shake the character HUD if they are taking damage
         if (newHealth < 0)
@@ -242,6 +247,8 @@ public abstract class Character : SerializedMonoBehaviour
 
         if (currentHealth <= 0)
             OnCharacterDeath();
+
+        return healthDif;
     }
 
     protected void SelfDestruct()
