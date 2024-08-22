@@ -2251,7 +2251,7 @@ MonoBehaviour:
   - TankName: The Supreme Potato
     tankType: 0
     gameObject: {fileID: 1411317892}
-    design: {fileID: 4900000, guid: 0ae7f54292a46314da4951bdac3723a3, type: 3}
+    design: {fileID: 4900000, guid: 94857bee71ba89c4984ad4797a726802, type: 3}
     buildOnStart: 1
 --- !u!1 &515206412
 GameObject:
@@ -10164,10 +10164,6 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 869851817114869758, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
-      propertyPath: m_RootOrder
-      value: 17
-      objectReference: {fileID: 0}
     - target: {fileID: 1677695871689777843, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
       propertyPath: damper
       value: 0.78
@@ -10312,21 +10308,9 @@ PrefabInstance:
       propertyPath: maxSpringSpeed
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2522518207209193251, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
-      propertyPath: m_RootOrder
-      value: 14
-      objectReference: {fileID: 0}
     - target: {fileID: 2687768884453491569, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
       propertyPath: m_IsActive
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5737081894243415607, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
-      propertyPath: m_RootOrder
-      value: 16
-      objectReference: {fileID: 0}
-    - target: {fileID: 7506389015692032920, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
-      propertyPath: m_RootOrder
-      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5949879474703637688, guid: a084e9508160f954892ad5aabfee5c66, type: 3}

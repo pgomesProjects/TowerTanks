@@ -116,7 +116,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 6200000, guid: 8ee6e672412c2ee4392b241565d0b8a6, type: 2}
+  m_Material: {fileID: 6200000, guid: 284b62e2e6ea5ee4b971c0ad8ad2e068, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
@@ -142,6 +142,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
+  currentState: 0
   characterSettings: {fileID: 11400000, guid: a7bc3075ff116a040a2a22890b0f100a, type: 2}
   moveSpeed: 3
   jumpForce: 20
@@ -149,6 +150,7 @@ MonoBehaviour:
   climbSpeed: 4
   groundedBoxX: 0.301
   groundedBoxY: 0.087
+  groundedBoxOffset: 0.2
   maxYVelocity: 2
   minYVelocity: -5
   fuelDepletionRate: 30
