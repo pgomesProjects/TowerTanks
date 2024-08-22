@@ -59,6 +59,8 @@ public class PlayerMovement : Character
     private float maxShakeIntensity = 0.5f;
     private float currentShakeTime;
     private bool isShaking = false;
+    
+    
 
     #endregion
 
@@ -114,6 +116,9 @@ public class PlayerMovement : Character
 
         if (isShaking)
             ShakePlayer();
+        
+        currentLadder = Physics2D.OverlapCircle(transform.position, .5f, ladderLayer)?.gameObject;
+        Debug.Log($"Current Ladder Position: {currentLadder.transform.position}");
 
         //Interactable building:
         if (buildCell != null) //Player is currently in build mode
@@ -190,9 +195,12 @@ public class PlayerMovement : Character
     protected override void OnDrawGizmos()
     {
         base.OnDrawGizmos();
+        
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(ladderBounds.center, ladderBounds.size);
     }
 
-    protected override void OnTriggerEnter2D(Collider2D other)
+    /*protected override void OnTriggerEnter2D(Collider2D other)//TODO: Check Character.cs ontrigger for more info
     {
         base.OnTriggerEnter2D(other);
     }
@@ -200,7 +208,7 @@ public class PlayerMovement : Character
     protected override void OnTriggerExit2D(Collider2D other)
     {
         base.OnTriggerExit2D(other);
-    }
+    }*/
 
     #endregion
 
@@ -209,18 +217,7 @@ public class PlayerMovement : Character
     
     protected override void MoveCharacter()
     {
-        int ladderLayerIndex = LayerMask.NameToLayer("Ladder");
-        LayerMask ladderLayer = 1 << ladderLayerIndex;
-        var ladder = Physics2D.OverlapCircle(transform.position, .5f, ladderLayer)?.gameObject;
-
-        if (ladder != null)
-        {
-            currentLadder = ladder;
-        }
-        else
-        {
-            currentLadder = null;
-        }
+        
         
         float force = transform.right.x * moveInput.x * moveSpeed; 
 
@@ -234,27 +231,20 @@ public class PlayerMovement : Character
         }
         if (CheckGround()) rb.velocity = worldVelocity;
         else rb.velocity = new Vector2(moveInput.x * moveSpeed, rb.velocity.y);
-        
-        
     }
 
 
     protected override void ClimbLadder()
-    {
-        Bounds currentLadderBounds = currentLadder.GetComponent<Collider2D>().bounds;
-        ladderBounds = new Bounds( new Vector3(currentLadderBounds.center.x, ladderBounds.center.y, ladderBounds.center.z), ladderBounds.size);
+    { 
+        // Calculate the displacement in local space
+        Vector3 displacement = transform.up * (climbSpeed * moveInput.y * Time.deltaTime);
         
+        Vector3 newPosition = transform.position + displacement;
 
-        Vector3 localVelocity = transform.InverseTransformDirection(rb.velocity);
-        localVelocity.y = climbSpeed * moveInput.y;
-        localVelocity.x = 0;
-        Vector3 worldVelocity = transform.TransformDirection(localVelocity);
-        rb.velocity = worldVelocity;
-        
-        transform.position = new Vector3(transform.position.x,
-                                         Mathf.Clamp(transform.position.y, ladderBounds.min.y + .3f, ladderBounds.max.y - .3f), 
-            transform.position.z);
-        if (moveInput.x != 0 || jetpackInputHeld)
+        // Move the rigidbody to the new position
+        rb.MovePosition(newPosition);
+
+        if (moveInput.x > 0.2 || moveInput.x < -0.2 || jetpackInputHeld)
         {
             SwitchOffLadder();
         }
@@ -347,12 +337,12 @@ public class PlayerMovement : Character
         
         if (ctx.started && moveInput.y > 0)
         {
-            //SetLadder();
+            SetLadder();
         }
         
-        if (moveInput.y < 0 && CheckSurfaceCollider() != null)
+        if (moveInput.y < 0 && CheckSurfaceCollider(18) != null)
         {
-            if (CheckSurfaceCollider().gameObject.TryGetComponent(out PlatformCollisionSwitcher collSwitcher))
+            if (CheckSurfaceCollider(18).gameObject.TryGetComponent(out PlatformCollisionSwitcher collSwitcher))
             {
                 StartCoroutine(collSwitcher.DisableCollision(GetComponent<Collider2D>()));
             }
