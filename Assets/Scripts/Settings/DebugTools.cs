@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DebugTools : MonoBehaviour
 {
+    [SerializeField, Tooltip("The main debug display.")] private CanvasGroup debugCanvasGroup;
     [SerializeField, Tooltip("The command menu to spawn.")] private CheatInputField commandMenuPrefab;
     private PlayerControlSystem playerControlSystem;
     private CheatInputField currentDebugMenu;
@@ -25,8 +26,23 @@ public class DebugTools : MonoBehaviour
         playerControlSystem?.Disable();
     }
 
+    public void ToggleDebugMode(bool isDebugMode)
+    {
+        GameSettings.debugMode = isDebugMode;
+
+        if (isDebugMode)
+        {
+            GameManager.Instance.AudioManager.Play("DebugBeep");
+        }
+
+        debugCanvasGroup.alpha = isDebugMode ? 1 : 0;
+    }
+
     private void OnToggleGamepadCursors()
     {
+        if (!GameSettings.debugMode)
+            return;
+
         GameManager.Instance.SetGamepadCursorsActive(!GameSettings.showGamepadCursors);
     }
 

@@ -21,12 +21,19 @@ public class DestructibleObject : MonoBehaviour
         }
     }
 
-    public void Damage(float amount)
+    public float Damage(float amount)
     {
+        float tempHealth = health;
+        float healthLost = 0;
+
         health -= amount;
+        if (health < 0) health = 0;
+        healthLost = tempHealth - health;
+
         if (health <= 0) Destroy(gameObject);
 
         EvaluateDamage();
+        return healthLost;
     }
 
     private void EvaluateDamage()

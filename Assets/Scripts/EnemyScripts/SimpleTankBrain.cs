@@ -58,7 +58,7 @@ public class SimpleTankBrain : MonoBehaviour
     void Update()
     {
         decisionTimer -= Time.deltaTime;
-        distanceToPlayer = tank.treadSystem.transform.position.x - playerTankTransform.position.x;
+        if (playerTankTransform != null) distanceToPlayer = tank.treadSystem.transform.position.x - playerTankTransform.position.x;
 
         //Check to see if we should flee
         if (decisionTimer <= 0 && CheckGuns() == false)

@@ -162,57 +162,108 @@ public class TankController : MonoBehaviour
         Cell topCell = coreRoom.cells[0];
         Cell bottomCell = coreRoom.cells[0];
 
+        List<Cell> _topCells = new List<Cell>();
+        List<Cell> _bottomCells = new List<Cell>();
+
         foreach (Room room in rooms)
         {
-            List<Cell> _topCells = new List<Cell>();
-
             //Find TopMost Cell
             foreach (Cell cell in room.cells)
             {
-                Vector2 cellPos = topCell.transform.position; //Get current TopMost Cell's position
-                if (cell != null) cellPos = cell.transform.position; //Get selected cell's position
+                Vector2 cellPos = towerJoint.transform.InverseTransformPoint(topCell.transform.position); //Get current TopMost Cell's position
+                if (cell != null) cellPos = towerJoint.transform.InverseTransformPoint(cell.transform.position); //Get selected cell's position
 
-                if (cellPos.y > topCell.transform.position.y) //If selected cell's y position is greater than the current TopMost Cell's,
+                if (cellPos.y > towerJoint.transform.InverseTransformPoint(topCell.transform.position).y) //If selected cell's y position is greater than the current TopMost Cell's,
                 {
                     _topCells.Clear(); //clear list of Top Cells
                     topCell = cell;  //Make it the new TopMost Cell
                     _topCells.Add(cell); //Add it to the list
                 }
-                else if (cellPos.y == topCell.transform.position.y) //If selected cell's y position is the same as the TopMost Cell,
+                else if (cellPos.y == towerJoint.transform.InverseTransformPoint(topCell.transform.position).y) //If selected cell's y position is the same as the TopMost Cell,
                 {
                     _topCells.Add(cell); //Add it to the list
-                }
-
-                if (_topCells.Count > 1) //If there's more than 1 Cell tied for highest y position
-                {
-                    foreach (Cell _cell in _topCells) //Find the Left / Right Most Cell 
-                    {
-                        if (direction == -1)
-                        {
-                            //Find RightMost Cell
-                            if (_cell.transform.position.x > topCell.transform.position.x) 
-                            {
-                                topCell = _cell;
-                            }
-                        }
-
-                        if (direction == 1)
-                        {
-                            //Find LeftMost Cell
-                            if (_cell.transform.position.x < topCell.transform.position.x)
-                            {
-                                topCell = _cell;
-                            }
-                        }
-                    }
                 }
 
                 //Turn Off Speedlines
                 cell.ShowSpeedTrails(false, 0);
             }
 
-            _topCells.Clear();
+            if (_topCells.Count > 1) //If there's more than 1 Cell tied for highest y position
+            {
+                foreach (Cell _cell in _topCells) //Find the Left / Right Most Cell 
+                {
+                    if (direction == -1)
+                    {
+                        //Find RightMost Cell
+                        if (towerJoint.transform.InverseTransformPoint(_cell.transform.position).x > towerJoint.transform.InverseTransformPoint(topCell.transform.position).x)
+                        {
+                            topCell.ShowSpeedTrails(false, 1);
+                            topCell = _cell;
+                        }
+                    }
+
+                    if (direction == 1)
+                    {
+                        //Find LeftMost Cell
+                        if (towerJoint.transform.InverseTransformPoint(_cell.transform.position).x < towerJoint.transform.InverseTransformPoint(topCell.transform.position).x)
+                        {
+                            topCell.ShowSpeedTrails(false, 1);
+                            topCell = _cell;
+                        }
+                    }
+                }
+            }
+
+            //Find BottomMost Cell
+            foreach (Cell cell in room.cells)
+            {
+                Vector2 cellPos = towerJoint.transform.InverseTransformPoint(bottomCell.transform.position); //Get current BottomMost Cell's position
+                if (cell != null) cellPos = towerJoint.transform.InverseTransformPoint(cell.transform.position); //Get selected cell's position
+
+                if (cellPos.y < towerJoint.transform.InverseTransformPoint(bottomCell.transform.position).y) //If selected cell's y position is less than the current BottomMost Cell's,
+                {
+                    _bottomCells.Clear(); //clear list of Bottom Cells
+                    bottomCell = cell;  //Make it the new BottomMost Cell
+                    _bottomCells.Add(cell); //Add it to the list
+                }
+                else if (cellPos.y == towerJoint.transform.InverseTransformPoint(bottomCell.transform.position).y) //If selected cell's y position is the same as the BottomMost Cell,
+                {
+                    _bottomCells.Add(cell); //Add it to the list
+                }
+
+                //Turn Off Speedlines
+                cell.ShowSpeedTrails(false, -1);
+            }
+
+            if (_bottomCells.Count > 1) //If there's more than 1 Cell tied for lowest y position
+            {
+                foreach (Cell _cell in _bottomCells) //Find the Left / Right Most Cell 
+                {
+                    if (direction == -1)
+                    {
+                        //Find RightMost Cell
+                        if (towerJoint.transform.InverseTransformPoint(_cell.transform.position).x > towerJoint.transform.InverseTransformPoint(bottomCell.transform.position).x)
+                        {
+                            bottomCell.ShowSpeedTrails(false, -1);
+                            bottomCell = _cell;
+                        }
+                    }
+
+                    if (direction == 1)
+                    {
+                        //Find LeftMost Cell
+                        if (towerJoint.transform.InverseTransformPoint(_cell.transform.position).x < towerJoint.transform.InverseTransformPoint(bottomCell.transform.position).x)
+                        {
+                            bottomCell.ShowSpeedTrails(false, -1);
+                            bottomCell = _cell;
+                        }
+                    }
+                }
+            }
         }
+
+        _topCells.Clear();
+        _bottomCells.Clear();
 
         //Apply Speedlines to both Cells
         topCell.ShowSpeedTrails(true, 1);

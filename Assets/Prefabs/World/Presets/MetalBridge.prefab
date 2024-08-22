@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3285466303941190728}
   m_Layer: 8
   m_Name: Chunk
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -53,9 +53,9 @@ MonoBehaviour:
   chunkNumber: 0
   chunkType: 5
   yOffset: 0
-  chanceToGenerateTrap: 50
-  chunkTrap: {fileID: 6209146958852724132, guid: 34ecf7edc23d46c468270a9c65c37d84, type: 3}
   flag: {fileID: 2692299717525915721, guid: d9f2af575fc79734fbe76afaea9d2322, type: 3}
+  flagSpawn: {fileID: 0}
+  obstacleSpawns: []
 --- !u!1971053207 &7580806952755265038
 SpriteShapeRenderer:
   m_ObjectHideFlags: 0
@@ -487,7 +487,7 @@ GameObject:
   - component: {fileID: 2459911168736973711}
   m_Layer: 8
   m_Name: Chunk
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -525,9 +525,9 @@ MonoBehaviour:
   chunkNumber: 0
   chunkType: 5
   yOffset: 0
-  chanceToGenerateTrap: 50
-  chunkTrap: {fileID: 6209146958852724132, guid: 34ecf7edc23d46c468270a9c65c37d84, type: 3}
   flag: {fileID: 2692299717525915721, guid: d9f2af575fc79734fbe76afaea9d2322, type: 3}
+  flagSpawn: {fileID: 0}
+  obstacleSpawns: []
 --- !u!1971053207 &7390233114174458313
 SpriteShapeRenderer:
   m_ObjectHideFlags: 0

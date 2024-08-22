@@ -105,7 +105,14 @@ public class PlayerMovement : Character
     protected override void Update()
     {
         base.Update();
-        if (!isAlive) return;
+        if (!isAlive)
+        {
+            if (GameManager.Instance.AudioManager.IsPlaying("JetpackRocket", gameObject))
+            {
+                GameManager.Instance.AudioManager.Stop("JetpackRocket", gameObject);
+            }
+            return;
+        }
 
         if (isShaking)
             ShakePlayer();

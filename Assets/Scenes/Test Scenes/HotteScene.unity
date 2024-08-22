@@ -4428,7 +4428,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 944468561}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.5, z: 10}
+  m_LocalPosition: {x: -32, y: -13.5, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6722,11 +6722,11 @@ MonoBehaviour:
     bias: 0
     isPreset: 0
   - chunkPrefab: {fileID: 3766360497705465845, guid: e5efa2eaaa2c9eb449f27c8317f2d22f, type: 3}
-    weight: 5
+    weight: 20
     bias: 0
     isPreset: 0
   - chunkPrefab: {fileID: 3766360497705465845, guid: 06ff124588cc7374a9bf4d92d5686616, type: 3}
-    weight: 5
+    weight: 20
     bias: 0
     isPreset: 0
   - chunkPrefab: {fileID: 3766360497705465845, guid: cbcc0b334ac2a38448a05834a3b2ed26, type: 3}
@@ -6738,11 +6738,11 @@ MonoBehaviour:
     bias: 0
     isPreset: 0
   - chunkPrefab: {fileID: 5300777585851316023, guid: a34f31d338c6af749aaf23139a313968, type: 3}
-    weight: 3
+    weight: 2
     bias: 0
     isPreset: 1
   - chunkPrefab: {fileID: 5300777585851316023, guid: 3f9b55df25ebdc9499bee15e1254821f, type: 3}
-    weight: 1
+    weight: 0
     bias: 0
     isPreset: 1
   poolSize: 50
@@ -6856,7 +6856,7 @@ MonoBehaviour:
   m_Follow: {fileID: 1018531887}
   m_Lens:
     FieldOfView: 60
-    OrthographicSize: 6.55
+    OrthographicSize: 30
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
@@ -6880,7 +6880,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1423981398}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 4.5, z: -10}
+  m_LocalPosition: {x: 32, y: 16.5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7657,7 +7657,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 6.55
+  orthographic size: 30
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -7681,7 +7681,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1624372791}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 4.5, z: -10}
+  m_LocalPosition: {x: 32, y: 16.5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -8316,8 +8316,8 @@ MonoBehaviour:
   m_YDamping: 1
   m_ZDamping: 1
   m_TargetMovementOnly: 1
-  m_ScreenX: 0.5
-  m_ScreenY: 0.5
+  m_ScreenX: 0.2
+  m_ScreenY: 0.7
   m_CameraDistance: 10
   m_DeadZoneWidth: 0
   m_DeadZoneHeight: 0
