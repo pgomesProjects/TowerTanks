@@ -57,7 +57,7 @@ public class LadderCollGenerator : MonoBehaviour
     private void GenerateCollider(Vector2 leftPoint, Vector2 rightPoint)
     {
         GameObject edgeCollGo = new GameObject("LadderEnd");
-        edgeCollGo.tag = "LadderEndPoint";
+        edgeCollGo.layer = LayerMask.NameToLayer("LadderEnd");
         edgeCollGo.transform.SetParent(transform);
         edgeCollGo.transform.position = (leftPoint + rightPoint) * .5f; // Centers the colliders transform
         EdgeCollider2D collider = edgeCollGo.AddComponent<EdgeCollider2D>();
