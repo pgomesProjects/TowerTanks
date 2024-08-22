@@ -1158,7 +1158,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""12c41c1e-37c2-440b-be25-d8517539d621"",
-                    ""path"": ""<Keyboard>/q"",
+                    ""path"": ""<Keyboard>/u"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",

@@ -183,14 +183,20 @@ public abstract class Character : SerializedMonoBehaviour
 
     protected void SetLadder()
     {
-        if (currentLadder != null)
-        {
-            currentState = CharacterState.CLIMBING;
-            rb.bodyType = RigidbodyType2D.Kinematic;
-            transform.position = new Vector2(currentLadder.transform.position.x, transform.position.y);
-            ladderBounds = currentLadder.GetComponent<Collider2D>().bounds;
-        }
+        if (currentLadder == null) return;
+        currentState = CharacterState.CLIMBING;
+        rb.bodyType = RigidbodyType2D.Kinematic;
+        // converts the player's position from world space to local space relative to the ladder
+        // have to do this cause ladders are rotated sometimes
+        Vector3 localPosition = currentLadder.transform.InverseTransformPoint(transform.position);
 
+        // set the local x position to 0 bc ladder transform is in the the center of the ladder
+        localPosition.x = 0; 
+
+        // Convert the updated local position back to world space
+        Vector3 worldPosition = currentLadder.transform.TransformPoint(localPosition);
+
+        transform.position = worldPosition;
     }
 
     protected virtual void ClimbLadder()

@@ -117,8 +117,7 @@ public class PlayerMovement : Character
         if (isShaking)
             ShakePlayer();
         
-        currentLadder = Physics2D.OverlapCircle(transform.position, .5f, ladderLayer)?.gameObject;
-        Debug.Log($"Current Ladder Position: {currentLadder.transform.position}");
+        currentLadder = Physics2D.OverlapCircle(transform.position, .02f, ladderLayer)?.gameObject;
 
         //Interactable building:
         if (buildCell != null) //Player is currently in build mode
@@ -198,6 +197,11 @@ public class PlayerMovement : Character
         
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(ladderBounds.center, ladderBounds.size);
+        
+        Gizmos.color = Color.blue;
+        Gizmos.DrawLine(transform.position, transform.position + (transform.up * .2f));
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(transform.position, transform.position - (transform.up * .2f));
     }
 
     /*protected override void OnTriggerEnter2D(Collider2D other)//TODO: Check Character.cs ontrigger for more info
@@ -236,12 +240,19 @@ public class PlayerMovement : Character
 
     protected override void ClimbLadder()
     { 
-        // Calculate the displacement in local space
+        float raycastDistance = .3f;
+        
+        RaycastHit2D hitUp = Physics2D.Raycast(transform.position, transform.up, raycastDistance, 1 << LayerMask.NameToLayer("LadderEnd"));
+        RaycastHit2D hitDown = Physics2D.Raycast(transform.position, -transform.up, raycastDistance, 1 << LayerMask.NameToLayer("LadderEnd"));
+        
         Vector3 displacement = transform.up * (climbSpeed * moveInput.y * Time.deltaTime);
         
-        Vector3 newPosition = transform.position + displacement;
+         if ((moveInput.y > 0 && hitUp) || (moveInput.y < 0 && hitDown))
+         {
+             displacement = Vector3.zero;
+        }
 
-        // Move the rigidbody to the new position
+        Vector3 newPosition = transform.position + displacement;
         rb.MovePosition(newPosition);
 
         if (moveInput.x > 0.2 || moveInput.x < -0.2 || jetpackInputHeld)
@@ -335,7 +346,7 @@ public class PlayerMovement : Character
 
         moveInput = ctx.ReadValue<Vector2>();
         
-        if (ctx.started && moveInput.y > 0)
+        if (ctx.started && moveInput.y > 0 && currentLadder != null && currentState != CharacterState.CLIMBING)
         {
             SetLadder();
         }
