@@ -35,7 +35,7 @@ public class SimpleCannonBrain : MonoBehaviour
     {
         if (fireTimer < fireCooldown) fireTimer += Time.deltaTime;
         else {
-            gunScript.Fire(true);
+            gunScript.Fire(true, gunScript.tank.tankType);
             float randomOffset = Random.Range(-cooldownOffset, cooldownOffset);
             fireTimer = 0 + randomOffset;
 

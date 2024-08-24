@@ -34,6 +34,7 @@ public class TankController : MonoBehaviour
     public bool addEngine;
     public bool fireAllWeapons;
     public bool overchargeAllWeapons;
+    public bool isInvincible;
 
     //Runtime Variables:
     [Tooltip("One of the cells which is in the uppermost position in the tank.")] internal Cell highestCell;
@@ -302,7 +303,7 @@ public class TankController : MonoBehaviour
         GunController[] cannons = GetComponentsInChildren<GunController>();
         foreach(GunController cannon in cannons)
         {
-            cannon.Fire(true);
+            cannon.Fire(true, tankType);
         }
     }
 

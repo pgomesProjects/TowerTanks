@@ -9,7 +9,7 @@ public class TankInteractable : MonoBehaviour
 {
     //Objects & Components:
     private SpriteRenderer[] renderers;    //Array of all renderers in interactable
-    private protected TankController tank; //Controller script for tank this interactable is attached to
+    public TankController tank; //Controller script for tank this interactable is attached to
     private InteractableZone interactZone; //Hitbox for player detection
     public Transform seat; //Transform operator snaps to while using this interactable
 
@@ -158,7 +158,7 @@ public class TankInteractable : MonoBehaviour
     {
         if (gunScript != null && cooldown <= 0)
         {
-            gunScript.Fire(false);
+            gunScript.Fire(false, tank.tankType);
         }
         if (engineScript != null && cooldown <= 0) engineScript.LoadCoal(1, true, true);
     }
@@ -167,7 +167,7 @@ public class TankInteractable : MonoBehaviour
     {
         if (gunScript != null && gunScript.gunType == GunController.GunType.MORTAR)
         {
-            gunScript.Fire(false);
+            gunScript.Fire(false, tank.tankType);
         }
     }
 

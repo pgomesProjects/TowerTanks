@@ -21,6 +21,9 @@ public class Projectile : MonoBehaviour
     [SerializeField, Tooltip("Causes projectile to lose velocity over time")]           public float drag; //how fast this projectile loses velocity over time
     [SerializeField, Tooltip("How fast this projectile falls")]                         public float gravity; //how fast this projectile falls
 
+    [Header("Inheritance")]
+    [SerializeField, Tooltip("Which faction this projectile belongs to")]               public TankId.TankType factionId;
+
     //Runtime Variables:
     private Vector2 velocity; //Speed and trajectory of projectile
     private float timeAlive;
@@ -54,14 +57,27 @@ public class Projectile : MonoBehaviour
             hit = Physics2D.CircleCast(transform.position, radius, velocity, (velocity.magnitude * Time.deltaTime), layerMask).collider;
         }
         if (hit != null)
-        {
-            Hit(hit);
+        { 
+            //Debug.Log("" + this.gameObject.name + " hit the " + hit.gameObject.name);
+            Hit(hit); 
             //return;
         }
         
         Vector2 newPos = (Vector2)transform.position + (velocity * Time.deltaTime);
         transform.position = newPos;
         
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Projectile other = collision.gameObject.GetComponent<Projectile>();
+        if (other != null)
+        {
+            if (other.factionId != this.factionId)
+            {
+                Hit(collision);
+            }
+        }
     }
 
     private void OnDrawGizmos()
@@ -137,6 +153,18 @@ public class Projectile : MonoBehaviour
         {
             damageDealt = damage;
             destroyThis = true;
+        }
+
+        else if (target != null && target.CompareTag("Shell")) //Hit another projectile
+        {
+            Projectile other = target.GetComponent<Projectile>();
+            if (other?.factionId != factionId) //If the other projectile doesn't belong to the same faction as this one
+            {
+                damageDealt = damage;
+                destroyThis = true;
+                //other.Hit(gameObject.GetComponent<Collider2D>());
+            }
+            else destroyThis = false;
         }
 
         //Check Tunneling
