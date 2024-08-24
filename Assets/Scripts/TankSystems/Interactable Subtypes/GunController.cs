@@ -73,7 +73,7 @@ public class GunController : TankInteractable
     private void Update()
     {
         //Debug settings:
-        if (fire) { fire = false; Fire(true); }
+        if (fire) { fire = false; Fire(true, tank.tankType); }
         
         pivot.localEulerAngles = currentRotation;
 
@@ -177,7 +177,7 @@ public class GunController : TankInteractable
     /// <summary>
     /// Fires the weapon, once.
     /// </summary>
-    public void Fire(bool overrideConditions)
+    public void Fire(bool overrideConditions, TankId.TankType inheritance = TankId.TankType.PLAYER)
     {
         bool canFire = true;
         if (tank == null) tank = GetComponentInParent<TankController>();
@@ -246,6 +246,14 @@ public class GunController : TankInteractable
             //Fire projectile:
             Projectile newProjectile = Instantiate(projectilePrefab).GetComponent<Projectile>();
             newProjectile.Fire(barrel.position, barrel.right * muzzleVelocity);
+            newProjectile.factionId = inheritance;
+
+            /*
+            if (newProjectile.factionId == TankId.TankType.ENEMY) {
+                newProjectile.gameObject.layer = 23;
+                newProjectile.layerMask |= (LayerMask.NameToLayer("Projectiles"));
+                newProjectile.layerMask &= (LayerMask.NameToLayer("EnemyProjectiles"));
+            }*/
 
             //Apply recoil:
             Vector2 recoilForce = -barrel.right * recoil;                                  //Get force of recoil from direction of barrel and set magnitude

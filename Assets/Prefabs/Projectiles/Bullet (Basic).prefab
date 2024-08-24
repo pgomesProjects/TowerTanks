@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9206060050582604355}
   - component: {fileID: 1699979573545756850}
+  - component: {fileID: 6277512115526935628}
   m_Layer: 20
   m_Name: Bullet (Basic)
   m_TagString: Untagged
@@ -47,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   layerMask:
     serializedVersion: 2
-    m_Bits: 1220936
+    m_Bits: 172360
   particleScale: 0.03
   damage: 5
   hasSplashDamage: 0
@@ -57,6 +58,23 @@ MonoBehaviour:
   radius: 0.06
   drag: 0
   gravity: 5
+  factionId: 0
+--- !u!58 &6277512115526935628
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2367129227070595597}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!1 &4843549763213045103
 GameObject:
   m_ObjectHideFlags: 0

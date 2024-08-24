@@ -17,5 +17,5 @@ MonoBehaviour:
     that would be used in the campaign mode map.
   objectiveType: 1
   metersToTravel: 1500
-  enemiesToDefeat: 2
+  enemiesToDefeat: 10
   secondsToSurviveFor: 0

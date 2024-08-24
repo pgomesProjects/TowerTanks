@@ -197,11 +197,14 @@ public class Cell : MonoBehaviour
 
         if (room.isCore)
         {
-            room.targetTank.Damage(amount);
+            if (room.targetTank.isInvincible == false) {
+                room.targetTank.Damage(amount);
+            }
         }
         else
         {
             if (room.type == Room.RoomType.Defense) amount -= 25f; //Armor reduces incoming damage
+            if (room.targetTank.isInvincible) amount = 0;
             if (amount < 0) { amount = 0; }
             else
             {
