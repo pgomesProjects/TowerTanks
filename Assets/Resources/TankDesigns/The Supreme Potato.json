@@ -85,11 +85,6 @@
             "rotate": 3,
             "cellInteractables": [
                 {
-                    "cellName": "Cell_0",
-                    "interRef": "InterDefense_EnergyShield",
-                    "flipped": false
-                },
-                {
                     "cellName": "Cell_1",
                     "interRef": "InterWeapon_MachineGun",
                     "flipped": false

@@ -4,12 +4,17 @@ using UnityEngine;
 using UnityEditor;
 using TMPro;
 using System.Linq;
+using Sirenix.OdinInspector;
 
-public class TankController : MonoBehaviour
+[System.Serializable]
+public class TankController : SerializedMonoBehaviour
 {
     //Important Variables
     public string TankName;
     [SerializeField] public TankId.TankType tankType;
+    
+    [InlineButton("KillTank", SdfIconType.EmojiDizzy, "Kill")]
+    [InlineButton("DamageTank", SdfIconType.Magic, "-100")]
     [SerializeField] public float coreHealth = 500;
 
     //Objects & Components:
@@ -18,6 +23,7 @@ public class TankController : MonoBehaviour
     [Tooltip("This tank's traction system.")]                                                   internal TreadSystem treadSystem;
     [Tooltip("Transform containing all tank rooms, point around which tower tilts.")]           private Transform towerJoint;
     [SerializeField, Tooltip("Target transform in tread system which tower joint locks onto.")] private Transform towerJointTarget;
+    public bool isInvincible;
 
     private TextMeshProUGUI nameText;
 
@@ -27,18 +33,71 @@ public class TankController : MonoBehaviour
     public GameObject[] cargoHold;
 
     //Settings:
-    [Header("Debug")] 
-    public bool shiftRight;
-    public bool shiftLeft;
-    public bool damage;
-    public bool addEngine;
-    public bool fireAllWeapons;
-    public bool overchargeAllWeapons;
-    public bool isInvincible;
+    #region Debug Controls
+    [Header("Debug Controls")]
+    [InlineButton("ShiftRight", SdfIconType.ArrowRight, "")]
+    [InlineButton("ShiftLeft", SdfIconType.ArrowLeft, "")]
+    public int gear;
+
+    public void ShiftRight()
+    {
+        ChangeAllGear(1);
+    }
+    public void ShiftLeft()
+    {
+        ChangeAllGear(-1);
+    }
+
+    private float damage = 100f;
+    private void DamageTank()
+    {
+        Damage(damage);
+    }
+
+    public void KillTank()
+    {
+        Damage(coreHealth);
+    }
+
+    [InlineButton("LoseEngine", SdfIconType.Dash, "")]
+    [InlineButton("AddEngine", SdfIconType.Plus, "")]
+    public float horsePower;
+
+    private void AddEngine()
+    {
+        treadSystem.currentEngines += 1;
+    }
+    private void LoseEngine()
+    {
+        treadSystem.currentEngines -= 1;
+    }
+
+    [PropertySpace]
+    [Header("Interactables")]
+    [SerializeField] public List<InteractableId> interactableList = new List<InteractableId>();
+
+    [PropertySpace]
+    [Button(" Fire All Weapons", ButtonSizes.Small, Icon = SdfIconType.SquareFill), Tooltip("Fires every weapon in the tank, ignoring conditions")]
+    private void FireAllCannons()
+    {
+        GunController[] cannons = GetComponentsInChildren<GunController>();
+        foreach (GunController cannon in cannons) { cannon.Fire(true, tankType); }
+    }
+    [Button(" Double Weapon ROF", ButtonSizes.Small, Icon = SdfIconType.Speedometer2), Tooltip("Doubles the Rate of Fire for every weapon in the tank")]
+    public void OverchargeAllWeapons()
+    {
+        GunController[] weapons = GetComponentsInChildren<GunController>();
+        foreach (GunController weapon in weapons)
+        {
+            weapon.ChangeRateOfFire(0.5f);
+        }
+    }
+    [PropertySpace]
+    #endregion
 
     //Runtime Variables:
     [Tooltip("One of the cells which is in the uppermost position in the tank.")] internal Cell highestCell;
-    public bool isDying = false; //true when the tank is in the process of blowing up
+    private bool isDying = false; //true when the tank is in the process of blowing up
     private float deathSequenceTimer = 0;
 
     //UI
@@ -121,12 +180,8 @@ public class TankController : MonoBehaviour
         towerJoint.rotation = towerJointTarget.rotation; //Move tower joint to target rotation
 
         //Debug 
-        if (shiftLeft) { shiftLeft = false; ChangeAllGear(-1); }
-        if (shiftRight) { shiftRight = false; ChangeAllGear(1); }
-        if (damage) { damage = false; Damage(100); }
-        if (addEngine) { addEngine = false; treadSystem.currentEngines += 1; }
-        if (fireAllWeapons) { fireAllWeapons = false; FireAllCannons(); }
-        if (overchargeAllWeapons) { overchargeAllWeapons = false; OverchargeAllWeapons(); }
+        gear = treadSystem.gear;
+        horsePower = treadSystem.currentEngines * 100;
 
         //Update name
         nameText.text = TankName;
@@ -295,24 +350,6 @@ public class TankController : MonoBehaviour
             {
                 throttles[i].ChangeGear(direction);
             }
-        }
-    }
-
-    public void FireAllCannons()
-    {
-        GunController[] cannons = GetComponentsInChildren<GunController>();
-        foreach(GunController cannon in cannons)
-        {
-            cannon.Fire(true, tankType);
-        }
-    }
-
-    public void OverchargeAllWeapons()
-    {
-        GunController[] weapons = GetComponentsInChildren<GunController>();
-        foreach (GunController weapon in weapons)
-        {
-            weapon.ChangeRateOfFire(0.5f);
         }
     }
 
@@ -570,5 +607,14 @@ public class TankController : MonoBehaviour
 
         SimpleTankBrain _brain = GetComponent<SimpleTankBrain>();
         _brain.enabled = true;
+    }
+
+    public void AddInteractable(GameObject interactable)
+    {
+        InteractableId newId = new InteractableId();
+        newId.interactable = interactable;
+        newId.script = interactable.GetComponent<TankInteractable>();
+        newId.type = newId.script.interactableType;
+        interactableList.Add(newId);
     }
 }

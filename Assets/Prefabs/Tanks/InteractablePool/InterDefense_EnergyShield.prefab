@@ -780,6 +780,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tank: {fileID: 0}
   seat: {fileID: 4659503818380602321}
+  interactableType: 2
   stackName: Energy Shield Generator
   prefabRef: {fileID: 7839714823246331611}
   uiImage: {fileID: 21300000, guid: 7990c37e5e725be4587fda4aae2197a5, type: 2}
