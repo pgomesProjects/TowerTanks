@@ -7,24 +7,33 @@ public class PlayerData : MonoBehaviour
 {
     public PlayerInput playerInput { get; private set; }
     public InputActionMap playerInputMap { get; private set; }
+    public InputActionMap playerUIMap { get; private set; }
     public Vector2 movementData { get; private set; }
     internal bool isBuilding;
     internal bool isReadyingUp;
+
+    private NamepadController playerNamepad;
+    private string playerName;
 
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
         playerInputMap = playerInput.actions.FindActionMap("Player");
+        playerUIMap = playerInput.actions.FindActionMap("UI");
+        SetDefaultPlayerName();
+        playerNamepad = FindObjectOfType<NamepadController>();
     }
 
     private void OnEnable()
     {
         playerInputMap.actionTriggered += OnPlayerInput;
+        playerUIMap.actionTriggered += OnPlayerUIInput;
     }
 
     private void OnDisable()
     {
         playerInputMap.actionTriggered -= OnPlayerInput;
+        playerUIMap.actionTriggered -= OnPlayerUIInput;
     }
 
     private void OnPlayerInput(InputAction.CallbackContext ctx)
@@ -39,9 +48,20 @@ public class PlayerData : MonoBehaviour
         }
     }
 
+    private void OnPlayerUIInput(InputAction.CallbackContext ctx)
+    {
+        //Gets the name of the action and calls the appropriate events
+        switch (ctx.action.name)
+        {
+            case "Navigate": OnNavigate(ctx); break;
+            case "Submit": OnSubmit(ctx); break;
+        }
+    }
+
     private void OnMove(InputAction.CallbackContext ctx)
     {
         movementData = ctx.ReadValue<Vector2>();
+
 /*        float moveSensitivity = 0.2f;
 
         if (isBuilding)
@@ -84,6 +104,19 @@ public class PlayerData : MonoBehaviour
         }
     }
 
+    private void OnNavigate(InputAction.CallbackContext ctx)
+    {
+        playerNamepad?.OnNavigate(ctx.ReadValue<Vector2>());
+    }
+
+    private void OnSubmit(InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed)
+        {
+            playerNamepad?.SelectCurrentButton(playerInput);
+        }
+    }
+
     public static PlayerData ToPlayerData(PlayerInput playerInput)
     {
         foreach (PlayerData player in GameManager.Instance.MultiplayerManager.GetAllPlayers())
@@ -95,5 +128,16 @@ public class PlayerData : MonoBehaviour
         Debug.Log("No Player Data Found.");
 
         return null;
+    }
+
+    public void SetDefaultPlayerName()
+    {
+        playerName = "Player " + (playerInput.playerIndex + 1).ToString();
+    }
+
+    public string GetPlayerName() => playerName;
+    public void SetPlayerName(string playerName)
+    {
+        this.playerName = playerName;
     }
 }

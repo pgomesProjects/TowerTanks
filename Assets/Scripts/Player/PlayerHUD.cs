@@ -42,7 +42,7 @@ public class PlayerHUD : MonoBehaviour
     public void InitializeHUD(int characterIndex)
     {
         transform.name = "Player" + (characterIndex + 1).ToString() + "HUD";
-        hudRectTransform.anchoredPosition = new Vector2(0f, (hudRectTransform.sizeDelta.x + 35f) * characterIndex);
+        hudRectTransform.anchoredPosition = new Vector2((hudRectTransform.sizeDelta.x + 35f) * characterIndex, 0f);
         hudPosition = hudRectTransform.localPosition;
         //Debug.Log("Moving HUD To Y = " + ((hudRectTransform.sizeDelta.x + 35f) * characterIndex).ToString());
         playerBorder.color = GameManager.Instance.MultiplayerManager.GetPlayerColors()[characterIndex];

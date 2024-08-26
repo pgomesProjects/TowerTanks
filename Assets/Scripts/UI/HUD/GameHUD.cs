@@ -8,24 +8,16 @@ public class GameHUD : MonoBehaviour
 {
     [Tooltip("Singleton instance of this script in game.")] public static GameHUD main;
 
-    [SerializeField, Tooltip("The controller for the pause menu.")] private PauseController pauseMenu;
-    [SerializeField, Tooltip("The GameObject for the game over menu.")] private GameObject gameOverMenu;
-    [SerializeField, Tooltip("The delay (in seconds) for the game over screen to show.")] private float gameOverDelay;
-    [SerializeField, Tooltip("The controller for the session stats menu.")] private SessionStatsController sessionStatsMenu;
-    [SerializeField, Tooltip("UI displaying what is in player's stack.")] private GameObject stackUI;
-
-    [SerializeField, Tooltip("The prompt that tells the player to advance forward.")] private GoArrowAnimation goPrompt;
-    [SerializeField, Tooltip("The alarm animation for incoming enemies.")] private AlarmAnimation alarmAnimation;
-
-    //[SerializeField, Tooltip("The spacing between each player avatar.")] private float playerAvatarSpacing = 35f;
-
-    [SerializeField, Tooltip("The transform that indicates the amount of scrap in the game.")] private RectTransform resourcesDisplay;
-    [SerializeField, Tooltip("The minimum duration for the resources change.")] private float minResourcesAnimationDuration = 0.5f;
-    [SerializeField, Tooltip("The maximum duration for the resources change.")] private float maxResourcesAnimationDuration = 2f;
-    [SerializeField, Tooltip("The resources animation range (the larger the number, the bigger the amount has to be in order to reach the max resources duration).")] private float resourcesAnimationDurationRange = 100f;
-    [SerializeField, Tooltip("The time (in seconds) of the resources animation.")] private float resourcesAnimationDuration;
-    [SerializeField, Tooltip("The time (in seconds) between the resources showing up and the resources leaving.")] private float resourcesIdleTime;
-    [SerializeField, Tooltip("The ease type for the resources animation.")] private LeanTweenType resourcesEaseType;
+    [SerializeField, Tooltip("The controller for the pause menu.")] protected PauseController pauseMenu;
+    [SerializeField, Tooltip("UI displaying what is in player's stack.")] protected GameObject stackUI;
+    [Space]
+    [SerializeField, Tooltip("The transform that indicates the amount of scrap in the game.")] protected RectTransform resourcesDisplay;
+    [SerializeField, Tooltip("The minimum duration for the resources change.")] protected float minResourcesAnimationDuration = 0.5f;
+    [SerializeField, Tooltip("The maximum duration for the resources change.")] protected float maxResourcesAnimationDuration = 2f;
+    [SerializeField, Tooltip("The resources animation range (the larger the number, the bigger the amount has to be in order to reach the max resources duration).")] protected float resourcesAnimationDurationRange = 100f;
+    [SerializeField, Tooltip("The time (in seconds) of the resources animation.")] protected float resourcesAnimationDuration;
+    [SerializeField, Tooltip("The time (in seconds) between the resources showing up and the resources leaving.")] protected float resourcesIdleTime;
+    [SerializeField, Tooltip("The ease type for the resources animation.")] protected LeanTweenType resourcesEaseType;
 
     private float startResourcesPosX = -330f;
     private float endResourcesPosX = 15f;
@@ -35,14 +27,15 @@ public class GameHUD : MonoBehaviour
     private float transitionStartTime;
     private bool resourcesUpdated;
 
-    // Start is called before the first frame update
-    private void Awake()
+    protected virtual void Awake()
     {
         //Initialize:
         main = this; //Set main game hud to this script
         StackManager.activeStackUI = stackUI; //Send stackUI object reference to stack manager
     }
-    void Start()
+
+
+    protected virtual void Start()
     {
         resourcesDisplay.anchoredPosition = new Vector2(startResourcesPosX, resourcesDisplay.anchoredPosition.y);
         resourcesDisplayNumber = resourcesDisplay.GetComponentInChildren<TextMeshProUGUI>();
@@ -51,19 +44,11 @@ public class GameHUD : MonoBehaviour
         if (GameSettings.debugMode)
             resourcesDisplayNumber.text = "Inf.";
     }
-    private void OnDestroy()
-    {
-        if (StackManager.activeStackUI == stackUI) StackManager.activeStackUI = null; //Clear stackManager reference upon destruction
-    }
 
     private void OnEnable()
     {
         LevelManager.OnGamePaused += ShowPauseMenu;
         LevelManager.OnGameResumed += HidePauseMenu;
-        LevelManager.OnGameOver += ShowGameOverScreen;
-        EnemySpawnManager.OnEnemySpawned += HideGoPrompt;
-        EnemySpawnManager.OnEnemyInRange += ShowEnemyAlarm;
-        LevelManager.OnCombatEnded += EndCombat;
         LevelManager.OnResourcesUpdated += UpdateResources;
     }
 
@@ -71,10 +56,6 @@ public class GameHUD : MonoBehaviour
     {
         LevelManager.OnGamePaused -= ShowPauseMenu;
         LevelManager.OnGameResumed -= HidePauseMenu;
-        LevelManager.OnGameOver -= ShowGameOverScreen;
-        EnemySpawnManager.OnEnemySpawned -= HideGoPrompt;
-        EnemySpawnManager.OnEnemyInRange -= ShowEnemyAlarm;
-        LevelManager.OnCombatEnded -= EndCombat;
         LevelManager.OnResourcesUpdated -= UpdateResources;
     }
 
@@ -88,16 +69,6 @@ public class GameHUD : MonoBehaviour
     {
         pauseMenu.ReactivateAllPlayerInput();
         pauseMenu.gameObject.SetActive(false);
-    }
-
-    private async void ShowGameOverScreen()
-    {
-        gameOverMenu.SetActive(true);
-
-        await Task.Delay(Mathf.CeilToInt(gameOverDelay * 1000));
-
-        gameOverMenu.SetActive(false);
-        sessionStatsMenu.gameObject.SetActive(true);
     }
 
     /// <summary>
@@ -174,28 +145,14 @@ public class GameHUD : MonoBehaviour
     }
 
     /// <summary>
-    /// The function called to show the enemy alarm.
-    /// </summary>
-    private void ShowEnemyAlarm()
-    {
-        alarmAnimation.gameObject.SetActive(true);
-    }
-
-    /// <summary>
-    /// The function called when combat has ended.
-    /// </summary>
-    private void EndCombat()
-    {
-        ShowGoPrompt();
-    }
-
-    private void ShowGoPrompt() => goPrompt?.gameObject.SetActive(true);
-    private void HideGoPrompt() => goPrompt?.EndAnimation();
-
-    /// <summary>
     /// Calculates the amount of time it should take for the resources to animate to the current resources number.
     /// </summary>
     /// <returns>The time it should take to reach the current resources value (in seconds). The larger the difference between the current and displayed value, the smaller duration value is returned.</returns>
     private float CalculateTransitionDuration() => Mathf.Lerp(minResourcesAnimationDuration, maxResourcesAnimationDuration, Mathf.Abs(currentResourcesValue - displayedResourcesValue) / resourcesAnimationDurationRange);
     private void UpdateResourcesDisplay() => resourcesDisplayNumber.text = displayedResourcesValue.ToString("n0");
+
+    protected virtual void OnDestroy()
+    {
+        if (StackManager.activeStackUI == stackUI) StackManager.activeStackUI = null; //Clear stackManager reference upon destruction
+    }
 }

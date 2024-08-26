@@ -40,22 +40,25 @@ public class LevelTransition : MonoBehaviour
 
     public void StartTransition(float seconds, LevelTransitionType currentTransition)
     {
-        switch(currentTransition)
+        if (!transitionActive)
         {
-            case LevelTransitionType.FADE:
-                startingAlpha = 0f;
-                targetAlpha = 1f;
-                timeToReachAlpha = seconds;
-                delta = 0f;
-                blackFadeCanvas.alpha = startingAlpha;
-                fadeActive = true;
-                transitionActive = true;
-                break;
+            switch (currentTransition)
+            {
+                case LevelTransitionType.FADE:
+                    startingAlpha = 0f;
+                    targetAlpha = 1f;
+                    timeToReachAlpha = seconds;
+                    delta = 0f;
+                    blackFadeCanvas.alpha = startingAlpha;
+                    fadeActive = true;
+                    transitionActive = true;
+                    break;
 
-            case LevelTransitionType.GATE:
-                CloseGate(seconds);
-                transitionActive = true;
-                break;
+                case LevelTransitionType.GATE:
+                    CloseGate(seconds);
+                    transitionActive = true;
+                    break;
+            }
         }
     }
 

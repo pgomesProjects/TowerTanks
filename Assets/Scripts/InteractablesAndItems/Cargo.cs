@@ -23,7 +23,7 @@ public class Cargo : MonoBehaviour
 
     public float throwForce;
 
-    public void Awake()
+    protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         switch (type) 
@@ -54,7 +54,7 @@ public class Cargo : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    public void Start()
+    protected virtual void Start()
     {
         currentHolder = null;
         StartCoroutine(Initialize());
@@ -62,7 +62,7 @@ public class Cargo : MonoBehaviour
     }
 
     // Update is called once per frame
-    public void Update()
+    protected virtual void Update()
     {
         if (currentHolder != null)
         {
@@ -146,7 +146,7 @@ public class Cargo : MonoBehaviour
         }
     }
 
-    public void OnDestroy()
+    protected virtual void OnDestroy()
     {
         if (currentHolder != null)
         {

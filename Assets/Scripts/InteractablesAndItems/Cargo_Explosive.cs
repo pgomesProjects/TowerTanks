@@ -18,14 +18,15 @@ public class Cargo_Explosive : Cargo
     [Header("Debug")]
     public bool detonate;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         smokeTrail = transform.Find("smokeTrail");
         smokeTrail.gameObject.SetActive(false);
-        base.Awake();
     }
 
-    private void Start()
+    protected override void Start()
     {
         base.Start();
 
@@ -33,7 +34,7 @@ public class Cargo_Explosive : Cargo
         fuseTimer += randomOffset;
     }
 
-    private void Update()
+    protected override void Update()
     {
         base.Update();
 
@@ -93,7 +94,7 @@ public class Cargo_Explosive : Cargo
         Gizmos.DrawWireSphere(transform.position, explosionRadius);
     }
 
-    public void OnDestroy()
+    protected override void OnDestroy()
     {
         base.OnDestroy();
     }
