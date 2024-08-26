@@ -192,7 +192,7 @@ public class Room : MonoBehaviour
             {
                 if (collider.TryGetComponent(out Cell otherCell) && otherCell.room != this) //Collider overlaps with a cell from another room
                 {
-                    print("Cell obstructed");
+                    //print("Cell obstructed");
                     return; //Generate no new couplers
                 }
             }
@@ -343,7 +343,7 @@ public class Room : MonoBehaviour
                 GameObject ladder = Instantiate(roomData.ladderPrefab, cell.transform);                                              //Instantiate ladder as child of lower cell
                 ladder.transform.position = new Vector2(coupler.transform.position.x, cell.transform.position.y);                    //Move ladder to horizontal position of coupler and vertical position of cell
 
-                print("Found horizontal coupler above cell " + cell.name + ", placing ladder.");
+                //print("Found horizontal coupler above cell " + cell.name + ", placing ladder.");
 
                 //Place extra ladders:
                 if (cell.neighbors[2] != null && RoundToGrid(cell.neighbors[2].transform.position.x, 0.25f) == RoundToGrid(coupler.transform.position.x, 0.25f)) ladderCells.Add(cell); //Add cell to list of cells which need more ladders below them if cell has more southern neighbors

@@ -48,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   layerMask:
     serializedVersion: 2
-    m_Bits: 172360
+    m_Bits: 8560968
   particleScale: 0.03
   damage: 5
   hasSplashDamage: 0

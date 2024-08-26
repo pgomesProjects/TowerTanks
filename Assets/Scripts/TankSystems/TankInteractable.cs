@@ -12,6 +12,8 @@ public class TankInteractable : MonoBehaviour
     public TankController tank; //Controller script for tank this interactable is attached to
     private InteractableZone interactZone; //Hitbox for player detection
     public Transform seat; //Transform operator snaps to while using this interactable
+    public enum InteractableType { WEAPONS, ENGINEERING, DEFENSE, LOGISTICS };
+    public InteractableType interactableType;
 
     //Interactable Scripts
     private GunController gunScript;
@@ -77,6 +79,19 @@ public class TankInteractable : MonoBehaviour
         if (parentCell != null) //Interactable is mounted in a cell
         {
             parentCell.interactable = null; //Clear cell reference to this interactable
+        }
+
+        //Id Update
+        if (tank != null)
+        {
+            foreach (InteractableId id in tank.interactableList)
+            {
+                if (id.interactable == this.gameObject)
+                {
+                    tank.interactableList.Remove(id);
+                    break;
+                }
+            }
         }
 
         //Stack update:
@@ -154,11 +169,11 @@ public class TankInteractable : MonoBehaviour
         }
     }
 
-    public void Use() //Called from operator when they press Interact
+    public void Use(bool overrideConditions = false) //Called from operator when they press Interact
     {
         if (gunScript != null && cooldown <= 0)
         {
-            gunScript.Fire(false, tank.tankType);
+            gunScript.Fire(overrideConditions, tank.tankType);
         }
         if (engineScript != null && cooldown <= 0) engineScript.LoadCoal(1, true, true);
     }
@@ -209,6 +224,7 @@ public class TankInteractable : MonoBehaviour
 
         //Cleanup:
         tank = GetComponentInParent<TankController>(); //Get tank controller interactable is being attached to
+        if (tank != null) { tank.AddInteractable(this.gameObject); }
         return true;                                   //Indicate that interactable was successfully installed in target cell
     }
 

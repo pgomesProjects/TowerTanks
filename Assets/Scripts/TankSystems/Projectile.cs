@@ -125,7 +125,13 @@ public class Projectile : MonoBehaviour
         float damageDealt = 0;
 
         //Handle Projectile Direct Damage
-        if (target != null && target.GetComponentInParent<Cell>() != null) //Hit Cell
+        if (target != null && target.GetComponentInParent<EnergyShieldController>() != null) //Hit Energy Shield
+        {
+            EnergyShieldController shield = target.GetComponentInParent<EnergyShieldController>();
+            destroyThis = true;
+        }
+
+        else if (target != null && target.GetComponentInParent<Cell>() != null) //Hit Cell
         {
             Cell cellHit = target.GetComponentInParent<Cell>();
             damageDealt = cellHit.Damage(damage);

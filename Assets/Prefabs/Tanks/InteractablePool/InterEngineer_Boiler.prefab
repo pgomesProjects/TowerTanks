@@ -1216,12 +1216,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cf76339ebb9bd54a982d6521d220750, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tank: {fileID: 0}
   seat: {fileID: 0}
+  interactableType: 1
   stackName: Tarnation-Class Boiler
   prefabRef: {fileID: 8306713773444683921}
   uiImage: {fileID: 21300000, guid: 3dce60614db2d4e499310fde54e3b229, type: 2}
   hasOperator: 0
   isContinuous: 0
+  canAim: 0
   direction: 1
   debugMoveUp: 0
   debugMoveDown: 0

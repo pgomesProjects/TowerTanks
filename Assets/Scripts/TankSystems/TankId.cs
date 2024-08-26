@@ -51,7 +51,7 @@ public class TankId
 
     [HorizontalGroup("Horizontal Buttons")]
     [VerticalGroup("Horizontal Buttons/Column 1")]
-    [Button("Destroy")] public void Destroy()
+    [Button(" Destroy", Icon = SdfIconType.EmojiDizzy)] public void Destroy()
     {
         if (tankType != TankType.PLAYER)
         {
@@ -62,7 +62,7 @@ public class TankId
         }
     }
     [VerticalGroup("Horizontal Buttons/Column 2")]
-    [Button("Build"), Tooltip("Press during runtime to construct the tank based on the current design")]
+    [Button(" Build", Icon = SdfIconType.Hammer), Tooltip("Press during runtime to construct the tank based on the current design")]
     public void Build()
     {
         if (gameObject != null)
@@ -78,7 +78,7 @@ public class TankId
         }
     }
     [VerticalGroup("Horizontal Buttons/Column 2")]
-    [Button("Save"), Tooltip("Saves the current tank as a new tank design")]
+    [Button(" Save", Icon = SdfIconType.Save), Tooltip("Saves the current tank as a new tank design")]
     public void SaveDesign()
     {
         if (gameObject != null)

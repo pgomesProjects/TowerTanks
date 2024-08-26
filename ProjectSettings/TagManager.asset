@@ -37,6 +37,7 @@ TagManager:
   - Cargo
   - CharacterVisual
   - Ground
+  - EnergyShield
   layers:
   - Default
   - TransparentFX
@@ -61,7 +62,7 @@ TagManager:
   - Projectiles
   - Camera
   - LadderEnd
-  - 
+  - EnergyShield
   - 
   - 
   - 
