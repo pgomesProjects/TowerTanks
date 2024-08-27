@@ -77,6 +77,61 @@ public class TankController : SerializedMonoBehaviour
     [SerializeField] public List<InteractableId> interactableList = new List<InteractableId>();
 
     [PropertySpace]
+    [Button(" Sort by Type", ButtonSizes.Small, Icon = SdfIconType.SortUpAlt), Tooltip("Sorts Interactable List by Interactable Type")]
+    private void SortListByType()
+    {
+        List<InteractableId> newList = new List<InteractableId>();
+        for (int i = 0; i < 4; i++)
+        {
+            if (i == 0)
+            {
+                foreach(InteractableId interactable in interactableList) 
+                { 
+                    if(interactable.type == TankInteractable.InteractableType.WEAPONS)
+                    {
+                        newList.Add(interactable);
+                    }
+                }
+            }
+
+            if (i == 1)
+            {
+                foreach (InteractableId interactable in interactableList)
+                {
+                    if (interactable.type == TankInteractable.InteractableType.ENGINEERING)
+                    {
+                        newList.Add(interactable);
+                    }
+                }
+            }
+
+            if (i == 2)
+            {
+                foreach (InteractableId interactable in interactableList)
+                {
+                    if (interactable.type == TankInteractable.InteractableType.DEFENSE)
+                    {
+                        newList.Add(interactable);
+                    }
+                }
+            }
+
+            if (i == 3)
+            {
+                foreach (InteractableId interactable in interactableList)
+                {
+                    if (interactable.type == TankInteractable.InteractableType.LOGISTICS)
+                    {
+                        newList.Add(interactable);
+                    }
+                }
+            }
+        }
+
+        interactableList = newList;
+    }
+
+    [PropertySpace]
     [Button(" Fire All Weapons", ButtonSizes.Small, Icon = SdfIconType.SquareFill), Tooltip("Fires every weapon in the tank, ignoring conditions")]
     private void FireAllCannons()
     {
