@@ -90,7 +90,7 @@ public class TreadSystem : MonoBehaviour
         }
         else if (Mathf.Abs(actualSpeed) < 1)
         {
-            tankController.DisableSpeedTrails();
+            //tankController.DisableSpeedTrails();
         }
     }
     private void FixedUpdate()
