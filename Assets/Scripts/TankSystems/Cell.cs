@@ -39,7 +39,6 @@ public class Cell : MonoBehaviour
     [Tooltip("Back wall of cell, will be changed depending on cell purpose.")]                  public GameObject backWall;
     [Tooltip("Pre-assigned cell walls (in NESW order) which confine players inside the tank.")] public GameObject[] walls;
     [SerializeField, Tooltip("The interactable currently installed in this cell (if any).")]    internal TankInteractable interactable;
-    public TrailRenderer[] speedTrails;
     public enum TankPosition { TOP = 1, BOTTOM = -1 };
 
     //Settings:
@@ -90,33 +89,6 @@ public class Cell : MonoBehaviour
         {
             damageTimer = 0;
             damageTime = 0;
-        }
-    }
-
-    public void ShowSpeedTrails(bool onOff, int topBottom) //True = On, False = Off -- 1 = Top, -1 = Bottom, 0 = Both
-    {
-        if (topBottom == (int)TankPosition.TOP)
-        {
-            if (onOff == true)
-            {
-                speedTrails[0].enabled = true;
-            }
-            else { speedTrails[0].enabled = false; }
-        }
-
-        if (topBottom == (int)TankPosition.BOTTOM)
-        {
-            if (onOff == true)
-            {
-                speedTrails[1].enabled = true;
-            }
-            else { speedTrails[1].enabled = false; }
-        }
-
-        if (onOff == false && topBottom == 0)
-        {
-            speedTrails[0].enabled = false;
-            speedTrails[1].enabled = false;
         }
     }
 

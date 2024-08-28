@@ -7,6 +7,7 @@ using Sirenix.OdinInspector;
 [System.Serializable]
 public class InteractableId
 {
+    public string stackName;
     public GameObject interactable;
     public TankInteractable script;
     public TankInteractable.InteractableType type;

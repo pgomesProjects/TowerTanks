@@ -270,6 +270,8 @@ public class TankController : SerializedMonoBehaviour
 
     public void RammingSpeed(float direction) //direction --> 1 = right, -1 = left
     {
+        #region Speedlines
+        /*
         Cell topCell = coreRoom.cells[0];
         Cell bottomCell = coreRoom.cells[0];
 
@@ -281,16 +283,16 @@ public class TankController : SerializedMonoBehaviour
             //Find TopMost Cell
             foreach (Cell cell in room.cells)
             {
-                Vector2 cellPos = towerJoint.transform.InverseTransformPoint(topCell.transform.position); //Get current TopMost Cell's position
-                if (cell != null) cellPos = towerJoint.transform.InverseTransformPoint(cell.transform.position); //Get selected cell's position
+                Vector2 cellPos = this.transform.InverseTransformPoint(topCell.transform.position); //Get current TopMost Cell's position
+                if (cell != null) cellPos = this.transform.InverseTransformPoint(cell.transform.position); //Get selected cell's position
 
-                if (cellPos.y > towerJoint.transform.InverseTransformPoint(topCell.transform.position).y) //If selected cell's y position is greater than the current TopMost Cell's,
+                if (cellPos.y > this.transform.InverseTransformPoint(topCell.transform.position).y) //If selected cell's y position is greater than the current TopMost Cell's,
                 {
                     _topCells.Clear(); //clear list of Top Cells
                     topCell = cell;  //Make it the new TopMost Cell
                     _topCells.Add(cell); //Add it to the list
                 }
-                else if (cellPos.y == towerJoint.transform.InverseTransformPoint(topCell.transform.position).y) //If selected cell's y position is the same as the TopMost Cell,
+                else if (cellPos.y == this.transform.InverseTransformPoint(topCell.transform.position).y) //If selected cell's y position is the same as the TopMost Cell,
                 {
                     _topCells.Add(cell); //Add it to the list
                 }
@@ -306,7 +308,7 @@ public class TankController : SerializedMonoBehaviour
                     if (direction == -1)
                     {
                         //Find RightMost Cell
-                        if (towerJoint.transform.InverseTransformPoint(_cell.transform.position).x > towerJoint.transform.InverseTransformPoint(topCell.transform.position).x)
+                        if (this.transform.InverseTransformPoint(_cell.transform.position).x > this.transform.InverseTransformPoint(topCell.transform.position).x)
                         {
                             topCell.ShowSpeedTrails(false, 1);
                             topCell = _cell;
@@ -316,7 +318,7 @@ public class TankController : SerializedMonoBehaviour
                     if (direction == 1)
                     {
                         //Find LeftMost Cell
-                        if (towerJoint.transform.InverseTransformPoint(_cell.transform.position).x < towerJoint.transform.InverseTransformPoint(topCell.transform.position).x)
+                        if (this.transform.InverseTransformPoint(_cell.transform.position).x < this.transform.InverseTransformPoint(topCell.transform.position).x)
                         {
                             topCell.ShowSpeedTrails(false, 1);
                             topCell = _cell;
@@ -372,27 +374,19 @@ public class TankController : SerializedMonoBehaviour
                 }
             }
         }
-
+        
+        
         _topCells.Clear();
         _bottomCells.Clear();
 
         //Apply Speedlines to both Cells
         topCell.ShowSpeedTrails(true, 1);
         bottomCell.ShowSpeedTrails(true, -1);
+        */
+        #endregion
 
         //Apply Ramming Condition to all Cells
 
-    }
-
-    public void DisableSpeedTrails()
-    {
-        foreach (Room room in rooms)
-        {
-            foreach (Cell cell in room.cells)
-            {
-                cell.ShowSpeedTrails(false, 0);
-            }
-        }
     }
 
     public void ChangeAllGear(int direction) //changes gear of all active throttles in the tank
@@ -670,6 +664,7 @@ public class TankController : SerializedMonoBehaviour
         newId.interactable = interactable;
         newId.script = interactable.GetComponent<TankInteractable>();
         newId.type = newId.script.interactableType;
+        newId.stackName = newId.script.stackName;
         interactableList.Add(newId);
     }
 }
