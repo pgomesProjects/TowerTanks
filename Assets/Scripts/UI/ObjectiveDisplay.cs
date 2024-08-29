@@ -6,9 +6,18 @@ using TMPro;
 public class ObjectiveDisplay : MonoBehaviour
 {
     [SerializeField, Tooltip("The text to display the type of objective for the mission.")] private TextMeshProUGUI objectiveTitleText;
-    [SerializeField, Tooltip("The container for all subobjectives.")] private Transform subobjectiveTransform;
+    [SerializeField, Tooltip("The container for all subobjectives.")] private Transform subObjectiveTransform;
+    [SerializeField, Tooltip("The sub objective prefab.")] private GameObject subObjectivePrefab;
 
-    private void Start()
+    private List<SubObjective> subObjectives = new List<SubObjective>();
+
+    private struct SubObjective
+    {
+        public GameObject subObjectiveObject;
+        public int id;
+    }
+
+    private void Awake()
     {
         ClearSubObjectives();
     }
@@ -18,9 +27,36 @@ public class ObjectiveDisplay : MonoBehaviour
         objectiveTitleText.text = objectiveName;
     }
 
+    public void AddSubObjective(int id, string objectiveProgress)
+    {
+        Debug.Log("Dick: " + FindSubObjectiveById(id).Value.id);
+
+        if(!(FindSubObjectiveById(id).Value.id == id))
+        {
+            GameObject subObjectiveObject = Instantiate(subObjectivePrefab, subObjectiveTransform);
+            Debug.Log(subObjectiveObject.transform.parent.name);
+            subObjectiveObject.GetComponentInChildren<TextMeshProUGUI>().text = objectiveProgress;
+
+            SubObjective newSubObjective = new SubObjective();
+            newSubObjective.subObjectiveObject = subObjectiveObject;
+            newSubObjective.id = id;
+            subObjectives.Add(newSubObjective);
+        }
+    }
+
+    public void UpdateSubObjective(int id, string objectiveProgress)
+    {
+        SubObjective? currentSubObjective = FindSubObjectiveById(id);
+
+        if (currentSubObjective.Value.id == id)
+            currentSubObjective.Value.subObjectiveObject.GetComponentInChildren<TextMeshProUGUI>().text = objectiveProgress;
+    }
+
+    private SubObjective? FindSubObjectiveById(int id) => subObjectives.Find(obj => obj.id == id);
+
     private void ClearSubObjectives()
     {
-        foreach(Transform trans in subobjectiveTransform)
+        foreach(Transform trans in subObjectiveTransform)
             Destroy(trans.gameObject);
     }
 }

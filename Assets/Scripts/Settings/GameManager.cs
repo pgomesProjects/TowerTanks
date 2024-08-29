@@ -62,12 +62,24 @@ public class GameManager : SerializedMonoBehaviour
     {
         switch ((GAMESCENE)scene.buildIndex)
         {
+            case GAMESCENE.TITLE:
+                //If the CampaignManager still exists in the title screen, we no longer need it
+                if (CampaignManager.Instance != null)
+                    Destroy(CampaignManager.Instance.gameObject);
+                break;
             case GAMESCENE.BUILDING:
                 GameSettings.showGamepadCursors = true;
                 break;
             default:
                 GameSettings.showGamepadCursors = false;
                 break;
+        }
+
+        if((GAMESCENE)scene.buildIndex != GAMESCENE.TITLE)
+        {
+            //If there is no CampaignManager in the scene, add it to start maintaining the current campaign
+            if (CampaignManager.Instance == null)
+                Object.DontDestroyOnLoad(Object.Instantiate(Resources.Load("CampaignManager")));
         }
     }
 

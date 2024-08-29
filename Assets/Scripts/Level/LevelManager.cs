@@ -21,10 +21,9 @@ public class LevelManager : SerializedMonoBehaviour
     [SerializeField, Tooltip("The prefab for the player HUD piece.")] private PlayerHUD playerHUDPrefab;
     [SerializeField, Tooltip("The parent that holds all of the player HUD objects.")] private RectTransform playerHUDParentTransform;
     [SerializeField, Tooltip("The value of a singular scrap piece.")] private int scrapValue;
-    [SerializeField, Tooltip("The level event data that dictates how the level must be run.")] private LevelEvents currentLevelEvent;
     [SerializeField, Tooltip("The component that tracks the objective information.")] private ObjectiveTracker objectiveTracker;
     [SerializeField, Tooltip("The component that tracks tank information.")] public TankManager tankManager;
-    [SerializeField] public static float enemiesDestroyed;
+    [SerializeField] public float enemiesDestroyed;
 
     public static LevelManager Instance;
 
@@ -48,6 +47,7 @@ public class LevelManager : SerializedMonoBehaviour
 
     //Events
     public static Action<LevelEvents> OnMissionStart;
+    public static Action<LevelEvents> OnEnemyDefeated;
     public static Action<int, bool> OnResourcesUpdated;
     public static Action OnCombatEnded;
     public static Action<int> OnGamePaused;
@@ -127,7 +127,7 @@ public class LevelManager : SerializedMonoBehaviour
             totalScrapValue = 99999;
 
         OnResourcesUpdated?.Invoke(totalScrapValue, false);
-        OnMissionStart?.Invoke(currentLevelEvent);
+        OnMissionStart?.Invoke(CampaignManager.Instance.GetCurrentLevelEvent());
         isSettingUpOnStart = false;
     }
 
@@ -529,11 +529,12 @@ public class LevelManager : SerializedMonoBehaviour
 
     public void AddObjectiveValue(ObjectiveType type, float amount)
     {
-        if(currentLevelEvent.objectiveType == type)
+        if(CampaignManager.Instance.GetCurrentLevelEvent().objectiveType == type)
         {
             if (type == ObjectiveType.DefeatEnemies)
             {
                 enemiesDestroyed += amount;
+                OnEnemyDefeated?.Invoke(CampaignManager.Instance.GetCurrentLevelEvent());
                 StartCoroutine(ConditionChecker());
             }
         }
@@ -547,10 +548,9 @@ public class LevelManager : SerializedMonoBehaviour
 
     private void CheckLevelConditions()
     {
-        if(currentLevelEvent.objectiveType == ObjectiveType.DefeatEnemies)
+        if(CampaignManager.Instance.GetCurrentLevelEvent().objectiveType == ObjectiveType.DefeatEnemies)
         {
-            //TODO: check to see if you've killed em all
-            if (enemiesDestroyed >= currentLevelEvent.enemiesToDefeat)
+            if (enemiesDestroyed >= CampaignManager.Instance.GetCurrentLevelEvent().enemiesToDefeat)
             {
                 //Complete the Mission
                 CompleteMission();

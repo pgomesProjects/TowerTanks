@@ -74,13 +74,14 @@ public class MultiplayerManager : SerializedMonoBehaviour
         playerInput.onDeviceLost += OnDeviceLost;
         playerInput.onDeviceRegained += OnDeviceRegained;
 
-        OnPlayerConnected?.Invoke(playerInput);
+        //Call OnPlayerConnected on the next frame
+        StartCoroutine(InvokeOnConnected(playerInput));
+    }
 
-/*        if(GameSettings.debugMode && playerIndex == 0)
-        {
-            GameObject.FindGameObjectWithTag("DebugPlayer")?.GetComponent<PlayerMovement>().AddDebuggerPlayerInput(playerInput);
-            FindObjectOfType<Debug_TankBuilder>()?.LinkPlayerInput(playerInput);
-        }*/
+    private IEnumerator InvokeOnConnected(PlayerInput playerInput)
+    {
+        yield return null;
+        OnPlayerConnected?.Invoke(playerInput);
     }
 
     public void SetUIControlScheme()
