@@ -7,7 +7,7 @@ public abstract class Character : SerializedMonoBehaviour
 {
     #region Fields and Properties
 
-    public enum CharacterState { CLIMBING, NONCLIMBING, OPERATING }; //Simple state system, in the future this will probably be refactored
+    public enum CharacterState { CLIMBING, NONCLIMBING, OPERATING, REPAIRING }; //Simple state system, in the future this will probably be refactored
 
     public CharacterState currentState;                  //to an FSM.
 
@@ -124,6 +124,8 @@ public abstract class Character : SerializedMonoBehaviour
         else if (currentState == CharacterState.CLIMBING) ClimbLadder();
 
         else if (currentState == CharacterState.OPERATING) OperateInteractable();
+
+        else if (currentState == CharacterState.REPAIRING) RepairCell();
     }
 
     protected virtual void OnDrawGizmos()
@@ -213,6 +215,11 @@ public abstract class Character : SerializedMonoBehaviour
     }
 
     protected virtual void OperateInteractable()
+    {
+        rb.velocity = Vector2.zero;
+    }
+
+    protected virtual void RepairCell()
     {
         rb.velocity = Vector2.zero;
     }

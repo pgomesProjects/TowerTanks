@@ -56,6 +56,12 @@ public class PlayerMovement : Character
     public bool isCarryingSomething; //true if player is currently carrying something
     public Cargo currentObject; //what object the player is currently carrying
 
+    [Header("Repairing")]
+    [SerializeField, Tooltip("What cell the player is currently repairing")] private Cell currentRepairJob; //what cell the player is currently repairing
+    [SerializeField, Tooltip("Time it takes the player to complete one repair tick")] private float repairTime;
+    private float repairTimer = 0;
+    [SerializeField, Tooltip("How much health the player repairs each completed tick")] private float repairAmount;
+
     private float maxShakeIntensity = 0.5f;
     private float currentShakeTime;
     private bool isShaking = false;
@@ -130,6 +136,29 @@ public class PlayerMovement : Character
             }
         }
 
+        //Repairing Something
+        if (currentRepairJob != null)
+        {
+            currentState = CharacterState.REPAIRING;
+            transform.position = currentRepairJob.repairSpot.position;
+
+            repairTimer += Time.deltaTime;
+            if (repairTimer >= repairTime)
+            {
+                currentRepairJob.Repair(repairAmount);
+                repairTimer = 0;
+            }
+
+            if (currentRepairJob.health >= currentRepairJob.maxHealth) //Fully fixed!
+            {
+                GameManager.Instance.AudioManager.Play("ItemPickup", gameObject);
+                currentRepairJob.repairMan = null;
+                currentRepairJob = null;
+                CancelInteraction();
+            }
+        }
+
+        //Handle Jetpack
         if (jetpackInputHeld && currentState != CharacterState.OPERATING)
         {
             currentFuel -= fuelDepletionRate * Time.deltaTime;
@@ -154,7 +183,7 @@ public class PlayerMovement : Character
             }
         }
         
-        
+        //If we're manning an Interactable
         if (currentInteractable != null)
         {
             currentState = CharacterState.OPERATING;
@@ -175,6 +204,7 @@ public class PlayerMovement : Character
             }
         }
 
+        //If we're carrying something
         if (currentObject != null)
         {
             currentObject.transform.position = hands.position;
@@ -391,7 +421,7 @@ public class PlayerMovement : Character
 
         interactInputHeld = ctx.ReadValue<float>() > 0;
 
-        if (ctx.started)
+        if (ctx.started && currentState != CharacterState.REPAIRING)
         {
             if (currentZone != null && !isHoldingDown)
             {
@@ -481,18 +511,47 @@ public class PlayerMovement : Character
     {
         if (buildCell != null) return;
 
-        if (ctx.started)
+        if (ctx.started) //Tapped
         {
-            //Interactables
-            if (currentInteractable != null) currentInteractable.SecondaryUse(true);
-
             //Items
             if (currentObject != null) currentObject.Use();
         }
 
-        if (ctx.canceled)
+        if (ctx.performed) //Held for 0.4 sec
+        {
+            //Repairing
+            if (currentInteractable == null && currentState != CharacterState.OPERATING)
+            {
+                LayerMask mask = LayerMask.GetMask("Cell");
+                Collider2D cell = Physics2D.OverlapPoint(transform.position, mask);
+                if (cell != null)
+                {
+                    Cell cellscript = cell.GetComponent<Cell>();
+                    if (cellscript.health < cellscript.maxHealth && cellscript.repairMan == null && cellscript.room.isCore == false)
+                    {
+                        //Debug.Log("I can fix it!");
+                        GameManager.Instance.AudioManager.Play("UseSFX");
+                        currentRepairJob = cell.GetComponent<Cell>();
+                        currentRepairJob.repairMan = this.gameObject;
+                        repairTimer = 0;
+                    }
+                }
+            }
+
+            //Interactables
+            if (currentInteractable != null) currentInteractable.SecondaryUse(true);
+        }
+
+        if (ctx.canceled) //Let go
         {
             if (currentInteractable != null) currentInteractable.SecondaryUse(false);
+
+            if (currentState == CharacterState.REPAIRING)
+            {
+                currentRepairJob.repairMan = null;
+                currentRepairJob = null;
+                CancelInteraction();
+            }
         }
     }
 

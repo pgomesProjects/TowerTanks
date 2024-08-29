@@ -181,6 +181,9 @@ MonoBehaviour:
     m_Bits: 512
   isCarryingSomething: 0
   currentObject: {fileID: 0}
+  currentRepairJob: {fileID: 0}
+  repairTime: 0.5
+  repairAmount: 10
 --- !u!70 &448350889
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

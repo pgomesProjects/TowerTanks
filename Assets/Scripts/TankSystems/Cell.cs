@@ -39,13 +39,16 @@ public class Cell : MonoBehaviour
     [Tooltip("Back wall of cell, will be changed depending on cell purpose.")]                  public GameObject backWall;
     [Tooltip("Pre-assigned cell walls (in NESW order) which confine players inside the tank.")] public GameObject[] walls;
     [SerializeField, Tooltip("The interactable currently installed in this cell (if any).")]    internal TankInteractable interactable;
+    [SerializeField, Tooltip("Transform used for repairmen to snap to when repairing this cell")] public Transform repairSpot;
+    [SerializeField, Tooltip("The character currently repairing this cell")]                      public GameObject repairMan;
     public enum TankPosition { TOP = 1, BOTTOM = -1 };
 
     //Settings:
     [Button("Debug Destroy Cell")] public void DebugDestroyCell() { Kill(); }
+    [Button("Debug Damage Cell")] public void DebugDamageCell() { Damage(50f); }
 
     //Runtime Variables:
-        //Gameplay:
+    //Gameplay:
     [Tooltip("Maximum hitpoints this cell can have when fully repaired.")] public float maxHealth;
     [Tooltip("Current hitpoints this cell has.")]                          public float health;
     [Tooltip("Which section this cell is in inside its parent room.")]     internal int section;
@@ -321,5 +324,20 @@ public class Cell : MonoBehaviour
         //Other Effects
         GameManager.Instance.AudioManager.Play("MedExplosionSFX", gameObject);
         GameManager.Instance.ParticleSpawner.SpawnParticle(5, transform.position, 0.15f, null);
+    }
+
+    public void Repair(float amount)
+    {
+        if (health < maxHealth)
+        {
+            health += amount;
+            damageTime += (amount / 50f);
+            damageTimer = damageTime;
+            GameManager.Instance.AudioManager.Play("UseWrench", gameObject);
+            GameManager.Instance.ParticleSpawner.SpawnParticle(6, transform.position, 0.25f, null);
+        }
+        
+        if (health > maxHealth) { health = maxHealth; }
+        
     }
 }
