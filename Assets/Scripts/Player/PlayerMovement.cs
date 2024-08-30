@@ -225,13 +225,6 @@ public class PlayerMovement : Character
     {
         base.OnDrawGizmos();
         
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(ladderBounds.center, ladderBounds.size);
-        
-        Gizmos.color = Color.blue;
-        Gizmos.DrawLine(transform.position, transform.position + (transform.up * .2f));
-        Gizmos.color = Color.green;
-        Gizmos.DrawLine(transform.position, transform.position - (transform.up * .2f));
     }
 
     /*protected override void OnTriggerEnter2D(Collider2D other)//TODO: Check Character.cs ontrigger for more info
@@ -269,17 +262,21 @@ public class PlayerMovement : Character
 
 
     protected override void ClimbLadder()
-    { 
-        float raycastDistance = .3f;
+    {
+        float raycastDistance = .19f;
         
-        RaycastHit2D hitUp = Physics2D.Raycast(transform.position, transform.up, raycastDistance, 1 << LayerMask.NameToLayer("LadderEnd"));
-        RaycastHit2D hitDown = Physics2D.Raycast(transform.position, -transform.up, raycastDistance, 1 << LayerMask.NameToLayer("LadderEnd"));
+        Vector2 boxSize = new Vector2(groundedBoxX, groundedBoxY * 3);
+        Vector3 direction = moveInput.y > 0 ? transform.up : -transform.up;
         
+        var hitLadder = Physics2D.OverlapBox(transform.position + (direction * transform.localScale.y), boxSize, 0f, 1 << LayerMask.NameToLayer("Ladder"));
+        var hitGround = Physics2D.Raycast(transform.position, direction, raycastDistance, 1 << LayerMask.NameToLayer("Ground"));
+
         Vector3 displacement = transform.up * (climbSpeed * moveInput.y * Time.deltaTime);
-        
-         if ((moveInput.y > 0 && hitUp) || (moveInput.y < 0 && hitDown))
-         {
-             displacement = Vector3.zero;
+
+        // If there is no ladder or there is ground in the direction of movement, stop movement
+        if (!hitLadder || hitGround)
+        {
+            displacement = Vector3.zero;
         }
 
         Vector3 newPosition = transform.position + displacement;

@@ -6,14 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="5398b79a-e478-4a7d-b865-f9c27d850513" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TowerTanks/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TowerTanks/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Test Scenes/HotteScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Test Scenes/HotteScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Character.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Character.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Tanks/Ladder_Full.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Tanks/Ladder_Full.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerMovement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerMovement.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TankSystems/LadderCollGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TankSystems/LadderCollGenerator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Utilities/PlayerControlSystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Utilities/PlayerControlSystem.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Utilities/PlayerControlSystem.inputactions" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Utilities/PlayerControlSystem.inputactions" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/Physics2DSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/Physics2DSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Wwise/Editor/ProjectData/AkWwiseProjectData.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Wwise/Editor/ProjectData/AkWwiseProjectData.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -126,6 +121,7 @@
       <workItem from="1723775247024" duration="5020000" />
       <workItem from="1724194027297" duration="5913000" />
       <workItem from="1724348863160" duration="14538000" />
+      <workItem from="1724972522974" duration="3728000" />
     </task>
     <servers />
   </component>
