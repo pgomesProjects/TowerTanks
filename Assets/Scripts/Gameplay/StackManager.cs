@@ -27,7 +27,8 @@ public class StackManager : MonoBehaviour
         /// <summary>
         /// Generates and fills in data for a UI panel representing this stack item.
         /// </summary>
-        public void GenerateUIPanel()
+        /// <param name="currentStackIndex">The index for the UI panel in the stack.</param>
+        public void GenerateUIPanel(int currentStackIndex)
         {
             //Initialize:
             if (activeStackUI == null) { Debug.LogError("Tried to generate a UI panel while stackUI was not active"); return; }               //Prevent system from generating UI while HUD is inactive
@@ -40,14 +41,14 @@ public class StackManager : MonoBehaviour
             uiPanel = newPanel;                                                                       //Give item a reference to its UI panel
 
             //Prep animation:
-            if (stack.Count == 1) //This is the first item in the stack
+            if (currentStackIndex == 0) //This is the first item in the stack
             {
                 newPanel.localPosition = GetTargetPos();            //Set position instantly
                 timeSinceAnimUpdate = StackManager.main.ySlideTime; //Do not set to animate
             }
             else //Other items are already in the stack
             {
-                newPanel.localPosition = stack[^2].uiPanel.localPosition; //Set position to that of previous item in stack
+                newPanel.localPosition = stack[currentStackIndex - 1].uiPanel.localPosition; //Set position to that of previous item in stack
                 timeSinceAnimUpdate = 0;                                  //Have animation begin
             }
             prevPosition = newPanel.localPosition; //Simply set previous position to current
@@ -132,9 +133,17 @@ public class StackManager : MonoBehaviour
     }
     private void Start()
     {
-        //Populate stack UI:
-        foreach (StackItem item in stack) item.GenerateUIPanel(); //Iterate through entire stack
+        GenerateExistingStack();
     }
+
+    public void GenerateExistingStack()
+    {
+        //Populate stack UI:
+        //Iterate through entire stack
+        for(int i = 0; i < stack.Count; i++)
+            stack[i].GenerateUIPanel(i);
+    }
+
     private void Update()
     {
         //Update stack item positions:
@@ -181,7 +190,7 @@ public class StackManager : MonoBehaviour
         //UI Update:
         if (activeStackUI != null) //UI system is active
         {
-            if (item.uiPanel == null) item.GenerateUIPanel(); //Generate a ui panel for item if it doesn't have one
+            if (item.uiPanel == null) item.GenerateUIPanel(stack.Count - 1); //Generate a ui panel for item if it doesn't have one
             else item.ShowUIPanel();                          //Simply make item visible otherwise
             item.uiPanel.SetAsFirstSibling();                 //Have this panel render under others
         }

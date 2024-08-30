@@ -158,13 +158,15 @@ public class GamepadCursor : MonoBehaviour
             if (lastHoveredObject != null)
             {
                 Debug.Log("Hover Exited");
-                ExecuteEvents.Execute(lastHoveredObject.gameObject, eventData, ExecuteEvents.pointerExitHandler);
+                lastHoveredObject.RemovePlayerSelecting(playerInput);
+                lastHoveredObject.OnCursorExit(playerInput);
             }
 
             if (newHoveredObject != null)
             {
                 Debug.Log("Hover Entered");
-                ExecuteEvents.Execute(newHoveredObject.gameObject, eventData, ExecuteEvents.pointerEnterHandler);
+                newHoveredObject.AddPlayerSelecting(playerInput);
+                newHoveredObject.OnCursorEnter(playerInput);
             }
 
             // Update the lastHoveredObject
@@ -201,9 +203,8 @@ public class GamepadCursor : MonoBehaviour
                 if (draggableObject != null)
                 {
                     // Perform actions for the clicked GamepadSelectable
-                    ExecuteEvents.Execute(clickedObject, new PointerEventData(EventSystem.current), ExecuteEvents.pointerDownHandler);
-                    draggableObject.OnSelectObject(playerInput);
                     Debug.Log("Pointer Down!");
+                    draggableObject.OnSelectObject(playerInput);
                 }
             }
         }
@@ -219,8 +220,7 @@ public class GamepadCursor : MonoBehaviour
                 GamepadSelectable draggableObject = clickedObject.GetComponent<GamepadSelectable>();
                 if (draggableObject != null)
                 {
-                    // Perform actions for the clicked DraggableObject
-                    ExecuteEvents.Execute(clickedObject, new PointerEventData(EventSystem.current), ExecuteEvents.pointerUpHandler);
+                    // Perform actions for the clicked GamepadSelectable
                     Debug.Log("Pointer Up!");
                 }
             }
@@ -315,4 +315,5 @@ public class GamepadCursor : MonoBehaviour
     }
 
     public RectTransform GetCursorTransform() => localGamepadCursorTransform;
+    public int GetOwnerIndex() => playerInput.playerIndex;
 }

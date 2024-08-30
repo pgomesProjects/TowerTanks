@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions.Must;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class PlayerMovement : Character
 {
@@ -18,6 +19,7 @@ public class PlayerMovement : Character
 
     [SerializeField] private Transform towerJoint;
     [SerializeField] private Transform playerSprite;
+    [SerializeField] private TextMeshProUGUI playerNameText;
 
     [SerializeField] private PlayerInput playerInputComponent;
     [SerializeField] private float deAcceleration;
@@ -65,8 +67,8 @@ public class PlayerMovement : Character
     private float maxShakeIntensity = 0.5f;
     private float currentShakeTime;
     private bool isShaking = false;
-    
-    
+
+    private PlayerData playerData;
 
     #endregion
 
@@ -300,6 +302,7 @@ public class PlayerMovement : Character
     public void LinkPlayerInput(PlayerInput newInput)
     {
         playerInputComponent = newInput;
+        playerData = PlayerData.ToPlayerData(newInput);
         characterIndex = playerInputComponent.playerIndex;
 
         //Gets the player input action map so that events can be subscribed to it
@@ -319,6 +322,7 @@ public class PlayerMovement : Character
         playerInputComponent.onDeviceRegained += OnDeviceRegained;
 
         characterColor = GameManager.Instance.MultiplayerManager.GetPlayerColors()[newInput.playerIndex];
+        UpdatePlayerNameDisplay();
     }
 
     public void OnDeviceLost(PlayerInput playerInput)
@@ -654,6 +658,12 @@ public class PlayerMovement : Character
         isCheckingSpinInput = false;
     }
 
+    public override void LinkPlayerHUD(PlayerHUD newHUD)
+    {
+        characterHUD = newHUD;
+        characterHUD.InitializeHUD(characterIndex, playerData.GetPlayerName());
+    }
+
     #endregion
 
     #region Character Functions
@@ -693,6 +703,11 @@ public class PlayerMovement : Character
         buildCell = null;                //Clear cell reference
         buildTime = 0;                   //Reset build time tracker
         print("stopped building");
+    }
+
+    public void UpdatePlayerNameDisplay()
+    {
+        playerNameText.text = playerData.GetPlayerName();
     }
 
     protected override void OnCharacterDeath(bool isRespawnable = true)

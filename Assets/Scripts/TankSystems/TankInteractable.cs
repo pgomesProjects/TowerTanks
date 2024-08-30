@@ -93,9 +93,6 @@ public class TankInteractable : MonoBehaviour
                 }
             }
         }
-
-        //Stack update:
-        if (tank != null && tank.tankType == TankId.TankType.PLAYER) StackManager.AddToStack(this); //Add interactable data to stack upon destruction (if it is in a player tank)
     }
 
     private void OnDisable()

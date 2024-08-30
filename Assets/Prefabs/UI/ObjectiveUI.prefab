@@ -541,7 +541,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectiveTitleText: {fileID: 4483901407179534103}
-  subobjectiveTransform: {fileID: 4271939813612189044}
+  subObjectiveTransform: {fileID: 4271939813612189044}
+  subObjectivePrefab: {fileID: 4046540349546875623, guid: 049c238b7b7039348872c9735e3147f3, type: 3}
 --- !u!1 &8204606652251294513
 GameObject:
   m_ObjectHideFlags: 0

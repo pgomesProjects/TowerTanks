@@ -319,6 +319,9 @@ public class Cell : MonoBehaviour
         {
             player.transform.parent = null; // removes the player from the cell before destruction if present
         }
+
+        //Stack update:
+        if (room.targetTank != null && room.targetTank.tankType == TankId.TankType.PLAYER) StackManager.AddToStack(interactable); //Add interactable data to stack upon destruction (if it is in a player tank)
         Destroy(gameObject); //Destroy this cell
 
         //Other Effects

@@ -14,7 +14,6 @@ public class SelectableRoomObject : GamepadSelectable
 
     private Image draggableImage;
     private Color defaultColor;
-    private bool isSelected;
     private int roomID;
 
     internal UnityEvent<PlayerInput, int> OnSelected = new UnityEvent<PlayerInput, int>();
@@ -28,8 +27,7 @@ public class SelectableRoomObject : GamepadSelectable
 
     private int hoveringCursorCount = 0;
 
-    // Implement the IPointerEnterHandler interface
-    public override void OnPointerEnter(PointerEventData eventData)
+    public override void OnCursorEnter(PlayerInput playerInput)
     {
         if (!isSelected)
         {
@@ -39,8 +37,7 @@ public class SelectableRoomObject : GamepadSelectable
         }
     }
 
-    // Implement the IPointerExitHandler interface
-    public override void OnPointerExit(PointerEventData eventData)
+    public override void OnCursorExit(PlayerInput playerInput)
     {
         if (!isSelected)
         {

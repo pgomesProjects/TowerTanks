@@ -258,8 +258,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40
-  m_fontSizeBase: 40
+  m_fontSize: 22
+  m_fontSizeBase: 22
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -354,7 +354,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dede7ae02d39d2649ad05c68a2d9b6c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPlayerExclusive: 1
   buttonType: 0
+  buttonHoverCanvasGroup: {fileID: 4559621014867277004}
   letters: []
 --- !u!222 &5282333705818926633
 CanvasRenderer:

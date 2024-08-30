@@ -15,6 +15,8 @@ public class LevelEvents : ScriptableObject
     public string levelName;
     public string levelDescription;
     public ObjectiveType objectiveType;
+    [Tooltip("The number of rounds. Enter 0 for infinite rounds.")] public int numberOfRounds;
+    public TankInteractable[] startingInteractables;
 
     //Travel Distance options
     public float metersToTravel;

@@ -18,8 +18,11 @@ public class TitlescreenMultiplayerUI : MultiplayerUI
         int counter = 0;
         foreach(var player in GameManager.Instance?.MultiplayerManager.GetPlayerInputs())
         {
-            OnPlayerJoined(player);
-            counter++;
+            if(player.playerIndex >= 0)
+            {
+                OnPlayerJoined(player);
+                counter++;
+            }
         }
     }
 

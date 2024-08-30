@@ -10,6 +10,8 @@ public class PlayerHUD : MonoBehaviour
     [SerializeField, Tooltip("The player avatar.")] private Image playerAvatar;
     [SerializeField, Tooltip("The ending color for the character avatar when they have no more health")] private Color maxDamageColor = Color.red;
 
+    [SerializeField, Tooltip("The text for the player's name.")] private TextMeshProUGUI playerNameText;
+
     [SerializeField, Tooltip("The fill of the health bar.")] private Image healthBar;
     [SerializeField, Tooltip("The fill of the fuel bar.")] private Image fuelBar;
     [SerializeField, Tooltip("The fill of the progress bar.")] private Image progressBar;
@@ -39,9 +41,10 @@ public class PlayerHUD : MonoBehaviour
     /// Initializes the player HUD to its default stats.
     /// </summary>
     /// <param name="characterIndex">The index number for the character.</param>
-    public void InitializeHUD(int characterIndex)
+    /// <param name="playerName">The name of the player.</param>
+    public void InitializeHUD(int characterIndex, string playerName = "")
     {
-        transform.name = "Player" + (characterIndex + 1).ToString() + "HUD";
+        transform.name = playerName + "HUD";
         hudRectTransform.anchoredPosition = new Vector2((hudRectTransform.sizeDelta.x + 35f) * characterIndex, 0f);
         hudPosition = hudRectTransform.localPosition;
         //Debug.Log("Moving HUD To Y = " + ((hudRectTransform.sizeDelta.x + 35f) * characterIndex).ToString());
@@ -51,6 +54,7 @@ public class PlayerHUD : MonoBehaviour
         progressBar.fillAmount = 0f;
         buttonPrompt.sprite = null;
         buttonPrompt.color = new Color(0, 0, 0, 0);
+        playerNameText.text = playerName;
     }
 
 

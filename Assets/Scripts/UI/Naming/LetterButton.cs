@@ -11,34 +11,30 @@ public class LetterButton : GamepadSelectable
     public enum LetterButtonType { LETTER, SPACE, BACKSPACE, SHIFT, CONFIRM }
 
     [SerializeField, Tooltip("The type of button.")] private LetterButtonType buttonType;
+    [SerializeField, Tooltip("The CanvasGroup component for the button hover.")] private CanvasGroup buttonHoverCanvasGroup;
     [SerializeField, Tooltip("The letters to cycle through when pressing a letter button.")] private string[] letters;
 
     private NamepadController namepadParent;
     private TextMeshProUGUI buttonText;
-    private CanvasGroup buttonHoverCanvasGroup;
     private int currentLetterIndex = 0;
-    private bool isSelected;
     private bool isActive;
     private bool isTimerActive;
     private float currentAddDelayTimer;
 
     private void Awake()
     {
-        namepadParent = transform.parent.parent.GetComponent<NamepadController>();
+        namepadParent = transform.parent.parent.parent.GetComponent<NamepadController>();
+        buttonText = GetComponentInChildren<TextMeshProUGUI>();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        buttonText = GetComponentInChildren<TextMeshProUGUI>();
-        buttonHoverCanvasGroup = GetComponentInChildren<CanvasGroup>();
         Init();
     }
 
     private void Init()
     {
-        OnDeselect();
-
         if (buttonType == LetterButtonType.LETTER)
             UpdateLetterDisplay();
         else
@@ -61,14 +57,12 @@ public class LetterButton : GamepadSelectable
         }
     }
 
-    // Implement the IPointerEnterHandler interface
-    public override void OnPointerEnter(PointerEventData eventData)
+    public override void OnCursorEnter(PlayerInput playerInput)
     {
         OnSelect();
     }
 
-    // Implement the IPointerExitHandler interface
-    public override void OnPointerExit(PointerEventData eventData)
+    public override void OnCursorExit(PlayerInput playerInput)
     {
         OnDeselect();
     }
@@ -86,10 +80,12 @@ public class LetterButton : GamepadSelectable
     {
         buttonHoverCanvasGroup.alpha = 1f;
         isSelected = true;
+        //Debug.Log(gameObject.name + " Selected!");
     }
 
     public void OnDeselect()
     {
+        //Debug.Log(gameObject.name + " Not Selected!");
         buttonHoverCanvasGroup.alpha = 0f;
         isSelected = false;
         isTimerActive = false;

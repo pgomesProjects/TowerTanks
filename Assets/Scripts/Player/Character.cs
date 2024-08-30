@@ -229,7 +229,7 @@ public abstract class Character : SerializedMonoBehaviour
         currentState = CharacterState.NONCLIMBING;
     }
 
-    public void LinkPlayerHUD(PlayerHUD newHUD)
+    public virtual void LinkPlayerHUD(PlayerHUD newHUD)
     {
         characterHUD = newHUD;
         characterHUD.InitializeHUD(characterIndex);

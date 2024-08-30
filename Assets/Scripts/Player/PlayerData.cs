@@ -21,7 +21,6 @@ public class PlayerData : MonoBehaviour
         playerInputMap = playerInput.actions.FindActionMap("Player");
         playerUIMap = playerInput.actions.FindActionMap("UI");
         SetDefaultPlayerName();
-        playerNamepad = FindObjectOfType<NamepadController>();
     }
 
     private void OnEnable()
@@ -55,6 +54,7 @@ public class PlayerData : MonoBehaviour
         {
             case "Navigate": OnNavigate(ctx); break;
             case "Submit": OnSubmit(ctx); break;
+            case "Cancel": OnCancel(ctx); break;
         }
     }
 
@@ -106,7 +106,7 @@ public class PlayerData : MonoBehaviour
 
     private void OnNavigate(InputAction.CallbackContext ctx)
     {
-        playerNamepad?.OnNavigate(ctx.ReadValue<Vector2>());
+        playerNamepad?.OnNavigate(playerInput, ctx.ReadValue<Vector2>());
     }
 
     private void OnSubmit(InputAction.CallbackContext ctx)
@@ -114,6 +114,14 @@ public class PlayerData : MonoBehaviour
         if (ctx.performed)
         {
             playerNamepad?.SelectCurrentButton(playerInput);
+        }
+    }
+
+    private void OnCancel(InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed)
+        {
+            playerNamepad?.HideGamepad();
         }
     }
 
@@ -140,4 +148,6 @@ public class PlayerData : MonoBehaviour
     {
         this.playerName = playerName;
     }
+
+    public void SetNamepad(NamepadController namepadController) => playerNamepad = namepadController;
 }
