@@ -268,7 +268,8 @@ public class Cell : MonoBehaviour
         {
             player.transform.parent = null; // removes the player from the cell before destruction if present
         }
-        Destroy(gameObject); //Destroy this cell
+        room.targetTank.UpdateHighestCell(); //Update highest cell tracker
+        Destroy(gameObject);                 //Destroy this cell
 
         //Other Effects
         GameManager.Instance.AudioManager.Play("MedExplosionSFX", gameObject);

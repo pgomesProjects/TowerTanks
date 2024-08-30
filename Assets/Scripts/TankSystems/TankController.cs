@@ -106,6 +106,17 @@ public class TankController : MonoBehaviour
             AddCargo();
         }
     }
+    private void OnDrawGizmos()
+    {
+        if (Application.isPlaying && Application.isEditor) //Only do this gizmo stuff in unity editor playmode
+        {
+            if (highestCell != null) //Update visualization for highest cell
+            {
+                Gizmos.color = Color.blue;
+                Gizmos.DrawSphere(highestCell.transform.position, 0.1f);
+            }
+        }
+    }
 
     private void Update()
     {
@@ -411,5 +422,28 @@ public class TankController : MonoBehaviour
 
         SimpleTankBrain _brain = GetComponent<SimpleTankBrain>();
         _brain.enabled = true;
+    }
+
+    /// <summary>
+    /// Finds the tallest cell (one of them) in the tank and stores a reference to it in the TankController script. Should be done whenever the number of cells in the tank changes.
+    /// </summary>
+    public void UpdateHighestCell()
+    {
+        //Find cell:
+        highestCell = null; //Clear current highest cell (NOTE: probably get rid of this and do direct comparison later)
+        float bestYpos = 0; //Create place to store local y position of current highest cell
+        foreach (Room room in rooms) //Iterate through all rooms in tank
+        {
+            foreach (Cell cell in room.cells) //Iterate through all cells in room
+            {
+                float cellYPos = cell.transform.position.y; //NOTE: THIS NEEDS TO BE RELATIVE TO THE LOCAL ANGLE OF THE TANK because it could be thrown off by like the tilt
+                if (highestCell == null || cellYPos > bestYpos) //We have a winner
+                {
+                    highestCell = cell;  //Set new highest cell
+                    bestYpos = cellYPos; //Update cell height leaderboard
+                }
+            }
+        }
+        if (CameraManipulator.main != null && tankType == TankId.TankType.PLAYER) CameraManipulator.main.UpdateTargetGroup(this); //Update camera so that it captures full scale of tank (only for player)
     }
 }
