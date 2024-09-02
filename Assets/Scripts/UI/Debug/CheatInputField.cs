@@ -9,6 +9,8 @@ public class CheatInputField : MonoBehaviour
 {
     [SerializeField, Tooltip("The input field for commands.")] private TMP_InputField inputField;
     [SerializeField, Tooltip("The text area for where the logs are written.")] private TextMeshProUGUI logText;
+
+    private DebugTools debugTools;
     public enum MessageType { Log, Warning, Error }
 
     private PlayerControlSystem playerControls;
@@ -18,6 +20,7 @@ public class CheatInputField : MonoBehaviour
         ClearLog();
         playerControls = new PlayerControlSystem();
         playerControls.Debug.SubmitCommand.started += _ => SubmitInputField();
+        debugTools = FindObjectOfType<DebugTools>();
     }
 
     private void OnEnable()
@@ -67,7 +70,12 @@ public class CheatInputField : MonoBehaviour
     /// <param name="command">The command given through the input text.</param>
     public void SubmitCommand(string command)
     {
-        switch (command)
+        // Split the command into parts based on spaces
+        string[] commandParts = command.Split(' ');
+
+        string mainCommand = commandParts[0].ToLower();
+
+        switch (mainCommand)
         {
             case "help":
                 CommandExplanation();
@@ -75,8 +83,35 @@ public class CheatInputField : MonoBehaviour
             case "clear":
                 ClearLog();
                 break;
+            case "debug":
+                if (commandParts.Length > 1)
+                {
+                    string subCommand = commandParts[1].ToLower();
+                    ToggleDebugMode(subCommand);
+                }
+                else
+                    AddToLog("'debug' command requires additional parameters.", MessageType.Error);
+                break;
             default:
                 AddToLog("'" + command + "' is an unknown command.", MessageType.Error);
+                break;
+        }
+    }
+
+    private void ToggleDebugMode(string debugMode)
+    {
+        switch (debugMode)
+        {
+            case "on":
+                debugTools?.ToggleDebugMode(true);
+                AddToLog("Debug mode enabled.", MessageType.Log);
+                break;
+            case "off":
+                debugTools?.ToggleDebugMode(false);
+                AddToLog("Debug mode disabled.", MessageType.Log);
+                break;
+            default:
+                AddToLog("'" + debugMode + "' is not a valid parameter for 'debug' command.", MessageType.Error);
                 break;
         }
     }
@@ -90,6 +125,7 @@ public class CheatInputField : MonoBehaviour
         helpMessage += "---LIST OF COMMANDS---<br>";
 
         helpMessage += "help - Provides a list of commands.<br>";
+        helpMessage += "debug [on:off] - Turns debug mode on or off.<br>";
         helpMessage += "clear - Clears the command log.";
         AddToLog(helpMessage);
     }

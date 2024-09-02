@@ -4353,7 +4353,7 @@ GameObject:
   - component: {fileID: 1070365773}
   m_Layer: 5
   m_Name: TitleScreen
-  m_TagString: Untagged
+  m_TagString: CursorCanvas
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5595,6 +5595,7 @@ MonoBehaviour:
   joinPrompt: {fileID: 350382876}
   joinText: Press <sprite=27> Or [Space] To Join.
   playerDisplayContainer: {fileID: 531928193}
+  playerNamepadContainer: {fileID: 0}
 --- !u!4 &1352404749
 Transform:
   m_ObjectHideFlags: 0

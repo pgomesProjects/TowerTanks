@@ -8,6 +8,7 @@ using Sirenix.OdinInspector;
 [System.Serializable]
 public class TankId
 {
+    [InlineButton("MatchName", SdfIconType.ArrowDown, "")]
     [InlineButton("GenerateName", SdfIconType.Dice6Fill, "")]
     public string TankName;
     private TankController tankScript;
@@ -20,6 +21,18 @@ public class TankId
     [Tooltip("Level layout to load")]
     public TextAsset design;
     [SerializeField, Tooltip("If true, builds the current design on this tank when the game starts")] public bool buildOnStart;
+
+    public void MatchName() //Matches the Tank's name with the current design - good for overwriting designs
+    {
+        TankName = design.name;
+
+        if (gameObject != null)
+        {
+            tankScript = gameObject.GetComponent<TankController>();
+            tankScript.TankName = TankName;
+            gameObject.name = TankName;
+        }
+    }
 
     public void GenerateName()
     {
@@ -38,7 +51,7 @@ public class TankId
 
     [HorizontalGroup("Horizontal Buttons")]
     [VerticalGroup("Horizontal Buttons/Column 1")]
-    [Button("Destroy")] public void Destroy()
+    [Button(" Destroy", Icon = SdfIconType.EmojiDizzy)] public void Destroy()
     {
         if (tankType != TankType.PLAYER)
         {
@@ -49,7 +62,7 @@ public class TankId
         }
     }
     [VerticalGroup("Horizontal Buttons/Column 2")]
-    [Button("Build"), Tooltip("Press during runtime to construct the tank based on the current design")]
+    [Button(" Build", Icon = SdfIconType.Hammer), Tooltip("Press during runtime to construct the tank based on the current design")]
     public void Build()
     {
         if (gameObject != null)
@@ -65,7 +78,7 @@ public class TankId
         }
     }
     [VerticalGroup("Horizontal Buttons/Column 2")]
-    [Button("Save"), Tooltip("Saves the current tank as a new tank design")]
+    [Button(" Save", Icon = SdfIconType.Save), Tooltip("Saves the current tank as a new tank design")]
     public void SaveDesign()
     {
         if (gameObject != null)

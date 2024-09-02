@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -47,12 +48,39 @@ public class GameManager : SerializedMonoBehaviour
 
     private void OnEnable()
     {
+        SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.sceneUnloaded += OnSceneUnloaded;
     }
 
     private void OnDisable()
     {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
         SceneManager.sceneUnloaded -= OnSceneUnloaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
+    {
+        switch ((GAMESCENE)scene.buildIndex)
+        {
+            case GAMESCENE.TITLE:
+                //If the CampaignManager still exists in the title screen, we no longer need it
+                if (CampaignManager.Instance != null)
+                    Destroy(CampaignManager.Instance.gameObject);
+                break;
+            case GAMESCENE.BUILDING:
+                GameSettings.showGamepadCursors = true;
+                break;
+            default:
+                GameSettings.showGamepadCursors = false;
+                break;
+        }
+
+        if((GAMESCENE)scene.buildIndex != GAMESCENE.TITLE)
+        {
+            //If there is no CampaignManager in the scene, add it to start maintaining the current campaign
+            if (CampaignManager.Instance == null)
+                Object.DontDestroyOnLoad(Object.Instantiate(Resources.Load("CampaignManager")));
+        }
     }
 
     private void OnSceneUnloaded(Scene scene)
@@ -138,6 +166,11 @@ public class GameManager : SerializedMonoBehaviour
     {
         GameSettings.showGamepadCursors = setActive;
         foreach (var cursor in FindObjectsOfType<GamepadCursor>())
-            cursor.RefreshCursor();
+            cursor.RefreshCursor(setActive);
+    }
+
+    public void SetPlayerCursorActive(GamepadCursor currentPlayer, bool setActive)
+    {
+        currentPlayer.RefreshCursor(setActive);
     }
 }

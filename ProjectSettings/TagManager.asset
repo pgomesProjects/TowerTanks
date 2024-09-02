@@ -35,6 +35,9 @@ TagManager:
   - DebugPlayer
   - Destructible
   - Cargo
+  - CharacterVisual
+  - Ground
+  - EnergyShield
   layers:
   - Default
   - TransparentFX
@@ -58,8 +61,8 @@ TagManager:
   - InteractHitbox
   - Projectiles
   - Camera
-  - 
-  - 
+  - LadderEnd
+  - EnergyShield
   - 
   - 
   - 

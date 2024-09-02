@@ -7,14 +7,13 @@ using UnityEngine.InputSystem;
 using System;
 using UnityEngine.Events;
 
-public class SelectableRoomObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class SelectableRoomObject : GamepadSelectable
 {
     [SerializeField] private Color hoverColor;
     [SerializeField] private Color selectColor;
 
     private Image draggableImage;
     private Color defaultColor;
-    private bool isSelected;
     private int roomID;
 
     internal UnityEvent<PlayerInput, int> OnSelected = new UnityEvent<PlayerInput, int>();
@@ -28,8 +27,7 @@ public class SelectableRoomObject : MonoBehaviour, IPointerEnterHandler, IPointe
 
     private int hoveringCursorCount = 0;
 
-    // Implement the IPointerEnterHandler interface
-    public void OnPointerEnter(PointerEventData eventData)
+    public override void OnCursorEnter(PlayerInput playerInput)
     {
         if (!isSelected)
         {
@@ -39,8 +37,7 @@ public class SelectableRoomObject : MonoBehaviour, IPointerEnterHandler, IPointe
         }
     }
 
-    // Implement the IPointerExitHandler interface
-    public void OnPointerExit(PointerEventData eventData)
+    public override void OnCursorExit(PlayerInput playerInput)
     {
         if (!isSelected)
         {
@@ -61,11 +58,17 @@ public class SelectableRoomObject : MonoBehaviour, IPointerEnterHandler, IPointe
         roomID = newID;
     }
 
-    public void OnSelectObject(PlayerInput playerInput)
+    public override void OnSelectObject(PlayerInput playerInput)
     {
         draggableImage.color = selectColor;
         isSelected = true;
         Debug.Log("Selected By Player " + (playerInput.playerIndex + 1).ToString());
         OnSelected?.Invoke(playerInput, roomID);
+    }
+
+    public void DeselectRoom()
+    {
+        draggableImage.color = defaultColor;
+        isSelected = false;
     }
 }

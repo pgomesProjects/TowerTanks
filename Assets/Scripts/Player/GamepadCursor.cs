@@ -15,7 +15,7 @@ public class GamepadCursor : MonoBehaviour
     private bool previousButtonSouthState;
     private Mouse virtualMouse;
     private Camera mainCamera;
-    private SelectableRoomObject lastHoveredObject;
+    private GamepadSelectable lastHoveredObject;
 
     private PlayerInput playerInput;
     private Canvas canvas;
@@ -24,6 +24,7 @@ public class GamepadCursor : MonoBehaviour
     private Color cursorColor;
 
     private bool cursorActive;
+    private bool cursorCanMove;
 
     private void OnEnable()
     {
@@ -71,7 +72,7 @@ public class GamepadCursor : MonoBehaviour
     /// </summary>
     private void UpdateMotion()
     {
-        if (!cursorActive)
+        if (!cursorActive || !cursorCanMove)
             return;
 
         InputDevice currentDevice = playerInput.devices[0];
@@ -134,14 +135,14 @@ public class GamepadCursor : MonoBehaviour
         List<RaycastResult> results = new List<RaycastResult>();
         EventSystem.current.RaycastAll(eventData, results);
 
-        SelectableRoomObject newHoveredObject = null;
+        GamepadSelectable newHoveredObject = null;
 
         foreach (RaycastResult result in results)
         {
             GameObject selectedObject = result.gameObject;
 
-            // Check if the selected object has a DraggableObject component
-            SelectableRoomObject draggableObject = selectedObject.GetComponent<SelectableRoomObject>();
+            // Check if the selected object has a GamepadSelectable component
+            GamepadSelectable draggableObject = selectedObject.GetComponent<GamepadSelectable>();
 
             if (draggableObject != null)
             {
@@ -157,13 +158,15 @@ public class GamepadCursor : MonoBehaviour
             if (lastHoveredObject != null)
             {
                 Debug.Log("Hover Exited");
-                ExecuteEvents.Execute(lastHoveredObject.gameObject, eventData, ExecuteEvents.pointerExitHandler);
+                lastHoveredObject.RemovePlayerSelecting(playerInput);
+                lastHoveredObject.OnCursorExit(playerInput);
             }
 
             if (newHoveredObject != null)
             {
                 Debug.Log("Hover Entered");
-                ExecuteEvents.Execute(newHoveredObject.gameObject, eventData, ExecuteEvents.pointerEnterHandler);
+                newHoveredObject.AddPlayerSelecting(playerInput);
+                newHoveredObject.OnCursorEnter(playerInput);
             }
 
             // Update the lastHoveredObject
@@ -195,14 +198,13 @@ public class GamepadCursor : MonoBehaviour
 
             if (clickedObject != null)
             {
-                // Check if the clicked object has a DraggableObject component
-                SelectableRoomObject draggableObject = clickedObject.GetComponent<SelectableRoomObject>();
+                // Check if the clicked object has a GamepadSelectable component
+                GamepadSelectable draggableObject = clickedObject.GetComponent<GamepadSelectable>();
                 if (draggableObject != null)
                 {
-                    // Perform actions for the clicked DraggableObject
-                    ExecuteEvents.Execute(clickedObject, new PointerEventData(EventSystem.current), ExecuteEvents.pointerDownHandler);
-                    draggableObject.OnSelectObject(playerInput);
+                    // Perform actions for the clicked GamepadSelectable
                     Debug.Log("Pointer Down!");
+                    draggableObject.OnSelectObject(playerInput);
                 }
             }
         }
@@ -214,12 +216,11 @@ public class GamepadCursor : MonoBehaviour
 
             if (clickedObject != null)
             {
-                // Check if the clicked object has a DraggableObject component
-                SelectableRoomObject draggableObject = clickedObject.GetComponent<SelectableRoomObject>();
+                // Check if the clicked object has a GamepadSelectable component
+                GamepadSelectable draggableObject = clickedObject.GetComponent<GamepadSelectable>();
                 if (draggableObject != null)
                 {
-                    // Perform actions for the clicked DraggableObject
-                    ExecuteEvents.Execute(clickedObject, new PointerEventData(EventSystem.current), ExecuteEvents.pointerUpHandler);
+                    // Perform actions for the clicked GamepadSelectable
                     Debug.Log("Pointer Up!");
                 }
             }
@@ -245,8 +246,8 @@ public class GamepadCursor : MonoBehaviour
         {
             GameObject selectedObject = result.gameObject;
 
-            // Check if the selected object has a DraggableObject component
-            SelectableRoomObject draggableObject = selectedObject.GetComponent<SelectableRoomObject>();
+            // Check if the selected object has a GamepadSelectable component
+            GamepadSelectable draggableObject = selectedObject.GetComponent<GamepadSelectable>();
 
             // Return the first object with a DraggableObject component
             if (draggableObject != null)
@@ -277,7 +278,7 @@ public class GamepadCursor : MonoBehaviour
         InitializeCursor();
         localGamepadCursorTransform = Instantiate(cursorTransform, canvasRectTransform);
         localGamepadCursorTransform.GetComponent<Image>().color = cursorColor;
-        RefreshCursor();
+        RefreshCursor(GameSettings.showGamepadCursors);
     }
 
     /// <summary>
@@ -296,16 +297,23 @@ public class GamepadCursor : MonoBehaviour
         canvasRectTransform = canvas.GetComponent<RectTransform>();
     }
 
-    public void RefreshCursor()
+    public void RefreshCursor(bool isCursorActive)
     {
-        cursorActive = GameSettings.showGamepadCursors;
+        cursorActive = isCursorActive;
 
         //If there is no local gamepad cursor, create one
         if (localGamepadCursorTransform == null)
             CreateGamepadCursor(cursorColor);
 
         localGamepadCursorTransform.GetComponent<Image>().color = new Color(cursorColor.r, cursorColor.g, cursorColor.b, cursorActive ? 1: 0);
+        cursorCanMove = cursorActive;
+    }
+
+    public void SetCursorMove(bool cursorMove)
+    {
+        cursorCanMove = cursorMove;
     }
 
     public RectTransform GetCursorTransform() => localGamepadCursorTransform;
+    public int GetOwnerIndex() => playerInput.playerIndex;
 }

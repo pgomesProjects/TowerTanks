@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlayerHUD : MonoBehaviour
 {
@@ -9,10 +10,16 @@ public class PlayerHUD : MonoBehaviour
     [SerializeField, Tooltip("The player avatar.")] private Image playerAvatar;
     [SerializeField, Tooltip("The ending color for the character avatar when they have no more health")] private Color maxDamageColor = Color.red;
 
+    [SerializeField, Tooltip("The text for the player's name.")] private TextMeshProUGUI playerNameText;
+
     [SerializeField, Tooltip("The fill of the health bar.")] private Image healthBar;
     [SerializeField, Tooltip("The fill of the fuel bar.")] private Image fuelBar;
     [SerializeField, Tooltip("The fill of the progress bar.")] private Image progressBar;
     [SerializeField, Tooltip("The animation curve for when the player HUD shakes.")] private AnimationCurve shakeIntensityCurve;
+
+    [SerializeField, Tooltip("The respawn timer transform.")] private RectTransform respawnTransform;
+    [SerializeField, Tooltip("The fill of the respawn timer.")] private Image respawnBar;
+    [SerializeField, Tooltip("The text for the respawn timer.")] private TextMeshProUGUI respawnText;
 
     [SerializeField, Tooltip("The Image for the player button prompt.")] private Image buttonPrompt;
 
@@ -27,23 +34,27 @@ public class PlayerHUD : MonoBehaviour
     {
         hudRectTransform = GetComponent<RectTransform>();
         startingColor = playerAvatar.color;
+        ShowRespawnTimer(false);
     }
 
     /// <summary>
     /// Initializes the player HUD to its default stats.
     /// </summary>
     /// <param name="characterIndex">The index number for the character.</param>
-    public void InitializeHUD(int characterIndex)
+    /// <param name="playerName">The name of the player.</param>
+    public void InitializeHUD(int characterIndex, string playerName = "")
     {
-        hudRectTransform.anchoredPosition = new Vector2(0f, (-hudRectTransform.sizeDelta.y - 35f) * characterIndex);
+        transform.name = playerName + "HUD";
+        hudRectTransform.anchoredPosition = new Vector2((hudRectTransform.sizeDelta.x + 35f) * characterIndex, 0f);
         hudPosition = hudRectTransform.localPosition;
-        Debug.Log("Moving HUD To Y = " + ((-hudRectTransform.sizeDelta.y - 35f) * characterIndex).ToString());
+        //Debug.Log("Moving HUD To Y = " + ((hudRectTransform.sizeDelta.x + 35f) * characterIndex).ToString());
         playerBorder.color = GameManager.Instance.MultiplayerManager.GetPlayerColors()[characterIndex];
         healthBar.fillAmount = 1f;
         fuelBar.fillAmount = 1f;
         progressBar.fillAmount = 0f;
         buttonPrompt.sprite = null;
         buttonPrompt.color = new Color(0, 0, 0, 0);
+        playerNameText.text = playerName;
     }
 
 
@@ -144,6 +155,17 @@ public class PlayerHUD : MonoBehaviour
 
         // Ensure the avatar color ends up exactly at the target color
         playerAvatar.color = targetColor;
+    }
+
+    public void ShowRespawnTimer(bool showTimer)
+    {
+        respawnTransform.gameObject.SetActive(showTimer);
+    }
+
+    public void UpdateRespawnBar(float respawnFill, float time)
+    {
+        respawnBar.fillAmount = respawnFill;
+        respawnText.text = (Mathf.Ceil(time)).ToString();
     }
 
     public void ShowButtonPrompt(Sprite buttonPromptSprite)

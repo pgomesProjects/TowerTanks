@@ -1082,13 +1082,14 @@ MonoBehaviour:
   - {fileID: 2097141613407459571}
   - {fileID: 9170845796607483834}
   particleScale: 0.03
+  trajectoryLine: {fileID: 0}
   gunType: 1
   muzzleVelocity: 45
   recoil: 2
   rotateSpeed: 20
   gimbalRange: 30
   rateOfFire: 0.1
-  spread: 3
+  spread: 2
   fire: 0
   moveGimbal: 0.5
 --- !u!114 &2132648102038243225

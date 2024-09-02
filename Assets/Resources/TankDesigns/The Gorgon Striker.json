@@ -228,8 +228,8 @@
             "cellInteractables": [
                 {
                     "cellName": "Cell_0",
-                    "interRef": "InterWeapon_Cannon",
-                    "flipped": true
+                    "interRef": "InterWeapon_Mortar",
+                    "flipped": false
                 }
             ]
         },

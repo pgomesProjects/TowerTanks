@@ -9,9 +9,11 @@ public class TankInteractable : MonoBehaviour
 {
     //Objects & Components:
     private SpriteRenderer[] renderers;    //Array of all renderers in interactable
-    private protected TankController tank; //Controller script for tank this interactable is attached to
+    public TankController tank; //Controller script for tank this interactable is attached to
     private InteractableZone interactZone; //Hitbox for player detection
     public Transform seat; //Transform operator snaps to while using this interactable
+    public enum InteractableType { WEAPONS, ENGINEERING, DEFENSE, LOGISTICS };
+    public InteractableType interactableType;
 
     //Interactable Scripts
     private GunController gunScript;
@@ -79,8 +81,18 @@ public class TankInteractable : MonoBehaviour
             parentCell.interactable = null; //Clear cell reference to this interactable
         }
 
-        //Stack update:
-        if (tank != null && tank.tankType == TankId.TankType.PLAYER) StackManager.AddToStack(this); //Add interactable data to stack upon destruction (if it is in a player tank)
+        //Id Update
+        if (tank != null)
+        {
+            foreach (InteractableId id in tank.interactableList)
+            {
+                if (id.interactable == this.gameObject)
+                {
+                    tank.interactableList.Remove(id);
+                    break;
+                }
+            }
+        }
     }
 
     private void OnDisable()
@@ -154,20 +166,20 @@ public class TankInteractable : MonoBehaviour
         }
     }
 
-    public void Use() //Called from operator when they press Interact
+    public void Use(bool overrideConditions = false) //Called from operator when they press Interact
     {
         if (gunScript != null && cooldown <= 0)
         {
-            gunScript.Fire(false);
+            gunScript.Fire(overrideConditions, tank.tankType);
         }
-        if (engineScript != null && cooldown <= 0) engineScript.LoadCoal(1);
+        if (engineScript != null && cooldown <= 0) engineScript.LoadCoal(1, true, true);
     }
 
     public void CancelUse() //Called from operator when they release Interact
     {
         if (gunScript != null && gunScript.gunType == GunController.GunType.MORTAR)
         {
-            gunScript.Fire(false);
+            gunScript.Fire(false, tank.tankType);
         }
     }
 
@@ -209,6 +221,7 @@ public class TankInteractable : MonoBehaviour
 
         //Cleanup:
         tank = GetComponentInParent<TankController>(); //Get tank controller interactable is being attached to
+        if (tank != null) { tank.AddInteractable(this.gameObject); }
         return true;                                   //Indicate that interactable was successfully installed in target cell
     }
 

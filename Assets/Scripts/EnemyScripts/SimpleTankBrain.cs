@@ -58,16 +58,17 @@ public class SimpleTankBrain : MonoBehaviour
     void Update()
     {
         decisionTimer -= Time.deltaTime;
-        distanceToPlayer = tank.treadSystem.transform.position.x - playerTankTransform.position.x;
+        if (playerTankTransform != null) distanceToPlayer = tank.treadSystem.transform.position.x - playerTankTransform.position.x;
 
         //Check to see if we should flee
         if (decisionTimer <= 0 && CheckGuns() == false)
         {
+            /*
             if (state != TankBehavior.FLEE)
             {
                 state = TankBehavior.FLEE;
                 Debug.Log("Ah shit");
-            }
+            }*/
 
             if (state != TankBehavior.SURRENDER)
             {
@@ -104,12 +105,12 @@ public class SimpleTankBrain : MonoBehaviour
             //Stay in place, occasionally moving left and right
             if (tank.treadSystem.gear > 0)
             {
-                tank.shiftLeft = true;
+                tank.ShiftLeft();
                 decisionTimer = decisionCooldown * 0.5f;
             }
             else if (tank.treadSystem.gear < 0)
             {
-                tank.shiftRight = true;
+                tank.ShiftRight();
                 decisionTimer = decisionCooldown * 0.5f;
             }
             else
@@ -125,11 +126,11 @@ public class SimpleTankBrain : MonoBehaviour
     public IEnumerator MoveShort(float time)
     {
         int random = Random.Range(0, 2);
-        if (random == 0) tank.shiftLeft = true;
-        if (random == 1) tank.shiftRight = true;
+        if (random == 0) tank.ShiftLeft();
+        if (random == 1) tank.ShiftRight();
         yield return new WaitForSeconds(time);
-        if (random == 0) tank.shiftRight = true;
-        if (random == 1) tank.shiftLeft = true;
+        if (random == 0) tank.ShiftRight();
+        if (random == 1) tank.ShiftLeft();
 
         //Found the player
         if (distanceToPlayer <= maxDetectionRange)
@@ -154,7 +155,7 @@ public class SimpleTankBrain : MonoBehaviour
             {
                 if (tank.treadSystem.gear > -2)
                 {
-                    tank.shiftLeft = true;
+                    tank.ShiftLeft();
                 }
             }
 
@@ -162,7 +163,7 @@ public class SimpleTankBrain : MonoBehaviour
             if (distanceToPlayer >= maxDetectionRange)
             {
                 Debug.Log("Damn, I lost em");
-                tank.shiftRight = true;
+                tank.ShiftRight();
                 state = TankBehavior.PATROL;
             }
 
@@ -176,20 +177,20 @@ public class SimpleTankBrain : MonoBehaviour
         {
             if (tank.treadSystem.gear < 0) //Slowdown
             {
-                tank.shiftRight = true;
+                tank.ShiftRight();
             }
 
             //Maintain Distance
             if (distanceToPlayer <= minEngagementRange)
             {
-                tank.shiftRight = true;
+                tank.ShiftRight();
                 Debug.Log("Woa woa take it easy");
             }
             else if (distanceToPlayer <= maxEngagementRange)
             {
                 if (tank.treadSystem.gear > 0)
                 {
-                    tank.shiftLeft = true;
+                    tank.ShiftLeft();
                 }
             }
             decisionTimer = decisionCooldown;
@@ -220,7 +221,7 @@ public class SimpleTankBrain : MonoBehaviour
             if (tank.treadSystem.gear < 2)
             {
                 Debug.Log("Zoinks! I'm gettin outa here!");
-                tank.shiftRight = true;
+                tank.ShiftRight();
             }
 
             decisionTimer = 0.5f;
@@ -233,12 +234,12 @@ public class SimpleTankBrain : MonoBehaviour
         {
             if (tank.treadSystem.gear > 0)
             {
-                tank.shiftLeft = true;
+                tank.ShiftLeft();
             }
 
             if (tank.treadSystem.gear < 0)
             {
-                tank.shiftRight = true;
+                tank.ShiftRight();
             }
 
             decisionTimer = 0.5f;

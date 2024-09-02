@@ -5,8 +5,22 @@ using UnityEngine;
 
 public class InverseParentRotation : MonoBehaviour
 {
+    private Character thisCharacter;
+
+    private void Start()
+    {
+        thisCharacter = transform.parent.GetComponentInParent<Character>();
+    }
+
     private void FixedUpdate()
     {
-        transform.rotation = Quaternion.identity;
+        if (thisCharacter.currentState == Character.CharacterState.CLIMBING)
+        {
+            transform.rotation = transform.parent.rotation;
+        }
+        else
+        {
+            transform.rotation = Quaternion.identity;
+        }
     }
 }

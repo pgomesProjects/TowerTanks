@@ -18,9 +18,14 @@ public class TreadSystem : MonoBehaviour
     [Tooltip("How much weight the tank currently has")]                                public float totalWeight = 0;
 
     [Header("Drive Settings:")]
+    [Tooltip("True = Engines determine tank's overall speed & acceleration, False = Set manual values")]       public bool useEngines;
+    [SerializeField, Tooltip("Current number of active engines in the tank")]                                  internal int currentEngines;
+    [SerializeField, Tooltip("Base multiplier that affects how much power each individual engine has on the tank's speed")] internal float speedFactor;
     [Tooltip("Greatest speed tank can achieve at maximum gear.")]                                              public float maxSpeed = 100;
+    [Tooltip("Current x Velocity of the tank's rigidbody")]                                                    public float actualSpeed;
     [SerializeField, Tooltip("Rate at which tank accelerates to target speed (in units per second squared).")] private float maxAcceleration;
     [Range(0, 1), SerializeField, Tooltip("Lerp value used to smooth out end of acceleration phases.")]        private float accelerationDamping = 0.5f;
+    [SerializeField, Tooltip("Rate at which tank adjusts target speed based on current powered engines")]      private float speedShiftRate = 2f;
     [Min(1), Tooltip("Number of positions throttle can be in (includes neutral and reverse)")]                 public int gearPositions = 5;
     [Space()]
     [SerializeField, Min(0), Tooltip("Force which tries to keep wheels stuck to the ground.")]                      private float wheelStickiness;
@@ -37,9 +42,11 @@ public class TreadSystem : MonoBehaviour
     [Min(0), SerializeField, Tooltip("Radial area (inside max tip angle) where torque will be applied to prevent tank from reaching max tip angle.")] private float tipAngleBufferZone;
     [Min(0), SerializeField, Tooltip("Scale of force applied to prevent tippage.")]                                                                   private float tipPreventionForce;
 
+    [Header("Ramming & Collision Settings:")]
+    [SerializeField, Tooltip("Minimum Speed for Ramming Effects to Apply")]         public float rammingSpeed;
+
     //Runtime Variables:
     private bool initialized;    //True if tread system has already been set up
-    internal int currentEngines; //Current number of engines acting on tread system (deprecated?)
     internal int gear;           //Basic designator for current direction and speed the tank is set to move in (0 = Neutral)
     private float throttleValue; //Current value of the throttle, adjusted over time based on acceleration and gear for smooth movement
     private float timeInGear;    //Time (in seconds) treads have spent in current gear
@@ -69,6 +76,21 @@ public class TreadSystem : MonoBehaviour
             tread.position = treadPos;                                                          //Move tread to target position
             tread.eulerAngles = Vector3.forward * Vector2.SignedAngle(Vector2.up, treadNormal); //Rotate tread to target rotation
             tread.localScale = new Vector3(treadWidth, tread.localScale.y, 1);                  //Scale tread to target length
+        }
+
+        //Calculate Speed
+        if (useEngines) CalculateSpeed();
+
+        //Print Speed
+        actualSpeed = r.velocity.x;
+        if (Mathf.Abs(actualSpeed) >= rammingSpeed)
+        {
+            float sign = Mathf.Sign(actualSpeed);
+            tankController.RammingSpeed(sign);
+        }
+        else if (Mathf.Abs(actualSpeed) < 1)
+        {
+            //tankController.DisableSpeedTrails();
         }
     }
     private void FixedUpdate()
@@ -206,6 +228,34 @@ public class TreadSystem : MonoBehaviour
         avgCellPos /= cellCount;                                                                         //Get average position of cells
         //r.centerOfMass = new Vector2(Mathf.Clamp(avgCellPos.x, -COGWidth / 2, COGWidth / 2), COGHeight); //Constrain center mass to line segment controlled in settings (for tank handling reliability)
     }
+    /// <summary>
+    /// Evaluates mass and center of gravity for tank depending on position and quantity of cells.
+    /// </summary>
+    public void CalculateSpeed()
+    {
+        //Speed
+        float c_maxSpeed = speedFactor * (750f * ((currentEngines + 1) / totalWeight));
+
+        if (c_maxSpeed < 1f) c_maxSpeed = 1f; //minimum speed
+        if (c_maxSpeed > 50f) c_maxSpeed = 50f; //maximum speed
+
+        maxSpeed = Mathf.MoveTowards(maxSpeed, c_maxSpeed, speedShiftRate * Time.deltaTime);
+
+        //Acceleration
+        float c_maxAcceleration = 0.4f + ((currentEngines + 1) * 0.1f);
+
+        maxAcceleration = c_maxAcceleration;
+    }
+
+    public IEnumerator SpeedSurge(float duration, int power)
+    {
+        currentEngines += power;
+        speedShiftRate += power;
+        yield return new WaitForSeconds(duration);
+        currentEngines -= power;
+        speedShiftRate -= power;
+    }
+
     /// <summary>
     /// Shifts to target gear.
     /// </summary>

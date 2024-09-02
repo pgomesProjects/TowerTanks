@@ -7,16 +7,21 @@ public abstract class Character : SerializedMonoBehaviour
 {
     #region Fields and Properties
 
-    protected enum CharacterState { CLIMBING, NONCLIMBING, OPERATING }; //Simple state system, in the future this will probably be refactored
-    protected CharacterState currentState;                   //to an FSM.
+    public enum CharacterState { CLIMBING, NONCLIMBING, OPERATING, REPAIRING }; //Simple state system, in the future this will probably be refactored
+
+    public CharacterState currentState;                  //to an FSM.
 
     //Components
     protected Rigidbody2D rb;
+    protected CapsuleCollider2D characterHitbox;
     protected GameObject currentLadder;
     protected Bounds ladderBounds;
     protected PlayerHUD characterHUD;
     protected int characterIndex;
     protected Transform hands;
+    protected bool isAlive;
+    protected Transform characterVisualParent;
+    protected Color characterColor = new Color(1, 1, 1, 1);
 
     [Header("Character Information")]
     [SerializeField] protected CharacterSettings characterSettings;
@@ -31,16 +36,25 @@ public abstract class Character : SerializedMonoBehaviour
     [Range(0, 2)]
     [SerializeField] protected float groundedBoxX, groundedBoxY;
 
+    [SerializeField] protected float groundedBoxOffset;
+    
     [SerializeField] protected float maxYVelocity, minYVelocity;
 
     [Header("Jetpack values")]
     [SerializeField] protected float fuelDepletionRate;
     [SerializeField] protected float fuelRegenerationRate;
     protected float currentFuel;
+
+    [SerializeField] private float characterDeathParticleSize = 0.03f;
+    [SerializeField] protected float respawnTime = 3f;
+    private float currentRespawnTime;
+    private bool isRespawning;
     
     //internal movement
     private Transform currentCellJoint;
     private int cellLayerIndex = 15;
+    
+    protected LayerMask ladderLayer;
 
     //temp
     protected float moveSpeedHalved; // once we have a state machine for the player, we wont need these silly fields.
@@ -51,6 +65,12 @@ public abstract class Character : SerializedMonoBehaviour
     {
         ModifyHealth(healthToModify);
     }
+
+    [Button(ButtonSizes.Medium)]
+    private void DebugKillPlayer()
+    {
+        SelfDestruct();
+    }
     public int healthToModify = -10;
 
     #endregion
@@ -58,32 +78,43 @@ public abstract class Character : SerializedMonoBehaviour
     #region Unity Methods
     protected virtual void Awake()
     {
+        ladderLayer = 1 << LayerMask.NameToLayer("Ladder");
         rb = GetComponent<Rigidbody2D>();
+        characterHitbox = GetComponent<CapsuleCollider2D>();
         currentHealth = characterSettings.maxHealth;
-        hands = transform.Find("Hands");
+        characterVisualParent = transform.GetChild(0);
+        hands = characterVisualParent.Find("Hands");
     }
 
     protected virtual void Start()
     {
-        currentFuel = characterSettings.fuelAmount;
-        currentState = CharacterState.NONCLIMBING;
-        moveSpeedHalved = moveSpeed / 2;
+        ResetPlayer();
+        isAlive = true;
     }
 
     protected virtual void Update()
     {
+
+        if (!isAlive)
+        {
+            if (isRespawning)
+                RespawnTimer();
+
+            return;
+        }
+
         currentFuel = Mathf.Clamp(currentFuel, 0, characterSettings.fuelAmount);
         
         var cellJoint = Physics2D.OverlapBox(
             transform.position,
-            transform.localScale,
+            transform.localScale * 1.5f,
             0f, 
             1 << cellLayerIndex)?.gameObject.transform;
         if (currentCellJoint != cellJoint)
         {
             currentCellJoint = cellJoint;
             transform.SetParent(currentCellJoint);
-        } 
+        }
     }
 
     protected virtual void FixedUpdate()
@@ -93,15 +124,18 @@ public abstract class Character : SerializedMonoBehaviour
         else if (currentState == CharacterState.CLIMBING) ClimbLadder();
 
         else if (currentState == CharacterState.OPERATING) OperateInteractable();
+
+        else if (currentState == CharacterState.REPAIRING) RepairCell();
     }
 
     protected virtual void OnDrawGizmos()
     {
         //visualizes the grounded box for debugging
         Gizmos.color = Color.green;
-        Gizmos.DrawWireCube(new Vector2(transform.position.x, transform.position.y - transform.localScale.y / 2), new Vector3(groundedBoxX, groundedBoxY, 0));
+        Gizmos.DrawWireCube(new Vector2(transform.position.x, transform.position.y - groundedBoxOffset), new Vector3(groundedBoxX, groundedBoxY, 0));
     }
 
+    /* TODO: Ladders are not triggers. Change this to use checksurfacecollider with the ladder layerindex
     protected virtual void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Climbable"))
@@ -117,7 +151,7 @@ public abstract class Character : SerializedMonoBehaviour
         {
             currentLadder = null;
         }
-    }
+    }*/
     #endregion
 
     #region Movement
@@ -126,20 +160,20 @@ public abstract class Character : SerializedMonoBehaviour
     {
         LayerMask groundLayer = (1 << LayerMask.NameToLayer("Ground"));
         return Physics2D.OverlapBox(new Vector2(transform.position.x,
-                                                     transform.position.y - transform.localScale.y / 2),
+                                                     transform.position.y - groundedBoxOffset),
                                                    new Vector2(groundedBoxX, groundedBoxY),
                                                    0f,
                                                    groundLayer);
         
     }
     
-    protected Collider2D CheckSurfaceCollider()
+    protected Collider2D CheckSurfaceCollider(int layer)
     {
         return Physics2D.OverlapBox(new Vector2(transform.position.x,
-                transform.position.y - transform.localScale.y / 2),
+                transform.position.y - transform.localScale.y),
             new Vector2(groundedBoxX, groundedBoxY),
             0f,
-            1 << 18);
+            1 << layer);
     }
 
     protected abstract void MoveCharacter();
@@ -151,31 +185,25 @@ public abstract class Character : SerializedMonoBehaviour
 
     protected void SetLadder()
     {
-        if (currentLadder != null)
-        {
-            currentState = CharacterState.CLIMBING;
-            rb.bodyType = RigidbodyType2D.Kinematic;
-            transform.position = new Vector2(currentLadder.transform.position.x, transform.position.y);
-            ladderBounds = currentLadder.GetComponent<Collider2D>().bounds;
-        }
+        if (currentLadder == null) return;
+        currentState = CharacterState.CLIMBING;
+        rb.bodyType = RigidbodyType2D.Kinematic;
+        // converts the player's position from world space to local space relative to the ladder
+        // have to do this cause ladders are rotated sometimes
+        Vector3 localPosition = currentLadder.transform.InverseTransformPoint(transform.position);
 
+        // set the local x position to 0 bc ladder transform is in the the center of the ladder
+        localPosition.x = 0; 
+
+        // Convert the updated local position back to world space
+        Vector3 worldPosition = currentLadder.transform.TransformPoint(localPosition);
+
+        transform.position = worldPosition;
     }
 
     protected virtual void ClimbLadder()
     {
-        // Create a LayerMask for the ladder layer.
-        int ladderLayerIndex = LayerMask.NameToLayer("Climbable");
-        LayerMask ladderLayer = 1 << ladderLayerIndex;
 
-
-        // Get all the ladders within a certain radius of the player.
-        Collider2D[] nearbyLadders = Physics2D.OverlapCircleAll(transform.position, .5f, ladderLayer);
-
-        foreach (Collider2D ladder in nearbyLadders)
-        {
-            // For each ladder, add its bounds to ladderBounds.
-            ladderBounds.Encapsulate(ladder.bounds);
-        }
     }
 
     protected virtual void SwitchOffLadder()
@@ -183,9 +211,15 @@ public abstract class Character : SerializedMonoBehaviour
         currentState = CharacterState.NONCLIMBING;
         rb.bodyType = RigidbodyType2D.Dynamic;
         rb.velocity = Vector2.zero;
+        CancelInteraction();
     }
 
     protected virtual void OperateInteractable()
+    {
+        rb.velocity = Vector2.zero;
+    }
+
+    protected virtual void RepairCell()
     {
         rb.velocity = Vector2.zero;
     }
@@ -195,7 +229,7 @@ public abstract class Character : SerializedMonoBehaviour
         currentState = CharacterState.NONCLIMBING;
     }
 
-    public void LinkPlayerHUD(PlayerHUD newHUD)
+    public virtual void LinkPlayerHUD(PlayerHUD newHUD)
     {
         characterHUD = newHUD;
         characterHUD.InitializeHUD(characterIndex);
@@ -204,22 +238,92 @@ public abstract class Character : SerializedMonoBehaviour
 
     #region Character Functions
 
-    protected void ModifyHealth(float newHealth)
+    public float ModifyHealth(float newHealth)
     {
+        float tempHealth = currentHealth;
+        float healthDif = 0;
+
         currentHealth += newHealth;
         currentHealth = Mathf.Clamp(currentHealth, 0f, characterSettings.maxHealth);
 
+        healthDif = tempHealth - currentHealth;
+
         //Shake the character HUD if they are taking damage
         if (newHealth < 0)
-            characterHUD.ShakePlayerHUD(0.25f, 7f);
+            characterHUD?.ShakePlayerHUD(0.25f, 7f);
 
-        characterHUD.DamageAvatar(1f - (currentHealth / characterSettings.maxHealth), 0.25f);
+        characterHUD?.DamageAvatar(1f - (currentHealth / characterSettings.maxHealth), 0.25f);
 
         if (currentHealth <= 0)
             OnCharacterDeath();
+
+        return healthDif;
     }
 
-    protected abstract void OnCharacterDeath();
+    protected void SelfDestruct()
+    {
+        currentHealth = 0;
+        characterHUD?.DamageAvatar(1f - (currentHealth / characterSettings.maxHealth), 0.01f);
+        OnCharacterDeath();
+    }
 
+    protected virtual void OnCharacterDeath(bool isRespawnable = true)
+    {
+        GameManager.Instance.AudioManager.Play("ExplosionSFX", gameObject);
+        GameManager.Instance.ParticleSpawner.SpawnParticle(Random.Range(0, 2), transform.position, characterDeathParticleSize, null);
+
+        isRespawning = isRespawnable;
+
+        if (isRespawning)
+        {
+            characterHUD?.ShowRespawnTimer(true);
+            currentRespawnTime = respawnTime;
+        }
+
+        //TODO: (Ryan)
+        //Needs to drop any objects/tools currently holding/equipped
+        //Needs to be kicked out of any interactable they're operating
+        //Needs to be unparented from anything they're parented to
+
+        rb.isKinematic = true;
+        characterHitbox.enabled = false;
+        characterVisualParent?.gameObject.SetActive(false);
+        isAlive = false;
+        ResetPlayer();
+    }
+
+    protected virtual void ResetPlayer()
+    {
+        currentHealth = characterSettings.maxHealth;
+        currentFuel = characterSettings.fuelAmount;
+        currentState = CharacterState.NONCLIMBING;
+        moveSpeedHalved = moveSpeed / 2;
+    }
+
+    private void RespawnTimer()
+    {
+        currentRespawnTime -= Time.deltaTime;
+
+        characterHUD?.UpdateRespawnBar(1 - (currentRespawnTime / respawnTime), currentRespawnTime);
+
+        if (currentRespawnTime <= 0f)
+        {
+            RespawnPlayer();
+            isRespawning = false;
+            isAlive = true;
+        }
+    }
+
+    private void RespawnPlayer()
+    {
+        characterHUD?.DamageAvatar(1f - (currentHealth / characterSettings.maxHealth), 0.01f);
+        characterHUD?.ShowRespawnTimer(false);
+        LevelManager.Instance?.MoveCharacterToSpawn(this);
+        rb.isKinematic = false;
+        characterHitbox.enabled = true;
+        characterVisualParent?.gameObject.SetActive(true);
+    }
+
+    public Color GetCharacterColor() => characterColor;
     #endregion
 }

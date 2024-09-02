@@ -4,12 +4,17 @@ using UnityEngine;
 using UnityEditor;
 using TMPro;
 using System.Linq;
+using Sirenix.OdinInspector;
 
-public class TankController : MonoBehaviour
+[System.Serializable]
+public class TankController : SerializedMonoBehaviour
 {
     //Important Variables
     public string TankName;
     [SerializeField] public TankId.TankType tankType;
+    
+    [InlineButton("KillTank", SdfIconType.EmojiDizzy, "Kill")]
+    [InlineButton("DamageTank", SdfIconType.Magic, "-100")]
     [SerializeField] public float coreHealth = 500;
 
     //Objects & Components:
@@ -18,6 +23,7 @@ public class TankController : MonoBehaviour
     [Tooltip("This tank's traction system.")]                                                   internal TreadSystem treadSystem;
     [Tooltip("Transform containing all tank rooms, point around which tower tilts.")]           private Transform towerJoint;
     [SerializeField, Tooltip("Target transform in tread system which tower joint locks onto.")] private Transform towerJointTarget;
+    public bool isInvincible;
 
     private TextMeshProUGUI nameText;
 
@@ -27,18 +33,132 @@ public class TankController : MonoBehaviour
     public GameObject[] cargoHold;
 
     //Settings:
-    [Header("Debug")] 
-    public bool shiftRight;
-    public bool shiftLeft;
-    public bool damage;
-    public bool addEngine;
-    public bool fireAllWeapons;
-    public bool overchargeAllWeapons;
+    #region Debug Controls
+    [Header("Debug Controls")]
+    [InlineButton("ShiftRight", SdfIconType.ArrowRight, "")]
+    [InlineButton("ShiftLeft", SdfIconType.ArrowLeft, "")]
+    public int gear;
+
+    public void ShiftRight()
+    {
+        ChangeAllGear(1);
+    }
+    public void ShiftLeft()
+    {
+        ChangeAllGear(-1);
+    }
+
+    private float damage = 100f;
+    private void DamageTank()
+    {
+        Damage(damage);
+    }
+
+    public void KillTank()
+    {
+        Damage(coreHealth);
+    }
+
+    [InlineButton("LoseEngine", SdfIconType.Dash, "")]
+    [InlineButton("AddEngine", SdfIconType.Plus, "")]
+    public float horsePower;
+
+    private void AddEngine()
+    {
+        treadSystem.currentEngines += 1;
+    }
+    private void LoseEngine()
+    {
+        treadSystem.currentEngines -= 1;
+    }
+
+    [PropertySpace]
+    [Header("Interactables")]
+    [SerializeField] public List<InteractableId> interactableList = new List<InteractableId>();
+
+    [PropertySpace]
+    [Button(" Sort by Type", ButtonSizes.Small, Icon = SdfIconType.SortUpAlt), Tooltip("Sorts Interactable List by Interactable Type")]
+    private void SortListByType()
+    {
+        List<InteractableId> newList = new List<InteractableId>();
+        for (int i = 0; i < 4; i++)
+        {
+            if (i == 0)
+            {
+                foreach(InteractableId interactable in interactableList) 
+                { 
+                    if(interactable.type == TankInteractable.InteractableType.WEAPONS)
+                    {
+                        newList.Add(interactable);
+                    }
+                }
+            }
+
+            if (i == 1)
+            {
+                foreach (InteractableId interactable in interactableList)
+                {
+                    if (interactable.type == TankInteractable.InteractableType.ENGINEERING)
+                    {
+                        newList.Add(interactable);
+                    }
+                }
+            }
+
+            if (i == 2)
+            {
+                foreach (InteractableId interactable in interactableList)
+                {
+                    if (interactable.type == TankInteractable.InteractableType.DEFENSE)
+                    {
+                        newList.Add(interactable);
+                    }
+                }
+            }
+
+            if (i == 3)
+            {
+                foreach (InteractableId interactable in interactableList)
+                {
+                    if (interactable.type == TankInteractable.InteractableType.LOGISTICS)
+                    {
+                        newList.Add(interactable);
+                    }
+                }
+            }
+        }
+
+        interactableList = newList;
+    }
+
+    [PropertySpace]
+    [Button(" Fire All Weapons", ButtonSizes.Small, Icon = SdfIconType.SquareFill), Tooltip("Fires every weapon in the tank, ignoring conditions")]
+    private void FireAllCannons()
+    {
+        GunController[] cannons = GetComponentsInChildren<GunController>();
+        foreach (GunController cannon in cannons) { cannon.Fire(true, tankType); }
+    }
+    [Button(" Double Weapon ROF", ButtonSizes.Small, Icon = SdfIconType.Speedometer2), Tooltip("Doubles the Rate of Fire for every weapon in the tank")]
+    public void OverchargeAllWeapons()
+    {
+        GunController[] weapons = GetComponentsInChildren<GunController>();
+        foreach (GunController weapon in weapons)
+        {
+            weapon.ChangeRateOfFire(0.5f);
+        }
+    }
+    [PropertySpace]
+    #endregion
 
     //Runtime Variables:
     [Tooltip("One of the cells which is in the uppermost position in the tank.")] internal Cell highestCell;
-    public bool isDying = false; //true when the tank is in the process of blowing up
+    private bool isDying = false; //true when the tank is in the process of blowing up
     private float deathSequenceTimer = 0;
+
+    //UI
+    private SpriteRenderer damageSprite;
+    [Tooltip("How long damage visual effect persists for")] private float damageTime;
+    private float damageTimer;
 
     //RUNTIME METHODS:
     private void Awake()
@@ -49,6 +169,7 @@ public class TankController : MonoBehaviour
         treadSystem.Initialize();                            //Make sure treads are initialized
 
         nameText = GetComponentInChildren<TextMeshProUGUI>();
+        damageSprite = towerJoint.transform.Find("DiageticUI")?.GetComponent<SpriteRenderer>();
 
         //Room setup:
         rooms = new List<Room>(GetComponentsInChildren<Room>()); //Get list of all rooms which spawn as children of tank (for prefab tanks)
@@ -125,12 +246,8 @@ public class TankController : MonoBehaviour
         towerJoint.rotation = towerJointTarget.rotation; //Move tower joint to target rotation
 
         //Debug 
-        if (shiftLeft) { shiftLeft = false; ChangeAllGear(-1); }
-        if (shiftRight) { shiftRight = false; ChangeAllGear(1); }
-        if (damage) { damage = false; Damage(100); }
-        if (addEngine) { addEngine = false; treadSystem.currentEngines += 1; }
-        if (fireAllWeapons) { fireAllWeapons = false; FireAllCannons(); }
-        if (overchargeAllWeapons) { overchargeAllWeapons = false; OverchargeAllWeapons(); }
+        gear = treadSystem.gear;
+        horsePower = treadSystem.currentEngines * 100;
 
         //Update name
         nameText.text = TankName;
@@ -140,6 +257,147 @@ public class TankController : MonoBehaviour
         {
             DeathSequenceEvents();
         }
+
+        //UI
+        if (damageTimer > 0)
+        {
+            UpdateUI();
+        }
+    }
+
+    private void UpdateUI()
+    {
+        Color newColor = damageSprite.color;
+        newColor.a = Mathf.Lerp(0, 255f, (damageTimer / damageTime) * Time.deltaTime);
+        damageSprite.color = newColor;
+
+        damageTimer -= Time.deltaTime;
+        if (damageTimer < 0)
+        {
+            damageTimer = 0;
+            damageTime = 0;
+        }
+    }
+
+    public void RammingSpeed(float direction) //direction --> 1 = right, -1 = left
+    {
+        #region Speedlines
+        /*
+        Cell topCell = coreRoom.cells[0];
+        Cell bottomCell = coreRoom.cells[0];
+
+        List<Cell> _topCells = new List<Cell>();
+        List<Cell> _bottomCells = new List<Cell>();
+
+        foreach (Room room in rooms)
+        {
+            //Find TopMost Cell
+            foreach (Cell cell in room.cells)
+            {
+                Vector2 cellPos = this.transform.InverseTransformPoint(topCell.transform.position); //Get current TopMost Cell's position
+                if (cell != null) cellPos = this.transform.InverseTransformPoint(cell.transform.position); //Get selected cell's position
+
+                if (cellPos.y > this.transform.InverseTransformPoint(topCell.transform.position).y) //If selected cell's y position is greater than the current TopMost Cell's,
+                {
+                    _topCells.Clear(); //clear list of Top Cells
+                    topCell = cell;  //Make it the new TopMost Cell
+                    _topCells.Add(cell); //Add it to the list
+                }
+                else if (cellPos.y == this.transform.InverseTransformPoint(topCell.transform.position).y) //If selected cell's y position is the same as the TopMost Cell,
+                {
+                    _topCells.Add(cell); //Add it to the list
+                }
+
+                //Turn Off Speedlines
+                cell.ShowSpeedTrails(false, 0);
+            }
+
+            if (_topCells.Count > 1) //If there's more than 1 Cell tied for highest y position
+            {
+                foreach (Cell _cell in _topCells) //Find the Left / Right Most Cell 
+                {
+                    if (direction == -1)
+                    {
+                        //Find RightMost Cell
+                        if (this.transform.InverseTransformPoint(_cell.transform.position).x > this.transform.InverseTransformPoint(topCell.transform.position).x)
+                        {
+                            topCell.ShowSpeedTrails(false, 1);
+                            topCell = _cell;
+                        }
+                    }
+
+                    if (direction == 1)
+                    {
+                        //Find LeftMost Cell
+                        if (this.transform.InverseTransformPoint(_cell.transform.position).x < this.transform.InverseTransformPoint(topCell.transform.position).x)
+                        {
+                            topCell.ShowSpeedTrails(false, 1);
+                            topCell = _cell;
+                        }
+                    }
+                }
+            }
+
+            //Find BottomMost Cell
+            foreach (Cell cell in room.cells)
+            {
+                Vector2 cellPos = towerJoint.transform.InverseTransformPoint(bottomCell.transform.position); //Get current BottomMost Cell's position
+                if (cell != null) cellPos = towerJoint.transform.InverseTransformPoint(cell.transform.position); //Get selected cell's position
+
+                if (cellPos.y < towerJoint.transform.InverseTransformPoint(bottomCell.transform.position).y) //If selected cell's y position is less than the current BottomMost Cell's,
+                {
+                    _bottomCells.Clear(); //clear list of Bottom Cells
+                    bottomCell = cell;  //Make it the new BottomMost Cell
+                    _bottomCells.Add(cell); //Add it to the list
+                }
+                else if (cellPos.y == towerJoint.transform.InverseTransformPoint(bottomCell.transform.position).y) //If selected cell's y position is the same as the BottomMost Cell,
+                {
+                    _bottomCells.Add(cell); //Add it to the list
+                }
+
+                //Turn Off Speedlines
+                cell.ShowSpeedTrails(false, -1);
+            }
+
+            if (_bottomCells.Count > 1) //If there's more than 1 Cell tied for lowest y position
+            {
+                foreach (Cell _cell in _bottomCells) //Find the Left / Right Most Cell 
+                {
+                    if (direction == -1)
+                    {
+                        //Find RightMost Cell
+                        if (towerJoint.transform.InverseTransformPoint(_cell.transform.position).x > towerJoint.transform.InverseTransformPoint(bottomCell.transform.position).x)
+                        {
+                            bottomCell.ShowSpeedTrails(false, -1);
+                            bottomCell = _cell;
+                        }
+                    }
+
+                    if (direction == 1)
+                    {
+                        //Find LeftMost Cell
+                        if (towerJoint.transform.InverseTransformPoint(_cell.transform.position).x < towerJoint.transform.InverseTransformPoint(bottomCell.transform.position).x)
+                        {
+                            bottomCell.ShowSpeedTrails(false, -1);
+                            bottomCell = _cell;
+                        }
+                    }
+                }
+            }
+        }
+        
+        
+        _topCells.Clear();
+        _bottomCells.Clear();
+
+        //Apply Speedlines to both Cells
+        topCell.ShowSpeedTrails(true, 1);
+        bottomCell.ShowSpeedTrails(true, -1);
+        */
+        #endregion
+
+        //Apply Ramming Condition to all Cells
+
     }
 
     public void ChangeAllGear(int direction) //changes gear of all active throttles in the tank
@@ -152,24 +410,6 @@ public class TankController : MonoBehaviour
             {
                 throttles[i].ChangeGear(direction);
             }
-        }
-    }
-
-    public void FireAllCannons()
-    {
-        GunController[] cannons = GetComponentsInChildren<GunController>();
-        foreach(GunController cannon in cannons)
-        {
-            cannon.Fire(true);
-        }
-    }
-
-    public void OverchargeAllWeapons()
-    {
-        GunController[] weapons = GetComponentsInChildren<GunController>();
-        foreach (GunController weapon in weapons)
-        {
-            weapon.ChangeRateOfFire(0.5f);
         }
     }
 
@@ -205,6 +445,11 @@ public class TankController : MonoBehaviour
     public void Damage(float amount)
     {
         coreHealth -= amount;
+
+        //UI
+        damageTime += (amount / 50f);
+        damageTimer = damageTime;
+
         if (coreHealth <= 0)
         {
             if (!isDying)
@@ -445,5 +690,15 @@ public class TankController : MonoBehaviour
             }
         }
         if (CameraManipulator.main != null && tankType == TankId.TankType.PLAYER) CameraManipulator.main.UpdateTargetGroup(this); //Update camera so that it captures full scale of tank (only for player)
+    }
+    
+    public void AddInteractable(GameObject interactable)
+    {
+        InteractableId newId = new InteractableId();
+        newId.interactable = interactable;
+        newId.script = interactable.GetComponent<TankInteractable>();
+        newId.type = newId.script.interactableType;
+        newId.stackName = newId.script.stackName;
+        interactableList.Add(newId);
     }
 }

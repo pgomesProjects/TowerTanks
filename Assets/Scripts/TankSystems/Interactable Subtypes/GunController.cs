@@ -10,6 +10,7 @@ public class GunController : TankInteractable
     [Tooltip("Joint around which moving cannon assembly rotates."), SerializeField]                         private Transform pivot;
     [Tooltip("Transforms to spawn particles from when used."), SerializeField]                              private Transform[] particleSpots;
     [Tooltip("Scale particles are multiplied by when used by this weapon"), SerializeField]                 private float particleScale;
+    [Tooltip("Line Renderer used for trajectories"), SerializeField]                                        private LineRenderer trajectoryLine;
 
     //Settings:
     public enum GunType { CANNON, MACHINEGUN, MORTAR };
@@ -29,12 +30,12 @@ public class GunController : TankInteractable
     //Cannon
 
     //Machine Gun
-    private float spinupTime = 0.8f; //while fire is held down, how much time it takes before it starts shooting
+    private float spinupTime = 0.1f; //while fire is held down, how much time it takes before it starts shooting
     private float spinupTimer = 0;
-    private float spinTime = 0.6f; //how long the barrel will keep spinning for after shooting before it starts to slow down again
+    private float spinTime = 0.4f; //how long the barrel will keep spinning for after shooting before it starts to slow down again
     private float spinTimer = 0;
 
-    private float overheatTime = 8f; //how long the operator can keep shooting for before the weapon overheats
+    private float overheatTime = 6.5f; //how long the operator can keep shooting for before the weapon overheats
     private float overheatTimer = 0f;
     private bool isOverheating = false;
     private float smokePuffRate = 0.3f; //how much the gun should smoke when overheating (lower = more smoke)
@@ -62,13 +63,17 @@ public class GunController : TankInteractable
     private void Start()
     {
         if (gunType == GunType.MACHINEGUN) { heatRenderer = transform.Find("Visuals/JointParent/MachineGun_Heat").GetComponent<SpriteRenderer>(); }
-        if (gunType == GunType.MORTAR) { maxVelocity = muzzleVelocity; }
+        if (gunType == GunType.MORTAR) {
+            trajectoryLine.positionCount = 100;
+            //trajectoryLine.enabled = false;
+            maxVelocity = muzzleVelocity; 
+        }
     }
 
     private void Update()
     {
         //Debug settings:
-        if (fire) { fire = false; Fire(true); }
+        if (fire) { fire = false; Fire(true, tank.tankType); }
         
         pivot.localEulerAngles = currentRotation;
 
@@ -131,13 +136,31 @@ public class GunController : TankInteractable
         {
             if (operatorID != null && operatorID.interactInputHeld && fireCooldownTimer <= 0)
             {
+                //Increase Charge Time
                 if (chargeTimer < maxChargeTime)
                 {
                     chargeTimer += Time.deltaTime;
                 }
+
+                if (chargeTimer >= minChargeTime)
+                {
+                    //Show trajectory based on velocity
+                    Color playerColor = operatorID.GetCharacterColor();
+                    trajectoryLine.startColor = playerColor;
+                    trajectoryLine.endColor = playerColor;
+
+                    trajectoryLine.enabled = true;
+                    List<Vector3> trajectoryPoints = Trajectory.GetTrajectory(barrel.position, barrel.right * muzzleVelocity, 30, 100);
+                    for (int i = 0; i < trajectoryPoints.Count; i++)
+                    {
+                        trajectoryLine.SetPosition(i, trajectoryPoints[i]);
+                    }
+                }
+
             }
             else
             {
+                trajectoryLine.enabled = false;
                 if (chargeTimer > 0)
                 {
                     chargeTimer -= Time.deltaTime;
@@ -154,7 +177,7 @@ public class GunController : TankInteractable
     /// <summary>
     /// Fires the weapon, once.
     /// </summary>
-    public void Fire(bool overrideConditions)
+    public void Fire(bool overrideConditions, TankId.TankType inheritance = TankId.TankType.PLAYER)
     {
         bool canFire = true;
         if (tank == null) tank = GetComponentInParent<TankController>();
@@ -187,7 +210,9 @@ public class GunController : TankInteractable
             if (overheatTimer > overheatTime)
             {
                 isOverheating = true;
-                GameManager.Instance.AudioManager.Play("SteamExhaust", gameObject);
+                if (GameManager.Instance.AudioManager.IsPlaying("SteamExhaust", gameObject) == false) { 
+                    GameManager.Instance.AudioManager.Play("SteamExhaust", gameObject); 
+                }
             }
 
             if (isOverheating) canFire = false;
@@ -221,6 +246,14 @@ public class GunController : TankInteractable
             //Fire projectile:
             Projectile newProjectile = Instantiate(projectilePrefab).GetComponent<Projectile>();
             newProjectile.Fire(barrel.position, barrel.right * muzzleVelocity);
+            newProjectile.factionId = inheritance;
+
+            /*
+            if (newProjectile.factionId == TankId.TankType.ENEMY) {
+                newProjectile.gameObject.layer = 23;
+                newProjectile.layerMask |= (LayerMask.NameToLayer("Projectiles"));
+                newProjectile.layerMask &= (LayerMask.NameToLayer("EnemyProjectiles"));
+            }*/
 
             //Apply recoil:
             Vector2 recoilForce = -barrel.right * recoil;                                  //Get force of recoil from direction of barrel and set magnitude

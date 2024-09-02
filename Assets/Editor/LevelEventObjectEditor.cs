@@ -11,6 +11,8 @@ public class LevelEventObjectEditor : Editor
     private SerializedProperty levelNameProperty;
     private SerializedProperty levelDescriptionProperty;
     private SerializedProperty objectiveTypeProperty;
+    private SerializedProperty numberOfRoundsProperty;
+    private SerializedProperty startingInteractables;
     private SerializedProperty metersToTravelProperty;
     private SerializedProperty enemiesToDefeatProperty;
     private SerializedProperty secondsToSurviveForProperty;
@@ -21,6 +23,8 @@ public class LevelEventObjectEditor : Editor
         levelNameProperty = serializedObject.FindProperty("levelName");
         levelDescriptionProperty = serializedObject.FindProperty("levelDescription");
         objectiveTypeProperty = serializedObject.FindProperty("objectiveType");
+        numberOfRoundsProperty = serializedObject.FindProperty("numberOfRounds");
+        startingInteractables = serializedObject.FindProperty("startingInteractables");
         metersToTravelProperty = serializedObject.FindProperty("metersToTravel");
         enemiesToDefeatProperty = serializedObject.FindProperty("enemiesToDefeat");
         secondsToSurviveForProperty = serializedObject.FindProperty("secondsToSurviveFor");
@@ -33,6 +37,12 @@ public class LevelEventObjectEditor : Editor
         //Level name
         EditorGUILayout.LabelField("Level Information", EditorStyles.boldLabel);
         EditorGUILayout.PropertyField(levelNameProperty);
+
+        //Number of rounds in the campaign
+        EditorGUILayout.PropertyField(numberOfRoundsProperty);
+
+        //Starting interactables
+        EditorGUILayout.PropertyField(startingInteractables);
 
         //Level description (for campaign mode, not in-game)
         EditorGUILayout.LabelField("Description");

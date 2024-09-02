@@ -10,9 +10,11 @@ public struct Difficulty
     public float multiplier;
 }
 
+public enum GAMESCENE { TITLE = 0, BUILDING = 1, COMBAT = 3 };
+
 public static class GameSettings
 {
-    public static bool debugMode = true;
+    public static bool debugMode = false;
 
     public static string controlSchemeUI = "Gamepad";
 

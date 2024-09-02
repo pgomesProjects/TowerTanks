@@ -7,10 +7,7 @@ public static class Bootstrapper
     {
         //Before the scene loads, spawn an Init prefab and make sure it never gets destroyed, even between scenes
         Object.DontDestroyOnLoad(Object.Instantiate(Resources.Load("Init")));
-        if (GameSettings.debugMode)
-        {
-            Object.DontDestroyOnLoad(Object.Instantiate(Resources.Load("DebugCanvas")));
-        }
+        Object.DontDestroyOnLoad(Object.Instantiate(Resources.Load("DebugCanvas")));
 
         Cursor.lockState = CursorLockMode.Confined;
         SettingsOnStart();

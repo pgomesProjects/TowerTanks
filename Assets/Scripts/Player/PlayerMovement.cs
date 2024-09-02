@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions.Must;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class PlayerMovement : Character
 {
@@ -18,6 +19,7 @@ public class PlayerMovement : Character
 
     [SerializeField] private Transform towerJoint;
     [SerializeField] private Transform playerSprite;
+    [SerializeField] private TextMeshProUGUI playerNameText;
 
     [SerializeField] private PlayerInput playerInputComponent;
     [SerializeField] private float deAcceleration;
@@ -56,6 +58,18 @@ public class PlayerMovement : Character
     public bool isCarryingSomething; //true if player is currently carrying something
     public Cargo currentObject; //what object the player is currently carrying
 
+    [Header("Repairing")]
+    [SerializeField, Tooltip("What cell the player is currently repairing")] private Cell currentRepairJob; //what cell the player is currently repairing
+    [SerializeField, Tooltip("Time it takes the player to complete one repair tick")] private float repairTime;
+    private float repairTimer = 0;
+    [SerializeField, Tooltip("How much health the player repairs each completed tick")] private float repairAmount;
+
+    private float maxShakeIntensity = 0.5f;
+    private float currentShakeTime;
+    private bool isShaking = false;
+
+    private PlayerData playerData;
+
     #endregion
 
     #region Unity Methods
@@ -76,6 +90,21 @@ public class PlayerMovement : Character
         base.Start();
     }
 
+    private void OnDisable()
+    {
+        if (playerInputComponent != null)
+        {
+            if (isDebugPlayer)
+                inputMap.actionTriggered -= OnDebugInput;
+
+            else
+                inputMap.actionTriggered -= OnPlayerInput;
+
+            playerInputComponent.onDeviceLost -= OnDeviceLost;
+            playerInputComponent.onDeviceRegained -= OnDeviceRegained;
+        }
+    }
+
     public void AddDebuggerPlayerInput(PlayerInput debugPlayerInput)
     {
         LinkPlayerInput(debugPlayerInput);
@@ -83,6 +112,21 @@ public class PlayerMovement : Character
 
     protected override void Update()
     {
+        base.Update();
+        if (!isAlive)
+        {
+            if (GameManager.Instance.AudioManager.IsPlaying("JetpackRocket", gameObject))
+            {
+                GameManager.Instance.AudioManager.Stop("JetpackRocket", gameObject);
+            }
+            return;
+        }
+
+        if (isShaking)
+            ShakePlayer();
+        
+        currentLadder = Physics2D.OverlapCircle(transform.position, .02f, ladderLayer)?.gameObject;
+
         //Interactable building:
         if (buildCell != null) //Player is currently in build mode
         {
@@ -94,6 +138,29 @@ public class PlayerMovement : Character
             }
         }
 
+        //Repairing Something
+        if (currentRepairJob != null)
+        {
+            currentState = CharacterState.REPAIRING;
+            transform.position = currentRepairJob.repairSpot.position;
+
+            repairTimer += Time.deltaTime;
+            if (repairTimer >= repairTime)
+            {
+                currentRepairJob.Repair(repairAmount);
+                repairTimer = 0;
+            }
+
+            if (currentRepairJob.health >= currentRepairJob.maxHealth) //Fully fixed!
+            {
+                GameManager.Instance.AudioManager.Play("ItemPickup", gameObject);
+                currentRepairJob.repairMan = null;
+                currentRepairJob = null;
+                CancelInteraction();
+            }
+        }
+
+        //Handle Jetpack
         if (jetpackInputHeld && currentState != CharacterState.OPERATING)
         {
             currentFuel -= fuelDepletionRate * Time.deltaTime;
@@ -118,7 +185,7 @@ public class PlayerMovement : Character
             }
         }
         
-        
+        //If we're manning an Interactable
         if (currentInteractable != null)
         {
             currentState = CharacterState.OPERATING;
@@ -139,6 +206,7 @@ public class PlayerMovement : Character
             }
         }
 
+        //If we're carrying something
         if (currentObject != null)
         {
             currentObject.transform.position = hands.position;
@@ -148,8 +216,6 @@ public class PlayerMovement : Character
 
         if (moveInput.y <= -0.5) isHoldingDown = true;
         else isHoldingDown = false;
-        
-        base.Update();
     }
                 
     protected override void FixedUpdate()
@@ -160,9 +226,10 @@ public class PlayerMovement : Character
     protected override void OnDrawGizmos()
     {
         base.OnDrawGizmos();
+        
     }
 
-    protected override void OnTriggerEnter2D(Collider2D other)
+    /*protected override void OnTriggerEnter2D(Collider2D other)//TODO: Check Character.cs ontrigger for more info
     {
         base.OnTriggerEnter2D(other);
     }
@@ -170,7 +237,7 @@ public class PlayerMovement : Character
     protected override void OnTriggerExit2D(Collider2D other)
     {
         base.OnTriggerExit2D(other);
-    }
+    }*/
 
     #endregion
 
@@ -179,18 +246,7 @@ public class PlayerMovement : Character
     
     protected override void MoveCharacter()
     {
-        int ladderLayerIndex = LayerMask.NameToLayer("Ladder");
-        LayerMask ladderLayer = 1 << ladderLayerIndex;
-        var ladder = Physics2D.OverlapCircle(transform.position, .5f, ladderLayer)?.gameObject;
-
-        if (ladder != null)
-        {
-            currentLadder = ladder;
-        }
-        else
-        {
-            currentLadder = null;
-        }
+        
         
         float force = transform.right.x * moveInput.x * moveSpeed; 
 
@@ -204,27 +260,31 @@ public class PlayerMovement : Character
         }
         if (CheckGround()) rb.velocity = worldVelocity;
         else rb.velocity = new Vector2(moveInput.x * moveSpeed, rb.velocity.y);
-        
-        
     }
 
 
-    protected override void ClimbLadder() //todo: parent the player to the ladder and then when exit, child back to towerjoint
+    protected override void ClimbLadder()
     {
-        Bounds currentLadderBounds = currentLadder.GetComponent<Collider2D>().bounds;
-        ladderBounds = new Bounds( new Vector3(currentLadderBounds.center.x, ladderBounds.center.y, ladderBounds.center.z), ladderBounds.size);
+        float raycastDistance = .19f;
         
+        Vector2 boxSize = new Vector2(groundedBoxX, groundedBoxY * 3);
+        Vector3 direction = moveInput.y > 0 ? transform.up : -transform.up;
+        
+        var hitLadder = Physics2D.OverlapBox(transform.position + (direction * transform.localScale.y), boxSize, 0f, 1 << LayerMask.NameToLayer("Ladder"));
+        var hitGround = Physics2D.Raycast(transform.position, direction, raycastDistance, 1 << LayerMask.NameToLayer("Ground"));
 
-        Vector3 localVelocity = transform.InverseTransformDirection(rb.velocity);
-        localVelocity.y = climbSpeed * moveInput.y;
-        localVelocity.x = 0;
-        Vector3 worldVelocity = transform.TransformDirection(localVelocity);
-        rb.velocity = worldVelocity;
-        
-        transform.position = new Vector3(transform.position.x,
-                                         Mathf.Clamp(transform.position.y, ladderBounds.min.y + .3f, ladderBounds.max.y - .3f), 
-            transform.position.z);
-        if (moveInput.x != 0 || jetpackInputHeld)
+        Vector3 displacement = transform.up * (climbSpeed * moveInput.y * Time.deltaTime);
+
+        // If there is no ladder or there is ground in the direction of movement, stop movement
+        if (!hitLadder || hitGround)
+        {
+            displacement = Vector3.zero;
+        }
+
+        Vector3 newPosition = transform.position + displacement;
+        rb.MovePosition(newPosition);
+
+        if (moveInput.x > 0.2 || moveInput.x < -0.2 || jetpackInputHeld)
         {
             SwitchOffLadder();
         }
@@ -242,6 +302,7 @@ public class PlayerMovement : Character
     public void LinkPlayerInput(PlayerInput newInput)
     {
         playerInputComponent = newInput;
+        playerData = PlayerData.ToPlayerData(newInput);
         characterIndex = playerInputComponent.playerIndex;
 
         //Gets the player input action map so that events can be subscribed to it
@@ -259,21 +320,9 @@ public class PlayerMovement : Character
         //Subscribes events for control lost / regained
         playerInputComponent.onDeviceLost += OnDeviceLost;
         playerInputComponent.onDeviceRegained += OnDeviceRegained;
-    }
 
-    public void OnDisable()
-    {
-        if(playerInputComponent != null)
-        {
-            if(isDebugPlayer)
-                playerInputComponent.onActionTriggered -= OnDebugInput;
-
-            else
-                playerInputComponent.onActionTriggered -= OnPlayerInput;
-
-            playerInputComponent.onDeviceLost -= OnDeviceLost;
-            playerInputComponent.onDeviceRegained -= OnDeviceRegained;
-        }
+        characterColor = GameManager.Instance.MultiplayerManager.GetPlayerColors()[newInput.playerIndex];
+        UpdatePlayerNameDisplay();
     }
 
     public void OnDeviceLost(PlayerInput playerInput)
@@ -301,6 +350,7 @@ public class PlayerMovement : Character
             case "Cancel": OnCancel(ctx); break;
             case "Repair": OnRepair(ctx); break;
             case "Build": OnBuild(ctx); break;
+            case "Persona3": OnSelfDestruct(ctx); break;
         }
     }
 
@@ -317,20 +367,24 @@ public class PlayerMovement : Character
             case "3": OnRepair(ctx); break;
             case "4": OnCancel(ctx); break;
             case "Build": OnBuild(ctx); break;
+            case "Persona3": OnSelfDestruct(ctx); break;
         }
     }
 
     public void OnMove(InputAction.CallbackContext ctx)
     {
+        if (!isAlive) return;
+
         moveInput = ctx.ReadValue<Vector2>();
         
-        if (ctx.started && moveInput.y > 0)
+        if (ctx.started && moveInput.y > 0 && currentLadder != null && currentState != CharacterState.CLIMBING)
         {
-            //SetLadder();
+            SetLadder();
         }
-        if (moveInput.y < 0)
+        
+        if (moveInput.y < 0 && CheckSurfaceCollider(18) != null)
         {
-            if (CheckSurfaceCollider().gameObject.TryGetComponent(out PlatformCollisionSwitcher collSwitcher))
+            if (CheckSurfaceCollider(18).gameObject.TryGetComponent(out PlatformCollisionSwitcher collSwitcher))
             {
                 StartCoroutine(collSwitcher.DisableCollision(GetComponent<Collider2D>()));
             }
@@ -354,6 +408,7 @@ public class PlayerMovement : Character
 
     public void OnJetpack(InputAction.CallbackContext ctx)
     {
+        if (!isAlive) return;
         if (buildCell != null) return;
 
         jetpackInputHeld = ctx.ReadValue<float>() > 0;
@@ -362,11 +417,12 @@ public class PlayerMovement : Character
 
     public void OnInteract(InputAction.CallbackContext ctx)
     {
+        if (!isAlive) return;
         if (buildCell != null) return;
 
         interactInputHeld = ctx.ReadValue<float>() > 0;
 
-        if (ctx.started)
+        if (ctx.started && currentState != CharacterState.REPAIRING)
         {
             if (currentZone != null && !isHoldingDown)
             {
@@ -395,6 +451,8 @@ public class PlayerMovement : Character
 
     public void OnBuild(InputAction.CallbackContext ctx)
     {
+        if (!isAlive) return;
+
         if (StackManager.stack.Count > 0 && ctx.performed && !isOperator)
         {
             //Check if build is valid:
@@ -418,6 +476,8 @@ public class PlayerMovement : Character
 
     public void OnCancel(InputAction.CallbackContext ctx)
     {
+        if (!isAlive) return;
+
         if (ctx.started)
         {
             if (currentInteractable != null)
@@ -435,6 +495,8 @@ public class PlayerMovement : Character
 
     public void OnControlSteering(InputAction.CallbackContext ctx)
     {
+        if (!isAlive) return;
+
         float steeringValue = ctx.ReadValue<float>();
         int _steeringValue = 0;
         if (currentInteractable != null && isOperator && Mathf.Abs(steeringValue) > 0.5f)
@@ -450,18 +512,93 @@ public class PlayerMovement : Character
     {
         if (buildCell != null) return;
 
-        if (ctx.started)
+        if (ctx.started) //Tapped
         {
-            //Interactables
-            if (currentInteractable != null) currentInteractable.SecondaryUse(true);
-
             //Items
             if (currentObject != null) currentObject.Use();
         }
 
-        if (ctx.canceled)
+        if (ctx.performed) //Held for 0.4 sec
+        {
+            //Repairing
+            if (currentInteractable == null && currentState != CharacterState.OPERATING)
+            {
+                LayerMask mask = LayerMask.GetMask("Cell");
+                Collider2D cell = Physics2D.OverlapPoint(transform.position, mask);
+                if (cell != null)
+                {
+                    Cell cellscript = cell.GetComponent<Cell>();
+                    if (cellscript.health < cellscript.maxHealth && cellscript.repairMan == null && cellscript.room.isCore == false)
+                    {
+                        //Debug.Log("I can fix it!");
+                        GameManager.Instance.AudioManager.Play("UseSFX");
+                        currentRepairJob = cell.GetComponent<Cell>();
+                        currentRepairJob.repairMan = this.gameObject;
+                        repairTimer = 0;
+                    }
+                }
+            }
+
+            //Interactables
+            if (currentInteractable != null) currentInteractable.SecondaryUse(true);
+        }
+
+        if (ctx.canceled) //Let go
         {
             if (currentInteractable != null) currentInteractable.SecondaryUse(false);
+
+            if (currentState == CharacterState.REPAIRING)
+            {
+                currentRepairJob.repairMan = null;
+                currentRepairJob = null;
+                CancelInteraction();
+            }
+        }
+    }
+
+    public void OnSelfDestruct(InputAction.CallbackContext ctx)
+    {
+        if (!isAlive) return;
+
+        if (ctx.started)
+        {
+            isShaking = true;
+            currentShakeTime = 0f;
+        }
+
+        if (ctx.performed)
+        {
+            characterVisualParent.localPosition = Vector3.zero;
+            SelfDestruct();
+            isShaking = false;
+        }
+
+        if (ctx.canceled)
+        {
+            characterVisualParent.localPosition = Vector3.zero;
+            isShaking = false;
+        }
+    }
+
+    private void ShakePlayer()
+    {
+        currentShakeTime += Time.deltaTime;
+
+        float maxShakeTime = 3f;
+
+        if (currentShakeTime >= 1f)
+        {
+            // Normalize the shake intensity between 1 second and 3 seconds
+            float normalizedTime = Mathf.Clamp01((currentShakeTime - 1f) / (maxShakeTime - 1f));
+            float shakeIntensity = normalizedTime * maxShakeIntensity;
+
+            // Use Perlin noise for smooth random movement in each axis
+            float offsetX = (Mathf.PerlinNoise(Time.time * 10f, 0f) - 0.5f) * 2f * shakeIntensity;
+            float offsetY = (Mathf.PerlinNoise(Time.time * 10f, 100f) - 0.5f) * 2f * shakeIntensity;
+            float offsetZ = (Mathf.PerlinNoise(Time.time * 10f, 200f) - 0.5f) * 2f * shakeIntensity;
+
+            // Apply the shake offset to the characterVisualParent's local position
+            characterVisualParent.localPosition = new Vector3(offsetX, offsetY, offsetZ);
         }
     }
 
@@ -521,6 +658,12 @@ public class PlayerMovement : Character
         isCheckingSpinInput = false;
     }
 
+    public override void LinkPlayerHUD(PlayerHUD newHUD)
+    {
+        characterHUD = newHUD;
+        characterHUD.InitializeHUD(characterIndex, playerData.GetPlayerName());
+    }
+
     #endregion
 
     #region Character Functions
@@ -562,10 +705,20 @@ public class PlayerMovement : Character
         print("stopped building");
     }
 
-    protected override void OnCharacterDeath()
+    public void UpdatePlayerNameDisplay()
     {
-        //TODO: implement something to happen upon the player dying
+        playerNameText.text = playerData.GetPlayerName();
     }
-    
+
+    protected override void OnCharacterDeath(bool isRespawnable = true)
+    {
+        base.OnCharacterDeath(isRespawnable);
+    }
+
+    protected override void ResetPlayer()
+    {
+        base.ResetPlayer();
+    }
+
     #endregion
 }

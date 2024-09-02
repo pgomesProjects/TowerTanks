@@ -10,7 +10,6 @@ public class PlatformCollisionSwitcher : MonoBehaviour
     
     private void Awake()
     {
-        //if (Mathf.Approximately(transform.localRotation))
         platformCollider = GetComponent<Collider2D>();
         platformEffector = GetComponent<PlatformEffector2D>();
     }

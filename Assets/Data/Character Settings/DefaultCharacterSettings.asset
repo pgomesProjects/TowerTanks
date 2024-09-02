@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d221d3a78821ec4a9f90015e6b7a1ad, type: 3}
   m_Name: DefaultCharacterSettings
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 5
   fuelAmount: 100
