@@ -130,11 +130,15 @@ public class PlayerMovement : Character
         //Interactable building:
         if (buildCell != null) //Player is currently in build mode
         {
+            currentState = CharacterState.REPAIRING;
+            transform.position = buildCell.repairSpot.position;
+
             timeBuilding += Time.deltaTime; //Increment build time tracker
             if (timeBuilding >= buildTime) //Player has finished build
             {
                 StackManager.BuildTopStackItem().InstallInCell(buildCell); //Install interactable from top of stack into designated build cell
                 StopBuilding();                                            //Indicate that build has stopped
+                CancelInteraction();
             }
         }
 
@@ -701,7 +705,8 @@ public class PlayerMovement : Character
         if (buildCell == null) return;   //Do nothing if player is not building
         buildCell.playerBuilding = null; //Indicate to cell that it is no longer being built in
         buildCell = null;                //Clear cell reference
-        buildTime = 0;                   //Reset build time tracker
+        timeBuilding = 0;                //Reset build time tracker
+        currentState = CharacterState.NONCLIMBING;
         print("stopped building");
     }
 

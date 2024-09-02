@@ -312,7 +312,7 @@ MonoBehaviour:
   currentZone: {fileID: 0}
   isOperator: 0
   currentInteractable: {fileID: 0}
-  buildTime: 0
+  buildTime: 1
   carryableObjects:
     serializedVersion: 2
     m_Bits: 512
