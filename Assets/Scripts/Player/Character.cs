@@ -20,6 +20,7 @@ public abstract class Character : SerializedMonoBehaviour
     protected int characterIndex;
     protected Transform hands;
     protected bool isAlive;
+    protected bool isDead;
     protected Transform characterVisualParent;
     protected Color characterColor = new Color(1, 1, 1, 1);
 
@@ -56,6 +57,8 @@ public abstract class Character : SerializedMonoBehaviour
     
     protected LayerMask ladderLayer;
 
+    private TankController assignedTank;
+
     //temp
     protected float moveSpeedHalved; // once we have a state machine for the player, we wont need these silly fields.
     protected float currentMoveSpeed; // this is fine for the sake of prototyping though.
@@ -69,7 +72,7 @@ public abstract class Character : SerializedMonoBehaviour
     [Button(ButtonSizes.Medium)]
     private void DebugKillPlayer()
     {
-        SelfDestruct();
+        KillCharacterImmediate();
     }
     public int healthToModify = -10;
 
@@ -90,6 +93,7 @@ public abstract class Character : SerializedMonoBehaviour
     {
         ResetPlayer();
         isAlive = true;
+        isDead = false;
     }
 
     protected virtual void Update()
@@ -240,16 +244,19 @@ public abstract class Character : SerializedMonoBehaviour
 
     public float ModifyHealth(float newHealth)
     {
+        return SetCharacterHealth(currentHealth + newHealth);
+    }
+
+    private float SetCharacterHealth(float characterHealth)
+    {
         float tempHealth = currentHealth;
-        float healthDif = 0;
 
-        currentHealth += newHealth;
-        currentHealth = Mathf.Clamp(currentHealth, 0f, characterSettings.maxHealth);
+        currentHealth = Mathf.Clamp(characterHealth, 0f, characterSettings.maxHealth);
 
-        healthDif = tempHealth - currentHealth;
+        float healthDif = tempHealth - currentHealth;
 
         //Shake the character HUD if they are taking damage
-        if (newHealth < 0)
+        if (healthDif > 0)
             characterHUD?.ShakePlayerHUD(0.25f, 7f);
 
         characterHUD?.DamageAvatar(1f - (currentHealth / characterSettings.maxHealth), 0.25f);
@@ -260,24 +267,29 @@ public abstract class Character : SerializedMonoBehaviour
         return healthDif;
     }
 
-    protected void SelfDestruct()
+    public void KillCharacterImmediate()
     {
         currentHealth = 0;
         characterHUD?.DamageAvatar(1f - (currentHealth / characterSettings.maxHealth), 0.01f);
         OnCharacterDeath();
     }
 
-    protected virtual void OnCharacterDeath(bool isRespawnable = true)
+    protected virtual void OnCharacterDeath()
     {
         GameManager.Instance.AudioManager.Play("ExplosionSFX", gameObject);
         GameManager.Instance.ParticleSpawner.SpawnParticle(Random.Range(0, 2), transform.position, characterDeathParticleSize, null);
 
-        isRespawning = isRespawnable;
+        isRespawning = assignedTank != null;
 
         if (isRespawning)
         {
             characterHUD?.ShowRespawnTimer(true);
             currentRespawnTime = respawnTime;
+        }
+        else
+        {
+            characterHUD?.KillPlayerHUD();
+            isDead = true;
         }
 
         //TODO: (Ryan)
@@ -325,5 +337,9 @@ public abstract class Character : SerializedMonoBehaviour
     }
 
     public Color GetCharacterColor() => characterColor;
+    public TankController GetAssignedTank() => assignedTank;
+    public void SetAssignedTank(TankController assignedTank) => this.assignedTank = assignedTank;
+    public bool IsDead() => isDead;
+
     #endregion
 }

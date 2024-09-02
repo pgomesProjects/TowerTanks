@@ -521,15 +521,21 @@ public class TankController : SerializedMonoBehaviour
                 rb.AddTorque(randomT * 10);
             }
 
-            //Update Objectives & Analytics
-            LevelManager levelman = GameObject.Find("LevelManager")?.GetComponent<LevelManager>();
-
-            if (levelman != null)
+            if(tankType == TankId.TankType.ENEMY)
             {
                 //If we're checking for enemies destroyed, add 1 to the Objective
-                levelman.AddObjectiveValue(ObjectiveType.DefeatEnemies, 1); 
+                LevelManager.Instance?.AddObjectiveValue(ObjectiveType.DefeatEnemies, 1);
+            }
 
-                //TODO: Add 1 to Global Check for enemies destroyed (Analytics)
+            //Unassign all characters from this tank
+            foreach(Character character in GetCharactersAssignedToTank(this))
+                character.SetAssignedTank(null);
+
+            //Detach the characters that are still in the tank and kill them
+            foreach (Character character in GetCharactersInTank())
+            {
+                character.transform.SetParent(null);
+                character.KillCharacterImmediate();
             }
 
             Destroy(gameObject);
@@ -701,4 +707,19 @@ public class TankController : SerializedMonoBehaviour
         newId.stackName = newId.script.stackName;
         interactableList.Add(newId);
     }
+
+    public static List<Character> GetCharactersAssignedToTank(TankController tank)
+    {
+        List<Character> characters = new List<Character>();
+
+        foreach (Character character in FindObjectsOfType<Character>())
+        {
+            if (character.GetAssignedTank() == tank)
+                characters.Add(character);
+        }
+
+        return characters;
+    }
+
+    public Character[] GetCharactersInTank() => GetComponentsInChildren<Character>();
 }
