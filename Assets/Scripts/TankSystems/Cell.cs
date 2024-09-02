@@ -41,6 +41,7 @@ public class Cell : MonoBehaviour
     [SerializeField, Tooltip("The interactable currently installed in this cell (if any).")]    internal TankInteractable interactable;
     [SerializeField, Tooltip("Transform used for repairmen to snap to when repairing this cell")] public Transform repairSpot;
     [SerializeField, Tooltip("The character currently repairing this cell")]                      public GameObject repairMan;
+    [SerializeField, Tooltip("Sprites used for showing damage on the cell")]                    public SpriteRenderer[] diageticDamageSprites;
     public enum TankPosition { TOP = 1, BOTTOM = -1 };
 
     //Settings:
@@ -50,6 +51,7 @@ public class Cell : MonoBehaviour
     //Runtime Variables:
     //Gameplay:
     [Tooltip("Maximum hitpoints this cell can have when fully repaired.")] public float maxHealth;
+    [InlineButton("RepairCell", SdfIconType.Wrench, "")]
     [Tooltip("Current hitpoints this cell has.")]                          public float health;
     [Tooltip("Which section this cell is in inside its parent room.")]     internal int section;
     [Tooltip("How long damage visual effect persists for")]                private float damageTime;
@@ -83,6 +85,7 @@ public class Cell : MonoBehaviour
     //RUNTIME METHODS:
     private void UpdateUI()
     {
+        //Flash Effect
         Color newColor = damageSprite.color;
         newColor.a = Mathf.Lerp(0, 255f, (damageTimer / damageTime) * Time.deltaTime);
         damageSprite.color = newColor;
@@ -92,6 +95,28 @@ public class Cell : MonoBehaviour
         {
             damageTimer = 0;
             damageTime = 0;
+        }
+
+        //Diagetic Damage Sprites
+        if (health < maxHealth)
+        {
+            diageticDamageSprites[0].enabled = true;
+
+            if (health <= (maxHealth * 0.75f)) { diageticDamageSprites[1].enabled = true; }
+            else diageticDamageSprites[1].enabled = false;
+
+            if (health <= (maxHealth * 0.5f)) { diageticDamageSprites[2].enabled = true; }
+            else diageticDamageSprites[2].enabled = false;
+
+            if (health <= (maxHealth * 0.25f)) { diageticDamageSprites[3].enabled = true; }
+            else diageticDamageSprites[3].enabled = false;
+        }
+        else
+        {
+            foreach(SpriteRenderer sprite in diageticDamageSprites)
+            {
+                sprite.enabled = false;
+            }
         }
     }
 
@@ -313,23 +338,25 @@ public class Cell : MonoBehaviour
         room.cells.Remove(this);                                   //Remove this cell from room cell list
         if (!proxy) room.targetTank.treadSystem.ReCalculateMass(); //Re-calculate tank mass based on new cell configuration (only needs to be done once for group cell destructions)
 
+        //Other Effects
+        GameManager.Instance.AudioManager.Play("MedExplosionSFX", gameObject);
+        GameManager.Instance.ParticleSpawner.SpawnParticle(5, transform.position, 0.15f, null);
+
         //Cleanup:
         Character player = GetComponentInChildren<Character>();
         if (player != null)
         {
             player.transform.parent = null; // removes the player from the cell before destruction if present
         }
-
-        //Stack update:
-        if(interactable != null)
-            if (room.targetTank != null && room.targetTank.tankType == TankId.TankType.PLAYER) StackManager.AddToStack(interactable); //Add interactable data to stack upon destruction (if it is in a player tank)
-        Destroy(gameObject); //Destroy this cell
-
-        //Other Effects
-        GameManager.Instance.AudioManager.Play("MedExplosionSFX", gameObject);
-        GameManager.Instance.ParticleSpawner.SpawnParticle(5, transform.position, 0.15f, null);
+        if (room.targetTank != null && room.targetTank.tankType == TankId.TankType.PLAYER && interactable != null) StackManager.AddToStack(interactable); //Add interactable data to stack upon destruction (if it is in a player tank)
+        room.targetTank.UpdateHighestCell(); //Update highest cell tracker
+        Destroy(gameObject);                 //Destroy this cell
     }
 
+    private void RepairCell()
+    {
+        Repair(25);
+    }
     public void Repair(float amount)
     {
         if (health < maxHealth)
@@ -339,6 +366,7 @@ public class Cell : MonoBehaviour
             damageTimer = damageTime;
             GameManager.Instance.AudioManager.Play("UseWrench", gameObject);
             GameManager.Instance.ParticleSpawner.SpawnParticle(6, transform.position, 0.25f, null);
+            GameManager.Instance.ParticleSpawner.SpawnParticle(7, transform.position, 0.25f, null);
         }
         
         if (health > maxHealth) { health = maxHealth; }

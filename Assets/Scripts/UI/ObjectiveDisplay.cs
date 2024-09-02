@@ -29,9 +29,12 @@ public class ObjectiveDisplay : MonoBehaviour
 
     public void AddSubObjective(int id, string objectiveProgress)
     {
+        Debug.Log("Dick: " + FindSubObjectiveById(id).Value.id);
+
         if(!(FindSubObjectiveById(id).Value.id == id))
         {
             GameObject subObjectiveObject = Instantiate(subObjectivePrefab, subObjectiveTransform);
+            Debug.Log(subObjectiveObject.transform.parent.name);
             subObjectiveObject.GetComponentInChildren<TextMeshProUGUI>().text = objectiveProgress;
 
             SubObjective newSubObjective = new SubObjective();

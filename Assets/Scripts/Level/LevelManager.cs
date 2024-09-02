@@ -134,14 +134,12 @@ public class LevelManager : SerializedMonoBehaviour
     private void OnEnable()
     {
         GameManager.Instance.MultiplayerManager.OnPlayerConnected += SpawnPlayer;
-        PlayerMovement.OnPlayerDeath += CheckForGameOver;
         ObjectiveTracker.OnMissionComplete += CompleteMission;
     }
 
     private void OnDisable()
     {
         GameManager.Instance.MultiplayerManager.OnPlayerConnected -= SpawnPlayer;
-        PlayerMovement.OnPlayerDeath -= CheckForGameOver;
         ObjectiveTracker.OnMissionComplete -= CompleteMission;
     }
 
@@ -459,19 +457,6 @@ public class LevelManager : SerializedMonoBehaviour
                 GameOver();
                 break;
         }*/
-    }
-
-    public void CheckForGameOver()
-    {
-        //Check if any players are alive
-        foreach(PlayerMovement player in FindObjectsOfType<PlayerMovement>())
-        {
-            if (!player.IsDead())
-                return;
-        }
-
-        //If no players are alive, it is game over
-        GameOver();
     }
 
     public void StartCombatMusic(int layers)

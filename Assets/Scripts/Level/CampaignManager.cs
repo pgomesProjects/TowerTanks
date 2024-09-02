@@ -25,7 +25,7 @@ public class CampaignManager : MonoBehaviour
 
     private void Start()
     {
-        if (!hasCampaignStarted && SceneManager.GetActiveScene().name == "BuildTankScene")
+        if (!hasCampaignStarted)
             SetupCampaign();
     }
 
@@ -53,7 +53,11 @@ public class CampaignManager : MonoBehaviour
         currentRound = 1;
 
         foreach (TankInteractable interactable in currentLevelEvent.startingInteractables)
+        {
             StackManager.AddToStack(interactable);
+        }
+
+        hasCampaignStarted = true;
     }
 
     public void SetLevelEvent(LevelEvents levelEvent)

@@ -70,8 +70,6 @@ public class PlayerMovement : Character
 
     private PlayerData playerData;
 
-    public static Action OnPlayerDeath;
-
     #endregion
 
     #region Unity Methods
@@ -571,7 +569,7 @@ public class PlayerMovement : Character
         if (ctx.performed)
         {
             characterVisualParent.localPosition = Vector3.zero;
-            KillCharacterImmediate();
+            SelfDestruct();
             isShaking = false;
         }
 
@@ -712,12 +710,9 @@ public class PlayerMovement : Character
         playerNameText.text = playerData.GetPlayerName();
     }
 
-    protected override void OnCharacterDeath()
+    protected override void OnCharacterDeath(bool isRespawnable = true)
     {
-        base.OnCharacterDeath();
-
-        if (isDead)
-            OnPlayerDeath?.Invoke();
+        base.OnCharacterDeath(isRespawnable);
     }
 
     protected override void ResetPlayer()
