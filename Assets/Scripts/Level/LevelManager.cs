@@ -24,6 +24,7 @@ public class LevelManager : SerializedMonoBehaviour
     [SerializeField, Tooltip("The component that tracks the objective information.")] private ObjectiveTracker objectiveTracker;
     [SerializeField, Tooltip("The component that tracks tank information.")] public TankManager tankManager;
     [SerializeField] public float enemiesDestroyed;
+    public static float totalEnemiesDestroyed;
 
     public static LevelManager Instance;
 
@@ -189,17 +190,17 @@ public class LevelManager : SerializedMonoBehaviour
     {
         int newInt = 1;
 
-        if (enemiesDestroyed > 1)
+        if (totalEnemiesDestroyed > 1)
         {
             newInt = 2;
         }
 
-        if (enemiesDestroyed > 3)
+        if (totalEnemiesDestroyed > 3)
         {
             newInt = 3;
         }
 
-        if (enemiesDestroyed > 5)
+        if (totalEnemiesDestroyed > 5)
         {
             newInt = 4;
         }
@@ -534,6 +535,7 @@ public class LevelManager : SerializedMonoBehaviour
             if (type == ObjectiveType.DefeatEnemies)
             {
                 enemiesDestroyed += amount;
+                totalEnemiesDestroyed += amount;
                 OnEnemyDefeated?.Invoke(CampaignManager.Instance.GetCurrentLevelEvent());
                 StartCoroutine(ConditionChecker());
             }
