@@ -321,7 +321,8 @@ public class Cell : MonoBehaviour
         }
 
         //Stack update:
-        if (room.targetTank != null && room.targetTank.tankType == TankId.TankType.PLAYER) StackManager.AddToStack(interactable); //Add interactable data to stack upon destruction (if it is in a player tank)
+        if(interactable != null)
+            if (room.targetTank != null && room.targetTank.tankType == TankId.TankType.PLAYER) StackManager.AddToStack(interactable); //Add interactable data to stack upon destruction (if it is in a player tank)
         Destroy(gameObject); //Destroy this cell
 
         //Other Effects
