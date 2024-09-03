@@ -562,6 +562,8 @@ public class LevelManager : SerializedMonoBehaviour
 
     private void CompleteMission()
     {
+        TankDesign currentTankDesign = playerTank.GetCurrentDesign();
+        GameManager.Instance.tankDesign = currentTankDesign;
         GameManager.Instance.LoadScene("BuildTankScene", LevelTransition.LevelTransitionType.GATE, true, true, false);
     }
 

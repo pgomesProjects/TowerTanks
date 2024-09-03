@@ -350,6 +350,14 @@ public class Cell : MonoBehaviour
         }
         if (room.targetTank != null && room.targetTank.tankType == TankId.TankType.PLAYER && interactable != null) StackManager.AddToStack(interactable); //Add interactable data to stack upon destruction (if it is in a player tank)
         room.targetTank.UpdateHighestCell(); //Update highest cell tracker
+
+        //Update Room Status
+        room.cells.Remove(this);
+        if (room.cells.Count <= 0)
+        {
+            room.targetTank.rooms.Remove(room);
+            Destroy(room.gameObject);
+        }
         Destroy(gameObject);                 //Destroy this cell
     }
 
