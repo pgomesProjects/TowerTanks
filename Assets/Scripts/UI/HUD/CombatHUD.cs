@@ -22,15 +22,19 @@ public class CombatHUD : GameHUD
         base.Start();
     }
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
+
         LevelManager.OnGameOver += ShowGameOverScreen;
         EnemySpawnManager.OnEnemyInRange += ShowEnemyAlarm;
         LevelManager.OnCombatEnded += EndCombat;
     }
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
+        base.OnDisable();
+
         LevelManager.OnGameOver -= ShowGameOverScreen;
         EnemySpawnManager.OnEnemyInRange -= ShowEnemyAlarm;
         LevelManager.OnCombatEnded -= EndCombat;

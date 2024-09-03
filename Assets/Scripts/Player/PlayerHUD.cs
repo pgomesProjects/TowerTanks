@@ -9,6 +9,7 @@ public class PlayerHUD : MonoBehaviour
     [SerializeField, Tooltip("The border that shows the player's color.")] private Image playerBorder;
     [SerializeField, Tooltip("The player avatar.")] private Image playerAvatar;
     [SerializeField, Tooltip("The ending color for the character avatar when they have no more health")] private Color maxDamageColor = Color.red;
+    [SerializeField, Tooltip("The image for when the player dies.")] private Image playerDeathImage;
 
     [SerializeField, Tooltip("The text for the player's name.")] private TextMeshProUGUI playerNameText;
 
@@ -55,6 +56,7 @@ public class PlayerHUD : MonoBehaviour
         buttonPrompt.sprite = null;
         buttonPrompt.color = new Color(0, 0, 0, 0);
         playerNameText.text = playerName;
+        playerDeathImage.color = new Color(0, 0, 0, 0);
     }
 
 
@@ -172,5 +174,10 @@ public class PlayerHUD : MonoBehaviour
     {
         buttonPrompt.sprite = buttonPromptSprite;
         buttonPrompt.color = buttonPromptSprite == null ? new Color(0, 0, 0, 0) : new Color(1, 1, 1, 1);
+    }
+
+    public void KillPlayerHUD()
+    {
+        playerDeathImage.color = new Color(1, 1, 1, 1);
     }
 }

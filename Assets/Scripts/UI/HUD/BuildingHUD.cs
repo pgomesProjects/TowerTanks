@@ -20,13 +20,17 @@ public class BuildingHUD : GameHUD
             namepad.gameObject.SetActive(false);
     }
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
+
         GameManager.Instance.MultiplayerManager.OnPlayerConnected += AddNamepad;
     }
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
+        base.OnDisable();
+
         GameManager.Instance.MultiplayerManager.OnPlayerConnected -= AddNamepad;
     }
 

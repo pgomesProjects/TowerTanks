@@ -25,7 +25,7 @@ public class CampaignManager : MonoBehaviour
 
     private void Start()
     {
-        if (!hasCampaignStarted)
+        if (!hasCampaignStarted && SceneManager.GetActiveScene().name == "BuildTankScene")
             SetupCampaign();
     }
 
@@ -41,8 +41,16 @@ public class CampaignManager : MonoBehaviour
 
     public void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
     {
-        currentRound++;
-        StackManager.main?.GenerateExistingStack();
+        //If the game has reached the title screen, destroy self since we don't need this anymore
+        if ((GAMESCENE)scene.buildIndex == GAMESCENE.TITLE)
+        { 
+            Destroy(gameObject);
+        }
+        else
+        {
+            currentRound++;
+            StackManager.main?.GenerateExistingStack();
+        }
     }
 
     /// <summary>
@@ -50,14 +58,12 @@ public class CampaignManager : MonoBehaviour
     /// </summary>
     public void SetupCampaign()
     {
+        Debug.Log("Setting Up Campaign...");
         currentRound = 1;
 
+        StackManager.ClearStack();
         foreach (TankInteractable interactable in currentLevelEvent.startingInteractables)
-        {
             StackManager.AddToStack(interactable);
-        }
-
-        hasCampaignStarted = true;
     }
 
     public void SetLevelEvent(LevelEvents levelEvent)

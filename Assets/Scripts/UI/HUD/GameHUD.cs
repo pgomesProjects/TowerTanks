@@ -45,27 +45,27 @@ public class GameHUD : MonoBehaviour
             resourcesDisplayNumber.text = "Inf.";
     }
 
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         LevelManager.OnGamePaused += ShowPauseMenu;
         LevelManager.OnGameResumed += HidePauseMenu;
         LevelManager.OnResourcesUpdated += UpdateResources;
     }
 
-    private void OnDisable()
+    protected virtual void OnDisable()
     {
         LevelManager.OnGamePaused -= ShowPauseMenu;
         LevelManager.OnGameResumed -= HidePauseMenu;
         LevelManager.OnResourcesUpdated -= UpdateResources;
     }
 
-    private void ShowPauseMenu(int playerPaused)
+    protected void ShowPauseMenu(int playerPaused)
     {
         pauseMenu.gameObject.SetActive(true);
         pauseMenu.UpdatePausedPlayer(playerPaused);
     }
 
-    private void HidePauseMenu()
+    protected void HidePauseMenu()
     {
         pauseMenu.ReactivateAllPlayerInput();
         pauseMenu.gameObject.SetActive(false);

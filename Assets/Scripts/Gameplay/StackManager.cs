@@ -226,4 +226,13 @@ public class StackManager : MonoBehaviour
         print("removed item from stack, stack now contains " + stack.Count + " items");
         return newInteractable; //Return prefab from taken stack item
     }
+
+    /// <summary>
+    /// Clears the stack information completely.
+    /// </summary>
+    public static void ClearStack()
+    {
+        stack.Clear();
+        inactiveStack.Clear();
+    }
 }
