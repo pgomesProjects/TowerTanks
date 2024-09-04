@@ -472,7 +472,7 @@ public class LevelManager : SerializedMonoBehaviour
         }
 
         //If no players are alive, it is game over
-        GameOver();
+        //GameOver();
     }
 
     public void StartCombatMusic(int layers)

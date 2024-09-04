@@ -42,12 +42,12 @@ public class GhostInteractables : MonoBehaviour
             {
                 //If the player build is not holding scrap, only show the dumpster
                 if (!currentPlayer.IsHoldingScrap())
-                    spawner.SetCurrentGhostIndex((int)INTERACTABLETYPE.DUMPSTER);
+                    spawner.SetCurrentGhostIndex((int)DEPRECATEDINTERACTABLETYPE.DUMPSTER);
                 else
                 {
                     //If the spawner is on the left, show the engine on start
                     if (spawner.transform.position.x < 0)
-                        spawner.SetCurrentGhostIndex((int)INTERACTABLETYPE.ENGINE);
+                        spawner.SetCurrentGhostIndex((int)DEPRECATEDINTERACTABLETYPE.ENGINE);
                 }
 
                 FindObjectOfType<InteractableSpawnerManager>().ShowNewGhostInteractable(spawner);

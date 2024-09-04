@@ -1,4 +1,5 @@
 using Sirenix.OdinInspector;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -6,6 +7,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+
+public enum INTERACTABLE { Throttle, EnergyShield, Boiler, Refuel, Cannon, MachineGun, Mortar };
 
 public class GameManager : SerializedMonoBehaviour
 {
@@ -16,7 +19,9 @@ public class GameManager : SerializedMonoBehaviour
     public ParticleSpawner ParticleSpawner { get; private set; }
 
     [SerializeField, Tooltip("The list of possible rooms for the players to pick.")] public GameObject[] roomList;
-    //[SerializeField, Tooltip("The list of possible interactables for the players to pick.")] public GameObject[] interactableList { get; private set; }
+    [SerializeField, Tooltip("The list of possible interactables for the players to pick. NOTE: Remember to update the enum list when updating this list.")] public TankInteractable[] interactableList;
+
+    internal int TotalInteractables = Enum.GetNames(typeof(INTERACTABLE)).Length;
 
     [SerializeField, Tooltip("The list of possible cargo types for tanks to carry.")] public GameObject[] cargoList;
 
@@ -26,6 +31,7 @@ public class GameManager : SerializedMonoBehaviour
     [SerializeField, Tooltip("The time for the opening gate transition.")] private float openGateTime = 0.5f;
     [SerializeField, Tooltip("The canvas for the loading screen.")] private GameObject loaderCanvas;
     [SerializeField, Tooltip("The loading progress bar.")] private Image progressBar;
+
     private float target;
     private float loadMaxDelta = 3f;
     private bool loadingScene = false;
@@ -79,7 +85,7 @@ public class GameManager : SerializedMonoBehaviour
         {
             //If there is no CampaignManager in the scene, add it to start maintaining the current campaign
             if (CampaignManager.Instance == null)
-                Object.DontDestroyOnLoad(Object.Instantiate(Resources.Load("CampaignManager")));
+                UnityEngine.Object.DontDestroyOnLoad(UnityEngine.Object.Instantiate(Resources.Load("CampaignManager")));
         }
     }
 
@@ -172,5 +178,23 @@ public class GameManager : SerializedMonoBehaviour
     public void SetPlayerCursorActive(GamepadCursor currentPlayer, bool setActive)
     {
         currentPlayer.RefreshCursor(setActive);
+    }
+
+    /// <summary>
+    /// Takes a TankInteractable object and converts it into an enum.
+    /// </summary>
+    /// <param name="interactable">The interactable object to convert.</param>
+    /// <returns>Returns an enum that corresponds with the interactable given.</returns>
+    public INTERACTABLE TankInteractableToEnum(TankInteractable interactable)
+    {
+        for (int i = 0; i < interactableList.Length; i++)
+        {
+            //If the interactable provided has the same stack name as the current interactable in the list, it is the correct item
+            if (interactableList[i].stackName == interactable.stackName)
+                return (INTERACTABLE)i;
+        }
+
+        //If no interactable is found, return the first enum in the list.
+        return default;
     }
 }

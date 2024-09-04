@@ -62,7 +62,7 @@ public class CampaignManager : MonoBehaviour
         currentRound = 1;
 
         StackManager.ClearStack();
-        foreach (TankInteractable interactable in currentLevelEvent.startingInteractables)
+        foreach (INTERACTABLE interactable in currentLevelEvent.startingInteractables)
             StackManager.AddToStack(interactable);
     }
 

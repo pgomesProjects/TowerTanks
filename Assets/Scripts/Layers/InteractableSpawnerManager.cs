@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public enum INTERACTABLETYPE { CANNON, ENGINE, DUMPSTER, THROTTLE, DRILL };
+public enum DEPRECATEDINTERACTABLETYPE { CANNON, ENGINE, DUMPSTER, THROTTLE, DRILL };
 
 public class InteractableSpawnerManager : MonoBehaviour
 {
@@ -20,11 +20,11 @@ public class InteractableSpawnerManager : MonoBehaviour
     /// </summary>
     /// <param name="currentSpawner">The current spawner to create the interactable at.</param>
     /// <param name="currentInteractable">The current interactable to spawn.</param>
-    public void CreateInteractable(InteractableSpawner currentSpawner, INTERACTABLETYPE currentInteractable)
+    public void CreateInteractable(InteractableSpawner currentSpawner, DEPRECATEDINTERACTABLETYPE currentInteractable)
     {
         switch (currentInteractable)
         {
-            case INTERACTABLETYPE.CANNON:
+            case DEPRECATEDINTERACTABLETYPE.CANNON:
                 GameObject cannonObject = currentSpawner.SpawnInteractable(cannon);
                 //Flip the cannon if on the left side of the tank
                 if (cannonObject.transform.position.x < GameObject.FindGameObjectWithTag("PlayerTank").transform.position.x)
@@ -33,21 +33,21 @@ public class InteractableSpawnerManager : MonoBehaviour
                 TutorialController.Instance.CheckForTutorialCompletion(TUTORIALSTATE.BUILDCANNON);
                 LevelManager.Instance.currentSessionStats.numberOfCannons += 1;
                 break;
-            case INTERACTABLETYPE.ENGINE:
+            case DEPRECATEDINTERACTABLETYPE.ENGINE:
                 currentSpawner.SpawnInteractable(engine);
                 //TutorialController.Instance.CheckForTutorialCompletion(TUTORIALSTATE.BUILDENGINE);
                 LevelManager.Instance.currentSessionStats.numberOfEngines += 1;
                 break;
-            case INTERACTABLETYPE.DUMPSTER:
+            case DEPRECATEDINTERACTABLETYPE.DUMPSTER:
                 currentSpawner.SpawnInteractable(dumpster);
                 LevelManager.Instance.currentSessionStats.numberOfDumpsters += 1;
                 break;
-            case INTERACTABLETYPE.THROTTLE:
+            case DEPRECATEDINTERACTABLETYPE.THROTTLE:
                 currentSpawner.SpawnInteractable(throttle);
                 //TutorialController.Instance.CheckForTutorialCompletion(TUTORIALSTATE.BUILDTHROTTLE);
                 LevelManager.Instance.currentSessionStats.numberOfThrottles += 1;
                 break;
-            case INTERACTABLETYPE.DRILL:
+            case DEPRECATEDINTERACTABLETYPE.DRILL:
                 currentSpawner.SpawnInteractable(drill);
                 //Tutorial check
                 //Session stats update

@@ -7,7 +7,7 @@ public class PriceIndicator : MonoBehaviour
 {
     [SerializeField, Tooltip("The price of the interactable.")] private int price;
     [SerializeField, Tooltip("The GameObject with the price text.")] private GameObject priceText;
-    [SerializeField, Tooltip("The type of interactable.")] private INTERACTABLETYPE interactableType;
+    [SerializeField, Tooltip("The type of interactable.")] private DEPRECATEDINTERACTABLETYPE interactableType;
     [SerializeField, Tooltip("Does the interactable require scrap to be built?")] private bool requiresScrap = true;
 
     private bool playerCanPurchase; //If true, the player can try to purchase the object. If false, they cannot.

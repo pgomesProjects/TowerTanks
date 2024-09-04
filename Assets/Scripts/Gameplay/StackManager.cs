@@ -163,9 +163,11 @@ public class StackManager : MonoBehaviour
     /// <summary>
     /// Adds interactable to the stack so that it can be generated from there (can be with an interactable which has always been added).
     /// </summary>
-    /// <param name="interactable">Interactable to be added.</param>
-    public static void AddToStack(TankInteractable interactable)
+    /// <param name="currentInteractable">Interactable to be added.</param>
+    public static void AddToStack(INTERACTABLE currentInteractable)
     {
+        TankInteractable interactable = GameManager.Instance.interactableList[(int)currentInteractable];
+
         //Find/Generate stack item:
         StackItem item = null; //Initialize container to store relevant stack item
         if (interactable.stackId != 0) //Interactable has previously been a stack item
