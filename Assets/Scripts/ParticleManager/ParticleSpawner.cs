@@ -28,9 +28,13 @@ public class ParticleSpawner : MonoBehaviour
     /// Spawns given particle system from array.
     /// </summary>
     /// <param name="id">Array ID of target particle system.</param>
-    public void SpawnParticle(int id, Vector2 spawnPoint, float scale, Transform parent = null)
+    public GameObject SpawnParticle(int id, Vector2 spawnPoint, float scale, Transform parent = null)
     {
-        var particle = Instantiate(particles[id], spawnPoint, Quaternion.identity, parent); //set parent to null if you want it to spawn in world space
+        Quaternion newQuat = Quaternion.identity;
+        //if (parent != null) newQuat = parent.localRotation;
+        var particle = Instantiate(particles[id], spawnPoint, newQuat, parent); //set parent to null if you want it to spawn in world space
         particle.transform.localScale *= scale;
+
+        return particle;
     }
 }

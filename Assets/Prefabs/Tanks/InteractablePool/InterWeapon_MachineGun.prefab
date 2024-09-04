@@ -84,6 +84,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &534824628286301342
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2591456867700899706}
+  m_Layer: 0
+  m_Name: ParticleSpot_2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2591456867700899706
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 534824628286301342}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.55, y: 0.07, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1789302742944060972}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1789302741583145798
 GameObject:
   m_ObjectHideFlags: 0
@@ -1062,7 +1093,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec920a65b3ec604418e63ae58239dc55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tank: {fileID: 0}
   seat: {fileID: 0}
+  interactableType: 0
   stackName: Chimpanzee Mk I
   prefabRef: {fileID: 1789302742507130491}
   uiImage: {fileID: 21300000, guid: 5e8b031fc02ec6c47a1785caa19c4751, type: 2}
@@ -1081,6 +1114,7 @@ MonoBehaviour:
   particleSpots:
   - {fileID: 2097141613407459571}
   - {fileID: 9170845796607483834}
+  - {fileID: 2591456867700899706}
   particleScale: 0.03
   trajectoryLine: {fileID: 0}
   gunType: 1
@@ -1545,6 +1579,7 @@ Transform:
   m_Children:
   - {fileID: 9170845796607483834}
   - {fileID: 2097141613407459571}
+  - {fileID: 2591456867700899706}
   m_Father: {fileID: 1789302742177848384}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -263,21 +263,29 @@ public class GunController : TankInteractable
             barrel.localEulerAngles = tempRotation;
 
             //Other effects:
-            int random = Random.Range(0, 2);
-            GameManager.Instance.ParticleSpawner.SpawnParticle(random, particleSpots[0].position, particleScale, null);
             if (gunType == GunType.CANNON)
             {
+                int random = Random.Range(0, 2);
+                GameManager.Instance.ParticleSpawner.SpawnParticle(random, particleSpots[0].position, particleScale, null);
                 GameManager.Instance.AudioManager.Play("CannonFire", gameObject);
                 GameManager.Instance.AudioManager.Play("CannonThunk", gameObject); //Play firing audioclips
             }
 
             if (gunType == GunType.MACHINEGUN)
             {
+                int random = Random.Range(9, 12);
+                float randomScale = Random.Range(0.25f, 0.35f);
+                GameManager.Instance.ParticleSpawner.SpawnParticle(8, particleSpots[0].position, 0.85f, null); //Flash
+                GameObject part = GameManager.Instance.ParticleSpawner.SpawnParticle(random, particleSpots[0].position, randomScale, null); //Flare
+                part.transform.rotation = barrel.rotation;
+                GameManager.Instance.ParticleSpawner.SpawnParticle(12, particleSpots[2].position, 0.1f, null); //Bullet Casing
                 GameManager.Instance.AudioManager.Play("CannonFire", gameObject);
             }
 
             if (gunType == GunType.MORTAR)
             {
+                int random = Random.Range(0, 2);
+                GameManager.Instance.ParticleSpawner.SpawnParticle(random, particleSpots[0].position, particleScale, null);
                 GameManager.Instance.AudioManager.Play("CannonThunk", gameObject);
                 GameManager.Instance.AudioManager.Play("ProjectileInAirSFX", gameObject);
             }

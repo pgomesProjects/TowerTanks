@@ -988,6 +988,11 @@ MonoBehaviour:
   - {fileID: 7851507033924257024, guid: c365443ed657eb242913738f810d43be, type: 3}
   - {fileID: 3713183390885246315, guid: f84eb82306b44c642a0bb9387da466fa, type: 3}
   - {fileID: 3713183390885246315, guid: a2f0ef137b9eb1b4a9744d260282aa06, type: 3}
+  - {fileID: 4776322067841193046, guid: 46475d753995dad4cbfdede658e892a5, type: 3}
+  - {fileID: 4776322067841193046, guid: 09e73973160233049bbc6d3480ffe557, type: 3}
+  - {fileID: 4776322067841193046, guid: 049cda6d7aa6c3b4db2d5107f0c9cd52, type: 3}
+  - {fileID: 4776322067841193046, guid: 2e2f06ed7fd8c1043bd5d27a59deece7, type: 3}
+  - {fileID: 8584320029902564997, guid: dbb0c11c5996c564da89747c34f2aa27, type: 3}
   particleFolderPath: 
 --- !u!1 &6961505860283407432
 GameObject:
