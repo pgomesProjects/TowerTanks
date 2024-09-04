@@ -46,7 +46,9 @@ public class TreadWheel : MonoBehaviour
         //Set up wheel guard:
         if (generateWheelGuard) //Wheel needs to generate a guard object
         {
-            wheelGuard = Instantiate(new GameObject(), transform.parent).AddComponent<CircleCollider2D>();    //Instantiate an object with a circle collider
+            GameObject wheelGuardObject = new GameObject();                                                   //Instantiate wheelguard object
+            wheelGuardObject.transform.parent = transform.parent;                                             //Child wheelguard to wheel's parent
+            wheelGuard = wheelGuardObject.AddComponent<CircleCollider2D>();                                   //Add a circle collider to generated guard and store reference to it
             wheelGuard.gameObject.layer = LayerMask.NameToLayer("Treads");                                    //Set collider layer to treads
             wheelGuard.radius = radius;                                                                       //Set collider radius to radius of wheel
             wheelGuard.transform.localPosition = transform.localPosition + (Vector3.up * maxSuspensionDepth); //Position guard at end of suspension stroke
