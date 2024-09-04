@@ -75,6 +75,7 @@ public class TankController : SerializedMonoBehaviour
     [PropertySpace]
     [Header("Interactables")]
     [SerializeField] public List<InteractableId> interactableList = new List<InteractableId>();
+    private List<InteractableId> interactablePool = new List<InteractableId>();
 
     [PropertySpace]
     [Button(" Sort by Type", ButtonSizes.Small, Icon = SdfIconType.SortUpAlt), Tooltip("Sorts Interactable List by Interactable Type")]
@@ -525,6 +526,22 @@ public class TankController : SerializedMonoBehaviour
             {
                 //If we're checking for enemies destroyed, add 1 to the Objective
                 LevelManager.Instance?.AddObjectiveValue(ObjectiveType.DefeatEnemies, 1);
+
+                //Random Interactable Drops
+                if (interactablePool.Count > 0)
+                {
+                    int random = Random.Range(1, Mathf.CeilToInt(interactablePool.Count / 3) + 1); //# of drops
+                    for (int i = 0; i < random; i++)
+                    {
+                        int randomDrop = Random.Range(0, interactablePool.Count); //Randomly Select from Pool
+                        TankInteractable interactable = interactablePool[randomDrop].script;
+
+                        INTERACTABLE _interactable = GameManager.Instance.TankInteractableToEnum(interactable); //Convert to Enum
+                        StackManager.AddToStack(_interactable); //Add to Stack
+
+                        interactablePool.RemoveAt(randomDrop); //Remove from the Pool
+                    }
+                }
             }
 
             //Unassign all characters from this tank
@@ -706,6 +723,7 @@ public class TankController : SerializedMonoBehaviour
         newId.type = newId.script.interactableType;
         newId.stackName = newId.script.stackName;
         interactableList.Add(newId);
+        if (tankType == TankId.TankType.ENEMY) interactablePool.Add(newId);
     }
 
     public static List<Character> GetCharactersAssignedToTank(TankController tank)
