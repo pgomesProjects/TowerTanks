@@ -195,6 +195,7 @@ public class TankController : SerializedMonoBehaviour
     private void Start()
     {
         tankManager = GameObject.Find("TankManager")?.GetComponent<TankManager>();
+        if (tankType == TankId.TankType.PLAYER) tankManager.playerTank = this;
 
         if (tankManager != null)
         {

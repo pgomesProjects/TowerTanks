@@ -96,15 +96,15 @@ public class OffscreenFeed : MonoBehaviour
         else if (prevEnabled) //Object has just entered camera view
         {
             //Handle transition:
-            transTime = Mathf.Max(transTime - Time.deltaTime, 0);                                                             //Decrement transition timer so that animation plays in reverse
-            float interpolant = transitionCurve.Evaluate(transTime / transitionTime);                                         //Get interpolant value from animation curve
-            Vector3 newScale = interpolant * (baseBubbleRadius / 2) * Vector3.one;                                            //Get base scale value based on animation and settings
-            if (scaleBubbleWithCamera) newScale /= Camera.main.orthographicSize / 5;                                          //Reference camera scale if using this type of dynamic scaling
-            bubbleObject.localScale = newScale;                                                                               //Set bubble size
-            Vector2 targetPos = Camera.main.WorldToScreenPoint(lastWorldTargetPos);                                           //Get target position for this animation based on data saved from before object entered camera view
-            Vector2 originPos = Camera.main.WorldToScreenPoint(lastWorldTargetPos + (lastPointNormal * transitionSlideDist)); //Get origin position for this animation based on data saved from before object entered camera view
-            bubbleObject.position = Vector2.LerpUnclamped(originPos, targetPos, interpolant);                                 //Animate bubble
-            cam.orthographicSize = baseOrthoSize * (scaleOrthoWithCamera ? Camera.main.orthographicSize / 5 : 1);             //Set orthographic size of camera (may be based on main camera size)
+            transTime = Mathf.Max(transTime - Time.deltaTime, 0);                                                 //Decrement transition timer so that animation plays in reverse
+            float interpolant = transitionCurve.Evaluate(transTime / transitionTime);                             //Get interpolant value from animation curve
+            Vector3 newScale = interpolant * (baseBubbleRadius / 2) * Vector3.one;                                //Get base scale value based on animation and settings
+            if (scaleBubbleWithCamera) newScale /= Camera.main.orthographicSize / 5;                              //Reference camera scale if using this type of dynamic scaling
+            bubbleObject.localScale = newScale;                                                                   //Set bubble size
+            Vector2 targetPos = Camera.main.WorldToScreenPoint(lastWorldTargetPos);                               //Get target position for this animation based on data saved from before object entered camera view
+            Vector2 originPos = Camera.main.WorldToScreenPoint(transform.position);                               //Have bubble zoom into target as it shrinks
+            bubbleObject.position = Vector2.LerpUnclamped(originPos, targetPos, interpolant);                     //Animate bubble
+            cam.orthographicSize = baseOrthoSize * (scaleOrthoWithCamera ? Camera.main.orthographicSize / 5 : 1); //Set orthographic size of camera (may be based on main camera size)
 
             //Hide bubble:
             if (transTime == 0) //Transition has finished
