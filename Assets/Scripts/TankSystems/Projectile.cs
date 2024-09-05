@@ -6,6 +6,8 @@ using Sirenix.OdinInspector;
 public class Projectile : MonoBehaviour
 {
     //Objects & Components:
+    public enum ProjectileType { BULLET, SHELL };
+    public ProjectileType type;
     public LayerMask layerMask;
     private Transform smokeTrail;
     public float particleScale;
@@ -226,9 +228,10 @@ public class Projectile : MonoBehaviour
 
             hitThisFrame.Clear();
 
-            //Effects
-            GameManager.Instance.AudioManager.Play("ExplosionSFX", gameObject);
-            GameManager.Instance.ParticleSpawner.SpawnParticle(Random.Range(0, 2), transform.position, particleScale, null);
+            if (target != null)
+            {
+                HitEffects();
+            }
 
             //Seperate smoketrail
             if (smokeTrail != null)
@@ -241,6 +244,27 @@ public class Projectile : MonoBehaviour
             }
 
             Destroy(gameObject);
+        }
+    }
+
+    private void HitEffects()
+    {
+        if (type == ProjectileType.SHELL)
+        {
+            GameManager.Instance.AudioManager.Play("ExplosionSFX", gameObject);
+            GameManager.Instance.ParticleSpawner.SpawnParticle(Random.Range(0, 2), transform.position, particleScale, null);
+        }
+
+        if (type == ProjectileType.BULLET)
+        {
+            GameManager.Instance.AudioManager.Play("ExplosionSFX", gameObject);
+
+            GameObject particle = GameManager.Instance.ParticleSpawner.SpawnParticle(13, transform.position, particleScale, null);
+            particle.transform.rotation = transform.rotation;
+
+            float randomScale = Random.Range(0.05f, 0.1f);
+            particle = GameManager.Instance.ParticleSpawner.SpawnParticle(14, transform.position, randomScale, null);
+            particle.transform.rotation = transform.rotation;
         }
     }
 }

@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 984e923788e72d24a835d6662452378c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 1
   layerMask:
     serializedVersion: 2
     m_Bits: 8560968
