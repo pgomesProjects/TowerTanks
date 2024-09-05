@@ -114,10 +114,24 @@ public abstract class Character : SerializedMonoBehaviour
             transform.localScale * 1.5f,
             0f, 
             1 << cellLayerIndex)?.gameObject.transform;
-        if (currentCellJoint != cellJoint)
+        
+        if (currentCellJoint != cellJoint) // will only run once every time a new cell is entered
         {
             currentCellJoint = cellJoint;
             transform.SetParent(currentCellJoint);
+            if (currentCellJoint == null)
+            {
+                transform.rotation = Quaternion.identity; //player is always internally rotated with the tank,
+                //so we need to reset the rotation when they leave a tank to avoid weirdness.
+                //it's just the player's visual sprite which is always at 0 rotation
+            }
+            else
+            {
+                if (!Mathf.Approximately(transform.eulerAngles.z, currentCellJoint.eulerAngles.z))
+                {
+                    transform.rotation = Quaternion.Euler(new Vector3(0, 0, currentCellJoint.eulerAngles.z));
+                }
+            }
         }
     }
 
@@ -192,6 +206,7 @@ public abstract class Character : SerializedMonoBehaviour
         if (currentLadder == null) return;
         currentState = CharacterState.CLIMBING;
         rb.bodyType = RigidbodyType2D.Kinematic;
+        transform.eulerAngles = currentLadder.transform.eulerAngles;
         // converts the player's position from world space to local space relative to the ladder
         // have to do this cause ladders are rotated sometimes
         Vector3 localPosition = currentLadder.transform.InverseTransformPoint(transform.position);

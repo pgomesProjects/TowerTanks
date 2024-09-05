@@ -12,7 +12,7 @@ public class InverseParentRotation : MonoBehaviour
         thisCharacter = transform.parent.GetComponentInParent<Character>();
     }
 
-    private void FixedUpdate()
+    private void LateUpdate()
     {
         if (thisCharacter.currentState == Character.CharacterState.CLIMBING)
         {
