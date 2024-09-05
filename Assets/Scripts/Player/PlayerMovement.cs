@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using UnityEngine;
 using UnityEngine.Assertions.Must;
 using UnityEngine.InputSystem;
@@ -252,8 +253,6 @@ public class PlayerMovement : Character
     
     protected override void MoveCharacter()
     {
-        
-        
         float force = transform.right.x * moveInput.x * moveSpeed; 
 
         Vector3 localVelocity = transform.InverseTransformDirection(rb.velocity);
@@ -273,18 +272,23 @@ public class PlayerMovement : Character
     {
         float raycastDistance = .19f;
         
-        Vector2 boxSize = new Vector2(groundedBoxX, groundedBoxY * 3);
-        Vector3 direction = moveInput.y > 0 ? transform.up : -transform.up;
+        var onCoupler = Physics2D.OverlapBox(transform.position, transform.localScale, transform.eulerAngles.z, 1 << LayerMask.NameToLayer("Coupler"));
+        var onLadder = Physics2D.OverlapBox(transform.position, transform.localScale, transform.eulerAngles.z, 1 << LayerMask.NameToLayer("Ladder"));
+        var hitGround = Physics2D.Raycast(transform.position, -transform.up, raycastDistance, 1 << LayerMask.NameToLayer("Ground"));
         
-        var hitLadder = Physics2D.OverlapBox(transform.position + (direction * transform.localScale.y), boxSize, 0f, 1 << LayerMask.NameToLayer("Ladder"));
-        var hitGround = Physics2D.Raycast(transform.position, direction, raycastDistance, 1 << LayerMask.NameToLayer("Ground"));
-
         Vector3 displacement = transform.up * (climbSpeed * moveInput.y * Time.deltaTime);
 
-        // If there is no ladder or there is ground in the direction of movement, stop movement
-        if (!hitLadder || hitGround)
+        // If you hit ground, and you're trying to move down, stop climbing.
+        // If you're not on a coupler or ladder, and you're trying to move up, stop climbing.
+        // This makes it so you can climb up through couplers, if the coupler is at the end of the ladder.
+        if ((hitGround && moveInput.y < 0) || (!onCoupler && !onLadder && moveInput.y > 0))
         {
             displacement = Vector3.zero;
+        }
+        
+        if (!onCoupler && !onLadder) //final failsafe for if you're somehow in this state and not in a ladder or coupler
+        {
+             SwitchOffLadder();
         }
 
         Vector3 newPosition = transform.position + displacement;
