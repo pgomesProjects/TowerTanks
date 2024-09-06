@@ -11,7 +11,7 @@ public class TankId
     [InlineButton("MatchName", SdfIconType.ArrowDown, "")]
     [InlineButton("GenerateName", SdfIconType.Dice6Fill, "")]
     public string TankName;
-    private TankController tankScript;
+    [SerializeField] internal TankController tankScript;
 
     public enum TankType { PLAYER, ENEMY };
     public TankType tankType;
