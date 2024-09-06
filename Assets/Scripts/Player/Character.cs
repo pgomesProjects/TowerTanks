@@ -2,6 +2,7 @@ using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public abstract class Character : SerializedMonoBehaviour
 {
@@ -15,7 +16,6 @@ public abstract class Character : SerializedMonoBehaviour
     protected Rigidbody2D rb;
     protected CapsuleCollider2D characterHitbox;
     protected GameObject currentLadder;
-    protected Bounds ladderBounds;
     protected PlayerHUD characterHUD;
     protected int characterIndex;
     protected Transform hands;
@@ -26,21 +26,21 @@ public abstract class Character : SerializedMonoBehaviour
 
     [Header("Character Information")]
     [SerializeField] protected CharacterSettings characterSettings;
-    protected float taskProgress;
     protected float currentHealth;
 
+    [FormerlySerializedAs("moveSpeed")]
     [Header("Movement")]
-    [SerializeField] protected float moveSpeed;
-    [SerializeField] protected float jumpForce;
-    [SerializeField] protected float extraGravityForce;
+    [SerializeField] protected float groundMoveSpeed;
+    [SerializeField] protected float airMoveSpeed;
+    [SerializeField] protected float groundDeAcceleration;
+    [SerializeField] protected float airDeAcceleration;
+    [SerializeField] protected float jetpackForce;
     [SerializeField] protected float climbSpeed;
     [Range(0, 2)]
     [SerializeField] protected float groundedBoxX, groundedBoxY;
 
     [SerializeField] protected float groundedBoxOffset;
     
-    [SerializeField] protected float maxYVelocity, minYVelocity;
-
     [Header("Jetpack values")]
     [SerializeField] protected float fuelDepletionRate;
     [SerializeField] protected float fuelRegenerationRate;
@@ -58,10 +58,6 @@ public abstract class Character : SerializedMonoBehaviour
     protected LayerMask ladderLayer;
 
     private TankController assignedTank;
-
-    //temp
-    protected float moveSpeedHalved; // once we have a state machine for the player, we wont need these silly fields.
-    protected float currentMoveSpeed; // this is fine for the sake of prototyping though.
 
     [Button(ButtonSizes.Medium)]
     private void DebugModifyPlayerHealth()
@@ -109,7 +105,7 @@ public abstract class Character : SerializedMonoBehaviour
 
         currentFuel = Mathf.Clamp(currentFuel, 0, characterSettings.fuelAmount);
         
-        var cellJoint = Physics2D.OverlapBox(
+        Transform cellJoint = Physics2D.OverlapBox(
             transform.position,
             transform.localScale * 1.5f,
             0f, 
@@ -117,10 +113,21 @@ public abstract class Character : SerializedMonoBehaviour
         
         if (currentCellJoint != cellJoint) // will only run once every time a new cell is entered
         {
+            Rigidbody2D tankRb = null;
+            if (cellJoint != null && cellJoint.TryGetComponent<Cell>(out Cell cell))
+            {
+                tankRb = cell.room.targetTank.treadSystem.r;
+            }
+            else if (currentCellJoint.TryGetComponent<Cell>(out Cell cellTwo))
+            {
+                tankRb = cellTwo.room.targetTank.treadSystem.r;
+            }
+            
             currentCellJoint = cellJoint;
             transform.SetParent(currentCellJoint);
             if (currentCellJoint == null)
             {
+                if (tankRb) rb.AddForce(tankRb.GetPointVelocity(transform.position), ForceMode2D.Impulse);
                 transform.rotation = Quaternion.identity; //player is always internally rotated with the tank,
                 //so we need to reset the rotation when they leave a tank to avoid weirdness.
                 //it's just the player's visual sprite which is always at 0 rotation
@@ -176,12 +183,12 @@ public abstract class Character : SerializedMonoBehaviour
 
     protected bool CheckGround()
     {
-        LayerMask groundLayer = (1 << LayerMask.NameToLayer("Ground"));
+        LayerMask bothLayers = (1 << LayerMask.NameToLayer("Ground")) | (1 << LayerMask.NameToLayer("Coupler"));
         return Physics2D.OverlapBox(new Vector2(transform.position.x,
                                                      transform.position.y - groundedBoxOffset),
                                                    new Vector2(groundedBoxX, groundedBoxY),
                                                    0f,
-                                                   groundLayer);
+                                                   bothLayers);
         
     }
     
@@ -198,7 +205,7 @@ public abstract class Character : SerializedMonoBehaviour
 
     protected void PropelJetpack()
     {
-        rb.AddForce(Vector2.up * jumpForce);
+        rb.AddForce(Vector2.up * jetpackForce);
     }
 
     protected void SetLadder()
@@ -324,7 +331,6 @@ public abstract class Character : SerializedMonoBehaviour
         currentHealth = characterSettings.maxHealth;
         currentFuel = characterSettings.fuelAmount;
         currentState = CharacterState.NONCLIMBING;
-        moveSpeedHalved = moveSpeed / 2;
     }
 
     private void RespawnTimer()
