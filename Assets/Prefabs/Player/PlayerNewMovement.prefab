@@ -269,7 +269,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 0
+    SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects: []
     SerializedBytesString: 
@@ -279,15 +279,15 @@ MonoBehaviour:
     SerializationNodes: []
   currentState: 0
   characterSettings: {fileID: 11400000, guid: a7bc3075ff116a040a2a22890b0f100a, type: 2}
-  moveSpeed: 3
-  jumpForce: 20
-  extraGravityForce: 0
+  groundMoveSpeed: 3
+  airMoveSpeed: 30
+  groundDeAcceleration: 20
+  airDeAcceleration: 1
+  jetpackForce: 20
   climbSpeed: 4
   groundedBoxX: 0.301
   groundedBoxY: 0.087
   groundedBoxOffset: 0.2
-  maxYVelocity: 2
-  minYVelocity: -5
   fuelDepletionRate: 30
   fuelRegenerationRate: 20
   characterDeathParticleSize: 0.18
@@ -295,13 +295,8 @@ MonoBehaviour:
   healthToModify: -10
   isDebugPlayer: 0
   interactInputHeld: 0
-  towerJoint: {fileID: 0}
-  playerSprite: {fileID: 0}
   playerNameText: {fileID: 8429224900115243135}
   playerInputComponent: {fileID: 0}
-  deAcceleration: 100
-  maxSpeed: 3
-  fuel: 0
   spinAngleCheckUpdateTimer: 0.1
   spinValidAngleLimit: 30
   validSpinCheckRows: 1

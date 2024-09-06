@@ -17,15 +17,10 @@ public class PlayerMovement : Character
     private bool jetpackInputHeld;
     
     public bool interactInputHeld;
-
-    [SerializeField] private Transform towerJoint;
-    [SerializeField] private Transform playerSprite;
+    
     [SerializeField] private TextMeshProUGUI playerNameText;
 
     [SerializeField] private PlayerInput playerInputComponent;
-    [SerializeField] private float deAcceleration;
-    [SerializeField] private float maxSpeed;
-    public float fuel;
 
     InputActionMap inputMap;
     private bool isHoldingDown = false;
@@ -219,8 +214,6 @@ public class PlayerMovement : Character
             currentObject.transform.position = hands.position;
         }
 
-        fuel = currentFuel;
-
         if (moveInput.y <= -0.5) isHoldingDown = true;
         else isHoldingDown = false;
     }
@@ -249,22 +242,30 @@ public class PlayerMovement : Character
     #endregion
 
     #region Movement
-
     
     protected override void MoveCharacter()
     {
-        float force = transform.right.x * moveInput.x * moveSpeed; 
-
+        Vector2 force = transform.right * (moveInput.x * (CheckGround() ? groundMoveSpeed : airMoveSpeed)); 
+        if (CheckGround())
+        {
+            rb.AddForce(force, ForceMode2D.Impulse);
+        }
+        else
+        {
+            rb.AddForce(force, ForceMode2D.Force);
+        }
+        
         Vector3 localVelocity = transform.InverseTransformDirection(rb.velocity);
-        localVelocity.x = force;
-        Vector3 worldVelocity = transform.TransformDirection(localVelocity);
+        
+        localVelocity.x = Mathf.Lerp(localVelocity.x, 0, CheckGround() ? groundDeAcceleration * Time.deltaTime
+                                                                             : airDeAcceleration * Time.deltaTime);
+        
+        rb.velocity = transform.TransformDirection(localVelocity);
         
         if (jetpackInputHeld && currentFuel > 0)
         {
             PropelJetpack();
         }
-        if (CheckGround()) rb.velocity = worldVelocity;
-        else rb.velocity = new Vector2(moveInput.x * moveSpeed, rb.velocity.y);
     }
 
 
