@@ -118,6 +118,7 @@ public class EngineController : TankInteractable
                 //Other effects:
                 GameManager.Instance.ParticleSpawner.SpawnParticle(3, particleSpots[0].position, 0.15f, null);
                 GameManager.Instance.AudioManager.Play("CoalLoad", this.gameObject); //Play loading clip
+                GameManager.Instance.SystemEffects.ApplyRampedControllerHaptics(operatorID.GetPlayerData().playerInput, 0f, 0.5f, 0.25f, 0.5f, 0.25f); //Apply haptics
             }
         }
 

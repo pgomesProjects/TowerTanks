@@ -722,6 +722,8 @@ public class PlayerMovement : Character
         playerNameText.text = playerData.GetPlayerName();
     }
 
+    public PlayerData GetPlayerData() => playerData;
+
     protected override void OnCharacterDeath()
     {
         base.OnCharacterDeath();

@@ -15,8 +15,8 @@ public class GameManager : SerializedMonoBehaviour
     public static GameManager Instance { get; private set; }
     public AudioManager AudioManager { get; private set; }
     public MultiplayerManager MultiplayerManager { get; private set; }
-
     public ParticleSpawner ParticleSpawner { get; private set; }
+    public SystemEffects SystemEffects { get; private set; }
 
     [SerializeField, Tooltip("The list of possible rooms for the players to pick.")] public GameObject[] roomList;
     [SerializeField, Tooltip("The list of possible interactables for the players to pick. NOTE: Remember to update the enum list when updating this list.")] public TankInteractable[] interactableList;
@@ -50,6 +50,7 @@ public class GameManager : SerializedMonoBehaviour
         AudioManager = GetComponentInChildren<AudioManager>();
         MultiplayerManager = GetComponentInChildren<MultiplayerManager>();
         ParticleSpawner = GetComponentInChildren<ParticleSpawner>();
+        SystemEffects = GetComponentInChildren<SystemEffects>();
     }
 
     private void OnEnable()
