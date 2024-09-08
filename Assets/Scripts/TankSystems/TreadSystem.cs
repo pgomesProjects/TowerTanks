@@ -265,4 +265,6 @@ public class TreadSystem : MonoBehaviour
         gear = -targetGear; //Update gear setting
         timeInGear = 0;     //Reset time in gear counter
     }
+
+    public float GetTreadSpeed() => actualSpeed;
 }
