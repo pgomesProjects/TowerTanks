@@ -14,6 +14,7 @@ public class DebugTools : MonoBehaviour
         playerControlSystem = new PlayerControlSystem();
         playerControlSystem.Debug.ToggleGamepadCursors.performed += _ => OnToggleGamepadCursors();
         playerControlSystem.Debug.ToggleCommandMenu.performed += _ => ToggleCommandMenu();
+        playerControlSystem.Debug.Screenshot.performed += _ => GameManager.Instance.SystemEffects.TakeScreenshot();
     }
 
     private void OnEnable()

@@ -2070,6 +2070,15 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Screenshot"",
+                    ""type"": ""Button"",
+                    ""id"": ""7e17102c-9458-4825-bf23-b5e2f57f39f7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -2853,6 +2862,28 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""action"": ""Build"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f70188a6-a431-45ba-a0e1-6621bf53ff0f"",
+                    ""path"": ""<Keyboard>/f1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Screenshot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""18cbe034-867f-4c61-a8c2-506597052f5d"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Screenshot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -2984,6 +3015,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         m_Debug__0 = m_Debug.FindAction("0", throwIfNotFound: true);
         m_Debug_Cycle = m_Debug.FindAction("Cycle", throwIfNotFound: true);
         m_Debug_Flip = m_Debug.FindAction("Flip", throwIfNotFound: true);
+        m_Debug_Screenshot = m_Debug.FindAction("Screenshot", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -3370,6 +3402,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
     private readonly InputAction m_Debug__0;
     private readonly InputAction m_Debug_Cycle;
     private readonly InputAction m_Debug_Flip;
+    private readonly InputAction m_Debug_Screenshot;
     public struct DebugActions
     {
         private @PlayerControlSystem m_Wrapper;
@@ -3395,6 +3428,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         public InputAction @_0 => m_Wrapper.m_Debug__0;
         public InputAction @Cycle => m_Wrapper.m_Debug_Cycle;
         public InputAction @Flip => m_Wrapper.m_Debug_Flip;
+        public InputAction @Screenshot => m_Wrapper.m_Debug_Screenshot;
         public InputActionMap Get() { return m_Wrapper.m_Debug; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -3467,6 +3501,9 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @Flip.started -= m_Wrapper.m_DebugActionsCallbackInterface.OnFlip;
                 @Flip.performed -= m_Wrapper.m_DebugActionsCallbackInterface.OnFlip;
                 @Flip.canceled -= m_Wrapper.m_DebugActionsCallbackInterface.OnFlip;
+                @Screenshot.started -= m_Wrapper.m_DebugActionsCallbackInterface.OnScreenshot;
+                @Screenshot.performed -= m_Wrapper.m_DebugActionsCallbackInterface.OnScreenshot;
+                @Screenshot.canceled -= m_Wrapper.m_DebugActionsCallbackInterface.OnScreenshot;
             }
             m_Wrapper.m_DebugActionsCallbackInterface = instance;
             if (instance != null)
@@ -3534,6 +3571,9 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @Flip.started += instance.OnFlip;
                 @Flip.performed += instance.OnFlip;
                 @Flip.canceled += instance.OnFlip;
+                @Screenshot.started += instance.OnScreenshot;
+                @Screenshot.performed += instance.OnScreenshot;
+                @Screenshot.canceled += instance.OnScreenshot;
             }
         }
     }
@@ -3644,5 +3684,6 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         void On_0(InputAction.CallbackContext context);
         void OnCycle(InputAction.CallbackContext context);
         void OnFlip(InputAction.CallbackContext context);
+        void OnScreenshot(InputAction.CallbackContext context);
     }
 }

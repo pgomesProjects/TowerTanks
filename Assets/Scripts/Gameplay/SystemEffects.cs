@@ -1,4 +1,5 @@
 using Cinemachine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,39 @@ using UnityEngine.InputSystem;
 
 public class SystemEffects : MonoBehaviour
 {
+    #region FREEZE
+    private bool isFrozen = false;
+
+    /// <summary>
+    /// Freezes the screen for a certain amount of time.
+    /// </summary>
+    /// <param name="duration">The duration for the screen freeze.</param>
+    public void ScreenFreeze(float duration)
+    {
+        if (!isFrozen)
+            StartCoroutine(FreezeTimer(duration));
+    }
+
+    /// <summary>
+    /// Freezes the screen, and then returns the game to the original time scale.
+    /// </summary>
+    /// <param name="duration">The duration for the screen freeze.</param>
+    /// <returns></returns>
+    public IEnumerator FreezeTimer(float duration)
+    {
+        isFrozen = true;
+
+        float originalTimeScale = Time.timeScale;
+        Time.timeScale = 0f;
+
+        yield return new WaitForSecondsRealtime(duration);
+
+        Time.timeScale = originalTimeScale;
+
+        isFrozen = false;
+    }
+
+    #endregion
     #region HAPTICS
     /// <summary>
     /// Applies controller haptics to the player.
@@ -184,5 +218,16 @@ public class SystemEffects : MonoBehaviour
             noise.m_AmplitudeGain = 0f;
         }
     }
+    #endregion
+    #region SCREENSHOT
+
+    public void TakeScreenshot()
+    {
+        string fileName = "TowerTanks-Screenshot-" + DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss") + ".png";
+
+        ScreenCapture.CaptureScreenshot(Application.dataPath + "/Resources/Screenshots/" + fileName);
+        Debug.Log("Screenshot Successfully Taken. Saved as " + fileName);
+    }
+
     #endregion
 }
