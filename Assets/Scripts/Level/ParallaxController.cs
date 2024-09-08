@@ -5,6 +5,7 @@ using UnityEngine;
 public class ParallaxController : MonoBehaviour
 {
     [SerializeField, Tooltip("The speed of the parallax movement.")] private Vector2 parallaxSpeed;
+    [SerializeField, Tooltip("The innate speed of the parallax movement.")] private Vector2 automaticSpeed;
     [SerializeField, Tooltip("If true, the background infinitely scrolls horizontally.")] private bool infiniteHorizontal;
     [SerializeField, Tooltip("If true, the background infinitely scrolls vertically.")] private bool infiniteVertical;
 
@@ -29,7 +30,7 @@ public class ParallaxController : MonoBehaviour
     private void LateUpdate()
     {
         Vector3 deltaMovement = cameraTransform.position - lastCameraPosition;
-        transform.position += new Vector3(deltaMovement.x * parallaxSpeed.x, deltaMovement.y * parallaxSpeed.y, 0);
+        transform.position += new Vector3((deltaMovement.x * parallaxSpeed.x) + (automaticSpeed.x * Time.deltaTime), (deltaMovement.y * parallaxSpeed.y) + (automaticSpeed.y * Time.deltaTime), 0);
         lastCameraPosition = cameraTransform.position;
 
         if (infiniteHorizontal && Mathf.Abs(cameraTransform.position.x - transform.position.x) >= textureUnitSizeX)
