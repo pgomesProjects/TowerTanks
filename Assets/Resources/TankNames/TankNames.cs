@@ -5,6 +5,11 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Names", menuName = "ScriptableObjects/TankNames", order = 1)]
 public class TankNames : ScriptableObject
 {
+    public string[] articles = {
+        "The",
+        "El"
+    };
+
     public string[] adjectives = {
         "Jolly",
         "Massive",

@@ -55,7 +55,6 @@ public class BuildingManager : MonoBehaviour
         Instance = this;
         worldRoomObjects = new List<WorldRoom>();
         defaultPlayerTank = FindObjectOfType<TankController>();
-        defaultPlayerTank.TankName = "The Supreme Potato But In-Game";
     }
 
     // Start is called before the first frame update
@@ -134,7 +133,7 @@ public class BuildingManager : MonoBehaviour
             if (AllRoomsMounted())
             {
                 foreach (PlayerData player in GameManager.Instance.MultiplayerManager.GetAllPlayers())
-                    player.isReadyingUp = true;
+                    player.SetPlayerState(PlayerData.PlayerState.ReadyForCombat);
 
                 readyUpManager.Init();
             }
@@ -163,9 +162,6 @@ public class BuildingManager : MonoBehaviour
 
     private void FinishTank()
     {
-        foreach (PlayerData player in GameManager.Instance.MultiplayerManager.GetAllPlayers())
-            player.isReadyingUp = false;
-
         TankDesign currentTankDesign = defaultPlayerTank.GetCurrentDesign();
         GameManager.Instance.tankDesign = currentTankDesign;
         gamePhaseUI?.ShowPhase(GAMESTATE.COMBAT);
@@ -194,4 +190,5 @@ public class BuildingManager : MonoBehaviour
     }
 
     public ReadyUpManager GetReadyUpManager() => readyUpManager;
+    public void RefreshPlayerTankName() => defaultPlayerTank.SetTankName(CampaignManager.Instance.PlayerTankName);
 }

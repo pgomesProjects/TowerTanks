@@ -96,14 +96,12 @@ public class RoomBuildingMenu : SerializedMonoBehaviour
 
     private void OnEnable()
     {
-        GamePhaseUI.OnBuildingPhase += OpenMenu;
         GamePhaseUI.OnCombatPhase += GoToCombatScene;
         GameManager.Instance.MultiplayerManager.OnPlayerConnected += AddPlayerToSelection;
     }
 
     private void OnDisable()
     {
-        GamePhaseUI.OnBuildingPhase -= OpenMenu;
         GamePhaseUI.OnCombatPhase -= GoToCombatScene;
         GameManager.Instance.MultiplayerManager.OnPlayerConnected -= AddPlayerToSelection;
     }
@@ -124,12 +122,17 @@ public class RoomBuildingMenu : SerializedMonoBehaviour
     public void OpenMenu()
     {
         GenerateRooms();
+
+        buildingMenuRectTransform.anchoredPosition = startingMenuPos;
+        buildingBackgroundRectTransform.anchoredPosition = startingBackgroundPos;
         LeanTween.move(buildingMenuRectTransform, menuEndingPos, menuAniDuration).setEase(openMenuEaseType);
         LeanTween.move(buildingBackgroundRectTransform, backgroundEndingPos, backgroundAniDuration).setEase(showBackgroundEaseType);
     }
 
     public void CloseMenu()
     {
+        buildingMenuRectTransform.anchoredPosition = menuEndingPos;
+        buildingBackgroundRectTransform.anchoredPosition = backgroundEndingPos;
         LeanTween.move(buildingMenuRectTransform, startingMenuPos, menuAniDuration).setEase(closeMenuEaseType);
         LeanTween.move(buildingBackgroundRectTransform, startingBackgroundPos, backgroundAniDuration).setEase(hideBackgroundEaseType).setOnComplete(() => StartBuilding());
     }
@@ -162,7 +165,10 @@ public class RoomBuildingMenu : SerializedMonoBehaviour
         roomSelections.Clear();
 
         foreach (PlayerData player in GameManager.Instance.MultiplayerManager.GetAllPlayers())
+        {
             roomSelections.Add(new PlayerRoomSelection(player));
+            player.SetPlayerState(PlayerData.PlayerState.PickingRooms);
+        }
 
         SetRoomSelections();
     }
@@ -220,6 +226,7 @@ public class RoomBuildingMenu : SerializedMonoBehaviour
         if (currentSelector.AllRoomsSelected())
         {
             PlayerData currentPlayerData = PlayerData.ToPlayerData(playerSelected);
+            currentPlayerData.SetPlayerState(PlayerData.PlayerState.PickedRooms);
 
             Debug.Log("Player " + (currentPlayerData.playerInput.playerIndex + 1).ToString() + " Has Stopped Selecting.");
             playerSelected.GetComponent<GamepadCursor>().SetCursorMove(false);
@@ -236,7 +243,7 @@ public class RoomBuildingMenu : SerializedMonoBehaviour
     private void StartBuilding()
     {
         foreach (PlayerData player in GameManager.Instance.MultiplayerManager.GetAllPlayers())
-            player.isBuilding = true;
+            player.SetPlayerState(PlayerData.PlayerState.IsBuilding);
     }
 
     /// <summary>

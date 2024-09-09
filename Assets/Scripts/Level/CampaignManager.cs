@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,8 +10,12 @@ public class CampaignManager : MonoBehaviour
 
     [SerializeField, Tooltip("The level event data that dictates how the level must be run.")] private LevelEvents currentLevelEvent;
 
-    private int currentRound;
+    internal string PlayerTankName { get; private set; }
+    internal int CurrentRound { get; private set; }
+
     private bool hasCampaignStarted = false;
+
+    public static Action OnCampaignStarted;
 
     private void Awake()
     {
@@ -48,7 +53,7 @@ public class CampaignManager : MonoBehaviour
         }
         else
         {
-            currentRound++;
+            CurrentRound++;
             StackManager.main?.GenerateExistingStack();
         }
     }
@@ -59,11 +64,13 @@ public class CampaignManager : MonoBehaviour
     public void SetupCampaign()
     {
         Debug.Log("Setting Up Campaign...");
-        currentRound = 1;
+        CurrentRound = 1;
 
         StackManager.ClearStack();
         foreach (INTERACTABLE interactable in currentLevelEvent.startingInteractables)
             StackManager.AddToStack(interactable);
+
+        OnCampaignStarted?.Invoke();
     }
 
     public void SetLevelEvent(LevelEvents levelEvent)
@@ -71,6 +78,6 @@ public class CampaignManager : MonoBehaviour
         currentLevelEvent = levelEvent;
     }
 
+    public void SetPlayerTankName(string playerTankName) => PlayerTankName = playerTankName;
     public LevelEvents GetCurrentLevelEvent() => currentLevelEvent;
-    public int GetCurrentRound() => currentRound;
 }

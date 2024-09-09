@@ -64,7 +64,10 @@ public class NamepadController : MonoBehaviour
 
     public void InitializeGamepad()
     {
-        PlayerData.ToPlayerData(currentPlayer).SetNamepad(this);
+        PlayerData playerData = PlayerData.ToPlayerData(currentPlayer);
+        playerData.SetPlayerState(PlayerData.PlayerState.SettingUp);
+        playerData.SetNamepad(this);
+
         playerNameButtonRectTransform.gameObject.SetActive(false);
         GameManager.Instance?.SetPlayerCursorActive(playerCursor, false);
         playerName = string.Empty;
@@ -78,7 +81,10 @@ public class NamepadController : MonoBehaviour
     {
         if (customNameActive)
         {
-            PlayerData.ToPlayerData(currentPlayer).SetNamepad(null);
+            PlayerData playerData = PlayerData.ToPlayerData(currentPlayer);
+            playerData.SetPlayerState(PlayerData.PlayerState.NameReady);
+            playerData.SetNamepad(null);
+
             customNameActive = false;
             namepadRectTransform.gameObject.SetActive(false);
             playerNameButtonRectTransform.gameObject.SetActive(true);

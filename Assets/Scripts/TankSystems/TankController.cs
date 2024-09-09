@@ -196,10 +196,10 @@ public class TankController : SerializedMonoBehaviour
     private void Start()
     {
         tankManager = GameObject.Find("TankManager")?.GetComponent<TankManager>();
-        if (tankType == TankId.TankType.PLAYER) tankManager.playerTank = this;
 
         if (tankManager != null)
         {
+            if (tankType == TankId.TankType.PLAYER) tankManager.playerTank = this;
             foreach (TankId tank in tankManager.tanks)
             {
                 if (tank.gameObject == gameObject) //if I'm on the list,
@@ -250,9 +250,6 @@ public class TankController : SerializedMonoBehaviour
         //Debug 
         gear = treadSystem.gear;
         horsePower = treadSystem.currentEngines * 100;
-
-        //Update name
-        nameText.text = TankName;
 
         //Death Sequence Events
         if (isDying)
@@ -425,9 +422,8 @@ public class TankController : SerializedMonoBehaviour
             {
                 if (tank.gameObject == gameObject) //if I'm on the list,
                 {
-                    TankName = tank.TankName; //give me my codename
-                    gameObject.name = "Tank (" + TankName + ")";
                     tankType = tank.tankType;
+                    tank.TankName = TankName;
                 }
             }
         }
@@ -608,6 +604,8 @@ public class TankController : SerializedMonoBehaviour
                 if (cellInter.flipped) interactable.Flip();                                                                                                                                                  //Flip interactable if ordered
             }
         }
+
+        SetTankName(tankDesign.TankName);
     }
 
     public TankDesign GetCurrentDesign()
@@ -740,5 +738,11 @@ public class TankController : SerializedMonoBehaviour
         return characters;
     }
 
+    public void SetTankName(string newTankName)
+    {
+        TankName = newTankName;
+        nameText.text = TankName;
+        gameObject.name = "Tank (" + TankName + ")";
+    }
     public Character[] GetCharactersInTank() => GetComponentsInChildren<Character>();
 }

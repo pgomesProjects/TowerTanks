@@ -36,7 +36,7 @@ public class GamePhaseUI : MonoBehaviour
                 OnBuildingPhase?.Invoke();
                 break;
             case GAMESTATE.COMBAT:
-                //phaseText = "Combat Phase";
+                phaseText = "Combat Phase";
                 OnCombatPhase?.Invoke();
                 break;
         }

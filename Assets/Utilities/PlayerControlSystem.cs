@@ -1312,6 +1312,15 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Confirm"",
+                    ""type"": ""Button"",
+                    ""id"": ""6e1bd8bd-2ad6-4bfc-a267-2238c14dd149"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -1873,6 +1882,28 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
                     ""action"": ""Start"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""81020498-8832-4479-b546-1e24c8e72957"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Confirm"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b54b882e-842b-42c1-a9c8-28f3494bc87b"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Confirm"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -2992,6 +3023,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
         m_UI_DebugMode = m_UI.FindAction("DebugMode", throwIfNotFound: true);
         m_UI_Start = m_UI.FindAction("Start", throwIfNotFound: true);
+        m_UI_Confirm = m_UI.FindAction("Confirm", throwIfNotFound: true);
         // Debug
         m_Debug = asset.FindActionMap("Debug", throwIfNotFound: true);
         m_Debug_ToggleGamepadCursors = m_Debug.FindAction("ToggleGamepadCursors", throwIfNotFound: true);
@@ -3272,6 +3304,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_TrackedDeviceOrientation;
     private readonly InputAction m_UI_DebugMode;
     private readonly InputAction m_UI_Start;
+    private readonly InputAction m_UI_Confirm;
     public struct UIActions
     {
         private @PlayerControlSystem m_Wrapper;
@@ -3288,6 +3321,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         public InputAction @TrackedDeviceOrientation => m_Wrapper.m_UI_TrackedDeviceOrientation;
         public InputAction @DebugMode => m_Wrapper.m_UI_DebugMode;
         public InputAction @Start => m_Wrapper.m_UI_Start;
+        public InputAction @Confirm => m_Wrapper.m_UI_Confirm;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -3333,6 +3367,9 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @Start.started -= m_Wrapper.m_UIActionsCallbackInterface.OnStart;
                 @Start.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnStart;
                 @Start.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnStart;
+                @Confirm.started -= m_Wrapper.m_UIActionsCallbackInterface.OnConfirm;
+                @Confirm.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnConfirm;
+                @Confirm.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnConfirm;
             }
             m_Wrapper.m_UIActionsCallbackInterface = instance;
             if (instance != null)
@@ -3373,6 +3410,9 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @Start.started += instance.OnStart;
                 @Start.performed += instance.OnStart;
                 @Start.canceled += instance.OnStart;
+                @Confirm.started += instance.OnConfirm;
+                @Confirm.performed += instance.OnConfirm;
+                @Confirm.canceled += instance.OnConfirm;
             }
         }
     }
@@ -3660,6 +3700,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
         void OnDebugMode(InputAction.CallbackContext context);
         void OnStart(InputAction.CallbackContext context);
+        void OnConfirm(InputAction.CallbackContext context);
     }
     public interface IDebugActions
     {
