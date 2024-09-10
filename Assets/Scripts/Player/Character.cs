@@ -19,8 +19,6 @@ public abstract class Character : SerializedMonoBehaviour
     protected PlayerHUD characterHUD;
     protected int characterIndex;
     protected Transform hands;
-    protected bool isAlive;
-    protected bool isDead;
     protected Transform characterVisualParent;
     protected Color characterColor = new Color(1, 1, 1, 1);
 
@@ -50,6 +48,14 @@ public abstract class Character : SerializedMonoBehaviour
     [SerializeField] protected float respawnTime = 3f;
     private float currentRespawnTime;
     private bool isRespawning;
+
+    [Header("Conditions")]
+    [SerializeField] protected bool isOnFire;
+    protected float burnDamageRate = 1f;
+    protected float burnDamageTimer = 0f;
+    protected GameObject flames;
+    protected bool isAlive;
+    protected bool isDead;
     
     //internal movement
     private Transform currentCellJoint;
@@ -70,7 +76,7 @@ public abstract class Character : SerializedMonoBehaviour
     {
         KillCharacterImmediate();
     }
-    public int healthToModify = -10;
+    private int healthToModify = -10;
 
     #endregion
 
@@ -83,6 +89,8 @@ public abstract class Character : SerializedMonoBehaviour
         currentHealth = characterSettings.maxHealth;
         characterVisualParent = transform.GetChild(0);
         hands = characterVisualParent.Find("Hands");
+        flames = characterVisualParent.Find("flames").gameObject;
+        flames.SetActive(false);
     }
 
     protected virtual void Start()
@@ -144,6 +152,8 @@ public abstract class Character : SerializedMonoBehaviour
 
     protected virtual void FixedUpdate()
     {
+        HandleConditions();
+
         if (currentState == CharacterState.NONCLIMBING) MoveCharacter();
 
         else if (currentState == CharacterState.CLIMBING) ClimbLadder();
@@ -264,9 +274,9 @@ public abstract class Character : SerializedMonoBehaviour
 
     #region Character Functions
 
-    public float ModifyHealth(float newHealth)
+    public float ModifyHealth(float amount)
     {
-        return SetCharacterHealth(currentHealth + newHealth);
+        return SetCharacterHealth(currentHealth + amount);
     }
 
     private float SetCharacterHealth(float characterHealth)
@@ -300,6 +310,8 @@ public abstract class Character : SerializedMonoBehaviour
     {
         GameManager.Instance.AudioManager.Play("ExplosionSFX", gameObject);
         GameManager.Instance.ParticleSpawner.SpawnParticle(Random.Range(0, 2), transform.position, characterDeathParticleSize, null);
+
+        if (isOnFire) Extinguish();
 
         isRespawning = assignedTank != null;
 
@@ -360,7 +372,45 @@ public abstract class Character : SerializedMonoBehaviour
     public Color GetCharacterColor() => characterColor;
     public TankController GetAssignedTank() => assignedTank;
     public void SetAssignedTank(TankController assignedTank) => this.assignedTank = assignedTank;
+
+    protected void HandleConditions()
+    {
+        //Fire
+        if (isOnFire) Burn();
+
+        //TODO: (Ryan) Freeze
+    }
+
     public bool IsDead() => isDead;
+
+    [Button(ButtonSizes.Medium)]
+    public void Ignite()
+    {
+        isOnFire = true;
+        flames.SetActive(true);
+        burnDamageTimer = burnDamageRate;
+
+        GameManager.Instance.AudioManager.Play("CoalLoad", this.gameObject);
+    }
+
+    private void Burn()
+    {
+        burnDamageTimer -= Time.deltaTime;
+        if (burnDamageTimer <= 0)
+        {
+            burnDamageTimer = burnDamageRate;
+            ModifyHealth(-1.0f);
+        }
+    }
+
+    [Button(ButtonSizes.Medium)]
+    public void Extinguish()
+    {
+        isOnFire = false;
+        flames.SetActive(false);
+
+        GameManager.Instance.AudioManager.Play("SteamExhaust", this.gameObject);
+    }
 
     #endregion
 }

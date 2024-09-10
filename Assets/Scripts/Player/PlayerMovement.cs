@@ -12,6 +12,7 @@ public class PlayerMovement : Character
     #region Fields and Properties
 
     //input
+    [Header("Player Specific Options:")]
     public bool isDebugPlayer;
     private Vector2 moveInput;
     private bool jetpackInputHeld;
@@ -729,13 +730,17 @@ public class PlayerMovement : Character
         base.OnCharacterDeath();
 
         if (isDead)
+        {
             OnPlayerDeath?.Invoke();
+        }
     }
 
     protected override void ResetPlayer()
     {
         base.ResetPlayer();
-    }
 
+        if (TankManager.instance != null)
+            SetAssignedTank(TankManager.instance.playerTank);
+    }
     #endregion
 }
