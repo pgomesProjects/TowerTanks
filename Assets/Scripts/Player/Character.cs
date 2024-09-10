@@ -50,7 +50,7 @@ public abstract class Character : SerializedMonoBehaviour
     private bool isRespawning;
 
     [Header("Conditions")]
-    [SerializeField] protected bool isOnFire;
+    [SerializeField] public bool isOnFire;
     protected float burnDamageRate = 1f;
     protected float burnDamageTimer = 0f;
     protected GameObject flames;

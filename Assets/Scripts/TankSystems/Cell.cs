@@ -59,7 +59,7 @@ public class Cell : MonoBehaviour
 
         //Fire:
     [Tooltip("Whether or not This Is Fine")]                               public bool isOnFire;
-    [Tooltip("Rate at which fire damages this cell")]                      private float burnDamageRate = 1.0f;
+    [Tooltip("Rate at which fire damages this cell")]                      private float burnDamageRate = 0.5f;
                                                                            private float burnDamageTimer = 0;
     [Tooltip("Max time before fire spreads to a neighboring cell")]        private float maxBurnTime = 8f;
     [Tooltip("Max time before fire spreads to a neighboring cell")]        private float minBurnTime = 6f;
@@ -419,7 +419,7 @@ public class Cell : MonoBehaviour
         if (burnDamageTimer <= 0)
         {
             burnDamageTimer = burnDamageRate;
-            if (health >= maxHealth * 0.5f) Damage(10f, true);
+            if (health >= maxHealth * 0.25f) Damage(5f, true);
             else if (interactable != null)
             {
                 if (room.targetTank != null && room.targetTank.tankType == TankId.TankType.PLAYER) StackManager.AddToStack(GameManager.Instance.TankInteractableToEnum(interactable)); //Add interactable data to stack upon destruction (if it is in a player tank)
@@ -427,6 +427,24 @@ public class Cell : MonoBehaviour
 
                 GameManager.Instance.ParticleSpawner.SpawnParticle(0, transform.position, 0.15f, null);
                 GameManager.Instance.AudioManager.Play("ExplosionSFX", gameObject);
+            }
+
+            //Check for Characters in Cell
+            Character[] characters = GetComponentsInChildren<Character>();
+            if (characters.Length > 0)
+            {
+                foreach (Character character in characters)
+                {
+                    int igniteChance = Random.Range(40, 61);
+                    int randomRoll = Random.Range(0, 100);
+                    if (randomRoll <= igniteChance) {
+                        if (character.isOnFire == false)
+                        {
+                            character.Ignite();
+                        }
+                    }
+
+                }
             }
         }
 

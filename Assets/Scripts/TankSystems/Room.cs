@@ -60,6 +60,10 @@ public class Room : MonoBehaviour
     [Tooltip("The only tank this room can be mounted to (who's home grid will be used during mounting).")] internal TankController targetTank; //NOTE: This is important for distinguishing between rooms auto-spawned for prefab tanks, and rooms which are spawned in scrap menu for mounting on an existing tank
     private bool initialized = false; //Becomes true once one-time initial room setup has been completed (indicates room is ready to be used)
 
+    private float maxBurnTime = 24f;
+    private float minBurnTime = 12f;
+    private float burnTimer = 0;
+
     //RUNTIME METHODS:
     private void Awake()
     {
@@ -73,6 +77,29 @@ public class Room : MonoBehaviour
         if (debugMoveLeft) { debugMoveLeft = false; SnapMoveTick(Vector2.left); UpdateRoomType(type); }
         if (debugMoveRight) { debugMoveRight = false; SnapMoveTick(Vector2.right); UpdateRoomType(type); }
         if (debugMount) { debugMount = false; Mount(); }
+
+        if (cells.Count > 0) CheckFire();
+    }
+
+    private void CheckFire()
+    {
+        foreach(Cell cell in cells)
+        {
+            if (cell.isOnFire == false)
+            {
+                burnTimer = Random.Range(minBurnTime, maxBurnTime);
+                return;
+            }
+        }
+
+        burnTimer -= Time.deltaTime;
+        if (burnTimer <= 0)
+        {
+            foreach(Cell cell in cells)
+            {
+                cell.Extinguish();
+            }
+        }
     }
 
     //FUNCTIONALITY METHODS:
