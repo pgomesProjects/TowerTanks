@@ -56,6 +56,15 @@ public class Cell : MonoBehaviour
     [Tooltip("Which section this cell is in inside its parent room.")]     internal int section;
     [Tooltip("How long damage visual effect persists for")]                private float damageTime;
                                                                            private float damageTimer;
+
+        //Fire:
+    [Tooltip("Whether or not This Is Fine")]                               public bool isOnFire;
+    [Tooltip("Rate at which fire damages this cell")]                      private float burnDamageRate = 1.0f;
+                                                                           private float burnDamageTimer = 0;
+    [Tooltip("Max time before fire spreads to a neighboring cell")]        private float maxBurnTime = 8f;
+    [Tooltip("Max time before fire spreads to a neighboring cell")]        private float minBurnTime = 6f;
+                                                                           private float burnTimer = 0;
+                                                                           public GameObject flames;
         //Meta
     [Tooltip("True if cell destruction has already been scheduled, used to prevent conflicts.")] private bool dying;
     [Tooltip("True once cell has been set up and is ready to go.")]                              private bool initialized = false;
@@ -79,6 +88,11 @@ public class Cell : MonoBehaviour
         if (damageTimer > 0)
         {
             UpdateUI();
+        }
+
+        if (isOnFire)
+        {
+            Burn();
         }
     }
 
@@ -190,7 +204,7 @@ public class Cell : MonoBehaviour
     /// <summary>
     /// Deals given amount of damage to the cell.
     /// </summary>
-    public float Damage(float amount)
+    public float Damage(float amount, bool ignoreArmor = false)
     {
         float tempHealth = health;
         float healthLost = 0;
@@ -203,7 +217,7 @@ public class Cell : MonoBehaviour
         }
         else
         {
-            if (room.type == Room.RoomType.Defense) amount -= 25f; //Armor reduces incoming damage
+            if (room.type == Room.RoomType.Defense && ignoreArmor == false) amount -= 25f; //Armor reduces incoming damage
             if (room.targetTank.isInvincible) amount = 0;
             if (amount < 0) { amount = 0; }
             else
@@ -339,10 +353,14 @@ public class Cell : MonoBehaviour
         if (!proxy) room.targetTank.treadSystem.ReCalculateMass(); //Re-calculate tank mass based on new cell configuration (only needs to be done once for group cell destructions)
 
         //Cleanup:
-        Character player = GetComponentInChildren<Character>();
-        if (player != null)
+        Character[] characters = GetComponentsInChildren<Character>();
+        if (characters.Length > 0)
         {
-            player.transform.parent = null; // removes the player from the cell before destruction if present
+            foreach (Character character in characters)
+            {
+                character.transform.parent = null; // removes the player from the cell before destruction if present
+                if (!proxy) character.KillCharacterImmediate();
+            }
         }
 
         //Stack update:
@@ -369,7 +387,7 @@ public class Cell : MonoBehaviour
         Repair(25);
     }
 
-        public void Repair(float amount)
+    public void Repair(float amount)
     {
         if (health < maxHealth)
         {
@@ -382,6 +400,72 @@ public class Cell : MonoBehaviour
         }
         
         if (health > maxHealth) { health = maxHealth; }
-        
+    }
+
+    [Button("Ignite")]
+    public void Ignite()
+    {
+        isOnFire = true;
+        flames.SetActive(true);
+        burnDamageTimer = burnDamageRate;
+        burnTimer = Random.Range(minBurnTime, maxBurnTime);
+
+        GameManager.Instance.AudioManager.Play("CoalLoad", this.gameObject);
+    }
+
+    private void Burn()
+    {
+        burnDamageTimer -= Time.deltaTime;
+        if (burnDamageTimer <= 0)
+        {
+            burnDamageTimer = burnDamageRate;
+            if (health >= maxHealth * 0.5f) Damage(10f, true);
+            else if (interactable != null)
+            {
+                if (room.targetTank != null && room.targetTank.tankType == TankId.TankType.PLAYER) StackManager.AddToStack(GameManager.Instance.TankInteractableToEnum(interactable)); //Add interactable data to stack upon destruction (if it is in a player tank)
+                interactable.DebugDestroy();
+
+                GameManager.Instance.ParticleSpawner.SpawnParticle(0, transform.position, 0.15f, null);
+                GameManager.Instance.AudioManager.Play("ExplosionSFX", gameObject);
+            }
+        }
+
+        burnTimer -= Time.deltaTime;
+        if (burnTimer <= 0)
+        {
+            //Reset Timer
+            float burnTimeMult = 1.5f;
+            burnTimer = Random.Range(minBurnTime * burnTimeMult, maxBurnTime * burnTimeMult);
+
+            //Try to Spread Fire
+            List<Cell> flammables = new List<Cell>();
+
+            foreach(Cell neighbor in neighbors) //Find potential spread targets
+            {
+                if (neighbor != null)
+                {
+                    if (neighbor.isOnFire == false)
+                    {
+                        flammables.Add(neighbor); //Add it to the list of things that could catch fire
+                    }
+                }
+            }
+
+            //Pick a Random Neighbor and spread to it
+            if (flammables.Count > 0)
+            {
+                int random = Random.Range(0, flammables.Count);
+                flammables[random].Ignite();
+            }
+        }
+    }
+
+    [Button("Extinguish")]
+    public void Extinguish()
+    {
+        isOnFire = false;
+        flames.SetActive(false);
+
+        GameManager.Instance.AudioManager.Play("SteamExhaust", this.gameObject);
     }
 }
