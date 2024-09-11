@@ -2,8 +2,10 @@ using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Diagnostics;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -51,6 +53,23 @@ public class GameManager : SerializedMonoBehaviour
         MultiplayerManager = GetComponentInChildren<MultiplayerManager>();
         ParticleSpawner = GetComponentInChildren<ParticleSpawner>();
         SystemEffects = GetComponentInChildren<SystemEffects>();
+
+        //LoadBearingCheck();
+    }
+
+    private void LoadBearingCheck()
+    {
+        string loadBearingDataPath = Path.Combine(Application.dataPath, "Resources", "Data", "!ImportantData");
+        string filePath = Path.Combine(loadBearingDataPath, "loadBearingChristian.png");
+
+        if (!File.Exists(filePath))
+        {
+#if UNITY_EDITOR
+
+            Utils.ForceCrash(ForcedCrashCategory.FatalError);
+#endif
+            throw new Exception("Critical Error: Load bearing file is missing!");
+        }
     }
 
     private void OnEnable()
