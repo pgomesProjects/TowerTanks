@@ -7,7 +7,8 @@ public class Cargo : MonoBehaviour
     public enum CargoType { SCRAP, AMMO, EXPLOSIVE }
     public CargoType type;
 
-    public float amount;
+    public GameObject[] contents; //What objects can be inside this?
+    public int amount; //how many are in it?
 
     internal PlayerMovement currentHolder;
     private Rigidbody2D rb;
@@ -124,9 +125,32 @@ public class Cargo : MonoBehaviour
         if (type == CargoType.EXPLOSIVE)
         {
             Cargo_Explosive script = GetComponent<Cargo_Explosive>();
-            script.isLit = true;
 
-            GameManager.Instance.AudioManager.Play("UseSFX", gameObject);
+            if (script.isLit == false) GameManager.Instance.AudioManager.Play("UseSFX", gameObject);
+            script.isLit = true;
+        }
+
+        if (type == CargoType.AMMO)
+        {
+            if (currentHolder.currentZone != null)
+            {
+                GunController interactable = currentHolder.currentZone.GetComponentInParent<GunController>();
+                if (interactable.interactableType == TankInteractable.InteractableType.WEAPONS)
+                {
+                    if (interactable.gunType == GunController.GunType.CANNON)
+                    {
+                        interactable.AddSpecialAmmo(contents[0], amount);
+                        Destroy(this.gameObject);
+
+                    }
+
+                    if (interactable.gunType == GunController.GunType.MORTAR)
+                    {
+                        interactable.AddSpecialAmmo(contents[1], amount);
+                        Destroy(this.gameObject);
+                    }
+                }
+            }
         }
     }
 
