@@ -309,10 +309,7 @@ public class GamepadCursor : MonoBehaviour
         cursorCanMove = cursorActive;
     }
 
-    public void SetCursorMove(bool cursorMove)
-    {
-        cursorCanMove = cursorMove;
-    }
+    public void SetCursorMove(bool cursorMove) => cursorCanMove = cursorMove;
 
     public RectTransform GetCursorTransform() => localGamepadCursorTransform;
     public int GetOwnerIndex() => playerInput.playerIndex;

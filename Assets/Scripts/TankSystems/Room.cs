@@ -190,13 +190,13 @@ public class Room : MonoBehaviour
     /// Moves unmounted room as close as possible to target position (in local space) while snapping to grid.
     /// </summary>
     /// <param name="targetPoint"></param>
-    public void SnapMove(Vector2 targetPoint)
+    public Vector2 SnapMove(Vector2 targetPoint)
     {
         //Validity checks:
         if (mounted) //Room is already mounted
         {
             Debug.LogError("Tried to move room while it is mounted!"); //Log error
-            return;                                                    //Cancel move
+            return targetPoint;                                        //Cancel move
         }
 
         //Constrain to grid:
@@ -220,7 +220,7 @@ public class Room : MonoBehaviour
                 if (collider.TryGetComponent(out Cell otherCell) && otherCell.room != this) //Collider overlaps with a cell from another room
                 {
                     //print("Cell obstructed");
-                    return; //Generate no new couplers
+                    return newPoint; //Generate no new couplers
                 }
             }
             cell.c.size = Vector2.one; //Set collider size back to default
@@ -313,6 +313,8 @@ public class Room : MonoBehaviour
             group = group.OrderBy(otherCoupler => coupler.transform.rotation.z == 0 ? otherCoupler.transform.position.x : otherCoupler.transform.position.y);                    //Organize list from down to up and left to right
             for (int y = 1; y < group.Count();) { Coupler redundantCoupler = group.ElementAt(y); ghostCouplers.Remove(redundantCoupler); Destroy(redundantCoupler.gameObject); } //Delete all other couplers in group
         }
+
+        return newPoint;
     }
     /// <summary>
     /// Rotates unmounted room around its pivot.

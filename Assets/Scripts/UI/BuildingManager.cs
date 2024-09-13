@@ -13,7 +13,14 @@ public class BuildingManager : MonoBehaviour
         public RectTransform cursorTransform { get; private set; }
         public Room roomObject { get; private set; }
         public Transform roomTransform { get; private set; }
-        public bool mountingComplete { get; private set; }
+
+        public enum RoomState { FLOATING, MOVING, ONCOOLDOWN, MOUNTED };
+        public RoomState currentRoomState { get; private set; }
+
+        private float elapsedTime;
+        private float cooldownTimer;
+
+        public bool isMovementRepeating { get; private set; }
 
         public WorldRoom(PlayerRoomSelection playerSelector, Room roomObject, Transform roomTransform)
         {
@@ -30,13 +37,31 @@ public class BuildingManager : MonoBehaviour
             GameManager.Instance.AudioManager.Play("ConnectRoom");
 
             playerSelector.MountRoom();
-            mountingComplete = playerSelector.AllRoomsMounted();
+            if (playerSelector.AllRoomsMounted())
+                currentRoomState = RoomState.MOUNTED;
         }
 
-        public void SetRoomObject(Room roomObject)
+        public void UpdateTick()
         {
-            this.roomObject = roomObject;
+            elapsedTime += Time.deltaTime;
+
+            if (elapsedTime >= cooldownTimer)
+            {
+                currentRoomState = RoomState.MOVING;
+                if (!isMovementRepeating)
+                    isMovementRepeating = true;
+            }
         }
+
+        public void SetRoomObject(Room roomObject) => this.roomObject = roomObject;
+        public void ResetCooldown(float cooldownTimer)
+        {
+            currentRoomState = RoomState.ONCOOLDOWN;
+            elapsedTime = 0f;
+            this.cooldownTimer = cooldownTimer;
+        }
+        public void SetRoomState(RoomState currentRoomState) => this.currentRoomState = currentRoomState;
+        public void SetIsMovementRepeating(bool isMovementRepeating) => this.isMovementRepeating = isMovementRepeating;
     }
 
     [SerializeField, Tooltip("Building canvas.")] private Canvas buildingCanvas;
@@ -44,6 +69,8 @@ public class BuildingManager : MonoBehaviour
     [SerializeField, Tooltip("The transform for all of the room pieces.")] private Transform roomParentTransform;
     [SerializeField, Tooltip("The Spawn Point for all players in the build scene.")] private Transform spawnPoint;
     [SerializeField, Tooltip("The Ready Up Manager that lets players display that they are ready.")] private ReadyUpManager readyUpManager;
+    [SerializeField, Tooltip("The delay between the first input made for room movement and repeated tick movement.")] private float roomMoveDelay = 0.5f;
+    [SerializeField, Tooltip("The tick rate for moving a room.")] private float roomMoveTickRate = 0.35f;
 
     public static BuildingManager Instance;
 
@@ -85,35 +112,56 @@ public class BuildingManager : MonoBehaviour
     public void SpawnRoom(int roomToSpawn, PlayerRoomSelection playerSelector)
     {
         GameObject roomObject = Instantiate(GameManager.Instance?.roomList[roomToSpawn], roomParentTransform);
-        worldRoomObjects.Add(new WorldRoom(playerSelector, roomObject.GetComponent<Room>(), roomObject.transform));
+        WorldRoom room = new WorldRoom(playerSelector, roomObject.GetComponent<Room>(), roomObject.transform);
+        worldRoomObjects.Add(room);
+        MoveRoomInScene(room, Vector2.zero);
     }
 
     private void Update()
     {
         foreach(WorldRoom room in worldRoomObjects)
         {
-            if (!room.mountingComplete)
-            {
-                // Get the position of the target RectTransform in screen space
-                Vector3 targetPosition = room.cursorTransform.position;
-
-                // Convert the screen space position to world space
-                targetPosition = Camera.main.ScreenToWorldPoint(targetPosition);
-                targetPosition.z = 0f;
-
-                room.roomObject.SnapMove(targetPosition);
-
-                // Set the position of the game object to follow the RectTransform
-                //room.roomTransform.position = targetPosition;
-            }
+            if (!(room.currentRoomState == WorldRoom.RoomState.MOUNTED))
+                MoveRoom(room);
         }
+    }
+
+    private void MoveRoom(WorldRoom room)
+    {
+        PlayerData player = PlayerData.ToPlayerData(room.playerSelector.GetCurrentPlayerInput());
+        Vector2 playerMovement = player.movementData;
+
+        if (playerMovement != Vector2.zero && room.currentRoomState == WorldRoom.RoomState.FLOATING)
+            room.SetRoomState(WorldRoom.RoomState.MOVING);
+        else if (playerMovement == Vector2.zero && room.currentRoomState != WorldRoom.RoomState.FLOATING)
+        {
+            room.SetRoomState(WorldRoom.RoomState.FLOATING);
+            room.SetIsMovementRepeating(false);
+        }
+
+        switch (room.currentRoomState)
+        {
+            case WorldRoom.RoomState.MOVING:
+                MoveRoomInScene(room, playerMovement * 0.25f);
+                room.ResetCooldown(room.isMovementRepeating? roomMoveTickRate: roomMoveDelay);
+                break;
+            case WorldRoom.RoomState.ONCOOLDOWN:
+                room.UpdateTick();
+                break;
+        }
+    }
+
+    private void MoveRoomInScene(WorldRoom room, Vector2 distance)
+    {
+        room.cursorTransform.position = Camera.main.WorldToScreenPoint(
+            room.roomObject.SnapMove((Vector2)Camera.main.ScreenToWorldPoint(room.cursorTransform.position) + distance));
     }
 
     public void RotateRoom(PlayerInput playerInput)
     {
         WorldRoom playerRoom = GetPlayerRoom(playerInput);
 
-        if (!playerRoom.mountingComplete)
+        if (!(playerRoom.currentRoomState == WorldRoom.RoomState.MOUNTED))
         {
             GameManager.Instance.AudioManager.Play("RotateRoom");
             playerRoom.roomObject.debugRotate = true;
@@ -126,7 +174,7 @@ public class BuildingManager : MonoBehaviour
 
         playerRoom.Mount();
 
-        if (playerRoom.mountingComplete)
+        if (playerRoom.currentRoomState == WorldRoom.RoomState.MOUNTED)
         {
             SpawnPlayerInScene(playerRoom.playerSelector.GetCurrentPlayerInput());
 
@@ -143,6 +191,7 @@ public class BuildingManager : MonoBehaviour
         else
         {
             playerRoom.SetRoomObject(Instantiate(GameManager.Instance?.roomList[playerRoom.playerSelector.GetRoomToPlace()], roomParentTransform).GetComponent<Room>());
+            MoveRoomInScene(playerRoom, Vector2.zero);
         }
 
         return false;
@@ -182,7 +231,7 @@ public class BuildingManager : MonoBehaviour
     {
         foreach(WorldRoom room in worldRoomObjects)
         {
-            if (!room.mountingComplete)
+            if (!(room.currentRoomState == WorldRoom.RoomState.MOUNTED))
                 return false;
         }
 

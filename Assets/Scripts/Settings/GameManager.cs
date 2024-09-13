@@ -54,7 +54,7 @@ public class GameManager : SerializedMonoBehaviour
         ParticleSpawner = GetComponentInChildren<ParticleSpawner>();
         SystemEffects = GetComponentInChildren<SystemEffects>();
 
-        //LoadBearingCheck();
+        LoadBearingCheck();
     }
 
     private void LoadBearingCheck()

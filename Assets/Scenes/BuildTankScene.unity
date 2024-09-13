@@ -930,6 +930,8 @@ MonoBehaviour:
   roomParentTransform: {fileID: 817163659}
   spawnPoint: {fileID: 1510248977}
   readyUpManager: {fileID: 2088406709}
+  roomMoveDelay: 0.25
+  roomMoveTickRate: 0.05
 --- !u!4 &215933963
 Transform:
   m_ObjectHideFlags: 0

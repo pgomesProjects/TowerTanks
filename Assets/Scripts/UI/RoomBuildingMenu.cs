@@ -252,11 +252,9 @@ public class RoomBuildingMenu : SerializedMonoBehaviour
     private void GivePlayersRooms()
     {
         foreach (var room in roomSelections)
-        {
             BuildingManager.Instance.SpawnRoom(room.GetRoomAt(0), room);
-        }
 
-        GameManager.Instance.SetGamepadCursorsActive(true);
+        //GameManager.Instance.SetGamepadCursorsActive(true);
     }
 
     private PlayerRoomSelection GetPlayerSelectionData(PlayerInput currentPlayer)
