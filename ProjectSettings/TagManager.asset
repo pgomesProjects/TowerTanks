@@ -63,10 +63,10 @@ TagManager:
   - Camera
   - LadderEnd
   - EnergyShield
-  - 
-  - 
-  - 
-  - 
+  - TankCamA
+  - TankCamB
+  - TankCamC
+  - RadarCam
   - 
   - 
   - 

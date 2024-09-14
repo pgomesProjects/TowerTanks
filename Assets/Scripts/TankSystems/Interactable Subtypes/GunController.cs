@@ -6,6 +6,7 @@ public class GunController : TankInteractable
 {
     //Objects & Components:
     [Tooltip("Default projectile which will be fired by this weapon"), SerializeField]                      private GameObject projectilePrefab;
+    [Tooltip("List containing special Ammo loaded into this weapon"), SerializeField]                       private List<GameObject> specialAmmo = new List<GameObject>();
     [Tooltip("Transform indicating direction and position in which projectiles are fired"), SerializeField] private Transform barrel;
     [Tooltip("Joint around which moving cannon assembly rotates."), SerializeField]                         private Transform pivot;
     [Tooltip("Transforms to spawn particles from when used."), SerializeField]                              private Transform[] particleSpots;
@@ -243,10 +244,17 @@ public class GunController : TankInteractable
             float randomSpread = Random.Range(-spread, spread);
             barrel.localEulerAngles += new Vector3(0, 0, randomSpread);
 
+            //Check for Special Ammo
+            GameObject projectile = projectilePrefab; //Default projectile
+            if (specialAmmo.Count > 0) { projectile = specialAmmo[0]; } //Special Ammo
+
             //Fire projectile:
-            Projectile newProjectile = Instantiate(projectilePrefab).GetComponent<Projectile>();
+            Projectile newProjectile = Instantiate(projectile).GetComponent<Projectile>();
             newProjectile.Fire(barrel.position, barrel.right * muzzleVelocity);
             newProjectile.factionId = inheritance;
+
+            //If Special, Remove from List
+            if (projectile != projectilePrefab) { specialAmmo.RemoveAt(0); }
 
             /*
             if (newProjectile.factionId == TankId.TankType.ENEMY) {
@@ -313,6 +321,15 @@ public class GunController : TankInteractable
             }
             else if (GameManager.Instance.AudioManager.IsPlaying("CannonRotate", gameObject)) GameManager.Instance.AudioManager.Stop("CannonRotate", gameObject);
         }
+    }
+
+    public void AddSpecialAmmo(GameObject ammo, int quantity)
+    {
+        for (int i = 0; i < quantity; i++)
+        {
+            specialAmmo.Add(ammo);
+        }
+        GameManager.Instance.AudioManager.Play("CannonReload", this.gameObject);
     }
 
     //DEBUG METHODS:

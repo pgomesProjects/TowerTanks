@@ -134,6 +134,7 @@ MonoBehaviour:
   cargoList:
   - {fileID: 3642906957018620649, guid: 3fced5b46cb66c44f99395b2f109e3ad, type: 3}
   - {fileID: 6075565973188652431, guid: 3f169db2fab03e84497edc54b1373a5d, type: 3}
+  - {fileID: 8368367451371843906, guid: 3dfacf7975c2dea4bb777510128ff977, type: 3}
   fadeInTime: 1
   fadeOutTime: 0.5
   closeGateTime: 1

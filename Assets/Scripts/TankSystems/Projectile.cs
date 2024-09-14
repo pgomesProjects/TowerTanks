@@ -8,6 +8,7 @@ public class Projectile : MonoBehaviour
     //Objects & Components:
     public enum ProjectileType { BULLET, SHELL };
     public ProjectileType type;
+
     public LayerMask layerMask;
     private Transform smokeTrail;
     public float particleScale;
@@ -17,6 +18,7 @@ public class Projectile : MonoBehaviour
     [SerializeField, Tooltip("If true, this projectile utilizes splash damage")]        public bool hasSplashDamage; //Whether or not this projectile deals splash damage
     [SerializeField, Tooltip("Contains values related to splash damage zones")]         public SplashData[] splashData; //Contains all values related to different splash damage zones
     [SerializeField, Tooltip("If true, this projectile uses the 'Tunneling' mechanic")] public bool isTunneling;
+    [SerializeField, Tooltip("Chance this projectile lights things on fire when dealing damage")] public float fireChance;
 
     [SerializeField, Tooltip("Maximum lifetime of this projectile")]                    public float maxLife; //Maximum amount of time projectile can spend before it auto-destructs
     [SerializeField, Tooltip("Radius of projectile collider")]                          public float radius;  //Radius around projectile which is used to check for hits
@@ -142,6 +144,11 @@ public class Projectile : MonoBehaviour
                 destroyThis = true;
                 damagedCoreThisFrame = true; 
             }
+            else
+            {
+                if (RollFireChance()) { cellHit.Ignite(); } //Check for Fire
+            }
+
             GameManager.Instance.AudioManager.Play("ShellImpact", gameObject);
         }
 
@@ -207,7 +214,8 @@ public class Projectile : MonoBehaviour
                                 if (!damagedCoreThisFrame)
                                 {
                                     cellScript.Damage(splash.splashDamage);
-                                    if (cellScript.room.isCore) damagedCoreThisFrame = true;
+                                    if (cellScript.room.isCore) { damagedCoreThisFrame = true; }
+                                    else if (RollFireChance()) { cellScript.Ignite(); } //Check for Fire
                                 }
                             }
 
@@ -266,5 +274,16 @@ public class Projectile : MonoBehaviour
             particle = GameManager.Instance.ParticleSpawner.SpawnParticle(14, transform.position, randomScale, null);
             particle.transform.rotation = transform.rotation;
         }
+    }
+
+    private bool RollFireChance()
+    {
+        bool canIgnite = false;
+        float randomRoll = Random.Range(0.1f, 100f);
+        if (randomRoll <= fireChance)
+        {
+            canIgnite = true;
+        }
+        return canIgnite;
     }
 }
