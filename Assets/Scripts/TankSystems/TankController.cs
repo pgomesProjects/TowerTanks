@@ -228,6 +228,9 @@ public class TankController : SerializedMonoBehaviour
             EnableCannonBrains(false);
             AddCargo();
         }
+
+        //Camera setup:
+        if (CameraManipulator.main != null) CameraManipulator.main.OnTankSpawned(this); //Generate this tank a camera system
     }
     private void OnDrawGizmos()
     {
@@ -493,6 +496,7 @@ public class TankController : SerializedMonoBehaviour
 
     public void BlowUp(bool immediate)
     {
+        CameraManipulator.main.OnTankDestroyed(this);
         if (immediate) DestroyImmediate(gameObject);
         else
         {
@@ -713,7 +717,6 @@ public class TankController : SerializedMonoBehaviour
                 }
             }
         }
-        if (CameraManipulator.main != null && tankType == TankId.TankType.PLAYER) CameraManipulator.main.UpdateTargetGroup(this); //Update camera so that it captures full scale of tank (only for player)
     }
     
     public void AddInteractable(GameObject interactable)

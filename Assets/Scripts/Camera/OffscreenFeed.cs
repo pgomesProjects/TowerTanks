@@ -58,6 +58,9 @@ public class OffscreenFeed : MonoBehaviour
     }
     private void Update()
     {
+        //NOTE: FIX TO WORK WITH CAMMANIPULATOR AT SOME POINT
+        return;
+
         //Bubble updates:
         Vector2 viewportPos = Camera.main.WorldToViewportPoint(transform.position); //Get position of object relative to camera viewport
         if (viewportPos.x < 0 || viewportPos.x > 1 || viewportPos.y < 0 || viewportPos.y > 1) //Object is outside camera viewport
