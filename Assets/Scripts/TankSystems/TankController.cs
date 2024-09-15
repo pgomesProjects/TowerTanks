@@ -718,7 +718,12 @@ public class TankController : SerializedMonoBehaviour
             }
         }
     }
-    
+    public void UpdateBoundRect()
+    {
+        Rect boundRect = new Rect();
+        //boundRect.height
+    }
+
     public void AddInteractable(GameObject interactable)
     {
         InteractableId newId = new InteractableId();
