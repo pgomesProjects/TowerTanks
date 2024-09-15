@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.LowLevel;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
+using TMPro;
+using Sirenix.OdinInspector;
 
-public class BuildingManager : MonoBehaviour
+public class BuildingManager : SerializedMonoBehaviour
 {
     private class WorldRoom
     {
@@ -16,11 +17,10 @@ public class BuildingManager : MonoBehaviour
 
         public enum RoomState { FLOATING, MOVING, ONCOOLDOWN, MOUNTED };
         public RoomState currentRoomState { get; private set; }
+        public bool isMovementRepeating { get; private set; }
 
         private float elapsedTime;
         private float cooldownTimer;
-
-        public bool isMovementRepeating { get; private set; }
 
         public WorldRoom(PlayerRoomSelection playerSelector, Room roomObject, Transform roomTransform)
         {
@@ -39,6 +39,11 @@ public class BuildingManager : MonoBehaviour
             playerSelector.MountRoom();
             if (playerSelector.AllRoomsMounted())
                 currentRoomState = RoomState.MOUNTED;
+        }
+
+        public void Dismount()
+        {
+            roomObject.Dismount();
         }
 
         public void UpdateTick()
@@ -64,24 +69,38 @@ public class BuildingManager : MonoBehaviour
         public void SetIsMovementRepeating(bool isMovementRepeating) => this.isMovementRepeating = isMovementRepeating;
     }
 
+    public static BuildingManager Instance;
+
     [SerializeField, Tooltip("Building canvas.")] private Canvas buildingCanvas;
     [SerializeField, Tooltip("The UI that shows the transition between game phases.")] private GamePhaseUI gamePhaseUI;
     [SerializeField, Tooltip("The transform for all of the room pieces.")] private Transform roomParentTransform;
     [SerializeField, Tooltip("The Spawn Point for all players in the build scene.")] private Transform spawnPoint;
+    [SerializeField, Tooltip("The player action container.")] private RectTransform playerActionContainer;
+    [SerializeField, Tooltip("The player action prefab.")] private GameObject playerActionPrefab;
+    [SerializeField, Tooltip("The color for the most recent action.")] private Color mostRecentActionColor;
     [SerializeField, Tooltip("The Ready Up Manager that lets players display that they are ready.")] private ReadyUpManager readyUpManager;
     [SerializeField, Tooltip("The delay between the first input made for room movement and repeated tick movement.")] private float roomMoveDelay = 0.5f;
     [SerializeField, Tooltip("The tick rate for moving a room.")] private float roomMoveTickRate = 0.35f;
 
-    public static BuildingManager Instance;
-
     private TankController defaultPlayerTank;
+    private Color defaultPlayerActionColor;
+
     private List<WorldRoom> worldRoomObjects;
+    private Stack<Room> tankBuildHistory;
+
+    [Button(ButtonSizes.Medium)]
+    private void DebugUndo()
+    {
+        UndoPlayerAction();
+    }
 
     private void Awake()
     {
         Instance = this;
         worldRoomObjects = new List<WorldRoom>();
+        tankBuildHistory = new Stack<Room>();
         defaultPlayerTank = FindObjectOfType<TankController>();
+        defaultPlayerActionColor = playerActionPrefab.GetComponentInChildren<Image>().color;
     }
 
     // Start is called before the first frame update
@@ -174,6 +193,8 @@ public class BuildingManager : MonoBehaviour
 
         playerRoom.Mount();
 
+        AddToPlayerActionHistory(playerInput.playerIndex + 1, playerRoom.roomObject);
+
         if (playerRoom.currentRoomState == WorldRoom.RoomState.MOUNTED)
         {
             SpawnPlayerInScene(playerRoom.playerSelector.GetCurrentPlayerInput());
@@ -195,6 +216,37 @@ public class BuildingManager : MonoBehaviour
         }
 
         return false;
+    }
+
+    private void AddToPlayerActionHistory(int playerNumber, Room currentRoom)
+    {
+        if (tankBuildHistory.Count != 0)
+            playerActionContainer.GetChild(playerActionContainer.childCount - 1).GetComponentInChildren<Image>().color = defaultPlayerActionColor;
+
+        GameObject newAction = Instantiate(playerActionPrefab, playerActionContainer);
+        newAction.GetComponentInChildren<TextMeshProUGUI>().text = "Player " + playerNumber + " Placed " + currentRoom.ToString();
+        newAction.GetComponentInChildren<Image>().color = mostRecentActionColor;
+
+        tankBuildHistory.Push(currentRoom);
+    }
+
+    private void UndoPlayerAction()
+    {
+        if (tankBuildHistory.Count == 0)
+        {
+            Debug.Log("No actions to undo.");
+            return;
+        }
+
+        Room currentRoom = tankBuildHistory.Pop();
+        currentRoom.Dismount();
+
+        // Update the action container
+        if (playerActionContainer.childCount - 2 >= 0)
+            playerActionContainer.GetChild(playerActionContainer.childCount - 2).GetComponentInChildren<Image>().color = mostRecentActionColor;
+
+        if (playerActionContainer.childCount > 0)
+            Destroy(playerActionContainer.GetChild(playerActionContainer.childCount - 1).gameObject);
     }
 
     private void SpawnPlayerInScene(PlayerInput playerInput)

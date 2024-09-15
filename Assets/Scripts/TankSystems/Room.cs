@@ -415,6 +415,43 @@ public class Room : MonoBehaviour
 
         return mounted;
     }
+
+    /// <summary>
+    /// Dismounts this room from the tank base or any other connected rooms.
+    /// </summary>
+    public void Dismount()
+    {
+        // Validity checks:
+        if (!mounted) { Debug.LogError("Tried to dismount room which is not mounted!"); return; } // Ensure the room is currently mounted
+
+        // Destroy all objects within its cells
+        foreach(Cell cell in cells)
+        {
+            foreach (Transform child in cell.transform) Destroy(child.gameObject);
+        }
+
+        // Remove couplers:
+        foreach (Coupler coupler in couplers)
+        {
+            if(coupler != null)
+                Destroy(coupler.gameObject);
+        }
+
+        couplers.Clear(); // Clear the room's coupler list
+
+        // Remove room from tank:
+        if (targetTank != null)
+        {
+            targetTank.rooms.Remove(this);          // Remove room from the tank's list of rooms
+            targetTank.treadSystem.ReCalculateMass(); // Recalculate tank's mass after dismounting the room
+            targetTank.UpdateHighestCell();         // Update the highest cell in the tank
+        }
+
+        // Cleanup:
+        mounted = false;
+        transform.parent = null;
+    }
+
     /// <summary>
     /// Changes room type to given value.
     /// </summary>
