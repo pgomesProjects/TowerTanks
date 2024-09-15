@@ -37,6 +37,12 @@ public class OffscreenFeed : MonoBehaviour
     //UNITY METHODS:
     private void Awake()
     {
+        if(GameHUD.main == null)
+        {
+            Debug.LogWarning("No GameHUD found!");
+            Destroy(this);
+        }
+
         //Generate camera object:
         cam = new GameObject().AddComponent<Camera>();   //Create object with attached camera component
         cam.transform.parent = transform;                //Child camera to object this script is on

@@ -56,8 +56,9 @@ public abstract class Character : SerializedMonoBehaviour
     protected GameObject flames;
     protected bool isAlive;
     protected bool isDead;
-    
+
     //internal movement
+    protected Vector2 moveInput;
     private Transform currentCellJoint;
     private int cellLayerIndex = 15;
     
@@ -273,6 +274,11 @@ public abstract class Character : SerializedMonoBehaviour
     #endregion
 
     #region Character Functions
+
+    public void SetCharacterMovement(Vector2 movement)
+    {
+        moveInput = movement;
+    }
 
     public float ModifyHealth(float amount)
     {

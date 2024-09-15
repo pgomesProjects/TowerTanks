@@ -14,7 +14,6 @@ public class PlayerMovement : Character
     //input
     [Header("Player Specific Options:")]
     public bool isDebugPlayer;
-    private Vector2 moveInput;
     private bool jetpackInputHeld;
     
     public bool interactInputHeld;
@@ -387,7 +386,7 @@ public class PlayerMovement : Character
     {
         if (!isAlive) return;
 
-        moveInput = ctx.ReadValue<Vector2>();
+        SetCharacterMovement(ctx.ReadValue<Vector2>());
         
         if (ctx.started && moveInput.y > 0 && currentLadder != null && currentState != CharacterState.CLIMBING)
         {
