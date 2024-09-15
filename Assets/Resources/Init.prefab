@@ -132,10 +132,6 @@ MonoBehaviour:
   - {fileID: 4120718332322432321, guid: 34b0c3d4656ef5045ac437235b33d2f3, type: 3}
   - {fileID: 3262801775000389726, guid: 4c9471e38aa55d54d9cac81b6976812c, type: 3}
   - {fileID: 8072893013890943906, guid: 9db0351e829fb35458967d2f96877466, type: 3}
-  cargoList:
-  - {fileID: 3642906957018620649, guid: 3fced5b46cb66c44f99395b2f109e3ad, type: 3}
-  - {fileID: 6075565973188652431, guid: 3f169db2fab03e84497edc54b1373a5d, type: 3}
-  - {fileID: 8368367451371843906, guid: 3dfacf7975c2dea4bb777510128ff977, type: 3}
   fadeInTime: 1
   fadeOutTime: 0.5
   closeGateTime: 1
@@ -1050,6 +1046,7 @@ MonoBehaviour:
   - {fileID: 8584320029902564997, guid: dbb0c11c5996c564da89747c34f2aa27, type: 3}
   - {fileID: 4776322067841193046, guid: 309a533d6ac34c44c9b65e78ebd14b8c, type: 3}
   - {fileID: 7886208225322957548, guid: 1f5d2126f6bf8c04f9d4e620f637de44, type: 3}
+  - {fileID: 8317756643219714684, guid: f237cd1c639164c46bee172d0b41d55c, type: 3}
   particleFolderPath: 
 --- !u!1 &6359139974781729948
 GameObject:
@@ -1099,9 +1096,11 @@ MonoBehaviour:
   - cargoPrefab: {fileID: 3642906957018620649, guid: 3fced5b46cb66c44f99395b2f109e3ad, type: 3}
     weight: 6
   - cargoPrefab: {fileID: 6075565973188652431, guid: 3f169db2fab03e84497edc54b1373a5d, type: 3}
-    weight: 2
+    weight: 1
   - cargoPrefab: {fileID: 8368367451371843906, guid: 3dfacf7975c2dea4bb777510128ff977, type: 3}
     weight: 2
+  - cargoPrefab: {fileID: 8695668838568183417, guid: 61afdcf2de5e52d4785c259326d39da4, type: 3}
+    weight: 1
   cargoWeights: []
 --- !u!1 &6961505860283407432
 GameObject:
