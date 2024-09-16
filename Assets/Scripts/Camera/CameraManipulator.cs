@@ -27,7 +27,8 @@ public class CameraManipulator : MonoBehaviour
         [Tooltip("Determines whether or not this system is active and rendering.")]               public bool enabled = true;
         [Tooltip("True if this is an enemy tank which is within engagement distance of player.")] public bool engaged = false;
         [Tooltip("True if this camera system is for the player tank radar.")]                     public bool radar = false;
-        
+
+        [Tooltip("Offset width at last camera update, used to smooth out jittering.")] private float prevOffsetWidth;
 
         /// <summary>
         /// Ganerates a camera setup to track given tank.
@@ -173,21 +174,41 @@ public class CameraManipulator : MonoBehaviour
             if (!radar) //Updates for engagement cameras
             {
                 //Update ortho size:
-                float tallestTankHeight = tanks[0].treadSystem.transform.InverseTransformPoint(tanks[0].highestCell.transform.position).y + 0.5f; //Get height of tallest cell in tank above tread system (add half a unit to account for height of cell itself)
-                if (tanks.Count > 1) //There are other tanks to consider
+                float heightOrthoSize = (tanks[0].tankSizeValues.x + tanks[0].tankSizeValues.z + main.tankCamLowerBuffer + main.tankCamUpperBuffer) / 2; //Get ortho size as defined by tank height
+                float leftWidthOrthoSize = (((tanks[0].tankSizeValues.w * 2) + (2 * main.tankCamSideBuffer)) / 2) / cam.aspect;                          //Get ortho size as defined by tank width (measuring from middle to left)
+                float rightWidthOrthoSize = (((tanks[0].tankSizeValues.y * 2) + (2 * main.tankCamSideBuffer)) / 2) / cam.aspect;                         //Get ortho size as defined by tank width (measuring from middle to right)
+                float widthOrthoSize = Mathf.Max(leftWidthOrthoSize, rightWidthOrthoSize);                                                               //Get highest width-defined orthographic size
+                vcam.m_Lens.OrthographicSize = Mathf.Max(heightOrthoSize, widthOrthoSize);                                                               //Use whichever size is larger (captures full size of tank)
+
+                //Get x offset:
+                Vector2 offset = new Vector2();                                             //Create container to apply offsets to
+                bool tankLeaningRight = tanks[0].treadSystem.transform.eulerAngles.z > 180; //Identify which direction the tank is leaning in
+                Cell leftMostCell = tanks[0].rooms[0].cells[0];                             //Get baseline leftmost cell in tank (default to random cell in core room)
+                Cell rightMostCell = tanks[0].rooms[0].cells[0];                            //Get baseline rightmost cell in tank (default to random cell in core room)
+                foreach (Room room in tanks[0].rooms) //Iterate through all rooms in tank
                 {
-                    for (int x = 1; x < tanks.Count; x++) //Iterate through tanks in system
+                    foreach (Cell cell in room.cells) //Iterate through all cells in room
                     {
-                        float tankHeight = tanks[x].treadSystem.transform.InverseTransformPoint(tanks[x].highestCell.transform.position).y + 0.5f; //Get height of this tank
-                        tallestTankHeight = Mathf.Max(tallestTankHeight, tankHeight);                                                              //Use highest tank
+                        if (cell.transform.position.x < leftMostCell.transform.position.x) leftMostCell = cell;   //Indicate that cell is CURRENTLY the farthest left of all cells in tank
+                        if (cell.transform.position.x > rightMostCell.transform.position.x) rightMostCell = cell; //Indicate that cell is CURRENTLY the farthest right of all cells in tank
                     }
                 }
-                float orthoSize = (tallestTankHeight + main.tankCamLowerBuffer + main.tankCamUpperBuffer) / 2; //Get ortho size by adding the exact height of the tank to that of both buffer zones and correcting for ortho scale
-                vcam.m_Lens.OrthographicSize = orthoSize;                                                      //Set ortho size of camera
-            
-                //Update y offset:
-                float yOffset = (main.tankCamUpperBuffer + tallestTankHeight -main.tankCamLowerBuffer) / 2;     //Get camera y offset by getting sum of all height modifiers and finding center by dividing by 2
-                vcam.GetCinemachineComponent<CinemachineFramingTransposer>().m_TrackedObjectOffset.y = yOffset; //Apply y offset to camera component
+                float leftMostPoint = (leftMostCell.transform.position + (leftMostCell.transform.rotation * new Vector3(-0.5f, tankLeaningRight ? -0.5f : 0.5f, 0))).x;   //Get leftmost point of leftmost cell
+                float rightMostPoint = (rightMostCell.transform.position + (rightMostCell.transform.rotation * new Vector3(0.5f, tankLeaningRight ? 0.5f : -0.5f, 0))).x; //Get rightmost point of rightmost cell
+                leftMostPoint = Mathf.Min(leftMostPoint, tanks[0].treadSystem.wheels[0].transform.position.x - tanks[0].treadSystem.wheels[0].radius);                    //Check if leftmost wheel in tank tread is farther left than leftmost cell
+                rightMostPoint = Mathf.Max(rightMostPoint, tanks[0].treadSystem.wheels[^1].transform.position.x + tanks[0].treadSystem.wheels[^1].radius);                //Check if rightmost wheel in tank tread is farther right than rightmost cell
+                float offsetWidth = ((leftMostPoint + rightMostPoint) / 2) - tanks[0].treadSystem.transform.position.x;                                                   //Get x distance to offset camera by by finding the world center between both extreme horizontal points in tank and getting the difference between that and the tank x position
+                offsetWidth = Mathf.Lerp(prevOffsetWidth, offsetWidth, main.horizontalOffsetSmoothing * Time.deltaTime);                                                  //Use a lerp to smooth out erratic changes in found offset width
+                prevOffsetWidth = offsetWidth;                                                                                                                            //Store offset width value for later
+                offset += (Vector2)(Quaternion.AngleAxis(-tanks[0].treadSystem.transform.eulerAngles.z, Vector3.forward) * (Vector3.right * offsetWidth));                //Apply value to offset, compensating for current rotation of tank
+
+                Debug.DrawCircle((leftMostCell.transform.position + (leftMostCell.transform.rotation * new Vector3(-0.5f, tankLeaningRight ? -0.5f : 0.5f, 0))), 0.25f, 10, Color.blue);
+                Debug.DrawCircle((rightMostCell.transform.position + (rightMostCell.transform.rotation * new Vector3(0.5f, tankLeaningRight ? 0.5f : -0.5f, 0))), 0.25f, 10, Color.blue);
+
+                //Get y offset:
+                float offsetHeight = (vcam.m_Lens.OrthographicSize - tanks[0].tankSizeValues.z) - main.tankCamLowerBuffer;                               //Always adjust height of camera frame so it is lined up with lower camera buffer
+                offset += (Vector2)(Quaternion.AngleAxis(-tanks[0].treadSystem.transform.eulerAngles.z, Vector3.forward) * (Vector3.up * offsetHeight)); //Apply value to offset, compensating for current rotation of tank
+                vcam.GetCinemachineComponent<CinemachineFramingTransposer>().m_TrackedObjectOffset = offset;                                             //Apply final offset to vcam component
             }
             else //Updates for the radar
             {
@@ -248,9 +269,11 @@ public class CameraManipulator : MonoBehaviour
     [SerializeField, Tooltip("UI object used to position engagement zone camera setup in scene.")] private RectTransform engagementZoneTargeter;
     [SerializeField, Tooltip("UI object used to position radar zone camera in scene.")]            private RectTransform radarZoneTargeter;
     [Header("Tank Camera Settings:")]
-    [SerializeField, Tooltip("Camera space to leave above top cell of tank (in world units).")]                                         private float tankCamUpperBuffer;
-    [SerializeField, Tooltip("Camera space to leave below treads of tank (in world units).")]                                           private float tankCamLowerBuffer;
+    [SerializeField, Tooltip("Camera space to leave above top cell of tank (in world units)."), Min(0)]                                 private float tankCamUpperBuffer;
+    [SerializeField, Tooltip("Camera space to leave below treads of tank (in world units)."), Min(0)]                                   private float tankCamLowerBuffer;
+    [SerializeField, Tooltip("Camera space to leave beside each side of tank (in world units)."), Min(0)]                               private float tankCamSideBuffer;
     [SerializeField, Tooltip("Distance (in canvas space units) between engagement camera frames when multiple are on screen."), Min(0)] private float engagementCamSeparation;
+    [SerializeField, Tooltip("Lerp factor to apply to changes in horizontal offset for reducing jitter."), Min(0.001f)]                 private float horizontalOffsetSmoothing;
     [Space]
     [SerializeField, Tooltip("Range (from player tank) at which an enemy tank's camera will become active."), Min(0)]       private float engagementDistance;
     [SerializeField, Tooltip("Range (from player tank) at which enemy tank camera will merge with player camera."), Min(0)] private float shareCamDistance;
@@ -302,6 +325,13 @@ public class CameraManipulator : MonoBehaviour
         {
             normalizedEngagementArea = GetNormalizedRect(engagementZoneTargeter, zoneVisCanvas); //Re-locate engagement area in case it is being changed at runtime for debug purposes
             normalizedRadarArea = GetNormalizedRect(radarZoneTargeter, zoneVisCanvas);           //Re-locate radar area in case it is being changed at runtime for debug purposes
+        }
+    }
+    private void OnDrawGizmos()
+    {
+        if (Application.isEditor && Application.isPlaying)
+        {
+            
         }
     }
 

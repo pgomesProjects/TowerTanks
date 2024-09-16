@@ -7,7 +7,7 @@ public class TreadSystem : MonoBehaviour
     //Objects & Components:
     [Tooltip("Controller for this tread's parent tank.")]                                                         private TankController tankController;
     [Tooltip("Rigidbody for affecting tank movement.")]                                                           internal Rigidbody2D r;
-    [Tooltip("Wheels controlled by this system.")]                                                                private TreadWheel[] wheels;
+    [Tooltip("Wheels controlled by this system.")]                                                                internal TreadWheel[] wheels;
     [SerializeField, Tooltip("Prefab which will be used to generate caterpillar treads (should be 1 unit long)")] private GameObject treadPrefab;
     [Tooltip("Array of all tread segments in system (one per wheel).")]                                           private Transform[] treads;
 
