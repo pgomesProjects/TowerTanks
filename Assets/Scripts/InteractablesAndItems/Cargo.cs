@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Cargo : MonoBehaviour
 {
-    public enum CargoType { SCRAP, AMMO, EXPLOSIVE }
+    public enum CargoType { SCRAP, AMMO, EXPLOSIVE, TOOL }
     public CargoType type;
 
     public GameObject[] contents; //What objects can be inside this?
@@ -14,6 +14,7 @@ public class Cargo : MonoBehaviour
     private Rigidbody2D rb;
     private BoxCollider2D box2D;
     private CircleCollider2D circle2D;
+    private CapsuleCollider2D capsule2D;
     private float initCooldown; //time it takes for collider to enable
     
     private TrailRenderer trail;
@@ -23,6 +24,8 @@ public class Cargo : MonoBehaviour
     public LayerMask onTankMask; 
 
     public float throwForce;
+
+    public bool isContinuous; //Whether or not the Holder can hold down the interact button to use this continuously
 
     protected virtual void Awake()
     {
@@ -45,6 +48,12 @@ public class Cargo : MonoBehaviour
                 {
                     circle2D = GetComponent<CircleCollider2D>();
                     circle2D.enabled = false;
+                }
+                break;
+            case CargoType.TOOL:
+                {
+                    capsule2D = GetComponent<CapsuleCollider2D>();
+                    capsule2D.enabled = false;
                 }
                 break;
         }
@@ -70,6 +79,7 @@ public class Cargo : MonoBehaviour
             if (rb.isKinematic == false) rb.isKinematic = true;
             if (box2D != null && box2D.enabled == true) box2D.enabled = false;
             if (circle2D != null && circle2D.enabled == true) circle2D.enabled = false;
+            if (capsule2D != null && capsule2D.enabled == true) capsule2D.enabled = false;
             transform.rotation = new Quaternion(0, 0, 0, 0);
         }
 
@@ -81,6 +91,7 @@ public class Cargo : MonoBehaviour
         yield return new WaitForSeconds(initCooldown);
         if (box2D != null && box2D.enabled == false) box2D.enabled = true;
         if (circle2D != null && circle2D.enabled == false) circle2D.enabled = true;
+        if (capsule2D != null && capsule2D.enabled == false) capsule2D.enabled = true;
     }
 
     private IEnumerator InitializeTrail()
@@ -106,6 +117,7 @@ public class Cargo : MonoBehaviour
         rb.isKinematic = false;
         if (box2D != null) box2D.enabled = true;
         if (circle2D != null) circle2D.enabled = true;
+        if (capsule2D != null) capsule2D.enabled = true;
 
         if (throwing)
         {
@@ -120,7 +132,7 @@ public class Cargo : MonoBehaviour
         GameManager.Instance.AudioManager.Play("ButtonCancel");
     }
 
-    public void Use() //called from Holder when pressing Alt
+    public void Use(bool held = false) //called from Holder when pressing Alt
     {
         if (type == CargoType.EXPLOSIVE)
         {
@@ -148,6 +160,27 @@ public class Cargo : MonoBehaviour
                     {
                         interactable.AddSpecialAmmo(contents[1], amount);
                         Destroy(this.gameObject);
+                    }
+                }
+            }
+        }
+
+        if (type == CargoType.TOOL)
+        {
+            if (isContinuous)
+            {
+                CargoSprayer sprayer = GetComponent<CargoSprayer>();
+                if (held)
+                {
+                    Debug.Log("Using " + this.name + "!");
+                    sprayer.isSpraying = true;
+                }
+                else
+                {
+                    if (sprayer.isSpraying)
+                    {
+                        Debug.Log("Stopped using " + this.name);
+                        sprayer.isSpraying = false;
                     }
                 }
             }

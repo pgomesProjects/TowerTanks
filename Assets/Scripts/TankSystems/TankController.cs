@@ -453,8 +453,7 @@ public class TankController : SerializedMonoBehaviour
         cargoHold = new GameObject[random];
         for (int i = 0; i < cargoHold.Length; i++)
         {
-            int _random = Random.Range(0, GameManager.Instance.cargoList.Length);
-            cargoHold[i] = GameManager.Instance.cargoList[_random];
+            cargoHold[i] = GameManager.Instance.CargoManager.GetRandomCargo();
         }
     }
 
