@@ -444,7 +444,7 @@ public class Room : MonoBehaviour
         {
             targetTank.rooms.Remove(this);          // Remove room from the tank's list of rooms
             targetTank.treadSystem.ReCalculateMass(); // Recalculate tank's mass after dismounting the room
-            targetTank.UpdateHighestCell();         // Update the highest cell in the tank
+            targetTank.UpdateSizeValues();           // Update the highest cell in the tank
         }
 
         // Cleanup:
