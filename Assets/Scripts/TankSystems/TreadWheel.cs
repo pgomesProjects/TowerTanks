@@ -24,7 +24,7 @@ public class TreadWheel : MonoBehaviour
     [Tooltip("Hides debug visualization meshes on wheels.")]                                                                                        public bool hideDebugs;
 
     //Runtime Variables:
-    private Vector2 basePosition;        //Natural position of wheel (set at start)
+    internal Vector2 basePosition;        //Natural position of wheel (set at start)
     internal float radius;               //Radius of wheel, recorded at start
     internal bool grounded;              //True if wheel is touching a surface, false if not
     internal RaycastHit2D lastGroundHit; //Information about last surface hit by wheel

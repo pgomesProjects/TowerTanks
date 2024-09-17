@@ -152,9 +152,9 @@ public class TankController : SerializedMonoBehaviour
     #endregion
 
     //Runtime Variables:
-    [Tooltip("One of the cells which is in the uppermost position in the tank.")] internal Cell highestCell;
     private bool isDying = false; //true when the tank is in the process of blowing up
     private float deathSequenceTimer = 0;
+    [Tooltip("Describes the size of the tank in each cardinal direction (relative to treadbase). X = height, Y = left width, Z = depth, W = right width.")] internal Vector4 tankSizeValues;
 
     //UI
     private SpriteRenderer damageSprite;
@@ -231,16 +231,27 @@ public class TankController : SerializedMonoBehaviour
 
         //Camera setup:
         if (CameraManipulator.main != null) CameraManipulator.main.OnTankSpawned(this); //Generate this tank a camera system
+
+        //Get data from wheelbase:
+        if (treadSystem != null && treadSystem.wheels.Length > 0) //Tank should really have a treadSystem by now, and that treadSystem should really have at least one wheel
+        {
+            tankSizeValues.z = Vector3.Project(treadSystem.wheels[0].basePosition, treadSystem.transform.up).magnitude + treadSystem.wheels[0].radius; //Use vector projection to find the y distance between bottom of wheel and center of tread system
+            if (treadSystem.wheels.Length > 1) //Check other wheels if present
+            {
+                for (int x = 1; x < treadSystem.wheels.Length; x++) //Iterate through all wheels in treadsystem, ignoring the first one because it has already been checked
+                {
+                    tankSizeValues.z = Mathf.Max(tankSizeValues.z , Vector3.Project(treadSystem.wheels[x].basePosition, treadSystem.transform.up).magnitude + treadSystem.wheels[x].radius); //Compare each wheel to current winner and pick farthest-extending one
+                }
+            }
+        }
     }
     private void OnDrawGizmos()
     {
         if (Application.isPlaying && Application.isEditor) //Only do this gizmo stuff in unity editor playmode
         {
-            if (highestCell != null) //Update visualization for highest cell
-            {
-                Gizmos.color = Color.blue;
-                Gizmos.DrawSphere(highestCell.transform.position, 0.1f);
-            }
+            //Wheel extent visualization:
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawLine(treadSystem.transform.position, treadSystem.transform.position - (treadSystem.transform.up * tankSizeValues.z));
         }
     }
 
@@ -438,8 +449,7 @@ public class TankController : SerializedMonoBehaviour
         cargoHold = new GameObject[random];
         for (int i = 0; i < cargoHold.Length; i++)
         {
-            int _random = Random.Range(0, GameManager.Instance.cargoList.Length);
-            cargoHold[i] = GameManager.Instance.cargoList[_random];
+            cargoHold[i] = GameManager.Instance.CargoManager.GetRandomCargo();
         }
     }
 
@@ -694,29 +704,33 @@ public class TankController : SerializedMonoBehaviour
         SimpleTankBrain _brain = GetComponent<SimpleTankBrain>();
         _brain.enabled = true;
     }
-
     /// <summary>
-    /// Finds the tallest cell (one of them) in the tank and stores a reference to it in the TankController script. Should be done whenever the number of cells in the tank changes.
+    /// Updates envelope describing height and width of tank relative to treadbase.
     /// </summary>
-    public void UpdateHighestCell()
+    public void UpdateSizeValues()
     {
-        //Find cell:
-        highestCell = null; //Clear current highest cell (NOTE: probably get rid of this and do direct comparison later)
-        float bestYpos = 0; //Create place to store local y position of current highest cell
+        //Find extreme cells:
+        Transform upMostCell = null;    //Create container for store highest cell in tank
+        Transform leftMostCell = null;  //Create container for most leftward cell in tank
+        Transform rightMostCell = null; //Create container for most rightward cell in tank
         foreach (Room room in rooms) //Iterate through all rooms in tank
         {
             foreach (Cell cell in room.cells) //Iterate through all cells in room
             {
-                float cellYPos = cell.transform.position.y; //NOTE: THIS NEEDS TO BE RELATIVE TO THE LOCAL ANGLE OF THE TANK because it could be thrown off by like the tilt
-                if (highestCell == null || cellYPos > bestYpos) //We have a winner
-                {
-                    highestCell = cell;  //Set new highest cell
-                    bestYpos = cellYPos; //Update cell height leaderboard
-                }
+                Vector3 cellPos = treadSystem.transform.InverseTransformPoint(cell.transform.position); //Get shorthand variable for position of cell
+                if (upMostCell == null || treadSystem.transform.InverseTransformPoint(upMostCell.transform.position).y < cellPos.y) upMostCell = cell.transform;          //Save cell if it is taller than tallest known cell in tank
+                if (leftMostCell == null || treadSystem.transform.InverseTransformPoint(leftMostCell.transform.position).x > cellPos.x) leftMostCell = cell.transform;    //Save cell if it is farther left than leftmost known cell in tank
+                if (rightMostCell == null || treadSystem.transform.InverseTransformPoint(rightMostCell.transform.position).x < cellPos.x) rightMostCell = cell.transform; //Save cell if it is farther right than rightmost known cell in tank
             }
         }
+
+        //Calculate tank metrics:
+        float highestCellHeight = treadSystem.transform.InverseTransformPoint(upMostCell.transform.position).y + 0.5f;                 //Get height from treadbase to top of highest cell
+        float tankLeftSideLength = Mathf.Abs(treadSystem.transform.InverseTransformPoint(leftMostCell.transform.position).x) + 0.5f;   //Get length of tank from center of treadbase to outer edge of leftmost cell
+        float tankRightSideLength = Mathf.Abs(treadSystem.transform.InverseTransformPoint(rightMostCell.transform.position).x) + 0.5f; //Get length of tank from center of treadbase to outer edge of rightmost cell
+        tankSizeValues = new Vector4(highestCellHeight, tankRightSideLength, tankSizeValues.z, tankLeftSideLength);                    //Store found values
     }
-    
+
     public void AddInteractable(GameObject interactable)
     {
         InteractableId newId = new InteractableId();

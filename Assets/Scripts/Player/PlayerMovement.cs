@@ -212,6 +212,15 @@ public class PlayerMovement : Character
         if (currentObject != null)
         {
             currentObject.transform.position = hands.position;
+
+            if (currentObject.type == Cargo.CargoType.TOOL)
+            {
+                CargoSprayer sprayer = currentObject.GetComponent<CargoSprayer>();
+                if (sprayer != null)
+                {
+                    sprayer.UpdateNozzle(moveInput);
+                }
+            }
         }
 
         if (moveInput.y <= -0.5) isHoldingDown = true;
@@ -532,7 +541,7 @@ public class PlayerMovement : Character
         if (ctx.performed) //Held for 0.4 sec
         {
             //Repairing
-            if (currentInteractable == null && currentState != CharacterState.OPERATING)
+            if (currentInteractable == null && currentState != CharacterState.OPERATING && currentObject == null)
             {
                 LayerMask mask = LayerMask.GetMask("Cell");
                 Collider2D cell = Physics2D.OverlapPoint(transform.position, mask);
@@ -552,6 +561,12 @@ public class PlayerMovement : Character
 
             //Interactables
             if (currentInteractable != null) currentInteractable.SecondaryUse(true);
+
+            //Items
+            if (currentObject != null)
+            {
+                currentObject.Use(true);
+            }
         }
 
         if (ctx.canceled) //Let go
@@ -563,6 +578,11 @@ public class PlayerMovement : Character
                 currentRepairJob.repairMan = null;
                 currentRepairJob = null;
                 CancelInteraction();
+            }
+
+            if (currentObject != null)
+            {
+                currentObject.Use(false);
             }
         }
     }

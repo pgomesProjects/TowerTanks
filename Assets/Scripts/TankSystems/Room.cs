@@ -411,7 +411,7 @@ public class Room : MonoBehaviour
 
         //Update tank info:
         transform.parent = couplers[0].roomB.transform.parent; //Child room to parent of the rest of the rooms (home tank)
-        targetTank.UpdateHighestCell();                        //Check to see if any added cells are higher than the known highest cell
+        targetTank.UpdateSizeValues();                         //Check to see if any added cells are higher than the known highest cell
 
         return mounted;
     }

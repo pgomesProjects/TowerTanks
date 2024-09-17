@@ -226,10 +226,15 @@ MonoBehaviour:
   maxTankCams: 3
   engagementZoneTargeter: {fileID: 641975958061573031}
   radarZoneTargeter: {fileID: 9019250299501529046}
-  tankCamUpperBuffer: 2.5
-  tankCamLowerBuffer: 2.5
+  tankCamUpperBuffer: 2.05
+  tankCamLowerBuffer: 1
+  tankCamSideBuffer: 1.5
+  engagementCamSeparation: 25
+  horizontalOffsetSmoothing: 6
   engagementDistance: 100
   shareCamDistance: 0
+  radarEdgeBuffer: {x: 7.23, y: 12.3}
+  radarRange: 150
   boundColliderEdgeRadius: 1
 --- !u!1 &7846537676312662459
 GameObject:
