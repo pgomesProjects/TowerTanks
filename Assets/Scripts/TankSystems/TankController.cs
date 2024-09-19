@@ -703,8 +703,8 @@ public class TankController : SerializedMonoBehaviour
             brain.enabled = enabled;
         }
 
-        SimpleTankBrain _brain = GetComponent<SimpleTankBrain>();
-        _brain.enabled = true;
+        // SimpleTankBrain _brain = GetComponent<SimpleTankBrain>();
+        // _brain.enabled = true;
     }
     /// <summary>
     /// Updates envelope describing height and width of tank relative to treadbase.

@@ -1268,7 +1268,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1677695872598849026}
   - component: {fileID: 1677695872598849027}
-  - component: {fileID: -1844445078350209630}
+  - component: {fileID: 5348083963684456822}
   m_Layer: 0
   m_Name: Tank1
   m_TagString: Untagged
@@ -1305,37 +1305,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23bec43f57e14ed43b60076d04799daa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   TankName: 
   tankType: 0
   coreHealth: 500
   towerJointTarget: {fileID: 1677695871312723229}
+  isInvincible: 0
   cargoHold: []
-  shiftRight: 0
-  shiftLeft: 0
-  damage: 0
-  addEngine: 0
-  fireAllWeapons: 0
-  overchargeAllWeapons: 0
-  isDying: 0
---- !u!114 &-1844445078350209630
+  gear: 0
+  horsePower: 0
+  interactableList: []
+--- !u!114 &5348083963684456822
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1677695872598849025}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 889c5509cf4f9f34c9386c09c9102fd8, type: 3}
+  m_Script: {fileID: 11500000, guid: 8027a1eb121a83a4f8f2398a55833c18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  state: 0
-  flag: {fileID: 653320214817922089}
-  decisionCooldown: 4
-  distanceToPlayer: 0
-  maxDetectionRange: 160
-  maxEngagementRange: 80
-  minEngagementRange: 30
 --- !u!1 &1677695872621142252
 GameObject:
   m_ObjectHideFlags: 0
