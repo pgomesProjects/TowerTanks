@@ -9,14 +9,14 @@ using Sirenix.OdinInspector;
 public class PlayerRoomSelection
 {
     private PlayerData currentPlayer;
-    private List<int> currentRooms;
+    private List<RoomInfo> currentRooms;
     private int roomsPlaced;
     private int maxRoomsToPlace;
 
     public PlayerRoomSelection(PlayerData currentPlayer)
     {
         this.currentPlayer = currentPlayer;
-        this.currentRooms = new List<int>();
+        this.currentRooms = new List<RoomInfo>();
         this.roomsPlaced = 0;
         this.maxRoomsToPlace = RoomBuildingMenu.MAX_ROOMS_TO_PLACE;
     }
@@ -24,22 +24,23 @@ public class PlayerRoomSelection
     public PlayerRoomSelection(PlayerData currentPlayer, int maxRoomsToPlace)
     {
         this.currentPlayer = currentPlayer;
-        this.currentRooms = new List<int>(RoomBuildingMenu.MAX_ROOMS_TO_PLACE);
+        this.currentRooms = new List<RoomInfo>(RoomBuildingMenu.MAX_ROOMS_TO_PLACE);
         this.roomsPlaced = 0;
         this.maxRoomsToPlace = maxRoomsToPlace;
     }
 
-    public void AddRoomID(int currentRoomID)
+    public void AddRoomInfo(RoomInfo currentRoomInfo)
     {
-        currentRooms.Add(currentRoomID);
+        currentRooms.Add(currentRoomInfo);
     }
 
     public void MountRoom() => roomsPlaced++;
 
     public PlayerInput GetCurrentPlayerInput() => currentPlayer.playerInput;
-    public int GetRoomAt(int index) => currentRooms[index];
+    public RoomInfo GetRoomAt(int index) => currentRooms[index];
     public int GetMaxRoomsToPlace() => maxRoomsToPlace;
-    public int GetRoomToPlace() => currentRooms[roomsPlaced];
+    public int GetNumberOfRoomsPlaced() => roomsPlaced;
+    public Room GetRoomToPlace() => currentRooms[roomsPlaced].roomObject;
     public bool AllRoomsSelected() => currentRooms.Count >= maxRoomsToPlace;
     public bool AllRoomsMounted() => roomsPlaced >= maxRoomsToPlace;
 
@@ -156,7 +157,7 @@ public class RoomBuildingMenu : SerializedMonoBehaviour
         {
             int roomIndexRange = Random.Range(0, GameManager.Instance.roomList.Length);
             SelectableRoomObject newRoom = Instantiate(roomIconPrefab, roomListTransform);
-            newRoom.GetComponentInChildren<TextMeshProUGUI>().text = GameManager.Instance.roomList[roomIndexRange].name.ToString();
+            newRoom.DisplayRoomInfo(GameManager.Instance.roomList[roomIndexRange]);
             newRoom.SetRoomID(roomIndexRange);
             newRoom.OnSelected.AddListener(OnRoomSelected);
             roomButtons.Add(newRoom);
@@ -182,7 +183,7 @@ public class RoomBuildingMenu : SerializedMonoBehaviour
 
         int playerCount = roomSelections.Count;
 
-        Debug.Log("Player Count: " + playerCount);
+        //Debug.Log("Player Count: " + playerCount);
 
         switch (playerCount)
         {
@@ -221,7 +222,7 @@ public class RoomBuildingMenu : SerializedMonoBehaviour
     {
         roomsSelected++;
         PlayerRoomSelection currentSelector = GetPlayerSelectionData(playerSelected);
-        currentSelector.AddRoomID(currentRoomID);
+        currentSelector.AddRoomInfo(GameManager.Instance.roomList[currentRoomID]);
 
         if (currentSelector.AllRoomsSelected())
         {

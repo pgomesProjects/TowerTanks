@@ -6,11 +6,15 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using System;
 using UnityEngine.Events;
+using TMPro;
 
 public class SelectableRoomObject : GamepadSelectable
 {
     [SerializeField] private Color hoverColor;
     [SerializeField] private Color selectColor;
+
+    [SerializeField] private Image roomSprite;
+    [SerializeField] private TextMeshProUGUI roomAltText;
 
     private Image draggableImage;
     private Color defaultColor;
@@ -70,5 +74,19 @@ public class SelectableRoomObject : GamepadSelectable
     {
         draggableImage.color = defaultColor;
         isSelected = false;
+    }
+
+    public void DisplayRoomInfo(RoomInfo roomInfo)
+    {
+        if(roomInfo.sprite == null)
+        {
+            roomAltText.text = roomInfo.name;
+            roomSprite.color = new Color(0, 0, 0, 0);
+        }
+        else
+        {
+            roomAltText.text = "";
+            roomSprite.sprite = roomInfo.sprite;
+        }
     }
 }

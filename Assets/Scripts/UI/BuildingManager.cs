@@ -128,10 +128,10 @@ public class BuildingManager : SerializedMonoBehaviour
     /// </summary>
     /// <param name="roomToSpawn">The room to spawn into the world.</param>
     /// <param name="playerSelector">The player to follow.</param>
-    public void SpawnRoom(int roomToSpawn, PlayerRoomSelection playerSelector)
+    public void SpawnRoom(RoomInfo roomToSpawn, PlayerRoomSelection playerSelector)
     {
-        GameObject roomObject = Instantiate(GameManager.Instance?.roomList[roomToSpawn], roomParentTransform);
-        WorldRoom room = new WorldRoom(playerSelector, roomObject.GetComponent<Room>(), roomObject.transform);
+        Room roomObject = Instantiate(roomToSpawn.roomObject, roomParentTransform);
+        WorldRoom room = new WorldRoom(playerSelector, roomObject, roomObject.transform);
         worldRoomObjects.Add(room);
         MoveRoomInScene(room, Vector2.zero);
     }
@@ -190,10 +190,8 @@ public class BuildingManager : SerializedMonoBehaviour
     public bool MountRoom(PlayerInput playerInput)
     {
         WorldRoom playerRoom = GetPlayerRoom(playerInput);
-
         playerRoom.Mount();
-
-        AddToPlayerActionHistory(playerInput.playerIndex + 1, playerRoom.roomObject);
+        AddToPlayerActionHistory(playerInput.playerIndex + 1, playerRoom.playerSelector.GetRoomAt(playerRoom.playerSelector.GetNumberOfRoomsPlaced() - 1));
 
         if (playerRoom.currentRoomState == WorldRoom.RoomState.MOUNTED)
         {
@@ -211,23 +209,23 @@ public class BuildingManager : SerializedMonoBehaviour
         }
         else
         {
-            playerRoom.SetRoomObject(Instantiate(GameManager.Instance?.roomList[playerRoom.playerSelector.GetRoomToPlace()], roomParentTransform).GetComponent<Room>());
+            playerRoom.SetRoomObject(Instantiate(playerRoom.playerSelector.GetRoomToPlace(), roomParentTransform));
             MoveRoomInScene(playerRoom, Vector2.zero);
         }
 
         return false;
     }
 
-    private void AddToPlayerActionHistory(int playerNumber, Room currentRoom)
+    private void AddToPlayerActionHistory(int playerNumber, RoomInfo currentRoomInfo)
     {
         if (tankBuildHistory.Count != 0)
             playerActionContainer.GetChild(playerActionContainer.childCount - 1).GetComponentInChildren<Image>().color = defaultPlayerActionColor;
 
         GameObject newAction = Instantiate(playerActionPrefab, playerActionContainer);
-        newAction.GetComponentInChildren<TextMeshProUGUI>().text = "Player " + playerNumber + " Placed " + currentRoom.ToString();
+        newAction.GetComponentInChildren<TextMeshProUGUI>().text = "Player " + playerNumber + " Placed " + currentRoomInfo.name;
         newAction.GetComponentInChildren<Image>().color = mostRecentActionColor;
 
-        tankBuildHistory.Push(currentRoom);
+        tankBuildHistory.Push(currentRoomInfo.roomObject);
     }
 
     private void UndoPlayerAction()

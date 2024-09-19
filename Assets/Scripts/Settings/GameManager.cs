@@ -20,7 +20,7 @@ public class GameManager : SerializedMonoBehaviour
     public ParticleSpawner ParticleSpawner { get; private set; }
     public SystemEffects SystemEffects { get; private set; }
 
-    [SerializeField, Tooltip("The list of possible rooms for the players to pick.")] public GameObject[] roomList;
+    [SerializeField, Tooltip("The list of possible rooms for the players to pick.")] public RoomInfo[] roomList;
     [SerializeField, Tooltip("The list of possible interactables for the players to pick. NOTE: Remember to update the enum list when updating this list.")] public TankInteractable[] interactableList;
 
     internal int TotalInteractables = Enum.GetNames(typeof(INTERACTABLE)).Length;
