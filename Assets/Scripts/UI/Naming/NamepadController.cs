@@ -75,6 +75,7 @@ public class NamepadController : MonoBehaviour
         HighlightButton(0, 0);
         customNameActive = true;
         namepadRectTransform.gameObject.SetActive(true);
+        currentPlayer.SwitchCurrentActionMap("GameCursor");
     }
 
     public void HideGamepad()
@@ -89,6 +90,7 @@ public class NamepadController : MonoBehaviour
             namepadRectTransform.gameObject.SetActive(false);
             playerNameButtonRectTransform.gameObject.SetActive(true);
             GameManager.Instance.SetPlayerCursorActive(playerCursor, true);
+            currentPlayer.SwitchCurrentActionMap("Player");
         }
     }
 

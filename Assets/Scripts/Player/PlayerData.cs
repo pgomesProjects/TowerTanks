@@ -23,7 +23,7 @@ public class PlayerData : MonoBehaviour
     {
         playerInput = GetComponent<PlayerInput>();
         playerInputMap = playerInput.actions.FindActionMap("Player");
-        playerUIMap = playerInput.actions.FindActionMap("UI");
+        playerUIMap = playerInput.actions.FindActionMap("GameCursor");
         SetDefaultPlayerName();
         currentPlayerState = PlayerState.NameReady;
     }
@@ -66,23 +66,6 @@ public class PlayerData : MonoBehaviour
     private void OnMove(InputAction.CallbackContext ctx)
     {
         movementData = ctx.ReadValue<Vector2>();
-
-/*        float moveSensitivity = 0.2f;
-
-        if (isBuilding)
-        {
-            if (ctx.started && movementData.y > moveSensitivity)
-                BuildingManager.Instance.SnapRoom(playerInput, BuildingManager.WorldRoomSnap.UP);
-
-            if (ctx.started && movementData.y < -moveSensitivity)
-                BuildingManager.Instance.SnapRoom(playerInput, BuildingManager.WorldRoomSnap.DOWN);
-
-            if (ctx.started && movementData.x > moveSensitivity)
-                BuildingManager.Instance.SnapRoom(playerInput, BuildingManager.WorldRoomSnap.RIGHT);
-
-            if (ctx.started && movementData.x < -moveSensitivity)
-                BuildingManager.Instance.SnapRoom(playerInput, BuildingManager.WorldRoomSnap.LEFT);
-        }*/
     }
 
     private void OnRotate(InputAction.CallbackContext ctx)
@@ -143,15 +126,13 @@ public class PlayerData : MonoBehaviour
         return null;
     }
 
-    public void SetDefaultPlayerName()
-    {
-        playerName = "Player " + (playerInput.playerIndex + 1).ToString();
-    }
+    public void SetDefaultPlayerName() => SetPlayerName("Player " + (playerInput.playerIndex + 1).ToString());
 
     public string GetPlayerName() => playerName;
     public void SetPlayerName(string playerName)
     {
         this.playerName = playerName;
+        playerInput.name = playerName;
     }
 
     public PlayerState GetCurrentPlayerState() => currentPlayerState;
