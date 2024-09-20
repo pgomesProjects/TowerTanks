@@ -5095,7 +5095,7 @@ MonoBehaviour:
   groundMoveSpeed: 3
   airMoveSpeed: 30
   groundDeAcceleration: 20
-  airDeAcceleration: 1
+  airDeAcceleration: 3.5
   jetpackForce: 20
   climbSpeed: 4
   groundedBoxX: 0.301
