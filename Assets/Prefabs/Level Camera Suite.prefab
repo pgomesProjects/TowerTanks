@@ -224,6 +224,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxTankCams: 3
+  useRadar: 1
   engagementZoneTargeter: {fileID: 641975958061573031}
   radarZoneTargeter: {fileID: 9019250299501529046}
   tankCamUpperBuffer: 2.05
@@ -232,7 +233,7 @@ MonoBehaviour:
   engagementCamSeparation: 25
   horizontalOffsetSmoothing: 6
   engagementDistance: 100
-  shareCamDistance: 0
+  shareCamDistance: 15
   radarEdgeBuffer: {x: 7.23, y: 12.3}
   radarRange: 150
   boundColliderEdgeRadius: 1

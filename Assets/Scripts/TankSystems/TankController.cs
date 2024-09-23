@@ -598,10 +598,14 @@ public class TankController : SerializedMonoBehaviour
                 }
             }
             Room roomScript = Instantiate(room.GetComponent<Room>(), towerJoint, false);
-            roomScript.randomizeType = false;
-            Room.RoomType type = tankDesign.buildingSteps[i].roomType;
             Vector3 spawnVector = tankDesign.buildingSteps[i].localSpawnVector;
             int rotate = tankDesign.buildingSteps[i].rotate;
+
+            //Get room type (accounting for deprecated system):
+            int typeNum = (int)tankDesign.buildingSteps[i].roomType; //Get integer version of roomType
+            if (typeNum == 4) typeNum = 1;                           //Convert armor rooms in previous system to armor rooms in current system
+            if (typeNum > 2) typeNum = 0;                            //Convert all other rooms into standard rooms
+            Room.RoomType type = (Room.RoomType)typeNum;             //Apply room type
 
             //Execute the step
             roomScript.UpdateRoomType(type);
