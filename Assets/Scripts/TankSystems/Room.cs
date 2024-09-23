@@ -15,18 +15,12 @@ public class Room : MonoBehaviour
     /// Core catergories which indicate room function and properties.
     /// </summary>
     public enum RoomType {
-        /// <summary> Does nothing (has not been given a type). </summary>
-        Null,
-        /// <summary> Governs tank behavior and makes decisions. </summary>
-        Command,
-        /// <summary> Maintains tank propulsion and integrity. </summary>
-        Engineering,
-        /// <summary> Acquires and attacks other tanks. </summary>
-        Weapons,
-        /// <summary> Prevents and mitigates damage. </summary>
-        Defense,
-        /// <summary> Manages crew and cargo. </summary>
-        Logistics
+        /// <summary> Normal room in which interactables may be built. </summary>
+        Standard,
+        /// <summary> Room which provides high defense but cannot contain interactables. </summary>
+        Armor,
+        /// <summary> Room for storing cargo which cannot contain interactables. </summary>
+        Cargo
     }
 
     //Objects & Components:
@@ -40,8 +34,7 @@ public class Room : MonoBehaviour
 
     //Settings:
     [Header("Template Settings:")]
-    [Tooltip("Indicates whether or not this is the tank's indestructible core room.")]                     public bool isCore = false;
-    [SerializeField, Tooltip("If true, room type will be randomized upon spawn (IF spawn type is null).")] public bool randomizeType = false; 
+    [Tooltip("Indicates whether or not this is the tank's indestructible core room.")] public bool isCore = false;
     [Header("Debug Moving:")]
     public bool debugRotate;
     public int debugRotation = 0;
@@ -157,13 +150,6 @@ public class Room : MonoBehaviour
             newSections.Add(thisGroup); //Add group to sections list
         }
         sections = newSections.Select(eachList => eachList.ToArray()).ToArray(); //Convert lists into stored array
-
-        //Designate type:
-        if (randomizeType && type == RoomType.Null) //Room is being spawned with a random type
-        {
-            //NOTE: A smarter randomization engine needs to be created here so that rooms are always spawned in the scrap menu with different types (maybe with tetris-style randomness)
-            UpdateRoomType((RoomType)Random.Range(1, 6)); //Give room a random type and update immediately
-        }
     }
 
     public void Start()
@@ -247,7 +233,8 @@ public class Room : MonoBehaviour
                     {
                         //Inverse check:
                         Room otherRoom = hitCell1 == null ? hitCell2.room : hitCell1.room; //Get other room hit by either raycast (works even if only one raycast hit a room)
-                        if (otherRoom == this) { continue; } //Ignore if hit block is part of this room (happens before potential inverse check)
+                        if (otherRoom == this) { continue; }  //Ignore if hit block is part of this room (happens before potential inverse check)
+                        //if (!otherRoom.mounted) { continue; } //Ignore if hit cell is part of a room which has not been mounted yet
                         if (hitCell1 == null || hitCell2 == null) //Only one hit made contact with a cell
                         {
                             cellPos = (hitCell1 == null ? hitCell2 : hitCell1).transform.position; //Get position of partially-hit cell
@@ -467,9 +454,6 @@ public class Room : MonoBehaviour
             cell.backWall.GetComponent<SpriteRenderer>().color = newColor;                                               //Set cell color to new type
             foreach (Connector connector in cell.connectors) if (connector != null) connector.backWall.color = newColor; //Set color of connector back wall
         }
-
-        //Update interactable ghosts:
-        
     }
 
     //UTILITY METHODS:
