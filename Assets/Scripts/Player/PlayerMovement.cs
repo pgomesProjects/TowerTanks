@@ -39,12 +39,6 @@ public class PlayerMovement : Character
     private bool isCheckingSpinInput = false;
     private int validSpinCheckCounter = 0;
 
-    //objects
-    [Header("Interactables")]
-    public InteractableZone currentZone = null;
-    public bool isOperator; //true if player is currently operating an interactable
-    public TankInteractable currentInteractable; //what interactable player is currently operating
-
     private Cell buildCell;         //Cell player is currently building a stack interactable in (null if not building)
     private float timeBuilding = 0; //Time spent in build mode
 
@@ -751,7 +745,7 @@ public class PlayerMovement : Character
     {
         base.OnCharacterDeath();
 
-        if (isDead)
+        if (permaDeath)
         {
             OnPlayerDeath?.Invoke();
         }
@@ -760,6 +754,9 @@ public class PlayerMovement : Character
     protected override void ResetPlayer()
     {
         base.ResetPlayer();
+
+        if (currentObject != null)
+            currentObject.Drop(this, true, moveInput);
 
         if (TankManager.instance != null)
             SetAssignedTank(TankManager.instance.playerTank);

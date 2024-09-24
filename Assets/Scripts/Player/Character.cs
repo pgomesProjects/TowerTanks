@@ -51,13 +51,19 @@ public abstract class Character : SerializedMonoBehaviour
     private float currentRespawnTime;
     private bool isRespawning;
 
+    //objects
+    [Header("Interactables")]
+    public InteractableZone currentZone = null;
+    public bool isOperator; //true if player is currently operating an interactable
+    public TankInteractable currentInteractable; //what interactable player is currently operating
+
     [Header("Conditions")]
     [SerializeField] public bool isOnFire;
     protected float burnDamageRate = 1f;
     protected float burnDamageTimer = 0f;
     protected GameObject flames;
     protected bool isAlive;
-    protected bool isDead;
+    protected bool permaDeath;
 
     //internal movement
     protected Vector2 moveInput;
@@ -101,7 +107,7 @@ public abstract class Character : SerializedMonoBehaviour
         ResetPlayer();
         taskProgressBar = GetComponent<TaskProgressBar>();
         isAlive = true;
-        isDead = false;
+        permaDeath = false;
     }
 
     protected virtual void Update()
@@ -332,13 +338,11 @@ public abstract class Character : SerializedMonoBehaviour
         else
         {
             characterHUD?.KillPlayerHUD();
-            isDead = true;
+            permaDeath = true;
         }
 
         //TODO: (Ryan)
         //Needs to drop any objects/tools currently holding/equipped
-        //Needs to be kicked out of any interactable they're operating
-        //Needs to be unparented from anything they're parented to
 
         rb.isKinematic = true;
         characterHitbox.enabled = false;
@@ -352,6 +356,14 @@ public abstract class Character : SerializedMonoBehaviour
         currentHealth = characterSettings.maxHealth;
         currentFuel = characterSettings.fuelAmount;
         currentState = CharacterState.NONCLIMBING;
+
+        if (currentInteractable != null)
+        {
+            currentInteractable.CancelUse();
+            currentInteractable.Exit(true);
+        }
+
+        transform.parent = null;
     }
 
     private void RespawnTimer()
@@ -390,7 +402,7 @@ public abstract class Character : SerializedMonoBehaviour
         //TODO: (Ryan) Freeze
     }
 
-    public bool IsDead() => isDead;
+    public bool IsDead() => permaDeath;
 
     [Button(ButtonSizes.Medium)]
     public void Ignite()
