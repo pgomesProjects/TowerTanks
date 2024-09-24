@@ -55,7 +55,8 @@ MonoBehaviour:
   hasSplashDamage: 0
   splashData: []
   isTunneling: 0
-  maxLife: 0.7
+  fireChance: 0
+  maxLife: 1
   radius: 0.06
   drag: 0
   gravity: 5

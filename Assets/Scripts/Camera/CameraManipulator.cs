@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEngine.Rendering.Universal;
 using Sirenix.OdinInspector;
 using UnityEngine.UI;
+using UnityEngine.Audio;
 
 public class CameraManipulator : MonoBehaviour
 {
@@ -90,8 +91,7 @@ public class CameraManipulator : MonoBehaviour
             //Audio setup:
             if (tank.tankType == TankId.TankType.PLAYER) //Set up audio on this camera if it is the player's
             {
-                cam.gameObject.AddComponent<AkGameObj>();       //Add AK gameobject component to camera
-                cam.gameObject.AddComponent<AkAudioListener>(); //Add audio listener component to camera
+                AkSoundEngine.AddDefaultListener(cam.gameObject);
             }
 
             //Cleanup:
