@@ -79,7 +79,7 @@ public class Cell : MonoBehaviour
     private void Start()
     {
         //Assign Values
-        if (room.type == Room.RoomType.Defense) maxHealth *= 2f; //Armor has 2x hitpoints
+        if (room.type == Room.RoomType.Armor) maxHealth *= 2f; //Armor has 2x hitpoints
         health = maxHealth;
     }
 
@@ -217,7 +217,7 @@ public class Cell : MonoBehaviour
         }
         else
         {
-            if (room.type == Room.RoomType.Defense && ignoreArmor == false) amount -= 25f; //Armor reduces incoming damage
+            if (room.type == Room.RoomType.Armor && ignoreArmor == false) amount -= 25f; //Armor reduces incoming damage
             if (room.targetTank.isInvincible) amount = 0;
             if (amount < 0) { amount = 0; }
             else
@@ -229,7 +229,7 @@ public class Cell : MonoBehaviour
 
             if (health < 0) health = 0;
             healthLost = tempHealth - health;
-            if (room.type == Room.RoomType.Defense) healthLost += 25f;
+            if (room.type == Room.RoomType.Armor) healthLost += 25f;
 
             if (health <= 0) Kill();
         }
@@ -343,7 +343,7 @@ public class Cell : MonoBehaviour
         while (couplers.Count > 0) //Destroy connected couplers until none are left
         {
             Coupler coupler = couplers[0];                            //Get reference to target coupler
-            coupler.Kill();                                           //Destroy target coupler (it should remove itself from coupler list here
+            if (coupler != null) coupler.Kill();                      //Destroy target coupler (it should remove itself from coupler list here
             if (couplers.Contains(coupler)) couplers.Remove(coupler); //Make SURE coupler has been removed from list
         }
         if (playerBuilding) playerBuilding.StopBuilding(); //Force player to stop building if a player is building in this cell

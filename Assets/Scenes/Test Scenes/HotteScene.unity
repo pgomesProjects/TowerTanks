@@ -3553,6 +3553,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: -410
       objectReference: {fileID: 0}
+    - target: {fileID: 1619288457016717428, guid: f2f281eab74c581478c656c02b4fcc31, type: 3}
+      propertyPath: shareCamDistance
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3030082561400441972, guid: f2f281eab74c581478c656c02b4fcc31, type: 3}
       propertyPath: m_RootOrder
       value: 2
