@@ -20,6 +20,8 @@ public abstract class Character : SerializedMonoBehaviour
     protected int characterIndex;
     protected Transform hands;
     protected Transform characterVisualParent;
+    protected TaskProgressBar taskProgressBar;
+
     protected Color characterColor = new Color(1, 1, 1, 1);
 
     [Header("Character Information")]
@@ -97,6 +99,7 @@ public abstract class Character : SerializedMonoBehaviour
     protected virtual void Start()
     {
         ResetPlayer();
+        taskProgressBar = GetComponent<TaskProgressBar>();
         isAlive = true;
         isDead = false;
     }
