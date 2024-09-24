@@ -14,7 +14,7 @@ public class PlayerMovement : Character
     //input
     [Header("Player Specific Options:")]
     public bool isDebugPlayer;
-    private bool jetpackInputHeld;
+    public bool jetpackInputHeld;
     
     public bool interactInputHeld;
     
@@ -67,6 +67,10 @@ public class PlayerMovement : Character
     private PlayerData playerData;
 
     public static Action OnPlayerDeath;
+    
+    private CharacterLegFloater legFloater;
+    
+    private List<Collider2D> currentOtherColliders = new List<Collider2D>();
 
     #endregion
 
@@ -80,6 +84,11 @@ public class PlayerMovement : Character
         {
             PlayerInput debugInput = GameObject.Find("Debug_TankBuilder").GetComponent<PlayerInput>();
             if (debugInput != null) AddDebuggerPlayerInput(debugInput);
+        }
+        
+        if (TryGetComponent<CharacterLegFloater>(out CharacterLegFloater _legFloater))
+        {
+            legFloater = _legFloater;
         }
     }
 
@@ -406,8 +415,9 @@ public class PlayerMovement : Character
         {
             if (CheckSurfaceCollider(18).gameObject.TryGetComponent(out PlatformCollisionSwitcher collSwitcher))
             {
-                StartCoroutine(collSwitcher.DisableCollision(GetComponent<Collider2D>()));
-            }
+                StartCoroutine(collSwitcher.DisableCollision(GetComponent<Collider2D>())); //Disable collision with platform
+            }                                                       // if leg floater is present, 
+                                                                    // disable use on platform  (leg floater floats the character collider by a few pixels which means the character won't slip and also won't trip over small changes in terrain collision)
         }
     }
 
@@ -762,4 +772,6 @@ public class PlayerMovement : Character
             SetAssignedTank(TankManager.instance.playerTank);
     }
     #endregion
+
+
 }

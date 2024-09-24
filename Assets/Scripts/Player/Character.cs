@@ -65,6 +65,8 @@ public abstract class Character : SerializedMonoBehaviour
     protected LayerMask ladderLayer;
 
     private TankController assignedTank;
+    
+    protected List<Collider2D> currentOtherColliders = new List<Collider2D>();
 
     [Button(ButtonSizes.Medium)]
     private void DebugModifyPlayerHealth()
@@ -192,21 +194,36 @@ public abstract class Character : SerializedMonoBehaviour
 
     #region Movement
 
-    protected bool CheckGround()
+    public bool CheckGround()
     {
         LayerMask bothLayers = (1 << LayerMask.NameToLayer("Ground")) | (1 << LayerMask.NameToLayer("Coupler"));
-        return Physics2D.OverlapBox(new Vector2(transform.position.x,
-                                                     transform.position.y - groundedBoxOffset),
-                                                   new Vector2(groundedBoxX, groundedBoxY),
-                                                   0f,
-                                                   bothLayers);
-        
+
+        /*foreach (var collider in currentOtherColliders)
+        {
+            if (collider.gameObject.layer == LayerMask.NameToLayer("Ground") || //if we are touching ground
+                collider.gameObject.layer == LayerMask.NameToLayer("Coupler"))
+            {
+                
+                return Physics2D.OverlapBox(new Vector2(transform.position.x, //if our position is over that ground
+                        transform.position.y - groundedBoxOffset),
+                    new Vector2(groundedBoxX, groundedBoxY),
+                    0f,
+                    bothLayers);
+            }
+        }*/
+
+        return Physics2D.OverlapBox(new Vector2(transform.position.x, //if our position is over that ground
+                transform.position.y - groundedBoxOffset),
+            new Vector2(groundedBoxX, groundedBoxY),
+            0f,
+            bothLayers);
+
     }
     
     protected Collider2D CheckSurfaceCollider(int layer)
     {
-        return Physics2D.OverlapBox(new Vector2(transform.position.x,
-                transform.position.y - transform.localScale.y),
+        return Physics2D.OverlapBox(new Vector2(transform.position.x, //if our position is over that ground
+                transform.position.y - groundedBoxOffset),
             new Vector2(groundedBoxX, groundedBoxY),
             0f,
             1 << layer);
@@ -278,6 +295,11 @@ public abstract class Character : SerializedMonoBehaviour
     public void SetCharacterMovement(Vector2 movement)
     {
         moveInput = movement;
+    }
+    
+    public Vector2 GetCharacterInput()
+    {
+        return moveInput;
     }
 
     public float ModifyHealth(float amount)
@@ -419,4 +441,14 @@ public abstract class Character : SerializedMonoBehaviour
     }
 
     #endregion
+    
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        currentOtherColliders.Add(other.collider);
+    }
+    
+    private void OnCollisionExit2D(Collision2D other)
+    {
+        currentOtherColliders.Remove(other.collider);
+    }
 }
