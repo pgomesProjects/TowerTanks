@@ -78,6 +78,10 @@ public class PlayerMovement : Character
     [Range(0, 1)]
     private float ladderEnterDeadzone;
 
+    [SerializeField]
+    [Tooltip("The higher this value is set, the faster the player will walk on slopes up until this value. Player speed would reach zero at this slope value. ")]
+    private float maxSlope = 100;
+
     #endregion
 
     #region Unity Methods
@@ -126,6 +130,9 @@ public class PlayerMovement : Character
     protected override void Update()
     {
         base.Update();
+        
+        
+        
         if (!isAlive)
         {
             if (GameManager.Instance.AudioManager.IsPlaying("JetpackRocket", gameObject))
@@ -269,7 +276,17 @@ public class PlayerMovement : Character
     
     protected override void MoveCharacter()
     {
-        Vector2 force = transform.right * (moveInput.x * (CheckGround() ? groundMoveSpeed : airMoveSpeed)); 
+        var slope = transform.eulerAngles.z < 180 ? transform.eulerAngles.z : transform.eulerAngles.z - 360;
+        
+        float deAccel = Mathf.InverseLerp(maxSlope, 0, Mathf.Abs(slope));
+        
+        if (Mathf.Sign(slope) == Mathf.Sign(moveInput.x))
+        {
+            currentGroundMoveSpeed = groundMoveSpeed * deAccel;
+        } else currentGroundMoveSpeed = groundMoveSpeed;
+        
+        Vector2 force = transform.right * (moveInput.x * (CheckGround() ? currentGroundMoveSpeed : airMoveSpeed));
+        
         if (CheckGround())
         {
             rb.AddForce(force, ForceMode2D.Impulse);
@@ -706,6 +723,8 @@ public class PlayerMovement : Character
 
         //End the check
         isCheckingSpinInput = false;
+        
+        
     }
 
     public override void LinkPlayerHUD(PlayerHUD newHUD)

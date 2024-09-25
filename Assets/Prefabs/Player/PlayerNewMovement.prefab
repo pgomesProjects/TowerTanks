@@ -5107,6 +5107,9 @@ MonoBehaviour:
   fuelRegenerationRate: 20
   characterDeathParticleSize: 0.18
   respawnTime: 3
+  currentZone: {fileID: 0}
+  isOperator: 0
+  currentInteractable: {fileID: 0}
   isOnFire: 0
   isDebugPlayer: 0
   jetpackInputHeld: 0
@@ -5119,10 +5122,6 @@ MonoBehaviour:
   cannonScrollSensitivity: 3
   isSpinningJoystick: 0
   spinningForce: 0
-  currentZone: {fileID: 0}
-  isOperator: 0
-  currentInteractable: {fileID: 0}
-  buildTime: 1
   carryableObjects:
     serializedVersion: 2
     m_Bits: 512
@@ -5134,6 +5133,7 @@ MonoBehaviour:
   couplerStickDeadzone: 0.5
   ladderDismountDeadzone: 0.5
   ladderEnterDeadzone: 0.75
+  maxSlope: 95
 --- !u!114 &3919349592667607501
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -31,6 +31,8 @@ public abstract class Character : SerializedMonoBehaviour
     [FormerlySerializedAs("moveSpeed")]
     [Header("Movement")]
     [SerializeField] protected float groundMoveSpeed;
+
+    protected float currentGroundMoveSpeed;
     [SerializeField] protected float airMoveSpeed;
     [SerializeField] protected float groundDeAcceleration;
     [SerializeField] protected float airDeAcceleration;
