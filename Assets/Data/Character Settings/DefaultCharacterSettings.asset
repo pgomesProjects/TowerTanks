@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 5
   fuelAmount: 100
+  buildTime: 1

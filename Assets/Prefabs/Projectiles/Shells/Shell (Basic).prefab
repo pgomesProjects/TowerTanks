@@ -60,7 +60,7 @@ MonoBehaviour:
     splashRadius: 0.75
   isTunneling: 0
   fireChance: 2
-  maxLife: 1.1
+  maxLife: 10
   radius: 0.18
   drag: 0
   gravity: 15

@@ -191,7 +191,7 @@ public class BuildingManager : SerializedMonoBehaviour
     {
         WorldRoom playerRoom = GetPlayerRoom(playerInput);
         playerRoom.Mount();
-        AddToPlayerActionHistory(playerInput.playerIndex + 1, playerRoom.playerSelector.GetRoomAt(playerRoom.playerSelector.GetNumberOfRoomsPlaced() - 1));
+        AddToPlayerActionHistory(playerInput.name, playerRoom.playerSelector.GetRoomAt(playerRoom.playerSelector.GetNumberOfRoomsPlaced() - 1));
 
         if (playerRoom.currentRoomState == WorldRoom.RoomState.MOUNTED)
         {
@@ -216,13 +216,13 @@ public class BuildingManager : SerializedMonoBehaviour
         return false;
     }
 
-    private void AddToPlayerActionHistory(int playerNumber, RoomInfo currentRoomInfo)
+    private void AddToPlayerActionHistory(string playerName, RoomInfo currentRoomInfo)
     {
         if (tankBuildHistory.Count != 0)
             playerActionContainer.GetChild(playerActionContainer.childCount - 1).GetComponentInChildren<Image>().color = defaultPlayerActionColor;
 
         GameObject newAction = Instantiate(playerActionPrefab, playerActionContainer);
-        newAction.GetComponentInChildren<TextMeshProUGUI>().text = "Player " + playerNumber + " Placed " + currentRoomInfo.name;
+        newAction.GetComponentInChildren<TextMeshProUGUI>().text = playerName + " Placed " + currentRoomInfo.name;
         newAction.GetComponentInChildren<Image>().color = mostRecentActionColor;
 
         tankBuildHistory.Push(currentRoomInfo.roomObject);

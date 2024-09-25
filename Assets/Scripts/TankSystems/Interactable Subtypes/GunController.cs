@@ -26,6 +26,8 @@ public class GunController : TankInteractable
     private float fireCooldownTimer;
     [Tooltip("Radius of Degrees of the Cone of Fire for this weapon's projectiles"), SerializeField, Min(0)] private float spread;
 
+    private TaskProgressBar gunReloadBar;
+
     //Gun Specific Settings
 
     //Cannon
@@ -37,6 +39,7 @@ public class GunController : TankInteractable
     private float spinTimer = 0;
 
     private float overheatTime = 6.5f; //how long the operator can keep shooting for before the weapon overheats
+    private float overheatCooldownMultiplier = 0.5f; //what percentage of time does it take for the weapon to cooldown
     private float overheatTimer = 0f;
     private bool isOverheating = false;
     private float smokePuffRate = 0.3f; //how much the gun should smoke when overheating (lower = more smoke)
@@ -69,6 +72,8 @@ public class GunController : TankInteractable
             //trajectoryLine.enabled = false;
             maxVelocity = muzzleVelocity; 
         }
+
+        gunReloadBar = GetComponent<TaskProgressBar>();
     }
 
     private void Update()
@@ -106,7 +111,7 @@ public class GunController : TankInteractable
 
             if (overheatTimer > 0 && spinTimer <= 0) //Track overheat timer
             {
-                overheatTimer -= (Time.deltaTime * 2f);
+                overheatTimer -= (Time.deltaTime * (1 / overheatCooldownMultiplier));
             }
             else
             {
@@ -214,6 +219,8 @@ public class GunController : TankInteractable
                 if (GameManager.Instance.AudioManager.IsPlaying("SteamExhaust", gameObject) == false) { 
                     GameManager.Instance.AudioManager.Play("SteamExhaust", gameObject); 
                 }
+
+                gunReloadBar?.StartTask(overheatTime / (1 / overheatCooldownMultiplier));
             }
 
             if (isOverheating) canFire = false;
@@ -277,6 +284,7 @@ public class GunController : TankInteractable
                 GameManager.Instance.ParticleSpawner.SpawnParticle(random, particleSpots[0].position, particleScale, null);
                 GameManager.Instance.AudioManager.Play("CannonFire", gameObject);
                 GameManager.Instance.AudioManager.Play("CannonThunk", gameObject); //Play firing audioclips
+                gunReloadBar?.StartTask(rateOfFire);
             }
 
             if (gunType == GunType.MACHINEGUN)
@@ -296,6 +304,7 @@ public class GunController : TankInteractable
                 GameManager.Instance.ParticleSpawner.SpawnParticle(random, particleSpots[0].position, particleScale, null);
                 GameManager.Instance.AudioManager.Play("CannonThunk", gameObject);
                 GameManager.Instance.AudioManager.Play("ProjectileInAirSFX", gameObject);
+                gunReloadBar?.StartTask(rateOfFire);
             }
 
             //Set Cooldown

@@ -39,13 +39,6 @@ public class PlayerMovement : Character
     private bool isCheckingSpinInput = false;
     private int validSpinCheckCounter = 0;
 
-    //objects
-    [Header("Interactables")]
-    public InteractableZone currentZone = null;
-    public bool isOperator; //true if player is currently operating an interactable
-    public TankInteractable currentInteractable; //what interactable player is currently operating
-
-    [SerializeField, Tooltip("Time it takes player to build an interactable.")] private float buildTime;
     private Cell buildCell;         //Cell player is currently building a stack interactable in (null if not building)
     private float timeBuilding = 0; //Time spent in build mode
 
@@ -154,7 +147,7 @@ public class PlayerMovement : Character
             transform.position = buildCell.repairSpot.position;
 
             timeBuilding += Time.deltaTime; //Increment build time tracker
-            if (timeBuilding >= buildTime) //Player has finished build
+            if (timeBuilding >= characterSettings.buildTime) //Player has finished build
             {
                 StackManager.BuildTopStackItem().InstallInCell(buildCell); //Install interactable from top of stack into designated build cell
                 StopBuilding();                                            //Indicate that build has stopped
@@ -502,11 +495,14 @@ public class PlayerMovement : Character
             Collider2D cellColl = Physics2D.OverlapPoint(transform.position, LayerMask.GetMask("Cell")); //Get cell player is currently on top of (if any)
             if (cellColl != null && cellColl.TryGetComponent(out Cell cell)) //Player is on top of a cell
             {
-                if (cell.room.targetTank.tankType == TankId.TankType.PLAYER && cell.interactable == null && cell.playerBuilding == null) //Cell is friendly and unoccupied
+                if (cell.room.targetTank.tankType == TankId.TankType.PLAYER && cell.interactable == null && cell.playerBuilding == null && //Cell is friendly and unoccupied
+                    !cell.room.isCore &&                      //Interactables cannot be built in the core
+                    cell.room.type == Room.RoomType.Standard) //Interactables cannot be built in armor or cargo rooms
                 {
                     buildCell = cell;           //Indicate that player is building in this cell
                     cell.playerBuilding = this; //Indicate that this player is building in given cell
                     print("started building");
+                    taskProgressBar?.StartTask(characterSettings.buildTime);
                 } else print("tried to start building");
             }
         }
@@ -757,6 +753,7 @@ public class PlayerMovement : Character
         buildCell = null;                //Clear cell reference
         timeBuilding = 0;                //Reset build time tracker
         currentState = CharacterState.NONCLIMBING;
+        taskProgressBar?.EndTask();
         print("stopped building");
     }
 
@@ -771,7 +768,7 @@ public class PlayerMovement : Character
     {
         base.OnCharacterDeath();
 
-        if (isDead)
+        if (permaDeath)
         {
             OnPlayerDeath?.Invoke();
         }
@@ -780,6 +777,9 @@ public class PlayerMovement : Character
     protected override void ResetPlayer()
     {
         base.ResetPlayer();
+
+        if (currentObject != null)
+            currentObject.Drop(this, true, moveInput);
 
         if (TankManager.instance != null)
             SetAssignedTank(TankManager.instance.playerTank);
