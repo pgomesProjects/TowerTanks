@@ -22,6 +22,8 @@ public class CharacterLegFloater : MonoBehaviour
     private bool disabled = false;
 
     private Vector2 prevPosition;
+    
+    
 
 
     private void Start()
@@ -41,8 +43,8 @@ public class CharacterLegFloater : MonoBehaviour
         Vector2 currentPosition = rb.position;
         
         if (disabled) return;
-        if (!thisPlayer.CheckGround() || thisPlayer.jetpackInputHeld || rb.velocity.y > 2) return;
-        Vector2 localVel = transform.InverseTransformDirection(rb.velocity);
+        if (!thisPlayer.CheckGround() || thisPlayer.jetpackInputHeld || rb.velocity.y > 2) return; //conditions to not float player collider
+        Vector2 localVel = transform.InverseTransformDirection(rb.velocity);                  //jetpackinputheld is probably deprecated sometime soon
         
         
         Vector2 downDir = -transform.up;
@@ -70,6 +72,7 @@ public class CharacterLegFloater : MonoBehaviour
         if (thisPlayer.GetCharacterInput().x == 0) //SLIP DISPLACEMENT
         {
             rb.velocity = Vector2.zero;
+            rb.AddForce(-rb.velocity);
         }
 
         prevPosition = rb.position;

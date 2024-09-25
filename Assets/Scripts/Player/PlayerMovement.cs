@@ -69,8 +69,21 @@ public class PlayerMovement : Character
     public static Action OnPlayerDeath;
     
     private CharacterLegFloater legFloater;
+
+    [SerializeField]
+    [Tooltip("For coupler drop downs, how far the stick must be pushed to drop the coupler.")]
+    [Range(0, 1)]
+    private float couplerStickDeadzone;
+
+    [SerializeField] 
+    [Tooltip("For ladders, how far the stick must be pushed left or right to dismount the ladder.")]
+    [Range(0, 1)]
+    private float ladderDismountDeadzone;
     
-    private List<Collider2D> currentOtherColliders = new List<Collider2D>();
+    [SerializeField] 
+    [Tooltip("For ladders, how far the stick must be pushed down or up to enter the ladder.")]
+    [Range(0, 1)]
+    private float ladderEnterDeadzone;
 
     #endregion
 
@@ -313,7 +326,7 @@ public class PlayerMovement : Character
         Vector3 newPosition = transform.position + displacement;
         rb.MovePosition(newPosition);
 
-        if (moveInput.x > 0.2 || moveInput.x < -0.2 || jetpackInputHeld)
+        if (Mathf.Abs(moveInput.x) > ladderDismountDeadzone || jetpackInputHeld)
         {
             SwitchOffLadder();
         }
@@ -406,12 +419,12 @@ public class PlayerMovement : Character
 
         SetCharacterMovement(ctx.ReadValue<Vector2>());
         
-        if (ctx.started && moveInput.y > 0 && currentLadder != null && currentState != CharacterState.CLIMBING)
+        if (Mathf.Abs(moveInput.y) > ladderEnterDeadzone && currentLadder != null && currentState != CharacterState.CLIMBING)
         {
             SetLadder();
         }
         
-        if (moveInput.y < 0 && CheckSurfaceCollider(18) != null)
+        if (moveInput.y < -couplerStickDeadzone && CheckSurfaceCollider(18) != null)
         {
             if (CheckSurfaceCollider(18).gameObject.TryGetComponent(out PlatformCollisionSwitcher collSwitcher))
             {

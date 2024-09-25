@@ -6,16 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="5398b79a-e478-4a7d-b865-f9c27d850513" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TowerTanks/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TowerTanks/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Player/NoFriction.physicsMaterial2D" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Player/NoFriction.physicsMaterial2D" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Player/PlayerNewMovement.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Player/PlayerNewMovement.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Test Scenes/HotteScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Test Scenes/HotteScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/MultiplayerManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Multiplayer/MultiplayerManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Character.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Character.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/CharacterLegFloater.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/CharacterLegFloater.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerMovement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerMovement.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TankSystems/PlatformCollisionSwitcher.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TankSystems/PlatformCollisionSwitcher.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Wwise/Editor/ProjectData/AkWwiseProjectData.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Wwise/Editor/ProjectData/AkWwiseProjectData.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -130,7 +125,8 @@
       <workItem from="1724194027297" duration="5913000" />
       <workItem from="1724348863160" duration="14538000" />
       <workItem from="1724972522974" duration="3728000" />
-      <workItem from="1727125506728" duration="15735000" />
+      <workItem from="1727125506728" duration="16555000" />
+      <workItem from="1727239715650" duration="2128000" />
     </task>
     <servers />
   </component>

@@ -5084,7 +5084,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 2
+    SerializedFormat: 0
     SerializedBytes: 
     ReferencedUnityObjects: []
     SerializedBytesString: 
@@ -5131,6 +5131,9 @@ MonoBehaviour:
   currentRepairJob: {fileID: 0}
   repairTime: 0.5
   repairAmount: 10
+  couplerStickDeadzone: 0.5
+  ladderDismountDeadzone: 0.5
+  ladderEnterDeadzone: 0.75
 --- !u!114 &3919349592667607501
 MonoBehaviour:
   m_ObjectHideFlags: 0
