@@ -30,7 +30,21 @@ public class DestructibleObject : MonoBehaviour
         if (health < 0) health = 0;
         healthLost = tempHealth - health;
 
-        if (health <= 0) Destroy(gameObject);
+        if (health <= 0)
+        {
+            Projectile projectile = GetComponent<Projectile>();
+            if (projectile != null)
+            {
+                if (projectile.type == Projectile.ProjectileType.OTHER)
+                {
+                    projectile.Hit(null);
+                }
+            }
+            else {
+                //Debug.Log("No projectile found.");
+                Destroy(gameObject); 
+            }
+        }
 
         EvaluateDamage();
         return healthLost;

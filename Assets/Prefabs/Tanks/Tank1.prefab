@@ -602,6 +602,7 @@ GameObject:
   - component: {fileID: 1677695871689777841}
   - component: {fileID: 1677695871689777843}
   - component: {fileID: 1677695871689777842}
+  - component: {fileID: 4858690286379925045}
   m_Layer: 17
   m_Name: Wheel_1
   m_TagString: Untagged
@@ -730,6 +731,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!58 &4858690286379925045
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1677695871689777840}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!1 &1677695871704018035
 GameObject:
   m_ObjectHideFlags: 0
@@ -741,6 +758,7 @@ GameObject:
   - component: {fileID: 1677695871704018044}
   - component: {fileID: 1677695871704018046}
   - component: {fileID: 1677695871704018045}
+  - component: {fileID: 5143030995146447086}
   m_Layer: 17
   m_Name: Wheel_2
   m_TagString: Untagged
@@ -869,6 +887,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!58 &5143030995146447086
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1677695871704018035}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!1 &1677695871938463204
 GameObject:
   m_ObjectHideFlags: 0
@@ -880,6 +914,7 @@ GameObject:
   - component: {fileID: 1677695871938463205}
   - component: {fileID: 1677695871938463207}
   - component: {fileID: 1677695871938463206}
+  - component: {fileID: 1490001875883283707}
   m_Layer: 17
   m_Name: Wheel_5
   m_TagString: Untagged
@@ -1008,6 +1043,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!58 &1490001875883283707
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1677695871938463204}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!1 &1677695872170932325
 GameObject:
   m_ObjectHideFlags: 0
@@ -1305,18 +1356,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23bec43f57e14ed43b60076d04799daa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   TankName: 
   tankType: 0
   coreHealth: 500
   towerJointTarget: {fileID: 1677695871312723229}
+  isInvincible: 0
   cargoHold: []
-  shiftRight: 0
-  shiftLeft: 0
-  damage: 0
-  addEngine: 0
-  fireAllWeapons: 0
-  overchargeAllWeapons: 0
-  isDying: 0
+  gear: 0
+  horsePower: 0
+  interactableList: []
 --- !u!114 &-1844445078350209630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1834,6 +1891,7 @@ GameObject:
   - component: {fileID: 1677695873077091910}
   - component: {fileID: 1677695873077091904}
   - component: {fileID: 1677695873077091911}
+  - component: {fileID: 693974103357811632}
   m_Layer: 17
   m_Name: Wheel_3
   m_TagString: Untagged
@@ -1962,6 +2020,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!58 &693974103357811632
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1677695873077091909}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!1 &1677695873107766649
 GameObject:
   m_ObjectHideFlags: 0
@@ -1973,6 +2047,7 @@ GameObject:
   - component: {fileID: 1677695873107766650}
   - component: {fileID: 1677695873107766404}
   - component: {fileID: 1677695873107766651}
+  - component: {fileID: 7606724836225002971}
   m_Layer: 17
   m_Name: Wheel_4
   m_TagString: Untagged
@@ -2101,6 +2176,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!58 &7606724836225002971
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1677695873107766649}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!1 &2687768884453491569
 GameObject:
   m_ObjectHideFlags: 0

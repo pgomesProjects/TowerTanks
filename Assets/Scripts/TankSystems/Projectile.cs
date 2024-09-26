@@ -6,7 +6,7 @@ using Sirenix.OdinInspector;
 public class Projectile : MonoBehaviour
 {
     //Objects & Components:
-    public enum ProjectileType { BULLET, SHELL };
+    public enum ProjectileType { BULLET, SHELL, OTHER };
     public ProjectileType type;
 
     public LayerMask layerMask;
@@ -102,7 +102,7 @@ public class Projectile : MonoBehaviour
 
     private void LateUpdate()
     {
-        transform.right = velocity.normalized;   //Rotate the transform in the direction of the velocity that it has
+        if (type != ProjectileType.OTHER) transform.right = velocity.normalized;   //Rotate the transform in the direction of the velocity that it has
     }
 
     //FUNCTIONALITY METHODS:
@@ -120,8 +120,9 @@ public class Projectile : MonoBehaviour
         if (hit != null) Hit(hit);
     }
 
-    private void Hit(Collider2D target, bool destroyImmediate = false)
+    public void Hit(Collider2D target, bool destroyImmediate = false)
     {
+        //Debug.Log("Hit " + target.gameObject.name);
         List<Collider2D> hitThisFrame = new List<Collider2D>(); //Create Temp List for Colliders Hit
         hitThisFrame.Add(target); //Add Direct Hit to Collider
         bool damagedCoreThisFrame = false;
@@ -236,10 +237,7 @@ public class Projectile : MonoBehaviour
 
             hitThisFrame.Clear();
 
-            if (target != null)
-            {
-                HitEffects();
-            }
+            if (destroyImmediate != true) HitEffects();
 
             //Seperate smoketrail
             if (smokeTrail != null)
@@ -273,6 +271,12 @@ public class Projectile : MonoBehaviour
             float randomScale = Random.Range(0.05f, 0.1f);
             particle = GameManager.Instance.ParticleSpawner.SpawnParticle(14, transform.position, randomScale, null);
             particle.transform.rotation = transform.rotation;
+        }
+
+        if (type == ProjectileType.OTHER)
+        {
+            GameManager.Instance.AudioManager.Play("ExplosionSFX", gameObject);
+            GameManager.Instance.ParticleSpawner.SpawnParticle(Random.Range(0, 2), transform.position, particleScale, null);
         }
     }
 

@@ -214,7 +214,7 @@ public class CameraManipulator : MonoBehaviour
                     widthOrthoSize = ((widthOrthoSize + (main.tankCamSideBuffer * 2)) / 2) / cam.aspect; //Get final orthographic size (as defined by tank widths) by adding horizontal buffers and dividing by the cam aspect ratio
                 }
                 vcam.m_Lens.OrthographicSize = Mathf.Max(heightOrthoSize, widthOrthoSize); //Use whichever value is larger as the final orthographic size
-                print("Using " + (heightOrthoSize > widthOrthoSize ? " height" : "width"));
+                //print("Using " + (heightOrthoSize > widthOrthoSize ? " height" : "width"));
 
                 //float heightOrthoSize = (tanks[0].tankSizeValues.x + tanks[0].tankSizeValues.z + main.tankCamLowerBuffer + main.tankCamUpperBuffer) / 2; //Get ortho size as defined by tank height
                 //float leftWidthOrthoSize = (((tanks[0].tankSizeValues.w * 2) + (2 * main.tankCamSideBuffer)) / 2) / cam.aspect;                          //Get ortho size as defined by tank width (measuring from middle to left)
