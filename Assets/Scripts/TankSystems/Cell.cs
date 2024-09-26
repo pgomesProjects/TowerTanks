@@ -23,7 +23,7 @@ public class Cell : MonoBehaviour
     /// </summary>
     internal Cell[] neighbors = new Cell[4];
     /// <summary>
-    /// Array of up to four optional connector (spacer) pieces which attach this room to its corresponding neighbor.
+    /// Array of up to four optional connector (spacer) pieces which attach this cell to its corresponding neighbor.
     /// Connectors indicate splits between room sections.
     /// </summary>
     internal Connector[] connectors = new Connector[4]; //Connectors adjacent to this cell (in NESW order)
@@ -36,12 +36,12 @@ public class Cell : MonoBehaviour
     internal SpriteRenderer damageSprite;
 
     [Header("Cell Components:")]
-    [Tooltip("Back wall of cell, will be changed depending on cell purpose.")]                  public GameObject backWall;
-    [Tooltip("Pre-assigned cell walls (in NESW order) which confine players inside the tank.")] public GameObject[] walls;
-    [SerializeField, Tooltip("The interactable currently installed in this cell (if any).")]    internal TankInteractable interactable;
+    [Tooltip("Back wall of cell, will be changed depending on cell purpose.")]                    public GameObject backWall;
+    [Tooltip("Pre-assigned cell walls (in NESW order) which confine players inside the tank.")]   public GameObject[] walls;
+    [SerializeField, Tooltip("The interactable currently installed in this cell (if any).")]      internal TankInteractable interactable;
     [SerializeField, Tooltip("Transform used for repairmen to snap to when repairing this cell")] public Transform repairSpot;
     [SerializeField, Tooltip("The character currently repairing this cell")]                      public GameObject repairMan;
-    [SerializeField, Tooltip("Sprites used for showing damage on the cell")]                    public SpriteRenderer[] diageticDamageSprites;
+    [SerializeField, Tooltip("Sprites used for showing damage on the cell")]                      public SpriteRenderer[] diageticDamageSprites;
     public enum TankPosition { TOP = 1, BOTTOM = -1 };
 
     //Settings:
@@ -66,9 +66,10 @@ public class Cell : MonoBehaviour
                                                                            private float burnTimer = 0;
                                                                            public GameObject flames;
         //Meta
-    [Tooltip("True if cell destruction has already been scheduled, used to prevent conflicts.")] private bool dying;
-    [Tooltip("True once cell has been set up and is ready to go.")]                              private bool initialized = false;
-    [Tooltip("Player which is currently building an interactable in this cell.")]                internal PlayerMovement playerBuilding;
+    [Tooltip("True if cell destruction has already been scheduled, used to prevent conflicts.")]                private bool dying;
+    [Tooltip("True once cell has been set up and is ready to go.")]                                             private bool initialized = false;
+    [Tooltip("Player which is currently building an interactable in this cell.")]                               internal PlayerMovement playerBuilding;
+    [Tooltip("Cell's position in parent room manifest, used to indicate which cells in a room are destroyed.")] internal int manifestIndex;
 
     //RUNTIME METHODS:
     private void Awake()
@@ -236,10 +237,10 @@ public class Cell : MonoBehaviour
 
         return healthLost;
     }
-        /// <summary>
-        /// Checks to see if this cell has been disconnected from the tank and then kills it if it has been.
-        /// </summary>
-        public void KillIfDisconnected()
+    /// <summary>
+    /// Checks to see if this cell has been disconnected from the tank and then kills it if it has been.
+    /// </summary>
+    public void KillIfDisconnected()
     {
         //Validity checks:
         if (dying) return; //Do not try to kill a cell twice
@@ -276,7 +277,7 @@ public class Cell : MonoBehaviour
     {
         //Validity checks:
         if (room.isCore) return; //Do not allow cells in core room to be destroyed
-        if (dying) return;       //Do not try to kill a cell twice (happens in certain edge cases
+        if (dying) return;       //Do not try to kill a cell twice (happens in certain edge cases)
         dying = true;            //Indicate that cell is now dying
 
         //Adjacency cleanup:
@@ -368,18 +369,37 @@ public class Cell : MonoBehaviour
             if (room.targetTank != null && room.targetTank.tankType == TankId.TankType.PLAYER) StackManager.AddToStack(GameManager.Instance.TankInteractableToEnum(interactable)); //Add interactable data to stack upon destruction (if it is in a player tank)
         room.targetTank.UpdateSizeValues(); //Update highest cell tracker
 
-        //Update Room Status
-        room.cells.Remove(this);
-        if (room.cells.Count <= 0)
+        //Update Room Status:
+        room.cells.Remove(this);                  //Remove this cell from parent room's list of cells
+        room.cellManifest[manifestIndex] = false; //Indicate to room that this cell is missing and should be saved as such
+        if (room.cells.Count <= 0) //Parent room now has no cells
         {
-            room.targetTank.rooms.Remove(room);
-            Destroy(room.gameObject);
+            room.targetTank.rooms.Remove(room); //Remove room from parent tank's list of rooms
+            Destroy(room.gameObject);           //Destroy room (simple because it is composed of no cells)
         }
-        Destroy(gameObject);                 //Destroy this cell
+        Destroy(gameObject); //Destroy this cell
 
-        //Other Effects
+        //Other Effects:
         GameManager.Instance.AudioManager.Play("MedExplosionSFX", gameObject);
         GameManager.Instance.ParticleSpawner.SpawnParticle(5, transform.position, 0.15f, null);
+    }
+    /// <summary>
+    /// Simply removes cell without going through all the destruction rigamarole. Mainly meant for removing cells from rooms upon automatic construction of tank from build settings.
+    /// </summary>
+    public void Pull()
+    {
+        room.cells.Remove(this); //Take this cell out of its parent room's list
+        for (int x = 0; x < connectors.Length; x++) //Iterate through list of connectors (all need to be destroyed)
+        {
+            connectors[x].GetOtherCell(this).connectors[(x + 2) % 4] = null; //Remove neighbor's reference to this connector
+            Destroy(connectors[x]);                                          //Destroy connector
+            connectors[x] = null;                                            //Clear reference to destroyed connector
+        }
+        for (int x = 0; x < neighbors.Length; x++) //Iterate through list of neighbors (all need to be updated)
+        {
+            neighbors[x].neighbors[(x + 2) % 4] = null;      //Clear neighbor reference to this cell
+            neighbors[x].walls[(x + 2) % 4].SetActive(true); //Re-activate neighbor's wall facing this cell
+        }
     }
 
     private void RepairCell()

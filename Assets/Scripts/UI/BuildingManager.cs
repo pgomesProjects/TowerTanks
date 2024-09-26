@@ -185,7 +185,7 @@ public class BuildingManager : SerializedMonoBehaviour
         if (!(playerRoom.currentRoomState == WorldRoom.RoomState.MOUNTED))
         {
             GameManager.Instance.AudioManager.Play("RotateRoom");
-            playerRoom.roomObject.debugRotate = true;
+            playerRoom.roomObject.Rotate();
         }
     }
 

@@ -115,13 +115,13 @@ public class Debug_TankBuilder : MonoBehaviour
 
                     if (moveInput.x > moveSensitivity)
                     {
-                        room.debugMoveRight = true;
+                        room.SnapMoveTick(Vector2.right);
 
                     }
 
                     if (moveInput.x < -moveSensitivity)
                     {
-                        room.debugMoveLeft = true;
+                        room.SnapMoveTick(Vector2.left);
 
                     }
 
@@ -132,13 +132,13 @@ public class Debug_TankBuilder : MonoBehaviour
                 {
                     if (moveInput.y > moveSensitivity)
                     {
-                        room.debugMoveUp = true;
+                        room.SnapMoveTick(Vector2.up);
 
                     }
 
                     if (moveInput.y < -moveSensitivity)
                     {
-                        room.debugMoveDown = true;
+                        room.SnapMoveTick(Vector2.down);
 
                     }
 
@@ -303,25 +303,25 @@ public class Debug_TankBuilder : MonoBehaviour
         {
             if (moveInput.x > moveSensitivity)
             {
-                room.debugMoveRight = true;
+                room.SnapMoveTick(Vector2.right);
 
             }
 
             if (moveInput.x < -moveSensitivity)
             {
-                room.debugMoveLeft = true;
+                room.SnapMoveTick(Vector2.left);
 
             }
 
             if (moveInput.y > moveSensitivity)
             {
-                room.debugMoveUp = true;
+                room.SnapMoveTick(Vector2.up);
 
             }
 
             if (moveInput.y < -moveSensitivity)
             {
-                room.debugMoveDown = true;
+                room.SnapMoveTick(Vector2.down);
 
             }
 
@@ -387,7 +387,7 @@ public class Debug_TankBuilder : MonoBehaviour
             if (ctx.performed)
             {
                 if (enableSounds) GameManager.Instance.AudioManager.Play("RotateRoom");
-                room.debugRotate = true;
+                room.Rotate();
             }
         }
 
