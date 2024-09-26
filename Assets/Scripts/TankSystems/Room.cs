@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using CustomEnums;
-using Cinemachine;
+using Sirenix.OdinInspector;
+using Sirenix.OdinInspector.Editor;
 
 /// <summary>
 /// Basic structural element which tanks are built from.
@@ -20,7 +21,9 @@ public class Room : MonoBehaviour
         /// <summary> Room which provides high defense but cannot contain interactables. </summary>
         Armor,
         /// <summary> Room for storing cargo which cannot contain interactables. </summary>
-        Cargo
+        Cargo,
+        /// <summary> Room which provides lift to tank, at the cost of having lower health and exploding entirely on destruction of a cell. </summary>
+        Dirigible
     }
 
     //Objects & Components:
@@ -28,6 +31,7 @@ public class Room : MonoBehaviour
     internal List<Coupler> couplers = new List<Coupler>();     //Couplers connecting this room to other rooms
     private List<Coupler> ghostCouplers = new List<Coupler>(); //Ghost couplers created while moving room before it is mounted
     internal List<Cell> cells = new List<Cell>();              //Individual square units which make up the room
+    internal bool[] cellManifest = new bool[0];                //Array corresponding to cell list, representing which ones have been destroyed (for the purposes of respawning the tank)
     private Cell[][] sections;                                 //Groups of cells separated by connectors
     private Transform connectorParent;                         //Parent object which contains all connectors
     internal RoomData roomData;                                //ScriptableObject containing data about rooms and objects spawned by them
@@ -35,22 +39,19 @@ public class Room : MonoBehaviour
     //Settings:
     [Header("Template Settings:")]
     [Tooltip("Indicates whether or not this is the tank's indestructible core room.")] public bool isCore = false;
-    [Header("Debug Moving:")]
-    public bool debugRotate;
-    public int debugRotation = 0;
-    public bool debugMoveUp;
-    public bool debugMoveDown;
-    public bool debugMoveLeft;
-    public bool debugMoveRight;
-    public bool flipOnStart;
-    [Space()]
-    public bool debugMount;
-    [Space()]
+    [Button("Rotate", ButtonSizes.Small)] private void DebugRotate() { Rotate(); UpdateRoomType(type); }
+    [Button("Move Up", ButtonSizes.Small)] private void DebugMoveUp() { SnapMoveTick(Vector2.up); UpdateRoomType(type); }
+    [Button("Move Down", ButtonSizes.Small)] private void DebugMoveDown() { SnapMoveTick(Vector2.down); UpdateRoomType(type); }
+    [Button("Move Left", ButtonSizes.Small)] private void DebugMoveLeft() { SnapMoveTick(Vector2.left); UpdateRoomType(type); }
+    [Button("Move Right", ButtonSizes.Small)] private void DebugMoveRight() { SnapMoveTick(Vector2.right); UpdateRoomType(type); }
+    [Button("Mount", ButtonSizes.Medium)] private void DebugMount() { Mount(); }
+    [Button("Dismount", ButtonSizes.Medium)] private void DebugDismount() { Dismount(); }
 
     //Runtime Variables:
-    [Tooltip("Which broad purpose this room serves.")]                                                     public RoomType type;
-    [Tooltip("Whether or not this room has been attached to another room yet.")]                           private bool mounted = false;
-    [Tooltip("The only tank this room can be mounted to (who's home grid will be used during mounting).")] internal TankController targetTank; //NOTE: This is important for distinguishing between rooms auto-spawned for prefab tanks, and rooms which are spawned in scrap menu for mounting on an existing tank
+    [Tooltip("Which broad purpose this room serves.")]                                                         public RoomType type;
+    [Tooltip("Whether or not this room has been attached to another room yet.")]                               internal bool mounted = false;
+    [Tooltip("The only tank this room can be mounted to (who's home grid will be used during mounting).")]     internal TankController targetTank; //NOTE: This is important for distinguishing between rooms auto-spawned for prefab tanks, and rooms which are spawned in scrap menu for mounting on an existing tank
+    [Tooltip("Value between 0 and 3 indicating which cardinal direction room is rotated in (in NESW order).")] internal int rotTracker = 0; //NOTE: This is used for saving room rotation in json files
     private bool initialized = false; //Becomes true once one-time initial room setup has been completed (indicates room is ready to be used)
 
     private float maxBurnTime = 24f;
@@ -62,15 +63,22 @@ public class Room : MonoBehaviour
     {
         Initialize(); //Set everything up
     }
+    public void Start()
+    {
+        //Check manifest:
+        if (cellManifest.Length == 0) //Manifest is uninitialized
+        {
+            cellManifest = Enumerable.Repeat(true, cells.Count).ToArray(); //Make list match length of cell list and set all bools to true
+        }
+        
+        //Core room-specific setup:
+        if (isCore) //This is the tank's core room
+        {
+            mounted = true; //Core rooms start mounted
+        }
+    }
     private void Update()
     {
-        if (debugRotate) { debugRotate = false; Rotate(); UpdateRoomType(type); }
-        if (debugMoveUp) { debugMoveUp = false; SnapMoveTick(Vector2.up); UpdateRoomType(type); }
-        if (debugMoveDown) { debugMoveDown = false; SnapMoveTick(Vector2.down); UpdateRoomType(type); }
-        if (debugMoveLeft) { debugMoveLeft = false; SnapMoveTick(Vector2.left); UpdateRoomType(type); }
-        if (debugMoveRight) { debugMoveRight = false; SnapMoveTick(Vector2.right); UpdateRoomType(type); }
-        if (debugMount) { debugMount = false; Mount(); }
-
         if (cells.Count > 0) CheckFire();
     }
 
@@ -115,6 +123,7 @@ public class Room : MonoBehaviour
 
         //Set up child components:
         foreach (Connector connector in connectorParent.GetComponentsInChildren<Connector>()) connector.Initialize(); //Initialize all connectors before setting up cells
+        for (int x = 0; x < cells.Count; x++) cells[x].manifestIndex = x;                                             //Indicate to each cell what it's unique id number is
         foreach (Cell cell in cells) cell.Initialize();                                                               //Initialize each cell before checking adjacency
         foreach (Cell cell in cells) cell.UpdateAdjacency();                                                          //Have all cells in room get to know each other
 
@@ -150,15 +159,6 @@ public class Room : MonoBehaviour
             newSections.Add(thisGroup); //Add group to sections list
         }
         sections = newSections.Select(eachList => eachList.ToArray()).ToArray(); //Convert lists into stored array
-    }
-
-    public void Start()
-    {
-        //Core room-specific setup:
-        if (isCore) //This is the tank's core room
-        {
-            mounted = true; //Core rooms start mounted
-        }
     }
 
     /// <summary>
@@ -234,7 +234,6 @@ public class Room : MonoBehaviour
                         //Inverse check:
                         Room otherRoom = hitCell1 == null ? hitCell2.room : hitCell1.room; //Get other room hit by either raycast (works even if only one raycast hit a room)
                         if (otherRoom == this) { continue; }  //Ignore if hit block is part of this room (happens before potential inverse check)
-                        //if (!otherRoom.mounted) { continue; } //Ignore if hit cell is part of a room which has not been mounted yet
                         if (hitCell1 == null || hitCell2 == null) //Only one hit made contact with a cell
                         {
                             cellPos = (hitCell1 == null ? hitCell2 : hitCell1).transform.position; //Get position of partially-hit cell
@@ -254,6 +253,7 @@ public class Room : MonoBehaviour
 
                         //Confirm placement:
                         Vector2 newCouplerPos = cellPos + (0.625f * (cellPos == (Vector2)cell.transform.position ? 1 : -1) * Cell.cardinals[x]);                                                 //Find target position of new coupler (between origin cell and struck surface)
+                        //NOTE: The line below may need edge case debugging
                         IEnumerable<Coupler> results = from coupler in ghostCouplers where RoundToGrid(coupler.transform.position, 0.125f) == RoundToGrid(newCouplerPos, 0.125f) select coupler; //Look for ghost couplers which already occupy this position
                         if (results.FirstOrDefault() != null) continue;                                                                                                                          //Do not place couplers where couplers already exist
 
@@ -306,10 +306,6 @@ public class Room : MonoBehaviour
     /// </summary>
     public void Rotate(bool clockwise = true)
     {
-        //Used for detecting rotation in json files
-        debugRotation++;
-        if (debugRotation > 3) debugRotation = 0;
-
         //Validity checks:
         if (mounted) { Debug.LogError("Tried to rotate room while mounted!"); return; } //Do not allow mounted rooms to be rotated
 
@@ -328,6 +324,11 @@ public class Room : MonoBehaviour
         SnapMove(transform.localPosition);                   //Snap to grid at current position
 
         foreach (Cell cell in cells) cell.transform.localPosition = new Vector2(Mathf.Round(cell.transform.localPosition.x * 4), Mathf.Round(cell.transform.localPosition.y * 4)) / 4; //Cells need to be rounded back into position to prevent certain parts from bugging out
+    
+        //Modify abstract rotation value:
+        rotTracker += clockwise ? 1 : -1;      //Adjust rotation tracker depending on rot direction
+        if (rotTracker > 3) rotTracker = 0; //Overflow at 3
+        if (rotTracker < 0) rotTracker = 3; //Underflow at 0
     }
     /// <summary>
     /// Attaches this room to another room or the tank base (based on current position of the room and couplers).
@@ -358,7 +359,7 @@ public class Room : MonoBehaviour
                 ladder.transform.position = new Vector2(coupler.transform.position.x, cell.transform.position.y);                    //Move ladder to horizontal position of coupler and vertical position of cell
 
                 //print("Found horizontal coupler above cell " + cell.name + ", placing ladder.");
-
+                
                 //Place extra ladders:
                 if (cell.neighbors[2] != null && RoundToGrid(cell.neighbors[2].transform.position.x, 0.25f) == RoundToGrid(coupler.transform.position.x, 0.25f)) ladderCells.Add(cell); //Add cell to list of cells which need more ladders below them if cell has more southern neighbors
             }
@@ -401,6 +402,31 @@ public class Room : MonoBehaviour
         return mounted;
     }
     /// <summary>
+    /// Dismounts this cell if it was just mounted (used for undoing in build scene).
+    /// </summary>
+    public void Dismount()
+    {
+        //Initialization:
+        if (!mounted) return; //Do not try to dismount a room when it is not yet mounted
+
+        //Coupler removal:
+        while (couplers.Count > 0) couplers[0].Kill(); //Destroy all couplers connecting this room to other rooms (their normal kill method should work fine)
+
+        //Ladder removal:
+        foreach (Cell cell in cells) //Iterate through cells in room
+        {
+            for (int x = 0; x < cell.transform.childCount; x++) //Iterate through children of cell
+            {
+                if (cell.transform.GetChild(x).gameObject.layer == LayerMask.NameToLayer("Ladder")) Destroy(cell.transform.GetChild(x).gameObject); //Destroy any ladders childed to cell
+            }
+        }
+
+        //Cleanup:
+        targetTank.treadSystem.ReCalculateMass(); //Re-calculate mass now that room has been removed
+        mounted = false;                          //Indicate that room is now disconnected
+        SnapMove(transform.localPosition);        //Re-generate ghost couplers and stuff once everything is cleaned up and room is disconnected
+    }
+    /// <summary>
     /// Changes room type to given value.
     /// </summary>
     public void UpdateRoomType(RoomType newType)
@@ -416,6 +442,22 @@ public class Room : MonoBehaviour
             foreach (Connector connector in cell.connectors) if (connector != null) connector.backWall.color = newColor; //Set color of connector back wall
         }
     }
+    /// <summary>
+    /// To be run as the room is being built, removes cells which were destroyed in a previous saved version of the tank.
+    /// </summary>
+    /// <param name="manifest">Array of bools corresponding to whether or not respective cells are included in this build of the room.</param>
+    public void ProcessManifest(bool[] manifest)
+    {
+        //Initialization:
+        if (cellManifest.Length != manifest.Length) { Debug.LogError("Tried to process a cell manifest with " + manifest.Length + " cells when the room has " + cellManifest.Length + " cells."); return; } //Indicate problem if manifest sizes do not match
+        cellManifest = manifest; //Save manifest to room
+        
+        //Cell Removal:
+        for (int x = 0; x < cellManifest.Length; x++) //Iterate through items in manifest (not affected when cells remove themselves from room's cell list)
+        {
+            if (!cellManifest[x]) GetCellFromManifestNumber(x).Pull(); //Manifest in this position indicates a removed cell, reference its manifest number to find it and pull it from the room
+        }
+    }
 
     //UTILITY METHODS:
     /// <summary>
@@ -427,6 +469,7 @@ public class Room : MonoBehaviour
     /// </summary>
     public Vector2 RoundToGrid(Vector2 value, float gridUnits) { return new Vector2(RoundToGrid(value.x, gridUnits), RoundToGrid(value.y, gridUnits)); }
     /// <summary>
-    /// Returns true if given interactable prefab can be placed in given cell right now.
+    /// Returns the cell in this room with given manifest number (if it exists).
     /// </summary>
+    private Cell GetCellFromManifestNumber(int manifestNum) { return cells.Where(cell => cell.manifestIndex == manifestNum).FirstOrDefault(); }
 }

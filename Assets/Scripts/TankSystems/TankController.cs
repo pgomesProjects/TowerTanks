@@ -684,7 +684,7 @@ public class TankController : SerializedMonoBehaviour
                 design.buildingSteps[roomCount].roomID = roomID; //Name of the room's prefab
                 design.buildingSteps[roomCount].roomType = roomScript.type; //The room's current type
                 design.buildingSteps[roomCount].localSpawnVector = room.transform.localPosition; //The room's local position relative to the tank
-                design.buildingSteps[roomCount].rotate = roomScript.debugRotation; //How many times the room has been rotated before being placed
+                design.buildingSteps[roomCount].rotate = roomScript.rotTracker; //How many times the room has been rotated before being placed
                 
                 //TODO:
                 //Is this an enemy or player design?

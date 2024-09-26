@@ -117,7 +117,7 @@ public class BuildingManager : MonoBehaviour
         if (!playerRoom.mountingComplete)
         {
             GameManager.Instance.AudioManager.Play("RotateRoom");
-            playerRoom.roomObject.debugRotate = true;
+            playerRoom.roomObject.Rotate();
         }
     }
 
