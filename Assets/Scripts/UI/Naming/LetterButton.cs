@@ -59,21 +59,26 @@ public class LetterButton : GamepadSelectable
 
     public override void OnCursorEnter(PlayerInput playerInput)
     {
-        OnSelect();
+        if (IsValidPlayer(playerInput.playerIndex))
+            OnSelect();
     }
 
     public override void OnCursorExit(PlayerInput playerInput)
     {
-        OnDeselect();
+        if (IsValidPlayer(playerInput.playerIndex))
+            OnDeselect();
     }
 
     public override void OnSelectObject(PlayerInput playerInput)
     {
-        if (isSelected)
-            OnClick(playerInput);
+        if (IsValidPlayer(playerInput.playerIndex))
+        {
+            if (isSelected)
+                OnClick(playerInput);
 
-        else
-            OnDeselect();
+            else
+                OnDeselect();
+        }
     }
 
     public void OnSelect()

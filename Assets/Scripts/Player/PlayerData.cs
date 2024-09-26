@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,18 +10,22 @@ public class PlayerData : MonoBehaviour
     public InputActionMap playerInputMap { get; private set; }
     public InputActionMap playerUIMap { get; private set; }
     public Vector2 movementData { get; private set; }
-    internal bool isBuilding;
-    internal bool isReadyingUp;
+
+    public enum PlayerState { SettingUp, NameReady, PickingRooms, PickedRooms, IsBuilding, ReadyForCombat };
+    private PlayerState currentPlayerState;
 
     private NamepadController playerNamepad;
     private string playerName;
+
+    public static Action OnPlayerStateChanged;
 
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
         playerInputMap = playerInput.actions.FindActionMap("Player");
-        playerUIMap = playerInput.actions.FindActionMap("UI");
+        playerUIMap = playerInput.actions.FindActionMap("GameCursor");
         SetDefaultPlayerName();
+        currentPlayerState = PlayerState.NameReady;
     }
 
     private void OnEnable()
@@ -61,28 +66,11 @@ public class PlayerData : MonoBehaviour
     private void OnMove(InputAction.CallbackContext ctx)
     {
         movementData = ctx.ReadValue<Vector2>();
-
-/*        float moveSensitivity = 0.2f;
-
-        if (isBuilding)
-        {
-            if (ctx.started && movementData.y > moveSensitivity)
-                BuildingManager.Instance.SnapRoom(playerInput, BuildingManager.WorldRoomSnap.UP);
-
-            if (ctx.started && movementData.y < -moveSensitivity)
-                BuildingManager.Instance.SnapRoom(playerInput, BuildingManager.WorldRoomSnap.DOWN);
-
-            if (ctx.started && movementData.x > moveSensitivity)
-                BuildingManager.Instance.SnapRoom(playerInput, BuildingManager.WorldRoomSnap.RIGHT);
-
-            if (ctx.started && movementData.x < -moveSensitivity)
-                BuildingManager.Instance.SnapRoom(playerInput, BuildingManager.WorldRoomSnap.LEFT);
-        }*/
     }
 
     private void OnRotate(InputAction.CallbackContext ctx)
     {
-        if (isBuilding && ctx.started)
+        if (currentPlayerState == PlayerState.IsBuilding && ctx.started)
         {
             BuildingManager.Instance.RotateRoom(playerInput);
         }
@@ -90,15 +78,15 @@ public class PlayerData : MonoBehaviour
 
     private void OnMount(InputAction.CallbackContext ctx)
     {
-        if (isBuilding && ctx.started)
+        if (currentPlayerState == PlayerState.IsBuilding && ctx.started)
         {
-            isBuilding = !BuildingManager.Instance.MountRoom(playerInput);
+            BuildingManager.Instance.MountRoom(playerInput);
         }
     }
 
     private void OnReadyUp(InputAction.CallbackContext ctx)
     {
-        if (isReadyingUp && ctx.started)
+        if (currentPlayerState == PlayerState.ReadyForCombat && ctx.started)
         {
             BuildingManager.Instance.GetReadyUpManager().ReadyPlayer(playerInput.playerIndex, !BuildingManager.Instance.GetReadyUpManager().IsPlayerReady(playerInput.playerIndex));
         }
@@ -138,16 +126,20 @@ public class PlayerData : MonoBehaviour
         return null;
     }
 
-    public void SetDefaultPlayerName()
-    {
-        playerName = "Player " + (playerInput.playerIndex + 1).ToString();
-    }
+    public void SetDefaultPlayerName() => SetPlayerName("Player " + (playerInput.playerIndex + 1).ToString());
 
     public string GetPlayerName() => playerName;
     public void SetPlayerName(string playerName)
     {
         this.playerName = playerName;
+        playerInput.name = playerName;
     }
 
+    public PlayerState GetCurrentPlayerState() => currentPlayerState;
+    public void SetPlayerState(PlayerState currentPlayerState)
+    {
+        this.currentPlayerState = currentPlayerState;
+        OnPlayerStateChanged?.Invoke();
+    }
     public void SetNamepad(NamepadController namepadController) => playerNamepad = namepadController;
 }

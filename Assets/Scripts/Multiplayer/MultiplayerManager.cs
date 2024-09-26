@@ -74,6 +74,10 @@ public class MultiplayerManager : SerializedMonoBehaviour
         playerInput.onDeviceLost += OnDeviceLost;
         playerInput.onDeviceRegained += OnDeviceRegained;
 
+        //Disable game input if the cheats menu is active
+        if (GameManager.Instance.CheatsMenuActive)
+            SetPlayerGameInputActive(playerInput, false);
+
         //Call OnPlayerConnected on the next frame
         StartCoroutine(InvokeOnConnected(playerInput));
     }
@@ -99,6 +103,46 @@ public class MultiplayerManager : SerializedMonoBehaviour
     {
         playerInput.gameObject.SetActive(true);
         OnPlayerRegained?.Invoke(playerInput.playerIndex);
+    }
+
+    public void EnableDebugInput()
+    {
+        foreach (PlayerInput player in GetPlayerInputs())
+            SetPlayerGameInputActive(player, false);
+
+        GameManager.Instance.SetCheatsMenuActive(true);
+    }
+
+    private void SetPlayerGameInputActive(PlayerInput player, bool isActive)
+    {
+        if (isActive)
+        {
+            // Enable the Player, GameCursor, and UI action maps
+            player.actions.FindActionMap("Player").Enable();
+            player.actions.FindActionMap("GameCursor").Enable();
+            player.actions.FindActionMap("UI").Enable();
+
+            // Disable the Debug action map
+            player.actions.FindActionMap("Debug").Disable();
+        }
+        else
+        {
+            // Disable the Player, GameCursor, and UI action maps
+            player.actions.FindActionMap("Player").Disable();
+            player.actions.FindActionMap("GameCursor").Disable();
+            player.actions.FindActionMap("UI").Disable();
+
+            // Enable the Debug action map
+            player.actions.FindActionMap("Debug").Enable();
+        }
+    }
+
+    public void DisableDebugInput()
+    {
+        foreach (PlayerInput player in GetPlayerInputs())
+            SetPlayerGameInputActive(player, true);
+
+        GameManager.Instance.SetCheatsMenuActive(false);
     }
 
     public Color[] GetPlayerColors() => playerColors;

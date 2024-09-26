@@ -575,7 +575,7 @@ public class LevelManager : SerializedMonoBehaviour
         }
     }
 
-    private void CompleteMission()
+    public void CompleteMission()
     {
         TankDesign currentTankDesign = playerTank.GetCurrentDesign();
         GameManager.Instance.tankDesign = currentTankDesign;

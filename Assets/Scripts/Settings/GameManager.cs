@@ -2,8 +2,10 @@ using Sirenix.OdinInspector;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Diagnostics;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -18,7 +20,7 @@ public class GameManager : SerializedMonoBehaviour
     public ParticleSpawner ParticleSpawner { get; private set; }
     public SystemEffects SystemEffects { get; private set; }
 
-    [SerializeField, Tooltip("The list of possible rooms for the players to pick.")] public GameObject[] roomList;
+    [SerializeField, Tooltip("The list of possible rooms for the players to pick.")] public RoomInfo[] roomList;
     [SerializeField, Tooltip("The list of possible interactables for the players to pick. NOTE: Remember to update the enum list when updating this list.")] public TankInteractable[] interactableList;
 
     internal int TotalInteractables = Enum.GetNames(typeof(INTERACTABLE)).Length;
@@ -37,6 +39,7 @@ public class GameManager : SerializedMonoBehaviour
     private bool loadingScene = false;
 
     public TankDesign tankDesign;
+    public bool CheatsMenuActive { get; private set; }
 
     private void Awake()
     {
@@ -52,6 +55,23 @@ public class GameManager : SerializedMonoBehaviour
         ParticleSpawner = GetComponentInChildren<ParticleSpawner>();
         SystemEffects = GetComponentInChildren<SystemEffects>();
         CargoManager = GetComponentInChildren<CargoManager>();
+
+        LoadBearingCheck();
+    }
+
+    private void LoadBearingCheck()
+    {
+        string loadBearingDataPath = Path.Combine(Application.dataPath, "Resources", "Data", "!ImportantData");
+        string filePath = Path.Combine(loadBearingDataPath, "loadBearingChristian.png");
+
+        if (!File.Exists(filePath))
+        {
+#if UNITY_EDITOR
+
+            Utils.ForceCrash(ForcedCrashCategory.FatalError);
+#endif
+            throw new Exception("Critical Error: Load bearing file is missing!");
+        }
     }
 
     private void OnEnable()
@@ -199,4 +219,6 @@ public class GameManager : SerializedMonoBehaviour
         //If no interactable is found, return the first enum in the list.
         return default;
     }
+
+    public bool SetCheatsMenuActive(bool cheatsActive) => CheatsMenuActive = cheatsActive;
 }

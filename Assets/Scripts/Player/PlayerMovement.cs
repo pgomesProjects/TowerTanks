@@ -14,8 +14,7 @@ public class PlayerMovement : Character
     //input
     [Header("Player Specific Options:")]
     public bool isDebugPlayer;
-    private Vector2 moveInput;
-    private bool jetpackInputHeld;
+    public bool jetpackInputHeld;
     
     public bool interactInputHeld;
     
@@ -40,13 +39,6 @@ public class PlayerMovement : Character
     private bool isCheckingSpinInput = false;
     private int validSpinCheckCounter = 0;
 
-    //objects
-    [Header("Interactables")]
-    public InteractableZone currentZone = null;
-    public bool isOperator; //true if player is currently operating an interactable
-    public TankInteractable currentInteractable; //what interactable player is currently operating
-
-    [SerializeField, Tooltip("Time it takes player to build an interactable.")] private float buildTime;
     private Cell buildCell;         //Cell player is currently building a stack interactable in (null if not building)
     private float timeBuilding = 0; //Time spent in build mode
 
@@ -68,6 +60,27 @@ public class PlayerMovement : Character
     private PlayerData playerData;
 
     public static Action OnPlayerDeath;
+    
+    private CharacterLegFloater legFloater;
+
+    [SerializeField]
+    [Tooltip("For coupler drop downs, how far the stick must be pushed to drop the coupler.")]
+    [Range(0, 1)]
+    private float couplerStickDeadzone;
+
+    [SerializeField] 
+    [Tooltip("For ladders, how far the stick must be pushed left or right to dismount the ladder.")]
+    [Range(0, 1)]
+    private float ladderDismountDeadzone;
+    
+    [SerializeField] 
+    [Tooltip("For ladders, how far the stick must be pushed down or up to enter the ladder.")]
+    [Range(0, 1)]
+    private float ladderEnterDeadzone;
+
+    [SerializeField]
+    [Tooltip("The higher this value is set, the faster the player will walk on slopes up until this value. Player speed would reach zero at this slope value. ")]
+    private float maxSlope = 100;
 
     #endregion
 
@@ -81,6 +94,11 @@ public class PlayerMovement : Character
         {
             PlayerInput debugInput = GameObject.Find("Debug_TankBuilder").GetComponent<PlayerInput>();
             if (debugInput != null) AddDebuggerPlayerInput(debugInput);
+        }
+        
+        if (TryGetComponent<CharacterLegFloater>(out CharacterLegFloater _legFloater))
+        {
+            legFloater = _legFloater;
         }
     }
 
@@ -112,6 +130,9 @@ public class PlayerMovement : Character
     protected override void Update()
     {
         base.Update();
+        
+        
+        
         if (!isAlive)
         {
             if (GameManager.Instance.AudioManager.IsPlaying("JetpackRocket", gameObject))
@@ -133,7 +154,7 @@ public class PlayerMovement : Character
             transform.position = buildCell.repairSpot.position;
 
             timeBuilding += Time.deltaTime; //Increment build time tracker
-            if (timeBuilding >= buildTime) //Player has finished build
+            if (timeBuilding >= characterSettings.buildTime) //Player has finished build
             {
                 StackManager.BuildTopStackItem().InstallInCell(buildCell); //Install interactable from top of stack into designated build cell
                 StopBuilding();                                            //Indicate that build has stopped
@@ -255,7 +276,17 @@ public class PlayerMovement : Character
     
     protected override void MoveCharacter()
     {
-        Vector2 force = transform.right * (moveInput.x * (CheckGround() ? groundMoveSpeed : airMoveSpeed)); 
+        var slope = transform.eulerAngles.z < 180 ? transform.eulerAngles.z : transform.eulerAngles.z - 360;
+        
+        float deAccel = Mathf.InverseLerp(maxSlope, 0, Mathf.Abs(slope));
+        
+        if (Mathf.Sign(slope) == Mathf.Sign(moveInput.x))
+        {
+            currentGroundMoveSpeed = groundMoveSpeed * deAccel;
+        } else currentGroundMoveSpeed = groundMoveSpeed;
+        
+        Vector2 force = transform.right * (moveInput.x * (CheckGround() ? currentGroundMoveSpeed : airMoveSpeed));
+        
         if (CheckGround())
         {
             rb.AddForce(force, ForceMode2D.Impulse);
@@ -305,7 +336,7 @@ public class PlayerMovement : Character
         Vector3 newPosition = transform.position + displacement;
         rb.MovePosition(newPosition);
 
-        if (moveInput.x > 0.2 || moveInput.x < -0.2 || jetpackInputHeld)
+        if (Mathf.Abs(moveInput.x) > ladderDismountDeadzone || jetpackInputHeld)
         {
             SwitchOffLadder();
         }
@@ -396,19 +427,20 @@ public class PlayerMovement : Character
     {
         if (!isAlive) return;
 
-        moveInput = ctx.ReadValue<Vector2>();
+        SetCharacterMovement(ctx.ReadValue<Vector2>());
         
-        if (ctx.started && moveInput.y > 0 && currentLadder != null && currentState != CharacterState.CLIMBING)
+        if (Mathf.Abs(moveInput.y) > ladderEnterDeadzone && currentLadder != null && currentState != CharacterState.CLIMBING)
         {
             SetLadder();
         }
         
-        if (moveInput.y < 0 && CheckSurfaceCollider(18) != null)
+        if (moveInput.y < -couplerStickDeadzone && CheckSurfaceCollider(18) != null)
         {
             if (CheckSurfaceCollider(18).gameObject.TryGetComponent(out PlatformCollisionSwitcher collSwitcher))
             {
-                StartCoroutine(collSwitcher.DisableCollision(GetComponent<Collider2D>()));
-            }
+                StartCoroutine(collSwitcher.DisableCollision(GetComponent<Collider2D>())); //Disable collision with platform
+            }                                                       // if leg floater is present, 
+                                                                    // disable use on platform  (leg floater floats the character collider by a few pixels which means the character won't slip and also won't trip over small changes in terrain collision)
         }
     }
 
@@ -487,6 +519,7 @@ public class PlayerMovement : Character
                     buildCell = cell;           //Indicate that player is building in this cell
                     cell.playerBuilding = this; //Indicate that this player is building in given cell
                     print("started building");
+                    taskProgressBar?.StartTask(characterSettings.buildTime);
                 } else print("tried to start building");
             }
         }
@@ -690,6 +723,8 @@ public class PlayerMovement : Character
 
         //End the check
         isCheckingSpinInput = false;
+        
+        
     }
 
     public override void LinkPlayerHUD(PlayerHUD newHUD)
@@ -737,6 +772,7 @@ public class PlayerMovement : Character
         buildCell = null;                //Clear cell reference
         timeBuilding = 0;                //Reset build time tracker
         currentState = CharacterState.NONCLIMBING;
+        taskProgressBar?.EndTask();
         print("stopped building");
     }
 
@@ -751,7 +787,7 @@ public class PlayerMovement : Character
     {
         base.OnCharacterDeath();
 
-        if (isDead)
+        if (permaDeath)
         {
             OnPlayerDeath?.Invoke();
         }
@@ -761,8 +797,13 @@ public class PlayerMovement : Character
     {
         base.ResetPlayer();
 
+        if (currentObject != null)
+            currentObject.Drop(this, true, moveInput);
+
         if (TankManager.instance != null)
             SetAssignedTank(TankManager.instance.playerTank);
     }
     #endregion
+
+
 }

@@ -161,6 +161,8 @@ public class TankController : SerializedMonoBehaviour
     [Tooltip("How long damage visual effect persists for")] private float damageTime;
     private float damageTimer;
 
+    public static System.Action OnPlayerTankSizeAdjusted;
+
     //RUNTIME METHODS:
     private void Awake()
     {
@@ -196,10 +198,10 @@ public class TankController : SerializedMonoBehaviour
     private void Start()
     {
         tankManager = GameObject.Find("TankManager")?.GetComponent<TankManager>();
-        if (tankType == TankId.TankType.PLAYER) tankManager.playerTank = this;
 
         if (tankManager != null)
         {
+            if (tankType == TankId.TankType.PLAYER) tankManager.playerTank = this;
             foreach (TankId tank in tankManager.tanks)
             {
                 if (tank.gameObject == gameObject) //if I'm on the list,
@@ -264,9 +266,6 @@ public class TankController : SerializedMonoBehaviour
         //Debug 
         gear = treadSystem.gear;
         horsePower = treadSystem.currentEngines * 100;
-
-        //Update name
-        nameText.text = TankName;
 
         //Death Sequence Events
         if (isDying)
@@ -439,9 +438,8 @@ public class TankController : SerializedMonoBehaviour
             {
                 if (tank.gameObject == gameObject) //if I'm on the list,
                 {
-                    TankName = tank.TankName; //give me my codename
-                    gameObject.name = "Tank (" + TankName + ")";
                     tankType = tank.tankType;
+                    tank.TankName = TankName;
                 }
             }
         }
@@ -590,11 +588,11 @@ public class TankController : SerializedMonoBehaviour
         {
             //Get variables of the step
             GameObject room = null;
-            foreach(GameObject prefab in GameManager.Instance.roomList) //Find the prefab we want to spawn
+            foreach(RoomInfo roomInfo in GameManager.Instance.roomList) //Find the prefab we want to spawn
             {
-                if (prefab.name == tankDesign.buildingSteps[i].roomID)
+                if (roomInfo.roomObject.name == tankDesign.buildingSteps[i].roomID)
                 {
-                    room = prefab;
+                    room = roomInfo.roomObject.gameObject;
                 }
             }
             Room roomScript = Instantiate(room.GetComponent<Room>(), towerJoint, false);
@@ -626,6 +624,8 @@ public class TankController : SerializedMonoBehaviour
                 if (cellInter.flipped) interactable.Flip();                                                                                                                                                  //Flip interactable if ordered
             }
         }
+
+        SetTankName(tankDesign.TankName);
     }
 
     public TankDesign GetCurrentDesign()
@@ -735,6 +735,10 @@ public class TankController : SerializedMonoBehaviour
         float tankLeftSideLength = Mathf.Abs(treadSystem.transform.InverseTransformPoint(leftMostCell.transform.position).x) + 0.5f;   //Get length of tank from center of treadbase to outer edge of leftmost cell
         float tankRightSideLength = Mathf.Abs(treadSystem.transform.InverseTransformPoint(rightMostCell.transform.position).x) + 0.5f; //Get length of tank from center of treadbase to outer edge of rightmost cell
         tankSizeValues = new Vector4(highestCellHeight, tankRightSideLength, tankSizeValues.z, tankLeftSideLength);                    //Store found values
+
+        //If this is the player tank, call the Action
+        if (tankType == TankId.TankType.PLAYER)
+            OnPlayerTankSizeAdjusted?.Invoke();
     }
 
     public void AddInteractable(GameObject interactable)
@@ -761,5 +765,12 @@ public class TankController : SerializedMonoBehaviour
         return characters;
     }
 
+    public void SetTankName(string newTankName)
+    {
+        TankName = newTankName;
+        nameText.text = TankName;
+        gameObject.name = "Tank (" + TankName + ")";
+    }
     public Character[] GetCharactersInTank() => GetComponentsInChildren<Character>();
+    public float GetHighestPoint() => tankSizeValues.x;
 }

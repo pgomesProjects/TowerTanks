@@ -9,6 +9,8 @@ public class DebugTools : MonoBehaviour
     private PlayerControlSystem playerControlSystem;
     private CheatInputField currentDebugMenu;
 
+    internal string logHistory;
+
     private void Awake()
     {
         playerControlSystem = new PlayerControlSystem();
@@ -58,5 +60,8 @@ public class DebugTools : MonoBehaviour
         {
             currentDebugMenu.gameObject.SetActive(currentDebugMenu.gameObject.activeInHierarchy ? false: true);
         }
+
+        if(currentDebugMenu.gameObject.activeInHierarchy)
+            currentDebugMenu.ForceActivateInput();
     }
 }

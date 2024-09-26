@@ -6,13 +6,17 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using System;
 using UnityEngine.Events;
+using TMPro;
 
 public class SelectableRoomObject : GamepadSelectable
 {
+    [SerializeField] private Image selectableImage;
     [SerializeField] private Color hoverColor;
     [SerializeField] private Color selectColor;
+    [Space]
+    [SerializeField] private Image roomSprite;
+    [SerializeField] private TextMeshProUGUI roomAltText;
 
-    private Image draggableImage;
     private Color defaultColor;
     private int roomID;
 
@@ -20,8 +24,7 @@ public class SelectableRoomObject : GamepadSelectable
 
     private void Awake()
     {
-        draggableImage = GetComponent<Image>();
-        defaultColor = draggableImage.color;
+        defaultColor = selectableImage.color;
         isSelected = false;
     }
 
@@ -33,7 +36,7 @@ public class SelectableRoomObject : GamepadSelectable
         {
             // Cursor entered the object, increase the count
             hoveringCursorCount++;
-            draggableImage.color = hoverColor;
+            selectableImage.color = hoverColor;
         }
     }
 
@@ -48,7 +51,7 @@ public class SelectableRoomObject : GamepadSelectable
             if (hoveringCursorCount <= 0)
             {
                 hoveringCursorCount = 0;
-                draggableImage.color = defaultColor;
+                selectableImage.color = defaultColor;
             }
         }
     }
@@ -60,7 +63,7 @@ public class SelectableRoomObject : GamepadSelectable
 
     public override void OnSelectObject(PlayerInput playerInput)
     {
-        draggableImage.color = selectColor;
+        selectableImage.color = selectColor;
         isSelected = true;
         Debug.Log("Selected By Player " + (playerInput.playerIndex + 1).ToString());
         OnSelected?.Invoke(playerInput, roomID);
@@ -68,7 +71,21 @@ public class SelectableRoomObject : GamepadSelectable
 
     public void DeselectRoom()
     {
-        draggableImage.color = defaultColor;
+        selectableImage.color = defaultColor;
         isSelected = false;
+    }
+
+    public void DisplayRoomInfo(RoomInfo roomInfo)
+    {
+        if(roomInfo.sprite == null)
+        {
+            roomAltText.text = roomInfo.name;
+            roomSprite.color = new Color(0, 0, 0, 0);
+        }
+        else
+        {
+            roomAltText.text = "";
+            roomSprite.sprite = roomInfo.sprite;
+        }
     }
 }

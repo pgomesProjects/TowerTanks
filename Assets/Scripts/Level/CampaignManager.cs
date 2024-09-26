@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,8 +10,11 @@ public class CampaignManager : MonoBehaviour
 
     [SerializeField, Tooltip("The level event data that dictates how the level must be run.")] private LevelEvents currentLevelEvent;
 
-    private int currentRound;
-    private bool hasCampaignStarted = false;
+    internal string PlayerTankName { get; private set; }
+    internal int CurrentRound { get; private set; }
+    internal bool HasCampaignStarted { get; private set; }
+
+    public static Action OnCampaignStarted;
 
     private void Awake()
     {
@@ -21,11 +25,12 @@ public class CampaignManager : MonoBehaviour
         }
 
         Instance = this;
+        HasCampaignStarted = false;
     }
 
     private void Start()
     {
-        if (!hasCampaignStarted && SceneManager.GetActiveScene().name == "BuildTankScene")
+        if (!HasCampaignStarted && (GAMESCENE)SceneManager.GetActiveScene().buildIndex == GAMESCENE.BUILDING)
             SetupCampaign();
     }
 
@@ -43,13 +48,16 @@ public class CampaignManager : MonoBehaviour
     {
         //If the game has reached the title screen, destroy self since we don't need this anymore
         if ((GAMESCENE)scene.buildIndex == GAMESCENE.TITLE)
-        { 
             Destroy(gameObject);
-        }
         else
         {
-            currentRound++;
-            StackManager.main?.GenerateExistingStack();
+            if (!HasCampaignStarted && (GAMESCENE)SceneManager.GetActiveScene().buildIndex == GAMESCENE.BUILDING)
+                SetupCampaign();
+            else
+            {
+                CurrentRound++;
+                StackManager.main?.GenerateExistingStack();
+            }
         }
     }
 
@@ -59,11 +67,14 @@ public class CampaignManager : MonoBehaviour
     public void SetupCampaign()
     {
         Debug.Log("Setting Up Campaign...");
-        currentRound = 1;
+        CurrentRound = 1;
 
         StackManager.ClearStack();
         foreach (INTERACTABLE interactable in currentLevelEvent.startingInteractables)
             StackManager.AddToStack(interactable);
+
+        OnCampaignStarted?.Invoke();
+        HasCampaignStarted = true;
     }
 
     public void SetLevelEvent(LevelEvents levelEvent)
@@ -71,6 +82,6 @@ public class CampaignManager : MonoBehaviour
         currentLevelEvent = levelEvent;
     }
 
+    public void SetPlayerTankName(string playerTankName) => PlayerTankName = playerTankName;
     public LevelEvents GetCurrentLevelEvent() => currentLevelEvent;
-    public int GetCurrentRound() => currentRound;
 }

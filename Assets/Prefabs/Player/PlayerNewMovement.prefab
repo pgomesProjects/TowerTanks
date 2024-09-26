@@ -5023,6 +5023,7 @@ GameObject:
   - component: {fileID: 5332867684925448270}
   - component: {fileID: 5332867684925448271}
   - component: {fileID: 5332867684925448268}
+  - component: {fileID: 3919349592667607501}
   - component: {fileID: 448350889}
   - component: {fileID: -2921341399011078923}
   m_Layer: 3
@@ -5045,6 +5046,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2312440901794428623}
+  - {fileID: 327680868978628959}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5082,7 +5084,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 2
+    SerializedFormat: 0
     SerializedBytes: 
     ReferencedUnityObjects: []
     SerializedBytesString: 
@@ -5095,18 +5097,22 @@ MonoBehaviour:
   groundMoveSpeed: 3
   airMoveSpeed: 30
   groundDeAcceleration: 20
-  airDeAcceleration: 1
+  airDeAcceleration: 3.5
   jetpackForce: 20
   climbSpeed: 4
-  groundedBoxX: 0.301
-  groundedBoxY: 0.087
+  groundedBoxX: 0.24
+  groundedBoxY: 0.07
   groundedBoxOffset: 0.2
   fuelDepletionRate: 30
   fuelRegenerationRate: 20
   characterDeathParticleSize: 0.18
   respawnTime: 3
+  currentZone: {fileID: 0}
+  isOperator: 0
+  currentInteractable: {fileID: 0}
   isOnFire: 0
   isDebugPlayer: 0
+  jetpackInputHeld: 0
   interactInputHeld: 0
   playerNameText: {fileID: 8429224900115243135}
   playerInputComponent: {fileID: 0}
@@ -5116,10 +5122,6 @@ MonoBehaviour:
   cannonScrollSensitivity: 3
   isSpinningJoystick: 0
   spinningForce: 0
-  currentZone: {fileID: 0}
-  isOperator: 0
-  currentInteractable: {fileID: 0}
-  buildTime: 1
   carryableObjects:
     serializedVersion: 2
     m_Bits: 512
@@ -5128,6 +5130,28 @@ MonoBehaviour:
   currentRepairJob: {fileID: 0}
   repairTime: 0.5
   repairAmount: 10
+  couplerStickDeadzone: 0.5
+  ladderDismountDeadzone: 0.5
+  ladderEnterDeadzone: 0.75
+  maxSlope: 95
+--- !u!114 &3919349592667607501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5332867684925448264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e9684f5a5acc3b41aa0269e7589c45e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 5332867684925448271}
+  rayLength: 0.1
+  standingRideHeight: 0.31
+  rideSpringStrength: 38.41
+  rideSpringDamper: 1.9
+  raycastOrigin: {fileID: 327680868978628959}
 --- !u!70 &448350889
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -5399,6 +5423,37 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 16777215
+--- !u!1 &7685641583699623842
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 327680868978628959}
+  m_Layer: 3
+  m_Name: GroundRayOrigin
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &327680868978628959
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7685641583699623842}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.358, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5332867684925448270}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8404686549713197937
 GameObject:
   m_ObjectHideFlags: 0

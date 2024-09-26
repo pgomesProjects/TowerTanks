@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEngine.Rendering.Universal;
 using Sirenix.OdinInspector;
 using UnityEngine.UI;
+using UnityEngine.Audio;
 
 public class CameraManipulator : MonoBehaviour
 {
@@ -90,8 +91,7 @@ public class CameraManipulator : MonoBehaviour
             //Audio setup:
             if (tank.tankType == TankId.TankType.PLAYER) //Set up audio on this camera if it is the player's
             {
-                cam.gameObject.AddComponent<AkGameObj>();       //Add AK gameobject component to camera
-                cam.gameObject.AddComponent<AkAudioListener>(); //Add audio listener component to camera
+                AkSoundEngine.AddDefaultListener(cam.gameObject);
             }
 
             //Cleanup:
@@ -214,7 +214,7 @@ public class CameraManipulator : MonoBehaviour
                     widthOrthoSize = ((widthOrthoSize + (main.tankCamSideBuffer * 2)) / 2) / cam.aspect; //Get final orthographic size (as defined by tank widths) by adding horizontal buffers and dividing by the cam aspect ratio
                 }
                 vcam.m_Lens.OrthographicSize = Mathf.Max(heightOrthoSize, widthOrthoSize); //Use whichever value is larger as the final orthographic size
-                print("Using " + (heightOrthoSize > widthOrthoSize ? " height" : "width"));
+                //print("Using " + (heightOrthoSize > widthOrthoSize ? " height" : "width"));
 
                 //float heightOrthoSize = (tanks[0].tankSizeValues.x + tanks[0].tankSizeValues.z + main.tankCamLowerBuffer + main.tankCamUpperBuffer) / 2; //Get ortho size as defined by tank height
                 //float leftWidthOrthoSize = (((tanks[0].tankSizeValues.w * 2) + (2 * main.tankCamSideBuffer)) / 2) / cam.aspect;                          //Get ortho size as defined by tank width (measuring from middle to left)

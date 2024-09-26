@@ -25,8 +25,12 @@ public class PlatformCollisionSwitcher : MonoBehaviour
 
     public IEnumerator DisableCollision(Collider2D playerCollider)
     {
+        Debug.Log("Disabling collision");
+        CharacterLegFloater legFloater = playerCollider.GetComponent<CharacterLegFloater>();
+        if (legFloater != null) legFloater.DisableFloater(true);
         Physics2D.IgnoreCollision(playerCollider, platformCollider);
         yield return new WaitForSeconds(0.5f);
+        if (legFloater != null) legFloater.DisableFloater(false);
         Physics2D.IgnoreCollision(playerCollider, platformCollider, false);
     }
 }

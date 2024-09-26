@@ -68,6 +68,16 @@ public class ChunkLoader : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        inputMap.actionTriggered += OnPlayerInput;
+    }
+
+    private void OnDisable()
+    {
+        inputMap.actionTriggered -= OnPlayerInput;
+    }
+
     private void SetupSpawner()
     {
         int count = 0;
@@ -666,7 +676,6 @@ public class ChunkLoader : MonoBehaviour
 
         //Gets the player input action map so that events can be subscribed to it
         inputMap = playerInputComponent.actions.FindActionMap("Debug");
-        inputMap.actionTriggered += OnPlayerInput;
     }
 
     private void OnPlayerInput(InputAction.CallbackContext ctx)

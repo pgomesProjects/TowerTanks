@@ -20,6 +20,8 @@ public abstract class Character : SerializedMonoBehaviour
     protected int characterIndex;
     protected Transform hands;
     protected Transform characterVisualParent;
+    protected TaskProgressBar taskProgressBar;
+
     protected Color characterColor = new Color(1, 1, 1, 1);
 
     [Header("Character Information")]
@@ -29,6 +31,8 @@ public abstract class Character : SerializedMonoBehaviour
     [FormerlySerializedAs("moveSpeed")]
     [Header("Movement")]
     [SerializeField] protected float groundMoveSpeed;
+
+    protected float currentGroundMoveSpeed;
     [SerializeField] protected float airMoveSpeed;
     [SerializeField] protected float groundDeAcceleration;
     [SerializeField] protected float airDeAcceleration;
@@ -49,21 +53,30 @@ public abstract class Character : SerializedMonoBehaviour
     private float currentRespawnTime;
     private bool isRespawning;
 
+    //objects
+    [Header("Interactables")]
+    public InteractableZone currentZone = null;
+    public bool isOperator; //true if player is currently operating an interactable
+    public TankInteractable currentInteractable; //what interactable player is currently operating
+
     [Header("Conditions")]
     [SerializeField] public bool isOnFire;
     protected float burnDamageRate = 1f;
     protected float burnDamageTimer = 0f;
     protected GameObject flames;
     protected bool isAlive;
-    protected bool isDead;
-    
+    protected bool permaDeath;
+
     //internal movement
+    protected Vector2 moveInput;
     private Transform currentCellJoint;
     private int cellLayerIndex = 15;
     
     protected LayerMask ladderLayer;
 
     private TankController assignedTank;
+    
+    protected List<Collider2D> currentOtherColliders = new List<Collider2D>();
 
     [Button(ButtonSizes.Medium)]
     private void DebugModifyPlayerHealth()
@@ -96,8 +109,9 @@ public abstract class Character : SerializedMonoBehaviour
     protected virtual void Start()
     {
         ResetPlayer();
+        taskProgressBar = GetComponent<TaskProgressBar>();
         isAlive = true;
-        isDead = false;
+        permaDeath = false;
     }
 
     protected virtual void Update()
@@ -191,21 +205,36 @@ public abstract class Character : SerializedMonoBehaviour
 
     #region Movement
 
-    protected bool CheckGround()
+    public bool CheckGround()
     {
         LayerMask bothLayers = (1 << LayerMask.NameToLayer("Ground")) | (1 << LayerMask.NameToLayer("Coupler"));
-        return Physics2D.OverlapBox(new Vector2(transform.position.x,
-                                                     transform.position.y - groundedBoxOffset),
-                                                   new Vector2(groundedBoxX, groundedBoxY),
-                                                   0f,
-                                                   bothLayers);
-        
+
+        /*foreach (var collider in currentOtherColliders)
+        {
+            if (collider.gameObject.layer == LayerMask.NameToLayer("Ground") || //if we are touching ground
+                collider.gameObject.layer == LayerMask.NameToLayer("Coupler"))
+            {
+                
+                return Physics2D.OverlapBox(new Vector2(transform.position.x, //if our position is over that ground
+                        transform.position.y - groundedBoxOffset),
+                    new Vector2(groundedBoxX, groundedBoxY),
+                    0f,
+                    bothLayers);
+            }
+        }*/
+
+        return Physics2D.OverlapBox(new Vector2(transform.position.x, //if our position is over that ground
+                transform.position.y - groundedBoxOffset),
+            new Vector2(groundedBoxX, groundedBoxY),
+            0f,
+            bothLayers);
+
     }
     
     protected Collider2D CheckSurfaceCollider(int layer)
     {
-        return Physics2D.OverlapBox(new Vector2(transform.position.x,
-                transform.position.y - transform.localScale.y),
+        return Physics2D.OverlapBox(new Vector2(transform.position.x, //if our position is over that ground
+                transform.position.y - groundedBoxOffset),
             new Vector2(groundedBoxX, groundedBoxY),
             0f,
             1 << layer);
@@ -274,6 +303,16 @@ public abstract class Character : SerializedMonoBehaviour
 
     #region Character Functions
 
+    public void SetCharacterMovement(Vector2 movement)
+    {
+        moveInput = movement;
+    }
+    
+    public Vector2 GetCharacterInput()
+    {
+        return moveInput;
+    }
+
     public float ModifyHealth(float amount)
     {
         return SetCharacterHealth(currentHealth + amount);
@@ -323,13 +362,11 @@ public abstract class Character : SerializedMonoBehaviour
         else
         {
             characterHUD?.KillPlayerHUD();
-            isDead = true;
+            permaDeath = true;
         }
 
         //TODO: (Ryan)
         //Needs to drop any objects/tools currently holding/equipped
-        //Needs to be kicked out of any interactable they're operating
-        //Needs to be unparented from anything they're parented to
 
         rb.isKinematic = true;
         characterHitbox.enabled = false;
@@ -343,6 +380,14 @@ public abstract class Character : SerializedMonoBehaviour
         currentHealth = characterSettings.maxHealth;
         currentFuel = characterSettings.fuelAmount;
         currentState = CharacterState.NONCLIMBING;
+
+        if (currentInteractable != null)
+        {
+            currentInteractable.CancelUse();
+            currentInteractable.Exit(true);
+        }
+
+        transform.parent = null;
     }
 
     private void RespawnTimer()
@@ -381,7 +426,7 @@ public abstract class Character : SerializedMonoBehaviour
         //TODO: (Ryan) Freeze
     }
 
-    public bool IsDead() => isDead;
+    public bool IsDead() => permaDeath;
 
     [Button(ButtonSizes.Medium)]
     public void Ignite()
@@ -413,4 +458,14 @@ public abstract class Character : SerializedMonoBehaviour
     }
 
     #endregion
+    
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        currentOtherColliders.Add(other.collider);
+    }
+    
+    private void OnCollisionExit2D(Collision2D other)
+    {
+        currentOtherColliders.Remove(other.collider);
+    }
 }

@@ -176,13 +176,13 @@ public class Room : MonoBehaviour
     /// Moves unmounted room as close as possible to target position (in local space) while snapping to grid.
     /// </summary>
     /// <param name="targetPoint"></param>
-    public void SnapMove(Vector2 targetPoint)
+    public Vector2 SnapMove(Vector2 targetPoint)
     {
         //Validity checks:
         if (mounted) //Room is already mounted
         {
             Debug.LogError("Tried to move room while it is mounted!"); //Log error
-            return;                                                    //Cancel move
+            return targetPoint;                                        //Cancel move
         }
 
         //Constrain to grid:
@@ -206,7 +206,7 @@ public class Room : MonoBehaviour
                 if (collider.TryGetComponent(out Cell otherCell) && otherCell.room != this) //Collider overlaps with a cell from another room
                 {
                     //print("Cell obstructed");
-                    return; //Generate no new couplers
+                    return newPoint; //Generate no new couplers
                 }
             }
             cell.c.size = Vector2.one; //Set collider size back to default
@@ -300,6 +300,8 @@ public class Room : MonoBehaviour
             group = group.OrderBy(otherCoupler => coupler.transform.rotation.z == 0 ? otherCoupler.transform.position.x : otherCoupler.transform.position.y);                    //Organize list from down to up and left to right
             for (int y = 1; y < group.Count();) { Coupler redundantCoupler = group.ElementAt(y); ghostCouplers.Remove(redundantCoupler); Destroy(redundantCoupler.gameObject); } //Delete all other couplers in group
         }
+
+        return newPoint;
     }
     /// <summary>
     /// Rotates unmounted room around its pivot.
@@ -401,6 +403,43 @@ public class Room : MonoBehaviour
 
         return mounted;
     }
+
+    /// <summary>
+    /// Dismounts this room from the tank base or any other connected rooms.
+    /// </summary>
+    public void Dismount()
+    {
+        // Validity checks:
+        if (!mounted) { Debug.LogError("Tried to dismount room which is not mounted!"); return; } // Ensure the room is currently mounted
+
+        // Destroy all objects within its cells
+        foreach(Cell cell in cells)
+        {
+            foreach (Transform child in cell.transform) Destroy(child.gameObject);
+        }
+
+        // Remove couplers:
+        foreach (Coupler coupler in couplers)
+        {
+            if(coupler != null)
+                Destroy(coupler.gameObject);
+        }
+
+        couplers.Clear(); // Clear the room's coupler list
+
+        // Remove room from tank:
+        if (targetTank != null)
+        {
+            targetTank.rooms.Remove(this);          // Remove room from the tank's list of rooms
+            targetTank.treadSystem.ReCalculateMass(); // Recalculate tank's mass after dismounting the room
+            targetTank.UpdateSizeValues();           // Update the highest cell in the tank
+        }
+
+        // Cleanup:
+        mounted = false;
+        transform.parent = null;
+    }
+
     /// <summary>
     /// Dismounts this cell if it was just mounted (used for undoing in build scene).
     /// </summary>
