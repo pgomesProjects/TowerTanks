@@ -132,10 +132,7 @@ public class BuildingHUD : GameHUD
         CheckForAllPlayersConnectedAndReady();
     }
 
-    public void GoToCombatScene()
-    {
-        GameManager.Instance.LoadScene("HotteScene", LevelTransition.LevelTransitionType.GATE, true, true, false);
-    }
+    public void GoToCombatScene() => GameManager.Instance.LoadScene("HotteScene", LevelTransition.LevelTransitionType.GATE, true, true, false);
 
     protected override void OnDestroy()
     {

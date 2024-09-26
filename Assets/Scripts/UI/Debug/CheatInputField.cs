@@ -17,7 +17,6 @@ public class CheatInputField : MonoBehaviour
 
     private void Awake()
     {
-        ClearLog();
         playerControls = new PlayerControlSystem();
         playerControls.Debug.SubmitCommand.started += _ => SubmitInputField();
         debugTools = FindObjectOfType<DebugTools>();
@@ -26,34 +25,50 @@ public class CheatInputField : MonoBehaviour
     private void OnEnable()
     {
         playerControls?.Enable();
+        GameManager.Instance.MultiplayerManager.EnableDebugInput();
+        logText.text = debugTools.logHistory;
     }
 
     private void OnDisable()
     {
         playerControls?.Disable();
+        inputField.text = string.Empty;
+        GameManager.Instance.MultiplayerManager.DisableDebugInput();
     }
 
     public void ClearLog()
     {
         logText.text = string.Empty;
+        debugTools.logHistory = string.Empty;
     }
 
     public void AddToLog(string message, MessageType messageType = MessageType.Log)
     {
+        string logMessage = "";
+
         switch (messageType)
         {
             case MessageType.Log:
-                logText.text += "<color=white>";
+                logMessage += "<color=white>";
                 break;
             case MessageType.Warning:
-                logText.text += "<color=yellow>";
+                logMessage += "<color=yellow>";
                 break;
             case MessageType.Error:
-                logText.text += "<color=red>";
+                logMessage += "<color=red>";
                 break;
         }
 
-        logText.text += message + "</color><br>";
+        logMessage += message + "</color><br>";
+
+        debugTools.logHistory += logMessage;
+        logText.text = logMessage;
+    }
+
+    public void ForceActivateInput()
+    {
+        inputField.Select();
+        inputField.ActivateInputField();
     }
 
     private void SubmitInputField()
@@ -92,8 +107,41 @@ public class CheatInputField : MonoBehaviour
                 else
                     AddToLog("'debug' command requires additional parameters.", MessageType.Error);
                 break;
+            case "scene":
+                if (commandParts.Length > 1)
+                {
+                    string sceneCommand = commandParts[1].ToLower();
+                    HandleSceneTransition(sceneCommand);
+                }
+                else
+                    AddToLog("'scene' command requires 'combat' or 'build' as parameters.", MessageType.Error);
+                break;
             default:
                 AddToLog("'" + command + "' is an unknown command.", MessageType.Error);
+                break;
+        }
+    }
+
+    private void HandleSceneTransition(string sceneCommand)
+    {
+        switch (sceneCommand)
+        {
+            case "combat":
+                if (BuildingManager.Instance != null)
+                    BuildingManager.Instance?.GetReadyUpManager().StartReadySequence();
+                else
+                    GameManager.Instance.LoadScene("HotteScene", LevelTransition.LevelTransitionType.GATE, true, true, false);
+                AddToLog("Transitioning to Combat Scene...", MessageType.Log);
+                break;
+            case "build":
+                if (LevelManager.Instance != null)
+                    LevelManager.Instance?.CompleteMission();
+                else
+                    GameManager.Instance.LoadScene("BuildTankScene", LevelTransition.LevelTransitionType.GATE, true, true, false);
+                AddToLog("Transitioning to Build Scene...", MessageType.Log);
+                break;
+            default:
+                AddToLog("'" + sceneCommand + "' is not a valid scene. Use 'combat' or 'build'.", MessageType.Error);
                 break;
         }
     }
@@ -126,6 +174,7 @@ public class CheatInputField : MonoBehaviour
 
         helpMessage += "help - Provides a list of commands.<br>";
         helpMessage += "debug [on:off] - Turns debug mode on or off.<br>";
+        helpMessage += "scene [combat:build] - Switches between the combat and build scenes.<br>";
         helpMessage += "clear - Clears the command log.";
         AddToLog(helpMessage);
     }

@@ -25,11 +25,12 @@ public class CampaignManager : MonoBehaviour
         }
 
         Instance = this;
+        HasCampaignStarted = false;
     }
 
     private void Start()
     {
-        if (!HasCampaignStarted && SceneManager.GetActiveScene().name == "BuildTankScene")
+        if (!HasCampaignStarted && (GAMESCENE)SceneManager.GetActiveScene().buildIndex == GAMESCENE.BUILDING)
             SetupCampaign();
     }
 
@@ -47,13 +48,16 @@ public class CampaignManager : MonoBehaviour
     {
         //If the game has reached the title screen, destroy self since we don't need this anymore
         if ((GAMESCENE)scene.buildIndex == GAMESCENE.TITLE)
-        { 
             Destroy(gameObject);
-        }
         else
         {
-            CurrentRound++;
-            StackManager.main?.GenerateExistingStack();
+            if (!HasCampaignStarted && (GAMESCENE)SceneManager.GetActiveScene().buildIndex == GAMESCENE.BUILDING)
+                SetupCampaign();
+            else
+            {
+                CurrentRound++;
+                StackManager.main?.GenerateExistingStack();
+            }
         }
     }
 

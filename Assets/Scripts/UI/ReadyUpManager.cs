@@ -46,10 +46,13 @@ public class ReadyUpManager : MonoBehaviour
         playerReadyComponents[playerIndex].UpdateReadyStatus(isReady);
 
         if (IsAllReady())
-        {
-            allReady = true;
-            OnAllReady?.Invoke();
-        }
+            StartReadySequence();
+    }
+
+    public void StartReadySequence()
+    {
+        allReady = true;
+        OnAllReady?.Invoke();
     }
 
     public bool IsAllReady()

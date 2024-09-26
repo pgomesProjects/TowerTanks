@@ -39,6 +39,7 @@ public class GameManager : SerializedMonoBehaviour
     private bool loadingScene = false;
 
     public TankDesign tankDesign;
+    public bool CheatsMenuActive { get; private set; }
 
     private void Awake()
     {
@@ -218,4 +219,6 @@ public class GameManager : SerializedMonoBehaviour
         //If no interactable is found, return the first enum in the list.
         return default;
     }
+
+    public bool SetCheatsMenuActive(bool cheatsActive) => CheatsMenuActive = cheatsActive;
 }
