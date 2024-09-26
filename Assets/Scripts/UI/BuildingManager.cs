@@ -87,6 +87,7 @@ public class BuildingManager : SerializedMonoBehaviour
 
     private List<WorldRoom> worldRoomObjects;
     private Stack<Room> tankBuildHistory;
+    private RectTransform historyParentTransform;
 
     [Button(ButtonSizes.Medium)]
     private void DebugUndo()
@@ -101,6 +102,7 @@ public class BuildingManager : SerializedMonoBehaviour
         tankBuildHistory = new Stack<Room>();
         defaultPlayerTank = FindObjectOfType<TankController>();
         defaultPlayerActionColor = playerActionPrefab.GetComponentInChildren<Image>().color;
+        historyParentTransform = playerActionContainer.parent.GetComponent<RectTransform>();
     }
 
     // Start is called before the first frame update
@@ -224,6 +226,7 @@ public class BuildingManager : SerializedMonoBehaviour
         GameObject newAction = Instantiate(playerActionPrefab, playerActionContainer);
         newAction.GetComponentInChildren<TextMeshProUGUI>().text = playerName + " Placed " + currentRoomInfo.name;
         newAction.GetComponentInChildren<Image>().color = mostRecentActionColor;
+        LayoutRebuilder.ForceRebuildLayoutImmediate(historyParentTransform);
 
         tankBuildHistory.Push(currentRoomInfo.roomObject);
     }

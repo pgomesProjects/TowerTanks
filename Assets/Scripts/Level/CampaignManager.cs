@@ -12,8 +12,7 @@ public class CampaignManager : MonoBehaviour
 
     internal string PlayerTankName { get; private set; }
     internal int CurrentRound { get; private set; }
-
-    private bool hasCampaignStarted = false;
+    internal bool HasCampaignStarted { get; private set; }
 
     public static Action OnCampaignStarted;
 
@@ -30,7 +29,7 @@ public class CampaignManager : MonoBehaviour
 
     private void Start()
     {
-        if (!hasCampaignStarted && SceneManager.GetActiveScene().name == "BuildTankScene")
+        if (!HasCampaignStarted && SceneManager.GetActiveScene().name == "BuildTankScene")
             SetupCampaign();
     }
 
@@ -71,6 +70,7 @@ public class CampaignManager : MonoBehaviour
             StackManager.AddToStack(interactable);
 
         OnCampaignStarted?.Invoke();
+        HasCampaignStarted = true;
     }
 
     public void SetLevelEvent(LevelEvents levelEvent)

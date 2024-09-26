@@ -27,7 +27,8 @@ public class BuildingHUD : GameHUD
     protected override void Start()
     {
         base.Start();
-        UpdateBuildPhase(BuildingSubphase.PickRooms);
+        if(CampaignManager.Instance.HasCampaignStarted)
+            UpdateBuildPhase(BuildingSubphase.PickRooms);
     }
 
     protected override void OnEnable()
@@ -37,6 +38,7 @@ public class BuildingHUD : GameHUD
         GameManager.Instance.MultiplayerManager.OnPlayerConnected += AddPlayer;
         PlayerData.OnPlayerStateChanged += CheckForAllPlayersConnectedAndReady;
         CampaignManager.OnCampaignStarted += SwitchToNamingPhase;
+        GamePhaseUI.OnCombatPhase += GoToCombatScene;
 
         playerControls?.Enable();
     }
@@ -48,6 +50,7 @@ public class BuildingHUD : GameHUD
         GameManager.Instance.MultiplayerManager.OnPlayerConnected -= AddPlayer;
         PlayerData.OnPlayerStateChanged -= CheckForAllPlayersConnectedAndReady;
         CampaignManager.OnCampaignStarted -= SwitchToNamingPhase;
+        GamePhaseUI.OnCombatPhase -= GoToCombatScene;
 
         playerControls?.Disable();
     }
@@ -127,6 +130,11 @@ public class BuildingHUD : GameHUD
         namepad.AssignPlayerToGamepad(playerInput);
 
         CheckForAllPlayersConnectedAndReady();
+    }
+
+    public void GoToCombatScene()
+    {
+        GameManager.Instance.LoadScene("HotteScene", LevelTransition.LevelTransitionType.GATE, true, true, false);
     }
 
     protected override void OnDestroy()

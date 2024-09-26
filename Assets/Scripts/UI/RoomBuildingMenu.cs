@@ -50,6 +50,8 @@ public class PlayerRoomSelection
         ResetSelection();
     }
 
+    public void IncrementMaxRoomsToPlace() => this.maxRoomsToPlace += 1;
+
     public void ResetSelection()
     {
         this.roomsPlaced = 0;
@@ -64,9 +66,10 @@ public class PlayerRoomSelection
 
 public class RoomBuildingMenu : SerializedMonoBehaviour
 {
+    public static int MAX_ROOMS_TO_PLACE;
 
-    public const int MAX_ROOMS_TO_PLACE = 4;
-
+    [SerializeField, Tooltip("The amount of rooms for the players to pick from.")] private int numberOfRoomsToGenerate;
+    [SerializeField, Tooltip("The max amount of rooms that all players can pick in a round.")] private int maxRoomsPerRound;
     [SerializeField, Tooltip("The prefab that generates data for a room that the players can pick.")] private SelectableRoomObject roomIconPrefab;
     [SerializeField, Tooltip("The transform to store the selectable rooms.")] private Transform roomListTransform;
     [SerializeField, Tooltip("The RectTransform for the building menu.")] private RectTransform buildingMenuRectTransform;
@@ -89,6 +92,7 @@ public class RoomBuildingMenu : SerializedMonoBehaviour
 
     private void Awake()
     {
+        MAX_ROOMS_TO_PLACE = maxRoomsPerRound;
         startingBackgroundPos = buildingBackgroundRectTransform.anchoredPosition;
         startingMenuPos = buildingMenuRectTransform.anchoredPosition;
         roomButtons = new List<SelectableRoomObject>();
@@ -97,13 +101,11 @@ public class RoomBuildingMenu : SerializedMonoBehaviour
 
     private void OnEnable()
     {
-        GamePhaseUI.OnCombatPhase += GoToCombatScene;
         GameManager.Instance.MultiplayerManager.OnPlayerConnected += AddPlayerToSelection;
     }
 
     private void OnDisable()
     {
-        GamePhaseUI.OnCombatPhase -= GoToCombatScene;
         GameManager.Instance.MultiplayerManager.OnPlayerConnected -= AddPlayerToSelection;
     }
 
@@ -120,8 +122,12 @@ public class RoomBuildingMenu : SerializedMonoBehaviour
         SetRoomSelections();
     }
 
+    /// <summary>
+    /// Opens the room selection menu.
+    /// </summary>
     public void OpenMenu()
     {
+        //Generate the random rooms before the menu displays
         GenerateRooms();
 
         buildingMenuRectTransform.anchoredPosition = startingMenuPos;
@@ -130,17 +136,15 @@ public class RoomBuildingMenu : SerializedMonoBehaviour
         LeanTween.move(buildingBackgroundRectTransform, backgroundEndingPos, backgroundAniDuration).setEase(showBackgroundEaseType);
     }
 
+    /// <summary>
+    /// Closes the room selection menu.
+    /// </summary>
     public void CloseMenu()
     {
         buildingMenuRectTransform.anchoredPosition = menuEndingPos;
         buildingBackgroundRectTransform.anchoredPosition = backgroundEndingPos;
         LeanTween.move(buildingMenuRectTransform, startingMenuPos, menuAniDuration).setEase(closeMenuEaseType);
         LeanTween.move(buildingBackgroundRectTransform, startingBackgroundPos, backgroundAniDuration).setEase(hideBackgroundEaseType).setOnComplete(() => StartBuilding());
-    }
-
-    public void GoToCombatScene()
-    {
-        GameManager.Instance.LoadScene("HotteScene", LevelTransition.LevelTransitionType.GATE, true, true, false);
     }
 
     /// <summary>
@@ -152,19 +156,20 @@ public class RoomBuildingMenu : SerializedMonoBehaviour
         foreach(Transform rooms in roomListTransform)
             Destroy(rooms.gameObject);
 
-        //Spawn in four random rooms and display their names
-        for (int i = 0; i < MAX_ROOMS_TO_PLACE; i++)
+        //Spawn in random rooms and display their names
+        for (int i = 0; i < numberOfRoomsToGenerate; i++)
         {
             int roomIndexRange = Random.Range(0, GameManager.Instance.roomList.Length);
             SelectableRoomObject newRoom = Instantiate(roomIconPrefab, roomListTransform);
             newRoom.DisplayRoomInfo(GameManager.Instance.roomList[roomIndexRange]);
             newRoom.SetRoomID(roomIndexRange);
             newRoom.OnSelected.AddListener(OnRoomSelected);
+            newRoom.gameObject.name = GameManager.Instance.roomList[roomIndexRange].name;
             roomButtons.Add(newRoom);
         }
 
+        //Give each player an empty room selection object to use to pick rooms
         roomSelections.Clear();
-
         foreach (PlayerData player in GameManager.Instance.MultiplayerManager.GetAllPlayers())
         {
             roomSelections.Add(new PlayerRoomSelection(player));
@@ -174,6 +179,9 @@ public class RoomBuildingMenu : SerializedMonoBehaviour
         SetRoomSelections();
     }
 
+    /// <summary>
+    /// Sets the amount of rooms that each player can pick.
+    /// </summary>
     private void SetRoomSelections()
     {
         foreach (SelectableRoomObject roomButton in roomButtons)
@@ -183,47 +191,26 @@ public class RoomBuildingMenu : SerializedMonoBehaviour
 
         int playerCount = roomSelections.Count;
 
-        //Debug.Log("Player Count: " + playerCount);
+        //Reset all room maxes
+        foreach (PlayerRoomSelection player in roomSelections)
+            player.SetMaxRoomsToPlace(0);
 
-        switch (playerCount)
-        {
-            //One player: 4 rooms per player
-            case 1:
-                for (int i = 0; i < playerCount; i++)
-                    roomSelections[i].SetMaxRoomsToPlace(4);
-                break;
-            //Two players: 2 rooms per player
-            case 2:
-                for (int i = 0; i < playerCount; i++)
-                    roomSelections[i].SetMaxRoomsToPlace(2);
-                break;
-            //Three players: 2 rooms for player one, 1 room for the rest
-            case 3:
-                for (int i = 0; i < playerCount; i++)
-                {
-                    if(i == 0)
-                    {
-                        roomSelections[i].SetMaxRoomsToPlace(2);
-                        continue;
-                    }
-
-                    roomSelections[i].SetMaxRoomsToPlace(1);
-                }
-                break;
-            //Four players: 1 room per player
-            case 4:
-                for (int i = 0; i < playerCount; i++)
-                    roomSelections[i].SetMaxRoomsToPlace(1);
-                break;
-        }
+        for(int i = 0; i < MAX_ROOMS_TO_PLACE; i++)
+            roomSelections[i % playerCount].IncrementMaxRoomsToPlace();
     }
 
+    /// <summary>
+    /// Lets a player select a room to add to their list of rooms to build.
+    /// </summary>
+    /// <param name="playerSelected">The player selecting the room.</param>
+    /// <param name="currentRoomID">The ID of the room selected.</param>
     private void OnRoomSelected(PlayerInput playerSelected, int currentRoomID)
     {
         roomsSelected++;
         PlayerRoomSelection currentSelector = GetPlayerSelectionData(playerSelected);
         currentSelector.AddRoomInfo(GameManager.Instance.roomList[currentRoomID]);
 
+        //If the player has selected the maximum amount of rooms they can, don't let them pick any more
         if (currentSelector.AllRoomsSelected())
         {
             PlayerData currentPlayerData = PlayerData.ToPlayerData(playerSelected);
@@ -241,6 +228,9 @@ public class RoomBuildingMenu : SerializedMonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Let all players begin the process of building the tank.
+    /// </summary>
     private void StartBuilding()
     {
         foreach (PlayerData player in GameManager.Instance.MultiplayerManager.GetAllPlayers())
@@ -258,6 +248,11 @@ public class RoomBuildingMenu : SerializedMonoBehaviour
         //GameManager.Instance.SetGamepadCursorsActive(true);
     }
 
+    /// <summary>
+    /// Gets the player selection data based on the player input component given.
+    /// </summary>
+    /// <param name="currentPlayer">The current player input component.</param>
+    /// <returns>Returns a PlayerRoomSelection object if found in the list. Returns null if nothing is found.</returns>
     private PlayerRoomSelection GetPlayerSelectionData(PlayerInput currentPlayer)
     {
         foreach (PlayerRoomSelection selection in roomSelections)
