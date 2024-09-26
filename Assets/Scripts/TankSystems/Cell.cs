@@ -21,7 +21,7 @@ public class Cell : MonoBehaviour
     /// Includes cells in other rooms.
     /// Order is North (0), West (1), South (2), then East (3).
     /// </summary>
-    internal Cell[] neighbors = new Cell[4];
+    public Cell[] neighbors = new Cell[4];
     /// <summary>
     /// Array of up to four optional connector (spacer) pieces which attach this cell to its corresponding neighbor.
     /// Connectors indicate splits between room sections.
