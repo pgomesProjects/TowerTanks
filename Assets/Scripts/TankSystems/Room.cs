@@ -36,6 +36,9 @@ public class Room : MonoBehaviour
     private Transform connectorParent;                         //Parent object which contains all connectors
     internal RoomData roomData;                                //ScriptableObject containing data about rooms and objects spawned by them
 
+    internal List<GameObject> ladders = new List<GameObject>();       //Ladders that are in this room
+    private List<GameObject> leadingLadders = new List<GameObject>(); //Ladders that lead to cells in this room (but are in different rooms)
+
     //Settings:
     [Header("Template Settings:")]
     [Tooltip("Indicates whether or not this is the tank's indestructible core room.")] public bool isCore = false;
@@ -359,6 +362,8 @@ public class Room : MonoBehaviour
                 Cell cell = coupler.cellA.transform.position.y > coupler.cellB.transform.position.y ? coupler.cellB : coupler.cellA; //Pick whichever cell is below coupler
                 GameObject ladder = Instantiate(roomData.ladderPrefab, cell.transform);                                              //Instantiate ladder as child of lower cell
                 ladder.transform.position = new Vector2(coupler.transform.position.x, cell.transform.position.y);                    //Move ladder to horizontal position of coupler and vertical position of cell
+                leadingLadders.Add(ladder);                                                                                          //Keep track of ladder with master list
+                cell.room.ladders.Add(ladder);                                                                                       //Have room ladder is in keep track of it too
 
                 //print("Found horizontal coupler above cell " + cell.name + ", placing ladder.");
                 
@@ -378,6 +383,8 @@ public class Room : MonoBehaviour
                 GameObject ladder = Instantiate(roomData.ladderPrefab, cell.transform); //Generate a new ladder childed to cell
                 ladder.transform.position = cell.transform.position;                    //Match ladder to cell position
                 ladder.transform.eulerAngles = Vector3.zero;                            //Make sure ladder is not rotated
+                leadingLadders.Add(ladder);                                             //Keep track of ladder with master list
+                cell.room.ladders.Add(ladder);                                          //Have room ladder is in keep track of it too
 
                 //Place short ladder:
                 if (cell.connectors[0]) //Cell is separated from previous cell by a separator
@@ -385,6 +392,8 @@ public class Room : MonoBehaviour
                     ladder = Instantiate(roomData.shortLadderPrefab, cell.transform);                                              //Generate a new short ladder, childed to the cell below it
                     ladder.transform.position = Vector2.Lerp(cell.transform.position, cell.neighbors[0].transform.position, 0.5f); //Place ladder directly between cell and prev cell
                     ladder.transform.eulerAngles = Vector3.zero;                                                                   //Make sure ladder is not rotated
+                    leadingLadders.Add(ladder);                                                                                    //Keep track of ladder with master list
+                    cell.room.ladders.Add(ladder);                                                                                 //Have room ladder is in keep track of it too
                 }
             }
         }
@@ -405,65 +414,33 @@ public class Room : MonoBehaviour
     }
 
     /// <summary>
-    /// Dismounts this room from the tank base or any other connected rooms.
-    /// </summary>
-    public void Dismount()
-    {
-        // Validity checks:
-        if (!mounted) { Debug.LogError("Tried to dismount room which is not mounted!"); return; } // Ensure the room is currently mounted
-
-        // Destroy all objects within its cells
-        foreach(Cell cell in cells)
-        {
-            foreach (Transform child in cell.transform) Destroy(child.gameObject);
-        }
-
-        // Remove couplers:
-        foreach (Coupler coupler in couplers)
-        {
-            if(coupler != null)
-                Destroy(coupler.gameObject);
-        }
-
-        couplers.Clear(); // Clear the room's coupler list
-
-        // Remove room from tank:
-        if (targetTank != null)
-        {
-            targetTank.rooms.Remove(this);          // Remove room from the tank's list of rooms
-            targetTank.treadSystem.ReCalculateMass(); // Recalculate tank's mass after dismounting the room
-            targetTank.UpdateSizeValues();           // Update the highest cell in the tank
-        }
-
-        // Cleanup:
-        mounted = false;
-        transform.parent = null;
-    }
-
-    /// <summary>
-    /// Dismounts this cell if it was just mounted (used for undoing in build scene).
+    /// Dismounts this room if it was just mounted (used for undoing in build scene).
     /// </summary>
     public void Dismount()
     {
         //Initialization:
-        if (!mounted) return; //Do not try to dismount a room when it is not yet mounted
+        if (!mounted) { Debug.LogError("Tried to dismount room which is not mounted!"); return; } // Ensure the room is currently mounted
 
         //Coupler removal:
-        while (couplers.Count > 0) couplers[0].Kill(); //Destroy all couplers connecting this room to other rooms (their normal kill method should work fine)
+        while (couplers.Count > 0) couplers[0].Kill(true); //Destroy all couplers connecting this room to other rooms (their normal kill method should work fine)
 
         //Ladder removal:
-        foreach (Cell cell in cells) //Iterate through cells in room
+        while (ladders.Count > 0 || leadingLadders.Count > 0) //Iterate until there are no more ladders in room or leading to room
         {
-            for (int x = 0; x < cell.transform.childCount; x++) //Iterate through children of cell
-            {
-                if (cell.transform.GetChild(x).gameObject.layer == LayerMask.NameToLayer("Ladder")) Destroy(cell.transform.GetChild(x).gameObject); //Destroy any ladders childed to cell
-            }
+            GameObject ladder = ladders.Count > 0 ? ladders[0] : leadingLadders[0];                   //Get ladder from ladders list until it is empty, then start getting them from leading ladders list
+            if (ladders.Contains(ladder)) ladders.Remove(ladder); else leadingLadders.Remove(ladder); //Remove ladder from its respective list
+            Destroy(ladder);                                                                          //Destroy ladder
         }
+        
 
         //Cleanup:
-        targetTank.treadSystem.ReCalculateMass(); //Re-calculate mass now that room has been removed
-        mounted = false;                          //Indicate that room is now disconnected
-        SnapMove(transform.localPosition);        //Re-generate ghost couplers and stuff once everything is cleaned up and room is disconnected
+        if (targetTank != null) //Tank system updates
+        {
+            targetTank.rooms.Remove(this);            // Remove room from the tank's list of rooms
+            targetTank.treadSystem.ReCalculateMass(); //Re-calculate mass now that room has been removed
+        }
+        mounted = false;                   //Indicate that room is now disconnected
+        SnapMove(transform.localPosition); //Re-generate ghost couplers and stuff once everything is cleaned up and room is disconnected
     }
     /// <summary>
     /// Changes room type to given value.

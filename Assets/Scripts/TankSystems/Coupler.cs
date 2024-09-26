@@ -133,7 +133,8 @@ public class Coupler : MonoBehaviour
     /// <summary>
     /// Destroys this coupler and cleans up all references to it.
     /// </summary>
-    public void Kill()
+    /// <param name="nonDestructive">Pass true to prevent this action from potentially killing any cells.</param>
+    public void Kill(bool nonDestructive = false)
     {
         //Reference cleanup:
         foreach (Collider2D wall in adjacentWalls) //Iterate through each wall affected by this coupler
@@ -151,7 +152,7 @@ public class Coupler : MonoBehaviour
             Cell cell = wall.GetComponentInParent<Cell>();                          //Get cell associated with this wall
             if (cell.room.couplers.Contains(this)) cell.room.couplers.Remove(this); //Remove this coupler from memory of parent room
             if (cell.couplers.Contains(this)) cell.couplers.Remove(this);           //Remove this coupler from memory of all adjacent cells
-            cell.KillIfDisconnected();                                              //Check to see if cell has been disconnected by this and destroy it if this is the casec
+            if (!nonDestructive) cell.KillIfDisconnected();                         //Check to see if cell has been disconnected by this and destroy it if this is the case
         }
 
         //Final cleanup:
