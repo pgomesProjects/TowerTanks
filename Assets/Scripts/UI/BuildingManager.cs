@@ -30,7 +30,7 @@ public class BuildingManager : SerializedMonoBehaviour
             this.roomTransform = roomTransform;
         }
 
-        public void Mount()
+        public Room Mount()
         {
             roomObject.Mount();
             Debug.Log("Room Mounted!");
@@ -39,11 +39,8 @@ public class BuildingManager : SerializedMonoBehaviour
             playerSelector.MountRoom();
             if (playerSelector.AllRoomsMounted())
                 currentRoomState = RoomState.MOUNTED;
-        }
 
-        public void Dismount()
-        {
-            roomObject.Dismount();
+            return roomObject;
         }
 
         public void UpdateTick()
@@ -192,8 +189,8 @@ public class BuildingManager : SerializedMonoBehaviour
     public bool MountRoom(PlayerInput playerInput)
     {
         WorldRoom playerRoom = GetPlayerRoom(playerInput);
-        playerRoom.Mount();
-        AddToPlayerActionHistory(playerInput.name, playerRoom.playerSelector.GetRoomAt(playerRoom.playerSelector.GetNumberOfRoomsPlaced() - 1));
+        Room mountedRoom = playerRoom.Mount();
+        AddToPlayerActionHistory(playerInput.name, playerRoom.playerSelector.GetRoomAt(playerRoom.playerSelector.GetNumberOfRoomsPlaced() - 1), mountedRoom);
 
         if (playerRoom.currentRoomState == WorldRoom.RoomState.MOUNTED)
         {
@@ -218,7 +215,7 @@ public class BuildingManager : SerializedMonoBehaviour
         return false;
     }
 
-    private void AddToPlayerActionHistory(string playerName, RoomInfo currentRoomInfo)
+    private void AddToPlayerActionHistory(string playerName, RoomInfo currentRoomInfo, Room mountedRoom)
     {
         if (tankBuildHistory.Count != 0)
             playerActionContainer.GetChild(playerActionContainer.childCount - 1).GetComponentInChildren<Image>().color = defaultPlayerActionColor;
@@ -228,7 +225,7 @@ public class BuildingManager : SerializedMonoBehaviour
         newAction.GetComponentInChildren<Image>().color = mostRecentActionColor;
         LayoutRebuilder.ForceRebuildLayoutImmediate(historyParentTransform);
 
-        tankBuildHistory.Push(currentRoomInfo.roomObject);
+        tankBuildHistory.Push(mountedRoom);
     }
 
     private void UndoPlayerAction()
