@@ -15,6 +15,7 @@ public class Projectile : MonoBehaviour
 
     //Settings:
     [SerializeField, Tooltip("Damage dealt on direct hit")]                             public float damage;  //Damage projectile will deal upon hitting a valid target
+    [SerializeField, Tooltip("Directional force to apply to the target when hit")]      public float knockbackForce;
     [SerializeField, Tooltip("If true, this projectile utilizes splash damage")]        public bool hasSplashDamage; //Whether or not this projectile deals splash damage
     [SerializeField, Tooltip("Contains values related to splash damage zones")]         public SplashData[] splashData; //Contains all values related to different splash damage zones
     [SerializeField, Tooltip("If true, this projectile uses the 'Tunneling' mechanic")] public bool isTunneling;
@@ -148,6 +149,15 @@ public class Projectile : MonoBehaviour
             else
             {
                 if (RollFireChance()) { cellHit.Ignite(); } //Check for Fire
+            }
+
+            //Apply Knockback Force
+            if (knockbackForce > 0)
+            {
+                float knockBackTime = knockbackForce * 0.05f;
+
+                knockbackForce *= Mathf.Sign(velocity.x);
+                cellHit.room.targetTank.treadSystem.ApplyForce(transform.position, knockbackForce, knockBackTime);
             }
 
             GameManager.Instance.AudioManager.Play("ShellImpact", gameObject);

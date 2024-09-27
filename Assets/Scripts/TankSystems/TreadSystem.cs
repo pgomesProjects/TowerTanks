@@ -44,6 +44,8 @@ public class TreadSystem : MonoBehaviour
 
     [Header("Ramming & Collision Settings:")]
     [SerializeField, Tooltip("Minimum Speed for Ramming Effects to Apply")]         public float rammingSpeed;
+    private float stunTimer = 0;
+    [SerializeField, Tooltip("Multiplier on speed when stunned by an impact/force")] public float speedStunMultiplier = 1f;
 
     //Runtime Variables:
     private bool initialized;    //True if tread system has already been set up
@@ -60,6 +62,9 @@ public class TreadSystem : MonoBehaviour
     {
         //Update timers:
         timeInGear += Time.deltaTime; //Update time in gear tracker
+        if (stunTimer > 0) stunTimer -= Time.deltaTime;
+        speedStunMultiplier = 1f - (stunTimer);
+        speedStunMultiplier = Mathf.Clamp(speedStunMultiplier, 0.05f, 1f);
 
         //Update treads:
         for (int wheelIndex = 0; wheelIndex < wheels.Length; wheelIndex++) //Iterate once for each wheel
@@ -124,11 +129,11 @@ public class TreadSystem : MonoBehaviour
                 if (wheel.lastGroundHit.collider != null) //Wheel has valid information about hit ground
                 {
                     //Apply drive torque:
-                    Vector2 wheelAccel = Vector3.Project(baseWheelAccel, wheelDirection); //Project base acceleration onto vector representing direction wheel is capable of producing force in (depends on ground angle)
+                    Vector2 wheelAccel = Vector3.Project(baseWheelAccel * 0.05f, wheelDirection); //Project base acceleration onto vector representing direction wheel is capable of producing force in (depends on ground angle)
                     wheelAccel /= (wheels.Length - extraWheels);                          //Divide wheel acceleration value by number of main wheels so that tank is most stable when all wheels are on the ground
                     Debug.DrawRay(wheel.lastGroundHit.point, wheelAccel);
-                    r.AddForceAtPosition(wheelAccel, wheel.lastGroundHit.point, ForceMode2D.Force); //Apply wheel traction to system
-
+                    r.AddForceAtPosition(wheelAccel * speedStunMultiplier, wheel.lastGroundHit.point, ForceMode2D.Force); //Apply wheel traction to system
+                    
                     //Apply wheel stickiness:
                     if (!wheel.nonStick && wheel.springSpeed < 0) //Wheel appears to be leaving the ground (negative spring speed indicates that spring is decompressing)
                     {
@@ -203,6 +208,36 @@ public class TreadSystem : MonoBehaviour
         treads = newTreads.ToArray(); //Commit generated list to array
     }
 
+    public IEnumerator SpeedSurge(float duration, int power)
+    {
+        currentEngines += power;
+        speedShiftRate += power;
+        yield return new WaitForSeconds(duration);
+        currentEngines -= power;
+        speedShiftRate -= power;
+    }
+
+    /// <summary>
+    /// Shifts to target gear.
+    /// </summary>
+    /// <param name="targetGear"></param>
+    public void ChangeGear(int targetGear)
+    {
+        gear = -targetGear; //Update gear setting
+        timeInGear = 0;     //Reset time in gear counter
+    }
+
+    public void ApplyForce(Vector2 position, float force, float stunTime)
+    {
+        Vector2 _force = Vector2.right * force;
+        //r.AddTorque(force, ForceMode2D.Impulse);
+        r.AddForce(_force, ForceMode2D.Impulse);
+        //r.AddForceAtPosition(position, _force * 0.1f, ForceMode2D.Impulse);
+
+        stunTimer += stunTime;
+        if (stunTimer > 3f) stunTimer = 3f;
+    }
+
     //UTILITY METHODS:
     /// <summary>
     /// Evaluates mass and center of gravity for tank depending on position and quantity of cells.
@@ -245,25 +280,6 @@ public class TreadSystem : MonoBehaviour
         float c_maxAcceleration = 0.4f + ((currentEngines + 1) * 0.1f);
 
         maxAcceleration = c_maxAcceleration;
-    }
-
-    public IEnumerator SpeedSurge(float duration, int power)
-    {
-        currentEngines += power;
-        speedShiftRate += power;
-        yield return new WaitForSeconds(duration);
-        currentEngines -= power;
-        speedShiftRate -= power;
-    }
-
-    /// <summary>
-    /// Shifts to target gear.
-    /// </summary>
-    /// <param name="targetGear"></param>
-    public void ChangeGear(int targetGear)
-    {
-        gear = -targetGear; //Update gear setting
-        timeInGear = 0;     //Reset time in gear counter
     }
 
     public float GetTreadSpeed() => actualSpeed;

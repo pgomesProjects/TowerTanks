@@ -29,4 +29,5 @@ public class BuildStep
     [SerializeField, Tooltip("Where to spawn this room inside the tank's parent transform")]                                                public Vector3 localSpawnVector;
     [SerializeField, Tooltip("How many times to rotate the room clockwise before placing")]                                                 public int rotate = 0;
     [SerializeField, Tooltip("List of cells in the room which have an interactable, along with references to the interactable they have.")] public CellInterAssignment[] cellInteractables = { };
+    [SerializeField, Tooltip("List of bools which indicates whether or not each corresponding cell in room is present.")]                   public bool[] cellManifest = { };
 }

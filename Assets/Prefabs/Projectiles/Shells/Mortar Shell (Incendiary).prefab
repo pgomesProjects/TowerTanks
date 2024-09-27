@@ -5035,6 +5035,7 @@ MonoBehaviour:
     m_Bits: 8560968
   particleScale: 0.6
   damage: 50
+  knockbackForce: 10
   hasSplashDamage: 1
   splashData:
   - splashDamage: 25

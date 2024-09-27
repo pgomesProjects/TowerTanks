@@ -465,7 +465,6 @@ public class Room : MonoBehaviour
     public void ProcessManifest(bool[] manifest)
     {
         //Initialization:
-        if (cellManifest.Length != manifest.Length) { Debug.LogError("Tried to process a cell manifest with " + manifest.Length + " cells when the room has " + cellManifest.Length + " cells."); return; } //Indicate problem if manifest sizes do not match
         cellManifest = manifest; //Save manifest to room
         
         //Cell Removal:
