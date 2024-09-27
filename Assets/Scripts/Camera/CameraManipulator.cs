@@ -317,8 +317,8 @@ public class CameraManipulator : MonoBehaviour
         /// </summary>
         public void CleanUp()
         {
-            Destroy(cam.gameObject);                     //Destroy camera object (also destroys bound collider)
-            Destroy(vcam.gameObject);                    //Destroy virtual camera object
+            if (cam.gameObject != null) Destroy(cam.gameObject);                     //Destroy camera object (also destroys bound collider)
+            if (vcam.gameObject != null) Destroy(vcam.gameObject);                    //Destroy virtual camera object
             engaged = false; main.CheckIfStillEngaged(); //Have camera manipulator check if destroying this cam system ends engagement
             
         }
