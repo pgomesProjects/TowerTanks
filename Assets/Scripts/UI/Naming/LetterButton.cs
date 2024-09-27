@@ -136,7 +136,7 @@ public class LetterButton : GamepadSelectable
                     namepadParent?.Shift();
                     break;
                 case LetterButtonType.CONFIRM:
-                    namepadParent?.FinalizeName(PlayerData.ToPlayerData(playerInput));
+                    namepadParent?.FinalizeName(PlayerData.ToPlayerData(playerInput), true);
                     break;
             }
         }

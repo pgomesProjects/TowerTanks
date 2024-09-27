@@ -175,6 +175,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayerExclusive: 0
+  ownerPlayerIndex: -1
   buttonImage: {fileID: 13579933}
   hoverColor: {r: 0.5882353, g: 0.5882353, b: 0.5882353, a: 1}
   selectColor: {r: 0.7294118, g: 0.59607846, b: 0.59607846, a: 1}
@@ -967,6 +968,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayerExclusive: 0
+  ownerPlayerIndex: -1
   buttonImage: {fileID: 464419729}
   hoverColor: {r: 0.5882353, g: 0.5882353, b: 0.5882353, a: 1}
   selectColor: {r: 0.7294118, g: 0.59607846, b: 0.59607846, a: 1}
@@ -1286,6 +1288,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayerExclusive: 0
+  ownerPlayerIndex: -1
   buttonImage: {fileID: 517353459}
   hoverColor: {r: 0.5882353, g: 0.5882353, b: 0.5882353, a: 1}
   selectColor: {r: 0.7294118, g: 0.59607846, b: 0.59607846, a: 1}
@@ -1874,6 +1877,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayerExclusive: 0
+  ownerPlayerIndex: -1
   buttonImage: {fileID: 732787928}
   hoverColor: {r: 0.5882353, g: 0.5882353, b: 0.5882353, a: 1}
   selectColor: {r: 0.7294118, g: 0.59607846, b: 0.59607846, a: 1}
@@ -3633,6 +3637,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayerExclusive: 0
+  ownerPlayerIndex: -1
   buttonImage: {fileID: 1065607282}
   hoverColor: {r: 0.5882353, g: 0.5882353, b: 0.5882353, a: 1}
   selectColor: {r: 0.7294118, g: 0.59607846, b: 0.59607846, a: 1}
@@ -4634,6 +4639,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayerExclusive: 0
+  ownerPlayerIndex: -1
   buttonImage: {fileID: 1516137417}
   hoverColor: {r: 0.5882353, g: 0.5882353, b: 0.5882353, a: 1}
   selectColor: {r: 0.7294118, g: 0.59607846, b: 0.59607846, a: 1}
@@ -4955,6 +4961,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayerExclusive: 0
+  ownerPlayerIndex: -1
   buttonImage: {fileID: 1686016123}
   hoverColor: {r: 0.5882353, g: 0.5882353, b: 0.5882353, a: 1}
   selectColor: {r: 0.7294118, g: 0.59607846, b: 0.59607846, a: 1}
@@ -5282,6 +5289,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayerExclusive: 0
+  ownerPlayerIndex: -1
   buttonImage: {fileID: 1783286817}
   hoverColor: {r: 0.5882353, g: 0.5882353, b: 0.5882353, a: 1}
   selectColor: {r: 0.7294118, g: 0.59607846, b: 0.59607846, a: 1}
@@ -5390,6 +5398,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayerExclusive: 0
+  ownerPlayerIndex: -1
   buttonImage: {fileID: 1802710988}
   hoverColor: {r: 0.5882353, g: 0.5882353, b: 0.5882353, a: 1}
   selectColor: {r: 0.7294118, g: 0.59607846, b: 0.59607846, a: 1}

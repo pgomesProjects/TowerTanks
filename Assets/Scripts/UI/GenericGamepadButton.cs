@@ -24,7 +24,7 @@ public class GenericGamepadButton : GamepadSelectable
         defaultColor = buttonImage.color;
     }
 
-    private void OnEnable()
+    private void OnDisable()
     {
         buttonImage.color = defaultColor;
         isSelected = false;
@@ -33,19 +33,28 @@ public class GenericGamepadButton : GamepadSelectable
     public override void OnCursorEnter(PlayerInput playerInput)
     {
         if (IsValidPlayer(playerInput.playerIndex))
-        {
-            isSelected = true;
-            buttonImage.color = hoverColor;
-        }
+            OnSelect();
+    }
+
+    public void OnSelect()
+    {
+        isSelected = true;
+        buttonImage.color = hoverColor;
+        Debug.Log("Button " + gameObject.name + " Selected and Color Changed to " + buttonImage.color);
     }
 
     public override void OnCursorExit(PlayerInput playerInput)
     {
         if (IsValidPlayer(playerInput.playerIndex))
-        {
-            isSelected = false;
-            buttonImage.color = defaultColor;
-        }
+            OnDeselect();
+    }
+
+    public void OnDeselect()
+    {
+        isSelected = false;
+        buttonImage.color = defaultColor;
+        Debug.Log("Button " + gameObject.name + " Deselected and Color Changed to " + buttonImage.color);
+
     }
 
     public override void OnSelectObject(PlayerInput playerInput)
@@ -55,5 +64,10 @@ public class GenericGamepadButton : GamepadSelectable
             OnSelected?.Invoke();
             buttonImage.color = selectColor;
         }
+    }
+
+    private void OnDestroy()
+    {
+        OnSelected?.RemoveAllListeners();
     }
 }

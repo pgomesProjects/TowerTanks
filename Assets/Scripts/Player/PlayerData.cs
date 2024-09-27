@@ -124,7 +124,7 @@ public class PlayerData : MonoBehaviour
     {
         if (ctx.performed)
         {
-            playerNamepad?.HideGamepad();
+            playerNamepad?.Cancel();
         }
     }
 

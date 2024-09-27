@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.InputSystem;
 using System.IO;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class SavedPlayerNameData
@@ -14,6 +15,11 @@ public class SavedPlayerNameData
 public class NamepadController : MonoBehaviour
 {
     [SerializeField, Tooltip("The text for the player button name.")] private TextMeshProUGUI playerButtonNameText;
+    [Space]
+    [SerializeField, Tooltip("The RectTransform for the select player names.")] private RectTransform selectPlayerNameRectTransform;
+    [SerializeField, Tooltip("The container for the player names.")] private RectTransform playerNamesContainer;
+    [SerializeField, Tooltip("The prefab for the player name buttons.")] private GameObject playerNamePrefab;
+    [Space]
     [SerializeField, Tooltip("The input text for the name.")] private TextMeshProUGUI namepadText;
     [SerializeField, Tooltip("The text for the current character count.")] private TextMeshProUGUI characterCountText;
     [SerializeField, Tooltip("The maximum amount of characters in the name.")] private int maximumCharacters = 10;
@@ -22,6 +28,14 @@ public class NamepadController : MonoBehaviour
     [SerializeField, Tooltip("The RectTransform for the player name button.")] private RectTransform playerNameButtonRectTransform;
     [SerializeField, Tooltip("The RectTransform for the custom namepad.")] private RectTransform namepadRectTransform;
     [SerializeField, Tooltip("The RectTransform for the letter buttons container.")] private RectTransform letterButtonsContainer;
+
+    private enum NamepadState { IDLE, SAVEDNAMES, CUSTOMNAME };
+    private NamepadState currentNamepadState;
+
+    private GenericGamepadButton currentSavedNameButton;
+    private int savedNameButtonIndex;
+    private float playerNameContainerHeight;
+    private float playerNamePrefabHeight;
 
     private int currentRow = 0;
     private int currentColumn = 0;
@@ -37,7 +51,6 @@ public class NamepadController : MonoBehaviour
     private LetterButton[] letterButtons;
     private LetterButton currentHighlightedButton;
 
-    private bool customNameActive;
     private PlayerInput currentPlayer;
     private GamepadCursor playerCursor;
 
@@ -47,17 +60,23 @@ public class NamepadController : MonoBehaviour
     {
         isShiftActive = false;
         isCapsLockOn = false;
-        customNameActive = false;
         letterButtons = letterButtonsContainer.GetComponentsInChildren<LetterButton>();
+        playerNameContainerHeight = GetComponent<RectTransform>().sizeDelta.y;
+        playerNamePrefabHeight = playerNamePrefab.GetComponent<RectTransform>().sizeDelta.y;
     }
 
     public void AssignPlayerToGamepad(PlayerInput playerInput)
     {
         currentPlayer = playerInput;
         playerCursor = currentPlayer.GetComponent<GamepadCursor>();
-        GetComponentInChildren<GenericGamepadButton>()?.AssignValidPlayer(playerInput);
+
         playerNameButtonRectTransform.gameObject.SetActive(true);
+        selectPlayerNameRectTransform.gameObject.SetActive(false);
         namepadRectTransform.gameObject.SetActive(false);
+
+        foreach (GenericGamepadButton gamepadButton in GetComponentsInChildren<GenericGamepadButton>())
+            gamepadButton.AssignValidPlayer(playerInput);
+
         GameManager.Instance.SetPlayerCursorActive(playerCursor, true);
         UpdatePlayerButtonNameDisplay();
     }
@@ -67,50 +86,150 @@ public class NamepadController : MonoBehaviour
         PlayerData playerData = PlayerData.ToPlayerData(currentPlayer);
         playerData.SetPlayerState(PlayerData.PlayerState.SettingUp);
         playerData.SetNamepad(this);
-
-        playerNameButtonRectTransform.gameObject.SetActive(false);
         GameManager.Instance?.SetPlayerCursorActive(playerCursor, false);
-        playerName = string.Empty;
-        UpdateName();
-        HighlightButton(0, 0);
-        customNameActive = true;
-        namepadRectTransform.gameObject.SetActive(true);
+        ChangeNamepadState(NamepadState.SAVEDNAMES);
         currentPlayer.SwitchCurrentActionMap("GameCursor");
     }
 
-    public void HideGamepad()
+    private void ChangeNamepadState(NamepadState newNamepadState)
     {
-        if (customNameActive)
+        switch (newNamepadState)
         {
-            PlayerData playerData = PlayerData.ToPlayerData(currentPlayer);
-            playerData.SetPlayerState(PlayerData.PlayerState.NameReady);
-            playerData.SetNamepad(null);
+            case NamepadState.SAVEDNAMES:
+                InstantiatePlayerNames();
+                savedNameButtonIndex = 0;
+                SelectSavedNameButton(0);
 
-            customNameActive = false;
-            namepadRectTransform.gameObject.SetActive(false);
-            playerNameButtonRectTransform.gameObject.SetActive(true);
-            GameManager.Instance.SetPlayerCursorActive(playerCursor, true);
-            currentPlayer.SwitchCurrentActionMap("Player");
+                selectPlayerNameRectTransform.gameObject.SetActive(true);
+                namepadRectTransform.gameObject.SetActive(false);
+                playerNameButtonRectTransform.gameObject.SetActive(false);
+                break;
+            case NamepadState.CUSTOMNAME:
+                playerName = string.Empty;
+                UpdateName();
+                HighlightGridButton(0, 0);
+
+                selectPlayerNameRectTransform.gameObject.SetActive(false);
+                namepadRectTransform.gameObject.SetActive(true);
+                playerNameButtonRectTransform.gameObject.SetActive(false);
+                break;
+            default:
+                ClearSavedPlayerNames();
+                ExitNamepad();
+                selectPlayerNameRectTransform.gameObject.SetActive(false);
+                namepadRectTransform.gameObject.SetActive(false);
+                playerNameButtonRectTransform.gameObject.SetActive(true);
+                break;
         }
+
+        currentNamepadState = newNamepadState;
+    }
+
+    public void EnterCustomName()
+    {
+        ChangeNamepadState(NamepadState.CUSTOMNAME);
+    }
+
+    public void Cancel()
+    {
+        switch (currentNamepadState)
+        {
+            case NamepadState.SAVEDNAMES:
+                ChangeNamepadState(NamepadState.IDLE);
+                break;
+            case NamepadState.CUSTOMNAME:
+                ChangeNamepadState(NamepadState.SAVEDNAMES);
+                break;
+        }
+    }
+
+    private void ExitNamepad()
+    {
+        PlayerData playerData = PlayerData.ToPlayerData(currentPlayer);
+        playerData.SetPlayerState(PlayerData.PlayerState.NameReady);
+        playerData.SetNamepad(null);
+        GameManager.Instance.SetPlayerCursorActive(playerCursor, true);
+        currentPlayer.SwitchCurrentActionMap("Player");
+    }
+
+    public void InstantiatePlayerNames()
+    {
+        List<string> playerNames = LoadPlayerNames();
+
+        for (int i = 0; i < playerNames.Count; i++)
+        {
+            string savedName = playerNames[i];
+
+            TextMeshProUGUI playerNameText = Instantiate(playerNamePrefab, playerNamesContainer).GetComponentInChildren<TextMeshProUGUI>();
+            playerNameText.text = savedName;
+            playerNameText.transform.parent.name = savedName;
+
+            GenericGamepadButton gamepadButton = playerNamesContainer.GetChild(i + 1).GetComponent<GenericGamepadButton>();
+            gamepadButton.AssignValidPlayer(currentPlayer);
+            gamepadButton.OnSelected.AddListener(() => SetSavedName(savedName));
+        }
+    }
+
+    private void ClearSavedPlayerNames()
+    {
+        //Clear any existing list except for the first button
+        foreach (GenericGamepadButton gamepadButton in playerNamesContainer.GetComponentsInChildren<GenericGamepadButton>())
+        {
+            if (gamepadButton.transform.GetSiblingIndex() != 0)
+                Destroy(gamepadButton.gameObject);
+        }
+
+        currentSavedNameButton = null;
     }
 
     public void OnNavigate(PlayerInput playerInput, Vector2 navigateInput)
     {
-        if (customNameActive && playerInput.playerIndex == currentPlayer.playerIndex && !isOnNavigateCooldown)
+        if (playerInput.playerIndex == currentPlayer.playerIndex && !isOnNavigateCooldown)
         {
-            int navigateRow = Mathf.RoundToInt(-navigateInput.y);
-            int navigateCol = Mathf.RoundToInt(navigateInput.x);
+            switch (currentNamepadState)
+            {
+                case NamepadState.SAVEDNAMES:
+                    int verticalInput = Mathf.RoundToInt(-navigateInput.y);
+                    NavigateSavedNames(verticalInput);
+                    break;
+                case NamepadState.CUSTOMNAME:
+                    int navigateRow = Mathf.RoundToInt(-navigateInput.y);
+                    int navigateCol = Mathf.RoundToInt(navigateInput.x);
 
-            currentRow = Mathf.Clamp(currentRow + navigateRow, 0, gridRows - 1);
-            currentColumn = Mathf.Clamp(currentColumn + navigateCol, 0, gridColumns - 1);
-            HighlightButton(currentRow, currentColumn);
+                    currentRow = Mathf.Clamp(currentRow + navigateRow, 0, gridRows - 1);
+                    currentColumn = Mathf.Clamp(currentColumn + navigateCol, 0, gridColumns - 1);
+                    HighlightGridButton(currentRow, currentColumn);
+                    break;
+            }
 
             isOnNavigateCooldown = true;
             currentNavigateCooldown = 0f;
         }
     }
 
-    private void HighlightButton(int row, int column)
+    private void NavigateSavedNames(int direction)
+    {
+        savedNameButtonIndex = Mathf.Clamp(savedNameButtonIndex + direction, 0, playerNamesContainer.childCount - 1);
+
+        //Deselect the previous button, if any
+        currentSavedNameButton?.OnDeselect();
+
+        SelectSavedNameButton(savedNameButtonIndex);
+    }
+
+    private void SelectSavedNameButton(int index)
+    {
+        // Highlight the new button
+        currentSavedNameButton = playerNamesContainer.GetChild(index).GetComponentInChildren<GenericGamepadButton>();
+        currentSavedNameButton.OnSelect();
+
+        float currentButtonYPos = currentSavedNameButton.GetComponent<RectTransform>().anchoredPosition.y;
+
+        float newContainerYPos = Mathf.Max(0, -(currentButtonYPos - (playerNamePrefabHeight / 2)) - playerNameContainerHeight);
+        playerNamesContainer.anchoredPosition = new Vector2(selectPlayerNameRectTransform.anchoredPosition.x, newContainerYPos);
+    }
+
+    private void HighlightGridButton(int row, int column)
     {
         int buttonIndex = row * gridColumns + column;
 
@@ -127,8 +246,21 @@ public class NamepadController : MonoBehaviour
 
     public void SelectCurrentButton(PlayerInput playerInput)
     {
-        if(customNameActive)
-            currentHighlightedButton?.OnClick(playerInput);
+        switch (currentNamepadState)
+        {
+            case NamepadState.SAVEDNAMES:
+                currentSavedNameButton?.OnSelectObject(playerInput);
+                break;
+            case NamepadState.CUSTOMNAME:
+                currentHighlightedButton?.OnClick(playerInput);
+                break;
+        }
+    }
+
+    private void SetSavedName(string savedName)
+    {
+        playerName = savedName;
+        FinalizeName(PlayerData.ToPlayerData(currentPlayer), false);
     }
 
     private void Update()
@@ -202,36 +334,33 @@ public class NamepadController : MonoBehaviour
         }
     }
 
-    public void FinalizeName(PlayerData playerData)
+    public void FinalizeName(PlayerData playerData, bool saveNameToFile = false)
     {
         if (playerName.Length > 0)
         {
+            if(saveNameToFile)
+                SavePlayerName(playerName);
+
             playerData.SetPlayerName(playerName);
-            SavePlayerName(playerName);
             Debug.Log("Player Name Registered: " + playerName);
         }
 
         UpdatePlayerButtonNameDisplay();
-        HideGamepad();
+        Cancel();
     }
 
     private void SavePlayerName(string name)
     {
         string dataFolderPath = Path.Combine(Application.dataPath, "Resources", "Data");
-        string filePath = Path.Combine(dataFolderPath, savedFileName);
+        string filePath = GetSavedNamesFilePath();
 
         // Check if the folder exists, if not, create it
         if (!Directory.Exists(dataFolderPath))
             Directory.CreateDirectory(dataFolderPath);
 
-        List<string> playerNames = new List<string>();
-
-        // Check if the file exists, if yes, load existing names
-        if (File.Exists(filePath))
-        {
-            string json = File.ReadAllText(filePath);
-            playerNames = JsonUtility.FromJson<SavedPlayerNameData>(json).playerNames;
-        }
+        //Load in the list of existing names
+        List<string> playerNames;
+        playerNames = LoadPlayerNames();
 
         // Add the new player name if it doesn't exist
         if (!playerNames.Contains(name))
@@ -246,6 +375,27 @@ public class NamepadController : MonoBehaviour
 
             Debug.Log("Name Saved In " + filePath + ".");
         }
+    }
+
+    private List<string> LoadPlayerNames()
+    {
+        string filePath = GetSavedNamesFilePath();
+
+        // Check if the file exists, if yes, load existing names
+        if (File.Exists(filePath))
+        {
+            string json = File.ReadAllText(filePath);
+            return JsonUtility.FromJson<SavedPlayerNameData>(json).playerNames;
+        }
+
+        //If nothing found, return an empty list
+        return new List<string>();
+    }
+
+    private string GetSavedNamesFilePath()
+    {
+        string dataFolderPath = Path.Combine(Application.dataPath, "Resources", "Data");
+        return Path.Combine(dataFolderPath, savedFileName);
     }
 
     private string GetCharacterCase(string newCharacter) => isShiftActive ? newCharacter.ToUpper() : newCharacter.ToLower();
