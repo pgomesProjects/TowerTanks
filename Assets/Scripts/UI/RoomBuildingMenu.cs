@@ -50,6 +50,7 @@ public class PlayerRoomSelection
         ResetSelection();
     }
 
+    public void UndoRoomPlaced() => roomsPlaced -= 1;
     public void IncrementMaxRoomsToPlace() => this.maxRoomsToPlace += 1;
 
     public void ResetSelection()
@@ -221,7 +222,7 @@ public class RoomBuildingMenu : SerializedMonoBehaviour
         }
 
         //If everyone has selected a room, move onto the next step
-        if (roomsSelected >= MAX_ROOMS_TO_PLACE)
+        if (roomsSelected >= MAX_ROOMS_TO_PLACE || roomsSelected >= numberOfRoomsToGenerate)
         {
             CloseMenu();
             GivePlayersRooms();

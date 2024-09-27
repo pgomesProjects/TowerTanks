@@ -49,6 +49,7 @@ public class PlayerData : MonoBehaviour
             case "Rotate": OnRotate(ctx); break;
             case "Mount": OnMount(ctx); break;
             case "ReadyUp": OnReadyUp(ctx); break;
+            case "Undo": OnUndo(ctx); break;
         }
     }
 
@@ -78,9 +79,23 @@ public class PlayerData : MonoBehaviour
 
     private void OnMount(InputAction.CallbackContext ctx)
     {
-        if (currentPlayerState == PlayerState.IsBuilding && ctx.started)
+        if (ctx.started)
         {
-            BuildingManager.Instance.MountRoom(playerInput);
+            if (currentPlayerState == PlayerState.IsBuilding)
+            {
+                BuildingManager.Instance?.MountRoom(playerInput);
+            }
+        }
+    }
+
+    private void OnUndo(InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed)
+        {
+            if (currentPlayerState == PlayerState.ReadyForCombat)
+            {
+                BuildingManager.Instance?.UndoPlayerAction(playerInput);
+            }
         }
     }
 
@@ -123,6 +138,18 @@ public class PlayerData : MonoBehaviour
 
         Debug.Log("No Player Data Found.");
 
+        return null;
+    }
+
+    public static PlayerMovement ToPlayerMovement(PlayerData playerData)
+    {
+        foreach(PlayerMovement player in FindObjectsOfType<PlayerMovement>())
+        {
+            if (player.GetPlayerData() == playerData)
+                return player;
+        }
+
+        Debug.Log("No Player Found In Scene.");
         return null;
     }
 

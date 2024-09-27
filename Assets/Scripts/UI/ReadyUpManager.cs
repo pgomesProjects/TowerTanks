@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,6 +9,7 @@ public class ReadyUpManager : MonoBehaviour
 
     private CanvasGroup canvasGroup;
     private List<ReadyComponent> playerReadyComponents;
+    private bool canReady;
     private bool allReady;
 
     public static Action OnAllReady;
@@ -36,11 +36,22 @@ public class ReadyUpManager : MonoBehaviour
         }
 
         canvasGroup.alpha = 1;
+        canReady = true;
+    }
+
+    public void HideReadyUpManager()
+    {
+        foreach (ReadyComponent readyComponent in playerReadyComponents)
+            Destroy(readyComponent.gameObject);
+
+        playerReadyComponents.Clear();
+        canvasGroup.alpha = 0;
+        canReady = false;
     }
 
     public void ReadyPlayer(int playerIndex, bool isReady = true)
     {
-        if (allReady)
+        if (allReady || !canReady)
             return;
 
         playerReadyComponents[playerIndex].UpdateReadyStatus(isReady);

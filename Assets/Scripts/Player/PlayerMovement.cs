@@ -625,7 +625,7 @@ public class PlayerMovement : Character
 
     public void OnSelfDestruct(InputAction.CallbackContext ctx)
     {
-        if (!isAlive) return;
+        if (!isAlive || LevelManager.Instance == null) return;
 
         if (ctx.started)
         {

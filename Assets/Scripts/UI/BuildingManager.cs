@@ -32,7 +32,11 @@ public class BuildingManager : SerializedMonoBehaviour
 
         public Room Mount()
         {
-            roomObject.Mount();
+            bool mounted = roomObject.Mount();
+
+            if (!mounted)
+                return null;
+
             Debug.Log("Room Mounted!");
             GameManager.Instance.AudioManager.Play("ConnectRoom");
 
@@ -83,20 +87,32 @@ public class BuildingManager : SerializedMonoBehaviour
     private Color defaultPlayerActionColor;
 
     private List<WorldRoom> worldRoomObjects;
-    private Stack<Room> tankBuildHistory;
+    private Stack<PlayerAction> tankBuildHistory;
     private RectTransform historyParentTransform;
 
     [Button(ButtonSizes.Medium)]
     private void DebugUndo()
     {
-        UndoPlayerAction();
+        UndoPlayerAction(tankBuildHistory.Peek().playerInput);
+    }
+
+    private struct PlayerAction
+    {
+        public PlayerInput playerInput;
+        public Room room;
+
+        public PlayerAction(PlayerInput playerInput, Room room)
+        {
+            this.playerInput = playerInput;
+            this.room = room;
+        }
     }
 
     private void Awake()
     {
         Instance = this;
         worldRoomObjects = new List<WorldRoom>();
-        tankBuildHistory = new Stack<Room>();
+        tankBuildHistory = new Stack<PlayerAction>();
         defaultPlayerTank = FindObjectOfType<TankController>();
         defaultPlayerActionColor = playerActionPrefab.GetComponentInChildren<Image>().color;
         historyParentTransform = playerActionContainer.parent.GetComponent<RectTransform>();
@@ -190,7 +206,11 @@ public class BuildingManager : SerializedMonoBehaviour
     {
         WorldRoom playerRoom = GetPlayerRoom(playerInput);
         Room mountedRoom = playerRoom.Mount();
-        AddToPlayerActionHistory(playerInput.name, playerRoom.playerSelector.GetRoomAt(playerRoom.playerSelector.GetNumberOfRoomsPlaced() - 1), mountedRoom);
+
+        if (mountedRoom == null)
+            return false;
+
+        AddToPlayerActionHistory(playerInput, playerRoom.playerSelector.GetRoomAt(playerRoom.playerSelector.GetNumberOfRoomsPlaced() - 1), mountedRoom);
 
         if (playerRoom.currentRoomState == WorldRoom.RoomState.MOUNTED)
         {
@@ -215,20 +235,20 @@ public class BuildingManager : SerializedMonoBehaviour
         return false;
     }
 
-    private void AddToPlayerActionHistory(string playerName, RoomInfo currentRoomInfo, Room mountedRoom)
+    private void AddToPlayerActionHistory(PlayerInput playerInput, RoomInfo currentRoomInfo, Room mountedRoom)
     {
         if (tankBuildHistory.Count != 0)
             playerActionContainer.GetChild(playerActionContainer.childCount - 1).GetComponentInChildren<Image>().color = defaultPlayerActionColor;
 
         GameObject newAction = Instantiate(playerActionPrefab, playerActionContainer);
-        newAction.GetComponentInChildren<TextMeshProUGUI>().text = playerName + " Placed " + currentRoomInfo.name;
+        newAction.GetComponentInChildren<TextMeshProUGUI>().text = playerInput.name + " Placed " + currentRoomInfo.name;
         newAction.GetComponentInChildren<Image>().color = mostRecentActionColor;
         LayoutRebuilder.ForceRebuildLayoutImmediate(historyParentTransform);
 
-        tankBuildHistory.Push(mountedRoom);
+        tankBuildHistory.Push(new PlayerAction(playerInput, mountedRoom));
     }
 
-    private void UndoPlayerAction()
+    public void UndoPlayerAction(PlayerInput playerInput)
     {
         if (tankBuildHistory.Count == 0)
         {
@@ -236,15 +256,46 @@ public class BuildingManager : SerializedMonoBehaviour
             return;
         }
 
-        Room currentRoom = tankBuildHistory.Pop();
-        currentRoom.Dismount();
+        PlayerAction currentAction = tankBuildHistory.Peek();
+        PlayerData playerData = PlayerData.ToPlayerData(playerInput);
 
-        // Update the action container
-        if (playerActionContainer.childCount - 2 >= 0)
-            playerActionContainer.GetChild(playerActionContainer.childCount - 2).GetComponentInChildren<Image>().color = mostRecentActionColor;
+        //If the most current action was done by the player trying to undo, then undo
+        if (currentAction.playerInput == playerInput)
+        {
+            //Dismount the room from the tank
+            tankBuildHistory.Pop();
+            currentAction.room.Dismount();
+            Destroy(currentAction.room.gameObject);
 
-        if (playerActionContainer.childCount > 0)
-            Destroy(playerActionContainer.GetChild(playerActionContainer.childCount - 1).gameObject);
+            // Update the action container
+            if (playerActionContainer.childCount - 2 >= 0)
+                playerActionContainer.GetChild(playerActionContainer.childCount - 2).GetComponentInChildren<Image>().color = mostRecentActionColor;
+
+            if (playerActionContainer.childCount > 0)
+                Destroy(playerActionContainer.GetChild(playerActionContainer.childCount - 1).gameObject);
+
+            //Despawn the player from the tank
+            Destroy(PlayerData.ToPlayerMovement(playerData).gameObject);
+
+            //Revert to the previous room placed
+            WorldRoom playerRoom = GetPlayerRoom(playerInput);
+            playerRoom.playerSelector.UndoRoomPlaced();
+
+            //Show the gamepad cursor and instantiate the room object
+            GamepadCursor gamepadCursor = playerData.playerInput.GetComponent<GamepadCursor>();
+            GameManager.Instance.SetPlayerCursorActive(gamepadCursor, true);
+            gamepadCursor.SetCursorMove(false);
+            gamepadCursor.transform.position = Vector2.zero;
+            playerRoom.SetRoomObject(Instantiate(playerRoom.playerSelector.GetRoomToPlace(), roomParentTransform));
+            MoveRoomInScene(playerRoom, Vector2.zero);
+            playerRoom.SetRoomState(WorldRoom.RoomState.FLOATING);
+
+            //Set the player state to building
+            playerData.SetPlayerState(PlayerData.PlayerState.IsBuilding);
+
+            //Hide the ready up manager
+            readyUpManager.HideReadyUpManager();
+        }
     }
 
     private void SpawnPlayerInScene(PlayerInput playerInput)

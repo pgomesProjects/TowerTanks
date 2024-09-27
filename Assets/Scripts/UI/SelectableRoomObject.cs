@@ -63,10 +63,12 @@ public class SelectableRoomObject : GamepadSelectable
 
     public override void OnSelectObject(PlayerInput playerInput)
     {
-        selectableImage.color = selectColor;
-        isSelected = true;
-        Debug.Log("Selected By Player " + (playerInput.playerIndex + 1).ToString());
-        OnSelected?.Invoke(playerInput, roomID);
+        if (!isSelected)
+        {
+            selectableImage.color = selectColor;
+            isSelected = true;
+            OnSelected?.Invoke(playerInput, roomID);
+        }
     }
 
     public void DeselectRoom()

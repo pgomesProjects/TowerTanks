@@ -206,6 +206,15 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Hold(duration=3)"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Undo"",
+                    ""type"": ""Button"",
+                    ""id"": ""127a5765-8919-496b-902b-f5e16e1af3c5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Hold(duration=1)"",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -1196,6 +1205,39 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
                     ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a2f8588f-ad01-4254-8b01-6740096d3a44"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Undo"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4e82dcc2-6b38-4a4f-8f7c-137423b87269"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Undo"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""10530491-5314-4d81-85cb-f6b466b4f842"",
+                    ""path"": ""<Keyboard>/u"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Undo"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -3352,6 +3394,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         m_Player_ReadyUp = m_Player.FindAction("ReadyUp", throwIfNotFound: true);
         m_Player_Rotate = m_Player.FindAction("Rotate", throwIfNotFound: true);
         m_Player_Persona3 = m_Player.FindAction("Persona3", throwIfNotFound: true);
+        m_Player_Undo = m_Player.FindAction("Undo", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -3475,6 +3518,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_ReadyUp;
     private readonly InputAction m_Player_Rotate;
     private readonly InputAction m_Player_Persona3;
+    private readonly InputAction m_Player_Undo;
     public struct PlayerActions
     {
         private @PlayerControlSystem m_Wrapper;
@@ -3499,6 +3543,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         public InputAction @ReadyUp => m_Wrapper.m_Player_ReadyUp;
         public InputAction @Rotate => m_Wrapper.m_Player_Rotate;
         public InputAction @Persona3 => m_Wrapper.m_Player_Persona3;
+        public InputAction @Undo => m_Wrapper.m_Player_Undo;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -3568,6 +3613,9 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @Persona3.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPersona3;
                 @Persona3.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPersona3;
                 @Persona3.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPersona3;
+                @Undo.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUndo;
+                @Undo.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUndo;
+                @Undo.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUndo;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -3632,6 +3680,9 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @Persona3.started += instance.OnPersona3;
                 @Persona3.performed += instance.OnPersona3;
                 @Persona3.canceled += instance.OnPersona3;
+                @Undo.started += instance.OnUndo;
+                @Undo.performed += instance.OnUndo;
+                @Undo.canceled += instance.OnUndo;
             }
         }
     }
@@ -4082,6 +4133,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         void OnReadyUp(InputAction.CallbackContext context);
         void OnRotate(InputAction.CallbackContext context);
         void OnPersona3(InputAction.CallbackContext context);
+        void OnUndo(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
