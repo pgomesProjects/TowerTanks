@@ -156,6 +156,8 @@ public class NamepadController : MonoBehaviour
     {
         List<string> playerNames = LoadPlayerNames();
 
+        playerNamesContainer.GetChild(0).GetComponent<GenericGamepadButton>().AssignValidPlayer(currentPlayer);
+
         for (int i = 0; i < playerNames.Count; i++)
         {
             string savedName = playerNames[i];
