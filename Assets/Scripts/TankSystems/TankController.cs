@@ -504,7 +504,7 @@ public class TankController : SerializedMonoBehaviour
 
     public void BlowUp(bool immediate)
     {
-        CameraManipulator.main.OnTankDestroyed(this);
+        CameraManipulator.main?.OnTankDestroyed(this);
         if (immediate) DestroyImmediate(gameObject);
         else
         {
