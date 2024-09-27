@@ -26,11 +26,11 @@ public class Cell : MonoBehaviour
     /// Array of up to four optional connector (spacer) pieces which attach this cell to its corresponding neighbor.
     /// Connectors indicate splits between room sections.
     /// </summary>
-    internal Connector[] connectors = new Connector[4]; //Connectors adjacent to this cell (in NESW order)
+    public Connector[] connectors = new Connector[4]; //Connectors adjacent to this cell (in NESW order)
     /// <summary>
     /// Couplers adjacent to this cell (connected couplers will modify cell walls).
     /// </summary>
-    internal List<Coupler> couplers = new List<Coupler>();
+    public List<Coupler> couplers = new List<Coupler>();
 
     //UI
     internal SpriteRenderer damageSprite;
@@ -187,8 +187,12 @@ public class Cell : MonoBehaviour
                     connector.cellA = this;                                                //Indicate to connector that it is attached to this cell
                     
                     //Neighbor updates:
-                    neighbors[x].connectors[(x + 2) % 4] = connector; //Give connection information to neighbor
-                    connector.cellB = neighbors[x];                   //Indicate to connector that it is attached to neighbor
+                    if (neighbors[x] != null) //Neighbor is present on other side of connector
+                    {
+                        neighbors[x].connectors[(x + 2) % 4] = connector; //Give connection information to neighbor
+                        connector.cellB = neighbors[x];                   //Indicate to connector that it is attached to neighbor
+                    }
+                    
                 }
             }
         }
@@ -391,15 +395,25 @@ public class Cell : MonoBehaviour
         room.cells.Remove(this); //Take this cell out of its parent room's list
         for (int x = 0; x < connectors.Length; x++) //Iterate through list of connectors (all need to be destroyed)
         {
-            connectors[x].GetOtherCell(this).connectors[(x + 2) % 4] = null; //Remove neighbor's reference to this connector
+            if (connectors[x] == null) continue;                             //Skip empty connector slots
+            Cell otherCell = connectors[x].GetOtherCell(this);               //Get neighbor on other side of connector from this cell
+            if (otherCell != null) otherCell.connectors[(x + 2) % 4] = null; //Remove neighbor's reference to this connector if applicable
             Destroy(connectors[x]);                                          //Destroy connector
             connectors[x] = null;                                            //Clear reference to destroyed connector
         }
         for (int x = 0; x < neighbors.Length; x++) //Iterate through list of neighbors (all need to be updated)
         {
+            if (neighbors[x] == null) continue;              //Skip empty neighbor slots
             neighbors[x].neighbors[(x + 2) % 4] = null;      //Clear neighbor reference to this cell
             neighbors[x].walls[(x + 2) % 4].SetActive(true); //Re-activate neighbor's wall facing this cell
         }
+        while (couplers.Count > 0) //Iterate until there are no couplers left on this cell
+        {
+            Coupler coupler = couplers[0]; //Get coupler from list
+            couplers.RemoveAt(0);          //Remove coupler from list
+            coupler.Kill(true);            //Kill coupler non-destructively
+        }
+        Destroy(gameObject); //Destroy cell once pulled
     }
 
     private void RepairCell()

@@ -614,6 +614,7 @@ public class TankController : SerializedMonoBehaviour
                 roomScript.UpdateRoomType(type);
             }
             roomScript.Mount();
+            roomScript.ProcessManifest(tankDesign.buildingSteps[i].cellManifest);
 
             //Install interactables
             foreach (BuildStep.CellInterAssignment cellInter in tankDesign.buildingSteps[i].cellInteractables) //Iterate through each cell interactable assignment
@@ -685,11 +686,13 @@ public class TankController : SerializedMonoBehaviour
                 design.buildingSteps[roomCount].roomType = roomScript.type; //The room's current type
                 design.buildingSteps[roomCount].localSpawnVector = room.transform.localPosition; //The room's local position relative to the tank
                 design.buildingSteps[roomCount].rotate = roomScript.rotTracker; //How many times the room has been rotated before being placed
-                
+
+                //Get missing cells:
+                design.buildingSteps[roomCount].cellManifest = roomScript.cellManifest; //Get cell manifest from room
+
                 //TODO:
                 //Is this an enemy or player design?
                 //Cell damage values?
-                //Which cells are intact?
                 //Where cargo is located in the tank?
                 roomCount++;
             }
