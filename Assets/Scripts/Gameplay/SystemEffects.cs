@@ -1,14 +1,43 @@
 using Cinemachine;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class SystemEffects : MonoBehaviour
 {
-    #region FREEZE
+    private void Start()
+    {
+        maxFixedTime = Time.fixedDeltaTime;
+
+        //Ease Out Circ Ease Type
+        startSlowMotionCurve = new AnimationCurve();
+        startSlowMotionCurve.AddKey(new Keyframe(0f, 0f));
+        startSlowMotionCurve.AddKey(new Keyframe(0.25f, 0.55f));
+        startSlowMotionCurve.AddKey(new Keyframe(0.5f, 0.85f));
+        startSlowMotionCurve.AddKey(new Keyframe(1f, 1f));
+        startSlowMotionCurve.SmoothTangents(0, 0.5f);
+        startSlowMotionCurve.SmoothTangents(1, 0.5f);
+        startSlowMotionCurve.SmoothTangents(2, 0.5f);
+        startSlowMotionCurve.SmoothTangents(3, 0f);
+
+        //Ease Out Back Ease Type
+        endSlowMotionCurve = new AnimationCurve();
+        endSlowMotionCurve.AddKey(new Keyframe(0f, 0f));
+        endSlowMotionCurve.AddKey(new Keyframe(0.7f, 1.2f));
+        endSlowMotionCurve.AddKey(new Keyframe(1f, 1f));
+        endSlowMotionCurve.SmoothTangents(0, 0f);
+        endSlowMotionCurve.SmoothTangents(1, 0.5f);
+        endSlowMotionCurve.SmoothTangents(2, 0f);
+    }
+
+    #region TIME
     private bool isFrozen = false;
+
+    private AnimationCurve startSlowMotionCurve;
+    private AnimationCurve endSlowMotionCurve;
+    private bool inSlowMotion = false;
+    private float maxFixedTime;
 
     /// <summary>
     /// Freezes the screen for a certain amount of time.
@@ -25,7 +54,7 @@ public class SystemEffects : MonoBehaviour
     /// </summary>
     /// <param name="duration">The duration for the screen freeze.</param>
     /// <returns></returns>
-    public IEnumerator FreezeTimer(float duration)
+    private IEnumerator FreezeTimer(float duration)
     {
         isFrozen = true;
 
@@ -37,6 +66,75 @@ public class SystemEffects : MonoBehaviour
         Time.timeScale = originalTimeScale;
 
         isFrozen = false;
+    }
+
+    /// <summary>
+    /// Activates a slow motion time scale.
+    /// </summary>
+    /// <param name="timeScale">The time scale to slow down to.</param>
+    /// <param name="startTime">The time it takes to reach the slow motion time.</param>
+    /// <param name="duration">The duration of the time scale.</param>
+    /// <param name="returnTime">The amount of time it takes to return to the normal time scale.</param>
+    public void ActivateSlowMotion(float timeScale, float startTime, float duration, float returnTime)
+    {
+        if (!inSlowMotion && !isFrozen)
+            StartCoroutine(SlowMotionTimer(timeScale, startTime, duration, returnTime));
+    }
+
+    /// <summary>
+    /// Slows the time scale, waits for a specified amount of time, and then quickly transitions back into real time.
+    /// </summary>
+    /// <param name="timeScale">The time scale to slow down to.</param>
+    /// <param name="startTime">The time it takes to reach the slow motion time.</param>
+    /// <param name="duration">The duration of the time scale.</param>
+    /// <param name="returnTime">The amount of time it takes to return to the normal time scale.</param>
+    /// <returns></returns>
+    private IEnumerator SlowMotionTimer(float timeScale, float startTime, float duration, float returnTime)
+    {
+        inSlowMotion = true;
+
+        float elapsedTime = 0f;
+        float normalTimeScale = 1.0f;
+
+        while (elapsedTime < startTime)
+        {
+            elapsedTime += Time.unscaledDeltaTime;
+
+            float t = endSlowMotionCurve.Evaluate(elapsedTime / startTime);
+
+            Time.timeScale = Mathf.Lerp(normalTimeScale, timeScale, t);
+            Time.fixedDeltaTime = Mathf.Lerp(maxFixedTime, timeScale * maxFixedTime, t);
+            GameManager.Instance.AudioManager.UpdateSFXPitch(Time.timeScale);
+            yield return null;
+        }
+
+        Time.timeScale = timeScale;
+        Time.fixedDeltaTime = Mathf.Clamp(Time.timeScale * maxFixedTime, 0f, maxFixedTime);
+        GameManager.Instance.AudioManager.UpdateSFXPitch(timeScale);
+
+        yield return new WaitForSecondsRealtime(duration);
+
+        float startingFixedScale = Time.fixedDeltaTime;
+
+        elapsedTime = 0f;
+
+        while(elapsedTime < returnTime)
+        {
+            elapsedTime += Time.unscaledDeltaTime;
+
+            float t = endSlowMotionCurve.Evaluate(elapsedTime / returnTime);
+
+            Time.timeScale = Mathf.Lerp(timeScale, normalTimeScale, t);
+            Time.fixedDeltaTime = Mathf.Lerp(startingFixedScale, maxFixedTime, t);
+            GameManager.Instance.AudioManager.UpdateSFXPitch(Time.timeScale);
+            yield return null;
+        }
+
+        Time.timeScale = normalTimeScale;
+        Time.fixedDeltaTime = maxFixedTime;
+        GameManager.Instance.AudioManager.UpdateSFXPitch(normalTimeScale);
+
+        inSlowMotion = false;
     }
 
     #endregion

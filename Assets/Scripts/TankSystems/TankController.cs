@@ -568,6 +568,7 @@ public class TankController : SerializedMonoBehaviour
                 character.KillCharacterImmediate();
             }
 
+            GameManager.Instance.SystemEffects.ActivateSlowMotion(0.05f, 0.4f, 1.5f, 0.4f);
             Destroy(gameObject);
         }
     }

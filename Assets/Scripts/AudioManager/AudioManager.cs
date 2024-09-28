@@ -151,6 +151,11 @@ public class AudioManager : MonoBehaviour
         AkSoundEngine.StopAll();
     }
 
+    public void UpdateSFXPitch(float pitch)
+    {
+        AkSoundEngine.SetRTPCValue("SFXPitch", Mathf.Clamp01(pitch));
+    }
+
     public void UpdateMusicVolume()
     {
         AkSoundEngine.SetRTPCValue("MusicVolume", PlayerPrefs.GetFloat("BGMVolume", GameSettings.defaultBGMVolume) * 100f);
