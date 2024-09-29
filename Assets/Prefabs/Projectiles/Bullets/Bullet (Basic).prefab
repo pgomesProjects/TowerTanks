@@ -49,9 +49,10 @@ MonoBehaviour:
   type: 0
   layerMask:
     serializedVersion: 2
-    m_Bits: 8560968
+    m_Bits: 8552776
   particleScale: 0.5
   damage: 5
+  knockbackForce: 0
   hasSplashDamage: 0
   splashData: []
   isTunneling: 0

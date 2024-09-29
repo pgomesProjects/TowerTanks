@@ -4863,7 +4863,7 @@ MonoBehaviour:
   type: 1
   layerMask:
     serializedVersion: 2
-    m_Bits: 8560968
+    m_Bits: 8552776
   particleScale: 0.5
   damage: 30
   knockbackForce: 10
