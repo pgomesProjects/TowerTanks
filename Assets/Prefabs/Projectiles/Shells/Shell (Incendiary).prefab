@@ -4876,7 +4876,7 @@ MonoBehaviour:
   maxLife: 10
   radius: 0.18
   drag: 0
-  gravity: 15
+  gravity: 30
   factionId: 0
 --- !u!70 &4828181754136552952
 CapsuleCollider2D:

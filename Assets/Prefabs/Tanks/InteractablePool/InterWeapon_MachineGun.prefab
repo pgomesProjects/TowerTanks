@@ -1123,10 +1123,10 @@ MonoBehaviour:
   gunType: 1
   muzzleVelocity: 45
   recoil: 2
-  rotateSpeed: 20
+  rotateSpeed: 30
   gimbalRange: 30
-  rateOfFire: 0.1
-  spread: 2
+  rateOfFire: 0.08
+  spread: 3
   fire: 0
   moveGimbal: 0.5
 --- !u!114 &2132648102038243225
