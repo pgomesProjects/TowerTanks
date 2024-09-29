@@ -8,8 +8,6 @@ public class SystemEffects : MonoBehaviour
 {
     private void Start()
     {
-        maxFixedTime = Time.fixedDeltaTime;
-
         //Ease Out Circ Ease Type
         startSlowMotionCurve = new AnimationCurve();
         startSlowMotionCurve.AddKey(new Keyframe(0f, 0f));
@@ -37,7 +35,6 @@ public class SystemEffects : MonoBehaviour
     private AnimationCurve startSlowMotionCurve;
     private AnimationCurve endSlowMotionCurve;
     private bool inSlowMotion = false;
-    private float maxFixedTime;
 
     /// <summary>
     /// Freezes the screen for a certain amount of time.
@@ -58,12 +55,14 @@ public class SystemEffects : MonoBehaviour
     {
         isFrozen = true;
 
-        float originalTimeScale = Time.timeScale;
-        Time.timeScale = 0f;
+        float originalTimeScale = GameManager.gameTimeScale;
+        GameManager.gameTimeScale = 0f;
+        Time.timeScale = GameManager.gameTimeScale;
 
         yield return new WaitForSecondsRealtime(duration);
 
-        Time.timeScale = originalTimeScale;
+        GameManager.gameTimeScale = originalTimeScale;
+        Time.timeScale = GameManager.gameTimeScale;
 
         isFrozen = false;
     }
@@ -102,19 +101,17 @@ public class SystemEffects : MonoBehaviour
 
             float t = endSlowMotionCurve.Evaluate(elapsedTime / startTime);
 
-            Time.timeScale = Mathf.Lerp(normalTimeScale, timeScale, t);
-            Time.fixedDeltaTime = Mathf.Lerp(maxFixedTime, timeScale * maxFixedTime, t);
-            GameManager.Instance.AudioManager.UpdateSFXPitch(Time.timeScale);
+            GameManager.gameTimeScale = Mathf.Lerp(normalTimeScale, timeScale, t);
+            Time.timeScale = GameManager.gameTimeScale;
+            GameManager.Instance.AudioManager.UpdateSFXPitch(GameManager.gameTimeScale);
             yield return null;
         }
 
-        Time.timeScale = timeScale;
-        Time.fixedDeltaTime = Mathf.Clamp(Time.timeScale * maxFixedTime, 0f, maxFixedTime);
+        GameManager.gameTimeScale = timeScale;
+        Time.timeScale = GameManager.gameTimeScale;
         GameManager.Instance.AudioManager.UpdateSFXPitch(timeScale);
 
         yield return new WaitForSecondsRealtime(duration);
-
-        float startingFixedScale = Time.fixedDeltaTime;
 
         elapsedTime = 0f;
 
@@ -124,14 +121,14 @@ public class SystemEffects : MonoBehaviour
 
             float t = endSlowMotionCurve.Evaluate(elapsedTime / returnTime);
 
-            Time.timeScale = Mathf.Lerp(timeScale, normalTimeScale, t);
-            Time.fixedDeltaTime = Mathf.Lerp(startingFixedScale, maxFixedTime, t);
-            GameManager.Instance.AudioManager.UpdateSFXPitch(Time.timeScale);
+            GameManager.gameTimeScale = Mathf.Lerp(timeScale, normalTimeScale, t);
+            Time.timeScale = GameManager.gameTimeScale;
+            GameManager.Instance.AudioManager.UpdateSFXPitch(GameManager.gameTimeScale);
             yield return null;
         }
 
-        Time.timeScale = normalTimeScale;
-        Time.fixedDeltaTime = maxFixedTime;
+        GameManager.gameTimeScale = normalTimeScale;
+        Time.timeScale = GameManager.gameTimeScale;
         GameManager.Instance.AudioManager.UpdateSFXPitch(normalTimeScale);
 
         inSlowMotion = false;
@@ -236,7 +233,7 @@ public class SystemEffects : MonoBehaviour
         // Ramp up from start intensity to end intensity
         while (elapsed < rampUpDuration)
         {
-            elapsed += Time.deltaTime;
+            elapsed += Time.unscaledDeltaTime;
             float t = elapsed / rampUpDuration;
 
             // Interpolate motor speeds
@@ -256,7 +253,7 @@ public class SystemEffects : MonoBehaviour
         elapsed = 0f;
         while (elapsed < rampUpDuration)
         {
-            elapsed += Time.deltaTime;
+            elapsed += Time.unscaledDeltaTime;
             float t = elapsed / rampUpDuration;
 
             // Interpolate motor speeds back to the starting intensity

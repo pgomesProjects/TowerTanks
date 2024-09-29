@@ -34,6 +34,21 @@ public class GameManager : SerializedMonoBehaviour
     [SerializeField, Tooltip("The canvas for the loading screen.")] private GameObject loaderCanvas;
     [SerializeField, Tooltip("The loading progress bar.")] private Image progressBar;
 
+    public static float gameTimeScale = 1.0f;
+    private static float gameDeltaTime;
+    private static float gameElapsedTime;
+    private static float gameFixedDeltaTimeStep;
+
+    public static float GameDeltaTime
+    {
+        get { return gameDeltaTime; }
+    }
+
+    public static float GameTime
+    {
+        get { return gameElapsedTime; }
+    }
+
     private float target;
     private float loadMaxDelta = 3f;
     private bool loadingScene = false;
@@ -55,7 +70,7 @@ public class GameManager : SerializedMonoBehaviour
         ParticleSpawner = GetComponentInChildren<ParticleSpawner>();
         SystemEffects = GetComponentInChildren<SystemEffects>();
         CargoManager = GetComponentInChildren<CargoManager>();
-
+        gameFixedDeltaTimeStep = Time.fixedDeltaTime;
         LoadBearingCheck();
     }
 
@@ -184,6 +199,15 @@ public class GameManager : SerializedMonoBehaviour
     {
         if (loadingScene)
             progressBar.fillAmount = Mathf.MoveTowards(progressBar.fillAmount, target, loadMaxDelta * Time.deltaTime);
+
+        GameTimeScale();
+    }
+
+    private void GameTimeScale()
+    {
+        gameDeltaTime = Time.unscaledDeltaTime * gameTimeScale;
+        gameElapsedTime += gameDeltaTime;
+        Time.fixedDeltaTime = gameTimeScale * gameFixedDeltaTimeStep;
     }
 
     /// <summary>
