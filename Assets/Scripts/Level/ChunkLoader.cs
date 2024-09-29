@@ -26,8 +26,9 @@ public class ChunkLoader : MonoBehaviour
     private int presetCount = 0;
 
     // The object pool for obstacles
-    public GameObject[] obstacles;
+    public ObstacleWeight[] obstacles;
     public float obstacleChance;
+    private string[] obstacleWeights;
 
     [Header("Procedural Variables")]
     [SerializeField, Tooltip("When false, the same bias can't happen twice in a row")] public bool biasesCanRepeat;
@@ -80,6 +81,7 @@ public class ChunkLoader : MonoBehaviour
 
     private void SetupSpawner()
     {
+        //Chunks
         int count = 0;
         int length = 0;
         foreach (ChunkWeight weight in chunkPrefabs) //Get weights from every available chunk in the spawner
@@ -99,6 +101,25 @@ public class ChunkLoader : MonoBehaviour
                     spawnerWeights[count] = weight.chunkPrefab.name;
                     count++;
                 }
+            }
+        }
+
+        //Obstacles
+        count = 0;
+        length = 0;
+        foreach (ObstacleWeight weight in obstacles)
+        {
+            length += weight.weight;
+        }
+
+        obstacleWeights = new string[length]; //sets up total weight values
+
+        foreach (ObstacleWeight weight in obstacles)
+        {
+            for (int i = 0; i < weight.weight; i++)
+            {
+                obstacleWeights[count] = weight.obstacle.name;
+                count++;
             }
         }
     }
@@ -224,8 +245,8 @@ public class ChunkLoader : MonoBehaviour
         previousChunk = chunk;
 
         //Roll for obstacle
-        int randomObstacle = Random.Range(0, obstacles.Length);
-        newChunkTransform.GenerateObstacle(obstacles[randomObstacle], obstacleChance);
+        GameObject randomObstacle = DetermineObstacleType();
+        newChunkTransform.GenerateObstacle(randomObstacle, obstacleChance);
 
         //Check for bias
         foreach(ChunkWeight weight in chunkPrefabs)
@@ -293,6 +314,21 @@ public class ChunkLoader : MonoBehaviour
                 }
             }
         }
+    }
+
+    private GameObject DetermineObstacleType()
+    {
+        int random = Random.Range(0, obstacleWeights.Length);
+        GameObject obstacle = null;
+
+        foreach (ObstacleWeight weight in obstacles)
+        {
+            if (weight.obstacle.name == obstacleWeights[random])
+            {
+                obstacle = weight.obstacle;
+            }
+        }
+        return obstacle;
     }
 
     #region Presets
@@ -373,8 +409,8 @@ public class ChunkLoader : MonoBehaviour
                 chunkData.InitializeChunk(chunkData.transform.localPosition);
 
                 //Roll for obstacle
-                int randomObstacle = Random.Range(0, obstacles.Length);
-                chunkData.GenerateObstacle(obstacles[randomObstacle], obstacleChance);
+                GameObject randomObstacle = DetermineObstacleType();
+                chunkData.GenerateObstacle(randomObstacle, obstacleChance);
 
                 chunkCounter++;
 
