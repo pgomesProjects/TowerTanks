@@ -163,6 +163,24 @@ public class Projectile : MonoBehaviour
             GameManager.Instance.AudioManager.Play("ShellImpact", gameObject);
         }
 
+        else if (target != null && target.GetComponentInParent<TreadSystem>() != null) //Hit Treads
+        {
+            TreadSystem treads = target.GetComponentInParent<TankController>().treadSystem;
+            if (treads != null)
+            {
+                //Apply Knockback Force
+                if (knockbackForce > 0)
+                {
+                    float knockBackTime = knockbackForce * 0.05f;
+
+                    if (target.transform.position.x < transform.position.x) { knockbackForce *= -1f; }
+                    treads.ApplyForce(transform.position, knockbackForce, knockBackTime);
+                }
+
+                GameManager.Instance.AudioManager.Play("TankImpact", gameObject);
+            }
+        }
+
         else if (target != null && target.CompareTag("Destructible")) //Hit Destructible Object
         {
             damageDealt = target.GetComponent<DestructibleObject>().Damage(damage);
@@ -286,6 +304,7 @@ public class Projectile : MonoBehaviour
         if (type == ProjectileType.OTHER)
         {
             GameManager.Instance.AudioManager.Play("ExplosionSFX", gameObject);
+            GameManager.Instance.AudioManager.Play("MedExplosionSFX", gameObject);
             GameManager.Instance.ParticleSpawner.SpawnParticle(Random.Range(0, 2), transform.position, particleScale, null);
         }
     }
