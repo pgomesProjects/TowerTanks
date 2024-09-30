@@ -10,7 +10,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public enum INTERACTABLE { Throttle, EnergyShield, Boiler, Refuel, Cannon, MachineGun, Mortar };
+public enum INTERACTABLE { Throttle, EnergyShield, Boiler, Refuel, Cannon, MachineGun, Mortar, Armor };
 
 public class GameManager : SerializedMonoBehaviour
 {

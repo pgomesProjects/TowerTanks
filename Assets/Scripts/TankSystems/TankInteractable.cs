@@ -19,6 +19,7 @@ public class TankInteractable : MonoBehaviour
     private GunController gunScript;
     private EngineController engineScript;
     private ThrottleController throttleScript;
+    private TankConsumable consumableScript;
 
     //Settings:
     [Header("Stack Properties:")]
@@ -66,7 +67,7 @@ public class TankInteractable : MonoBehaviour
         gunScript = GetComponent<GunController>();
         engineScript = GetComponent<EngineController>();
         throttleScript = GetComponent<ThrottleController>();
-
+        consumableScript = GetComponent<TankConsumable>();
     }
     public virtual void OnDestroy()
     {
@@ -218,6 +219,7 @@ public class TankInteractable : MonoBehaviour
 
         //Cell installation:
         target.interactable = this; //Give cell reference to the interactable installed in it
+        if (consumableScript != null) consumableScript.ConvertRoom(target);
 
         //Cleanup:
         tank = GetComponentInParent<TankController>(); //Get tank controller interactable is being attached to
