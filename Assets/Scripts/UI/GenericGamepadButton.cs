@@ -40,7 +40,6 @@ public class GenericGamepadButton : GamepadSelectable
     {
         isSelected = true;
         buttonImage.color = hoverColor;
-        Debug.Log("Button " + gameObject.name + " Selected and Color Changed to " + buttonImage.color);
     }
 
     public override void OnCursorExit(PlayerInput playerInput)
@@ -53,8 +52,6 @@ public class GenericGamepadButton : GamepadSelectable
     {
         isSelected = false;
         buttonImage.color = defaultColor;
-        Debug.Log("Button " + gameObject.name + " Deselected and Color Changed to " + buttonImage.color);
-
     }
 
     public override void OnSelectObject(PlayerInput playerInput)

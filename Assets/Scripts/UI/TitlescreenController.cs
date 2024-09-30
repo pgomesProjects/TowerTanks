@@ -9,14 +9,13 @@ public class TitlescreenController : MonoBehaviour
 {
     private GameObject currentMenuState;
 
-    public enum MenuState {START, MAIN, OPTIONS, CREDITS, DIFFICULTYSETTINGS, SKIPTUTORIAL}
+    public enum MenuState {START, MAIN, OPTIONS, CREDITS, DIFFICULTYSETTINGS}
 
     [SerializeField] private GameObject startMenu;
     [SerializeField] private GameObject mainMenu;
     [SerializeField] private GameObject optionsMenu;
     [SerializeField] private GameObject creditsMenu;
     [SerializeField] private GameObject difficultySettingsMenu;
-    [SerializeField] private GameObject skipTutorialMenu;
 
     [Header("Menu Animators")]
     [SerializeField] private MoveAnimation startScreenAnimator;
@@ -26,7 +25,6 @@ public class TitlescreenController : MonoBehaviour
     [SerializeField] private Selectable[] mainMenuButtons;
     [SerializeField] private Selectable optionsMenuSelected;
     [SerializeField] private Selectable difficultySettingsMenuSelected;
-    [SerializeField] private Selectable skipTutorialMenuSelected;
 
     private bool inMenu = false;
     [SerializeField] private string sceneToLoad;
@@ -70,7 +68,7 @@ public class TitlescreenController : MonoBehaviour
         playerControlSystem.Disable();
     }
 
-    private void StartGame()
+    public void StartGame()
     {
         GameManager.Instance.AudioManager.Stop("MainMenuAmbience");
         GameManager.Instance.AudioManager.Stop("MainMenuWindAmbience");
@@ -97,13 +95,6 @@ public class TitlescreenController : MonoBehaviour
     public void SetDifficulty(float difficulty)
     {
         GameSettings.difficulty = difficulty;
-        SwitchMenu(MenuState.SKIPTUTORIAL);
-        skipTutorialMenuSelected.Select();
-    }
-
-    public void SetSkipTutorial(bool tutorial)
-    {
-        GameSettings.skipTutorial = tutorial;
         StartGame();
     }
 
@@ -132,15 +123,7 @@ public class TitlescreenController : MonoBehaviour
         //If the player is not in the main menu, go back to the main menu
         if (currentMenuState != mainMenu && currentMenuState != startMenu)
         {
-            //If the current menu is the skip tutorial box, go back to the difficulty menu
-            if(currentMenuState == skipTutorialMenu)
-            {
-                ShowDifficulty();
-            }
-            else
-            {
-                Back();
-            }
+            Back();
         }
         //If they are in the main menu, go back to start
         else
@@ -204,21 +187,16 @@ public class TitlescreenController : MonoBehaviour
             case MenuState.DIFFICULTYSETTINGS:
                 newMenu = difficultySettingsMenu;
                 break;
-            case MenuState.SKIPTUTORIAL:
-                newMenu = skipTutorialMenu;
-                break;
             default:
                 newMenu = mainMenu;
                 break;
         }
 
-        if(menu != MenuState.SKIPTUTORIAL)
-            currentMenuState.SetActive(false);
-
         GameObject prevMenu = currentMenuState;
 
         DeselectButton();
 
+        currentMenuState.SetActive(false);
         currentMenuState = newMenu;
         currentMenuState.SetActive(true);
 

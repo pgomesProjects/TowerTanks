@@ -1363,6 +1363,15 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""FastForwardCredits"",
+                    ""type"": ""Button"",
+                    ""id"": ""1b99db6a-76e8-46bf-83af-f80a326a54be"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -1946,6 +1955,28 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
                     ""action"": ""Confirm"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b5f447c7-e05a-4306-b209-03b89f7d942b"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""FastForwardCredits"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""93219c9b-2525-489e-bc39-09b1b37f3963"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""FastForwardCredits"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -3410,6 +3441,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         m_UI_DebugMode = m_UI.FindAction("DebugMode", throwIfNotFound: true);
         m_UI_Start = m_UI.FindAction("Start", throwIfNotFound: true);
         m_UI_Confirm = m_UI.FindAction("Confirm", throwIfNotFound: true);
+        m_UI_FastForwardCredits = m_UI.FindAction("FastForwardCredits", throwIfNotFound: true);
         // GameCursor
         m_GameCursor = asset.FindActionMap("GameCursor", throwIfNotFound: true);
         m_GameCursor_Navigate = m_GameCursor.FindAction("Navigate", throwIfNotFound: true);
@@ -3704,6 +3736,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_DebugMode;
     private readonly InputAction m_UI_Start;
     private readonly InputAction m_UI_Confirm;
+    private readonly InputAction m_UI_FastForwardCredits;
     public struct UIActions
     {
         private @PlayerControlSystem m_Wrapper;
@@ -3721,6 +3754,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         public InputAction @DebugMode => m_Wrapper.m_UI_DebugMode;
         public InputAction @Start => m_Wrapper.m_UI_Start;
         public InputAction @Confirm => m_Wrapper.m_UI_Confirm;
+        public InputAction @FastForwardCredits => m_Wrapper.m_UI_FastForwardCredits;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -3769,6 +3803,9 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @Confirm.started -= m_Wrapper.m_UIActionsCallbackInterface.OnConfirm;
                 @Confirm.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnConfirm;
                 @Confirm.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnConfirm;
+                @FastForwardCredits.started -= m_Wrapper.m_UIActionsCallbackInterface.OnFastForwardCredits;
+                @FastForwardCredits.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnFastForwardCredits;
+                @FastForwardCredits.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnFastForwardCredits;
             }
             m_Wrapper.m_UIActionsCallbackInterface = instance;
             if (instance != null)
@@ -3812,6 +3849,9 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @Confirm.started += instance.OnConfirm;
                 @Confirm.performed += instance.OnConfirm;
                 @Confirm.canceled += instance.OnConfirm;
+                @FastForwardCredits.started += instance.OnFastForwardCredits;
+                @FastForwardCredits.performed += instance.OnFastForwardCredits;
+                @FastForwardCredits.canceled += instance.OnFastForwardCredits;
             }
         }
     }
@@ -4150,6 +4190,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         void OnDebugMode(InputAction.CallbackContext context);
         void OnStart(InputAction.CallbackContext context);
         void OnConfirm(InputAction.CallbackContext context);
+        void OnFastForwardCredits(InputAction.CallbackContext context);
     }
     public interface IGameCursorActions
     {
