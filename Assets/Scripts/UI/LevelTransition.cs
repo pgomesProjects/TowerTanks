@@ -18,7 +18,7 @@ public class LevelTransition : MonoBehaviour
 
     public static LevelTransition Instance;
 
-    private bool transitionActive = false;
+    private bool transitionActive;
 
     private Vector3 startingGatePosLeft, startingGatePosRight;
     private CanvasGroup gateCanvasGroup;
@@ -26,7 +26,7 @@ public class LevelTransition : MonoBehaviour
     private float startingAlpha, targetAlpha;
     private float timeToReachAlpha;
     private float delta;
-    private bool fadeActive = false;
+    private bool fadeActive;
 
     public static Action OnTransitionStarted;
     public static Action OnTransitionCompleted;
@@ -52,6 +52,8 @@ public class LevelTransition : MonoBehaviour
     {
         blackFadeCanvas.alpha = 0f;
         gateCanvasGroup.alpha = 0f;
+        transitionActive = false;
+        fadeActive = false;
     }
 
     /// <summary>

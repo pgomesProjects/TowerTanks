@@ -145,6 +145,14 @@ public class MultiplayerManager : SerializedMonoBehaviour
         GameManager.Instance.SetCheatsMenuActive(false);
     }
 
+    public void EnablePlayersJoin(bool canJoin)
+    {
+        if(canJoin)
+            playerInputManager.EnableJoining();
+        else
+            playerInputManager.DisableJoining();
+    }
+
     public Color[] GetPlayerColors() => playerColors;
     public PlayerInput[] GetPlayerInputs() => transform.GetComponentsInChildren<PlayerInput>();
     public PlayerData[] GetAllPlayers() => transform.GetComponentsInChildren<PlayerData>();

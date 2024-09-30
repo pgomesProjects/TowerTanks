@@ -1341,6 +1341,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "FastForwardCredits",
+                    "type": "Button",
+                    "id": "1b99db6a-76e8-46bf-83af-f80a326a54be",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1924,6 +1933,28 @@
                     "processors": "",
                     "groups": "Keyboard and Mouse",
                     "action": "Confirm",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b5f447c7-e05a-4306-b209-03b89f7d942b",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard and Mouse",
+                    "action": "FastForwardCredits",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "93219c9b-2525-489e-bc39-09b1b37f3963",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "FastForwardCredits",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -156,7 +156,7 @@ public class GunController : TankInteractable
                     trajectoryLine.endColor = playerColor;
 
                     trajectoryLine.enabled = true;
-                    List<Vector3> trajectoryPoints = Trajectory.GetTrajectory(barrel.position, barrel.right * muzzleVelocity, 30, 100);
+                    List<Vector3> trajectoryPoints = Trajectory.GetTrajectory(barrel.position, barrel.up * muzzleVelocity, 30, 100);
                     for (int i = 0; i < trajectoryPoints.Count; i++)
                     {
                         trajectoryLine.SetPosition(i, trajectoryPoints[i]);
@@ -257,7 +257,8 @@ public class GunController : TankInteractable
 
             //Fire projectile:
             Projectile newProjectile = Instantiate(projectile).GetComponent<Projectile>();
-            newProjectile.Fire(barrel.position, barrel.right * muzzleVelocity);
+            if (gunType != GunType.MORTAR) newProjectile.Fire(barrel.position, barrel.right * muzzleVelocity);
+            else newProjectile.Fire(barrel.position, barrel.up * muzzleVelocity);
             newProjectile.factionId = inheritance;
 
             //If Special, Remove from List
