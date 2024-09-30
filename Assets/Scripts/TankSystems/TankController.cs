@@ -26,7 +26,7 @@ public class TankController : SerializedMonoBehaviour
     public bool isInvincible;
 
     private TextMeshProUGUI nameText;
-
+    private float currentCoreHealth;
     private TankManager tankManager;
 
     [Header("Cargo")]
@@ -38,6 +38,8 @@ public class TankController : SerializedMonoBehaviour
     [InlineButton("ShiftRight", SdfIconType.ArrowRight, "")]
     [InlineButton("ShiftLeft", SdfIconType.ArrowLeft, "")]
     public int gear;
+
+    public System.Action<float> OnCoreDamaged;
 
     public void ShiftRight()
     {
@@ -230,6 +232,8 @@ public class TankController : SerializedMonoBehaviour
             EnableCannonBrains(false);
             AddCargo();
         }
+
+        currentCoreHealth = coreHealth;
 
         //Camera setup:
         if (CameraManipulator.main != null) CameraManipulator.main.OnTankSpawned(this); //Generate this tank a camera system
@@ -457,13 +461,13 @@ public class TankController : SerializedMonoBehaviour
 
     public void Damage(float amount)
     {
-        coreHealth -= amount;
+        currentCoreHealth -= amount;
 
         //UI
         damageTime += (amount / 50f);
         damageTimer = damageTime;
 
-        if (coreHealth <= 0)
+        if (currentCoreHealth <= 0)
         {
             if (!isDying)
             {
@@ -472,6 +476,8 @@ public class TankController : SerializedMonoBehaviour
                 StartCoroutine(DeathSequence(2.5f));
             }
         }
+
+        OnCoreDamaged?.Invoke(currentCoreHealth / coreHealth);
     }
 
     public void DeathSequenceEvents()

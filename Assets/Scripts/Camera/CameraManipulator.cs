@@ -32,6 +32,8 @@ public class CameraManipulator : MonoBehaviour
 
         [Tooltip("Offset width at last camera update, used to smooth out jittering.")] private float prevOffsetWidth;
 
+        private bool firstEngagement = true;
+
         /// <summary>
         /// Ganerates a camera setup to track given tank.
         /// </summary>
@@ -143,6 +145,16 @@ public class CameraManipulator : MonoBehaviour
                 ToggleEnabled(true); //Enable camera
                 engaged = true;      //Indicate that system is engaged
                 main.engaged = true; //Make sure camera manipulator knows engagement is occurring
+
+                if(firstEngagement) //First time tank has engaged with the camera
+                {
+                    if (!isPlayerCam)
+                    {
+                        FindObjectOfType<CombatHUD>()?.DisplayEnemyTankInformation(tanks[0]); //Display the enemy information in the CombatHUD
+                    }
+
+                    firstEngagement = false;    //Make sure that the system does not call this logic again
+                }
             }
         }
         /// <summary>

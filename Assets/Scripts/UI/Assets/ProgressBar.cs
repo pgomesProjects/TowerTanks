@@ -130,6 +130,21 @@ public class ProgressBar : MonoBehaviour
         CheckForCompletion();
     }
 
+    /// <summary>
+    /// Overrides all animations and immediately updates all values.
+    /// </summary>
+    /// <param name="value">The new value of the progress bar.</param>
+    public void OverrideProgressBar(float value)
+    {
+        displayValue = value;
+        updateBarValue = value;
+        UpdateProgressBar(value);
+        UpdateProgressUpdateBar(value);
+
+        isAnimating = false;
+        animationStatus = AnimationStatus.Inactive;
+    }
+
     private void Update()
     {
         if (isAnimating)
