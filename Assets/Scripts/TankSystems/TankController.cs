@@ -220,6 +220,23 @@ public class TankController : SerializedMonoBehaviour
             }
         }
 
+        //Check Room Typing for Random Drops
+        foreach (Room room in rooms)
+        {
+            if (room.type == Room.RoomType.Armor)
+            {
+                GameObject interactable = GameManager.Instance.interactableList[7].gameObject;
+
+                InteractableId newId = new InteractableId();
+                newId.interactable = interactable;
+                newId.script = interactable.GetComponent<TankInteractable>();
+                newId.type = newId.script.interactableType;
+                newId.stackName = newId.script.stackName;
+                interactableList.Add(newId);
+                if (tankType == TankId.TankType.ENEMY) interactablePool.Add(newId);
+            }
+        }
+
         //Identify what tank I am
         GetTankInfo();
 
