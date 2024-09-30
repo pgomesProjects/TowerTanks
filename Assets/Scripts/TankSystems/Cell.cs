@@ -36,7 +36,7 @@ public class Cell : MonoBehaviour
     internal SpriteRenderer damageSprite;
 
     [Header("Cell Components:")]
-    [Tooltip("Back wall of cell, will be changed depending on cell purpose.")]                    public GameObject backWall;
+    [Tooltip("Back wall of cell, will be turned into sprite mask by room kit.")]                  public GameObject backWall;
     [Tooltip("Pre-assigned cell walls (in NESW order) which confine players inside the tank.")]   public GameObject[] walls;
     [SerializeField, Tooltip("The interactable currently installed in this cell (if any).")]      internal TankInteractable interactable;
     [SerializeField, Tooltip("Transform used for repairmen to snap to when repairing this cell")] public Transform repairSpot;
@@ -95,6 +95,10 @@ public class Cell : MonoBehaviour
         {
             Burn();
         }
+    }
+    private void OnDestroy()
+    {
+        Destroy(backWall); //Make sure back wall gets destroyed when cell is destroyed
     }
 
     //RUNTIME METHODS:
@@ -185,7 +189,9 @@ public class Cell : MonoBehaviour
                     if (connector.room != room) continue;                                  //Skip connectors from other rooms
                     connectors[x] = connector;                                             //Save information about connector to slot in current direction
                     connector.cellA = this;                                                //Indicate to connector that it is attached to this cell
-                    
+                    if (x == 0 || x == 2) connector.vertical = true;                       //If connector is between two vertically-oriented cells, indicate that it is vertical
+                    else connector.vertical = false;                                       //Otherwise, indicate connector is horizontal
+
                     //Neighbor updates:
                     if (neighbors[x] != null) //Neighbor is present on other side of connector
                     {

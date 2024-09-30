@@ -33,6 +33,8 @@ public class TankController : SerializedMonoBehaviour
     public GameObject[] cargoHold;
 
     //Settings:
+    [Header("Visual Settings:")]
+    [Tooltip("Defines how cells in the tank look.")] public RoomAssetKit roomKit;
     #region Debug Controls
     [Header("Debug Controls")]
     [InlineButton("ShiftRight", SdfIconType.ArrowRight, "")]
@@ -179,6 +181,7 @@ public class TankController : SerializedMonoBehaviour
         foreach (Room room in rooms) //Scrub through childed room list (should be in order of appearance under towerjoint)
         {
             room.targetTank = this; //Make this the target tank for all childed rooms
+            room.Initialize();      //Prepare room for mounting
             if (room.isCore) //Found a core room
             {
                 //Core room setup:

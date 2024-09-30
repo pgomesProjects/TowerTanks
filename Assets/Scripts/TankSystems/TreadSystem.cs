@@ -129,7 +129,7 @@ public class TreadSystem : MonoBehaviour
                 if (wheel.lastGroundHit.collider != null) //Wheel has valid information about hit ground
                 {
                     //Apply drive torque:
-                    Vector2 wheelAccel = Vector3.Project(baseWheelAccel * 0.05f, wheelDirection); //Project base acceleration onto vector representing direction wheel is capable of producing force in (depends on ground angle)
+                    Vector2 wheelAccel = Vector3.Project(baseWheelAccel, wheelDirection); //Project base acceleration onto vector representing direction wheel is capable of producing force in (depends on ground angle)
                     wheelAccel /= (wheels.Length - extraWheels);                          //Divide wheel acceleration value by number of main wheels so that tank is most stable when all wheels are on the ground
                     Debug.DrawRay(wheel.lastGroundHit.point, wheelAccel);
                     r.AddForceAtPosition(wheelAccel * speedStunMultiplier, wheel.lastGroundHit.point, ForceMode2D.Force); //Apply wheel traction to system

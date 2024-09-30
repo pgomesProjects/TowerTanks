@@ -1371,6 +1371,7 @@ MonoBehaviour:
   towerJointTarget: {fileID: 1677695871312723229}
   isInvincible: 0
   cargoHold: []
+  roomKit: {fileID: 11400000, guid: 530fa040df4a8014d8d7b5abd56e4bdf, type: 2}
   gear: 0
   horsePower: 0
   interactableList: []
@@ -1748,6 +1749,7 @@ MonoBehaviour:
   tipAngleBufferZone: 10
   tipPreventionForce: 50
   rammingSpeed: 10
+  speedStunMultiplier: 1
 --- !u!50 &1677695872800944110
 Rigidbody2D:
   serializedVersion: 4

@@ -46,14 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fea0bc18cc7b2b459d06e46afba26a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  assetKit: {fileID: 0}
   isCore: 0
-  randomizeType: 1
-  debugRotate: 0
-  debugMoveUp: 0
-  debugMoveDown: 0
-  debugMoveLeft: 0
-  debugMoveRight: 0
-  debugMount: 0
   type: 0
 --- !u!1 &5589452626421846320
 GameObject:
@@ -152,19 +146,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9001316157029286621, guid: bfc1084377fc9ef49ace8d329d67959c, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.0000029504295
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9001316157029286621, guid: bfc1084377fc9ef49ace8d329d67959c, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9001316157029286621, guid: bfc1084377fc9ef49ace8d329d67959c, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9001316157029286621, guid: bfc1084377fc9ef49ace8d329d67959c, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9001316157029286621, guid: bfc1084377fc9ef49ace8d329d67959c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -176,7 +170,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9001316157029286621, guid: bfc1084377fc9ef49ace8d329d67959c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: -180
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bfc1084377fc9ef49ace8d329d67959c, type: 3}
