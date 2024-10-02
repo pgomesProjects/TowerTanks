@@ -454,8 +454,8 @@ public class PlayerMovement : Character
 
         SetCharacterMovement(ctx.ReadValue<Vector2>());
         
-        if (Mathf.Abs(moveInput.y) > ladderEnterDeadzone && currentLadder != null && currentState != CharacterState.CLIMBING)
-        {
+        if (((moveInput.y > ladderEnterDeadzone) || (moveInput.y < -ladderEnterDeadzone && !CheckGround())) && (currentLadder != null && currentState != CharacterState.CLIMBING))
+        {   //if up is pressed above the deadzone, if down is pressed under the deadzone and we aren't grounded, and if we are near a ladder and we aren't already climbing
             SetLadder();
         }
         
