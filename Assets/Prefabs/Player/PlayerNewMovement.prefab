@@ -5062,10 +5062,10 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 4.6875
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 2
   m_Material: {fileID: 6200000, guid: 284b62e2e6ea5ee4b971c0ad8ad2e068, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -5084,7 +5084,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 0
+    SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects: []
     SerializedBytesString: 
@@ -5094,12 +5094,13 @@ MonoBehaviour:
     SerializationNodes: []
   currentState: 0
   characterSettings: {fileID: 11400000, guid: a7bc3075ff116a040a2a22890b0f100a, type: 2}
-  groundMoveSpeed: 3
-  airMoveSpeed: 30
+  groundMoveSpeed: 15
+  airMoveSpeed: 90
   groundDeAcceleration: 20
   airDeAcceleration: 3.5
-  jetpackForce: 20
-  climbSpeed: 4
+  jetpackForce: 300
+  climbSpeed: 3.5
+  slipSlopeValue: 0.5
   groundedBoxX: 0.24
   groundedBoxY: 0.07
   groundedBoxOffset: 0.2
@@ -5133,7 +5134,9 @@ MonoBehaviour:
   couplerStickDeadzone: 0.5
   ladderDismountDeadzone: 0.5
   ladderEnterDeadzone: 0.75
+  ladderDetectionRadius: 0.05
   maxSlope: 95
+  maxYVelocity: 7
 --- !u!114 &3919349592667607501
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5148,9 +5151,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 5332867684925448271}
   rayLength: 0.1
-  standingRideHeight: 0.31
-  rideSpringStrength: 38.41
-  rideSpringDamper: 1.9
+  standingRideHeight: 0.98
+  rideSpringStrength: 100
+  rideSpringDamper: 15
   raycastOrigin: {fileID: 327680868978628959}
 --- !u!70 &448350889
 CapsuleCollider2D:

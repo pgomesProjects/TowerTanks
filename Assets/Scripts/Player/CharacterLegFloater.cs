@@ -43,11 +43,11 @@ public class CharacterLegFloater : MonoBehaviour
         Vector2 currentPosition = rb.position;
         
         if (disabled) return;
-        if (!thisPlayer.CheckGround() || thisPlayer.jetpackInputHeld || rb.velocity.y > 2) return; //conditions to not float player collider
+        if (thisPlayer.jetpackInputHeld || rb.velocity.y > 2) return; //conditions to not float player collider
         Vector2 localVel = transform.InverseTransformDirection(rb.velocity);                  //jetpackinputheld is probably deprecated sometime soon
         
         
-        Vector2 downDir = -transform.up;
+        Vector2 downDir = Vector2.down;
 
         rideHit = Physics2D.Raycast(raycastOrigin.position, downDir, rayLength, currentDetectLayers);
 
@@ -55,7 +55,7 @@ public class CharacterLegFloater : MonoBehaviour
         if (rideHit.collider != null)
         {
             Vector2 vel = rb.velocity;
-            Vector2 rayDir = transform.TransformDirection(Vector2.down); 
+            Vector2 rayDir = Vector2.down;
 
             float rayDirVel = Vector2.Dot(downDir, vel);
             //dot product is a measure of how much of vel is in the direction of rayDir. If the player is moving
@@ -69,11 +69,6 @@ public class CharacterLegFloater : MonoBehaviour
             rb.AddForce(rayDir * springForce);  
         }
         
-        if (thisPlayer.GetCharacterInput().x == 0) //SLIP DISPLACEMENT
-        {
-            rb.velocity = Vector2.zero;
-            rb.AddForce(-rb.velocity);
-        }
 
         prevPosition = rb.position;
     }

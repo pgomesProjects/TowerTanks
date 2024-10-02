@@ -78,9 +78,14 @@ public class PlayerMovement : Character
     [Range(0, 1)]
     private float ladderEnterDeadzone;
 
+    [SerializeField] private float ladderDetectionRadius;
+
     [SerializeField]
-    [Tooltip("The higher this value is set, the faster the player will walk on slopes up until this value. Player speed would reach zero at this slope value. ")]
+    [Tooltip("Player speed would reach zero at this slope value. The higher this value is set, the faster the player will walk on slopes up until this value. ")]
     private float maxSlope = 100;
+    
+    [SerializeField]
+    private float maxYVelocity;
 
     #endregion
 
@@ -130,8 +135,12 @@ public class PlayerMovement : Character
     protected override void Update()
     {
         base.Update();
-        
-        
+
+        Debug.Log(rb.velocity);
+        if (rb.velocity.y > maxYVelocity)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, maxYVelocity);
+        }
         
         if (!isAlive)
         {
@@ -145,7 +154,7 @@ public class PlayerMovement : Character
         if (isShaking)
             ShakePlayer();
         
-        currentLadder = Physics2D.OverlapCircle(transform.position, .02f, ladderLayer)?.gameObject;
+        currentLadder = Physics2D.OverlapCircle(transform.position, ladderDetectionRadius, ladderLayer)?.gameObject;
 
         //Interactable building:
         if (buildCell != null) //Player is currently in build mode
@@ -290,18 +299,29 @@ public class PlayerMovement : Character
         if (CheckGround())
         {
             rb.AddForce(force, ForceMode2D.Impulse);
+            //draw gizmo for force
+            Debug.DrawRay(transform.position, force, Color.red);
         }
         else
         {
             rb.AddForce(force, ForceMode2D.Force);
+            
+            //draw gizmo for force
+            Debug.DrawRay(transform.position, force, Color.blue);
         }
         
         Vector3 localVelocity = transform.InverseTransformDirection(rb.velocity);
         
         localVelocity.x = Mathf.Lerp(localVelocity.x, 0, CheckGround() ? groundDeAcceleration * Time.deltaTime
-                                                                             : airDeAcceleration * Time.deltaTime);
+                                                                             : 0);
         
         rb.velocity = transform.TransformDirection(localVelocity);
+
+        if (moveInput.x == 0 && CheckGround()) //slip down slopes
+        {
+            rb.AddForce(-transform.right.normalized * ((slope * .33f) * slipSlopeValue), ForceMode2D.Force);
+        }
+
         
         if (jetpackInputHeld && currentFuel > 0)
         {
