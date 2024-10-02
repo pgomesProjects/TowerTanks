@@ -85,7 +85,7 @@ public class PlayerMovement : Character
     private float maxSlope = 100;
     
     [SerializeField]
-    private float maxYVelocity;
+    private float maxYVelocity, maxXVelocity;
 
     #endregion
 
@@ -316,6 +316,11 @@ public class PlayerMovement : Character
                                                                              : 0);
         
         rb.velocity = transform.TransformDirection(localVelocity);
+        
+        if (Mathf.Abs(rb.velocity.x) > maxXVelocity)
+        {
+            rb.velocity = new Vector2(Mathf.Sign(rb.velocity.x) * maxXVelocity, rb.velocity.y);
+        }
 
         if (moveInput.x == 0 && CheckGround()) //slip down slopes
         {
