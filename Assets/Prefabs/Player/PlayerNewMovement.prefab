@@ -5338,9 +5338,10 @@ GameObject:
   - component: {fileID: 3995352443067524408}
   - component: {fileID: 3673368202560358153}
   - component: {fileID: 6862292742096016030}
+  - component: {fileID: 7350950510990598998}
   m_Layer: 5
   m_Name: PlayerNameCanvas
-  m_TagString: Untagged
+  m_TagString: PlayerName
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5354,7 +5355,7 @@ RectTransform:
   m_GameObject: {fileID: 6886660707686719393}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.013698632, y: 0.010000002, z: 0.010000002}
+  m_LocalScale: {x: 0.01, y: 0.0073, z: 0.0073}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1514713550837628142}
@@ -5427,6 +5428,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 16777215
+--- !u!225 &7350950510990598998
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6886660707686719393}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &7685641583699623842
 GameObject:
   m_ObjectHideFlags: 0

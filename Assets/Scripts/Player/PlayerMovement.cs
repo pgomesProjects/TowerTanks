@@ -112,6 +112,11 @@ public class PlayerMovement : Character
         base.Start();
     }
 
+    private void OnEnable()
+    {
+        GetComponentInChildren<CanvasGroup>().alpha = GameManager.Instance.UIManager.isVisible ? 1 : 0;
+    }
+
     private void OnDisable()
     {
         if (playerInputComponent != null)

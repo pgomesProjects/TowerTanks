@@ -19,6 +19,7 @@ public class GameManager : SerializedMonoBehaviour
     public MultiplayerManager MultiplayerManager { get; private set; }
     public ParticleSpawner ParticleSpawner { get; private set; }
     public SystemEffects SystemEffects { get; private set; }
+    public GameUIManager UIManager { get; private set; }
 
     [SerializeField, Tooltip("The list of possible rooms for the players to pick.")] public RoomInfo[] roomList;
     [SerializeField, Tooltip("The list of possible interactables for the players to pick. NOTE: Remember to update the enum list when updating this list.")] public TankInteractable[] interactableList;
@@ -70,7 +71,9 @@ public class GameManager : SerializedMonoBehaviour
         ParticleSpawner = GetComponentInChildren<ParticleSpawner>();
         SystemEffects = GetComponentInChildren<SystemEffects>();
         CargoManager = GetComponentInChildren<CargoManager>();
+        UIManager = GetComponentInChildren<GameUIManager>();
         gameFixedDeltaTimeStep = Time.fixedDeltaTime;
+
         LoadBearingCheck();
     }
 

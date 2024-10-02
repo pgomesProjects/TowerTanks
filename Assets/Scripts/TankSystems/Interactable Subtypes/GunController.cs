@@ -26,8 +26,6 @@ public class GunController : TankInteractable
     private float fireCooldownTimer;
     [Tooltip("Radius of Degrees of the Cone of Fire for this weapon's projectiles"), SerializeField, Min(0)] private float spread;
 
-    private TaskProgressBar gunReloadBar;
-
     //Gun Specific Settings
 
     //Cannon
@@ -72,8 +70,6 @@ public class GunController : TankInteractable
             //trajectoryLine.enabled = false;
             maxVelocity = muzzleVelocity; 
         }
-
-        gunReloadBar = GetComponent<TaskProgressBar>();
     }
 
     private void Update()
@@ -220,7 +216,7 @@ public class GunController : TankInteractable
                     GameManager.Instance.AudioManager.Play("SteamExhaust", gameObject); 
                 }
 
-                gunReloadBar?.StartTask(overheatTime / (1 / overheatCooldownMultiplier));
+                GameManager.Instance.UIManager.AddTaskBar(gameObject, overheatTime / (1 / overheatCooldownMultiplier));
             }
 
             if (isOverheating) canFire = false;
@@ -285,7 +281,7 @@ public class GunController : TankInteractable
                 GameManager.Instance.ParticleSpawner.SpawnParticle(random, particleSpots[0].position, particleScale, null);
                 GameManager.Instance.AudioManager.Play("CannonFire", gameObject);
                 GameManager.Instance.AudioManager.Play("CannonThunk", gameObject); //Play firing audioclips
-                gunReloadBar?.StartTask(rateOfFire);
+                GameManager.Instance.UIManager.AddTaskBar(gameObject, rateOfFire);
             }
 
             if (gunType == GunType.MACHINEGUN)
@@ -305,7 +301,7 @@ public class GunController : TankInteractable
                 GameManager.Instance.ParticleSpawner.SpawnParticle(random, particleSpots[0].position, particleScale, null);
                 GameManager.Instance.AudioManager.Play("CannonThunk", gameObject);
                 GameManager.Instance.AudioManager.Play("ProjectileInAirSFX", gameObject);
-                gunReloadBar?.StartTask(rateOfFire);
+                GameManager.Instance.UIManager.AddTaskBar(gameObject, rateOfFire);
             }
 
             //Set Cooldown

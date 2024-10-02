@@ -2463,6 +2463,7 @@ GameObject:
   - component: {fileID: 4653194585202519244}
   - component: {fileID: 4653194585202519245}
   - component: {fileID: 4653194585202519246}
+  - component: {fileID: 4841572670263537909}
   m_Layer: 5
   m_Name: CombatHUD
   m_TagString: CursorCanvas
@@ -2595,6 +2596,18 @@ MonoBehaviour:
   charactersPerSecond: 20
   healthBarMask: {fileID: 6873930927084056331}
   healthBarAniDuration: 1.5
+--- !u!225 &4841572670263537909
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4653194585202519216}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &4653194585292362892
 GameObject:
   m_ObjectHideFlags: 0
