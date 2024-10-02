@@ -38,6 +38,7 @@ public abstract class Character : SerializedMonoBehaviour
     [SerializeField] protected float airDeAcceleration;
     [SerializeField] protected float jetpackForce;
     [SerializeField] protected float climbSpeed;
+    [SerializeField] protected float slipSlopeValue;
     [Range(0, 2)]
     [SerializeField] protected float groundedBoxX, groundedBoxY;
 
@@ -114,9 +115,10 @@ public abstract class Character : SerializedMonoBehaviour
         permaDeath = false;
     }
 
+    private bool useAirDrag;
     protected virtual void Update()
     {
-
+        
         if (!isAlive)
         {
             if (isRespawning)
