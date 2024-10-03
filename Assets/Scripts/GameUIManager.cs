@@ -10,6 +10,7 @@ public class GameUIManager : SerializedMonoBehaviour
 
     [SerializeField, Tooltip("The prefabs of the different UI elements (only one of each type should exist).")] private UIPrefab[] uiPrefabs;
 
+    [System.Serializable]
     public struct UIPrefab
     {
         public UIType type;
