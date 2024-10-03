@@ -49,7 +49,7 @@ public class TimingGauge : SerializedMonoBehaviour
 
     private void OnEnable()
     {
-        ActivateTimer();
+        //ActivateTimer();
     }
 
     private void OnDisable()

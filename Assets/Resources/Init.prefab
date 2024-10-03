@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 2
+    SerializedFormat: 0
     SerializedBytes: 
     ReferencedUnityObjects: []
     SerializedBytesString: 
@@ -277,107 +277,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
+    SerializedFormat: 0
+    SerializedBytes: 01010c00000070006c00610079006500720043006f006c006f00720073002f00000000012b00000055006e0069007400790045006e00670069006e0065002e0043006f006c006f0072005b005d002c00200055006e0069007400790045006e00670069006e0065002e0043006f00720065004d006f00640075006c00650000000000060400000000000000042f01000000012900000055006e0069007400790045006e00670069006e0065002e0043006f006c006f0072002c00200055006e0069007400790045006e00670069006e0065002e0043006f00720065004d006f00640075006c006500200000803f20000000002000000000200000803f0504300100000020000000002000000000200000803f200000803f05043001000000200000803f20eceb6b3f208180803c200000803f050430010000002000000000200000803f2000000000200000803f0507052d01110000004f006e0050006c00610079006500720043006f006e006e00650063007400650064002d010c0000004f006e0050006c0061007900650072004c006f00730074002d01100000004f006e0050006c006100790065007200520065006700610069006e0065006400
     ReferencedUnityObjects: []
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes:
-    - Name: playerColors
-      Entry: 7
-      Data: 0|UnityEngine.Color[], UnityEngine.CoreModule
-    - Name: 
-      Entry: 12
-      Data: 4
-    - Name: 
-      Entry: 7
-      Data: UnityEngine.Color, UnityEngine.CoreModule
-    - Name: 
-      Entry: 4
-      Data: 1
-    - Name: 
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 4
-      Data: 1
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: UnityEngine.Color, UnityEngine.CoreModule
-    - Name: 
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 4
-      Data: 1
-    - Name: 
-      Entry: 4
-      Data: 1
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: UnityEngine.Color, UnityEngine.CoreModule
-    - Name: 
-      Entry: 4
-      Data: 1
-    - Name: 
-      Entry: 4
-      Data: 0.921568632
-    - Name: 
-      Entry: 4
-      Data: 0.0156862754
-    - Name: 
-      Entry: 4
-      Data: 1
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: UnityEngine.Color, UnityEngine.CoreModule
-    - Name: 
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 4
-      Data: 1
-    - Name: 
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 4
-      Data: 1
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: OnPlayerConnected
-      Entry: 6
-      Data: 
-    - Name: OnPlayerLost
-      Entry: 6
-      Data: 
-    - Name: OnPlayerRegained
-      Entry: 6
-      Data: 
+    SerializationNodes: []
   playerPrefab: {fileID: 5332867684925448268, guid: 79f26049c394b4140bd0a93f14c225cd, type: 3}
   MultiplayerEnabled: 1
 --- !u!1 &2386267742676790645
@@ -1436,8 +1343,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
+    SerializedFormat: 0
+    SerializedBytes: 0101090000007500690050007200650066006100620073002f00000000012c000000470061006d006500550049004d0061006e0061006700650072002b00550049005000720065006600610062005b005d002c00200054006f00770065007200540061006e006b0073002e00530063007200690070007400730000000000060200000000000000042f01000000012a000000470061006d006500550049004d0061006e0061006700650072002b00550049005000720065006600610062002c00200054006f00770065007200540061006e006b0073002e0053006300720069007000740073001d0104000000740079007000650000000000000000000b010a000000670061006d0065004f0062006a0065006300740000000000050430010000001d0104000000740079007000650001000000000000000b010a000000670061006d0065004f0062006a0065006300740001000000050705
     ReferencedUnityObjects:
     - {fileID: 648901361903554055, guid: 6ab8c2911877b824d9effa8e83e88576, type: 3}
     - {fileID: 6727710507555382365, guid: 1ee83dc5db9593346a10edee810e55c8, type: 3}
@@ -1445,43 +1352,7 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes:
-    - Name: uiPrefabs
-      Entry: 7
-      Data: 0|GameUIManager+UIPrefab[], TowerTanks.Scripts
-    - Name: 
-      Entry: 12
-      Data: 2
-    - Name: 
-      Entry: 7
-      Data: GameUIManager+UIPrefab, TowerTanks.Scripts
-    - Name: type
-      Entry: 3
-      Data: 0
-    - Name: gameObject
-      Entry: 10
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: GameUIManager+UIPrefab, TowerTanks.Scripts
-    - Name: type
-      Entry: 3
-      Data: 1
-    - Name: gameObject
-      Entry: 10
-      Data: 1
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
+    SerializationNodes: []
 --- !u!1001 &7563297248085180075
 PrefabInstance:
   m_ObjectHideFlags: 0

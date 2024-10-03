@@ -8,44 +8,34 @@ public class EngineController : TankInteractable
     [Tooltip("Transforms to spawn particles from when used."), SerializeField] private Transform[] particleSpots;
 
     //Settings:
-    public enum EngineType { A, B }; //A = Temperature Mechanics, B = no Temperature Mechanic (purely visual)
     [Header("Engine Settings:")]
-    public EngineType engineType;
     public bool isPowered;
     
     private float smokePuffRate = 1f;
     private float smokePuffTimer = 0;
-
-    [Header("Coal Settings:")]
-    public float coal = 0;
-    [Tooltip("Maximum coal the firebox can hold"), SerializeField] public float maxCoal; //maximum coal allowed in Firebox
-    public float coalBurnSpeed; //how fast coal burns
-    public float coalBump; //bump to temp & pressure when adding coal
-    private float currentCoalBurnValue = 0;
-
-    [Header("Temperature:")]
-    public float temperature = 0; //current temp
-    public float targetTemperature = 0; //for Engine B - what temperature the current temp is lerping towards
-    public float temperatureRiseSpeed; //how fast temperature rises due to coal
-    public float lowTempThreshold; //threshold temp needs to be above for pressure to begin
 
     public Color temperatureLowColor;
     public Color temperatureHighColor;
 
     [Header("Pressure:")]
     public float pressure = 0;
-    public float pressureRiseSpeed; //how fast pressure rises due to temperature
-    public float pressureReleaseSpeed; //how fast pressure drops when holding release valve
+    public float pressureReleaseSpeed; //how fast pressure drops over time
     public float dangerZoneThreshold; //threshold pressure needs to be above for overdrive
     private bool overdriveActive = false;
     public float overDriveOffset = 1f; //multiplier on engine rates while overdrive is active
     private float pressureReleaseCd = 0;
 
-    [Header("Explosion Settings:")]
-    public float explosionTime; //how long it takes to trigger an explosion when conditions are met
-    private bool canExplode = false;
-    private float explosionTimeOriginal;
-    public float explosionTimer = 0;
+    [Header("Charge Settings:")]
+    public float maxChargeTime;
+    private float minChargeTime = 0f;
+    public float chargeTimer = 0;
+    private float targetChargeOffset = 0.25f;
+    public float targetCharge;
+    private float minTargetCharge = 1.5f;
+    private float maxTargetCharge = 3f;
+    private bool chargeStarted;
+
+    TimingGauge currentGauge;
 
     [Header("UI:")]
     public SpriteRenderer[] boilerSprites;
@@ -55,8 +45,14 @@ public class EngineController : TankInteractable
     private float targetTimer = 0f;
     public Transform pressureBar;
 
+    [Header("Explosion Settings:")]
+    public float explosionTime; //how long it takes to trigger an explosion when conditions are met
+    private bool canExplode = false;
+    private float explosionTimeOriginal;
+    public float explosionTimer = 0;
+
     [Header("Debug Controls:")]
-    public bool loadCoal;
+    public bool addPressure;
 
     //Input
     public bool repairInputHeld;
@@ -64,22 +60,17 @@ public class EngineController : TankInteractable
     private void Start()
     {
         explosionTimeOriginal = explosionTime;
+        chargeStarted = false;
     }
 
     // Update is called once per frame
     void Update()
     {
         //Debug settings:
-        if (loadCoal) { loadCoal = false; LoadCoal(1); }
+        if (addPressure) { AddPressure(15, true, true); addPressure = false; }
 
-        if (coal > 0) BurnCoal();
-        UpdateTemperature();
-        UpdatePressure();
-        CheckForExplosion();
         UpdateUI();
-
-        if (hasOperator == false) repairInputHeld = false;
-
+ 
         //Add to Tank Engine Count
         if (pressure > 0)
         {
@@ -99,17 +90,39 @@ public class EngineController : TankInteractable
         }
     }
 
+    private void FixedUpdate()
+    {
+        base.FixedUpdate();
+
+        UpdatePressure();
+        CheckForExplosion();
+
+        //Input
+        if (hasOperator)
+        {
+            if (operatorID.interactInputHeld && chargeStarted)
+            {
+                chargeTimer += Time.deltaTime;
+            }
+
+            if (chargeTimer >= maxChargeTime)
+            {
+                CheckCharge();
+            }
+        }
+    }
+
     //FUNCTIONALITY METHODS:
     /// <summary>
     /// Loads (amount) coal into the engine.
     /// </summary>
-    public void LoadCoal(int amount, bool enableSounds = true, bool surgeSpeed = false)
+    public void AddPressure(int amount, bool enableSounds = true, bool surgeSpeed = false)
     {
         //Increase coal total:
-        coal += amount;
+        pressure += amount;
         if (enableSounds)
         {
-            if (coal > maxCoal)
+            if (pressure >= 100)
             {
                 GameManager.Instance.AudioManager.Play("InvalidAlert"); //Can't do that, sir
             }
@@ -123,176 +136,76 @@ public class EngineController : TankInteractable
         }
 
         //Small Speed Boost
-        if ((coal < maxCoal) && surgeSpeed)
+        if (surgeSpeed)
         {
             StartCoroutine(tank.treadSystem.SpeedSurge(0.7f, 2));
         }
     }
 
-    private void BurnCoal() //Depletes coal over time based on coalBurnSpeed
-    {
-        currentCoalBurnValue += 1f * coalBurnSpeed * Time.deltaTime;
-        if (currentCoalBurnValue >= 10f)
-        {
-            coal -= 1;
-            currentCoalBurnValue = 0;
-        }
-        if (engineType == EngineType.B)
-        {
-            targetTemperature = coal * (100f / maxCoal);
-            if (overdriveActive) coalBurnSpeed = 0.5f + (temperature * 0.005f) + (overDriveOffset * 10f);
-            else coalBurnSpeed = 0.5f + (temperature * 0.005f);
-        }
-
-        smokePuffTimer += coalBurnSpeed * Time.deltaTime;
-        if (smokePuffTimer >= smokePuffRate)
-        {
-            smokePuffTimer = 0;
-            GameManager.Instance.ParticleSpawner.SpawnParticle(3, particleSpots[0].position, 0.1f, null);
-        }
-    }
-
-    private void UpdateTemperature() //Increases Temperature over time while coal burning
-    {
-        float riseSpeed = 1f * temperatureRiseSpeed * Time.deltaTime; //how fast temperature fills over time
-        float lowerSpeed = -pressureReleaseSpeed * Time.deltaTime * 0.4f; //how fast temperature drains when holding release
-        float heatDif = (100f - (temperature * 0.75f)) / 100f; //slows it down the closer it gets to 100
-
-        if (engineType == EngineType.A)
-        {
-            if (coal > 0)
-            {
-                riseSpeed = riseSpeed * heatDif;
-                temperature += riseSpeed;
-                if (temperature > 100f) temperature = 100f;
-            }
-            else if (temperature > 0)
-            {
-                temperature -= riseSpeed * 5f;
-                if (temperature < 0) temperature = 0;
-            }
-
-            if (repairInputHeld && temperature > 0)
-            {
-                temperature += lowerSpeed;
-                if (temperature < 0) temperature = 0;
-            }
-        }
-
-        if (engineType == EngineType.B)
-        {
-            if (coal > 0)
-            {
-                temperature = Mathf.Lerp(temperature, targetTemperature, riseSpeed * heatDif);
-            }
-            else if (temperature > 0)
-            {
-                temperature -= riseSpeed * 5f;
-                if (temperature < 0) temperature = 0;
-            }
-        }
-    }
-
     private void UpdatePressure()
     {
-        float riseSpeed = 1f * pressureRiseSpeed * Time.deltaTime;
-        float lowerSpeed = -pressureReleaseSpeed * Time.deltaTime;
-        float pressureDif = (100f - (pressure * 0.25f)) / 100f; //slows down the closer it gets to 100
+        float lowerSpeed = pressureReleaseSpeed * Time.deltaTime;
+        float pressureDif = (50f + (pressure * 0.5f)) / 100f; //slows down the closer it gets to 0
 
-        if (engineType == EngineType.A)
+        if (pressure > 0)
         {
-            if (temperature > lowTempThreshold)
-            {
-                riseSpeed = riseSpeed * (temperature * 15f) * pressureDif;
-                pressure += riseSpeed;
-                if (pressure > 100f) pressure = 100f;
-            }
-            else if (pressure > 0)
-            {
-                pressure += lowerSpeed;
-                if (pressure < 0) pressure = 0;
-            }
+            pressure -= lowerSpeed * pressureDif;
 
-            if (repairInputHeld && pressure > 2f)
+            //Puff Smoke
+            smokePuffTimer += Time.deltaTime;
+            if (smokePuffTimer >= smokePuffRate)
             {
-                pressure += lowerSpeed;
-                if (pressure < 0) pressure = 0;
-
-                if (pressure >= dangerZoneThreshold)
-                {
-                    overdriveActive = true;
-                }
-
-                if (!GameManager.Instance.AudioManager.IsPlaying("SteamExhaustLoop"))
-                {
-                    GameManager.Instance.AudioManager.Play("SteamExhaustLoop");
-                }
-            }
-            else if (GameManager.Instance.AudioManager.IsPlaying("SteamExhaustLoop"))
-            {
-                GameManager.Instance.AudioManager.Stop("SteamExhaustLoop");
-                overdriveActive = false;
+                smokePuffTimer = 0;
+                GameManager.Instance.ParticleSpawner.SpawnParticle(3, particleSpots[0].position, 0.1f, null);
             }
         }
-
-        if (engineType == EngineType.B)
+        else
         {
-            if (temperature > 0)
-            {
-                //if (temperature < pressure) riseSpeed *= 0.5f;
-                pressure = Mathf.Lerp(pressure, temperature, riseSpeed * pressureDif); //Lerps pressure towards current temperature, slowed slightly by pressure dif
-                if (pressure > 100f) pressure = 100f;
-            }
-            else if (pressure > 0)
-            {
-                pressure += lowerSpeed;
-                if (pressure < 0) pressure = 0;
-            }
-
-            if (repairInputHeld && pressure > 0f && pressureReleaseCd <= 0)
-            {
-                if (overdriveActive) pressure += lowerSpeed * overDriveOffset;
-                else pressure += lowerSpeed;
-
-                if (pressure < 0) pressure = 0;
-
-                if (pressure >= dangerZoneThreshold)
-                {
-                    overdriveActive = true;
-                }
-
-                if (!GameManager.Instance.AudioManager.IsPlaying("SteamExhaustLoop", gameObject))
-                {
-                    GameManager.Instance.AudioManager.Play("SteamExhaustLoop", gameObject);
-                }
-            }
-            else
-            {
-                if (GameManager.Instance.AudioManager.IsPlaying("SteamExhaustLoop", gameObject))
-                {
-                    GameManager.Instance.AudioManager.Stop("SteamExhaustLoop", gameObject);
-                }
-                overdriveActive = false;
-            }
-
-            if (pressure <= 0)
-            {
-                if (overdriveActive)
-                {
-                    pressureReleaseCd = 2.0f;
-                    GameManager.Instance.AudioManager.Play("SteamExhaust", gameObject);
-                }
-                overdriveActive = false;
-            }
+            pressure = 0;
         }
 
-        if (pressureReleaseCd > 0) pressureReleaseCd -= Time.deltaTime;
+    }
 
+    public void StartCharge()
+    {
+        float random = Random.Range(minTargetCharge, maxTargetCharge);
+        targetCharge = random;
+
+        chargeTimer = 0;
+        chargeStarted = true;
+
+        float min = ((targetCharge - targetChargeOffset)) / maxChargeTime;
+        float max = ((targetCharge + targetChargeOffset)) / maxChargeTime;
+
+        currentGauge = GameManager.Instance.UIManager.AddTimingGauge(gameObject, maxChargeTime, min, max);
+    }
+
+    public void CheckCharge()
+    {
+        if (chargeTimer >= minChargeTime)
+        {
+            bool success = false;
+
+            float min = targetCharge - targetChargeOffset;
+            float max = targetCharge + targetChargeOffset;
+            if (chargeTimer > min && chargeTimer < max) { success = true; }
+
+            if (success) 
+            { 
+                AddPressure(30, true, true);
+                GameManager.Instance.AudioManager.Play("JetpackRefuel"); //Got it!
+            }
+            else AddPressure(10, true, false);
+        }
+
+        if (currentGauge != null) Destroy(currentGauge.gameObject);
+        chargeStarted = false;
+        chargeTimer = 0;
     }
 
     private void CheckForExplosion()
     {
-        if (temperature > dangerZoneThreshold && pressure > dangerZoneThreshold)
+        if (pressure > dangerZoneThreshold)
         {
             if (!canExplode)
             {
@@ -330,7 +243,7 @@ public class EngineController : TankInteractable
     public void UpdateUI()
     {
         for (int i = 0; i < boilerSprites.Length; i++) {
-            boilerSprites[i].color = Color.Lerp(temperatureLowColor, temperatureHighColor, temperature / 100f);
+            boilerSprites[i].color = Color.Lerp(temperatureLowColor, temperatureHighColor, pressure / 100f);
         }
 
         if (canExplode)

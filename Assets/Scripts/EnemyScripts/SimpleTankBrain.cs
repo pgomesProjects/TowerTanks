@@ -94,7 +94,7 @@ public class SimpleTankBrain : MonoBehaviour
         if (engineCooldownTimer <= 0)
         {
             engineCooldownTimer = 12f;
-            LoadAllEngines(1);
+            LoadAllEngines(15);
         }
     }
 
@@ -261,7 +261,7 @@ public class SimpleTankBrain : MonoBehaviour
         EngineController[] engines = GetComponentsInChildren<EngineController>();
         foreach(EngineController engine in engines)
         {
-            engine.LoadCoal(amount, false);
+            engine.AddPressure(amount, false);
         }
     }
 

@@ -173,14 +173,24 @@ public class TankInteractable : MonoBehaviour
         {
             gunScript.Fire(overrideConditions, tank.tankType);
         }
-        if (engineScript != null && cooldown <= 0) engineScript.LoadCoal(1, true, true);
+
+        if (engineScript != null)
+        {
+            if (overrideConditions) { engineScript.AddPressure(30, false, false); }
+                else engineScript.StartCharge();
+        }
     }
 
     public void CancelUse() //Called from operator when they release Interact
     {
-        if (gunScript != null && gunScript.gunType == GunController.GunType.MORTAR)
+        if (gunScript != null && gunScript.gunType == GunController.GunType.MORTAR && cooldown <= 0)
         {
             gunScript.Fire(false, tank.tankType);
+        }
+
+        if (engineScript != null && cooldown <= 0)
+        {
+            engineScript.CheckCharge();
         }
     }
 

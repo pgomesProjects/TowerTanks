@@ -141,7 +141,7 @@ public class PlayerMovement : Character
     {
         base.Update();
 
-        Debug.Log(rb.velocity);
+        //Debug.Log(rb.velocity);
         if (rb.velocity.y > maxYVelocity)
         {
             rb.velocity = new Vector2(rb.velocity.x, maxYVelocity);
@@ -523,7 +523,7 @@ public class PlayerMovement : Character
             }
         }
 
-        if (ctx.performed)
+        if (ctx.action.WasReleasedThisFrame())
         {
             if (currentInteractable != null)
             {
