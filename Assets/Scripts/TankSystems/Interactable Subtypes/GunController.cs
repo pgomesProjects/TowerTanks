@@ -72,6 +72,14 @@ public class GunController : TankInteractable
         }
     }
 
+    public override void Use(bool overrideConditions = false)
+    {
+        base.Use(overrideConditions);
+
+        if (cooldown <= 0)
+            Fire(overrideConditions, tank.tankType);
+    }
+
     private void Update()
     {
         //Debug settings:

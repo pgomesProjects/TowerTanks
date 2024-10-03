@@ -90,7 +90,7 @@ public class EngineController : TankInteractable
         }
     }
 
-    private void FixedUpdate()
+    protected override void FixedUpdate()
     {
         base.FixedUpdate();
 
@@ -166,6 +166,30 @@ public class EngineController : TankInteractable
 
     }
 
+    public override void Use(bool overrideConditions = false)
+    {
+        base.Use(overrideConditions);
+
+        if (overrideConditions)
+            AddPressure(30, false, false);
+        else
+            StartCharge();
+    }
+
+    public override void CancelUse()
+    {
+        base.CancelUse();
+
+        CheckCharge();
+    }
+
+    public override void Exit(bool sameZone)
+    {
+        base.Exit(sameZone);
+
+        RemoveTimingGauge();
+    }
+
     public void StartCharge()
     {
         float random = Random.Range(minTargetCharge, maxTargetCharge);
@@ -182,15 +206,13 @@ public class EngineController : TankInteractable
 
     public void CheckCharge()
     {
+        if (!chargeStarted)
+            return;
+
         if (chargeTimer >= minChargeTime)
         {
-            bool success = false;
-
-            float min = targetCharge - targetChargeOffset;
-            float max = targetCharge + targetChargeOffset;
-            if (chargeTimer > min && chargeTimer < max) { success = true; }
-
-            if (success) 
+            //If the gauge was pressed in the zone
+            if (currentGauge.PressGauge()) 
             { 
                 AddPressure(30, true, true);
                 GameManager.Instance.AudioManager.Play("JetpackRefuel"); //Got it!
@@ -198,9 +220,20 @@ public class EngineController : TankInteractable
             else AddPressure(10, true, false);
         }
 
-        if (currentGauge != null) Destroy(currentGauge.gameObject);
+        RemoveTimingGauge();
+
         chargeStarted = false;
         chargeTimer = 0;
+    }
+
+    private void RemoveTimingGauge()
+    {
+        if(currentGauge != null)
+        {
+            //Ends the timing gauge and destroys it
+            currentGauge.EndTimingGauge();
+            currentGauge = null;
+        }
     }
 
     private void CheckForExplosion()

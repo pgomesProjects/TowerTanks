@@ -55,7 +55,7 @@ public class TankInteractable : MonoBehaviour
     public bool debugMoveRight;
     public bool debugFlip = false;
     private float introBuffer = 0.2f; //small window when a new operator enters the interactable where they can't use it
-    private float cooldown;
+    protected float cooldown;
 
     //RUNTIME METHODS:
     private void Awake()
@@ -104,7 +104,7 @@ public class TankInteractable : MonoBehaviour
         }
     }
 
-    public void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         if (operatorID != null)
         {
@@ -143,7 +143,7 @@ public class TankInteractable : MonoBehaviour
         }
     }
 
-    public void Exit(bool sameZone) //Called from operator (PlayerMovement.cs) when they press Cancel
+    public virtual void Exit(bool sameZone) //Called from operator (PlayerMovement.cs) when they press Cancel
     {
         if (operatorID != null)
         {
@@ -167,30 +167,16 @@ public class TankInteractable : MonoBehaviour
         }
     }
 
-    public void Use(bool overrideConditions = false) //Called from operator when they press Interact
+    public virtual void Use(bool overrideConditions = false) //Called from operator when they press Interact
     {
-        if (gunScript != null && cooldown <= 0)
-        {
-            gunScript.Fire(overrideConditions, tank.tankType);
-        }
-
-        if (engineScript != null)
-        {
-            if (overrideConditions) { engineScript.AddPressure(30, false, false); }
-                else engineScript.StartCharge();
-        }
+        Debug.Log("Interact Started");
     }
 
-    public void CancelUse() //Called from operator when they release Interact
+    public virtual void CancelUse() //Called from operator when they release Interact
     {
         if (gunScript != null && gunScript.gunType == GunController.GunType.MORTAR && cooldown <= 0)
         {
             gunScript.Fire(false, tank.tankType);
-        }
-
-        if (engineScript != null && cooldown <= 0)
-        {
-            engineScript.CheckCharge();
         }
     }
 

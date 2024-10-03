@@ -47,11 +47,6 @@ public class TimingGauge : SerializedMonoBehaviour
         timingActive = false;
     }
 
-    private void OnEnable()
-    {
-        //ActivateTimer();
-    }
-
     private void OnDisable()
     {
         timingActive = false;
@@ -71,8 +66,11 @@ public class TimingGauge : SerializedMonoBehaviour
     /// </summary>
     private void ActivateTimer()
     {
-        if(Application.isPlaying)
+        if (Application.isPlaying)
+        {
             tickBar.anchoredPosition = new Vector2(-targetBarWidth / 2, tickBar.anchoredPosition.y);
+            tickBarPos = tickBar.anchoredPosition;
+        }
         direction = 1;
         tickMovementSpeed = targetBarWidth / tickSpeed;
         timingActive = true;
