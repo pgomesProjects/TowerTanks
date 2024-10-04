@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class TankSurrenderState : IState
 {
-    private readonly TankController _tank;
+    private TankAI _tankAI;
+    private TankController _tank;
     
-    public TankSurrenderState(TankController tank)
+    public TankSurrenderState(TankAI tank)
     {
-        _tank = tank;
+        _tankAI = tank;
+        _tank = tank.GetComponent<TankController>();
     }
     public void OnEnter() { }
 

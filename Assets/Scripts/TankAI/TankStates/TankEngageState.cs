@@ -4,19 +4,53 @@ using UnityEngine;
 
 public class TankEngageState : IState
 {
-    private readonly TankController _tank;
+    private TankAI _tankAI;
+    private TankController _tank;
+    private float heartbeatTimer = 1f;
+    private Coroutine _heartbeatCoroutine;
     
-    public TankEngageState(TankController tank)
+    public TankEngageState(TankAI tank)
     {
-        _tank = tank;
+        _tankAI = tank;
+        _tank = tank.GetComponent<TankController>();
     }
     
-    public void OnEnter() { }
+    private IEnumerator Heartbeat()
+    {
+        bool isPlayerOnLeft = _tankAI.GetTarget().transform.position.x < _tank.transform.position.x;
+        int directionToTarget = isPlayerOnLeft ? -1 : 1;
+        if ( _tankAI.GetTarget().transform.position.x + (_tankAI.aiSettings.defaultFightingDistance * directionToTarget) < _tank.transform.position.x)
+        {
+            while (_tank.gear != -2)
+            {
+                _tank.ShiftLeft();
+                yield return null;
+            }
+        }
+        else
+        {
+            while (_tank.gear != 2)
+            {
+                _tank.ShiftRight();
+                yield return null;
+            }
+        }
+        yield return new WaitForSeconds(heartbeatTimer);
+        _heartbeatCoroutine = _tank.StartCoroutine(Heartbeat());
+    }
+
+    public void OnEnter()
+    {
+        _heartbeatCoroutine = _tank.StartCoroutine(Heartbeat());
+    }
 
     public void FrameUpdate() { }
 
     public void PhysicsUpdate() { }
 
-    public void OnExit() { }
+    public void OnExit()
+    {
+        _tank.StopCoroutine(_heartbeatCoroutine);
+    }
     
 }
