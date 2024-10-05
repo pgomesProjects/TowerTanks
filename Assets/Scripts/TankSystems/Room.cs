@@ -16,8 +16,7 @@ namespace TowerTanks.Scripts
         /// <summary>
         /// Core catergories which indicate room function and properties.
         /// </summary>
-        public enum RoomType
-        {
+        public enum RoomType {
             /// <summary> Normal room in which interactables may be built. </summary>
             Standard,
             /// <summary> Room which provides high defense but cannot contain interactables. </summary>
@@ -29,20 +28,22 @@ namespace TowerTanks.Scripts
         }
 
         //Objects & Components:
-        private Room parentRoom;                                   //The room this room was mounted to
-        internal List<Coupler> couplers = new List<Coupler>();     //Couplers connecting this room to other rooms
-        private List<Coupler> ghostCouplers = new List<Coupler>(); //Ghost couplers created while moving room before it is mounted
-        internal List<Cell> cells = new List<Cell>();              //Individual square units which make up the room
-        internal bool[] cellManifest = new bool[0];                //Array corresponding to cell list, representing which ones have been destroyed (for the purposes of respawning the tank)
-        private Cell[][] sections;                                 //Groups of cells separated by connectors
-        private Transform connectorParent;                         //Parent object which contains all connectors
-        internal RoomData roomData;                                //ScriptableObject containing data about rooms and objects spawned by them
+        private Room parentRoom;                                     //The room this room was mounted to
+        internal List<Coupler> couplers = new List<Coupler>();       //Couplers connecting this room to other rooms
+        private List<Coupler> ghostCouplers = new List<Coupler>();   //Ghost couplers created while moving room before it is mounted
+        internal List<Cell> cells = new List<Cell>();                //Individual square units which make up the room
+        internal List<Connector> connectors = new List<Connector>(); //connectors in this room
+        internal bool[] cellManifest = new bool[0];                  //Array corresponding to cell list, representing which ones have been destroyed (for the purposes of respawning the tank)
+        private Cell[][] sections;                                   //Groups of cells separated by connectors
+        private Transform connectorParent;                           //Parent object which contains all connectors
+        internal RoomData roomData;                                  //ScriptableObject containing data about rooms and objects spawned by them
 
         internal List<GameObject> ladders = new List<GameObject>();       //Ladders that are in this room
         private List<GameObject> leadingLadders = new List<GameObject>(); //Ladders that lead to cells in this room (but are in different rooms)
 
         //Settings:
         [Header("Template Settings:")]
+        [SerializeField, Tooltip("Room's local asset kit, determines how room looks.")] private RoomAssetKit assetKit;
         [Tooltip("Indicates whether or not this is the tank's indestructible core room.")] public bool isCore = false;
         [Button("Rotate", ButtonSizes.Small)] private void DebugRotate() { Rotate(); UpdateRoomType(type); }
         [Button("Move Up", ButtonSizes.Small)] private void DebugMoveUp() { SnapMoveTick(Vector2.up); UpdateRoomType(type); }
@@ -53,10 +54,11 @@ namespace TowerTanks.Scripts
         [Button("Dismount", ButtonSizes.Medium)] private void DebugDismount() { Dismount(); }
 
         //Runtime Variables:
-        [Tooltip("Which broad purpose this room serves.")] public RoomType type;
-        [Tooltip("Whether or not this room has been attached to another room yet.")] internal bool mounted = false;
-        [Tooltip("The only tank this room can be mounted to (who's home grid will be used during mounting).")] internal TankController targetTank; //NOTE: This is important for distinguishing between rooms auto-spawned for prefab tanks, and rooms which are spawned in scrap menu for mounting on an existing tank
+        [Tooltip("Which broad purpose this room serves.")]                                                         public RoomType type;
+        [Tooltip("Whether or not this room has been attached to another room yet.")]                               internal bool mounted = false;
+        [Tooltip("The only tank this room can be mounted to (who's home grid will be used during mounting).")]     internal TankController targetTank; //NOTE: This is important for distinguishing between rooms auto-spawned for prefab tanks, and rooms which are spawned in scrap menu for mounting on an existing tank
         [Tooltip("Value between 0 and 3 indicating which cardinal direction room is rotated in (in NESW order).")] internal int rotTracker = 0; //NOTE: This is used for saving room rotation in json files
+        [Tooltip("Sprite used for the entire back wall of this room, generated by room kit.")]                     internal SpriteRenderer backWallSprite;
         private bool initialized = false; //Becomes true once one-time initial room setup has been completed (indicates room is ready to be used)
 
         private float maxBurnTime = 24f;
@@ -86,10 +88,19 @@ namespace TowerTanks.Scripts
         {
             if (cells.Count > 0) CheckFire();
         }
+        private void OnDrawGizmos()
+        {
+            if (Application.isPlaying)
+            {
+                Bounds bounds = GetRoomBounds();
+                Gizmos.color = Color.green;
+                Gizmos.DrawWireCube(bounds.center, bounds.size);
+            }
+        }
 
         private void CheckFire()
         {
-            foreach (Cell cell in cells)
+            foreach(Cell cell in cells)
             {
                 if (cell.isOnFire == false)
                 {
@@ -101,7 +112,7 @@ namespace TowerTanks.Scripts
             burnTimer -= Time.deltaTime;
             if (burnTimer <= 0)
             {
-                foreach (Cell cell in cells)
+                foreach(Cell cell in cells)
                 {
                     cell.Extinguish();
                 }
@@ -119,18 +130,20 @@ namespace TowerTanks.Scripts
             initialized = true;      //Indicate that room has been initialized
 
             //Setup runtime variables:
-            cells = new List<Cell>(GetComponentsInChildren<Cell>()); //Get references to cells in room
-            connectorParent = transform.Find("Connectors");          //Find object containing connectors
-            roomData = Resources.Load<RoomData>("RoomData");         //Get roomData object from resources folder
-            targetTank = GetComponentInParent<TankController>();     //Get tank controller from current parent (only applicable if room spawns with tank)
+            cells = new List<Cell>(GetComponentsInChildren<Cell>());                    //Get references to cells in room
+            connectorParent = transform.Find("Connectors");                             //Find object containing connectors
+            connectors = connectorParent.GetComponentsInChildren<Connector>().ToList(); //Get list of all connectors in room
+            roomData = Resources.Load<RoomData>("RoomData");                            //Get roomData object from resources folder
+            targetTank = GetComponentInParent<TankController>();                        //Get tank controller from current parent (only applicable if room spawns with tank)
 
             //old spot for interactable slot code
 
             //Set up child components:
-            foreach (Connector connector in connectorParent.GetComponentsInChildren<Connector>()) connector.Initialize(); //Initialize all connectors before setting up cells
-            for (int x = 0; x < cells.Count; x++) cells[x].manifestIndex = x;                                             //Indicate to each cell what it's unique id number is
-            foreach (Cell cell in cells) cell.Initialize();                                                               //Initialize each cell before checking adjacency
-            foreach (Cell cell in cells) cell.UpdateAdjacency();                                                          //Have all cells in room get to know each other
+            foreach (Connector connector in connectors) connector.Initialize(); //Initialize all connectors before setting up cells
+            for (int x = 0; x < cells.Count; x++) cells[x].manifestIndex = x;   //Indicate to each cell what it's unique id number is
+            foreach (Cell cell in cells) cell.Initialize();                     //Initialize each cell before checking adjacency
+            foreach (Cell cell in cells) cell.UpdateAdjacency();                //Have all cells in room get to know each other
+            ApplyRoomKit();                                                     //Apply room assets to all cells
 
             //Identify sections:
             List<List<Cell>> newSections = new List<List<Cell>>(); //Initialize lists to store section data
@@ -317,18 +330,38 @@ namespace TowerTanks.Scripts
             if (mounted) { Debug.LogError("Tried to rotate room while mounted!"); return; } //Do not allow mounted rooms to be rotated
 
             //Move cells:
-            Vector3 eulers = 90 * (clockwise ? -1 : 1) * Vector3.forward;                                  //Get euler to rotate assembly with
-            transform.Rotate(eulers);                                                                      //Rotate entire assembly on increments of 90 degrees
-            connectorParent.parent = null;                                                                 //Unchild connector object before reverse rotation
-            Vector2[] newCellPositions = cells.Select(cell => (Vector2)cell.transform.position).ToArray(); //Get array of cell positions after rotation
-            transform.Rotate(-eulers);                                                                     //Rotate assembly back
-            connectorParent.parent = transform;                                                            //Re-child connector object after reverse rotation
-            for (int x = 0; x < cells.Count; x++) { cells[x].transform.position = newCellPositions[x]; }   //Move cells to their rotated positions
+            Vector3 eulers = 90 * (clockwise ? -1 : 1) * Vector3.forward;                                                      //Get euler to rotate assembly with
+            transform.Rotate(eulers);                                                                                          //Rotate entire assembly on increments of 90 degrees
+            Vector2[] newCellPositions = cells.Select(cell => (Vector2)cell.transform.position).ToArray();                     //Get array of cell positions after rotation
+            Vector2[] newConnectorPositions = connectors.Select(connector => (Vector2)connector.transform.position).ToArray(); //Get array of connector positions after rotation
+            transform.Rotate(-eulers);                                                                                         //Rotate assembly back
+            for (int x = 0; x < cells.Count; x++) //Iterate through array of cells
+            {
+                cells[x].transform.position = newCellPositions[x]; //Move cells to their rotated positions
+                
+            } 
+            for (int x = 0; x < connectors.Count; x++) //Iterate through array of connectors
+            {
+                connectors[x].transform.position = newConnectorPositions[x]; //Move connector to new position
+                connectors[x].transform.Rotate(eulers);                      //Rotate connector according to rotation eulers
+                //connectors[x].backWall.transform.Rotate(eulers);             //Rotate connector wall according to rotation eulers
+            }
+
+            //Adjust back wall:
+            if (backWallSprite != null) //Only adjust back wall if it is present
+            {
+                backWallSprite.transform.Rotate(eulers);                    //Rotate back wall to match room rotation
+                backWallSprite.transform.position = GetRoomBounds().center; //Move back wall to center of room bounds
+
+                foreach (Cell cell in cells) cell.backWall.transform.position = cell.transform.position;                          //Match position of cell's back wall to new position of cell
+                foreach (Connector connector in connectors) connector.backWall.transform.position = connector.transform.position; //Match position of back wall to new position of connector
+            }
 
             //Cell adjacency updates:
             foreach (Cell cell in cells) cell.ClearAdjacency();  //Clear all cell adjacency statuses first (prevents false neighborhood bugs)
             foreach (Cell cell in cells) cell.UpdateAdjacency(); //Have all cells in room get to know each other        
             SnapMove(transform.localPosition);                   //Snap to grid at current position
+            ApplyRoomKit();                                      //Update cell visuals now that room orientation has changed
 
             foreach (Cell cell in cells) cell.transform.localPosition = new Vector2(Mathf.Round(cell.transform.localPosition.x * 4), Mathf.Round(cell.transform.localPosition.y * 4)) / 4; //Cells need to be rounded back into position to prevent certain parts from bugging out
 
@@ -457,7 +490,7 @@ namespace TowerTanks.Scripts
             foreach (Cell cell in cells) //Iterate through each cell in room
             {
                 cell.backWall.GetComponent<SpriteRenderer>().color = newColor;                                               //Set cell color to new type
-                foreach (Connector connector in cell.connectors) if (connector != null) connector.backWall.color = newColor; //Set color of connector back wall
+                //foreach (Connector connector in cell.connectors) if (connector != null) connector.backWall.color = newColor; //Set color of connector back wall
             }
         }
         /// <summary>
@@ -475,6 +508,25 @@ namespace TowerTanks.Scripts
                 if (!cellManifest[x]) GetCellFromManifestNumber(x).Pull(); //Manifest in this position indicates a removed cell, reference its manifest number to find it and pull it from the room
             }
         }
+        /// <summary>
+        /// Applies whichever asset kit is available to this room.
+        /// </summary>
+        /// <param name="targetKit">Set this if you want the new room asset kit to be different than local or tank default.</param>
+        public void ApplyRoomKit(RoomAssetKit targetKit = null)
+        {
+            //Get kit to use:
+            RoomAssetKit kit = targetKit;    //First, try using the kit passed as a parameter in the method (room kit may be getting changed at runtime)
+            if (kit == null) kit = assetKit; //Next, if no target kit is given, try using room's preset local asset kit (might be different from tank default)
+            if (kit == null) //Room has not been given its own unique asset kit
+            {
+                if (targetTank == null || targetTank.roomKit == null) { Debug.LogError("Room cannot find an asset kit to use, defaulting to placeholder assets."); return; } //Do not proceed if an asset kit cannot be acquired from the parent tank controller
+                kit = targetTank.roomKit; //Get default kit from room's tank
+            }
+            assetKit = kit; //Save kit data to indicate which set of assets are active on room
+
+            //Apply kit to room:
+            kit.KitRoom(this); //Apply kit assets to room
+        }
 
         //UTILITY METHODS:
         /// <summary>
@@ -489,6 +541,16 @@ namespace TowerTanks.Scripts
         /// Returns the cell in this room with given manifest number (if it exists).
         /// </summary>
         private Cell GetCellFromManifestNumber(int manifestNum) { return cells.Where(cell => cell.manifestIndex == manifestNum).FirstOrDefault(); }
+        /// <summary>
+        /// Returns bounding box which encapsulates this room.
+        /// </summary>
+        public Bounds GetRoomBounds()
+        {
+            Bounds bounds = new Bounds();                                   //Create a bounds object to encapsulate room
+            bounds.center = cells[0].transform.position;                    //Move bounds to within room (so that encapsulation isn't thrown off)
+            bounds.size = Vector2.zero;                                     //Zero out side of bounds in case it still goes outside room
+            foreach (Cell cell in cells) bounds.Encapsulate(cell.c.bounds); //Encapsulate bounds of each cell
+            return bounds;                                                  //Return calculated bounds
+        }
     }
-
 }

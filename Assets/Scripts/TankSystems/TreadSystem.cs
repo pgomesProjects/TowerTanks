@@ -7,45 +7,45 @@ namespace TowerTanks.Scripts
     public class TreadSystem : MonoBehaviour
     {
         //Objects & Components:
-        [Tooltip("Controller for this tread's parent tank.")] private TankController tankController;
-        [Tooltip("Rigidbody for affecting tank movement.")] internal Rigidbody2D r;
-        [Tooltip("Wheels controlled by this system.")] internal TreadWheel[] wheels;
+        [Tooltip("Controller for this tread's parent tank.")]                                                         private TankController tankController;
+        [Tooltip("Rigidbody for affecting tank movement.")]                                                           internal Rigidbody2D r;
+        [Tooltip("Wheels controlled by this system.")]                                                                internal TreadWheel[] wheels;
         [SerializeField, Tooltip("Prefab which will be used to generate caterpillar treads (should be 1 unit long)")] private GameObject treadPrefab;
-        [Tooltip("Array of all tread segments in system (one per wheel).")] private Transform[] treads;
+        [Tooltip("Array of all tread segments in system (one per wheel).")]                                           private Transform[] treads;
 
         //Settings:
         [Header("Center of Gravity Settings:")]
         [Tooltip("Height at which center of gravity is locked relative to tread system.")] public float COGHeight;
-        [Tooltip("Extents of center of gravity (affects how far tank can lean).")] public float COGWidth;
-        [Tooltip("How much weight the tank currently has")] public float totalWeight = 0;
+        [Tooltip("Extents of center of gravity (affects how far tank can lean).")]         public float COGWidth;
+        [Tooltip("How much weight the tank currently has")]                                public float totalWeight = 0;
 
         [Header("Drive Settings:")]
-        [Tooltip("True = Engines determine tank's overall speed & acceleration, False = Set manual values")] public bool useEngines;
-        [SerializeField, Tooltip("Current number of active engines in the tank")] internal int currentEngines;
+        [Tooltip("True = Engines determine tank's overall speed & acceleration, False = Set manual values")]       public bool useEngines;
+        [SerializeField, Tooltip("Current number of active engines in the tank")]                                  internal int currentEngines;
         [SerializeField, Tooltip("Base multiplier that affects how much power each individual engine has on the tank's speed")] internal float speedFactor;
-        [Tooltip("Greatest speed tank can achieve at maximum gear.")] public float maxSpeed = 100;
-        [Tooltip("Current x Velocity of the tank's rigidbody")] public float actualSpeed;
+        [Tooltip("Greatest speed tank can achieve at maximum gear.")]                                              public float maxSpeed = 100;
+        [Tooltip("Current x Velocity of the tank's rigidbody")]                                                    public float actualSpeed;
         [SerializeField, Tooltip("Rate at which tank accelerates to target speed (in units per second squared).")] private float maxAcceleration;
-        [Range(0, 1), SerializeField, Tooltip("Lerp value used to smooth out end of acceleration phases.")] private float accelerationDamping = 0.5f;
-        [SerializeField, Tooltip("Rate at which tank adjusts target speed based on current powered engines")] private float speedShiftRate = 2f;
-        [Min(1), Tooltip("Number of positions throttle can be in (includes neutral and reverse)")] public int gearPositions = 5;
+        [Range(0, 1), SerializeField, Tooltip("Lerp value used to smooth out end of acceleration phases.")]        private float accelerationDamping = 0.5f;
+        [SerializeField, Tooltip("Rate at which tank adjusts target speed based on current powered engines")]      private float speedShiftRate = 2f;
+        [Min(1), Tooltip("Number of positions throttle can be in (includes neutral and reverse)")]                 public int gearPositions = 5;
         [Space()]
-        [SerializeField, Min(0), Tooltip("Force which tries to keep wheels stuck to the ground.")] private float wheelStickiness;
-        [SerializeField, Tooltip("Curve describing how sticky wheel is based on compression value.")] private AnimationCurve wheelStickCompressionCurve;
+        [SerializeField, Min(0), Tooltip("Force which tries to keep wheels stuck to the ground.")]                      private float wheelStickiness;
+        [SerializeField, Tooltip("Curve describing how sticky wheel is based on compression value.")]                   private AnimationCurve wheelStickCompressionCurve;
         [Min(0), SerializeField, Tooltip("Number of seconds to wait while in neutral before activating parking brake")] private float parkingBrakeWait;
-        [SerializeField, Tooltip("Stopping power of parking brake.")] private float parkingBrakeStrength;
+        [SerializeField, Tooltip("Stopping power of parking brake.")]                                                   private float parkingBrakeStrength;
 
         [Header("Traction & Drag Settings:")]
         [SerializeField, Tooltip("Default drag factor applied by air causing tank to lean while in motion (scales based on speed)."), Min(0)] private float baseAirDragForce;
-        [SerializeField, Tooltip("Angular drag when all (non-extra) wheels are on the ground."), Min(0)] private float maxAngularDrag;
-        [SerializeField, Tooltip("How many wheels are by default off the ground."), Min(0)] private int extraWheels;
+        [SerializeField, Tooltip("Angular drag when all (non-extra) wheels are on the ground."), Min(0)]                                      private float maxAngularDrag;
+        [SerializeField, Tooltip("How many wheels are by default off the ground."), Min(0)]                                                   private int extraWheels;
         [Space()]
-        [Range(0, 90), SerializeField, Tooltip("Maximum angle (left or right) at which tank can be tipped.")] private float maxTipAngle;
+        [Range(0, 90), SerializeField, Tooltip("Maximum angle (left or right) at which tank can be tipped.")]                                             private float maxTipAngle;
         [Min(0), SerializeField, Tooltip("Radial area (inside max tip angle) where torque will be applied to prevent tank from reaching max tip angle.")] private float tipAngleBufferZone;
-        [Min(0), SerializeField, Tooltip("Scale of force applied to prevent tippage.")] private float tipPreventionForce;
+        [Min(0), SerializeField, Tooltip("Scale of force applied to prevent tippage.")]                                                                   private float tipPreventionForce;
 
         [Header("Ramming & Collision Settings:")]
-        [SerializeField, Tooltip("Minimum Speed for Ramming Effects to Apply")] public float rammingSpeed;
+        [SerializeField, Tooltip("Minimum Speed for Ramming Effects to Apply")]         public float rammingSpeed;
         private float stunTimer = 0;
         [SerializeField, Tooltip("Multiplier on speed when stunned by an impact/force")] public float speedStunMultiplier = 1f;
 
@@ -131,7 +131,7 @@ namespace TowerTanks.Scripts
                     if (wheel.lastGroundHit.collider != null) //Wheel has valid information about hit ground
                     {
                         //Apply drive torque:
-                        Vector2 wheelAccel = Vector3.Project(baseWheelAccel * 0.05f, wheelDirection); //Project base acceleration onto vector representing direction wheel is capable of producing force in (depends on ground angle)
+                        Vector2 wheelAccel = Vector3.Project(baseWheelAccel, wheelDirection); //Project base acceleration onto vector representing direction wheel is capable of producing force in (depends on ground angle)
                         wheelAccel /= (wheels.Length - extraWheels);                          //Divide wheel acceleration value by number of main wheels so that tank is most stable when all wheels are on the ground
                         Debug.DrawRay(wheel.lastGroundHit.point, wheelAccel);
                         r.AddForceAtPosition(wheelAccel * speedStunMultiplier, wheel.lastGroundHit.point, ForceMode2D.Force); //Apply wheel traction to system

@@ -20,10 +20,10 @@ namespace TowerTanks.Scripts
         [SerializeField] public float coreHealth = 500;
 
         //Objects & Components:
-        [Tooltip("Rooms currently installed on tank.")] internal List<Room> rooms;
-        [Tooltip("Core room of tank (there can only be one.")] internal Room coreRoom;
-        [Tooltip("This tank's traction system.")] internal TreadSystem treadSystem;
-        [Tooltip("Transform containing all tank rooms, point around which tower tilts.")] private Transform towerJoint;
+        [Tooltip("Rooms currently installed on tank.")]                                             internal List<Room> rooms;
+        [Tooltip("Core room of tank (there can only be one.")]                                      internal Room coreRoom;
+        [Tooltip("This tank's traction system.")]                                                   internal TreadSystem treadSystem;
+        [Tooltip("Transform containing all tank rooms, point around which tower tilts.")]           private Transform towerJoint;
         [SerializeField, Tooltip("Target transform in tread system which tower joint locks onto.")] private Transform towerJointTarget;
         public bool isInvincible;
 
@@ -35,12 +35,13 @@ namespace TowerTanks.Scripts
         public GameObject[] cargoHold;
 
         //Settings:
+                [Header("Visual Settings:")]
+        [Tooltip("Defines how cells in the tank look.")] public RoomAssetKit roomKit;
         #region Debug Controls
         [Header("Debug Controls")]
         [InlineButton("ShiftRight", SdfIconType.ArrowRight, "")]
         [InlineButton("ShiftLeft", SdfIconType.ArrowLeft, "")]
         public int gear;
-
         public System.Action<float> OnCoreDamaged;
 
         public void ShiftRight()
@@ -90,9 +91,9 @@ namespace TowerTanks.Scripts
             {
                 if (i == 0)
                 {
-                    foreach (InteractableId interactable in interactableList)
+                    foreach(InteractableId interactable in interactableList)
                     {
-                        if (interactable.type == TankInteractable.InteractableType.WEAPONS)
+                        if(interactable.type == TankInteractable.InteractableType.WEAPONS)
                         {
                             newList.Add(interactable);
                         }
@@ -183,6 +184,7 @@ namespace TowerTanks.Scripts
             foreach (Room room in rooms) //Scrub through childed room list (should be in order of appearance under towerjoint)
             {
                 room.targetTank = this; //Make this the target tank for all childed rooms
+                room.Initialize();      //Prepare room for mounting
                 if (room.isCore) //Found a core room
                 {
                     //Core room setup:
@@ -225,7 +227,7 @@ namespace TowerTanks.Scripts
             }
 
             //Check Room Typing for Random Drops
-            foreach (Room room in rooms)
+            foreach(Room room in rooms)
             {
                 if (room.type == Room.RoomType.Armor)
                 {
@@ -251,7 +253,6 @@ namespace TowerTanks.Scripts
                 EnableCannonBrains(false);
                 AddCargo();
             }
-
             currentCoreHealth = coreHealth;
 
             //Camera setup:
@@ -495,7 +496,6 @@ namespace TowerTanks.Scripts
                     StartCoroutine(DeathSequence(2.5f));
                 }
             }
-
             OnCoreDamaged?.Invoke(currentCoreHealth / coreHealth);
         }
 
@@ -534,7 +534,7 @@ namespace TowerTanks.Scripts
             else
             {
                 Cell[] cells = GetComponentsInChildren<Cell>();
-                foreach (Cell cell in cells)
+                foreach(Cell cell in cells)
                 {
                     //Destroy all cells
                     cell.Kill();
@@ -547,7 +547,7 @@ namespace TowerTanks.Scripts
                 }
 
                 //Spawn Cargo
-                foreach (GameObject _cargo in cargoHold)
+                foreach(GameObject _cargo in cargoHold)
                 {
                     GameObject flyingCargo = Instantiate(_cargo, treadSystem.transform.position, treadSystem.transform.rotation, null);
                     float randomX = Random.Range(-10f, 10f);
@@ -560,7 +560,7 @@ namespace TowerTanks.Scripts
                     rb.AddTorque(randomT * 10);
                 }
 
-                if (tankType == TankId.TankType.ENEMY)
+                if(tankType == TankId.TankType.ENEMY)
                 {
                     //If we're checking for enemies destroyed, add 1 to the Objective
                     LevelManager.Instance?.AddObjectiveValue(ObjectiveType.DefeatEnemies, 1);
@@ -583,7 +583,7 @@ namespace TowerTanks.Scripts
                 }
 
                 //Unassign all characters from this tank
-                foreach (Character character in GetCharactersAssignedToTank(this))
+                foreach(Character character in GetCharactersAssignedToTank(this))
                     character.SetAssignedTank(null);
 
                 //Detach the characters that are still in the tank and kill them
@@ -614,7 +614,7 @@ namespace TowerTanks.Scripts
             {
                 //Get variables of the step
                 GameObject room = null;
-                foreach (RoomInfo roomInfo in GameManager.Instance.roomList) //Find the prefab we want to spawn
+                foreach(RoomInfo roomInfo in GameManager.Instance.roomList) //Find the prefab we want to spawn
                 {
                     if (roomInfo.roomObject.name == tankDesign.buildingSteps[i].roomID)
                     {
@@ -661,7 +661,7 @@ namespace TowerTanks.Scripts
 
             int roomCount = 0;
             //Find out how many steps are needed for this design
-            foreach (Transform room in towerJoint)
+            foreach(Transform room in towerJoint)
             {
                 Room roomScript = room.GetComponent<Room>();
                 if (roomScript != null && roomScript.isCore == false)
@@ -685,14 +685,14 @@ namespace TowerTanks.Scripts
             roomCount = 0;
 
             //Fill out instructions with details
-            foreach (Transform room in towerJoint)
+            foreach(Transform room in towerJoint)
             {
                 Room roomScript = room.GetComponent<Room>();
                 if (roomScript != null)
                 {
                     //Get interactables:
                     List<BuildStep.CellInterAssignment> cellInters = new List<BuildStep.CellInterAssignment>(); //Create list to store cell interactable assignments
-                    foreach (TankInteractable interactable in roomScript.GetComponentsInChildren<TankInteractable>()) //Iterate through interactables in room
+                    foreach(TankInteractable interactable in roomScript.GetComponentsInChildren<TankInteractable>()) //Iterate through interactables in room
                     {
                         string cellName = interactable.parentCell.name;              //Get reference name for cell with interactable
                         string interName = interactable.name.Replace("(Clone)", ""); //Get reference string for installed interactable
@@ -731,7 +731,7 @@ namespace TowerTanks.Scripts
         public void EnableCannonBrains(bool enabled)
         {
             SimpleCannonBrain[] brains = GetComponentsInChildren<SimpleCannonBrain>();
-            foreach (SimpleCannonBrain brain in brains)
+            foreach(SimpleCannonBrain brain in brains)
             {
                 brain.enabled = enabled;
             }

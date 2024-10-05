@@ -37,12 +37,12 @@ namespace TowerTanks.Scripts
         internal SpriteRenderer damageSprite;
 
         [Header("Cell Components:")]
-        [Tooltip("Back wall of cell, will be changed depending on cell purpose.")] public GameObject backWall;
-        [Tooltip("Pre-assigned cell walls (in NESW order) which confine players inside the tank.")] public GameObject[] walls;
-        [SerializeField, Tooltip("The interactable currently installed in this cell (if any).")] internal TankInteractable interactable;
+        [Tooltip("Back wall of cell, will be turned into sprite mask by room kit.")]                  public GameObject backWall;
+        [Tooltip("Pre-assigned cell walls (in NESW order) which confine players inside the tank.")]   public GameObject[] walls;
+        [SerializeField, Tooltip("The interactable currently installed in this cell (if any).")]      internal TankInteractable interactable;
         [SerializeField, Tooltip("Transform used for repairmen to snap to when repairing this cell")] public Transform repairSpot;
-        [SerializeField, Tooltip("The character currently repairing this cell")] public GameObject repairMan;
-        [SerializeField, Tooltip("Sprites used for showing damage on the cell")] public SpriteRenderer[] diageticDamageSprites;
+        [SerializeField, Tooltip("The character currently repairing this cell")]                      public GameObject repairMan;
+        [SerializeField, Tooltip("Sprites used for showing damage on the cell")]                      public SpriteRenderer[] diageticDamageSprites;
         public enum TankPosition { TOP = 1, BOTTOM = -1 };
 
         //Settings:
@@ -53,23 +53,23 @@ namespace TowerTanks.Scripts
         //Gameplay:
         [Tooltip("Maximum hitpoints this cell can have when fully repaired.")] public float maxHealth;
         [InlineButton("RepairCell", SdfIconType.Wrench, "")]
-        [Tooltip("Current hitpoints this cell has.")] public float health;
-        [Tooltip("Which section this cell is in inside its parent room.")] internal int section;
-        [Tooltip("How long damage visual effect persists for")] private float damageTime;
+        [Tooltip("Current hitpoints this cell has.")]                          public float health;
+        [Tooltip("Which section this cell is in inside its parent room.")]     internal int section;
+        [Tooltip("How long damage visual effect persists for")]                private float damageTime;
         private float damageTimer;
 
         //Fire:
-        [Tooltip("Whether or not This Is Fine")] public bool isOnFire;
-        [Tooltip("Rate at which fire damages this cell")] private float burnDamageRate = 0.5f;
-        private float burnDamageTimer = 0;
-        [Tooltip("Max time before fire spreads to a neighboring cell")] private float maxBurnTime = 8f;
-        [Tooltip("Max time before fire spreads to a neighboring cell")] private float minBurnTime = 6f;
+        [Tooltip("Whether or not This Is Fine")]                               public bool isOnFire;
+        [Tooltip("Rate at which fire damages this cell")]                      private float burnDamageRate = 0.5f;
+                                                                            private float burnDamageTimer = 0;
+        [Tooltip("Max time before fire spreads to a neighboring cell")]        private float maxBurnTime = 8f;
+        [Tooltip("Max time before fire spreads to a neighboring cell")]        private float minBurnTime = 6f;
         private float burnTimer = 0;
         public GameObject flames;
         //Meta
-        [Tooltip("True if cell destruction has already been scheduled, used to prevent conflicts.")] private bool dying;
-        [Tooltip("True once cell has been set up and is ready to go.")] private bool initialized = false;
-        [Tooltip("Player which is currently building an interactable in this cell.")] internal PlayerMovement playerBuilding;
+        [Tooltip("True if cell destruction has already been scheduled, used to prevent conflicts.")]                private bool dying;
+        [Tooltip("True once cell has been set up and is ready to go.")]                                             private bool initialized = false;
+        [Tooltip("Player which is currently building an interactable in this cell.")]                               internal PlayerMovement playerBuilding;
         [Tooltip("Cell's position in parent room manifest, used to indicate which cells in a room are destroyed.")] internal int manifestIndex;
 
         //RUNTIME METHODS:
@@ -97,7 +97,11 @@ namespace TowerTanks.Scripts
                 Burn();
             }
         }
-
+        private void OnDestroy()
+        {
+            Destroy(backWall); //Make sure back wall gets destroyed when cell is destroyed
+        }
+        
         //RUNTIME METHODS:
         private void UpdateUI()
         {
@@ -186,6 +190,8 @@ namespace TowerTanks.Scripts
                         if (connector.room != room) continue;                                  //Skip connectors from other rooms
                         connectors[x] = connector;                                             //Save information about connector to slot in current direction
                         connector.cellA = this;                                                //Indicate to connector that it is attached to this cell
+                        if (x == 0 || x == 2) connector.vertical = true;                       //If connector is between two vertically-oriented cells, indicate that it is vertical
+                        else connector.vertical = false;                                       //Otherwise, indicate connector is horizontal
 
                         //Neighbor updates:
                         if (neighbors[x] != null) //Neighbor is present on other side of connector
@@ -217,8 +223,7 @@ namespace TowerTanks.Scripts
 
             if (room.isCore)
             {
-                if (room.targetTank.isInvincible == false)
-                {
+                if (room.targetTank.isInvincible == false) {
                     room.targetTank.Damage(amount);
                 }
             }
@@ -371,7 +376,7 @@ namespace TowerTanks.Scripts
             }
 
             //Stack update:
-            if (interactable != null)
+            if(interactable != null)
                 if (room.targetTank != null && room.targetTank.tankType == TankId.TankType.PLAYER) StackManager.AddToStack(GameManager.Instance.TankInteractableToEnum(interactable)); //Add interactable data to stack upon destruction (if it is in a player tank)
             room.targetTank.UpdateSizeValues(); //Update highest cell tracker
 
@@ -473,8 +478,7 @@ namespace TowerTanks.Scripts
                     {
                         int igniteChance = Random.Range(40, 61);
                         int randomRoll = Random.Range(0, 100);
-                        if (randomRoll <= igniteChance)
-                        {
+                        if (randomRoll <= igniteChance) {
                             if (character.isOnFire == false)
                             {
                                 character.Ignite();
@@ -495,7 +499,7 @@ namespace TowerTanks.Scripts
                 //Try to Spread Fire
                 List<Cell> flammables = new List<Cell>();
 
-                foreach (Cell neighbor in neighbors) //Find potential spread targets
+                foreach(Cell neighbor in neighbors) //Find potential spread targets
                 {
                     if (neighbor != null)
                     {

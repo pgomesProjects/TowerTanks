@@ -10,11 +10,15 @@ namespace TowerTanks.Scripts
         private Transform intactElements;  //Elements of connector which are enabled while connector is undamaged
         private Transform damagedElements; //Elements of connector which are enabled once the connector is damaged
         internal Room room;                //The room this connector is a part of
-        internal SpriteRenderer backWall;  //Renderer for back wall of connector
-        [SerializeField] internal Cell cellA;               //Cell on first side of the connector
-        [SerializeField] internal Cell cellB;               //Cell on second side of the connector
+        internal GameObject backWall;      //Object containing back wall of connector (will be moved and changed into a sprite mask by room kit)
+        
+        [Tooltip("The two side walls for this connector.")] public GameObject[] walls;
+        [Space()]
+        [SerializeField] internal Cell cellA; //Cell on first side of the connector
+        [SerializeField] internal Cell cellB; //Cell on second side of the connector
 
         //Runtime variables:
+        [Tooltip("True if connector is vertically oriented (hatch). False if connector is horizontally oriented (door).")] internal bool vertical = false;
         private bool damaged;     //True if one cell attached to connector has been destroyed
         private bool initialized; //Indicates whether or not connector has been set up and is ready to go
 
@@ -23,6 +27,10 @@ namespace TowerTanks.Scripts
         {
             Initialize(); //Set everything up
         }
+            private void OnDestroy()
+            {
+                Destroy(backWall); //Destroy back wall object (will probably be childed to back wall sprite object in room)
+            }
 
         //FUNCTIONALITY METHODS:
         /// <summary>
@@ -35,10 +43,10 @@ namespace TowerTanks.Scripts
             initialized = true;      //Indicate that connector has been initialized
 
             //Get objects & components:
-            room = GetComponentInParent<Room>();                                  //Get parent room
-            intactElements = transform.GetChild(0);                               //Get intact elements container
-            damagedElements = transform.GetChild(1);                              //Get damaged elements container
-            backWall = intactElements.GetChild(0).GetComponent<SpriteRenderer>(); //Get back wall sprite renderer
+            room = GetComponentInParent<Room>();                 //Get parent room
+            intactElements = transform.Find("IntactElements");   //Get intact elements container
+            damagedElements = transform.Find("DamagedElements"); //Get damaged elements container
+            backWall = transform.Find("BackWall").gameObject;    //Get back wall object
         }
         /// <summary>
         /// Converts connector into its damaged form, done when cell on one side is destroyed.
