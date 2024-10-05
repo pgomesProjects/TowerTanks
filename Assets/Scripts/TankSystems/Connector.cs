@@ -59,7 +59,6 @@ namespace TowerTanks.Scripts
             if (damaged) { Destroy(gameObject); return; }                                                                                                       //Destroy connector once both of its connected cells have been destroyed
 
             //Visualize damage:
-            damagedElements.GetChild(0).GetComponent<SpriteRenderer>().color = backWall.color;                      //Copy color of previous back wall to that of new back wall
             damagedElements.gameObject.SetActive(true);                                                             //Enable damaged version of connector
             intactElements.gameObject.SetActive(false);                                                             //Disable original version of connector
             Vector2 facingDirection = (destroyedCell.transform.localPosition - transform.localPosition).normalized; //Get direction connector needs to face relative to its remaining intact cell
