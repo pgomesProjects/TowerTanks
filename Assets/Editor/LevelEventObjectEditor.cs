@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-
+using TowerTanks.Scripts;
 
 [CustomEditor(typeof(LevelEvents))]
 public class LevelEventObjectEditor : Editor

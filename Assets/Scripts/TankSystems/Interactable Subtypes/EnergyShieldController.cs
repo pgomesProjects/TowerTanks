@@ -2,24 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnergyShieldController : TankInteractable
+namespace TowerTanks.Scripts
 {
-    public float shieldHealth;
-    private float maxShieldHealth = 200;
-
-    private void Awake()
+    public class EnergyShieldController : TankInteractable
     {
-        shieldHealth = maxShieldHealth;
-    }
+        public float shieldHealth;
+        private float maxShieldHealth = 200;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+        private void Awake()
+        {
+            shieldHealth = maxShieldHealth;
+        }
 
-    public void Damage(float amount)
-    {
-        shieldHealth -= amount;
+        // Update is called once per frame
+        void Update()
+        {
+
+        }
+
+        public void Damage(float amount)
+        {
+            shieldHealth -= amount;
+        }
     }
 }

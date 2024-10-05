@@ -2,51 +2,52 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TitlescreenParallax : MonoBehaviour
+namespace TowerTanks.Scripts
 {
-    [SerializeField] private float parallaxSpeed = 1;
-
-    private Vector2 backgroundSize;
-
-    //Tiles the width of the background to give it room to parallax
-    private float tileMultiplier = 3;
-
-    private PlayerTankController playerTankController;
-
-    // Start is called before the first frame update
-    void Start()
+    public class TitlescreenParallax : MonoBehaviour
     {
-        backgroundSize = GetComponent<SpriteRenderer>().bounds.size;
-        //Debug.Log("Background Size: " + backgroundSize);
-        GetComponent<SpriteRenderer>().size = new Vector2(backgroundSize.x * tileMultiplier, GetComponent<SpriteRenderer>().size.y);
-    }
+        [SerializeField] private float parallaxSpeed = 1;
 
-    // Update is called once per frame
-    void Update()
-    {
-        //Moving backwards
-        if (parallaxSpeed > 0)
+        private Vector2 backgroundSize;
+
+        //Tiles the width of the background to give it room to parallax
+        private float tileMultiplier = 3;
+
+        // Start is called before the first frame update
+        void Start()
         {
-            //Constantly move the background
-            transform.position += new Vector3(parallaxSpeed * Time.deltaTime, 0);
-
-            //If the background moves past the original background size, move the background back to its original position
-            if (transform.position.x > backgroundSize.x)
-            {
-                transform.position = new Vector3(-backgroundSize.x, transform.position.y, transform.position.z);
-            }
+            backgroundSize = GetComponent<SpriteRenderer>().bounds.size;
+            //Debug.Log("Background Size: " + backgroundSize);
+            GetComponent<SpriteRenderer>().size = new Vector2(backgroundSize.x * tileMultiplier, GetComponent<SpriteRenderer>().size.y);
         }
 
-        //Moving forwards
-        else
+        // Update is called once per frame
+        void Update()
         {
-            //Constantly move the background
-            transform.position += new Vector3(parallaxSpeed * Time.deltaTime, 0);
-
-            //If the background moves past the original background size, move the background back to its original position
-            if (transform.position.x < -backgroundSize.x)
+            //Moving backwards
+            if (parallaxSpeed > 0)
             {
-                transform.position = new Vector3(backgroundSize.x, transform.position.y, transform.position.z);
+                //Constantly move the background
+                transform.position += new Vector3(parallaxSpeed * Time.deltaTime, 0);
+
+                //If the background moves past the original background size, move the background back to its original position
+                if (transform.position.x > backgroundSize.x)
+                {
+                    transform.position = new Vector3(-backgroundSize.x, transform.position.y, transform.position.z);
+                }
+            }
+
+            //Moving forwards
+            else
+            {
+                //Constantly move the background
+                transform.position += new Vector3(parallaxSpeed * Time.deltaTime, 0);
+
+                //If the background moves past the original background size, move the background back to its original position
+                if (transform.position.x < -backgroundSize.x)
+                {
+                    transform.position = new Vector3(backgroundSize.x, transform.position.y, transform.position.z);
+                }
             }
         }
     }

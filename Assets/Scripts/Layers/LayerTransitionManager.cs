@@ -2,91 +2,94 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LayerTransitionManager : MonoBehaviour
+namespace TowerTanks.Scripts.Deprecated
 {
-    [SerializeField, Tooltip("The index of the layer above the current one.")] private int nextLayerIndex;
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    public class LayerTransitionManager : MonoBehaviour
     {
-        if (collision.CompareTag("Player"))
+        [SerializeField, Tooltip("The index of the layer above the current one.")] private int nextLayerIndex;
+
+        private void OnTriggerEnter2D(Collider2D collision)
         {
-            PlayerController currentPlayer = collision.GetComponent<PlayerController>();
-            int changeIndex = 0;
-
-            //If player is coming from above, decrease the layer number
-            if (currentPlayer.transform.position.y > transform.position.y)
+            if (collision.CompareTag("Player"))
             {
-                changeIndex = nextLayerIndex - 1;
-            }
-            //If player is coming from below, increase the layer number
-            else if (currentPlayer.transform.position.y < transform.position.y)
-            {
-                changeIndex = nextLayerIndex;
-            }
+                PlayerController currentPlayer = collision.GetComponent<PlayerController>();
+                int changeIndex = 0;
 
-            currentPlayer.previousLayer = currentPlayer.currentLayer;
-            currentPlayer.currentLayer = changeIndex;
+                //If player is coming from above, decrease the layer number
+                if (currentPlayer.transform.position.y > transform.position.y)
+                {
+                    changeIndex = nextLayerIndex - 1;
+                }
+                //If player is coming from below, increase the layer number
+                else if (currentPlayer.transform.position.y < transform.position.y)
+                {
+                    changeIndex = nextLayerIndex;
+                }
 
-            // Debug.Log("Previous Layer: " + (currentPlayer.previousLayer + 1));
-            // Debug.Log("Player On Layer: " + (currentPlayer.currentLayer + 1));
+                currentPlayer.previousLayer = currentPlayer.currentLayer;
+                currentPlayer.currentLayer = changeIndex;
 
-            if (currentPlayer.IsPlayerOutsideTank() && currentPlayer.InBuildMode() && currentPlayer.IsHoldingScrap())
-            {
-                LevelManager.Instance.AddGhostLayer();
+                // Debug.Log("Previous Layer: " + (currentPlayer.previousLayer + 1));
+                // Debug.Log("Player On Layer: " + (currentPlayer.currentLayer + 1));
+
+                if (currentPlayer.IsPlayerOutsideTank() && currentPlayer.InBuildMode() && currentPlayer.IsHoldingScrap())
+                {
+                    LevelManager.Instance.AddGhostLayer();
+                }
             }
         }
-    }
 
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
+        private void OnTriggerExit2D(Collider2D collision)
         {
-            PlayerController currentPlayer = collision.GetComponent<PlayerController>();
-            int changeIndex = 0;
-
-            //If player is above, keep the same layer number
-            if (currentPlayer.transform.position.y > transform.position.y)
+            if (collision.CompareTag("Player"))
             {
-                changeIndex = nextLayerIndex;
-            }
+                PlayerController currentPlayer = collision.GetComponent<PlayerController>();
+                int changeIndex = 0;
 
-            //If player is below, decrease the layer number
-            if (currentPlayer.transform.position.y < transform.position.y)
-            {
-                changeIndex = nextLayerIndex - 1;
-            }
+                //If player is above, keep the same layer number
+                if (currentPlayer.transform.position.y > transform.position.y)
+                {
+                    changeIndex = nextLayerIndex;
+                }
 
-            if(changeIndex != currentPlayer.currentLayer)
-                currentPlayer.previousLayer = currentPlayer.currentLayer;
+                //If player is below, decrease the layer number
+                if (currentPlayer.transform.position.y < transform.position.y)
+                {
+                    changeIndex = nextLayerIndex - 1;
+                }
 
-            currentPlayer.currentLayer = changeIndex;
-            //Debug.Log("Previous Layer: " + (currentPlayer.previousLayer + 1));
-            //Debug.Log("Player On Layer: " + (currentPlayer.currentLayer + 1));
+                if (changeIndex != currentPlayer.currentLayer)
+                    currentPlayer.previousLayer = currentPlayer.currentLayer;
 
-            if (!AnyPlayersOutsideInBuildMode())
-                LevelManager.Instance.HideGhostLayer();
+                currentPlayer.currentLayer = changeIndex;
+                //Debug.Log("Previous Layer: " + (currentPlayer.previousLayer + 1));
+                //Debug.Log("Player On Layer: " + (currentPlayer.currentLayer + 1));
 
-            //Destroy the ghost interactables from the previous layer, if any
-            if (currentPlayer.previousLayer + 1 <= LevelManager.Instance.totalLayers) { }
+                if (!AnyPlayersOutsideInBuildMode())
+                    LevelManager.Instance.HideGhostLayer();
+
+                //Destroy the ghost interactables from the previous layer, if any
+                if (currentPlayer.previousLayer + 1 <= LevelManager.Instance.totalLayers) { }
                 //LevelManager.Instance.GetPlayerTank().GetLayerAt(currentPlayer.previousLayer).GetComponent<GhostInteractables>().DestroyGhostInteractables(currentPlayer);
 
-            //If the player is not on the top of the tank, create ghost interactables
-            if (currentPlayer.currentLayer + 1 <= LevelManager.Instance.totalLayers) { }
+                //If the player is not on the top of the tank, create ghost interactables
+                if (currentPlayer.currentLayer + 1 <= LevelManager.Instance.totalLayers) { }
                 //LevelManager.Instance.GetPlayerTank().GetLayerAt(currentPlayer.currentLayer).GetComponent<GhostInteractables>().CreateGhostInteractables(currentPlayer);
+            }
         }
-    }
 
-    private bool AnyPlayersOutsideInBuildMode()
-    {
-        foreach (var player in FindObjectsOfType<PlayerController>())
+        private bool AnyPlayersOutsideInBuildMode()
         {
-            //If there are any players outside in build mode
-            if (player.IsPlayerOutsideTank() && player.InBuildMode())
-                return true;
+            foreach (var player in FindObjectsOfType<PlayerController>())
+            {
+                //If there are any players outside in build mode
+                if (player.IsPlayerOutsideTank() && player.InBuildMode())
+                    return true;
+            }
+            return false;
         }
-        return false;
-    }
 
-    public int GetNextLayerIndex() => nextLayerIndex;
-    public void SetLayerIndex(int index) => nextLayerIndex = index;
+        public int GetNextLayerIndex() => nextLayerIndex;
+        public void SetLayerIndex(int index) => nextLayerIndex = index;
+    }
 }

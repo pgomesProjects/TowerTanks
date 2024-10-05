@@ -3,24 +3,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InverseParentRotation : MonoBehaviour
+namespace TowerTanks.Scripts
 {
-    private Character thisCharacter;
-
-    private void Start()
+    public class InverseParentRotation : MonoBehaviour
     {
-        thisCharacter = transform.parent.GetComponentInParent<Character>();
-    }
+        private Character thisCharacter;
 
-    private void LateUpdate()
-    {
-        if (thisCharacter.currentState == Character.CharacterState.CLIMBING)
+        private void Start()
         {
-            transform.rotation = transform.parent.rotation;
+            thisCharacter = transform.parent.GetComponentInParent<Character>();
         }
-        else
+
+        private void LateUpdate()
         {
-            transform.rotation = Quaternion.identity;
+            if (thisCharacter.currentState == Character.CharacterState.CLIMBING)
+            {
+                transform.rotation = transform.parent.rotation;
+            }
+            else
+            {
+                transform.rotation = Quaternion.identity;
+            }
         }
     }
 }

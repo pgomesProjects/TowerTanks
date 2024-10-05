@@ -3,106 +3,109 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class TutorialDialogHandler : DialogEvent
+namespace TowerTanks.Scripts.Deprecated
 {
-    private CustomEvent tutorialEvents;
-
-    private void Awake()
+    public class TutorialDialogHandler : DialogEvent
     {
-        tutorialEvents = GetComponent<CustomEvent>();
-    }
+        private CustomEvent tutorialEvents;
 
-    public override void OnDialogStart()
-    {
-        UpdatePrompts();
-
-        //If the continue object has text, update the prompt on that as well
-        if (continueObject.GetComponent<TextMeshProUGUI>() != null)
+        private void Awake()
         {
-            string continueText = continueObject.GetComponent<TextMeshProUGUI>().text;
-            CheckStringForPrompt(ref continueText);
-            continueObject.GetComponent<TextMeshProUGUI>().text = continueText;
+            tutorialEvents = GetComponent<CustomEvent>();
         }
-    }
 
-    private void UpdatePrompts()
-    {
-        for(int i = 0; i < dialogLines.Length; i++)
+        public override void OnDialogStart()
         {
-            CheckStringForPrompt(ref dialogLines[i]);
-        }
-    }
+            UpdatePrompts();
 
-    private void CheckStringForPrompt(ref string line)
-    {
-        for (int i = 0; i < line.Length; i++)
-        {
-            if (line[i] == '<')
+            //If the continue object has text, update the prompt on that as well
+            if (continueObject.GetComponent<TextMeshProUGUI>() != null)
             {
-                string replaceCommand = CheckForControlDisplay(line, i);
-                string newCommandString = GetComponent<ControlSchemeUIUpdater>().UpdatePrompt(replaceCommand.Substring(1, (replaceCommand.Length - 2)));
-
-                line = line.Replace(replaceCommand, newCommandString);
-                continue;
+                string continueText = continueObject.GetComponent<TextMeshProUGUI>().text;
+                CheckStringForPrompt(ref continueText);
+                continueObject.GetComponent<TextMeshProUGUI>().text = continueText;
             }
         }
-    }
 
-    private string CheckForControlDisplay(string line, int counter)
-    {
-        int posFrom = counter - 1;
-        int posTo = line.IndexOf(">", posFrom + 1);
-        if (posTo != -1) //if found char
+        private void UpdatePrompts()
         {
-            return line.Substring(posFrom + 1, posTo - posFrom);
+            for (int i = 0; i < dialogLines.Length; i++)
+            {
+                CheckStringForPrompt(ref dialogLines[i]);
+            }
         }
 
-        return string.Empty;
-    }
-
-    public override void CheckEvents(ref TextWriter.TextWriterSingle textWriterObj)
-    {
-        string message = "";
-        if (hasSeen)
+        private void CheckStringForPrompt(ref string line)
         {
-            message = hasSeenLines[currentLine];
+            for (int i = 0; i < line.Length; i++)
+            {
+                if (line[i] == '<')
+                {
+                    string replaceCommand = CheckForControlDisplay(line, i);
+                    string newCommandString = GetComponent<ControlSchemeUIUpdater>().UpdatePrompt(replaceCommand.Substring(1, (replaceCommand.Length - 2)));
+
+                    line = line.Replace(replaceCommand, newCommandString);
+                    continue;
+                }
+            }
         }
-        else
+
+        private string CheckForControlDisplay(string line, int counter)
         {
-            message = dialogLines[currentLine];
+            int posFrom = counter - 1;
+            int posTo = line.IndexOf(">", posFrom + 1);
+            if (posTo != -1) //if found char
+            {
+                return line.Substring(posFrom + 1, posTo - posFrom);
+            }
+
+            return string.Empty;
         }
 
-        //Check for custom events if present
-        if (tutorialEvents != null)
-            tutorialEvents.CheckForCustomEvent(currentLine);
+        public override void CheckEvents(ref TextWriter.TextWriterSingle textWriterObj)
+        {
+            string message = "";
+            if (hasSeen)
+            {
+                message = hasSeenLines[currentLine];
+            }
+            else
+            {
+                message = dialogLines[currentLine];
+            }
 
-        //Hide the continue object while the text is being displayed
-        continueObject.SetActive(false);
+            //Check for custom events if present
+            if (tutorialEvents != null)
+                tutorialEvents.CheckForCustomEvent(currentLine);
 
-        //Debug.Log("Current Text Speed: " + TutorialController.main.currentTextSpeed);
+            //Hide the continue object while the text is being displayed
+            continueObject.SetActive(false);
 
-        //Use the text writer class to write each character one by one
-        textWriterObj = TextWriter.AddWriter_Static(null, messageText, message, 1 / TutorialController.Instance.currentTextSpeed, true, true, OnTextComplete);
-        //Move to the next line in the dialog
-        currentLine++;
-    }
+            //Debug.Log("Current Text Speed: " + TutorialController.main.currentTextSpeed);
 
-    public void OnTextComplete()
-    {
-        if (!TutorialController.Instance.listenForInput && !TutorialController.Instance.advanceTextDisabled)
-            continueObject.SetActive(true);
-    }
+            //Use the text writer class to write each character one by one
+            textWriterObj = TextWriter.AddWriter_Static(null, messageText, message, 1 / TutorialController.Instance.currentTextSpeed, true, true, OnTextComplete);
+            //Move to the next line in the dialog
+            currentLine++;
+        }
 
-    public override void OnEventComplete()
-    {
-        //Hide the dialog box and continue object
-        continueObject.SetActive(false);
+        public void OnTextComplete()
+        {
+            if (!TutorialController.Instance.listenForInput && !TutorialController.Instance.advanceTextDisabled)
+                continueObject.SetActive(true);
+        }
 
-        //Reset lines
-        currentLine = 0;
+        public override void OnEventComplete()
+        {
+            //Hide the dialog box and continue object
+            continueObject.SetActive(false);
 
-        //Check for custom events if present
-        if (tutorialEvents != null)
-            tutorialEvents.CustomOnEventComplete();
+            //Reset lines
+            currentLine = 0;
+
+            //Check for custom events if present
+            if (tutorialEvents != null)
+                tutorialEvents.CustomOnEventComplete();
+        }
     }
 }

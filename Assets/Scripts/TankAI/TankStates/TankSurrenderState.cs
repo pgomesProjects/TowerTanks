@@ -2,22 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TankSurrenderState : IState
+namespace TowerTanks.Scripts
 {
-    private TankAI _tankAI;
-    private TankController _tank;
-    
-    public TankSurrenderState(TankAI tank)
+    public class TankSurrenderState : IState
     {
-        _tankAI = tank;
-        _tank = tank.GetComponent<TankController>();
+        private TankAI _tankAI;
+        private TankController _tank;
+
+        public TankSurrenderState(TankAI tank)
+        {
+            _tankAI = tank;
+            _tank = tank.GetComponent<TankController>();
+        }
+        public void OnEnter() { }
+
+        public void FrameUpdate() { }
+
+        public void PhysicsUpdate() { }
+
+        public void OnExit() { }
+
     }
-    public void OnEnter() { }
-
-    public void FrameUpdate() { }
-
-    public void PhysicsUpdate() { }
-
-    public void OnExit() { }
-
 }

@@ -5,98 +5,104 @@ using UnityEngine;
 using UnityEditor;
 using Sirenix.OdinInspector;
 
-[System.Serializable]
-public class TankId
+namespace TowerTanks.Scripts
 {
-    [InlineButton("MatchName", SdfIconType.ArrowDown, "")]
-    [InlineButton("GenerateName", SdfIconType.Dice6Fill, "")]
-    public string TankName = "New Tank";
-    [SerializeField] internal TankController tankScript;
-
-    public enum TankType { PLAYER, ENEMY };
-    public TankType tankType;
-
-    //Components
-    public GameObject gameObject;
-    [Tooltip("Level layout to load")]
-    public TextAsset design;
-    [SerializeField, Tooltip("If true, builds the current design on this tank when the game starts")] public bool buildOnStart;
-
-    public void MatchName() //Matches the Tank's name with the current design - good for overwriting designs
+    [System.Serializable]
+    public class TankId
     {
-        TankName = design.name;
+        [InlineButton("MatchName", SdfIconType.ArrowDown, "")]
+        [InlineButton("GenerateName", SdfIconType.Dice6Fill, "")]
+        public string TankName = "New Tank";
+        [SerializeField] internal TankController tankScript;
 
-        if (gameObject != null)
-        {
-            tankScript = gameObject.GetComponent<TankController>();
-            tankScript.TankName = TankName;
-            gameObject.name = TankName;
-        }
-    }
+        public enum TankType { PLAYER, ENEMY };
+        public TankType tankType;
 
-    public void GenerateName()
-    {
-        var generator = new TankNameGenerator();
-        TankNames nameType = null;
-        if (tankType == TankType.ENEMY) nameType = Resources.Load<TankNames>("TankNames/PirateNames");
-        TankName = generator.GenerateRandomName(nameType);
+        //Components
+        public GameObject gameObject;
+        [Tooltip("Level layout to load")]
+        public TextAsset design;
+        [SerializeField, Tooltip("If true, builds the current design on this tank when the game starts")] public bool buildOnStart;
 
-        if (gameObject != null)
+        public void MatchName() //Matches the Tank's name with the current design - good for overwriting designs
         {
-            tankScript = gameObject.GetComponent<TankController>();
-            tankScript.TankName = TankName;
-            gameObject.name = TankName;
-        }
-    }
+            TankName = design.name;
 
-    [HorizontalGroup("Horizontal Buttons")]
-    [VerticalGroup("Horizontal Buttons/Column 1")]
-    [Button(" Destroy", Icon = SdfIconType.EmojiDizzy)] public void Destroy()
-    {
-        if (tankType != TankType.PLAYER)
-        {
-            tankScript = gameObject.GetComponent<TankController>();
-            tankScript.BlowUp(true);
-            TankManager tankMan = GameObject.Find("TankManager").GetComponent<TankManager>();
-            if (tankMan != null) tankMan.tanks.Remove(this);
-        }
-    }
-    [VerticalGroup("Horizontal Buttons/Column 2")]
-    [Button(" Build", Icon = SdfIconType.Hammer), Tooltip("Press during runtime to construct the tank based on the current design")]
-    public void Build()
-    {
-        if (gameObject != null)
-        {
-            string json = design.text;
-            if (json != null)
+            if (gameObject != null)
             {
-                TankDesign _design = JsonUtility.FromJson<TankDesign>(json);
-                //Debug.Log("" + layout.chunks[0] + ", " + layout.chunks[1] + "...");
                 tankScript = gameObject.GetComponent<TankController>();
-                tankScript.Build(_design);
+                tankScript.TankName = TankName;
+                gameObject.name = TankName;
             }
         }
-    }
-    [VerticalGroup("Horizontal Buttons/Column 2")]
-    [Button(" Save", Icon = SdfIconType.Save), Tooltip("Saves the current tank as a new tank design")]
-    public void SaveDesign()
-    {
-        if (gameObject != null)
+
+        public void GenerateName()
         {
-            //Get the current design
-            tankScript = gameObject.GetComponent<TankController>();
-            TankDesign design = tankScript.GetCurrentDesign();
-            if (design != null) //Debug.Log("I got a design called " + design.TankName + "." + " It's first room is " + design.buildingSteps[0].roomID);
-            {
-                //Convert it into a json
-                string json = JsonUtility.ToJson(design, true);
-                string path = "Assets/Resources/TankDesigns/" + design.TankName + ".json";
+            var generator = new TankNameGenerator();
+            TankNames nameType = null;
+            if (tankType == TankType.ENEMY) nameType = Resources.Load<TankNames>("TankNames/PirateNames");
+            TankName = generator.GenerateRandomName(nameType);
 
-                if (File.Exists(path)) { Debug.LogWarning("File exists. Overwriting Existing File."); }
-                File.WriteAllText(path, json);
-                AssetDatabase.Refresh();
+            if (gameObject != null)
+            {
+                tankScript = gameObject.GetComponent<TankController>();
+                tankScript.TankName = TankName;
+                gameObject.name = TankName;
             }
         }
-    }
 
+        [HorizontalGroup("Horizontal Buttons")]
+        [VerticalGroup("Horizontal Buttons/Column 1")]
+        [Button(" Destroy", Icon = SdfIconType.EmojiDizzy)]
+        public void Destroy()
+        {
+            if (tankType != TankType.PLAYER)
+            {
+                tankScript = gameObject.GetComponent<TankController>();
+                tankScript.BlowUp(true);
+                TankManager tankMan = GameObject.Find("TankManager").GetComponent<TankManager>();
+                if (tankMan != null) tankMan.tanks.Remove(this);
+            }
+        }
+        [VerticalGroup("Horizontal Buttons/Column 2")]
+        [Button(" Build", Icon = SdfIconType.Hammer), Tooltip("Press during runtime to construct the tank based on the current design")]
+        public void Build()
+        {
+            if (gameObject != null)
+            {
+                string json = design.text;
+                if (json != null)
+                {
+                    TankDesign _design = JsonUtility.FromJson<TankDesign>(json);
+                    //Debug.Log("" + layout.chunks[0] + ", " + layout.chunks[1] + "...");
+                    tankScript = gameObject.GetComponent<TankController>();
+                    tankScript.Build(_design);
+                }
+            }
+        }
+        [VerticalGroup("Horizontal Buttons/Column 2")]
+        [Button(" Save", Icon = SdfIconType.Save), Tooltip("Saves the current tank as a new tank design")]
+        public void SaveDesign()
+        {
+            if (gameObject != null)
+            {
+                //Get the current design
+                tankScript = gameObject.GetComponent<TankController>();
+                TankDesign design = tankScript.GetCurrentDesign();
+                if (design != null) //Debug.Log("I got a design called " + design.TankName + "." + " It's first room is " + design.buildingSteps[0].roomID);
+                {
+                    //Convert it into a json
+                    string json = JsonUtility.ToJson(design, true);
+                    string path = "Assets/Resources/TankDesigns/" + design.TankName + ".json";
+
+                    if (File.Exists(path)) { Debug.LogWarning("File exists. Overwriting Existing File."); }
+                    File.WriteAllText(path, json);
+#if UNITY_EDITOR
+                    AssetDatabase.Refresh();
+#endif
+                }
+            }
+        }
+
+    }
 }

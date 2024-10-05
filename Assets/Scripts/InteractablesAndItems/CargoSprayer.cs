@@ -2,64 +2,66 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-public class CargoSprayer : Cargo
+namespace TowerTanks.Scripts
 {
-    [Header("Sprayer Settings:")]
-    public Transform nozzle;
-    public bool isSpraying;
-
-    private float sprayRate = 0.05f;
-    private float sprayTimer = 0;
-
-    // Start is called before the first frame update
-    void Start()
+    public class CargoSprayer : Cargo
     {
-        base.Start();
-    }
+        [Header("Sprayer Settings:")]
+        public Transform nozzle;
+        public bool isSpraying;
 
-    // Update is called once per frame
-    void Update()
-    {
-        base.Update();
+        private float sprayRate = 0.05f;
+        private float sprayTimer = 0;
 
-        if (isSpraying)
+        // Start is called before the first frame update
+        void Start()
         {
-            sprayTimer -= Time.deltaTime;
-            if (sprayTimer <= 0)
+            base.Start();
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+            base.Update();
+
+            if (isSpraying)
             {
-                if (!GameManager.Instance.AudioManager.IsPlaying("SteamExhaustLoop", this.gameObject))
+                sprayTimer -= Time.deltaTime;
+                if (sprayTimer <= 0)
                 {
-                    GameManager.Instance.AudioManager.Play("SteamExhaustLoop", this.gameObject);
+                    if (!GameManager.Instance.AudioManager.IsPlaying("SteamExhaustLoop", this.gameObject))
+                    {
+                        GameManager.Instance.AudioManager.Play("SteamExhaustLoop", this.gameObject);
+                    }
+                    Spray();
+                    sprayTimer = sprayRate;
                 }
-                Spray();
-                sprayTimer = sprayRate;
             }
-        }
-        else
-        {
-            if (GameManager.Instance.AudioManager.IsPlaying("SteamExhaustLoop", this.gameObject))
+            else
             {
-                GameManager.Instance.AudioManager.Stop("SteamExhaustLoop", this.gameObject);
+                if (GameManager.Instance.AudioManager.IsPlaying("SteamExhaustLoop", this.gameObject))
+                {
+                    GameManager.Instance.AudioManager.Stop("SteamExhaustLoop", this.gameObject);
+                }
             }
         }
-    }
 
 
-    public void Spray()
-    {
-        GameObject particle = GameManager.Instance.ParticleSpawner.SpawnParticle(15, nozzle.position, 1f);
-        particle.transform.rotation = nozzle.rotation;
-    }
-
-    public void UpdateNozzle(Vector2 direction)
-    {
-
-        Vector3 moveVector = (Vector3.up * direction.y - Vector3.left * direction.x);
-        if (direction.x != 0 || direction.y != 0)
+        public void Spray()
         {
-            nozzle.rotation = Quaternion.LookRotation(Vector3.forward, moveVector);
+            GameObject particle = GameManager.Instance.ParticleSpawner.SpawnParticle(15, nozzle.position, 1f);
+            particle.transform.rotation = nozzle.rotation;
         }
-    }
 
+        public void UpdateNozzle(Vector2 direction)
+        {
+
+            Vector3 moveVector = (Vector3.up * direction.y - Vector3.left * direction.x);
+            if (direction.x != 0 || direction.y != 0)
+            {
+                nozzle.rotation = Quaternion.LookRotation(Vector3.forward, moveVector);
+            }
+        }
+
+    }
 }

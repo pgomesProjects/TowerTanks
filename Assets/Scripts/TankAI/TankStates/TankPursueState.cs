@@ -2,54 +2,57 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TankPursueState : IState
+namespace TowerTanks.Scripts
 {
-    private TankAI _tankAI;
-    private TankController _tank;
-    private float heartbeatTimer = 5f;
-    private Coroutine _heartbeatCoroutine;
-    
-    public TankPursueState(TankAI tank)
+    public class TankPursueState : IState
     {
-        _tankAI = tank;
-        _tank = tank.GetComponent<TankController>();
-    }
+        private TankAI _tankAI;
+        private TankController _tank;
+        private float heartbeatTimer = 5f;
+        private Coroutine _heartbeatCoroutine;
 
-    public void OnEnter()
-    {
-        _tankAI.SetTarget(TankManager.instance.playerTank);
-        _heartbeatCoroutine = _tank.StartCoroutine(Heartbeat());
-    }
-    
-    private IEnumerator Heartbeat()
-    {
-        if (_tankAI.GetTarget().transform.position.x < _tank.transform.position.x)
+        public TankPursueState(TankAI tank)
         {
-            while (_tank.gear != -2)
-            {
-                _tank.ShiftLeft();
-                yield return null;
-            }
+            _tankAI = tank;
+            _tank = tank.GetComponent<TankController>();
         }
-        else
+
+        public void OnEnter()
         {
-            while (_tank.gear != 2)
-            {
-                _tank.ShiftRight();
-                yield return null;
-            }
+            _tankAI.SetTarget(TankManager.instance.playerTank);
+            _heartbeatCoroutine = _tank.StartCoroutine(Heartbeat());
         }
-        yield return new WaitForSeconds(heartbeatTimer);
-        _heartbeatCoroutine = _tank.StartCoroutine(Heartbeat());
+
+        private IEnumerator Heartbeat()
+        {
+            if (_tankAI.GetTarget().transform.position.x < _tank.transform.position.x)
+            {
+                while (_tank.gear != -2)
+                {
+                    _tank.ShiftLeft();
+                    yield return null;
+                }
+            }
+            else
+            {
+                while (_tank.gear != 2)
+                {
+                    _tank.ShiftRight();
+                    yield return null;
+                }
+            }
+            yield return new WaitForSeconds(heartbeatTimer);
+            _heartbeatCoroutine = _tank.StartCoroutine(Heartbeat());
+        }
+
+        public void FrameUpdate() { }
+
+        public void PhysicsUpdate() { }
+
+        public void OnExit()
+        {
+            _tank.StopCoroutine(_heartbeatCoroutine);
+        }
+
     }
-
-    public void FrameUpdate() { }
-
-    public void PhysicsUpdate() { }
-
-    public void OnExit()
-    {
-        _tank.StopCoroutine(_heartbeatCoroutine);
-    }
-
 }

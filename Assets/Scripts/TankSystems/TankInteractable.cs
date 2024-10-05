@@ -2,263 +2,267 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
-using Sirenix.OdinInspector.Editor;
 
-[Tooltip("Controller for elements which players (and enemies) interact with to control and use the tank.")]
-public class TankInteractable : MonoBehaviour
+namespace TowerTanks.Scripts
 {
-    //Objects & Components:
-    private SpriteRenderer[] renderers;    //Array of all renderers in interactable
-    public TankController tank; //Controller script for tank this interactable is attached to
-    private InteractableZone interactZone; //Hitbox for player detection
-    public Transform seat; //Transform operator snaps to while using this interactable
-    public enum InteractableType { WEAPONS, ENGINEERING, DEFENSE, LOGISTICS };
-    public InteractableType interactableType;
-
-    //Interactable Scripts
-    private GunController gunScript;
-    private EngineController engineScript;
-    private ThrottleController throttleScript;
-    private TankConsumable consumableScript;
-
-    //Settings:
-    [Header("Stack Properties:")]
-    [Tooltip("Display name for interactable while in stack.")]    public string stackName;
-    [Tooltip("Reference to this interactable's prefab.")]         public GameObject prefabRef;
-    [Tooltip("Image used to represent this interactable in UI.")] public Sprite uiImage;
-    //ADD SPATIAL CONSTRAINT SYSTEM
-    [Button("Debug Place")] public void DebugPlace()
+    [Tooltip("Controller for elements which players (and enemies) interact with to control and use the tank.")]
+    public class TankInteractable : MonoBehaviour
     {
-        Collider2D targetColl = Physics2D.OverlapArea(transform.position + new Vector3(-0.1f, 0.1f), transform.position + new Vector3(0.1f, -0.1f), LayerMask.GetMask("Cell")); //Try to get cell collider interactable is on top of
-        if (targetColl == null || !targetColl.TryGetComponent(out Cell cell)) { Debug.LogWarning("Could not find cell."); return; }                                             //Cancel if interactable is not on a cell
-        InstallInCell(targetColl.GetComponent<Cell>());                                                                                                                         //Install interactable in target cell
-    }
-    [Button("Debug Destroy")] public void DebugDestroy()
-    {
-        Destroy(gameObject); //Destroy interactable
-    }
+        //Objects & Components:
+        private SpriteRenderer[] renderers;    //Array of all renderers in interactable
+        public TankController tank; //Controller script for tank this interactable is attached to
+        private InteractableZone interactZone; //Hitbox for player detection
+        public Transform seat; //Transform operator snaps to while using this interactable
+        public enum InteractableType { WEAPONS, ENGINEERING, DEFENSE, LOGISTICS };
+        public InteractableType interactableType;
 
-    //Runtime Variables:
-    [Tooltip("The cell this interactable is currently installed within.")]                                      internal Cell parentCell;
-    [Tooltip("True if interactable is a ghost and is currently unuseable.")]                                    internal bool ghosted;
-    [Tooltip("True if a user is currently operating this system")]                                              public bool hasOperator;
-    [Tooltip("User currently interacting with this system.")]                                                   internal PlayerMovement operatorID;
-    [Tooltip("Whether or not interact can be held down to use this interactable continuously"), SerializeField] public bool isContinuous;
-    [Tooltip("Whether or not this interactable can be aimed in some way"), SerializeField]                      public bool canAim;
-    [Tooltip("Direction this interactable is facing. (1 = right; -1 = left)")]                                  public float direction = 1;
-    [Tooltip("Unique identifier associating this interactable with a stack item")]                              internal int stackId = 0;
+        //Interactable Scripts
+        private GunController gunScript;
+        private EngineController engineScript;
+        private ThrottleController throttleScript;
+        private TankConsumable consumableScript;
 
-    //Debug
-    public bool debugMoveUp;
-    public bool debugMoveDown;
-    public bool debugMoveLeft;
-    public bool debugMoveRight;
-    public bool debugFlip = false;
-    private float introBuffer = 0.2f; //small window when a new operator enters the interactable where they can't use it
-    protected float cooldown;
-
-    //RUNTIME METHODS:
-    private void Awake()
-    {
-        //Get objects & components:
-        renderers = GetComponentsInChildren<SpriteRenderer>(); //Get all spriterenderers for interactable visual
-        interactZone = GetComponentInChildren<InteractableZone>();
-        seat = transform.Find("Seat");
-        gunScript = GetComponent<GunController>();
-        engineScript = GetComponent<EngineController>();
-        throttleScript = GetComponent<ThrottleController>();
-        consumableScript = GetComponent<TankConsumable>();
-    }
-    public virtual void OnDestroy()
-    {
-        if (hasOperator)
+        //Settings:
+        [Header("Stack Properties:")]
+        [Tooltip("Display name for interactable while in stack.")] public string stackName;
+        [Tooltip("Reference to this interactable's prefab.")] public GameObject prefabRef;
+        [Tooltip("Image used to represent this interactable in UI.")] public Sprite uiImage;
+        //ADD SPATIAL CONSTRAINT SYSTEM
+        [Button("Debug Place")]
+        public void DebugPlace()
         {
-            Exit(false);
+            Collider2D targetColl = Physics2D.OverlapArea(transform.position + new Vector3(-0.1f, 0.1f), transform.position + new Vector3(0.1f, -0.1f), LayerMask.GetMask("Cell")); //Try to get cell collider interactable is on top of
+            if (targetColl == null || !targetColl.TryGetComponent(out Cell cell)) { Debug.LogWarning("Could not find cell."); return; }                                             //Cancel if interactable is not on a cell
+            InstallInCell(targetColl.GetComponent<Cell>());                                                                                                                         //Install interactable in target cell
+        }
+        [Button("Debug Destroy")]
+        public void DebugDestroy()
+        {
+            Destroy(gameObject); //Destroy interactable
         }
 
-        //Destruction Cleanup:
-        if (parentCell != null) //Interactable is mounted in a cell
-        {
-            parentCell.interactable = null; //Clear cell reference to this interactable
-        }
+        //Runtime Variables:
+        [Tooltip("The cell this interactable is currently installed within.")] internal Cell parentCell;
+        [Tooltip("True if interactable is a ghost and is currently unuseable.")] internal bool ghosted;
+        [Tooltip("True if a user is currently operating this system")] public bool hasOperator;
+        [Tooltip("User currently interacting with this system.")] internal PlayerMovement operatorID;
+        [Tooltip("Whether or not interact can be held down to use this interactable continuously"), SerializeField] public bool isContinuous;
+        [Tooltip("Whether or not this interactable can be aimed in some way"), SerializeField] public bool canAim;
+        [Tooltip("Direction this interactable is facing. (1 = right; -1 = left)")] public float direction = 1;
+        [Tooltip("Unique identifier associating this interactable with a stack item")] internal int stackId = 0;
 
-        //Id Update
-        if (tank != null)
+        //Debug
+        public bool debugMoveUp;
+        public bool debugMoveDown;
+        public bool debugMoveLeft;
+        public bool debugMoveRight;
+        public bool debugFlip = false;
+        private float introBuffer = 0.2f; //small window when a new operator enters the interactable where they can't use it
+        protected float cooldown;
+
+        //RUNTIME METHODS:
+        private void Awake()
         {
-            foreach (InteractableId id in tank.interactableList)
+            //Get objects & components:
+            renderers = GetComponentsInChildren<SpriteRenderer>(); //Get all spriterenderers for interactable visual
+            interactZone = GetComponentInChildren<InteractableZone>();
+            seat = transform.Find("Seat");
+            gunScript = GetComponent<GunController>();
+            engineScript = GetComponent<EngineController>();
+            throttleScript = GetComponent<ThrottleController>();
+            consumableScript = GetComponent<TankConsumable>();
+        }
+        public virtual void OnDestroy()
+        {
+            if (hasOperator)
             {
-                if (id.interactable == this.gameObject)
+                Exit(false);
+            }
+
+            //Destruction Cleanup:
+            if (parentCell != null) //Interactable is mounted in a cell
+            {
+                parentCell.interactable = null; //Clear cell reference to this interactable
+            }
+
+            //Id Update
+            if (tank != null)
+            {
+                foreach (InteractableId id in tank.interactableList)
                 {
-                    tank.interactableList.Remove(id);
-                    break;
+                    if (id.interactable == this.gameObject)
+                    {
+                        tank.interactableList.Remove(id);
+                        break;
+                    }
                 }
             }
         }
-    }
 
-    private void OnDisable()
-    {
-        if (hasOperator)
+        private void OnDisable()
         {
-            Exit(false);
-        }
-    }
-
-    protected virtual void FixedUpdate()
-    {
-        if (operatorID != null)
-        {
-            operatorID.gameObject.transform.position = seat.position;
-            //operatorID.gameObject.transform.rotation = seat.rotation;
-        }
-
-        if (cooldown > 0)
-        {
-            cooldown -= Time.deltaTime;
-        }
-
-        if (debugFlip) { debugFlip = false; Flip(); }
-        if (debugMoveUp) { debugMoveUp = false; SnapMoveTick(Vector2.up); }
-        if (debugMoveDown) { debugMoveDown = false; SnapMoveTick(Vector2.down); }
-        if (debugMoveLeft) { debugMoveLeft = false; SnapMoveTick(Vector2.left); }
-        if (debugMoveRight) { debugMoveRight = false; SnapMoveTick(Vector2.right); }
-    }
-
-    public void LockIn(GameObject playerID) //Called from InteractableZone.cs when a user locks in to the interactable
-    {
-        hasOperator = true;
-        operatorID = playerID.GetComponent<PlayerMovement>();
-
-        if (operatorID != null)
-        {
-            operatorID.currentInteractable = this;
-            operatorID.isOperator = true;
-            operatorID.gameObject.GetComponent<Rigidbody2D>().isKinematic = true;
-            if (operatorID.currentObject != null) operatorID.currentObject.Drop(operatorID, false, Vector2.zero);
-
-            Debug.Log(operatorID + " is in!");
-            GameManager.Instance.AudioManager.Play("UseSFX");
-
-            if (cooldown <= 0) cooldown = introBuffer;
-        }
-    }
-
-    public virtual void Exit(bool sameZone) //Called from operator (PlayerMovement.cs) when they press Cancel
-    {
-        if (operatorID != null)
-        {
-            operatorID.currentInteractable = null;
-            operatorID.isOperator = false;
-            operatorID.gameObject.GetComponent<Rigidbody2D>().isKinematic = false;
-            operatorID.CancelInteraction();
-
-            if (!interactZone.players.Contains(operatorID.gameObject) && sameZone) 
+            if (hasOperator)
             {
-                interactZone.players.Add(operatorID.gameObject); //reassign operator to possible interactable players
-                operatorID.currentZone = interactZone;
+                Exit(false);
+            }
+        }
+
+        protected virtual void FixedUpdate()
+        {
+            if (operatorID != null)
+            {
+                operatorID.gameObject.transform.position = seat.position;
+                //operatorID.gameObject.transform.rotation = seat.rotation;
             }
 
-            hasOperator = false;
-            Debug.Log(operatorID + " is out!");
+            if (cooldown > 0)
+            {
+                cooldown -= Time.deltaTime;
+            }
 
-            operatorID = null;
-            
-            GameManager.Instance.AudioManager.Play("ButtonCancel");
-        }
-    }
-
-    public virtual void Use(bool overrideConditions = false) //Called from operator when they press Interact
-    {
-        Debug.Log("Interact Started");
-    }
-
-    public virtual void CancelUse() //Called from operator when they release Interact
-    {
-        if (gunScript != null && gunScript.gunType == GunController.GunType.MORTAR && cooldown <= 0)
-        {
-            gunScript.Fire(false, tank.tankType);
-        }
-    }
-
-    public void Shift(int direction) //Called from operator when they flick L-Stick L/R
-    {
-        if (throttleScript != null && cooldown <= 0)
-        {
-            throttleScript.UseThrottle(direction);
-            cooldown = 0.1f;
-        }
-    }
-
-    public void Rotate(float force) //Called from operator when they rotate the joystick
-    {
-        if (gunScript != null && cooldown <= 0) gunScript.RotateBarrel(force, true);
-    }
-
-    public void SecondaryUse(bool held)
-    {
-        if (engineScript != null) engineScript.repairInputHeld = held;
-    }
-
-    //UTILITY METHODS:
-    /// <summary>
-    /// Installs interactable into target cell.
-    /// </summary>
-    /// <param name="target">The cell interactable will be installed in.</param>
-    /// <param name="installAsGhost">Pass true to install interactable as a ghost.</param>
-    public bool InstallInCell(Cell target)
-    {
-        //Universal installation:
-        parentCell = target;                                                                                     //Get reference to target cell
-        transform.parent = parentCell.transform;                                                                 //Child to target cell
-        transform.localPosition = Vector3.zero;                                                                  //Match position with target cell
-        transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, 0); //Match rotation with target cell
-
-        //Cell installation:
-        target.interactable = this; //Give cell reference to the interactable installed in it
-        if (consumableScript != null) consumableScript.ConvertRoom(target);
-
-        //Cleanup:
-        tank = GetComponentInParent<TankController>(); //Get tank controller interactable is being attached to
-        if (tank != null) { tank.AddInteractable(this.gameObject); }
-        return true;                                   //Indicate that interactable was successfully installed in target cell
-    }
-
-    public void SnapMoveTick(Vector2 direction)
-    {
-        //Get target position:
-        direction = direction.normalized;                                           //Make sure direction is normalized
-        Vector2 targetPos = (Vector2)transform.localPosition + (direction * 0.25f); //Get target position based off of current position
-        SnapMove(targetPos);                                                        //Use normal snapMove method to place room
-    }
-
-    public void SnapMove(Vector2 targetPoint)
-    {
-        //Validity checks:
-        if (tank != null) //Interactable is already mounted
-        {
-            Debug.LogError("Tried to move interactable while it is mounted!"); //Log error
-            return;                                                    //Cancel move
+            if (debugFlip) { debugFlip = false; Flip(); }
+            if (debugMoveUp) { debugMoveUp = false; SnapMoveTick(Vector2.up); }
+            if (debugMoveDown) { debugMoveDown = false; SnapMoveTick(Vector2.down); }
+            if (debugMoveLeft) { debugMoveLeft = false; SnapMoveTick(Vector2.left); }
+            if (debugMoveRight) { debugMoveRight = false; SnapMoveTick(Vector2.right); }
         }
 
-        //Constrain to grid:
-        Vector2 newPoint = targetPoint * 4;                                       //Multiply position by four so that it can be rounded to nearest quarter unit
-        newPoint = new Vector2(Mathf.Round(newPoint.x), Mathf.Round(newPoint.y)); //Round position to nearest unit
-        newPoint /= 4;                                                            //Divide result after rounding to get actual value
-        transform.localPosition = newPoint;                                       //Apply new position
-        //transform.localEulerAngles = Vector3.zero;                                //Zero out rotation relative to parent tank
-    }
+        public void LockIn(GameObject playerID) //Called from InteractableZone.cs when a user locks in to the interactable
+        {
+            hasOperator = true;
+            operatorID = playerID.GetComponent<PlayerMovement>();
 
-    public void Flip()
-    {
-        if (direction == 1)
-        {
-            transform.Rotate(new Vector3(0, 180, 0));
-            direction = -1;
+            if (operatorID != null)
+            {
+                operatorID.currentInteractable = this;
+                operatorID.isOperator = true;
+                operatorID.gameObject.GetComponent<Rigidbody2D>().isKinematic = true;
+                if (operatorID.currentObject != null) operatorID.currentObject.Drop(operatorID, false, Vector2.zero);
+
+                Debug.Log(operatorID + " is in!");
+                GameManager.Instance.AudioManager.Play("UseSFX");
+
+                if (cooldown <= 0) cooldown = introBuffer;
+            }
         }
-        else
+
+        public virtual void Exit(bool sameZone) //Called from operator (PlayerMovement.cs) when they press Cancel
         {
-            transform.Rotate(new Vector3(0, -180, 0));
-            direction = 1;
+            if (operatorID != null)
+            {
+                operatorID.currentInteractable = null;
+                operatorID.isOperator = false;
+                operatorID.gameObject.GetComponent<Rigidbody2D>().isKinematic = false;
+                operatorID.CancelInteraction();
+
+                if (!interactZone.players.Contains(operatorID.gameObject) && sameZone)
+                {
+                    interactZone.players.Add(operatorID.gameObject); //reassign operator to possible interactable players
+                    operatorID.currentZone = interactZone;
+                }
+
+                hasOperator = false;
+                Debug.Log(operatorID + " is out!");
+
+                operatorID = null;
+
+                GameManager.Instance.AudioManager.Play("ButtonCancel");
+            }
+        }
+
+        public virtual void Use(bool overrideConditions = false) //Called from operator when they press Interact
+        {
+            Debug.Log("Interact Started");
+        }
+
+        public virtual void CancelUse() //Called from operator when they release Interact
+        {
+            if (gunScript != null && gunScript.gunType == GunController.GunType.MORTAR && cooldown <= 0)
+            {
+                gunScript.Fire(false, tank.tankType);
+            }
+        }
+
+        public void Shift(int direction) //Called from operator when they flick L-Stick L/R
+        {
+            if (throttleScript != null && cooldown <= 0)
+            {
+                throttleScript.UseThrottle(direction);
+                cooldown = 0.1f;
+            }
+        }
+
+        public void Rotate(float force) //Called from operator when they rotate the joystick
+        {
+            if (gunScript != null && cooldown <= 0) gunScript.RotateBarrel(force, true);
+        }
+
+        public void SecondaryUse(bool held)
+        {
+            if (engineScript != null) engineScript.repairInputHeld = held;
+        }
+
+        //UTILITY METHODS:
+        /// <summary>
+        /// Installs interactable into target cell.
+        /// </summary>
+        /// <param name="target">The cell interactable will be installed in.</param>
+        /// <param name="installAsGhost">Pass true to install interactable as a ghost.</param>
+        public bool InstallInCell(Cell target)
+        {
+            //Universal installation:
+            parentCell = target;                                                                                     //Get reference to target cell
+            transform.parent = parentCell.transform;                                                                 //Child to target cell
+            transform.localPosition = Vector3.zero;                                                                  //Match position with target cell
+            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, 0); //Match rotation with target cell
+
+            //Cell installation:
+            target.interactable = this; //Give cell reference to the interactable installed in it
+            if (consumableScript != null) consumableScript.ConvertRoom(target);
+
+            //Cleanup:
+            tank = GetComponentInParent<TankController>(); //Get tank controller interactable is being attached to
+            if (tank != null) { tank.AddInteractable(this.gameObject); }
+            return true;                                   //Indicate that interactable was successfully installed in target cell
+        }
+
+        public void SnapMoveTick(Vector2 direction)
+        {
+            //Get target position:
+            direction = direction.normalized;                                           //Make sure direction is normalized
+            Vector2 targetPos = (Vector2)transform.localPosition + (direction * 0.25f); //Get target position based off of current position
+            SnapMove(targetPos);                                                        //Use normal snapMove method to place room
+        }
+
+        public void SnapMove(Vector2 targetPoint)
+        {
+            //Validity checks:
+            if (tank != null) //Interactable is already mounted
+            {
+                Debug.LogError("Tried to move interactable while it is mounted!"); //Log error
+                return;                                                    //Cancel move
+            }
+
+            //Constrain to grid:
+            Vector2 newPoint = targetPoint * 4;                                       //Multiply position by four so that it can be rounded to nearest quarter unit
+            newPoint = new Vector2(Mathf.Round(newPoint.x), Mathf.Round(newPoint.y)); //Round position to nearest unit
+            newPoint /= 4;                                                            //Divide result after rounding to get actual value
+            transform.localPosition = newPoint;                                       //Apply new position
+                                                                                      //transform.localEulerAngles = Vector3.zero;                                //Zero out rotation relative to parent tank
+        }
+
+        public void Flip()
+        {
+            if (direction == 1)
+            {
+                transform.Rotate(new Vector3(0, 180, 0));
+                direction = -1;
+            }
+            else
+            {
+                transform.Rotate(new Vector3(0, -180, 0));
+                direction = 1;
+            }
         }
     }
 }

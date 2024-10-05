@@ -3,57 +3,59 @@ using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-
-public class TankPatrolState : IState
+namespace TowerTanks.Scripts
 {
-    private TankAI _tankAI;
-    private TankController _tank;
-    private Vector2 _timeBetweenMovesRange = new Vector2(4.00f, 8.00f);
-    private Coroutine _movementCoroutine;
-    
-    public TankPatrolState(TankAI tank)
+    public class TankPatrolState : IState
     {
-        _tankAI = tank;
-        _tank = tank.GetComponent<TankController>();
-    }
-    private IEnumerator SetTankMovement()
-    {
-        if (Random.Range(0, 2) == 1)
+        private TankAI _tankAI;
+        private TankController _tank;
+        private Vector2 _timeBetweenMovesRange = new Vector2(4.00f, 8.00f);
+        private Coroutine _movementCoroutine;
+
+        public TankPatrolState(TankAI tank)
         {
-            while (_tank.gear != 1)
-            {
-                _tank.ShiftRight();
-                yield return null;
-            }
+            _tankAI = tank;
+            _tank = tank.GetComponent<TankController>();
         }
-        else
+        private IEnumerator SetTankMovement()
         {
-            while (_tank.gear != -1)
+            if (Random.Range(0, 2) == 1)
             {
-                _tank.ShiftLeft();
-                yield return null;
+                while (_tank.gear != 1)
+                {
+                    _tank.ShiftRight();
+                    yield return null;
+                }
             }
+            else
+            {
+                while (_tank.gear != -1)
+                {
+                    _tank.ShiftLeft();
+                    yield return null;
+                }
+            }
+
+            yield return new WaitForSeconds(Random.Range(_timeBetweenMovesRange.x, _timeBetweenMovesRange.y));
+            _movementCoroutine = _tank.StartCoroutine(SetTankMovement());
+
         }
 
-        yield return new WaitForSeconds(Random.Range(_timeBetweenMovesRange.x, _timeBetweenMovesRange.y));
-        _movementCoroutine = _tank.StartCoroutine(SetTankMovement());
-        
+        public void OnEnter()
+        {
+            Debug.Log($"OnEnter called. _tank: {_tank}");
+            if (_movementCoroutine == null) _movementCoroutine = _tank.StartCoroutine(SetTankMovement());
+        }
+
+        public void FrameUpdate() { }
+
+        public void PhysicsUpdate() { }
+
+        public void OnExit()
+        {
+            _tank.StopCoroutine(_movementCoroutine);
+        }
+
+
     }
-    
-    public void OnEnter()
-    {
-        Debug.Log($"OnEnter called. _tank: {_tank}");
-        if (_movementCoroutine == null) _movementCoroutine = _tank.StartCoroutine(SetTankMovement());
-    }
-
-    public void FrameUpdate() { }
-
-    public void PhysicsUpdate() { }
-
-    public void OnExit()
-    {
-        _tank.StopCoroutine(_movementCoroutine);
-    }
-    
-
 }

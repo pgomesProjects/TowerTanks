@@ -4,62 +4,65 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class TankAI : MonoBehaviour
+namespace TowerTanks.Scripts
 {
-    private StateMachine _stateMachine;
-    private TankController _tank, targetTank;
-    private TankManager _tankManager;
-    private GunController[] _guns;
-    private float currentTokenCount;
-
-    [Header("AI Configuration")] 
-    public TankAISettings aiSettings;
-
-    private void Awake()
+    public class TankAI : MonoBehaviour
     {
-        _tank = GetComponent<TankController>();
-        if (_tank.tankType == TankId.TankType.PLAYER)
+        private StateMachine _stateMachine;
+        private TankController _tank, targetTank;
+        private TankManager _tankManager;
+        private GunController[] _guns;
+        private float currentTokenCount;
+
+        [Header("AI Configuration")]
+        public TankAISettings aiSettings;
+
+        private void Awake()
         {
-            Destroy(this);
-            return;
+            _tank = GetComponent<TankController>();
+            if (_tank.tankType == TankId.TankType.PLAYER)
+            {
+                Destroy(this);
+                return;
+            }
+            currentTokenCount = aiSettings.tankEconomy;
+            _tankManager = FindObjectOfType<TankManager>();
+            _stateMachine = new StateMachine();
+
+            var patrolState = new TankPatrolState(this);
+            var pursueState = new TankPursueState(this);
+            var engageState = new TankEngageState(this);
+            var surrenderState = new TankSurrenderState(this);
+
+            void At(IState to, IState from, Func<bool> condition) => _stateMachine.AddTransition(to, from, condition);
+
+            bool PlayerInViewRange() => Vector2.Distance(_tank.transform.position, _tankManager.playerTank.transform.position) < aiSettings.viewRange;
+            bool TargetInEngagementRange() => Vector2.Distance(_tank.transform.position, targetTank.transform.position) < aiSettings.engagementRange;
+
+            At(pursueState, patrolState, PlayerInViewRange);
+            At(engageState, pursueState, TargetInEngagementRange);
+            _stateMachine.SetState(patrolState);
         }
-        currentTokenCount = aiSettings.tankEconomy;
-        _tankManager = FindObjectOfType<TankManager>();
-        _stateMachine = new StateMachine();
-        
-        var patrolState    = new TankPatrolState(this);
-        var pursueState    = new TankPursueState(this);
-        var engageState    = new TankEngageState(this);
-        var surrenderState = new TankSurrenderState(this);
-        
-        void At(IState to, IState from, Func<bool> condition) => _stateMachine.AddTransition(to, from, condition);
-        
-        bool PlayerInViewRange() => Vector2.Distance(_tank.transform.position, _tankManager.playerTank.transform.position) < aiSettings.viewRange;
-        bool TargetInEngagementRange() => Vector2.Distance(_tank.transform.position, targetTank.transform.position) < aiSettings.engagementRange;
 
-        At(pursueState, patrolState, PlayerInViewRange);
-        At(engageState, pursueState, TargetInEngagementRange);
-        _stateMachine.SetState(patrolState);
-    }
+        public void SetTarget(TankController tank)
+        {
+            targetTank = tank;
+        }
 
-    public void SetTarget(TankController tank)
-    {
-        targetTank = tank;
-    }
-    
-    public TankController GetTarget()
-    {
-        return targetTank;
-    }
+        public TankController GetTarget()
+        {
+            return targetTank;
+        }
 
-    private void Update()
-    {
-        _stateMachine.FrameUpdate();
-        var tanks = Physics2D.OverlapCircleAll(transform.position, aiSettings.viewRange, 1 << LayerMask.NameToLayer("Treads"));
-    }
-    
-    private void FixedUpdate()
-    {
-        _stateMachine.PhysicsUpdate();
+        private void Update()
+        {
+            _stateMachine.FrameUpdate();
+            var tanks = Physics2D.OverlapCircleAll(transform.position, aiSettings.viewRange, 1 << LayerMask.NameToLayer("Treads"));
+        }
+
+        private void FixedUpdate()
+        {
+            _stateMachine.PhysicsUpdate();
+        }
     }
 }
