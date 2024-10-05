@@ -29,10 +29,10 @@ public class EngineController : TankInteractable
     public float maxChargeTime;
     private float minChargeTime = 0f;
     public float chargeTimer = 0;
-    private float targetChargeOffset = 0.25f;
+    private float targetChargeOffset = 0.2f;
     public float targetCharge;
-    private float minTargetCharge = 1.5f;
-    private float maxTargetCharge = 3f;
+    private float minTargetCharge = 0;
+    private float maxTargetCharge = 0;
     private bool chargeStarted;
 
     TimingGauge currentGauge;
@@ -61,6 +61,9 @@ public class EngineController : TankInteractable
     {
         explosionTimeOriginal = explosionTime;
         chargeStarted = false;
+
+        maxTargetCharge = maxChargeTime - (targetChargeOffset * 2f);
+        minTargetCharge = (targetChargeOffset * 2f);
     }
 
     // Update is called once per frame
@@ -122,9 +125,10 @@ public class EngineController : TankInteractable
         pressure += amount;
         if (enableSounds)
         {
-            if (pressure >= 100)
+            if (pressure > 100)
             {
                 GameManager.Instance.AudioManager.Play("InvalidAlert"); //Can't do that, sir
+                pressure = 100;
             }
             else
             {
@@ -146,6 +150,13 @@ public class EngineController : TankInteractable
     {
         float lowerSpeed = pressureReleaseSpeed * Time.deltaTime;
         float pressureDif = (50f + (pressure * 0.5f)) / 100f; //slows down the closer it gets to 0
+
+        if (!chargeStarted && repairInputHeld)
+        {
+            lowerSpeed *= 10f;
+            if (!GameManager.Instance.AudioManager.IsPlaying("SteamExhaustLoop", this.gameObject)) GameManager.Instance.AudioManager.Play("SteamExhaustLoop", this.gameObject);
+        }
+        else if (GameManager.Instance.AudioManager.IsPlaying("SteamExhaustLoop", this.gameObject)) GameManager.Instance.AudioManager.Stop("SteamExhaustLoop", this.gameObject);
 
         if (pressure > 0)
         {
@@ -172,7 +183,7 @@ public class EngineController : TankInteractable
 
         if (overrideConditions)
             AddPressure(30, false, false);
-        else
+        else if (cooldown <= 0)
             StartCharge();
     }
 

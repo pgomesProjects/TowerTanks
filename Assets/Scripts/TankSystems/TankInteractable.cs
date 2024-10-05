@@ -169,7 +169,7 @@ public class TankInteractable : MonoBehaviour
 
     public virtual void Use(bool overrideConditions = false) //Called from operator when they press Interact
     {
-        Debug.Log("Interact Started");
+        //Debug.Log("Interact Started");
     }
 
     public virtual void CancelUse() //Called from operator when they release Interact
