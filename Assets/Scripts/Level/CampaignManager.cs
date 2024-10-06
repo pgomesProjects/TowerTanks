@@ -4,84 +4,88 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class CampaignManager : MonoBehaviour
+namespace TowerTanks.Scripts
 {
-    public static CampaignManager Instance;
-
-    [SerializeField, Tooltip("The level event data that dictates how the level must be run.")] private LevelEvents currentLevelEvent;
-
-    internal string PlayerTankName { get; private set; }
-    internal int CurrentRound { get; private set; }
-    internal bool HasCampaignStarted { get; private set; }
-
-    public static Action OnCampaignStarted;
-
-    private void Awake()
+    public class CampaignManager : MonoBehaviour
     {
-        if (Instance != null && Instance != this)
+        public static CampaignManager Instance;
+
+        [SerializeField, Tooltip("The level event data that dictates how the level must be run.")] private LevelEvents currentLevelEvent;
+
+        internal string PlayerTankName { get; private set; }
+        internal int CurrentRound { get; private set; }
+        internal bool HasCampaignStarted { get; private set; }
+
+        public static Action OnCampaignStarted;
+
+        private void Awake()
         {
-            Destroy(this);
-            return;
-        }
-
-        Instance = this;
-        HasCampaignStarted = false;
-    }
-
-    private void Start()
-    {
-        if (!HasCampaignStarted && (GAMESCENE)SceneManager.GetActiveScene().buildIndex == GAMESCENE.BUILDING)
-            SetupCampaign();
-    }
-
-    private void OnEnable()
-    {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    private void OnDisable()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-
-    public void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
-    {
-        //If the game has reached the title screen, destroy self since we don't need this anymore
-        if ((GAMESCENE)scene.buildIndex == GAMESCENE.TITLE)
-            Destroy(gameObject);
-        else
-        {
-            if (!HasCampaignStarted && (GAMESCENE)SceneManager.GetActiveScene().buildIndex == GAMESCENE.BUILDING)
-                SetupCampaign();
-            else
+            if (Instance != null && Instance != this)
             {
-                CurrentRound++;
-                StackManager.main?.GenerateExistingStack();
+                Destroy(this);
+                return;
             }
+
+            Instance = this;
+            HasCampaignStarted = false;
         }
+
+        private void OnEnable()
+        {
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+
+        private void OnDisable()
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+
+        public void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
+        {
+
+            switch ((GAMESCENE)scene.buildIndex)
+            {
+                case GAMESCENE.BUILDING:
+                    if (HasCampaignStarted)
+                    {
+                        CurrentRound++;
+                    }
+                    break;
+            }
+
+            if((GAMESCENE)scene.buildIndex != GAMESCENE.TITLE)
+                StackManager.main?.GenerateExistingStack();
+        }
+
+        /// <summary>
+        /// Sets up the campaign manager to have the information for the current campaign being run.
+        /// </summary>
+        public void SetupCampaign()
+        {
+            Debug.Log("Setting Up Campaign...");
+            CurrentRound = 1;
+
+            StackManager.ClearStack();
+            foreach (INTERACTABLE interactable in currentLevelEvent.startingInteractables)
+                StackManager.AddToStack(interactable);
+
+            OnCampaignStarted?.Invoke();
+            HasCampaignStarted = true;
+        }
+
+        public void SetLevelEvent(LevelEvents levelEvent)
+        {
+            currentLevelEvent = levelEvent;
+        }
+
+        public void EndCampaign()
+        {
+            GameManager.Instance.tankDesign = null;
+            StackManager.ClearStack();
+            HasCampaignStarted = false;
+        }
+
+        public void SetPlayerTankName(string playerTankName) => PlayerTankName = playerTankName;
+        public LevelEvents GetCurrentLevelEvent() => currentLevelEvent;
     }
-
-    /// <summary>
-    /// Sets up the campaign manager to have the information for the current campaign being run.
-    /// </summary>
-    public void SetupCampaign()
-    {
-        Debug.Log("Setting Up Campaign...");
-        CurrentRound = 1;
-
-        StackManager.ClearStack();
-        foreach (INTERACTABLE interactable in currentLevelEvent.startingInteractables)
-            StackManager.AddToStack(interactable);
-
-        OnCampaignStarted?.Invoke();
-        HasCampaignStarted = true;
-    }
-
-    public void SetLevelEvent(LevelEvents levelEvent)
-    {
-        currentLevelEvent = levelEvent;
-    }
-
-    public void SetPlayerTankName(string playerTankName) => PlayerTankName = playerTankName;
-    public LevelEvents GetCurrentLevelEvent() => currentLevelEvent;
 }

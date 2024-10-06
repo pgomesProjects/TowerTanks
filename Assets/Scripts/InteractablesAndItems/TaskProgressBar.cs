@@ -2,23 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TaskProgressBar : MonoBehaviour
+public class TaskProgressBar : ProgressBar
 {
-    [SerializeField, Tooltip("The progress bar for the task.")] private ProgressBar taskProgressBar;
-
     private bool isTaskActive;
     private float assignedTaskTime;
     private float elapsedTaskTime;
 
-    private void Awake()
+    protected override void Start()
     {
-        if(taskProgressBar == null)
-        {
-            Debug.LogWarning("No progress bar found!");
-            Destroy(gameObject);
-        }
-        else
-            taskProgressBar.gameObject.SetActive(false);
+        base.Start();
     }
 
     /// <summary>
@@ -30,16 +22,17 @@ public class TaskProgressBar : MonoBehaviour
         this.assignedTaskTime = assignedCooldownTime;
         elapsedTaskTime = 0f;
         isTaskActive = true;
-        taskProgressBar.UpdateProgressValue(0);
-        taskProgressBar.gameObject.SetActive(true);
+        UpdateProgressValue(0);
     }
 
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
+
         if (isTaskActive)
         {
             elapsedTaskTime += Time.deltaTime;
-            taskProgressBar.UpdateProgressValue(elapsedTaskTime / assignedTaskTime);
+            UpdateProgressValue(elapsedTaskTime / assignedTaskTime);
 
             //If the cooldown has been reached, end the task
             if (elapsedTaskTime >= assignedTaskTime)
@@ -53,6 +46,6 @@ public class TaskProgressBar : MonoBehaviour
     public void EndTask()
     {
         isTaskActive = false;
-        taskProgressBar.gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 }

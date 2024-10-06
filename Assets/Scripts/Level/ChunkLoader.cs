@@ -6,734 +6,740 @@ using System.IO;
 using UnityEngine.InputSystem;
 using Sirenix.OdinInspector;
 
-public class ChunkLoader : MonoBehaviour
+namespace TowerTanks.Scripts
 {
-    [Header("Objects")]
-    [SerializeField, Tooltip("The parent to keep all ground pieces in when spawned.")] private Transform groundParentTransform;
-    [SerializeField, Tooltip("The chunk that the level starts with.")] private ChunkData startingChunk;
-    
-    public Transform playerTank;
-    public float currentChunk; //which chunk the player is currently on
-    private TankManager tankManager;
-
-    // The object pool for the ground chunks
-    private List<ChunkData> groundPool = new List<ChunkData>();
-
-    [Header("Chunk Pool")]
-    [SerializeField, Tooltip("The chunk prefabs to use for spawning new chunks.")] private ChunkWeight[] chunkPrefabs;
-    [SerializeField, Tooltip("How many chunks to spawn in the level.")] public int poolSize = 50;
-    [SerializeField, Tooltip("How far away from the tank a chunk is allowed to render from.")] public float RENDER_DISTANCE = 100f;
-    private int presetCount = 0;
-
-    // The object pool for obstacles
-    public ObstacleWeight[] obstacles;
-    public float obstacleChance;
-    private string[] obstacleWeights;
-
-    [Header("Procedural Variables")]
-    [SerializeField, Tooltip("When false, the same bias can't happen twice in a row")] public bool biasesCanRepeat;
-    private string[] spawnerWeights;
-    private int currentBias = 0;
-    private bool biasJustEnded = false;
-    private float chunkCounter = 0f;
-    private float previousY = 0f;
-    private GameObject previousChunk = null;
-
-    //Input
-    private PlayerInput playerInputComponent;
-    InputActionMap inputMap;
-
-    [PropertySpace]
-    [BoxGroup("Level Builder")]
-    [SerializeField, Tooltip("Allows the use of debug controls to create a custom level during runtime. Enables a helper Canvas UI. Disables procedural level spawning.")]
-    private bool enableLevelBuilder;
-    private bool alt = false;
-    public GameObject levelBuilderUI;
-
-    private void Awake()
+    public class ChunkLoader : MonoBehaviour
     {
-        playerInputComponent = GetComponent<PlayerInput>();
-        if (playerInputComponent != null) LinkPlayerInput(playerInputComponent);
-        tankManager = GameObject.Find("TankManager")?.GetComponent<TankManager>();
-       
-        // Create and initialize the object pool
-        if (!enableLevelBuilder)
+        [Header("Objects")]
+        [SerializeField, Tooltip("The parent to keep all ground pieces in when spawned.")] private Transform groundParentTransform;
+        [SerializeField, Tooltip("The chunk that the level starts with.")] private ChunkData startingChunk;
+
+        public Transform playerTank;
+        public float currentChunk; //which chunk the player is currently on
+        private TankManager tankManager;
+
+        // The object pool for the ground chunks
+        private List<ChunkData> groundPool = new List<ChunkData>();
+
+        [Header("Chunk Pool")]
+        [SerializeField, Tooltip("The chunk prefabs to use for spawning new chunks.")] private ChunkWeight[] chunkPrefabs;
+        [SerializeField, Tooltip("How many chunks to spawn in the level.")] public int poolSize = 50;
+        [SerializeField, Tooltip("How far away from the tank a chunk is allowed to render from.")] public float RENDER_DISTANCE = 100f;
+        private int presetCount = 0;
+
+        // The object pool for obstacles
+        public ObstacleWeight[] obstacles;
+        public float obstacleChance;
+        private string[] obstacleWeights;
+
+        [Header("Procedural Variables")]
+        [SerializeField, Tooltip("When false, the same bias can't happen twice in a row")] public bool biasesCanRepeat;
+        private string[] spawnerWeights;
+        private int currentBias = 0;
+        private bool biasJustEnded = false;
+        private float chunkCounter = 0f;
+        private float previousY = 0f;
+        private GameObject previousChunk = null;
+
+        //Input
+        private PlayerInput playerInputComponent;
+        InputActionMap inputMap;
+
+        [PropertySpace]
+        [BoxGroup("Level Builder")]
+        [SerializeField, Tooltip("Allows the use of debug controls to create a custom level during runtime. Enables a helper Canvas UI. Disables procedural level spawning.")]
+        private bool enableLevelBuilder;
+        private bool alt = false;
+        public GameObject levelBuilderUI;
+
+        private void Awake()
         {
-            SetupSpawner(); //determine spawner weights
-            InitializeChunks(1); //Spawn the level randomly
-            if (levelBuilderUI != null) levelBuilderUI.SetActive(false);
-        }
-        else
-        {
-            InitializeStarterChunk();
-        }
-    }
+            playerInputComponent = GetComponent<PlayerInput>();
+            if (playerInputComponent != null) LinkPlayerInput(playerInputComponent);
+            tankManager = GameObject.Find("TankManager")?.GetComponent<TankManager>();
 
-    private void OnEnable()
-    {
-        inputMap.actionTriggered += OnPlayerInput;
-    }
-
-    private void OnDisable()
-    {
-        inputMap.actionTriggered -= OnPlayerInput;
-    }
-
-    private void SetupSpawner()
-    {
-        //Chunks
-        int count = 0;
-        int length = 0;
-        foreach (ChunkWeight weight in chunkPrefabs) //Get weights from every available chunk in the spawner
-        {
-            length += weight.weight;
-            if (weight.isPreset) presetCount += weight.weight;
-        }
-
-        spawnerWeights = new string[length]; //sets up total weight values
-
-        foreach (ChunkWeight weight in chunkPrefabs) //assigns weights to spawner array
-        {
-            if (weight.weight > 0)
+            // Create and initialize the object pool
+            if (!enableLevelBuilder)
             {
-                for (int i = 0; i < weight.weight; i++)
-                {
-                    spawnerWeights[count] = weight.chunkPrefab.name;
-                    count++;
-                }
-            }
-        }
-
-        //Obstacles
-        count = 0;
-        length = 0;
-        foreach (ObstacleWeight weight in obstacles)
-        {
-            length += weight.weight;
-        }
-
-        obstacleWeights = new string[length]; //sets up total weight values
-
-        foreach (ObstacleWeight weight in obstacles)
-        {
-            for (int i = 0; i < weight.weight; i++)
-            {
-                obstacleWeights[count] = weight.obstacle.name;
-                count++;
-            }
-        }
-    }
-
-    private void InitializeStarterChunk()
-    {
-        //Initialize starting chunk
-        startingChunk.InitializeChunk(Vector3.zero);
-        groundPool.Add(startingChunk);
-    }
-    /// <summary>
-    /// Creates an object pool of chunks, starting with the starting chunk, and then places them. If directions is 1, chunks will only spawn to the right.
-    /// </summary>
-    private void InitializeChunks(int directions)
-    {
-        InitializeStarterChunk();
-
-        float direction = -1f;
-        if (directions == 1) direction = 1f;
-        chunkCounter = 0f;
-        previousY = 0f;
-
-        //Creates each chunk in the world
-        for (int i = 1; i < poolSize; i++)
-        {
-            if (directions == 1) chunkCounter++; //if directions = 1, spawn only to the right
-
-            if (directions == 2) //if going in both directions, alternate between left and right when spawning
-            {
-                direction = -direction;
-
-                if (i % 2 == 1)
-                    chunkCounter++;
-            }
-
-            ChunkData chunkData = null;
-
-            bool presetCheck = CheckForPreset();
-
-            if (presetCheck)
-            {
-                chunkData = InstantiatePreset(true, new Vector3(ChunkData.CHUNK_WIDTH * chunkCounter * direction, previousY, 0f));
+                SetupSpawner(); //determine spawner weights
+                InitializeChunks(1); //Spawn the level randomly
+                if (levelBuilderUI != null) levelBuilderUI.SetActive(false);
             }
             else
             {
-                chunkData = InstantiateChunk(new Vector3(ChunkData.CHUNK_WIDTH * chunkCounter * direction, previousY, 0f));
-                groundPool.Add(chunkData);
-                chunkData.chunkNumber = chunkCounter;
-            }
-
-            if (chunkData.yOffset != 0 && chunkData != null) previousY += chunkData.yOffset; //Offsets Y position for next chunk to follow
-
-            //Biases
-            if (currentBias > 0) //spawn additional chunks if there's a bias in place
-            {
-                for (int b = 0; b < currentBias; b++)
-                {
-                    if (previousChunk.GetComponent<ChunkData>() != null) //it's a normal chunk
-                    {
-                        chunkCounter++;
-                        chunkData = InstantiateChunk(new Vector3(ChunkData.CHUNK_WIDTH * chunkCounter * direction, previousY, 0f), previousChunk);
-                        groundPool.Add(chunkData);
-                        chunkData.chunkNumber = chunkCounter;
-                    }
-                    else
-                    {
-                        chunkCounter++;
-                        chunkData = InstantiatePreset(false, new Vector3(ChunkData.CHUNK_WIDTH * chunkCounter * direction, previousY, 0f), previousChunk);
-                    }
-                    if (chunkData.yOffset != 0) previousY += chunkData.yOffset;
-                }
-                biasJustEnded = true;
-                currentBias = 0;
-            }
-
-            //Spawn a flag on the last chunk
-            if (i >= poolSize - 1)
-            {
-                chunkData.SpawnFlag(Color.red);
-            }
-
-            if (i == Mathf.Round(poolSize * 0.5f)) //Spawn a flag at the halfway mark
-            {
-                chunkData.SpawnFlag(Color.blue);
-            }
-        }
-    }
-
-    /// <summary>
-    /// Creates a new chunk based on the spawn position given.
-    /// </summary>
-    /// <param name="spawnPosition">The position for the chunk to spawn at.</param>
-    /// <returns>The data of the newly spawned chunk.</returns>
-    private ChunkData InstantiateChunk(Vector3 spawnPosition, GameObject chunk = null)
-    {
-        if (chunk == null) chunk = DetermineChunkType(); //gets a random chunk
-
-        int _chunkCount = 0;
-        foreach (ChunkWeight weight in chunkPrefabs) //determines if there's more than 1 non-preset chunk available
-        {
-            if (weight.isPreset == false) _chunkCount += 1;
-        }
-
-        if (biasJustEnded && !biasesCanRepeat && _chunkCount > 1) //guarentees the next chunk will be different than the previous
-        {
-            while (chunk == previousChunk)
-            {
-                int _presetCount = 0;
-                foreach(ChunkWeight weight in chunkPrefabs)
-                {
-                    if (weight.isPreset) _presetCount += 1;
-                }
-                int random = Random.Range(0, chunkPrefabs.Length - _presetCount);
-                chunk = chunkPrefabs[random].chunkPrefab;
-            }
-            biasJustEnded = false;
-        }
-        
-        GameObject _newChunkTransform = Instantiate(chunk, spawnPosition, chunk.transform.rotation);
-        ChunkData newChunkTransform = _newChunkTransform.GetComponent<ChunkData>();
-        newChunkTransform.transform.SetParent(groundParentTransform);
-        newChunkTransform.InitializeChunk(spawnPosition);
-        previousChunk = chunk;
-
-        //Roll for obstacle
-        GameObject randomObstacle = DetermineObstacleType();
-        newChunkTransform.GenerateObstacle(randomObstacle, obstacleChance);
-
-        //Check for bias
-        foreach(ChunkWeight weight in chunkPrefabs)
-        {
-            if (weight.bias > 0 && (weight.chunkPrefab == previousChunk))
-            {
-                if (currentBias == 0)
-                {
-                    currentBias = weight.bias;
-                }
+                InitializeStarterChunk();
             }
         }
 
-        return newChunkTransform;
-    }
-
-    /// <summary>
-    /// Determines what type of chunk to spawn next based on Spawner Variables & biases.
-    /// </summary>
-    private GameObject DetermineChunkType()
-    {
-        int random = Random.Range(0, spawnerWeights.Length - presetCount);
-        GameObject chunkToSpawn = null;
-
-        foreach(ChunkWeight weight in chunkPrefabs)
+        private void OnEnable()
         {
-            if (weight.chunkPrefab.name == spawnerWeights[random])
-            {
-                chunkToSpawn = weight.chunkPrefab;
-            }
+            inputMap.actionTriggered += OnPlayerInput;
         }
-        return chunkToSpawn;
-    }
 
-    /// <summary>
-    /// Updates the chunks by loading or unloading them based on the render distance.
-    /// </summary>
-    private void UpdateChunks()
-    {
-        foreach (ChunkData chunkData in groundPool)
+        private void OnDisable()
         {
-            Vector3 playerTransform = new Vector3(playerTank.position.x, 0, 0);
-            Vector3 chunkTransform = new Vector3(chunkData.transform.position.x, 0, 0);
-            float chunkDistance = Vector3.Distance(playerTransform, chunkTransform);
-
-            //Check if it's close enough to consider it the current chunk
-            if (chunkDistance <= 3f) currentChunk = chunkData.chunkNumber;
-
-            //If the chunk is within the render distance of any tank, load it. If not, unload it.
-            foreach(TankId tank in tankManager.tanks)
-            {
-                if (tank.gameObject != null)
-                {
-                    Vector3 tankTransform = new Vector3(tank.gameObject.transform.Find("TreadSystem").position.x, 0, 0);
-                    chunkDistance = Vector3.Distance(tankTransform, chunkTransform);
-                    if (chunkDistance <= RENDER_DISTANCE)
-                    {
-                        chunkData.LoadChunk();
-                        break;
-                    }
-                    else
-                    {
-                        chunkData.UnloadChunk();
-                    }
-                }
-            }
+            inputMap.actionTriggered -= OnPlayerInput;
         }
-    }
 
-    private GameObject DetermineObstacleType()
-    {
-        int random = Random.Range(0, obstacleWeights.Length);
-        GameObject obstacle = null;
-
-        foreach (ObstacleWeight weight in obstacles)
+        private void SetupSpawner()
         {
-            if (weight.obstacle.name == obstacleWeights[random])
+            //Chunks
+            int count = 0;
+            int length = 0;
+            foreach (ChunkWeight weight in chunkPrefabs) //Get weights from every available chunk in the spawner
             {
-                obstacle = weight.obstacle;
+                length += weight.weight;
+                if (weight.isPreset) presetCount += weight.weight;
             }
-        }
-        return obstacle;
-    }
 
-    #region Presets
-    private bool CheckForPreset()
-    {
-        int random = Random.Range(0, spawnerWeights.Length);
-        string choice = spawnerWeights[random];
-        foreach(ChunkWeight weight in chunkPrefabs)
-        {
-            if (weight.chunkPrefab.name == choice)
+            spawnerWeights = new string[length]; //sets up total weight values
+
+            foreach (ChunkWeight weight in chunkPrefabs) //assigns weights to spawner array
             {
-                if (weight.isPreset)
-                {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    private ChunkData InstantiatePreset(bool randomized, Vector3 spawnPosition, GameObject preset = null)
-    {
-        ChunkData lastChunk = null; //chunkdata to return so that the spawner knows where to spawn the next chunk
-
-        if (randomized) //Chooses a random preset of the possible presets in the spawner
-        {
-            int count = 0; 
-            foreach (ChunkWeight weight in chunkPrefabs) //determine local array size
-            {
-                if (weight.weight > 0 && weight.isPreset) count += weight.weight;
-            }
-            GameObject[] presets = new GameObject[count];
-
-            count = 0;
-            foreach (ChunkWeight weight in chunkPrefabs) //setup local array weights
-            {
-                if (weight.weight > 0 && weight.isPreset)
+                if (weight.weight > 0)
                 {
                     for (int i = 0; i < weight.weight; i++)
                     {
-                        presets[count] = weight.chunkPrefab;
+                        spawnerWeights[count] = weight.chunkPrefab.name;
                         count++;
                     }
                 }
             }
 
-            int random = Random.Range(0, presets.Length); //Roll for a random preset from the array
-            preset = presets[random];
-        }
-
-        int _presetCount = 0;
-        foreach (ChunkWeight weight in chunkPrefabs)
-        {
-            if (weight.isPreset && weight.weight > 0) _presetCount += 1;
-        }
-
-        if (biasJustEnded && !biasesCanRepeat && _presetCount > 1) //guarentees the next chunk will be different than the previous
-        {
-            while (preset == previousChunk)
+            //Obstacles
+            count = 0;
+            length = 0;
+            foreach (ObstacleWeight weight in obstacles)
             {
-                int random = Random.Range(chunkPrefabs.Length - _presetCount, chunkPrefabs.Length);
-                preset = chunkPrefabs[random].chunkPrefab;
+                length += weight.weight;
             }
-            biasJustEnded = false;
-        }
 
-        GameObject _preset = Instantiate(preset, spawnPosition, preset.transform.rotation); //spawn the preset
-        _preset.transform.SetParent(groundParentTransform);
-        previousChunk = preset;
-        
-        foreach (Transform child in _preset.transform) //initialize all the child chunks in the preset
-        {
-            if (child.name == "Chunk")
+            obstacleWeights = new string[length]; //sets up total weight values
+
+            foreach (ObstacleWeight weight in obstacles)
             {
-                ChunkData chunkData = child.GetComponent<ChunkData>();
-                groundPool.Add(chunkData);
-                chunkData.chunkNumber = chunkCounter;
-                chunkData.InitializeChunk(chunkData.transform.localPosition);
-
-                //Roll for obstacle
-                GameObject randomObstacle = DetermineObstacleType();
-                chunkData.GenerateObstacle(randomObstacle, obstacleChance);
-
-                chunkCounter++;
-
-                lastChunk = chunkData;
-            }
-        }
-        chunkCounter -= 1;
-
-        //Check for bias
-        foreach (ChunkWeight weight in chunkPrefabs)
-        {
-            if (weight.bias > 0 && (weight.chunkPrefab == previousChunk))
-            {
-                if (currentBias == 0)
+                for (int i = 0; i < weight.weight; i++)
                 {
-                    currentBias = weight.bias;
+                    obstacleWeights[count] = weight.obstacle.name;
+                    count++;
                 }
             }
         }
 
-        return lastChunk;
-    }
-    #endregion
-
-    private void Update()
-    {
-        if (playerTank != null)
-            UpdateChunks();
-    }
-
-    private void OnDrawGizmos()
-    {
-        //Gizmos.color = Color.green;
-        //Gizmos.DrawWireSphere(playerTank.position, RENDER_DISTANCE);
-    }
-
-    #region LevelBuilder
-    [BoxGroup("Level Builder")]
-    [HorizontalGroup("Level Builder/Buttons")]
-    [VerticalGroup("Level Builder/Buttons/Column 1")]
-    [Button("Toggle"), Tooltip("Toggles the level builder & associated UI")] public void ToggleLevelBuilder() 
-    {
-        if (enableLevelBuilder) enableLevelBuilder = false;
-        else enableLevelBuilder = true;
-        levelBuilderUI.SetActive(enableLevelBuilder);
-    }
-
-    [BoxGroup("Level Builder")]
-    [HorizontalGroup("Level Builder/Buttons")]
-    [VerticalGroup("Level Builder/Buttons/Column 2")]
-    [Button("Save"), Tooltip("Saves the current level as a new layout")]
-    public void SaveLevel()
-    {
-        LevelLayout layout = new LevelLayout(); //Setup new layout
-
-        int levelSize = 0;
-        foreach (Transform chunk in groundParentTransform) //Establish the size of the layout array of the new asset
+        private void InitializeStarterChunk()
         {
-            levelSize++;
+            //Initialize starting chunk
+            startingChunk.InitializeChunk(Vector3.zero);
+            groundPool.Add(startingChunk);
         }
-        layout.chunks = new string[levelSize];
-
-        int counter = 0;
-        foreach (Transform chunk in groundParentTransform) //Assign chunks to the new layout array
+        /// <summary>
+        /// Creates an object pool of chunks, starting with the starting chunk, and then places them. If directions is 1, chunks will only spawn to the right.
+        /// </summary>
+        private void InitializeChunks(int directions)
         {
-            string chunkName = chunk.name;
-            chunkName = chunkName.Replace("(Clone)", "");
-            layout.chunks[counter] = chunkName;
-            counter++;
-        }
+            InitializeStarterChunk();
 
-        string json = JsonUtility.ToJson(layout, true);
+            float direction = -1f;
+            if (directions == 1) direction = 1f;
+            chunkCounter = 0f;
+            previousY = 0f;
 
-        if (File.Exists("Assets/Resources/LevelLayouts/LevelLayoutFile.json")) { Debug.LogError("File exists. Overwriting Existing File."); }
-        File.WriteAllText("Assets/Resources/LevelLayouts/LevelLayoutFile.json", json);
-        AssetDatabase.Refresh();
-    }
-
-    [BoxGroup("Level Builder")]
-    [HorizontalGroup("Level Builder/Buttons")]
-    [VerticalGroup("Level Builder/Buttons/Column 2")]
-    [Button("Load"), Tooltip("Loads a level from the currently selected layout. If layout is null, loads a random layout.")]
-    public void LoadLevel()
-    {
-        string json = selectedLayout.text;
-        if (json != null)
-        {
-            LevelLayout layout = JsonUtility.FromJson<LevelLayout>(json);
-            //Debug.Log("" + layout.chunks[0] + ", " + layout.chunks[1] + "...");
-            InitializeChunksFromLayout(layout);
-        }
-    }
-
-    [Tooltip("Level layout to load")]
-    public TextAsset selectedLayout;
-
-    public void InitializeChunksFromLayout(LevelLayout layout)
-    {
-        float direction = 1f;
-        chunkCounter = 0f;
-        previousY = 0f;
-
-        int _poolSize = 0;
-        foreach(string chunk in layout.chunks) //Determine level size
-        {
-            foreach (ChunkWeight weight in chunkPrefabs) //presets add multiple chunks
+            //Creates each chunk in the world
+            for (int i = 1; i < poolSize; i++)
             {
-                if (weight.chunkPrefab.name == chunk)
+                if (directions == 1) chunkCounter++; //if directions = 1, spawn only to the right
+
+                if (directions == 2) //if going in both directions, alternate between left and right when spawning
+                {
+                    direction = -direction;
+
+                    if (i % 2 == 1)
+                        chunkCounter++;
+                }
+
+                ChunkData chunkData = null;
+
+                bool presetCheck = CheckForPreset();
+
+                if (presetCheck)
+                {
+                    chunkData = InstantiatePreset(true, new Vector3(ChunkData.CHUNK_WIDTH * chunkCounter * direction, previousY, 0f));
+                }
+                else
+                {
+                    chunkData = InstantiateChunk(new Vector3(ChunkData.CHUNK_WIDTH * chunkCounter * direction, previousY, 0f));
+                    groundPool.Add(chunkData);
+                    chunkData.chunkNumber = chunkCounter;
+                }
+
+                if (chunkData.yOffset != 0 && chunkData != null) previousY += chunkData.yOffset; //Offsets Y position for next chunk to follow
+
+                //Biases
+                if (currentBias > 0) //spawn additional chunks if there's a bias in place
+                {
+                    for (int b = 0; b < currentBias; b++)
+                    {
+                        if (previousChunk.GetComponent<ChunkData>() != null) //it's a normal chunk
+                        {
+                            chunkCounter++;
+                            chunkData = InstantiateChunk(new Vector3(ChunkData.CHUNK_WIDTH * chunkCounter * direction, previousY, 0f), previousChunk);
+                            groundPool.Add(chunkData);
+                            chunkData.chunkNumber = chunkCounter;
+                        }
+                        else
+                        {
+                            chunkCounter++;
+                            chunkData = InstantiatePreset(false, new Vector3(ChunkData.CHUNK_WIDTH * chunkCounter * direction, previousY, 0f), previousChunk);
+                        }
+                        if (chunkData.yOffset != 0) previousY += chunkData.yOffset;
+                    }
+                    biasJustEnded = true;
+                    currentBias = 0;
+                }
+
+                //Spawn a flag on the last chunk
+                if (i >= poolSize - 1)
+                {
+                    chunkData.SpawnFlag(Color.red);
+                }
+
+                if (i == Mathf.Round(poolSize * 0.5f)) //Spawn a flag at the halfway mark
+                {
+                    chunkData.SpawnFlag(Color.blue);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Creates a new chunk based on the spawn position given.
+        /// </summary>
+        /// <param name="spawnPosition">The position for the chunk to spawn at.</param>
+        /// <returns>The data of the newly spawned chunk.</returns>
+        private ChunkData InstantiateChunk(Vector3 spawnPosition, GameObject chunk = null)
+        {
+            if (chunk == null) chunk = DetermineChunkType(); //gets a random chunk
+
+            int _chunkCount = 0;
+            foreach (ChunkWeight weight in chunkPrefabs) //determines if there's more than 1 non-preset chunk available
+            {
+                if (weight.isPreset == false) _chunkCount += 1;
+            }
+
+            if (biasJustEnded && !biasesCanRepeat && _chunkCount > 1) //guarentees the next chunk will be different than the previous
+            {
+                while (chunk == previousChunk)
+                {
+                    int _presetCount = 0;
+                    foreach (ChunkWeight weight in chunkPrefabs)
+                    {
+                        if (weight.isPreset) _presetCount += 1;
+                    }
+                    int random = Random.Range(0, chunkPrefabs.Length - _presetCount);
+                    chunk = chunkPrefabs[random].chunkPrefab;
+                }
+                biasJustEnded = false;
+            }
+
+            GameObject _newChunkTransform = Instantiate(chunk, spawnPosition, chunk.transform.rotation);
+            ChunkData newChunkTransform = _newChunkTransform.GetComponent<ChunkData>();
+            newChunkTransform.transform.SetParent(groundParentTransform);
+            newChunkTransform.InitializeChunk(spawnPosition);
+            previousChunk = chunk;
+
+            //Roll for obstacle
+            GameObject randomObstacle = DetermineObstacleType();
+            newChunkTransform.GenerateObstacle(randomObstacle, obstacleChance);
+
+            //Check for bias
+            foreach (ChunkWeight weight in chunkPrefabs)
+            {
+                if (weight.bias > 0 && (weight.chunkPrefab == previousChunk))
+                {
+                    if (currentBias == 0)
+                    {
+                        currentBias = weight.bias;
+                    }
+                }
+            }
+
+            return newChunkTransform;
+        }
+
+        /// <summary>
+        /// Determines what type of chunk to spawn next based on Spawner Variables & biases.
+        /// </summary>
+        private GameObject DetermineChunkType()
+        {
+            int random = Random.Range(0, spawnerWeights.Length - presetCount);
+            GameObject chunkToSpawn = null;
+
+            foreach (ChunkWeight weight in chunkPrefabs)
+            {
+                if (weight.chunkPrefab.name == spawnerWeights[random])
+                {
+                    chunkToSpawn = weight.chunkPrefab;
+                }
+            }
+            return chunkToSpawn;
+        }
+
+        /// <summary>
+        /// Updates the chunks by loading or unloading them based on the render distance.
+        /// </summary>
+        private void UpdateChunks()
+        {
+            foreach (ChunkData chunkData in groundPool)
+            {
+                Vector3 playerTransform = new Vector3(playerTank.position.x, 0, 0);
+                Vector3 chunkTransform = new Vector3(chunkData.transform.position.x, 0, 0);
+                float chunkDistance = Vector3.Distance(playerTransform, chunkTransform);
+
+                //Check if it's close enough to consider it the current chunk
+                if (chunkDistance <= 3f) currentChunk = chunkData.chunkNumber;
+
+                //If the chunk is within the render distance of any tank, load it. If not, unload it.
+                foreach (TankId tank in tankManager.tanks)
+                {
+                    if (tank.gameObject != null)
+                    {
+                        Vector3 tankTransform = new Vector3(tank.gameObject.transform.Find("TreadSystem").position.x, 0, 0);
+                        chunkDistance = Vector3.Distance(tankTransform, chunkTransform);
+                        if (chunkDistance <= RENDER_DISTANCE)
+                        {
+                            chunkData.LoadChunk();
+                            break;
+                        }
+                        else
+                        {
+                            chunkData.UnloadChunk();
+                        }
+                    }
+                }
+            }
+        }
+
+        private GameObject DetermineObstacleType()
+        {
+            int random = Random.Range(0, obstacleWeights.Length);
+            GameObject obstacle = null;
+
+            foreach (ObstacleWeight weight in obstacles)
+            {
+                if (weight.obstacle.name == obstacleWeights[random])
+                {
+                    obstacle = weight.obstacle;
+                }
+            }
+            return obstacle;
+        }
+
+        #region Presets
+        private bool CheckForPreset()
+        {
+            int random = Random.Range(0, spawnerWeights.Length);
+            string choice = spawnerWeights[random];
+            foreach (ChunkWeight weight in chunkPrefabs)
+            {
+                if (weight.chunkPrefab.name == choice)
                 {
                     if (weight.isPreset)
                     {
-                        foreach(Transform child in weight.chunkPrefab.transform)
-                        {
-                            _poolSize++;
-                        }
-                        _poolSize -= 1;
+                        return true;
                     }
                 }
             }
-            _poolSize++;
+            return false;
         }
 
-        //Creates each chunk in the world
-        foreach (string chunk in layout.chunks)
+        private ChunkData InstantiatePreset(bool randomized, Vector3 spawnPosition, GameObject preset = null)
         {
-            chunkCounter++;
-            ChunkData chunkData;
-            GameObject chunkToSpawn = null;
-            bool spawnPreset = false;
-            foreach(ChunkWeight weight in chunkPrefabs) //check to see if the chunk from the layout is in the current prefab palette
+            ChunkData lastChunk = null; //chunkdata to return so that the spawner knows where to spawn the next chunk
+
+            if (randomized) //Chooses a random preset of the possible presets in the spawner
             {
-                if (weight.chunkPrefab.name == chunk)
+                int count = 0;
+                foreach (ChunkWeight weight in chunkPrefabs) //determine local array size
                 {
-                    chunkToSpawn = weight.chunkPrefab;
-                    if (weight.isPreset) spawnPreset = true;
+                    if (weight.weight > 0 && weight.isPreset) count += weight.weight;
+                }
+                GameObject[] presets = new GameObject[count];
+
+                count = 0;
+                foreach (ChunkWeight weight in chunkPrefabs) //setup local array weights
+                {
+                    if (weight.weight > 0 && weight.isPreset)
+                    {
+                        for (int i = 0; i < weight.weight; i++)
+                        {
+                            presets[count] = weight.chunkPrefab;
+                            count++;
+                        }
+                    }
+                }
+
+                int random = Random.Range(0, presets.Length); //Roll for a random preset from the array
+                preset = presets[random];
+            }
+
+            int _presetCount = 0;
+            foreach (ChunkWeight weight in chunkPrefabs)
+            {
+                if (weight.isPreset && weight.weight > 0) _presetCount += 1;
+            }
+
+            if (biasJustEnded && !biasesCanRepeat && _presetCount > 1) //guarentees the next chunk will be different than the previous
+            {
+                while (preset == previousChunk)
+                {
+                    int random = Random.Range(chunkPrefabs.Length - _presetCount, chunkPrefabs.Length);
+                    preset = chunkPrefabs[random].chunkPrefab;
+                }
+                biasJustEnded = false;
+            }
+
+            GameObject _preset = Instantiate(preset, spawnPosition, preset.transform.rotation); //spawn the preset
+            _preset.transform.SetParent(groundParentTransform);
+            previousChunk = preset;
+
+            foreach (Transform child in _preset.transform) //initialize all the child chunks in the preset
+            {
+                if (child.name == "Chunk")
+                {
+                    ChunkData chunkData = child.GetComponent<ChunkData>();
+                    groundPool.Add(chunkData);
+                    chunkData.chunkNumber = chunkCounter;
+                    chunkData.InitializeChunk(chunkData.transform.localPosition);
+
+                    //Roll for obstacle
+                    GameObject randomObstacle = DetermineObstacleType();
+                    chunkData.GenerateObstacle(randomObstacle, obstacleChance);
+
+                    chunkCounter++;
+
+                    lastChunk = chunkData;
+                }
+            }
+            chunkCounter -= 1;
+
+            //Check for bias
+            foreach (ChunkWeight weight in chunkPrefabs)
+            {
+                if (weight.bias > 0 && (weight.chunkPrefab == previousChunk))
+                {
+                    if (currentBias == 0)
+                    {
+                        currentBias = weight.bias;
+                    }
                 }
             }
 
-            if (spawnPreset)
+            return lastChunk;
+        }
+        #endregion
+
+        private void Update()
+        {
+            if (playerTank != null)
+                UpdateChunks();
+        }
+
+        private void OnDrawGizmos()
+        {
+            //Gizmos.color = Color.green;
+            //Gizmos.DrawWireSphere(playerTank.position, RENDER_DISTANCE);
+        }
+
+        #region LevelBuilder
+        [BoxGroup("Level Builder")]
+        [HorizontalGroup("Level Builder/Buttons")]
+        [VerticalGroup("Level Builder/Buttons/Column 1")]
+        [Button("Toggle"), Tooltip("Toggles the level builder & associated UI")]
+        public void ToggleLevelBuilder()
+        {
+            if (enableLevelBuilder) enableLevelBuilder = false;
+            else enableLevelBuilder = true;
+            levelBuilderUI.SetActive(enableLevelBuilder);
+        }
+
+        [BoxGroup("Level Builder")]
+        [HorizontalGroup("Level Builder/Buttons")]
+        [VerticalGroup("Level Builder/Buttons/Column 2")]
+        [Button("Save"), Tooltip("Saves the current level as a new layout")]
+        public void SaveLevel()
+        {
+            LevelLayout layout = new LevelLayout(); //Setup new layout
+
+            int levelSize = 0;
+            foreach (Transform chunk in groundParentTransform) //Establish the size of the layout array of the new asset
             {
-                chunkData = InstantiatePreset(false, new Vector3(ChunkData.CHUNK_WIDTH * chunkCounter * direction, previousY, 0f), chunkToSpawn);
+                levelSize++;
             }
-            else
+            layout.chunks = new string[levelSize];
+
+            int counter = 0;
+            foreach (Transform chunk in groundParentTransform) //Assign chunks to the new layout array
             {
-                chunkData = InstantiateChunk(new Vector3(ChunkData.CHUNK_WIDTH * chunkCounter * direction, previousY, 0f), chunkToSpawn);
-                groundPool.Add(chunkData);
-                chunkData.chunkNumber = chunkCounter;
+                string chunkName = chunk.name;
+                chunkName = chunkName.Replace("(Clone)", "");
+                layout.chunks[counter] = chunkName;
+                counter++;
             }
 
-            if (chunkData.yOffset != 0 && chunkData != null) previousY += chunkData.yOffset; //Offsets Y position for next chunk to follow
+            string json = JsonUtility.ToJson(layout, true);
 
-            //Spawn a flag on the last chunk
-            if (chunkCounter == _poolSize)
-            {
-                chunkData.SpawnFlag(Color.red);
-            }
+            if (File.Exists("Assets/Resources/LevelLayouts/LevelLayoutFile.json")) { Debug.LogError("File exists. Overwriting Existing File."); }
+            File.WriteAllText("Assets/Resources/LevelLayouts/LevelLayoutFile.json", json);
+#if UNITY_EDITOR
+            AssetDatabase.Refresh();
+#endif
+        }
 
-            if (chunkCounter == Mathf.Round(_poolSize * 0.5f)) //Spawn a flag at the halfway mark
+        [BoxGroup("Level Builder")]
+        [HorizontalGroup("Level Builder/Buttons")]
+        [VerticalGroup("Level Builder/Buttons/Column 2")]
+        [Button("Load"), Tooltip("Loads a level from the currently selected layout. If layout is null, loads a random layout.")]
+        public void LoadLevel()
+        {
+            string json = selectedLayout.text;
+            if (json != null)
             {
-                chunkData.SpawnFlag(Color.blue);
+                LevelLayout layout = JsonUtility.FromJson<LevelLayout>(json);
+                //Debug.Log("" + layout.chunks[0] + ", " + layout.chunks[1] + "...");
+                InitializeChunksFromLayout(layout);
             }
         }
-    }
 
-    public void SpawnChunk(InputAction.CallbackContext ctx, int chunkID)
-    {
-        if (ctx.started)
+        [Tooltip("Level layout to load")]
+        public TextAsset selectedLayout;
+
+        public void InitializeChunksFromLayout(LevelLayout layout)
         {
-            int direction = 1;
-            chunkCounter++;
+            float direction = 1f;
+            chunkCounter = 0f;
+            previousY = 0f;
 
-            GameObject chunk = chunkPrefabs[chunkID].chunkPrefab;
-            if (chunk != null && alt && chunkID != 0)
+            int _poolSize = 0;
+            foreach (string chunk in layout.chunks) //Determine level size
             {
-                if (chunkID == 1) chunk = chunkPrefabs[2].chunkPrefab;
-                if (chunkID == 3) chunk = chunkPrefabs[4].chunkPrefab;
+                foreach (ChunkWeight weight in chunkPrefabs) //presets add multiple chunks
+                {
+                    if (weight.chunkPrefab.name == chunk)
+                    {
+                        if (weight.isPreset)
+                        {
+                            foreach (Transform child in weight.chunkPrefab.transform)
+                            {
+                                _poolSize++;
+                            }
+                            _poolSize -= 1;
+                        }
+                    }
+                }
+                _poolSize++;
             }
 
-            if (chunk != null)
-            {
-                ChunkData chunkData = InstantiateChunk(new Vector3(ChunkData.CHUNK_WIDTH * chunkCounter * direction, previousY, 0f), chunk);
-                groundPool.Add(chunkData);
-                chunkData.chunkNumber = chunkCounter;
-
-                if (chunkData.yOffset != 0) previousY += chunkData.yOffset; //Offsets Y position for next chunk to follow
-
-                //Updates the UI's position
-                levelBuilderUI.transform.position = chunkData.transform.position;
-                Vector3 offsetPos = new Vector3(0, chunkData.yOffset, 0);
-                levelBuilderUI.transform.position += offsetPos;
-            }
-        }
-    }
-
-    public void SpawnPreset(InputAction.CallbackContext ctx, int presetID)
-    {
-        if (ctx.started)
-        {
-            ChunkData lastChunk = null;
-            GameObject preset = null;
-            int direction = 1;
-
-            if (presetID < chunkPrefabs.Length)
-            {
-                preset = chunkPrefabs[presetID].chunkPrefab;
-            }
-
-            if (preset != null)
+            //Creates each chunk in the world
+            foreach (string chunk in layout.chunks)
             {
                 chunkCounter++;
-                GameObject _preset = Instantiate(preset, new Vector3(ChunkData.CHUNK_WIDTH * chunkCounter * direction, previousY, 0f), preset.transform.rotation); //spawn the preset
-                _preset.transform.SetParent(groundParentTransform);
-                previousChunk = preset;
-
-                foreach (Transform child in _preset.transform) //initialize all the child chunks in the preset
+                ChunkData chunkData;
+                GameObject chunkToSpawn = null;
+                bool spawnPreset = false;
+                foreach (ChunkWeight weight in chunkPrefabs) //check to see if the chunk from the layout is in the current prefab palette
                 {
-                    if (child.name == "Chunk")
+                    if (weight.chunkPrefab.name == chunk)
                     {
-                        ChunkData chunkData = child.GetComponent<ChunkData>();
-                        groundPool.Add(chunkData);
-                        chunkData.chunkNumber = chunkCounter;
-                        chunkData.InitializeChunk(chunkData.transform.localPosition);
-
-                        chunkCounter++;
-
-                        lastChunk = chunkData;
+                        chunkToSpawn = weight.chunkPrefab;
+                        if (weight.isPreset) spawnPreset = true;
                     }
                 }
-                chunkCounter -= 1;
-                if (lastChunk.yOffset != 0) previousY += lastChunk.yOffset;
 
-                //Updates the UI's position
-                levelBuilderUI.transform.position = lastChunk.transform.position;
-                Vector3 offsetPos = new Vector3(0, lastChunk.yOffset, 0);
-                levelBuilderUI.transform.position += offsetPos;
+                if (spawnPreset)
+                {
+                    chunkData = InstantiatePreset(false, new Vector3(ChunkData.CHUNK_WIDTH * chunkCounter * direction, previousY, 0f), chunkToSpawn);
+                }
+                else
+                {
+                    chunkData = InstantiateChunk(new Vector3(ChunkData.CHUNK_WIDTH * chunkCounter * direction, previousY, 0f), chunkToSpawn);
+                    groundPool.Add(chunkData);
+                    chunkData.chunkNumber = chunkCounter;
+                }
+
+                if (chunkData.yOffset != 0 && chunkData != null) previousY += chunkData.yOffset; //Offsets Y position for next chunk to follow
+
+                //Spawn a flag on the last chunk
+                if (chunkCounter == _poolSize)
+                {
+                    chunkData.SpawnFlag(Color.red);
+                }
+
+                if (chunkCounter == Mathf.Round(_poolSize * 0.5f)) //Spawn a flag at the halfway mark
+                {
+                    chunkData.SpawnFlag(Color.blue);
+                }
             }
         }
-    }
 
-    public void SwapType(InputAction.CallbackContext ctx)
-    {
-        if (ctx.started)
+        public void SpawnChunk(InputAction.CallbackContext ctx, int chunkID)
         {
-            if (alt) alt = false;
-            else if (!alt) alt = true;
-
-            foreach (Transform child in levelBuilderUI.transform)
+            if (ctx.started)
             {
-                Transform _child = child.Find("Visual");
-                if (_child != null) _child.Rotate(0, 180, 0);
+                int direction = 1;
+                chunkCounter++;
+
+                GameObject chunk = chunkPrefabs[chunkID].chunkPrefab;
+                if (chunk != null && alt && chunkID != 0)
+                {
+                    if (chunkID == 1) chunk = chunkPrefabs[2].chunkPrefab;
+                    if (chunkID == 3) chunk = chunkPrefabs[4].chunkPrefab;
+                }
+
+                if (chunk != null)
+                {
+                    ChunkData chunkData = InstantiateChunk(new Vector3(ChunkData.CHUNK_WIDTH * chunkCounter * direction, previousY, 0f), chunk);
+                    groundPool.Add(chunkData);
+                    chunkData.chunkNumber = chunkCounter;
+
+                    if (chunkData.yOffset != 0) previousY += chunkData.yOffset; //Offsets Y position for next chunk to follow
+
+                    //Updates the UI's position
+                    levelBuilderUI.transform.position = chunkData.transform.position;
+                    Vector3 offsetPos = new Vector3(0, chunkData.yOffset, 0);
+                    levelBuilderUI.transform.position += offsetPos;
+                }
             }
         }
-    }
 
-    public void DeletePreviousChunk(InputAction.CallbackContext ctx)
-    {
-        if (ctx.started)
+        public void SpawnPreset(InputAction.CallbackContext ctx, int presetID)
         {
-            int index = groundPool.Count - 1;
-            GameObject chunk = groundPool[index].gameObject;
-
-            if (index > 0)
+            if (ctx.started)
             {
-                chunkCounter -= 1;
-                groundPool.RemoveAt(index);
-                Destroy(chunk);
+                ChunkData lastChunk = null;
+                GameObject preset = null;
+                int direction = 1;
 
-                ChunkData chunkData = groundPool[index - 1];
-                previousY = chunkData.transform.position.y;
+                if (presetID < chunkPrefabs.Length)
+                {
+                    preset = chunkPrefabs[presetID].chunkPrefab;
+                }
 
-                //Updates the Ui's position
-                levelBuilderUI.transform.position = chunkData.transform.position;
-                Vector3 offsetPos = new Vector3(chunkData.transform.position.x, previousY + chunkData.yOffset, 0);
-                levelBuilderUI.transform.position = offsetPos;
-                previousY = offsetPos.y;
+                if (preset != null)
+                {
+                    chunkCounter++;
+                    GameObject _preset = Instantiate(preset, new Vector3(ChunkData.CHUNK_WIDTH * chunkCounter * direction, previousY, 0f), preset.transform.rotation); //spawn the preset
+                    _preset.transform.SetParent(groundParentTransform);
+                    previousChunk = preset;
+
+                    foreach (Transform child in _preset.transform) //initialize all the child chunks in the preset
+                    {
+                        if (child.name == "Chunk")
+                        {
+                            ChunkData chunkData = child.GetComponent<ChunkData>();
+                            groundPool.Add(chunkData);
+                            chunkData.chunkNumber = chunkCounter;
+                            chunkData.InitializeChunk(chunkData.transform.localPosition);
+
+                            chunkCounter++;
+
+                            lastChunk = chunkData;
+                        }
+                    }
+                    chunkCounter -= 1;
+                    if (lastChunk.yOffset != 0) previousY += lastChunk.yOffset;
+
+                    //Updates the UI's position
+                    levelBuilderUI.transform.position = lastChunk.transform.position;
+                    Vector3 offsetPos = new Vector3(0, lastChunk.yOffset, 0);
+                    levelBuilderUI.transform.position += offsetPos;
+                }
             }
         }
-    }
 
-    public ChunkData GetChunkAtPosition(Vector3 position)
-    {
-        ChunkData chunk = null;
-        foreach(ChunkData _chunk in groundPool)
+        public void SwapType(InputAction.CallbackContext ctx)
         {
-            if (_chunk.transform.position.x <= position.x && _chunk.transform.position.x + ChunkData.CHUNK_WIDTH > position.x)
+            if (ctx.started)
             {
-                chunk = _chunk;
+                if (alt) alt = false;
+                else if (!alt) alt = true;
+
+                foreach (Transform child in levelBuilderUI.transform)
+                {
+                    Transform _child = child.Find("Visual");
+                    if (_child != null) _child.Rotate(0, 180, 0);
+                }
             }
         }
 
-        return chunk;
-    }
-    #endregion
-
-    #region Input
-    public void LinkPlayerInput(PlayerInput newInput)
-    {
-        playerInputComponent = newInput;
-
-        //Gets the player input action map so that events can be subscribed to it
-        inputMap = playerInputComponent.actions.FindActionMap("Debug");
-    }
-
-    private void OnPlayerInput(InputAction.CallbackContext ctx)
-    {
-        //Gets the name of the action and calls the appropriate events
-        switch (ctx.action.name)
+        public void DeletePreviousChunk(InputAction.CallbackContext ctx)
         {
-            case "1": SpawnChunk(ctx, 0); break;
-            case "2": SpawnChunk(ctx, 1); break;
-            case "3": SpawnChunk(ctx, 2); break;
-            case "4": SpawnChunk(ctx, 3); break;
-            case "5": SpawnChunk(ctx, 4); break;
-            case "6": SpawnPreset(ctx, 5); break;
-            case "7": SpawnPreset(ctx, 6); break;
-            case "8": SpawnPreset(ctx, 7); break;
-            case "9": SpawnPreset(ctx, 8); break;
-            case "0": SpawnChunk(ctx, 9); break;
-            case "Cancel": DeletePreviousChunk(ctx); break;
-            case "Cycle": SwapType(ctx); break;
+            if (ctx.started)
+            {
+                int index = groundPool.Count - 1;
+                GameObject chunk = groundPool[index].gameObject;
+
+                if (index > 0)
+                {
+                    chunkCounter -= 1;
+                    groundPool.RemoveAt(index);
+                    Destroy(chunk);
+
+                    ChunkData chunkData = groundPool[index - 1];
+                    previousY = chunkData.transform.position.y;
+
+                    //Updates the Ui's position
+                    levelBuilderUI.transform.position = chunkData.transform.position;
+                    Vector3 offsetPos = new Vector3(chunkData.transform.position.x, previousY + chunkData.yOffset, 0);
+                    levelBuilderUI.transform.position = offsetPos;
+                    previousY = offsetPos.y;
+                }
+            }
         }
+
+        public ChunkData GetChunkAtPosition(Vector3 position)
+        {
+            ChunkData chunk = null;
+            foreach (ChunkData _chunk in groundPool)
+            {
+                if (_chunk.transform.position.x <= position.x && _chunk.transform.position.x + ChunkData.CHUNK_WIDTH > position.x)
+                {
+                    chunk = _chunk;
+                }
+            }
+
+            return chunk;
+        }
+        #endregion
+
+        #region Input
+        public void LinkPlayerInput(PlayerInput newInput)
+        {
+            playerInputComponent = newInput;
+
+            //Gets the player input action map so that events can be subscribed to it
+            inputMap = playerInputComponent.actions.FindActionMap("Debug");
+        }
+
+        private void OnPlayerInput(InputAction.CallbackContext ctx)
+        {
+            //Gets the name of the action and calls the appropriate events
+            switch (ctx.action.name)
+            {
+                case "1": SpawnChunk(ctx, 0); break;
+                case "2": SpawnChunk(ctx, 1); break;
+                case "3": SpawnChunk(ctx, 2); break;
+                case "4": SpawnChunk(ctx, 3); break;
+                case "5": SpawnChunk(ctx, 4); break;
+                case "6": SpawnPreset(ctx, 5); break;
+                case "7": SpawnPreset(ctx, 6); break;
+                case "8": SpawnPreset(ctx, 7); break;
+                case "9": SpawnPreset(ctx, 8); break;
+                case "0": SpawnChunk(ctx, 9); break;
+                case "Cancel": DeletePreviousChunk(ctx); break;
+                case "Cycle": SwapType(ctx); break;
+            }
+        }
+        #endregion
     }
-    #endregion
 }
 
 

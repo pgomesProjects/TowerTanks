@@ -38,6 +38,8 @@ TagManager:
   - CharacterVisual
   - Ground
   - EnergyShield
+  - GameUI
+  - PlayerName
   layers:
   - Default
   - TransparentFX

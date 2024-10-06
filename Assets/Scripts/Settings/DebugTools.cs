@@ -2,66 +2,69 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DebugTools : MonoBehaviour
+namespace TowerTanks.Scripts.DebugTools
 {
-    [SerializeField, Tooltip("The main debug display.")] private CanvasGroup debugCanvasGroup;
-    [SerializeField, Tooltip("The command menu to spawn.")] private CheatInputField commandMenuPrefab;
-    private PlayerControlSystem playerControlSystem;
-    private CheatInputField currentDebugMenu;
-
-    internal string logHistory;
-
-    private void Awake()
+    public class DebugTools : MonoBehaviour
     {
-        playerControlSystem = new PlayerControlSystem();
-        playerControlSystem.Debug.ToggleGamepadCursors.performed += _ => OnToggleGamepadCursors();
-        playerControlSystem.Debug.ToggleCommandMenu.performed += _ => ToggleCommandMenu();
-        playerControlSystem.Debug.Screenshot.performed += _ => GameManager.Instance.SystemEffects.TakeScreenshot();
-    }
+        [SerializeField, Tooltip("The main debug display.")] private CanvasGroup debugCanvasGroup;
+        [SerializeField, Tooltip("The command menu to spawn.")] private CheatInputField commandMenuPrefab;
+        private PlayerControlSystem playerControlSystem;
+        private CheatInputField currentDebugMenu;
 
-    private void OnEnable()
-    {
-        playerControlSystem?.Enable();
-    }
+        internal string logHistory;
 
-    private void OnDisable()
-    {
-        playerControlSystem?.Disable();
-    }
-
-    public void ToggleDebugMode(bool isDebugMode)
-    {
-        GameSettings.debugMode = isDebugMode;
-
-        if (isDebugMode)
+        private void Awake()
         {
-            GameManager.Instance.AudioManager.Play("DebugBeep");
+            playerControlSystem = new PlayerControlSystem();
+            playerControlSystem.Debug.ToggleGamepadCursors.performed += _ => OnToggleGamepadCursors();
+            playerControlSystem.Debug.ToggleCommandMenu.performed += _ => ToggleCommandMenu();
+            playerControlSystem.Debug.Screenshot.performed += _ => GameManager.Instance.SystemEffects.TakeScreenshot();
         }
 
-        debugCanvasGroup.alpha = isDebugMode ? 1 : 0;
-    }
-
-    private void OnToggleGamepadCursors()
-    {
-        if (!GameSettings.debugMode)
-            return;
-
-        GameManager.Instance.SetGamepadCursorsActive(!GameSettings.showGamepadCursors);
-    }
-
-    private void ToggleCommandMenu()
-    {
-        if(currentDebugMenu == null)
+        private void OnEnable()
         {
-            currentDebugMenu = Instantiate(commandMenuPrefab, GameObject.FindGameObjectWithTag("CursorCanvas").transform);
-            currentDebugMenu.transform.SetAsLastSibling();
-        }
-        else
-        {
-            currentDebugMenu.gameObject.SetActive(currentDebugMenu.gameObject.activeInHierarchy ? false: true);
+            playerControlSystem?.Enable();
         }
 
-        if(currentDebugMenu.gameObject.activeInHierarchy)
-            currentDebugMenu.ForceActivateInput();
+        private void OnDisable()
+        {
+            playerControlSystem?.Disable();
+        }
+
+        public void ToggleDebugMode(bool isDebugMode)
+        {
+            GameSettings.debugMode = isDebugMode;
+
+            if (isDebugMode)
+            {
+                GameManager.Instance.AudioManager.Play("DebugBeep");
+            }
+
+            debugCanvasGroup.alpha = isDebugMode ? 1 : 0;
+        }
+
+        private void OnToggleGamepadCursors()
+        {
+            if (!GameSettings.debugMode)
+                return;
+
+            GameManager.Instance.SetGamepadCursorsActive(!GameSettings.showGamepadCursors);
+        }
+
+        private void ToggleCommandMenu()
+        {
+            if (currentDebugMenu == null)
+            {
+                currentDebugMenu = Instantiate(commandMenuPrefab, GameObject.FindGameObjectWithTag("CursorCanvas").transform);
+                currentDebugMenu.transform.SetAsLastSibling();
+            }
+            else
+            {
+                currentDebugMenu.gameObject.SetActive(currentDebugMenu.gameObject.activeInHierarchy ? false : true);
+            }
+
+            if (currentDebugMenu.gameObject.activeInHierarchy)
+                currentDebugMenu.ForceActivateInput();
+        }
     }
 }

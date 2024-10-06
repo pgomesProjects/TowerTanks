@@ -2,38 +2,41 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ParticleCollisionEvent : MonoBehaviour
+namespace TowerTanks.Scripts
 {
-    public void OnParticleCollision(GameObject other)
+    public class ParticleCollisionEvent : MonoBehaviour
     {
-        Cell cell = other.GetComponentInParent<Cell>();
-
-        if (cell != null)
+        public void OnParticleCollision(GameObject other)
         {
-            //Debug.Log("Particle hit!");
+            Cell cell = other.GetComponentInParent<Cell>();
 
-            if (cell.isOnFire)
+            if (cell != null)
             {
-                float random = Random.Range(0, 100f);
-                if (random <= 3f)
+                //Debug.Log("Particle hit!");
+
+                if (cell.isOnFire)
                 {
-                    cell.Extinguish();
+                    float random = Random.Range(0, 100f);
+                    if (random <= 3f)
+                    {
+                        cell.Extinguish();
+                    }
                 }
             }
-        }
 
-        Character character = other.GetComponent<Character>();
+            Character character = other.GetComponent<Character>();
 
-        if (character != null)
-        {
-            //Debug.Log("Particle hit!");
-
-            if (character.isOnFire)
+            if (character != null)
             {
-                float random = Random.Range(0, 100f);
-                if (random <= 3f)
+                //Debug.Log("Particle hit!");
+
+                if (character.isOnFire)
                 {
-                    character.Extinguish();
+                    float random = Random.Range(0, 100f);
+                    if (random <= 3f)
+                    {
+                        character.Extinguish();
+                    }
                 }
             }
         }

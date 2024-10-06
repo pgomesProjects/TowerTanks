@@ -5,177 +5,180 @@ using UnityEngine.InputSystem;
 using TMPro;
 using UnityEngine.EventSystems;
 
-public class CheatInputField : MonoBehaviour
+namespace TowerTanks.Scripts.DebugTools
 {
-    [SerializeField, Tooltip("The input field for commands.")] private TMP_InputField inputField;
-    [SerializeField, Tooltip("The text area for where the logs are written.")] private TextMeshProUGUI logText;
-
-    private DebugTools debugTools;
-    public enum MessageType { Log, Warning, Error }
-
-    private PlayerControlSystem playerControls;
-
-    private void Awake()
+    public class CheatInputField : MonoBehaviour
     {
-        playerControls = new PlayerControlSystem();
-        playerControls.Debug.SubmitCommand.started += _ => SubmitInputField();
-        debugTools = FindObjectOfType<DebugTools>();
-    }
+        [SerializeField, Tooltip("The input field for commands.")] private TMP_InputField inputField;
+        [SerializeField, Tooltip("The text area for where the logs are written.")] private TextMeshProUGUI logText;
 
-    private void OnEnable()
-    {
-        playerControls?.Enable();
-        GameManager.Instance.MultiplayerManager.EnableDebugInput();
-        logText.text = debugTools.logHistory;
-    }
+        private DebugTools debugTools;
+        public enum MessageType { Log, Warning, Error }
 
-    private void OnDisable()
-    {
-        playerControls?.Disable();
-        inputField.text = string.Empty;
-        GameManager.Instance.MultiplayerManager.DisableDebugInput();
-    }
+        private PlayerControlSystem playerControls;
 
-    public void ClearLog()
-    {
-        logText.text = string.Empty;
-        debugTools.logHistory = string.Empty;
-    }
-
-    public void AddToLog(string message, MessageType messageType = MessageType.Log)
-    {
-        string logMessage = "";
-
-        switch (messageType)
+        private void Awake()
         {
-            case MessageType.Log:
-                logMessage += "<color=white>";
-                break;
-            case MessageType.Warning:
-                logMessage += "<color=yellow>";
-                break;
-            case MessageType.Error:
-                logMessage += "<color=red>";
-                break;
+            playerControls = new PlayerControlSystem();
+            playerControls.Debug.SubmitCommand.started += _ => SubmitInputField();
+            debugTools = FindObjectOfType<DebugTools>();
         }
 
-        logMessage += message + "</color><br>";
-
-        debugTools.logHistory += logMessage;
-        logText.text = logMessage;
-    }
-
-    public void ForceActivateInput()
-    {
-        inputField.Select();
-        inputField.ActivateInputField();
-    }
-
-    private void SubmitInputField()
-    {
-        SubmitCommand(inputField.text);
-        inputField.text = string.Empty;
-        inputField.Select();
-        inputField.ActivateInputField();
-    }
-
-    /// <summary>
-    /// Takes the command given and parses it to any known commands.
-    /// </summary>
-    /// <param name="command">The command given through the input text.</param>
-    public void SubmitCommand(string command)
-    {
-        // Split the command into parts based on spaces
-        string[] commandParts = command.Split(' ');
-
-        string mainCommand = commandParts[0].ToLower();
-
-        switch (mainCommand)
+        private void OnEnable()
         {
-            case "help":
-                CommandExplanation();
-                break;
-            case "clear":
-                ClearLog();
-                break;
-            case "debug":
-                if (commandParts.Length > 1)
-                {
-                    string subCommand = commandParts[1].ToLower();
-                    ToggleDebugMode(subCommand);
-                }
-                else
-                    AddToLog("'debug' command requires additional parameters.", MessageType.Error);
-                break;
-            case "scene":
-                if (commandParts.Length > 1)
-                {
-                    string sceneCommand = commandParts[1].ToLower();
-                    HandleSceneTransition(sceneCommand);
-                }
-                else
-                    AddToLog("'scene' command requires 'combat' or 'build' as parameters.", MessageType.Error);
-                break;
-            default:
-                AddToLog("'" + command + "' is an unknown command.", MessageType.Error);
-                break;
+            playerControls?.Enable();
+            GameManager.Instance.MultiplayerManager.EnableDebugInput();
+            logText.text = debugTools.logHistory;
         }
-    }
 
-    private void HandleSceneTransition(string sceneCommand)
-    {
-        switch (sceneCommand)
+        private void OnDisable()
         {
-            case "combat":
-                if (BuildingManager.Instance != null)
-                    BuildingManager.Instance?.GetReadyUpManager().StartReadySequence();
-                else
-                    GameManager.Instance.LoadScene("HotteScene", LevelTransition.LevelTransitionType.GATE, true, true, false);
-                AddToLog("Transitioning to Combat Scene...", MessageType.Log);
-                break;
-            case "build":
-                if (LevelManager.Instance != null)
-                    LevelManager.Instance?.CompleteMission();
-                else
-                    GameManager.Instance.LoadScene("BuildTankScene", LevelTransition.LevelTransitionType.GATE, true, true, false);
-                AddToLog("Transitioning to Build Scene...", MessageType.Log);
-                break;
-            default:
-                AddToLog("'" + sceneCommand + "' is not a valid scene. Use 'combat' or 'build'.", MessageType.Error);
-                break;
+            playerControls?.Disable();
+            inputField.text = string.Empty;
+            GameManager.Instance.MultiplayerManager.DisableDebugInput();
         }
-    }
 
-    private void ToggleDebugMode(string debugMode)
-    {
-        switch (debugMode)
+        public void ClearLog()
         {
-            case "on":
-                debugTools?.ToggleDebugMode(true);
-                AddToLog("Debug mode enabled.", MessageType.Log);
-                break;
-            case "off":
-                debugTools?.ToggleDebugMode(false);
-                AddToLog("Debug mode disabled.", MessageType.Log);
-                break;
-            default:
-                AddToLog("'" + debugMode + "' is not a valid parameter for 'debug' command.", MessageType.Error);
-                break;
+            logText.text = string.Empty;
+            debugTools.logHistory = string.Empty;
         }
-    }
 
-    /// <summary>
-    /// Provides a list of commands and explanation for the commands.
-    /// </summary>
-    private void CommandExplanation()
-    {
-        string helpMessage = "";
-        helpMessage += "---LIST OF COMMANDS---<br>";
+        public void AddToLog(string message, MessageType messageType = MessageType.Log)
+        {
+            string logMessage = "";
 
-        helpMessage += "help - Provides a list of commands.<br>";
-        helpMessage += "debug [on:off] - Turns debug mode on or off.<br>";
-        helpMessage += "scene [combat:build] - Switches between the combat and build scenes.<br>";
-        helpMessage += "clear - Clears the command log.";
-        AddToLog(helpMessage);
+            switch (messageType)
+            {
+                case MessageType.Log:
+                    logMessage += "<color=white>";
+                    break;
+                case MessageType.Warning:
+                    logMessage += "<color=yellow>";
+                    break;
+                case MessageType.Error:
+                    logMessage += "<color=red>";
+                    break;
+            }
+
+            logMessage += message + "</color><br>";
+
+            debugTools.logHistory += logMessage;
+            logText.text = logMessage;
+        }
+
+        public void ForceActivateInput()
+        {
+            inputField.Select();
+            inputField.ActivateInputField();
+        }
+
+        private void SubmitInputField()
+        {
+            SubmitCommand(inputField.text);
+            inputField.text = string.Empty;
+            inputField.Select();
+            inputField.ActivateInputField();
+        }
+
+        /// <summary>
+        /// Takes the command given and parses it to any known commands.
+        /// </summary>
+        /// <param name="command">The command given through the input text.</param>
+        public void SubmitCommand(string command)
+        {
+            // Split the command into parts based on spaces
+            string[] commandParts = command.Split(' ');
+
+            string mainCommand = commandParts[0].ToLower();
+
+            switch (mainCommand)
+            {
+                case "help":
+                    CommandExplanation();
+                    break;
+                case "clear":
+                    ClearLog();
+                    break;
+                case "debug":
+                    if (commandParts.Length > 1)
+                    {
+                        string subCommand = commandParts[1].ToLower();
+                        ToggleDebugMode(subCommand);
+                    }
+                    else
+                        AddToLog("'debug' command requires additional parameters.", MessageType.Error);
+                    break;
+                case "scene":
+                    if (commandParts.Length > 1)
+                    {
+                        string sceneCommand = commandParts[1].ToLower();
+                        HandleSceneTransition(sceneCommand);
+                    }
+                    else
+                        AddToLog("'scene' command requires 'combat' or 'build' as parameters.", MessageType.Error);
+                    break;
+                default:
+                    AddToLog("'" + command + "' is an unknown command.", MessageType.Error);
+                    break;
+            }
+        }
+
+        private void HandleSceneTransition(string sceneCommand)
+        {
+            switch (sceneCommand)
+            {
+                case "combat":
+                    if (BuildingManager.Instance != null)
+                        BuildingManager.Instance?.GetReadyUpManager().StartReadySequence();
+                    else
+                        GameManager.Instance.LoadScene("HotteScene", LevelTransition.LevelTransitionType.GATE, true, true, false);
+                    AddToLog("Transitioning to Combat Scene...", MessageType.Log);
+                    break;
+                case "build":
+                    if (LevelManager.Instance != null)
+                        LevelManager.Instance?.CompleteMission();
+                    else
+                        GameManager.Instance.LoadScene("BuildTankScene", LevelTransition.LevelTransitionType.GATE, true, true, false);
+                    AddToLog("Transitioning to Build Scene...", MessageType.Log);
+                    break;
+                default:
+                    AddToLog("'" + sceneCommand + "' is not a valid scene. Use 'combat' or 'build'.", MessageType.Error);
+                    break;
+            }
+        }
+
+        private void ToggleDebugMode(string debugMode)
+        {
+            switch (debugMode)
+            {
+                case "on":
+                    debugTools?.ToggleDebugMode(true);
+                    AddToLog("Debug mode enabled.", MessageType.Log);
+                    break;
+                case "off":
+                    debugTools?.ToggleDebugMode(false);
+                    AddToLog("Debug mode disabled.", MessageType.Log);
+                    break;
+                default:
+                    AddToLog("'" + debugMode + "' is not a valid parameter for 'debug' command.", MessageType.Error);
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Provides a list of commands and explanation for the commands.
+        /// </summary>
+        private void CommandExplanation()
+        {
+            string helpMessage = "";
+            helpMessage += "---LIST OF COMMANDS---<br>";
+
+            helpMessage += "help - Provides a list of commands.<br>";
+            helpMessage += "debug [on:off] - Turns debug mode on or off.<br>";
+            helpMessage += "scene [combat:build] - Switches between the combat and build scenes.<br>";
+            helpMessage += "clear - Clears the command log.";
+            AddToLog(helpMessage);
+        }
     }
 }

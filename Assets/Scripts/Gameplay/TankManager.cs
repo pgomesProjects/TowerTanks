@@ -4,67 +4,71 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 using System.Linq;
 
-public class TankManager : SerializedMonoBehaviour
+namespace TowerTanks.Scripts
 {
-    public static TankManager instance;
-    public GameObject tankPrefab;
-    public Transform tankSpawnPoint;
-    internal TankController playerTank;
-
-    [PropertySpace]
-    public List<EnemyTankDesign> enemyTankDesigns = new List<EnemyTankDesign>();
-
-    [PropertySpace]
-    public List<TankId> tanks = new List<TankId>();
-
-    [TabGroup("Runtime Actions")]
-    [Button("Spawn New Tank", ButtonSizes.Small)]
-    public TankController SpawnTank(int tier = 1, bool spawnEnemy = true, bool spawnBuilt = false)
+    public class TankManager : SerializedMonoBehaviour
     {
-        TankId newtank = new TankId();
+        public static TankManager instance;
+        public GameObject tankPrefab;
+        public Transform tankSpawnPoint;
+        internal TankController playerTank;
 
-        if (spawnEnemy)
+        [PropertySpace]
+        public List<EnemyTankDesign> enemyTankDesigns = new List<EnemyTankDesign>();
+
+        [PropertySpace]
+        public List<TankId> tanks = new List<TankId>();
+
+        [TabGroup("Runtime Actions")]
+        [Button("Spawn New Tank", ButtonSizes.Small)]
+        public TankController SpawnTank(int tier = 1, bool spawnEnemy = true, bool spawnBuilt = false)
         {
-            TankNames nameType = Resources.Load<TankNames>("TankNames/PirateNames");
-            newtank.TankName = new TankNameGenerator().GenerateRandomName(nameType);
-            newtank.gameObject = Instantiate(tankPrefab, tankSpawnPoint, false);
-            newtank.gameObject.name = newtank.TankName;
-            newtank.tankType = TankId.TankType.ENEMY;
+            TankId newtank = new TankId();
 
-            //Determine tank design
-            int random = Random.Range(0, 4);
-            newtank.design = enemyTankDesigns[tier - 1].designs[random];
-
-            if (spawnBuilt)
+            if (spawnEnemy)
             {
-                newtank.buildOnStart = true;
+                //TankNames nameType = Resources.Load<TankNames>("TankNames/PirateNames");
+                //newtank.TankName = new TankNameGenerator().GenerateRandomName(nameType);
+                newtank.gameObject = Instantiate(tankPrefab, tankSpawnPoint, false);
+                newtank.tankType = TankId.TankType.ENEMY;
+
+                //Determine tank design
+                int random = Random.Range(0, 4);
+                newtank.design = enemyTankDesigns[tier - 1].designs[random];
+                newtank.TankName = newtank.design.name;
+                newtank.gameObject.name = newtank.TankName;
+
+                if (spawnBuilt)
+                {
+                    newtank.buildOnStart = true;
+                }
+            }
+
+            //Assign Values
+            newtank.tankScript = newtank.gameObject.GetComponent<TankController>();
+            newtank.tankScript.TankName = newtank.TankName;
+            newtank.tankScript.tankType = newtank.tankType;
+            newtank.gameObject.transform.parent = null;
+
+            tanks.Add(newtank);
+            return newtank.tankScript;
+        }
+
+        //UNITY METHODS:
+        private void Awake()
+        {
+            //Initialize:
+            instance = this; //Singleton-ize this script
+            if (tanks.Count > 0)
+            {
+                playerTank = tanks.Where(tank => tank.tankType == TankId.TankType.PLAYER).FirstOrDefault()?.tankScript;
             }
         }
 
-        //Assign Values
-        newtank.tankScript = newtank.gameObject.GetComponent<TankController>();
-        newtank.tankScript.TankName = newtank.TankName;
-        newtank.tankScript.tankType = newtank.tankType;
-        newtank.gameObject.transform.parent = null;
-
-        tanks.Add(newtank);
-        return newtank.tankScript;
-    }
-
-    //UNITY METHODS:
-    private void Awake()
-    {
-        //Initialize:
-        instance = this; //Singleton-ize this script
-        if (tanks.Count > 0)
+        //UTILITY METHODS:
+        public void MoveSpawnPoint(Vector3 newPosition)
         {
-            playerTank = tanks.Where(tank => tank.tankType == TankId.TankType.PLAYER).FirstOrDefault()?.tankScript;
+            tankSpawnPoint.position = newPosition;
         }
-    }
-
-    //UTILITY METHODS:
-    public void MoveSpawnPoint(Vector3 newPosition)
-    {
-        tankSpawnPoint.position = newPosition;
     }
 }

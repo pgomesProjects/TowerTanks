@@ -7,7 +7,7 @@ public class CargoManager : MonoBehaviour
 {
     public List<CargoId> cargoList = new List<CargoId>();
 
-    public string[] cargoWeights;
+    private string[] cargoWeights;
 
     private void Awake()
     {

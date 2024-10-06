@@ -1,12 +1,18 @@
 {
     "name": "TowerTanks.Externals",
-    "rootNamespace": "",
+    "rootNamespace": "TowerTanks.Externals",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
-    "precompiledReferences": [],
+    "precompiledReferences": [
+        "Sirenix.Serialization.dll",
+        "Sirenix.OdinInspector.Editor.dll",
+        "Sirenix.Utilities.dll",
+        "Sirenix.OdinInspector.Attributes.dll",
+        "Sirenix.Utilities.Editor.dll"
+    ],
     "autoReferenced": true,
     "defineConstraints": [],
     "versionDefines": [],

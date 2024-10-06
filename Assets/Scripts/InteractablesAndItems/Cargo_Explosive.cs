@@ -2,100 +2,103 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Cargo_Explosive : Cargo
+namespace TowerTanks.Scripts
 {
-    [Header("Explosive Settings")]
-    public float fuseTimer;
-    public bool isLit;
-
-    private Transform smokeTrail;
-
-    public LayerMask hitboxMask;
-    public float explosionRadius;
-
-    //public bool isExploding = false;
-
-    [Header("Debug")]
-    public bool detonate;
-
-    protected override void Awake()
+    public class Cargo_Explosive : Cargo
     {
-        base.Awake();
+        [Header("Explosive Settings")]
+        public float fuseTimer;
+        public bool isLit;
 
-        smokeTrail = transform.Find("smokeTrail");
-        smokeTrail.gameObject.SetActive(false);
-    }
+        private Transform smokeTrail;
 
-    protected override void Start()
-    {
-        base.Start();
+        public LayerMask hitboxMask;
+        public float explosionRadius;
 
-        float randomOffset = Random.Range(-1f, 3f);
-        fuseTimer += randomOffset;
-    }
+        //public bool isExploding = false;
 
-    protected override void Update()
-    {
-        base.Update();
+        [Header("Debug")]
+        public bool detonate;
 
-        if (isLit)
+        protected override void Awake()
         {
-            if (!smokeTrail.gameObject.activeInHierarchy) smokeTrail.gameObject.SetActive(true);
-            fuseTimer -= Time.deltaTime;
+            base.Awake();
 
-            if (fuseTimer <= 0) Explode();
+            smokeTrail = transform.Find("smokeTrail");
+            smokeTrail.gameObject.SetActive(false);
         }
 
-        if (detonate) { Explode(); }
-
-    }
-
-    public void Explode()
-    {
-        //AOE Damage
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, explosionRadius, hitboxMask);
-        foreach(Collider2D collider in colliders)
+        protected override void Start()
         {
-            Cell cellScript = collider.gameObject.GetComponent<Cell>();
-            if (cellScript != null)
-            {
-                cellScript.Damage(200);
-            }
+            base.Start();
 
-            if (collider.CompareTag("Destructible"))
-            {
-                collider.gameObject.GetComponent<DestructibleObject>().Damage(200);
-            }
-
-            /*if (collider.CompareTag("Cargo"))
-            {
-                if (collider.gameObject.GetComponent<Cargo>().type == CargoType.EXPLOSIVE)
-                {
-                    collider.gameObject.GetComponent<Cargo_Explosive>().isExploding = true;
-                }
-                else
-                {
-                    Destroy(collider.gameObject);
-                }
-            }*/
+            float randomOffset = Random.Range(-1f, 3f);
+            fuseTimer += randomOffset;
         }
 
-        //Other Effects
-        GameManager.Instance.ParticleSpawner.SpawnParticle(4, transform.position, 0.2f);
-        GameManager.Instance.AudioManager.Play("CannonFire", gameObject);
-        GameManager.Instance.AudioManager.Play("MedExplosionSFX", gameObject);
+        protected override void Update()
+        {
+            base.Update();
 
-        Destroy(gameObject);
-    }
+            if (isLit)
+            {
+                if (!smokeTrail.gameObject.activeInHierarchy) smokeTrail.gameObject.SetActive(true);
+                fuseTimer -= Time.deltaTime;
 
-    public void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, explosionRadius);
-    }
+                if (fuseTimer <= 0) Explode();
+            }
 
-    protected override void OnDestroy()
-    {
-        base.OnDestroy();
+            if (detonate) { Explode(); }
+
+        }
+
+        public void Explode()
+        {
+            //AOE Damage
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, explosionRadius, hitboxMask);
+            foreach (Collider2D collider in colliders)
+            {
+                Cell cellScript = collider.gameObject.GetComponent<Cell>();
+                if (cellScript != null)
+                {
+                    cellScript.Damage(200);
+                }
+
+                if (collider.CompareTag("Destructible"))
+                {
+                    collider.gameObject.GetComponent<DestructibleObject>().Damage(200);
+                }
+
+                /*if (collider.CompareTag("Cargo"))
+                {
+                    if (collider.gameObject.GetComponent<Cargo>().type == CargoType.EXPLOSIVE)
+                    {
+                        collider.gameObject.GetComponent<Cargo_Explosive>().isExploding = true;
+                    }
+                    else
+                    {
+                        Destroy(collider.gameObject);
+                    }
+                }*/
+            }
+
+            //Other Effects
+            GameManager.Instance.ParticleSpawner.SpawnParticle(4, transform.position, 0.2f);
+            GameManager.Instance.AudioManager.Play("CannonFire", gameObject);
+            GameManager.Instance.AudioManager.Play("MedExplosionSFX", gameObject);
+
+            Destroy(gameObject);
+        }
+
+        public void OnDrawGizmos()
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, explosionRadius);
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+        }
     }
 }

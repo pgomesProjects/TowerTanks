@@ -8,18 +8,18 @@ using Sirenix.OdinInspector;
 
 public class ProgressBar : MonoBehaviour
 {
-    private enum TextDisplay { Fraction, Percentage }
-    private enum AnimationStatus { Inactive, Delay, Animating }
-    private enum AnimationDirection { Positive, Negative }
+    protected enum TextDisplay { Fraction, Percentage }
+    protected enum AnimationStatus { Inactive, Delay, Animating }
+    protected enum AnimationDirection { Positive, Negative }
 
-    [SerializeField, Tooltip("The fill for the progress bar.")] private Image progressBarFill;
-    [SerializeField, Tooltip("The fill for the progress bar for when the value is updated.")] private Image progressUpdateBarFill;
-    [SerializeField, Tooltip("The text component for the progress bar.")] private TextMeshProUGUI progressBarText;
-    [SerializeField, Tooltip("The type of text to display on the progress bar.")] private TextDisplay textDisplay;
+    [SerializeField, Tooltip("The fill for the progress bar.")] protected Image progressBarFill;
+    [SerializeField, Tooltip("The fill for the progress bar for when the value is updated.")] protected Image progressUpdateBarFill;
+    [SerializeField, Tooltip("The text component for the progress bar.")] protected TextMeshProUGUI progressBarText;
+    [SerializeField, Tooltip("The type of text to display on the progress bar.")] protected TextDisplay textDisplay;
     [Space]
-    [SerializeField, Tooltip("The current value of the progress bar.")] private float currentValue = 50;
-    [SerializeField, Tooltip("The current value of the update progress bar.")] private float updateBarValue = 60;
-    [SerializeField, Tooltip("The maximum value of the progress bar.")] private float maxValue = 100;
+    [SerializeField, Tooltip("The current value of the progress bar.")] protected float currentValue = 50;
+    [SerializeField, Tooltip("The current value of the update progress bar.")] protected float updateBarValue = 60;
+    [SerializeField, Tooltip("The maximum value of the progress bar.")] protected float maxValue = 100;
     [InlineButton("DebugRemoveFromProgressBar", SdfIconType.Dash, "Remove 10")]
     [InlineButton("DebugAddToProgressBar", SdfIconType.Plus, "Add 10")]
     [Space]
@@ -49,7 +49,7 @@ public class ProgressBar : MonoBehaviour
         UpdateProgressValue(currentValue - 10);
     }
 
-    private void Start()
+    protected virtual void Start()
     {
         Init(currentValue, maxValue);
     }
@@ -59,7 +59,7 @@ public class ProgressBar : MonoBehaviour
     /// </summary>
     /// <param name="currentValue">The starting value of the progress bar.</param>
     /// <param name="maxValue">The maximum value of the progress bar.</param>
-    public void Init(float currentValue, float maxValue)
+    protected void Init(float currentValue, float maxValue)
     {
         this.currentValue = currentValue;
         this.maxValue = maxValue;
@@ -70,6 +70,15 @@ public class ProgressBar : MonoBehaviour
 
         UpdateProgressBar(displayValue);
         UpdateProgressUpdateBar(updateBarValue);
+    }
+
+    /// <summary>
+    /// Changes the color of the progress bar.
+    /// </summary>
+    /// <param name="displayColor">The new color of the progress bar.</param>
+    public void ChangeColor(Color displayColor)
+    {
+        progressBarFill.GetComponentInChildren<Image>().color = displayColor;
     }
 
     /// <summary>
@@ -130,7 +139,22 @@ public class ProgressBar : MonoBehaviour
         CheckForCompletion();
     }
 
-    private void Update()
+    /// <summary>
+    /// Overrides all animations and immediately updates all values.
+    /// </summary>
+    /// <param name="value">The new value of the progress bar.</param>
+    public void OverrideProgressBar(float value)
+    {
+        displayValue = value;
+        updateBarValue = value;
+        UpdateProgressBar(value);
+        UpdateProgressUpdateBar(value);
+
+        isAnimating = false;
+        animationStatus = AnimationStatus.Inactive;
+    }
+
+    protected virtual void Update()
     {
         if (isAnimating)
         {
@@ -180,7 +204,7 @@ public class ProgressBar : MonoBehaviour
     /// <summary>
     /// Checks to see if the progress bar has reached its maximum value.
     /// </summary>
-    private void CheckForCompletion()
+    protected void CheckForCompletion()
     {
         //If the value has reached its maximum, call any functions that are subscribed to the OnProgressComplete event
         if (currentValue >= maxValue)
@@ -191,7 +215,7 @@ public class ProgressBar : MonoBehaviour
     /// Updates the main progress bar.
     /// </summary>
     /// <param name="value">The value to update the progress bar with.</param>
-    private void UpdateProgressBar(float value)
+    protected void UpdateProgressBar(float value)
     {
         //Gets the fill amount (a value between 0 and 1)
         float fillAmount = Mathf.Clamp01(value / maxValue);
@@ -217,5 +241,5 @@ public class ProgressBar : MonoBehaviour
     /// Updates the update progress bar (the progress bar behind the main one).
     /// </summary>
     /// <param name="value">The value to update the progress bar with.</param>
-    private void UpdateProgressUpdateBar(float value) => progressUpdateBarFill.fillAmount = Mathf.Clamp01(value / maxValue);
+    protected void UpdateProgressUpdateBar(float value) => progressUpdateBarFill.fillAmount = Mathf.Clamp01(value / maxValue);
 }

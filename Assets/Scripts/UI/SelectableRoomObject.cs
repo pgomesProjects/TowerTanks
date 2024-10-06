@@ -8,86 +8,89 @@ using System;
 using UnityEngine.Events;
 using TMPro;
 
-public class SelectableRoomObject : GamepadSelectable
+namespace TowerTanks.Scripts
 {
-    [SerializeField] private Image selectableImage;
-    [SerializeField] private Color hoverColor;
-    [SerializeField] private Color selectColor;
-    [Space]
-    [SerializeField] private Image roomSprite;
-    [SerializeField] private TextMeshProUGUI roomAltText;
-
-    private Color defaultColor;
-    private int roomID;
-
-    internal UnityEvent<PlayerInput, int> OnSelected = new UnityEvent<PlayerInput, int>();
-
-    private void Awake()
+    public class SelectableRoomObject : GamepadSelectable
     {
-        defaultColor = selectableImage.color;
-        isSelected = false;
-    }
+        [SerializeField] private Image selectableImage;
+        [SerializeField] private Color hoverColor;
+        [SerializeField] private Color selectColor;
+        [Space]
+        [SerializeField] private Image roomSprite;
+        [SerializeField] private TextMeshProUGUI roomAltText;
 
-    private int hoveringCursorCount = 0;
+        private Color defaultColor;
+        private int roomID;
 
-    public override void OnCursorEnter(PlayerInput playerInput)
-    {
-        if (!isSelected)
+        internal UnityEvent<PlayerInput, int> OnSelected = new UnityEvent<PlayerInput, int>();
+
+        private void Awake()
         {
-            // Cursor entered the object, increase the count
-            hoveringCursorCount++;
-            selectableImage.color = hoverColor;
+            defaultColor = selectableImage.color;
+            isSelected = false;
         }
-    }
 
-    public override void OnCursorExit(PlayerInput playerInput)
-    {
-        if (!isSelected)
+        private int hoveringCursorCount = 0;
+
+        public override void OnCursorEnter(PlayerInput playerInput)
         {
-            // Cursor exited the object, decrease the count
-            hoveringCursorCount--;
-
-            // Check if no cursors are hovering, then return to default state
-            if (hoveringCursorCount <= 0)
+            if (!isSelected)
             {
-                hoveringCursorCount = 0;
-                selectableImage.color = defaultColor;
+                // Cursor entered the object, increase the count
+                hoveringCursorCount++;
+                selectableImage.color = hoverColor;
             }
         }
-    }
 
-    public void SetRoomID(int newID)
-    {
-        roomID = newID;
-    }
-
-    public override void OnSelectObject(PlayerInput playerInput)
-    {
-        if (!isSelected)
+        public override void OnCursorExit(PlayerInput playerInput)
         {
-            selectableImage.color = selectColor;
-            isSelected = true;
-            OnSelected?.Invoke(playerInput, roomID);
+            if (!isSelected)
+            {
+                // Cursor exited the object, decrease the count
+                hoveringCursorCount--;
+
+                // Check if no cursors are hovering, then return to default state
+                if (hoveringCursorCount <= 0)
+                {
+                    hoveringCursorCount = 0;
+                    selectableImage.color = defaultColor;
+                }
+            }
         }
-    }
 
-    public void DeselectRoom()
-    {
-        selectableImage.color = defaultColor;
-        isSelected = false;
-    }
-
-    public void DisplayRoomInfo(RoomInfo roomInfo)
-    {
-        if(roomInfo.sprite == null)
+        public void SetRoomID(int newID)
         {
-            roomAltText.text = roomInfo.name;
-            roomSprite.color = new Color(0, 0, 0, 0);
+            roomID = newID;
         }
-        else
+
+        public override void OnSelectObject(PlayerInput playerInput)
         {
-            roomAltText.text = "";
-            roomSprite.sprite = roomInfo.sprite;
+            if (!isSelected)
+            {
+                selectableImage.color = selectColor;
+                isSelected = true;
+                OnSelected?.Invoke(playerInput, roomID);
+            }
+        }
+
+        public void DeselectRoom()
+        {
+            selectableImage.color = defaultColor;
+            isSelected = false;
+        }
+
+        public void DisplayRoomInfo(RoomInfo roomInfo)
+        {
+            if (roomInfo.sprite == null)
+            {
+                roomAltText.text = roomInfo.name;
+                roomSprite.color = new Color(0, 0, 0, 0);
+            }
+            else
+            {
+                roomAltText.text = "";
+                roomSprite.sprite = roomInfo.sprite;
+            }
         }
     }
 }

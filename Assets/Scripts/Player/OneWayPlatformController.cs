@@ -2,47 +2,50 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OneWayPlatformController : MonoBehaviour
+namespace TowerTanks.Scripts.Deprecated
 {
-    private GameObject currentOneWayPlatform;
-
-    [SerializeField] private CapsuleCollider2D playerCollider;
-
-    // Update is called once per frame
-    void Update()
+    public class OneWayPlatformController : MonoBehaviour
     {
-        if (GetComponent<PlayerController>().IsPlayerClimbing())
+        private GameObject currentOneWayPlatform;
+
+        [SerializeField] private CapsuleCollider2D playerCollider;
+
+        // Update is called once per frame
+        void Update()
         {
-            //If the player is climbing and they are collidiing with a one way platform, disable platform collision
-            if(currentOneWayPlatform != null)
+            if (GetComponent<PlayerController>().IsPlayerClimbing())
             {
-                StartCoroutine(DisableCollision());
+                //If the player is climbing and they are collidiing with a one way platform, disable platform collision
+                if (currentOneWayPlatform != null)
+                {
+                    StartCoroutine(DisableCollision());
+                }
             }
         }
-    }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.collider.CompareTag("OneWayPlatform"))
+        private void OnCollisionEnter2D(Collision2D collision)
         {
-            currentOneWayPlatform = collision.collider.gameObject;
+            if (collision.collider.CompareTag("OneWayPlatform"))
+            {
+                currentOneWayPlatform = collision.collider.gameObject;
+            }
         }
-    }
 
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.collider.CompareTag("OneWayPlatform"))
+        private void OnCollisionExit2D(Collision2D collision)
         {
-            currentOneWayPlatform = null;
+            if (collision.collider.CompareTag("OneWayPlatform"))
+            {
+                currentOneWayPlatform = null;
+            }
         }
-    }
 
-    private IEnumerator DisableCollision()
-    {
-        BoxCollider2D platformCollider = currentOneWayPlatform.GetComponent<BoxCollider2D>();
+        private IEnumerator DisableCollision()
+        {
+            BoxCollider2D platformCollider = currentOneWayPlatform.GetComponent<BoxCollider2D>();
 
-        Physics2D.IgnoreCollision(playerCollider, platformCollider);
-        yield return new WaitForSeconds(0.5f);
-        Physics2D.IgnoreCollision(playerCollider, platformCollider, false);
+            Physics2D.IgnoreCollision(playerCollider, platformCollider);
+            yield return new WaitForSeconds(0.5f);
+            Physics2D.IgnoreCollision(playerCollider, platformCollider, false);
+        }
     }
 }
