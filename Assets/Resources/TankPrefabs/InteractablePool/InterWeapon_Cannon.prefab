@@ -117,7 +117,7 @@ Transform:
   - {fileID: 917774234307372378}
   - {fileID: 917774234472947446}
   m_Father: {fileID: 917774235144409439}
-  m_RootOrder: 7
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -8.783}
 --- !u!1 &917774233558757866
 GameObject:
@@ -152,7 +152,7 @@ Transform:
   - {fileID: 917774234130947396}
   - {fileID: 917774233676222309}
   m_Father: {fileID: 917774235144409439}
-  m_RootOrder: 9
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -28.506}
 --- !u!1 &917774233614001584
 GameObject:
@@ -352,7 +352,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 917774235144409439}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -49.829}
 --- !u!212 &917774233732080535
 SpriteRenderer:
@@ -436,8 +436,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 680884392771065324}
-  m_Father: {fileID: 917774235144409439}
-  m_RootOrder: 3
+  m_Father: {fileID: 767473783923610581}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &917774233809804082
 SpriteRenderer:
@@ -809,7 +809,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 917774235144409439}
-  m_RootOrder: 10
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -12.682}
 --- !u!212 &917774234275272731
 SpriteRenderer:
@@ -1061,7 +1061,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 917774235144409439}
-  m_RootOrder: 6
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &917774234447773817
 SpriteRenderer:
@@ -1312,8 +1312,8 @@ Transform:
   m_LocalScale: {x: 0.4925305, y: 0.15276214, z: 0.65529}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 917774235144409439}
-  m_RootOrder: 5
+  m_Father: {fileID: 767473783923610581}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &917774234533455455
 SpriteRenderer:
@@ -1400,7 +1400,7 @@ Transform:
   - {fileID: 917774234430189943}
   - {fileID: 917774235006622792}
   m_Father: {fileID: 917774235144409439}
-  m_RootOrder: 8
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -19.581}
 --- !u!1 &917774234748938446
 GameObject:
@@ -1937,15 +1937,14 @@ Transform:
   - {fileID: 917774234504600354}
   - {fileID: 917774233614001591}
   - {fileID: 917774234774518794}
-  - {fileID: 917774233809804083}
   - {fileID: 917774233732080528}
-  - {fileID: 917774234533455448}
   - {fileID: 917774234447773818}
   - {fileID: 917774233510326344}
   - {fileID: 917774234586269852}
   - {fileID: 917774233558757865}
   - {fileID: 917774234275272724}
   - {fileID: 917774235376513722}
+  - {fileID: 767473783923610581}
   m_Father: {fileID: 917774233966636334}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0.007}
@@ -2063,7 +2062,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 917774235144409439}
-  m_RootOrder: 11
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -29.959}
 --- !u!212 &917774235376513721
 SpriteRenderer:
@@ -2274,12 +2273,48 @@ MonoBehaviour:
   - {fileID: 680884392771065324}
   particleScale: 0.1
   trajectoryLine: {fileID: 0}
+  reciprocatingBarrel: {fileID: 767473783923610581}
   gunType: 0
   muzzleVelocity: 60
   recoil: 15
   rotateSpeed: 20
   gimbalRange: 30
   rateOfFire: 2.5
+  reciprocationDistance: 0.45
+  reciprocationTime: 1
+  reciprocationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 5.153429
+      outSlope: 5.153429
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.14778908
+    - serializedVersion: 3
+      time: 0.18355718
+      value: 0.9855258
+      inSlope: -0.9106512
+      outSlope: -0.9106512
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.111497395
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0.009668377
+      outSlope: 0.009668377
+      tangentMode: 0
+      weightedMode: 1
+      inWeight: 0.7476456
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   spread: 0
   fire: 0
   moveGimbal: 0.5
@@ -2426,6 +2461,39 @@ Transform:
   m_Children: []
   m_Father: {fileID: 917774235452588907}
   m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4475026502859269008
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 767473783923610581}
+  m_Layer: 0
+  m_Name: ReciprocatingBarrel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &767473783923610581
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4475026502859269008}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 917774233809804083}
+  - {fileID: 917774234533455448}
+  m_Father: {fileID: 917774235144409439}
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5081428061778493515
 GameObject:

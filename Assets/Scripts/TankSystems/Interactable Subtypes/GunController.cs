@@ -12,6 +12,7 @@ public class GunController : TankInteractable
     [Tooltip("Transforms to spawn particles from when used."), SerializeField]                              private Transform[] particleSpots;
     [Tooltip("Scale particles are multiplied by when used by this weapon"), SerializeField]                 private float particleScale;
     [Tooltip("Line Renderer used for trajectories"), SerializeField]                                        private LineRenderer trajectoryLine;
+    [Tooltip("Moving barrel assembly."), SerializeField]                                                    private Transform reciprocatingBarrel;
 
     //Settings:
     public enum GunType { CANNON, MACHINEGUN, MORTAR };
@@ -23,6 +24,11 @@ public class GunController : TankInteractable
     [Tooltip("Speed at which the cannon barrel rotates"), SerializeField]                 private float rotateSpeed;
     [Tooltip("Max angle (up or down) weapon joint can be rotated to."), SerializeField]   private float gimbalRange;
     [Tooltip("Cooldown in seconds between when the weapon can fire"), SerializeField, Min(0)] private float rateOfFire;
+    [Header("Barrel Reciprocation:")]
+    [SerializeField, Tooltip("How far the barrel reciprocates when firing."), Min(0)]          private float reciprocationDistance;
+    [SerializeField, Tooltip("How long barrel reciprocation phase is."), Min(0)]               private float reciprocationTime;
+    [SerializeField, Tooltip("Curve describing motion of barrel during reciprocation phase.")] private AnimationCurve reciprocationCurve;
+    [Space()]
     private float fireCooldownTimer;
     [Tooltip("Radius of Degrees of the Cone of Fire for this weapon's projectiles"), SerializeField, Min(0)] private float spread;
 
@@ -61,6 +67,8 @@ public class GunController : TankInteractable
     private Vector3 currentRotation = new Vector3(0, 0, 0);
 
     //Runtime Variables:
+    private Vector2 barrelBasePos;
+    private float reciproTimeLeft;
 
     //RUNTIME METHODS:
 
@@ -74,10 +82,23 @@ public class GunController : TankInteractable
         }
 
         gunReloadBar = GetComponent<TaskProgressBar>();
+
+        //Initialize runtime variables:
+        if (reciprocatingBarrel != null) barrelBasePos = reciprocatingBarrel.localPosition;
     }
 
     private void Update()
     {
+        //Barrel reciprocation:
+        if (reciprocatingBarrel != null && reciproTimeLeft > 0)
+        {
+            reciproTimeLeft = Mathf.Max(0, reciproTimeLeft - Time.deltaTime);                                  //Decrement time tracker
+            float interpolant = 1 - (reciprocationTime == 0 ? 0 : reciproTimeLeft / reciprocationTime);        //Use ternary to prevent possible division by zero
+            Vector2 targetPos = barrelBasePos + (Vector2.left * reciprocationDistance);                        //Get farthest position barrel will reciprocate to
+            Vector2 newPos = Vector2.Lerp(barrelBasePos, targetPos, reciprocationCurve.Evaluate(interpolant)); //Get new position by interpolating it between base and target positions and adjusting using animation curve
+            reciprocatingBarrel.localPosition = newPos;                                                        //Apply new position
+        }
+
         //Debug settings:
         if (fire) { fire = false; Fire(true, tank.tankType); }
         
@@ -279,6 +300,7 @@ public class GunController : TankInteractable
             barrel.localEulerAngles = tempRotation;
 
             //Other effects:
+            reciproTimeLeft = reciprocationTime;
             if (gunType == GunType.CANNON)
             {
                 int random = Random.Range(0, 2);
