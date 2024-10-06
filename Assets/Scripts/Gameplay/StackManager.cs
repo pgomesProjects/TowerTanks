@@ -32,14 +32,17 @@ namespace TowerTanks.Scripts
             /// <param name="currentStackIndex">The index for the UI panel in the stack.</param>
             public void GenerateUIPanel(int currentStackIndex)
             {
+                Debug.Log("Generating UI Panel:");
+
                 //Initialize:
                 if (activeStackUI == null) { Debug.LogError("Tried to generate a UI panel while stackUI was not active"); return; }               //Prevent system from generating UI while HUD is inactive
-                RectTransform newPanel = Instantiate(StackManager.main.stackItemUIPrefab, activeStackUI.transform).GetComponent<RectTransform>(); //Generate empty UI panel in stack UI object
+                RectTransform newPanel = Instantiate(StackManager.main.stackItemUIPrefab, stackUIContainer).GetComponent<RectTransform>();  //Generate empty UI panel in stack UI object
                 TankInteractable interactableScript = prefab.GetComponent<TankInteractable>();                                                    //Get script from prefab so data can be parsed from it
 
                 //Set panel properties:
                 newPanel.GetChild(1).GetComponent<Image>().sprite = interactableScript.uiImage;           //Set UI image
                 newPanel.GetChild(2).GetComponent<TextMeshProUGUI>().text = interactableScript.stackName; //Set UI name
+                newPanel.gameObject.name = interactableScript.stackName;                                  //Set UI GameObject name
                 uiPanel = newPanel;                                                                       //Give item a reference to its UI panel
 
                 //Prep animation:
@@ -103,6 +106,7 @@ namespace TowerTanks.Scripts
         [Tooltip("The stack is a list of all non-installed interactables stored in players' collective inventory.")] public static List<StackItem> stack = new List<StackItem>();
         [Tooltip("List of currently-deployed stack items (may be returned to the stack).")] public static List<StackItem> inactiveStack = new List<StackItem>();
         [Tooltip("Reference to active stackUI object (needs to be set by HUD controller).")] public static GameObject activeStackUI;
+        [Tooltip("Reference to active stackUI container (needs to be set by HUD controller).")] public static Transform stackUIContainer;
 
         private static int lastTakenUid = 0; //Last assigned uid (uids are assigned sequentially). All uids are >0. Used to prevent duplicate uids
         /// <summary>
@@ -144,7 +148,7 @@ namespace TowerTanks.Scripts
             //Iterate through entire stack
             for (int i = 0; i < stack.Count; i++)
             {
-                stack[i].GenerateUIPanel(i);
+                DisplayNewUIPanel(stack[i]);
             }
         }
 
@@ -171,12 +175,20 @@ namespace TowerTanks.Scripts
         public static void AddToStack(INTERACTABLE currentInteractable)
         {
             TankInteractable interactable = GameManager.Instance.interactableList[(int)currentInteractable];
+            AddToStack(interactable);
+        }
 
+        /// <summary>
+        /// Adds interactable to the stack so that it can be generated from there (can be with an interactable which has always been added).
+        /// </summary>
+        /// <param name="currentInteractable">Interactable to be added.</param>
+        public static void AddToStack(TankInteractable currentInteractable)
+        {
             //Find/Generate stack item:
             StackItem item = null; //Initialize container to store relevant stack item
-            if (interactable.stackId != 0) //Interactable has previously been a stack item
+            if (currentInteractable.stackId != 0) //Interactable has previously been a stack item
             {
-                foreach (StackItem inactiveItem in inactiveStack) { if (inactiveItem.uid == interactable.stackId) item = inactiveItem; break; } //Find stack item in inactive items list
+                foreach (StackItem inactiveItem in inactiveStack) { if (inactiveItem.uid == currentInteractable.stackId) item = inactiveItem; break; } //Find stack item in inactive items list
                 if (item != null) //Stack item has been found in inactive stack
                 {
                     inactiveStack.Remove(item); //Remove item from inactive stack
@@ -187,19 +199,28 @@ namespace TowerTanks.Scripts
                 //Basic stack item characteristics:
                 item = new StackItem();                                                                                                   //Create new stack item
                 item.uid = GetNewUid();                                                                                                   //Generate a new ID for stack item
-                item.interactableName = interactable.name.Replace("(Clone)", "");                                                         //Get reference to prefab so interactable can be respwaned later
+                item.interactableName = currentInteractable.name.Replace("(Clone)", "");                                                         //Get reference to prefab so interactable can be respwaned later
                 item.prefab = Resources.Load<RoomData>("RoomData").interactableList.FirstOrDefault(x => x.name == item.interactableName); //Get prefab reference so interactable script can be checked for more info
             }
             stack.Add(item); //Add item to bottom of stack
-            print("added item to stack, stack now contains " + stack.Count + " items");
+            print("added " + item.interactableName + " to stack, stack now contains " + stack.Count + " items");
 
             //UI Update:
             if (activeStackUI != null) //UI system is active
             {
-                if (item.uiPanel == null) item.GenerateUIPanel(stack.Count - 1); //Generate a ui panel for item if it doesn't have one
-                else item.ShowUIPanel();                          //Simply make item visible otherwise
-                item.uiPanel.SetAsFirstSibling();                 //Have this panel render under others
+                DisplayNewUIPanel(item);
             }
+        }
+
+        /// <summary>
+        /// Displays a new UI panel in the stack.
+        /// </summary>
+        /// <param name="item">The new stack item to show.</param>
+        private static void DisplayNewUIPanel(StackItem item)
+        {
+            if (item.uiPanel == null) item.GenerateUIPanel(stack.Count - 1);                //Generate a ui panel for item if it doesn't have one
+            else if (!item.uiPanel.gameObject.activeInHierarchy) item.ShowUIPanel();        //Simply make item visible otherwise
+            item.uiPanel.SetAsFirstSibling();                                               //Have this panel render under others
         }
 
         /// <summary>
