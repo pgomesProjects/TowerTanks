@@ -34,6 +34,74 @@ MonoBehaviour:
     weight: 1
     offset: {x: 0, y: 0}
     scale: {x: 0.086, y: 0.086}
+  wallCorner90:
+  - sprite: {fileID: 21300000, guid: a7ba19bc5f22eba499f3cb5459cbec4a, type: 3}
+    weight: 1
+    offset: {x: 0, y: 0}
+    scale: {x: 1, y: 1}
+  - sprite: {fileID: 21300000, guid: 82c7580b5dd1c854b8415237e9dcb754, type: 3}
+    weight: 1
+    offset: {x: 0, y: 0}
+    scale: {x: 1, y: 1}
+  - sprite: {fileID: 21300000, guid: 45dd9d00e2690464e8e9c2a8886f7fe9, type: 3}
+    weight: 1
+    offset: {x: 0, y: 0}
+    scale: {x: 1, y: 1}
+  - sprite: {fileID: 21300000, guid: 6c1f19244177cc843b2f0519e83f08c0, type: 3}
+    weight: 1
+    offset: {x: 0, y: 0}
+    scale: {x: 1, y: 1}
+  wallCorner180:
+  - sprite: {fileID: 0}
+    weight: 1
+    offset: {x: 0, y: 0}
+    scale: {x: 1, y: 1}
+  - sprite: {fileID: 0}
+    weight: 1
+    offset: {x: 0, y: 0}
+    scale: {x: 1, y: 1}
+  - sprite: {fileID: 0}
+    weight: 1
+    offset: {x: 0, y: 0}
+    scale: {x: 1, y: 1}
+  - sprite: {fileID: 0}
+    weight: 1
+    offset: {x: 0, y: 0}
+    scale: {x: 1, y: 1}
+  wallCorner270:
+  - sprite: {fileID: 0}
+    weight: 1
+    offset: {x: 0, y: 0}
+    scale: {x: 1, y: 1}
+  - sprite: {fileID: 0}
+    weight: 1
+    offset: {x: 0, y: 0}
+    scale: {x: 1, y: 1}
+  - sprite: {fileID: 0}
+    weight: 1
+    offset: {x: 0, y: 0}
+    scale: {x: 1, y: 1}
+  - sprite: {fileID: 0}
+    weight: 1
+    offset: {x: 0, y: 0}
+    scale: {x: 1, y: 1}
+  wallCornerConnector:
+  - sprite: {fileID: 0}
+    weight: 1
+    offset: {x: 0, y: 0}
+    scale: {x: 1, y: 1}
+  - sprite: {fileID: 0}
+    weight: 1
+    offset: {x: 0, y: 0}
+    scale: {x: 1, y: 1}
+  - sprite: {fileID: 0}
+    weight: 1
+    offset: {x: 0, y: 0}
+    scale: {x: 1, y: 1}
+  - sprite: {fileID: 0}
+    weight: 1
+    offset: {x: 0, y: 0}
+    scale: {x: 1, y: 1}
   connectorTopWalls:
   - sprite: {fileID: 21300000, guid: 6c6684a1f3e876747a002797be1633ef, type: 3}
     weight: 1
