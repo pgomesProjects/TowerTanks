@@ -32,10 +32,10 @@ namespace TowerTanks.Scripts
             /// <param name="currentStackIndex">The index for the UI panel in the stack.</param>
             public void GenerateUIPanel(int currentStackIndex)
             {
-                Debug.Log("Generating UI Panel:");
+                Debug.Log("Generating UI Panel At Index " + currentStackIndex);
 
                 //Initialize:
-                if (activeStackUI == null) { Debug.LogError("Tried to generate a UI panel while stackUI was not active"); return; }               //Prevent system from generating UI while HUD is inactive
+                if (activeStackUI == null || stackUIContainer == null) { Debug.LogError("Tried to generate a UI panel while stackUI was not active"); return; }               //Prevent system from generating UI while HUD is inactive
                 RectTransform newPanel = Instantiate(StackManager.main.stackItemUIPrefab, stackUIContainer).GetComponent<RectTransform>();  //Generate empty UI panel in stack UI object
                 TankInteractable interactableScript = prefab.GetComponent<TankInteractable>();                                                    //Get script from prefab so data can be parsed from it
 
@@ -148,7 +148,7 @@ namespace TowerTanks.Scripts
             //Iterate through entire stack
             for (int i = 0; i < stack.Count; i++)
             {
-                DisplayNewUIPanel(stack[i]);
+                DisplayNewUIPanel(stack[i], i);
             }
         }
 
@@ -206,9 +206,9 @@ namespace TowerTanks.Scripts
             print("added " + item.interactableName + " to stack, stack now contains " + stack.Count + " items");
 
             //UI Update:
-            if (activeStackUI != null) //UI system is active
+            if (activeStackUI != null || stackUIContainer != null) //UI system is active
             {
-                DisplayNewUIPanel(item);
+                DisplayNewUIPanel(item, stack.Count - 1);
             }
         }
 
@@ -216,9 +216,10 @@ namespace TowerTanks.Scripts
         /// Displays a new UI panel in the stack.
         /// </summary>
         /// <param name="item">The new stack item to show.</param>
-        private static void DisplayNewUIPanel(StackItem item)
+        /// <param name="index">The position of the new stack item in the stack.</param>
+        private static void DisplayNewUIPanel(StackItem item, int index)
         {
-            if (item.uiPanel == null) item.GenerateUIPanel(stack.Count - 1);                //Generate a ui panel for item if it doesn't have one
+            if (item.uiPanel == null) item.GenerateUIPanel(index);                //Generate a ui panel for item if it doesn't have one
             else if (!item.uiPanel.gameObject.activeInHierarchy) item.ShowUIPanel();        //Simply make item visible otherwise
             item.uiPanel.SetAsFirstSibling();                                               //Have this panel render under others
         }
