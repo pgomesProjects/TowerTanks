@@ -13,10 +13,10 @@ namespace TowerTanks.Scripts
         public class RoomAsset
         {
             //Values:
-            [Tooltip("The image this asset represents.")] public Sprite sprite;
+            [Tooltip("The image this asset represents.")]                                           public Sprite sprite;
             [Tooltip("How likely this asset is to be chosen if alternates are available."), Min(0)] public float weight = 1;
-            [Tooltip("Modifier used to precisely place asset in correct position.")] public Vector2 offset;
-            [Tooltip("Modifier used to make sure asset is the right size.")] public Vector2 scale = Vector2.one;
+            [Tooltip("Modifier used to precisely place asset in correct position.")]                public Vector2 offset;
+            [Tooltip("Modifier used to make sure asset is the right size.")]                        public Vector2 scale = Vector2.one;
 
             //FUNCTIONALITY METHODS:
             /// <summary>
@@ -33,17 +33,22 @@ namespace TowerTanks.Scripts
         //Assets:
         [Header("Essential Assets:")]
         [Tooltip("Tiled sprite used for the back wall of the entire cell.")] public Sprite backWallSprite;
-        [Tooltip("Scale of back wall sprite."), Min(0)] public float backWallScale = 1;
+        [Tooltip("Scale of back wall sprite."), Min(0)]                      public float backWallScale = 1;
         [Space()]
         [Tooltip("Assets for upper wall of the cell.")] public RoomAsset[] cellTopWalls;
         [Tooltip("Assets for right wall of the cell.")] public RoomAsset[] cellRightWalls;
         [Tooltip("Assets for lower wall of the cell.")] public RoomAsset[] cellBottomWalls;
-        [Tooltip("Assets for left wall of the cell.")] public RoomAsset[] cellLeftWalls;
+        [Tooltip("Assets for left wall of the cell.")]  public RoomAsset[] cellLeftWalls;
+        [Space()]
+        [Tooltip("Corner piece for outside corners of walls with no neighbors.")]                  public RoomAsset[] wallCorner90 = new RoomAsset[4];
+        [Tooltip("Corner piece for straightaway walls that connect directly to neighbors.")]       public RoomAsset[] wallCorner180 = new RoomAsset[4];
+        [Tooltip("Corner piece for inside corner walls that connect to connectors or neighbors.")] public RoomAsset[] wallCorner270 = new RoomAsset[4];
+        [Tooltip("Corner piece for straightaway walls that connect to connectors.")]               public RoomAsset[] wallCornerConnector = new RoomAsset[4];
         [Space()]
         [Tooltip("Assets for upper wall of a connector.")] public RoomAsset[] connectorTopWalls;
         [Tooltip("Assets for right wall of a connector.")] public RoomAsset[] connectorRightWalls;
         [Tooltip("Assets for lower wall of a connector.")] public RoomAsset[] connectorBottomWalls;
-        [Tooltip("Assets for left wall of a connector.")] public RoomAsset[] connectorLeftWalls;
+        [Tooltip("Assets for left wall of a connector.")]  public RoomAsset[] connectorLeftWalls;
 
         //FUNCTIONALITY METHODS:
         /// <summary>
@@ -118,6 +123,52 @@ namespace TowerTanks.Scripts
                     //Apply middle section of wall:
                     GetAsset(neswWallAssets[x]).Apply(cell.walls[x].transform.Find("Middle").GetComponent<SpriteRenderer>()); //Assign a random wall from the appropriate wall asset list (this will be the flat section of the wall which does not need to adapt depending on adjacent cells).
                     cell.walls[x].GetComponent<SpriteRenderer>().enabled = false;                                             //Disable placeholder sprite asset
+                }
+            }
+                        
+            //Adaptively set up cell wall corners:
+            foreach (Cell cell in room.cells) //Iterate through each cell in room
+            {
+                for (int x = 0; x < 4; x++) //Iterate through each of the four corners in the cell
+                {
+                    //Determine corner type:
+                    if (cell.connectors[x] != null) //Corner is on the counterclockwise (left) side of a connector
+                    {
+                        //USE CONNECTOR CORNER
+                    }
+                    else if (cell.connectors[x - 1 >= 0 ? x - 1 : 3] != null) //Corner is on the clockwise (right) side of a connector
+                    {
+                        //USE CONNECTOR CORNER
+                    }
+                    else if (cell.neighbors[x] != null || cell.neighbors[x - 1 >= 0 ? x - 1 : 3] != null) //Corner is being modified by at least one neighboring cell
+                    {
+                        if (cell.neighbors[x] != null && cell.neighbors[x - 1 >= 0 ? x - 1 : 3] != null) //Corner has a neighboring cell to its left and right
+                        {
+                            if (cell.neighbors[x].neighbors[x - 1 >= 0 ? x - 1 : 3] != null) //Corner is in the middle of a 2x2 arrangement of 4 cells
+                            {
+                                //CORNER IS INVISIBLE
+                            }
+                            else //Corner is in the middle of the inside elbow of an L-shaped arrangement of 3 cells
+                            {
+                                //USE 270 CORNER
+                            }
+                        }
+                        else //Corner is only being modified by one neighboring cell
+                        {
+                            if (cell.neighbors[x] != null) //Corner is part of a straightaway with its clockwise neighbor
+                            {
+                                //USE 180 CORNER
+                            }
+                            else //Corner is part of a straightaway with its counterclockwise neighbor
+                            {
+                                //USE 180 CORNER
+                            }
+                        }
+                    }
+                    else //Corner is not affected by any neighbors or connectors
+                    {
+                        //USE 90 CORNER
+                    }
                 }
             }
 
