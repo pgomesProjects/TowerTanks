@@ -1448,7 +1448,11 @@ MonoBehaviour:
   - type: 0
     gameObject: {fileID: 648901361903554055, guid: 6ab8c2911877b824d9effa8e83e88576, type: 3}
   - type: 1
+    gameObject: {fileID: 648901361903554055, guid: 354bbddaba0b1254bb20b510b14250f7, type: 3}
+  - type: 2
     gameObject: {fileID: 6727710507555382365, guid: 1ee83dc5db9593346a10edee810e55c8, type: 3}
+  - type: 3
+    gameObject: {fileID: 6727710507555382365, guid: 8b5e4e6f03915484fa809d56d2426344, type: 3}
 --- !u!1001 &7563297248085180075
 PrefabInstance:
   m_ObjectHideFlags: 0

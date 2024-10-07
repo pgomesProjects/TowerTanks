@@ -8,7 +8,7 @@ namespace TowerTanks.Scripts
     public class GameUIManager : SerializedMonoBehaviour
     {
         private const string CANVAS_TAG_NAME = "GameUI";
-        public enum UIType { TaskBar, TimingGauge }
+        public enum UIType { TaskBar, RadialTaskBar, TimingGauge, RadialTimingGauge }
 
         [SerializeField, Tooltip("The prefabs of the different UI elements (only one of each type should exist).")] private UIPrefab[] uiPrefabs;
 
@@ -117,6 +117,46 @@ namespace TowerTanks.Scripts
         }
 
         /// <summary>
+        /// Adds a radial task bar to a GameObject.
+        /// </summary>
+        /// <param name="gameObject">The GameObject to add the task bar to (must have a canvas).</param>
+        /// <param name="duration">The duration of the task.</param>
+        /// <returns>Returns the task bar created.</returns>
+        public TaskProgressBar AddRadialTaskBar(GameObject gameObject, float duration)
+        {
+            Canvas canvas = GetCanvasFromGameObject(gameObject);
+
+            //If no canvas is found, return
+            if (canvas == null)
+                return null;
+
+            TaskProgressBar taskBar = Instantiate(GetPrefabFromList(UIType.RadialTaskBar), canvas.transform).GetComponent<TaskProgressBar>();
+            taskBar.StartTask(duration);
+            return taskBar;
+        }
+
+        /// <summary>
+        /// Adds a radial task bar to a GameObject.
+        /// </summary>
+        /// <param name="gameObject">The GameObject to add the task bar to (must have a canvas).</param>
+        /// <param name="duration">The duration of the task.</param>
+        /// <param name="barColor">The color of the task bar.</param>
+        /// <returns>Returns the task bar created.</returns>
+        public TaskProgressBar AddRadialTaskBar(GameObject gameObject, float duration, Color barColor)
+        {
+            Canvas canvas = GetCanvasFromGameObject(gameObject);
+
+            //If no canvas is found, return null
+            if (canvas == null)
+                return null;
+
+            TaskProgressBar taskBar = Instantiate(GetPrefabFromList(UIType.RadialTaskBar), canvas.transform).GetComponent<TaskProgressBar>();
+            taskBar.ChangeColor(barColor);
+            taskBar.StartTask(duration);
+            return taskBar;
+        }
+
+        /// <summary>
         /// Adds a timing gauge to a GameObject.
         /// </summary>
         /// <param name="gameObject">The GameObject to add the timing gauge to (must have a canvas).</param>
@@ -133,6 +173,75 @@ namespace TowerTanks.Scripts
                 return null;
 
             TimingGauge timingGauge = Instantiate(GetPrefabFromList(UIType.TimingGauge), canvas.transform).GetComponent<TimingGauge>();
+            timingGauge.CreateTimer(tickSpeed, minimumRange, maximumRange);
+            return timingGauge;
+        }
+
+        /// <summary>
+        /// Adds a timing gauge to a GameObject.
+        /// </summary>
+        /// <param name="gameObject">The GameObject to add the timing gauge to (must have a canvas).</param>
+        /// <param name="tickSpeed">The time it takes for the tick bar to go from one end to another (in seconds).</param>
+        /// <param name="minimumRange">The minimum value in the zone range.</param>
+        /// <param name="maximumRange">The maximum value in the zone range.</param>
+        /// <param name="hitZoneColor">The color of the zone to hit.</param>
+        /// <param name="noHitZoneColor">The color of the zone to not hit.</param>
+        /// <returns>Returns the timing gauge created.</returns>
+        public TimingGauge AddTimingGauge(GameObject gameObject, float tickSpeed, float minimumRange, float maximumRange, Color hitZoneColor, Color noHitZoneColor)
+        {
+            Canvas canvas = GetCanvasFromGameObject(gameObject);
+
+            //If no canvas is found, return null
+            if (canvas == null)
+                return null;
+
+            TimingGauge timingGauge = Instantiate(GetPrefabFromList(UIType.TimingGauge), canvas.transform).GetComponent<TimingGauge>();
+            timingGauge.ChangeColor(hitZoneColor, noHitZoneColor);
+            timingGauge.CreateTimer(tickSpeed, minimumRange, maximumRange);
+            return timingGauge;
+        }
+
+        /// <summary>
+        /// Adds a radial timing gauge to a GameObject.
+        /// </summary>
+        /// <param name="gameObject">The GameObject to add the timing gauge to (must have a canvas).</param>
+        /// <param name="tickSpeed">The time it takes for the tick bar to go from one end to another (in seconds).</param>
+        /// <param name="minimumRange">The minimum value in the zone range.</param>
+        /// <param name="maximumRange">The maximum value in the zone range.</param>
+        /// <returns>Returns the timing gauge created.</returns>
+        public RadialTimingGauge AddRadialTimingGauge(GameObject gameObject, float tickSpeed, float minimumRange, float maximumRange)
+        {
+            Canvas canvas = GetCanvasFromGameObject(gameObject);
+
+            //If no canvas is found, return null
+            if (canvas == null)
+                return null;
+
+            RadialTimingGauge timingGauge = Instantiate(GetPrefabFromList(UIType.RadialTimingGauge), canvas.transform).GetComponent<RadialTimingGauge>();
+            timingGauge.CreateTimer(tickSpeed, minimumRange, maximumRange);
+            return timingGauge;
+        }
+
+        /// <summary>
+        /// Adds a radial timing gauge to a GameObject.
+        /// </summary>
+        /// <param name="gameObject">The GameObject to add the timing gauge to (must have a canvas).</param>
+        /// <param name="tickSpeed">The time it takes for the tick bar to go from one end to another (in seconds).</param>
+        /// <param name="minimumRange">The minimum value in the zone range.</param>
+        /// <param name="maximumRange">The maximum value in the zone range.</param>
+        /// <param name="hitZoneColor">The color of the zone to hit.</param>
+        /// <param name="noHitZoneColor">The color of the zone to not hit.</param>
+        /// <returns>Returns the timing gauge created.</returns>
+        public RadialTimingGauge AddRadialTimingGauge(GameObject gameObject, float tickSpeed, float minimumRange, float maximumRange, Color hitZoneColor, Color noHitZoneColor)
+        {
+            Canvas canvas = GetCanvasFromGameObject(gameObject);
+
+            //If no canvas is found, return null
+            if (canvas == null)
+                return null;
+
+            RadialTimingGauge timingGauge = Instantiate(GetPrefabFromList(UIType.RadialTimingGauge), canvas.transform).GetComponent<RadialTimingGauge>();
+            timingGauge.ChangeColor(hitZoneColor, noHitZoneColor);
             timingGauge.CreateTimer(tickSpeed, minimumRange, maximumRange);
             return timingGauge;
         }

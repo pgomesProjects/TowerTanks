@@ -399,6 +399,8 @@ namespace TowerTanks.Scripts
             }
 
             transform.parent = null;
+
+            characterHUD?.UpdateFuelBar(currentFuel / characterSettings.fuelAmount * 100.0f);
         }
 
         private void RespawnTimer()
