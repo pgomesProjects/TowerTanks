@@ -4,6 +4,7 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 using System.Linq;
 using UnityEngine.Rendering;
+using TowerTanks.Scripts;
 
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/RoomAssetKit", order = 1)]
 public class RoomAssetKit : ScriptableObject
@@ -115,7 +116,7 @@ public class RoomAssetKit : ScriptableObject
         RoomAsset[][] neswWallAssets = { cellTopWalls, cellRightWalls, cellBottomWalls, cellLeftWalls }; //Get array of all side wall asset sets
         foreach (Cell cell in room.cells) //Iterate through cells in room
         {
-            //Adaptively set up cell walls:
+            //CELL WALLS:
             for (int x = 0; x < 4; x++) //Iterate through each wall in cell
             {
                 //Validity checks:
@@ -127,7 +128,7 @@ public class RoomAssetKit : ScriptableObject
                 cell.walls[x].GetComponent<SpriteRenderer>().enabled = false;                                             //Disable placeholder sprite asset
             }
 
-            //Adaptively set up cell wall corners:
+            //CELL WALL CORNERS:
             for (int x = 0; x < 4; x++) //Iterate through each of the four corners in the cell
             {
                 //Determine corner type:
@@ -166,11 +167,11 @@ public class RoomAssetKit : ScriptableObject
                 }
                 else //Corner is not affected by any neighbors or connectors
                 {
-                    //USE 90 CORNER
+                    wallCorner90[x].Apply(cell.corners[x]); //Use 90 degree corner, select corresponding one from corner array
                 }
             }
 
-            //Set up cell floors:
+            //CELL FLOORS:
             if (cell.neighbors[2] == null) //Cell has no lower neighbors
             {
                 //PLACE FLOOR
