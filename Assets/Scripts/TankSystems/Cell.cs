@@ -223,13 +223,17 @@ public class Cell : MonoBehaviour
         else
         {
             if (room.type == Room.RoomType.Armor && ignoreArmor == false) amount -= 25f; //Armor reduces incoming damage
-            if (room.targetTank.isInvincible) amount = 0;
-            if (amount < 0) { amount = 0; }
+            
+            if (amount <= 0) { amount = 1; }
+            if (room.targetTank.isInvincible) { amount = 0; }
             else
             {
-                damageTime += (amount / 50f);
+                float damageTimeAdd = (amount / 50f);
+                if (damageTimeAdd < 0.1f) damageTimeAdd = 0.1f;
+                damageTime += damageTimeAdd;
                 damageTimer = damageTime;
             }
+            
             health -= amount;
 
             if (health < 0) health = 0;
