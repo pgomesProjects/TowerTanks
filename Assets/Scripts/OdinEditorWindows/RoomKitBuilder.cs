@@ -8,8 +8,10 @@ namespace TowerTanks.Scripts.OdinTools
 {
     public class RoomKitBuilder : OdinEditorWindow
     {
+
         //Classes, Enums & Structs:
-        private enum KitVisType
+        //
+        public enum KitVisType
         {
             /// <summary> Visualize kit as a single cell, without optional components. </summary>
             Cell,

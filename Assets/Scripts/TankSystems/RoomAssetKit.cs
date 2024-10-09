@@ -110,10 +110,11 @@ namespace TowerTanks.Scripts
                 }
             }
 
-            //Adaptively set up cell walls:
+            //Set up granular cell components:
             RoomAsset[][] neswWallAssets = { cellTopWalls, cellRightWalls, cellBottomWalls, cellLeftWalls }; //Get array of all side wall asset sets
             foreach (Cell cell in room.cells) //Iterate through cells in room
             {
+                //CELL WALLS:
                 for (int x = 0; x < 4; x++) //Iterate through each wall in cell
                 {
                     //Validity checks:
@@ -124,11 +125,8 @@ namespace TowerTanks.Scripts
                     GetAsset(neswWallAssets[x]).Apply(cell.walls[x].transform.Find("Middle").GetComponent<SpriteRenderer>()); //Assign a random wall from the appropriate wall asset list (this will be the flat section of the wall which does not need to adapt depending on adjacent cells).
                     cell.walls[x].GetComponent<SpriteRenderer>().enabled = false;                                             //Disable placeholder sprite asset
                 }
-            }
-                        
-            //Adaptively set up cell wall corners:
-            foreach (Cell cell in room.cells) //Iterate through each cell in room
-            {
+
+                //CELL WALL CORNERS:
                 for (int x = 0; x < 4; x++) //Iterate through each of the four corners in the cell
                 {
                     //Determine corner type:
@@ -167,8 +165,14 @@ namespace TowerTanks.Scripts
                     }
                     else //Corner is not affected by any neighbors or connectors
                     {
-                        //USE 90 CORNER
+                        wallCorner90[x].Apply(cell.corners[x]); //Use 90 degree corner, select corresponding one from corner array
                     }
+                }
+
+                //CELL FLOORS:
+                if (cell.neighbors[2] == null) //Cell has no lower neighbors
+                {
+                    //PLACE FLOOR
                 }
             }
 

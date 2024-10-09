@@ -32,13 +32,18 @@ namespace TowerTanks.Scripts
         /// Couplers adjacent to this cell (connected couplers will modify cell walls).
         /// </summary>
         public List<Coupler> couplers = new List<Coupler>();
+        /// <summary>
+        /// Spriterenders for displaying corners of cell walls (in NW, NE, SE, SW order).
+        /// </summary>
 
         //UI
         internal SpriteRenderer damageSprite;
 
         [Header("Cell Components:")]
-        [Tooltip("Back wall of cell, will be changed depending on cell purpose.")]                    public GameObject backWall;
-        [Tooltip("Pre-assigned cell walls (in NESW order) which confine players inside the tank.")]   public GameObject[] walls;
+        [Tooltip("Back wall of cell, will be turned into sprite mask by room kit.")]                public GameObject backWall;
+        [Tooltip("Pre-assigned cell walls (in NESW order) which confine players inside the tank.")] public GameObject[] walls;
+        [Tooltip("Spriterenderes representing corners of cell wall.")]                              public SpriteRenderer[] corners = new SpriteRenderer[4];
+        [Space()]
         [SerializeField, Tooltip("The interactable currently installed in this cell (if any).")]      internal TankInteractable interactable;
         [SerializeField, Tooltip("Transform used for repairmen to snap to when repairing this cell")] public Transform repairSpot;
         [SerializeField, Tooltip("The character currently repairing this cell")]                      public GameObject repairMan;
