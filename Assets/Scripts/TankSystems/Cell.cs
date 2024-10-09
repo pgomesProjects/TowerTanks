@@ -37,7 +37,7 @@ namespace TowerTanks.Scripts
         internal SpriteRenderer damageSprite;
 
         [Header("Cell Components:")]
-        [Tooltip("Back wall of cell, will be turned into sprite mask by room kit.")]                  public GameObject backWall;
+        [Tooltip("Back wall of cell, will be changed depending on cell purpose.")]                    public GameObject backWall;
         [Tooltip("Pre-assigned cell walls (in NESW order) which confine players inside the tank.")]   public GameObject[] walls;
         [SerializeField, Tooltip("The interactable currently installed in this cell (if any).")]      internal TankInteractable interactable;
         [SerializeField, Tooltip("Transform used for repairmen to snap to when repairing this cell")] public Transform repairSpot;
@@ -230,13 +230,17 @@ namespace TowerTanks.Scripts
             else
             {
                 if (room.type == Room.RoomType.Armor && ignoreArmor == false) amount -= 25f; //Armor reduces incoming damage
-                if (room.targetTank.isInvincible) amount = 0;
-                if (amount < 0) { amount = 0; }
+                
+                if (amount <= 0) { amount = 1; }
+                if (room.targetTank.isInvincible) { amount = 0; }
                 else
                 {
-                    damageTime += (amount / 50f);
+                    float damageTimeAdd = (amount / 50f);
+                    if (damageTimeAdd < 0.1f) damageTimeAdd = 0.1f;
+                    damageTime += damageTimeAdd;
                     damageTimer = damageTime;
                 }
+                
                 health -= amount;
 
                 if (health < 0) health = 0;
