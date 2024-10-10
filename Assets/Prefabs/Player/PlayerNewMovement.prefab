@@ -5084,7 +5084,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 0
+    SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects: []
     SerializedBytesString: 
@@ -5108,6 +5108,7 @@ MonoBehaviour:
   fuelRegenerationRate: 20
   characterDeathParticleSize: 0.18
   respawnTime: 3
+  tankDistanceToFullDismount: 5
   currentZone: {fileID: 0}
   isOperator: 0
   currentInteractable: {fileID: 0}

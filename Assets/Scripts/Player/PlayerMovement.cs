@@ -291,6 +291,7 @@ public class PlayerMovement : Character
     protected override void MoveCharacter()
     {
         var slope = transform.eulerAngles.z < 180 ? transform.eulerAngles.z : transform.eulerAngles.z - 360;
+        //^ im gonna change this to use a raycast and a normal, but for now this is fine and works for checking in-tank slopes
         
         float deAccel = Mathf.InverseLerp(maxSlope, 0, Mathf.Abs(slope));
         
@@ -327,12 +328,11 @@ public class PlayerMovement : Character
         
         Vector3 localVelocity = transform.InverseTransformDirection(rb.velocity);
         
-        localVelocity.x = Mathf.Lerp(localVelocity.x, 0, CheckGround() ? groundDeAcceleration * Time.deltaTime
-                                                                             : 0);
+        if (CheckGround()) localVelocity.x = Mathf.Lerp(localVelocity.x, 0, groundDeAcceleration * Time.deltaTime);
         
         rb.velocity = transform.TransformDirection(localVelocity);
         
-        if (Mathf.Abs(rb.velocity.x) > maxXVelocity)
+        if (Mathf.Abs(rb.velocity.x) > maxXVelocity && moveInput.x != 0)
         {
             rb.velocity = new Vector2(Mathf.Sign(rb.velocity.x) * maxXVelocity, rb.velocity.y);
         }
@@ -626,7 +626,6 @@ public class PlayerMovement : Character
                     Cell cellscript = cell.GetComponent<Cell>();
                     if (cellscript.health < cellscript.maxHealth && cellscript.repairMan == null && cellscript.room.isCore == false)
                     {
-                        //Debug.Log("I can fix it!");
                         GameManager.Instance.AudioManager.Play("UseSFX");
                         currentRepairJob = cell.GetComponent<Cell>();
                         currentRepairJob.repairMan = this.gameObject;

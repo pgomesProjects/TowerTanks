@@ -54,6 +54,13 @@ public abstract class Character : SerializedMonoBehaviour
     private float currentRespawnTime;
     private bool isRespawning;
 
+    private Transform dismountPoint;
+    [SerializeField] 
+    [Tooltip("The distance the player must be from the tank to fully dismount. (no more tank vel inheritance)")]
+    private float tankDistanceToFullDismount;
+    private bool softTankDismount; // if we have left the tank, but are still in it's vicinity
+    private bool fullTankDismount; //if we have left the tank and have left it's vicinity
+
     //objects
     [Header("Interactables")]
     public InteractableZone currentZone = null;
@@ -70,7 +77,7 @@ public abstract class Character : SerializedMonoBehaviour
 
     //internal movement
     protected Vector2 moveInput;
-    private Transform currentCellJoint;
+    private Transform lastCellJoint;
     private int cellLayerIndex = 15;
     
     protected LayerMask ladderLayer;
@@ -113,6 +120,7 @@ public abstract class Character : SerializedMonoBehaviour
         taskProgressBar = GetComponent<TaskProgressBar>();
         isAlive = true;
         permaDeath = false;
+        dismountPoint = transform;
     }
 
     private bool useAirDrag;
@@ -126,43 +134,77 @@ public abstract class Character : SerializedMonoBehaviour
 
             return;
         }
-
-        currentFuel = Mathf.Clamp(currentFuel, 0, characterSettings.fuelAmount);
         
-        Transform cellJoint = Physics2D.OverlapBox(
+        currentFuel = Mathf.Clamp(currentFuel, 0, characterSettings.fuelAmount);
+
+        
+        Transform newCellJoint = Physics2D.OverlapBox(
             transform.position,
             transform.localScale * 1.5f,
             0f, 
             1 << cellLayerIndex)?.gameObject.transform;
         
-        if (currentCellJoint != cellJoint) // will only run once every time a new cell is entered
+        
+        
+        if (softTankDismount && !fullTankDismount) // if we left the tank, but we're still near the tank
         {
-            Rigidbody2D tankRb = null;
-            if (cellJoint != null && cellJoint.TryGetComponent<Cell>(out Cell cell))
+            if (CheckGround())
             {
-                tankRb = cell.room.targetTank.treadSystem.r;
+                FullyDismountTank();
             }
-            else if (currentCellJoint.TryGetComponent<Cell>(out Cell cellTwo))
+            if (Vector3.Distance(transform.position, dismountPoint ? dismountPoint.position : transform.position) > tankDistanceToFullDismount)
             {
-                tankRb = cellTwo.room.targetTank.treadSystem.r;
+                Rigidbody2D tankRb = null;
+                if (newCellJoint != null && newCellJoint.TryGetComponent<Cell>(out Cell cell))
+                {
+                    tankRb = cell.room.targetTank.treadSystem.r;
+                }
+                else if (lastCellJoint != null)
+                {
+                    if (lastCellJoint.TryGetComponent<Cell>(out Cell cellTwo)) tankRb = cellTwo.room.targetTank.treadSystem.r;
+                } //necessary to get component every time because we want to get the tank the player is currently inside of
+            
+                FullyDismountTank(tankRb);
             }
             
-            currentCellJoint = cellJoint;
-            transform.SetParent(currentCellJoint);
-            if (currentCellJoint == null)
+        }
+        
+        if (lastCellJoint != newCellJoint) // will only run once every time a new cell is entered
+        {
+            EnterNewCell(newCellJoint);
+            lastCellJoint = newCellJoint;
+        }
+    }
+
+    private void FullyDismountTank(Rigidbody2D tankRb = null)
+    {
+        if (tankRb) rb.AddForce(tankRb.GetPointVelocity(transform.position) * 10, ForceMode2D.Impulse);
+            
+        transform.SetParent(null);
+        fullTankDismount = true;
+    }
+
+    private void EnterNewCell(Transform cellToEnter)
+    {
+        if (cellToEnter != null) // we are still inside of a tank
+        {
+            transform.SetParent(cellToEnter);
+            softTankDismount = false;
+            fullTankDismount = false;
+            if (!Mathf.Approximately(transform.eulerAngles.z, cellToEnter.eulerAngles.z))
             {
-                if (tankRb) rb.AddForce(tankRb.GetPointVelocity(transform.position), ForceMode2D.Impulse);
-                transform.rotation = Quaternion.identity; //player is always internally rotated with the tank,
-                //so we need to reset the rotation when they leave a tank to avoid weirdness.
-                //it's just the player's visual sprite which is always at 0 rotation
-            }
-            else
-            {
-                if (!Mathf.Approximately(transform.eulerAngles.z, currentCellJoint.eulerAngles.z))
-                {
-                    transform.rotation = Quaternion.Euler(new Vector3(0, 0, currentCellJoint.eulerAngles.z));
-                }
-            }
+                transform.rotation = Quaternion.Euler(new Vector3(0, 0, cellToEnter.eulerAngles.z));
+            } //makes sure you're aligned with the new cell that you're entering
+        }
+        else
+        {
+            softTankDismount = true;
+            fullTankDismount = false;
+            dismountPoint = lastCellJoint;
+            
+            transform.rotation = Quaternion.identity; //player is always internally rotated with the tank,
+            //so we need to reset the rotation when they leave a tank to avoid weirdness.
+            //it's just the player's visual sprite which is always at 0 rotation
         }
     }
 
@@ -184,6 +226,9 @@ public abstract class Character : SerializedMonoBehaviour
         //visualizes the grounded box for debugging
         Gizmos.color = Color.green;
         Gizmos.DrawWireCube(new Vector2(transform.position.x, transform.position.y - groundedBoxOffset), new Vector3(groundedBoxX, groundedBoxY, 0));
+        if (!softTankDismount || fullTankDismount) return;
+        Gizmos.color = Color.Lerp(Color.blue, Color.red, Mathf.InverseLerp(0, tankDistanceToFullDismount, Vector3.Distance(transform.position, dismountPoint ? dismountPoint.position : transform.position)));
+        Gizmos.DrawWireSphere(dismountPoint.position, tankDistanceToFullDismount);
     }
 
     /* TODO: Ladders are not triggers. Change this to use checksurfacecollider with the ladder layerindex
