@@ -5084,7 +5084,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 2
+    SerializedFormat: 0
     SerializedBytes: 
     ReferencedUnityObjects: []
     SerializedBytesString: 
@@ -5136,7 +5136,7 @@ MonoBehaviour:
   ladderEnterDeadzone: 0.75
   ladderDetectionRadius: 0.05
   maxSlope: 95
-  maxYVelocity: 7
+  maxYVelocity: 5
   maxXVelocity: 6
 --- !u!114 &3919349592667607501
 MonoBehaviour:

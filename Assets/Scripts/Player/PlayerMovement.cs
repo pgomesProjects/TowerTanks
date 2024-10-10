@@ -308,8 +308,10 @@ public class PlayerMovement : Character
             if (!jetpackInputHeld)
             {
                 Vector2 localVel = transform.InverseTransformDirection(rb.velocity);
-                if (localVel.y >= 0) localVel.y = 0; // if we are grounded, and not trying to move up,
+                if (localVel.y is >= 0 and < 1.5f) localVel.y = 0; // if we are grounded, and not trying to move up,
                                                      // we always want our local up axis, which is aligned with the tank, to be 0
+                                                     // if we are over 2 velocity, this code will not run, this fixes
+                                                     // issues where you would stop moving in the middle of flying up a coupler
                 rb.velocity = transform.TransformDirection(localVel);
             }
             Debug.DrawRay(transform.position, force, Color.red);
