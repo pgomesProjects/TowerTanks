@@ -5097,7 +5097,7 @@ MonoBehaviour:
   groundMoveSpeed: 15
   defaultAirForce: 40
   groundDeAcceleration: 20
-  airDeAcceleration: 5
+  airDeAcceleration: 0.5
   jetpackForce: 150
   climbSpeed: 3.5
   slipSlopeValue: 0.5
