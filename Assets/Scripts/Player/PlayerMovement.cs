@@ -300,8 +300,7 @@ namespace TowerTanks.Scripts
             if (Mathf.Sign(slope) == Mathf.Sign(moveInput.x))
             {
                 currentGroundMoveSpeed = groundMoveSpeed * deAccel;
-            }
-            else currentGroundMoveSpeed = groundMoveSpeed;
+            } else currentGroundMoveSpeed = groundMoveSpeed;
 
             Vector2 force = transform.right * (moveInput.x * ((CheckGround()) ? currentGroundMoveSpeed : defaultAirForce));
 
@@ -327,7 +326,7 @@ namespace TowerTanks.Scripts
 
             Vector3 localVelocity = transform.InverseTransformDirection(rb.velocity);
 
-            if (CheckGround()) localVelocity.x = Mathf.Lerp(localVelocity.x, 0, groundDeAcceleration * Time.deltaTime);
+            localVelocity.x = Mathf.Lerp(localVelocity.x, 0, (CheckGround() ? groundDeAcceleration : airDeAcceleration) * Time.deltaTime);
 
             rb.velocity = transform.TransformDirection(localVelocity);
 
@@ -559,8 +558,7 @@ namespace TowerTanks.Scripts
                         cell.playerBuilding = this; //Indicate that this player is building in given cell
                         print("started building");
                         taskProgressBar?.StartTask(characterSettings.buildTime);
-                    }
-                    else print("tried to start building");
+                    } else print("tried to start building");
                 }
             }
 
