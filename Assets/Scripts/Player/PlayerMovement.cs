@@ -324,7 +324,7 @@ public class PlayerMovement : Character
         
         Vector3 localVelocity = transform.InverseTransformDirection(rb.velocity);
         
-        if (CheckGround()) localVelocity.x = Mathf.Lerp(localVelocity.x, 0, groundDeAcceleration * Time.deltaTime);
+        localVelocity.x = Mathf.Lerp(localVelocity.x, 0, (CheckGround() ? groundDeAcceleration : airDeAcceleration) * Time.deltaTime);
         
         rb.velocity = transform.TransformDirection(localVelocity);
         
