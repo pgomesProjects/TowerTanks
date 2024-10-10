@@ -210,6 +210,8 @@ namespace TowerTanks.Scripts
                 {
                     GameManager.Instance.AudioManager.Play("JetpackRocket", gameObject);
                 }
+
+                characterHUD?.UpdateFuelBar((currentFuel / characterSettings.fuelAmount) * 100f);
             }
             else
             {
@@ -223,6 +225,8 @@ namespace TowerTanks.Scripts
                 {
                     GameManager.Instance.AudioManager.Stop("JetpackRocket", gameObject);
                 }
+
+                characterHUD?.UpdateFuelBar((currentFuel / characterSettings.fuelAmount) * 100f);
             }
 
             //If we're manning an Interactable

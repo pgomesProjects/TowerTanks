@@ -140,7 +140,6 @@ namespace TowerTanks.Scripts
 
             currentFuel = Mathf.Clamp(currentFuel, 0, characterSettings.fuelAmount);
 
-
             Transform newCellJoint = Physics2D.OverlapBox(
                 transform.position,
                 transform.localScale * 1.5f,
@@ -434,6 +433,7 @@ namespace TowerTanks.Scripts
             }
 
             transform.parent = null;
+            characterHUD?.UpdateFuelBar((currentFuel / characterSettings.fuelAmount) * 100f);
         }
 
         private void RespawnTimer()
