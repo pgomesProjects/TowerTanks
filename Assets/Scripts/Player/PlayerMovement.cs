@@ -348,13 +348,11 @@ public class PlayerMovement : Character
 
     protected override void ClimbLadder()
     {
-        float raycastDistance = .19f;
-        
         var onCoupler = Physics2D.OverlapBox(transform.position, transform.localScale, transform.eulerAngles.z, 1 << LayerMask.NameToLayer("Coupler"));
         var onLadder = Physics2D.OverlapBox(transform.position, transform.localScale, transform.eulerAngles.z, 1 << LayerMask.NameToLayer("Ladder"));
-        var hitGround = Physics2D.Raycast(transform.position, -transform.up, raycastDistance, 1 << LayerMask.NameToLayer("Ground"));
+        var hitGround = Physics2D.Raycast(transform.position, -transform.up, transform.localScale.y * .5f, 1 << LayerMask.NameToLayer("Ground"));
         
-        Vector3 displacement = transform.up * (climbSpeed * moveInput.y * Time.deltaTime);
+        Vector3 displacement = transform.up * ((moveInput.y > 0 ? ladderClimbUpSpeed : ladderClimbDownSpeed) * moveInput.y * Time.deltaTime);
 
         // If you hit ground, and you're trying to move down, stop climbing.
         // If you're not on a coupler or ladder, and you're trying to move up, stop climbing.

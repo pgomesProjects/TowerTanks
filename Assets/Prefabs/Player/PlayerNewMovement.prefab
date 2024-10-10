@@ -5084,7 +5084,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 2
+    SerializedFormat: 0
     SerializedBytes: 
     ReferencedUnityObjects: []
     SerializedBytesString: 
@@ -5094,12 +5094,13 @@ MonoBehaviour:
     SerializationNodes: []
   currentState: 0
   characterSettings: {fileID: 11400000, guid: a7bc3075ff116a040a2a22890b0f100a, type: 2}
-  groundMoveSpeed: 15
-  defaultAirForce: 40
+  groundMoveSpeed: 13
+  defaultAirForce: 35
   groundDeAcceleration: 20
   airDeAcceleration: 0.5
   jetpackForce: 150
-  climbSpeed: 3.5
+  ladderClimbUpSpeed: 3.1
+  ladderClimbDownSpeed: 5
   slipSlopeValue: 0.5
   groundedBoxX: 0.24
   groundedBoxY: 0.07
@@ -5138,7 +5139,7 @@ MonoBehaviour:
   ladderDetectionRadius: 0.05
   maxSlope: 95
   maxYVelocity: 5
-  maxXVelocity: 6
+  maxXVelocity: 5
 --- !u!114 &3919349592667607501
 MonoBehaviour:
   m_ObjectHideFlags: 0
