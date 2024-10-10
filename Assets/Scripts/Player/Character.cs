@@ -99,6 +99,8 @@ public abstract class Character : SerializedMonoBehaviour
     }
     private int healthToModify = -10;
 
+    private Rigidbody2D lastFoundTankRb;
+
     #endregion
 
     #region Unity Methods
@@ -126,7 +128,6 @@ public abstract class Character : SerializedMonoBehaviour
     private bool useAirDrag;
     protected virtual void Update()
     {
-        
         if (!isAlive)
         {
             if (isRespawning)
@@ -154,17 +155,7 @@ public abstract class Character : SerializedMonoBehaviour
             }
             if (Vector3.Distance(transform.position, dismountPoint ? dismountPoint.position : transform.position) > tankDistanceToFullDismount)
             {
-                Rigidbody2D tankRb = null;
-                if (newCellJoint != null && newCellJoint.TryGetComponent<Cell>(out Cell cell))
-                {
-                    tankRb = cell.room.targetTank.treadSystem.r;
-                }
-                else if (lastCellJoint != null)
-                {
-                    if (lastCellJoint.TryGetComponent<Cell>(out Cell cellTwo)) tankRb = cellTwo.room.targetTank.treadSystem.r;
-                } //necessary to get component every time because we want to get the tank the player is currently inside of
-            
-                FullyDismountTank(tankRb);
+                FullyDismountTank(lastFoundTankRb);
             }
             
         }
@@ -172,13 +163,19 @@ public abstract class Character : SerializedMonoBehaviour
         if (lastCellJoint != newCellJoint) // will only run once every time a new cell is entered
         {
             EnterNewCell(newCellJoint);
+            if (lastCellJoint != null && lastCellJoint.TryGetComponent<Cell>(out Cell cell)) lastFoundTankRb = cell.room.targetTank.treadSystem.r;
             lastCellJoint = newCellJoint;
         }
     }
 
     private void FullyDismountTank(Rigidbody2D tankRb = null)
     {
-        if (tankRb) rb.AddForce(tankRb.GetPointVelocity(transform.position) * 10, ForceMode2D.Impulse);
+        Debug.Log("TankRB: " + tankRb + "  " + (tankRb ? tankRb.GetPointVelocity(transform.position) : "null"));
+        if (tankRb)
+        {
+            rb.AddForce(tankRb.GetPointVelocity(transform.position) * rb.mass, ForceMode2D.Impulse);
+            Debug.Log($"Force applied: {tankRb.GetPointVelocity(transform.position)}");
+        }
             
         transform.SetParent(null);
         fullTankDismount = true;
