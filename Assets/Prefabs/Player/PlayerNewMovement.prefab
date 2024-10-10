@@ -5108,7 +5108,7 @@ MonoBehaviour:
   fuelRegenerationRate: 20
   characterDeathParticleSize: 0.18
   respawnTime: 3
-  tankDistanceToFullDismount: 5
+  tankDistanceToFullDismount: 4
   currentZone: {fileID: 0}
   isOperator: 0
   currentInteractable: {fileID: 0}
