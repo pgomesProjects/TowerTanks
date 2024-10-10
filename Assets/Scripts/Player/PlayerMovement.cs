@@ -315,15 +315,11 @@ public class PlayerMovement : Character
                                                      // issues where you would stop moving in the middle of flying up a coupler
                 rb.velocity = transform.TransformDirection(localVel);
             }
-            Debug.DrawRay(transform.position, force, Color.red);
         }
         else
         {
             rb.AddForce(force * 5, ForceMode2D.Force); //* 5 just makes the air force value more intuitive when compared to ground speed, air force requires more force because
                                                        // its using force.force instead of impulse
-            
-            //draw gizmo for force
-            Debug.DrawRay(transform.position, force, Color.blue);
         }
         
         Vector3 localVelocity = transform.InverseTransformDirection(rb.velocity);
