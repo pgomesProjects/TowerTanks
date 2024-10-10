@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.TestTools;
+using TowerTanks.Scripts;
 
 namespace TowerTanks.PlayModeTests
 {

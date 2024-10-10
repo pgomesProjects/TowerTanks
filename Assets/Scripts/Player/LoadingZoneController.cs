@@ -2,23 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LoadingZoneController : MonoBehaviour
+namespace TowerTanks.Scripts.Deprecated
 {
-    private void OnTriggerEnter2D(Collider2D collision)
+    public class LoadingZoneController : MonoBehaviour
     {
-        if (collision.CompareTag("Player"))
+        private void OnTriggerEnter2D(Collider2D collision)
         {
-            PlayerController currentPlayer = collision.GetComponent<PlayerController>();
-            currentPlayer.SetPlayerClimb(true);
+            if (collision.CompareTag("Player"))
+            {
+                PlayerController currentPlayer = collision.GetComponent<PlayerController>();
+                currentPlayer.SetPlayerClimb(true);
+            }
         }
-    }
 
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
+        private void OnTriggerExit2D(Collider2D collision)
         {
-            PlayerController currentPlayer = collision.GetComponent<PlayerController>();
-            currentPlayer.SetPlayerClimb(false);
+            if (collision.CompareTag("Player"))
+            {
+                PlayerController currentPlayer = collision.GetComponent<PlayerController>();
+                currentPlayer.SetPlayerClimb(false);
+            }
         }
     }
 }

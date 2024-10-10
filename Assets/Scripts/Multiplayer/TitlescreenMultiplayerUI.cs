@@ -3,47 +3,50 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class TitlescreenMultiplayerUI : MultiplayerUI
+namespace TowerTanks.Scripts
 {
-    [SerializeField] private string joinText;
-    [SerializeField] private Transform playerDisplayContainer;
-
-    private void Start()
+    public class TitlescreenMultiplayerUI : MultiplayerUI
     {
-        CheckForExistingPlayers();   
-    }
+        [SerializeField] private string joinText;
+        [SerializeField] private Transform playerDisplayContainer;
 
-    public void CheckForExistingPlayers()
-    {
-        int counter = 0;
-        foreach(var player in GameManager.Instance?.MultiplayerManager.GetPlayerInputs())
+        private void Start()
         {
-            if(player.playerIndex >= 0)
+            CheckForExistingPlayers();
+        }
+
+        public void CheckForExistingPlayers()
+        {
+            int counter = 0;
+            foreach (var player in GameManager.Instance?.MultiplayerManager.GetPlayerInputs())
             {
-                OnPlayerJoined(player);
-                counter++;
+                if (player.playerIndex >= 0)
+                {
+                    OnPlayerJoined(player);
+                    counter++;
+                }
             }
         }
-    }
 
-    public override void OnPlayerJoined(PlayerInput playerInput)
-    {
-        playerDisplayContainer.GetChild(playerInput.playerIndex).GetComponent<PlayerDisplay>().ShowPlayerInfo(GameManager.Instance.MultiplayerManager.GetPlayerColors()[playerInput.playerIndex], playerInput.currentControlScheme);
-        UpdateJoinText(playerInput.playerIndex);
-    }
+        public override void OnPlayerJoined(PlayerInput playerInput)
+        {
+            playerDisplayContainer.GetChild(playerInput.playerIndex).GetComponent<PlayerDisplay>().ShowPlayerInfo(GameManager.Instance.MultiplayerManager.GetPlayerColors()[playerInput.playerIndex], playerInput.currentControlScheme);
+            UpdateJoinText(playerInput.playerIndex);
+        }
 
-    public override void OnPlayerLost(int playerIndex)
-    {
-        playerDisplayContainer.GetChild(playerIndex).GetComponent<PlayerDisplay>().HidePlayerInfo();
-    }
+        public override void OnPlayerLost(int playerIndex)
+        {
+            playerDisplayContainer.GetChild(playerIndex).GetComponent<PlayerDisplay>().HidePlayerInfo();
+        }
 
-    public override void OnPlayerRejoined(int playerIndex)
-    {
-        playerDisplayContainer.GetChild(playerIndex).GetComponent<PlayerDisplay>().ShowPlayerInfo();
-    }
+        public override void OnPlayerRejoined(int playerIndex)
+        {
+            playerDisplayContainer.GetChild(playerIndex).GetComponent<PlayerDisplay>().ShowPlayerInfo();
+        }
 
-    private void UpdateJoinText(int playerIndex)
-    {
-        joinPrompt.text = "Player " + (playerIndex + 2).ToString() + ": " + joinText;
+        private void UpdateJoinText(int playerIndex)
+        {
+            joinPrompt.text = "Player " + (playerIndex + 2).ToString() + ": " + joinText;
+        }
     }
 }

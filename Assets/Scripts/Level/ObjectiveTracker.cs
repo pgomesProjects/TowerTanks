@@ -3,86 +3,89 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectiveTracker : MonoBehaviour
+namespace TowerTanks.Scripts
 {
-    [SerializeField, Tooltip("The UI used to display objective information.")] private ObjectiveDisplay objectiveDisplay;
-    [SerializeField, Tooltip("The tank to keep track of.")] private TankController playerTank;
-
-    private ObjectiveType currentObjective;
-    private float targetDistance;
-
-    private bool missionActive;
-    public static Action OnMissionComplete;
-
-    private void OnEnable()
+    public class ObjectiveTracker : MonoBehaviour
     {
-        LevelManager.OnMissionStart += InitializeObjective;
-        LevelManager.OnEnemyDefeated += OnObjectiveUpdate;
-    }
+        [SerializeField, Tooltip("The UI used to display objective information.")] private ObjectiveDisplay objectiveDisplay;
+        [SerializeField, Tooltip("The tank to keep track of.")] private TankController playerTank;
 
-    private void OnDisable()
-    {
-        LevelManager.OnMissionStart -= InitializeObjective;
-        LevelManager.OnEnemyDefeated -= OnObjectiveUpdate;
-    }
+        private ObjectiveType currentObjective;
+        private float targetDistance;
 
-    public void InitializeObjective(LevelEvents currentLevel)
-    {
-        missionActive = true;
-        objectiveDisplay.SetObjectiveName(currentLevel.GetObjectiveName());
-        targetDistance = playerTank.transform.position.x + currentLevel.metersToTravel;
-        currentObjective = currentLevel.objectiveType;
+        private bool missionActive;
+        public static Action OnMissionComplete;
 
-        switch (currentObjective)
+        private void OnEnable()
         {
-            case ObjectiveType.DefeatEnemies:
-                objectiveDisplay.AddSubObjective(1, "Enemies Defeated: 0 / " + currentLevel.enemiesToDefeat);
-                break;
+            LevelManager.OnMissionStart += InitializeObjective;
+            LevelManager.OnEnemyDefeated += OnObjectiveUpdate;
         }
-    }
 
-    private void Update()
-    {
-        if(missionActive)
-            CheckObjective();
-    }
-
-    private void OnObjectiveUpdate(LevelEvents currentLevel)
-    {
-        switch (currentObjective)
+        private void OnDisable()
         {
-            case ObjectiveType.DefeatEnemies:
-                string objectiveMessage;
-                if (LevelManager.Instance.enemiesDestroyed >= currentLevel.enemiesToDefeat)
-                    objectiveMessage = "Objective Complete!";
-                else
-                    objectiveMessage = "Enemies Defeated: " + LevelManager.Instance.enemiesDestroyed + " / " + currentLevel.enemiesToDefeat;
-
-                objectiveDisplay.UpdateSubObjective(1, objectiveMessage);
-                break;
+            LevelManager.OnMissionStart -= InitializeObjective;
+            LevelManager.OnEnemyDefeated -= OnObjectiveUpdate;
         }
-    }
 
-    private void CheckObjective()
-    {
-        switch (currentObjective)
+        public void InitializeObjective(LevelEvents currentLevel)
         {
-            case ObjectiveType.TravelDistance:
+            missionActive = true;
+            objectiveDisplay.SetObjectiveName(currentLevel.GetObjectiveName());
+            targetDistance = playerTank.transform.position.x + currentLevel.metersToTravel;
+            currentObjective = currentLevel.objectiveType;
 
-                if (playerTank != null)
-                {
-                    //Calculate the distance between the tank and the target
-                    float distance = targetDistance - playerTank.transform.position.x;
+            switch (currentObjective)
+            {
+                case ObjectiveType.DefeatEnemies:
+                    objectiveDisplay.AddSubObjective(1, "Enemies Defeated: 0 / " + currentLevel.enemiesToDefeat);
+                    break;
+            }
+        }
 
-                    //If the target has been reached, complete the objective
-                    if (distance <= 0)
+        private void Update()
+        {
+            if (missionActive)
+                CheckObjective();
+        }
+
+        private void OnObjectiveUpdate(LevelEvents currentLevel)
+        {
+            switch (currentObjective)
+            {
+                case ObjectiveType.DefeatEnemies:
+                    string objectiveMessage;
+                    if (LevelManager.Instance.enemiesDestroyed >= currentLevel.enemiesToDefeat)
+                        objectiveMessage = "Objective Complete!";
+                    else
+                        objectiveMessage = "Enemies Defeated: " + LevelManager.Instance.enemiesDestroyed + " / " + currentLevel.enemiesToDefeat;
+
+                    objectiveDisplay.UpdateSubObjective(1, objectiveMessage);
+                    break;
+            }
+        }
+
+        private void CheckObjective()
+        {
+            switch (currentObjective)
+            {
+                case ObjectiveType.TravelDistance:
+
+                    if (playerTank != null)
                     {
-                        Debug.Log("Tank has passed the target.");
-                        OnMissionComplete?.Invoke();
-                        missionActive = false;
+                        //Calculate the distance between the tank and the target
+                        float distance = targetDistance - playerTank.transform.position.x;
+
+                        //If the target has been reached, complete the objective
+                        if (distance <= 0)
+                        {
+                            Debug.Log("Tank has passed the target.");
+                            OnMissionComplete?.Invoke();
+                            missionActive = false;
+                        }
                     }
-                }
-                break;
+                    break;
+            }
         }
     }
 }

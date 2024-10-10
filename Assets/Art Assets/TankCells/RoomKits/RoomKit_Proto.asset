@@ -1,0 +1,124 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0eb8512060a03b4f94dcd5c55a26c9a, type: 3}
+  m_Name: RoomKit_Proto
+  m_EditorClassIdentifier: 
+  backWallSprite: {fileID: 21300000, guid: 1bbf546d786084e48940a5407eea8722, type: 3}
+  backWallScale: 0.12
+  cellTopWalls:
+  - sprite: {fileID: 21300000, guid: 7f64089600215a34abe1fc2c45f56bdc, type: 3}
+    weight: 1
+    offset: {x: 0, y: 0}
+    scale: {x: 0.086, y: 0.086}
+  cellRightWalls:
+  - sprite: {fileID: 21300000, guid: 3335decbc176c9544a0027ce11c27099, type: 3}
+    weight: 1
+    offset: {x: 0, y: 0}
+    scale: {x: 0.086, y: 0.086}
+  cellBottomWalls:
+  - sprite: {fileID: 21300000, guid: 08b5d4bbadd19bb458fe592680d977d3, type: 3}
+    weight: 1
+    offset: {x: 0, y: 0}
+    scale: {x: 0.086, y: 0.086}
+  cellLeftWalls:
+  - sprite: {fileID: 21300000, guid: 46fce888a67aa27479b676997475e0e9, type: 3}
+    weight: 1
+    offset: {x: 0, y: 0}
+    scale: {x: 0.086, y: 0.086}
+  wallCorner90:
+  - sprite: {fileID: 21300000, guid: a7ba19bc5f22eba499f3cb5459cbec4a, type: 3}
+    weight: 1
+    offset: {x: 0, y: 0}
+    scale: {x: 0.086, y: 0.086}
+  - sprite: {fileID: 21300000, guid: 82c7580b5dd1c854b8415237e9dcb754, type: 3}
+    weight: 1
+    offset: {x: 0, y: 0}
+    scale: {x: 0.086, y: 0.086}
+  - sprite: {fileID: 21300000, guid: 45dd9d00e2690464e8e9c2a8886f7fe9, type: 3}
+    weight: 1
+    offset: {x: 0, y: 0}
+    scale: {x: 0.086, y: 0.086}
+  - sprite: {fileID: 21300000, guid: 6c1f19244177cc843b2f0519e83f08c0, type: 3}
+    weight: 1
+    offset: {x: 0, y: 0}
+    scale: {x: 0.086, y: 0.086}
+  wallCorner180:
+  - sprite: {fileID: 0}
+    weight: 1
+    offset: {x: 0, y: 0}
+    scale: {x: 1, y: 1}
+  - sprite: {fileID: 0}
+    weight: 1
+    offset: {x: 0, y: 0}
+    scale: {x: 1, y: 1}
+  - sprite: {fileID: 0}
+    weight: 1
+    offset: {x: 0, y: 0}
+    scale: {x: 1, y: 1}
+  - sprite: {fileID: 0}
+    weight: 1
+    offset: {x: 0, y: 0}
+    scale: {x: 1, y: 1}
+  wallCorner270:
+  - sprite: {fileID: 0}
+    weight: 1
+    offset: {x: 0, y: 0}
+    scale: {x: 1, y: 1}
+  - sprite: {fileID: 0}
+    weight: 1
+    offset: {x: 0, y: 0}
+    scale: {x: 1, y: 1}
+  - sprite: {fileID: 0}
+    weight: 1
+    offset: {x: 0, y: 0}
+    scale: {x: 1, y: 1}
+  - sprite: {fileID: 0}
+    weight: 1
+    offset: {x: 0, y: 0}
+    scale: {x: 1, y: 1}
+  wallCornerConnector:
+  - sprite: {fileID: 0}
+    weight: 1
+    offset: {x: 0, y: 0}
+    scale: {x: 1, y: 1}
+  - sprite: {fileID: 0}
+    weight: 1
+    offset: {x: 0, y: 0}
+    scale: {x: 1, y: 1}
+  - sprite: {fileID: 0}
+    weight: 1
+    offset: {x: 0, y: 0}
+    scale: {x: 1, y: 1}
+  - sprite: {fileID: 0}
+    weight: 1
+    offset: {x: 0, y: 0}
+    scale: {x: 1, y: 1}
+  connectorTopWalls:
+  - sprite: {fileID: 21300000, guid: 6c6684a1f3e876747a002797be1633ef, type: 3}
+    weight: 1
+    offset: {x: 0, y: 0}
+    scale: {x: 0.086, y: 0.086}
+  connectorRightWalls:
+  - sprite: {fileID: 21300000, guid: 55781b52308b0b5418e0f7137b9f7f4d, type: 3}
+    weight: 1
+    offset: {x: 0, y: 0}
+    scale: {x: 0.086, y: 0.086}
+  connectorBottomWalls:
+  - sprite: {fileID: 21300000, guid: 6c6684a1f3e876747a002797be1633ef, type: 3}
+    weight: 1
+    offset: {x: 0, y: 0}
+    scale: {x: 0.086, y: 0.086}
+  connectorLeftWalls:
+  - sprite: {fileID: 21300000, guid: 55781b52308b0b5418e0f7137b9f7f4d, type: 3}
+    weight: 1
+    offset: {x: 0, y: 0}
+    scale: {x: 0.086, y: 0.086}

@@ -2,35 +2,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RandomNoise : MonoBehaviour
+namespace TowerTanks.Scripts
 {
-    [SerializeField, Range(0, 600)] private float minNoiseIntervalSeconds = 60;
-    [SerializeField, Range(0, 600)] private float maxNoiseIntervalSeconds = 120;
-    [SerializeField] private string soundName;
-
-    private float currentTimer;
-    private float timeToPlaySound;
-
-    private void Start()
+    public class RandomNoise : MonoBehaviour
     {
-        timeToPlaySound = Random.Range(minNoiseIntervalSeconds, maxNoiseIntervalSeconds);   
-    }
+        [SerializeField, Range(0, 600)] private float minNoiseIntervalSeconds = 60;
+        [SerializeField, Range(0, 600)] private float maxNoiseIntervalSeconds = 120;
+        [SerializeField] private string soundName;
 
-    // Update is called once per frame
-    void Update()
-    {
-        if(currentTimer > timeToPlaySound)
+        private float currentTimer;
+        private float timeToPlaySound;
+
+        private void Start()
         {
-            PlaySound();
-            currentTimer = 0;
             timeToPlaySound = Random.Range(minNoiseIntervalSeconds, maxNoiseIntervalSeconds);
         }
-        else
-            currentTimer += Time.deltaTime;
-    }
 
-    private void PlaySound()
-    {
-        GameManager.Instance.AudioManager.Play(soundName);
+        // Update is called once per frame
+        void Update()
+        {
+            if (currentTimer > timeToPlaySound)
+            {
+                PlaySound();
+                currentTimer = 0;
+                timeToPlaySound = Random.Range(minNoiseIntervalSeconds, maxNoiseIntervalSeconds);
+            }
+            else
+                currentTimer += Time.deltaTime;
+        }
+
+        private void PlaySound()
+        {
+            GameManager.Instance.AudioManager.Play(soundName);
+        }
     }
 }

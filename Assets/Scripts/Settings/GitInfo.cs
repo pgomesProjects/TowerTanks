@@ -13,8 +13,10 @@ public class GitInfo : MonoBehaviour
         branchName = GetCurrentGitBranch();
         UnityEngine.Debug.Log("Current Git Branch: " + branchName);
 
+#if UNITY_EDITOR
         UnityEditor.PlayerSettings.bundleVersion = branchName;
         UnityEditor.AssetDatabase.SaveAssets();
+#endif
     }
 
     /// <summary>
@@ -28,7 +30,7 @@ public class GitInfo : MonoBehaviour
         //If the git folder cannot be found, return the application version instead
         if (!Directory.Exists(gitDir))
         {
-            UnityEngine.Debug.LogError("Git directory not found. Make sure your project is under Git version control. (Getting version info from build settings instead.)");
+            UnityEngine.Debug.LogWarning("Git directory not found. Make sure your project is under Git version control. (Getting version info from build settings instead.)");
             return Application.version;
         };
 
@@ -57,7 +59,7 @@ public class GitInfo : MonoBehaviour
         //If the git information cannot be found, return the application version instead
         catch (System.Exception ex)
         {
-            UnityEngine.Debug.LogError("Error getting Git branch: " + ex.Message + "\nGetting version info from build settings instead.");
+            UnityEngine.Debug.LogWarning("Error getting Git branch: " + ex.Message + "\nGetting version info from build settings instead.");
             return Application.version;
         }
     }

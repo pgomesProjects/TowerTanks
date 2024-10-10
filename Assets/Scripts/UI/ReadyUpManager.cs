@@ -2,82 +2,85 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ReadyUpManager : MonoBehaviour
+namespace TowerTanks.Scripts
 {
-    [SerializeField] private ReadyComponent readyComponentPrefab;
-    [SerializeField] private RectTransform readyComponentParent;
-
-    private CanvasGroup canvasGroup;
-    private List<ReadyComponent> playerReadyComponents;
-    private bool canReady;
-    private bool allReady;
-
-    public static Action OnAllReady;
-
-    // Start is called before the first frame update
-    void Start()
+    public class ReadyUpManager : MonoBehaviour
     {
-        canvasGroup = GetComponent<CanvasGroup>();
-        canvasGroup.alpha = 0;
-        allReady = false;
-        playerReadyComponents = new List<ReadyComponent>();
-    }
+        [SerializeField] private ReadyComponent readyComponentPrefab;
+        [SerializeField] private RectTransform readyComponentParent;
 
-    public void Init()
-    {
-        PlayerData[] playerData = GameManager.Instance.MultiplayerManager.GetAllPlayers();
+        private CanvasGroup canvasGroup;
+        private List<ReadyComponent> playerReadyComponents;
+        private bool canReady;
+        private bool allReady;
 
-        for (int i = 0; i < playerData.Length; i++)
+        public static Action OnAllReady;
+
+        // Start is called before the first frame update
+        void Start()
         {
-            ReadyComponent newComponent = Instantiate(readyComponentPrefab, readyComponentParent);
-            newComponent.UpdatePlayerNumber(playerData[i].playerInput.playerIndex);
-            newComponent.UpdateReadyStatus(false);
-            playerReadyComponents.Add(newComponent);
+            canvasGroup = GetComponent<CanvasGroup>();
+            canvasGroup.alpha = 0;
+            allReady = false;
+            playerReadyComponents = new List<ReadyComponent>();
         }
 
-        canvasGroup.alpha = 1;
-        canReady = true;
-    }
-
-    public void HideReadyUpManager()
-    {
-        foreach (ReadyComponent readyComponent in playerReadyComponents)
-            Destroy(readyComponent.gameObject);
-
-        playerReadyComponents.Clear();
-        canvasGroup.alpha = 0;
-        canReady = false;
-    }
-
-    public void ReadyPlayer(int playerIndex, bool isReady = true)
-    {
-        if (allReady || !canReady)
-            return;
-
-        playerReadyComponents[playerIndex].UpdateReadyStatus(isReady);
-
-        if (IsAllReady())
-            StartReadySequence();
-    }
-
-    public void StartReadySequence()
-    {
-        allReady = true;
-        OnAllReady?.Invoke();
-    }
-
-    public bool IsAllReady()
-    {
-        foreach (ReadyComponent playerComponent in playerReadyComponents)
+        public void Init()
         {
-            if (!playerComponent.IsReady())
-                return false;
-        }
-        return true;
-    }
+            PlayerData[] playerData = GameManager.Instance.MultiplayerManager.GetAllPlayers();
 
-    public bool IsPlayerReady(int playerIndex)
-    {
-        return playerReadyComponents[playerIndex].IsReady();
+            for (int i = 0; i < playerData.Length; i++)
+            {
+                ReadyComponent newComponent = Instantiate(readyComponentPrefab, readyComponentParent);
+                newComponent.UpdatePlayerNumber(playerData[i].playerInput.playerIndex);
+                newComponent.UpdateReadyStatus(false);
+                playerReadyComponents.Add(newComponent);
+            }
+
+            canvasGroup.alpha = 1;
+            canReady = true;
+        }
+
+        public void HideReadyUpManager()
+        {
+            foreach (ReadyComponent readyComponent in playerReadyComponents)
+                Destroy(readyComponent.gameObject);
+
+            playerReadyComponents.Clear();
+            canvasGroup.alpha = 0;
+            canReady = false;
+        }
+
+        public void ReadyPlayer(int playerIndex, bool isReady = true)
+        {
+            if (allReady || !canReady)
+                return;
+
+            playerReadyComponents[playerIndex].UpdateReadyStatus(isReady);
+
+            if (IsAllReady())
+                StartReadySequence();
+        }
+
+        public void StartReadySequence()
+        {
+            allReady = true;
+            OnAllReady?.Invoke();
+        }
+
+        public bool IsAllReady()
+        {
+            foreach (ReadyComponent playerComponent in playerReadyComponents)
+            {
+                if (!playerComponent.IsReady())
+                    return false;
+            }
+            return true;
+        }
+
+        public bool IsPlayerReady(int playerIndex)
+        {
+            return playerReadyComponents[playerIndex].IsReady();
+        }
     }
 }

@@ -1,6 +1,6 @@
 {
     "name": "TowerTanks.Scripts",
-    "rootNamespace": "",
+    "rootNamespace": "TowerTanks.Scripts",
     "references": [
         "GUID:4bcac142a5c378d4cb779c524fa6e24c",
         "GUID:f7d78ecd7666c4743b15ad38895dfb27",
@@ -17,8 +17,12 @@
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
-    "overrideReferences": false,
-    "precompiledReferences": [],
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "Sirenix.OdinInspector.Attributes.dll",
+        "Sirenix.OdinInspector.Editor.dll",
+        "Sirenix.Serialization.dll"
+    ],
     "autoReferenced": true,
     "defineConstraints": [],
     "versionDefines": [],

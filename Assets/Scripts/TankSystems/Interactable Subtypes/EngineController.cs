@@ -2,334 +2,337 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EngineController : TankInteractable
+namespace TowerTanks.Scripts
 {
-    //Objects & Components
-    [Tooltip("Transforms to spawn particles from when used."), SerializeField] private Transform[] particleSpots;
-
-    //Settings:
-    [Header("Engine Settings:")]
-    public bool isPowered;
-    
-    private float smokePuffRate = 1f;
-    private float smokePuffTimer = 0;
-
-    public Color temperatureLowColor;
-    public Color temperatureHighColor;
-
-    [Header("Pressure:")]
-    public float pressure = 0;
-    public float pressureReleaseSpeed; //how fast pressure drops over time
-    public float dangerZoneThreshold; //threshold pressure needs to be above for overdrive
-    private bool overdriveActive = false;
-    public float overDriveOffset = 1f; //multiplier on engine rates while overdrive is active
-    private float pressureReleaseCd = 0;
-
-    [Header("Charge Settings:")]
-    public float maxChargeTime;
-    private float minChargeTime = 0f;
-    public float chargeTimer = 0;
-    private float targetChargeOffset = 0.2f;
-    public float targetCharge;
-    private float minTargetCharge = 0;
-    private float maxTargetCharge = 0;
-    private bool chargeStarted;
-
-    TimingGauge currentGauge;
-
-    [Header("UI:")]
-    public SpriteRenderer[] boilerSprites;
-    public Transform danger;
-    public SpriteRenderer[] dangerSprites;
-    private float targetValue = 1f;
-    private float targetTimer = 0f;
-    public Transform pressureBar;
-
-    [Header("Explosion Settings:")]
-    public float explosionTime; //how long it takes to trigger an explosion when conditions are met
-    private bool canExplode = false;
-    private float explosionTimeOriginal;
-    public float explosionTimer = 0;
-
-    [Header("Debug Controls:")]
-    public bool addPressure;
-
-    //Input
-    public bool repairInputHeld;
-
-    private void Start()
+    public class EngineController : TankInteractable
     {
-        explosionTimeOriginal = explosionTime;
-        chargeStarted = false;
+        //Objects & Components
+        [Tooltip("Transforms to spawn particles from when used."), SerializeField] private Transform[] particleSpots;
 
-        maxTargetCharge = maxChargeTime - (targetChargeOffset * 2f);
-        minTargetCharge = (targetChargeOffset * 2f);
-    }
+        //Settings:
+        [Header("Engine Settings:")]
+        public bool isPowered;
 
-    // Update is called once per frame
-    void Update()
-    {
-        //Debug settings:
-        if (addPressure) { AddPressure(15, true, true); addPressure = false; }
+        private float smokePuffRate = 1f;
+        private float smokePuffTimer = 0;
 
-        UpdateUI();
- 
-        //Add to Tank Engine Count
-        if (pressure > 0)
-        {
-            if (!isPowered)
-            {
-                isPowered = true;
-                tank.treadSystem.currentEngines += 1;
-            }
-        }
-        else
-        {
-            if (isPowered)
-            {
-                isPowered = false;
-                tank.treadSystem.currentEngines -= 1;
-            }
-        }
-    }
+        public Color temperatureLowColor;
+        public Color temperatureHighColor;
 
-    protected override void FixedUpdate()
-    {
-        base.FixedUpdate();
+        [Header("Pressure:")]
+        public float pressure = 0;
+        public float pressureReleaseSpeed; //how fast pressure drops over time
+        public float dangerZoneThreshold; //threshold pressure needs to be above for overdrive
+        private bool overdriveActive = false;
+        public float overDriveOffset = 1f; //multiplier on engine rates while overdrive is active
+        private float pressureReleaseCd = 0;
 
-        UpdatePressure();
-        CheckForExplosion();
+        [Header("Charge Settings:")]
+        public float maxChargeTime;
+        private float minChargeTime = 0f;
+        public float chargeTimer = 0;
+        private float targetChargeOffset = 0.2f;
+        public float targetCharge;
+        private float minTargetCharge = 0;
+        private float maxTargetCharge = 0;
+        private bool chargeStarted;
+
+        TimingGauge currentGauge;
+
+        [Header("UI:")]
+        public SpriteRenderer[] boilerSprites;
+        public Transform danger;
+        public SpriteRenderer[] dangerSprites;
+        private float targetValue = 1f;
+        private float targetTimer = 0f;
+        public Transform pressureBar;
+
+        [Header("Explosion Settings:")]
+        public float explosionTime; //how long it takes to trigger an explosion when conditions are met
+        private bool canExplode = false;
+        private float explosionTimeOriginal;
+        public float explosionTimer = 0;
+
+        [Header("Debug Controls:")]
+        public bool addPressure;
 
         //Input
-        if (hasOperator)
-        {
-            if (operatorID.interactInputHeld && chargeStarted)
-            {
-                chargeTimer += Time.deltaTime;
-            }
+        public bool repairInputHeld;
 
-            if (chargeTimer >= maxChargeTime)
-            {
-                CheckCharge();
-            }
+        private void Start()
+        {
+            explosionTimeOriginal = explosionTime;
+            chargeStarted = false;
+
+            maxTargetCharge = maxChargeTime - (targetChargeOffset * 2f);
+            minTargetCharge = (targetChargeOffset * 2f);
         }
-    }
 
-    //FUNCTIONALITY METHODS:
-    /// <summary>
-    /// Loads (amount) coal into the engine.
-    /// </summary>
-    public void AddPressure(int amount, bool enableSounds = true, bool surgeSpeed = false)
-    {
-        //Increase coal total:
-        pressure += amount;
-        if (enableSounds)
+        // Update is called once per frame
+        void Update()
         {
-            if (pressure > 100)
+            //Debug settings:
+            if (addPressure) { AddPressure(15, true, true); addPressure = false; }
+
+            UpdateUI();
+
+            //Add to Tank Engine Count
+            if (pressure > 0)
             {
-                GameManager.Instance.AudioManager.Play("InvalidAlert"); //Can't do that, sir
-                pressure = 100;
+                if (!isPowered)
+                {
+                    isPowered = true;
+                    tank.treadSystem.currentEngines += 1;
+                }
             }
             else
             {
-                //Other effects:
-                GameManager.Instance.ParticleSpawner.SpawnParticle(3, particleSpots[0].position, 0.15f, null);
-                GameManager.Instance.AudioManager.Play("CoalLoad", this.gameObject); //Play loading clip
-                GameManager.Instance.SystemEffects.ApplyRampedControllerHaptics(operatorID.GetPlayerData().playerInput, 0f, 0.5f, 0.25f, 0.5f, 0.25f); //Apply haptics
+                if (isPowered)
+                {
+                    isPowered = false;
+                    tank.treadSystem.currentEngines -= 1;
+                }
             }
         }
 
-        //Small Speed Boost
-        if (surgeSpeed)
+        protected override void FixedUpdate()
         {
-            StartCoroutine(tank.treadSystem.SpeedSurge(0.7f, 2));
-        }
-    }
+            base.FixedUpdate();
 
-    private void UpdatePressure()
-    {
-        float lowerSpeed = pressureReleaseSpeed * Time.deltaTime;
-        float pressureDif = (50f + (pressure * 0.5f)) / 100f; //slows down the closer it gets to 0
+            UpdatePressure();
+            CheckForExplosion();
 
-        if (!chargeStarted && repairInputHeld)
-        {
-            lowerSpeed *= 10f;
-            if (!GameManager.Instance.AudioManager.IsPlaying("SteamExhaustLoop", this.gameObject)) GameManager.Instance.AudioManager.Play("SteamExhaustLoop", this.gameObject);
-        }
-        else if (GameManager.Instance.AudioManager.IsPlaying("SteamExhaustLoop", this.gameObject)) GameManager.Instance.AudioManager.Stop("SteamExhaustLoop", this.gameObject);
-
-        if (pressure > 0)
-        {
-            pressure -= lowerSpeed * pressureDif;
-
-            //Puff Smoke
-            smokePuffTimer += Time.deltaTime;
-            if (smokePuffTimer >= smokePuffRate)
+            //Input
+            if (hasOperator)
             {
-                smokePuffTimer = 0;
-                GameManager.Instance.ParticleSpawner.SpawnParticle(3, particleSpots[0].position, 0.1f, null);
+                if (operatorID.interactInputHeld && chargeStarted)
+                {
+                    chargeTimer += Time.deltaTime;
+                }
+
+                if (chargeTimer >= maxChargeTime)
+                {
+                    CheckCharge();
+                }
             }
         }
-        else
+
+        //FUNCTIONALITY METHODS:
+        /// <summary>
+        /// Loads (amount) coal into the engine.
+        /// </summary>
+        public void AddPressure(int amount, bool enableSounds = true, bool surgeSpeed = false)
         {
-            pressure = 0;
-        }
-
-    }
-
-    public override void Use(bool overrideConditions = false)
-    {
-        base.Use(overrideConditions);
-
-        if (overrideConditions)
-            AddPressure(30, false, false);
-        else if (cooldown <= 0)
-            StartCharge();
-    }
-
-    public override void CancelUse()
-    {
-        base.CancelUse();
-
-        CheckCharge();
-    }
-
-    public override void Exit(bool sameZone)
-    {
-        base.Exit(sameZone);
-
-        RemoveTimingGauge();
-    }
-
-    public void StartCharge()
-    {
-        float random = Random.Range(minTargetCharge, maxTargetCharge);
-        targetCharge = random;
-
-        chargeTimer = 0;
-        chargeStarted = true;
-
-        float min = ((targetCharge - targetChargeOffset)) / maxChargeTime;
-        float max = ((targetCharge + targetChargeOffset)) / maxChargeTime;
-
-        currentGauge = GameManager.Instance.UIManager.AddTimingGauge(gameObject, maxChargeTime, min, max);
-    }
-
-    public void CheckCharge()
-    {
-        if (!chargeStarted)
-            return;
-
-        if (chargeTimer >= minChargeTime)
-        {
-            //If the gauge was pressed in the zone
-            if (currentGauge.PressGauge()) 
-            { 
-                AddPressure(30, true, true);
-                GameManager.Instance.AudioManager.Play("JetpackRefuel"); //Got it!
-            }
-            else AddPressure(10, true, false);
-        }
-
-        RemoveTimingGauge();
-
-        chargeStarted = false;
-        chargeTimer = 0;
-    }
-
-    private void RemoveTimingGauge()
-    {
-        if(currentGauge != null)
-        {
-            //Ends the timing gauge and destroys it
-            currentGauge.EndTimingGauge();
-            currentGauge = null;
-        }
-    }
-
-    private void CheckForExplosion()
-    {
-        if (pressure > dangerZoneThreshold)
-        {
-            if (!canExplode)
+            //Increase coal total:
+            pressure += amount;
+            if (enableSounds)
             {
-                explosionTimer = 0;
-                float randomOffset = Random.Range(-1f, 5f);
-                explosionTime += randomOffset;
+                if (pressure > 100)
+                {
+                    GameManager.Instance.AudioManager.Play("InvalidAlert"); //Can't do that, sir
+                    pressure = 100;
+                }
+                else
+                {
+                    //Other effects:
+                    GameManager.Instance.ParticleSpawner.SpawnParticle(3, particleSpots[0].position, 0.15f, null);
+                    GameManager.Instance.AudioManager.Play("CoalLoad", this.gameObject); //Play loading clip
+                    GameManager.Instance.SystemEffects.ApplyRampedControllerHaptics(operatorID.GetPlayerData().playerInput, 0f, 0.5f, 0.25f, 0.5f, 0.25f); //Apply haptics
+                }
             }
-            canExplode = true;
-        }
 
-        if (pressure < dangerZoneThreshold)
-        {
-            canExplode = false;
-            explosionTime = explosionTimeOriginal;
-        }
-
-        if (canExplode)
-        {
-            if (explosionTimer < explosionTime) explosionTimer += Time.deltaTime;
-            if (explosionTimer > explosionTime)
+            //Small Speed Boost
+            if (surgeSpeed)
             {
-                explosionTimer = 0;
-                Explode();
+                StartCoroutine(tank.treadSystem.SpeedSurge(0.7f, 2));
             }
         }
-    }
 
-    public void Explode()
-    {
-        GameManager.Instance.ParticleSpawner.SpawnParticle(4, particleSpots[1].position, 0.1f, null);
-        GameManager.Instance.AudioManager.Play("LargeExplosionSFX", gameObject);
-        parentCell.Damage(100);
-    }
-
-    public void UpdateUI()
-    {
-        for (int i = 0; i < boilerSprites.Length; i++) {
-            boilerSprites[i].color = Color.Lerp(temperatureLowColor, temperatureHighColor, pressure / 100f);
-        }
-
-        if (canExplode)
+        private void UpdatePressure()
         {
-            for (int i = 0; i < dangerSprites.Length; i++)
-            {
-                Color tempColor = dangerSprites[i].color;
-                float alpha = Mathf.Lerp(1f, 0f, (targetTimer / targetValue));
-                tempColor.a = alpha;
-                dangerSprites[i].color = tempColor;
+            float lowerSpeed = pressureReleaseSpeed * Time.deltaTime;
+            float pressureDif = (50f + (pressure * 0.5f)) / 100f; //slows down the closer it gets to 0
 
-                float scale = Mathf.Lerp(1.2f, 1f, (targetTimer / targetValue));
-                danger.localScale = new Vector3(scale, scale, 1f);
-            }
-            targetTimer += Time.deltaTime;
-            if (targetTimer >= targetValue)
+                    if (!chargeStarted && repairInputHeld)
+                    {
+                        lowerSpeed *= 10f;
+                        if (!GameManager.Instance.AudioManager.IsPlaying("SteamExhaustLoop", this.gameObject)) GameManager.Instance.AudioManager.Play("SteamExhaustLoop", this.gameObject);
+                    }
+                    else if (GameManager.Instance.AudioManager.IsPlaying("SteamExhaustLoop", this.gameObject)) GameManager.Instance.AudioManager.Stop("SteamExhaustLoop", this.gameObject);
+
+            if (pressure > 0)
             {
-                targetTimer = 0;
+                pressure -= lowerSpeed * pressureDif;
+
+                //Puff Smoke
+                smokePuffTimer += Time.deltaTime;
+                if (smokePuffTimer >= smokePuffRate)
+                {
+                    smokePuffTimer = 0;
+                    GameManager.Instance.ParticleSpawner.SpawnParticle(3, particleSpots[0].position, 0.1f, null);
+                }
+            }
+            else
+            {
+                pressure = 0;
             }
 
         }
-        else
+
+        public override void Use(bool overrideConditions = false)
         {
-            for (int i = 0; i < dangerSprites.Length; i++)
-            {
-                Color tempColor = dangerSprites[i].color;
-                float alpha = 0;
-                tempColor.a = alpha;
-                dangerSprites[i].color = tempColor;
-            }
-            danger.localScale = new Vector3(1f, 1f, 1f);
+            base.Use(overrideConditions);
+
+            if (overrideConditions)
+                AddPressure(30, false, false);
+            else if (cooldown <= 0)
+                StartCharge();
         }
 
-        if (pressureBar != null)
+        public override void CancelUse()
         {
-            pressureBar.localScale = new Vector3(0.1f, 0.5f * (pressure / 100f));
-        }
-    }
+            base.CancelUse();
 
-    public override void OnDestroy()
-    {
-        base.OnDestroy();
-        if (isPowered) tank.treadSystem.currentEngines -= 1;
+            CheckCharge();
+        }
+
+        public override void Exit(bool sameZone)
+        {
+            base.Exit(sameZone);
+
+            RemoveTimingGauge();
+        }
+
+        public void StartCharge()
+        {
+            float random = Random.Range(minTargetCharge, maxTargetCharge);
+            targetCharge = random;
+
+            chargeTimer = 0;
+            chargeStarted = true;
+
+            float min = ((targetCharge - targetChargeOffset)) / maxChargeTime;
+            float max = ((targetCharge + targetChargeOffset)) / maxChargeTime;
+
+            currentGauge = GameManager.Instance.UIManager.AddTimingGauge(gameObject, maxChargeTime, min, max);
+        }
+
+        public void CheckCharge()
+        {
+            if (!chargeStarted)
+                return;
+
+            if (chargeTimer >= minChargeTime)
+            {
+                //If the gauge was pressed in the zone
+                if (currentGauge.PressGauge())
+                {
+                    AddPressure(30, true, true);
+                    GameManager.Instance.AudioManager.Play("JetpackRefuel"); //Got it!
+                }
+                else AddPressure(10, true, false);
+            }
+
+            RemoveTimingGauge();
+
+            chargeStarted = false;
+            chargeTimer = 0;
+        }
+
+        private void RemoveTimingGauge()
+        {
+            if(currentGauge != null)
+            {
+                //Ends the timing gauge and destroys it
+                currentGauge.EndTimingGauge();
+                currentGauge = null;
+            }
+        }
+
+        private void CheckForExplosion()
+        {
+            if (pressure > dangerZoneThreshold)
+            {
+                if (!canExplode)
+                {
+                    explosionTimer = 0;
+                    float randomOffset = Random.Range(-1f, 5f);
+                    explosionTime += randomOffset;
+                }
+                canExplode = true;
+            }
+
+            if (pressure < dangerZoneThreshold)
+            {
+                canExplode = false;
+                explosionTime = explosionTimeOriginal;
+            }
+
+            if (canExplode)
+            {
+                if (explosionTimer < explosionTime) explosionTimer += Time.deltaTime;
+                if (explosionTimer > explosionTime)
+                {
+                    explosionTimer = 0;
+                    Explode();
+                }
+            }
+        }
+
+        public void Explode()
+        {
+            GameManager.Instance.ParticleSpawner.SpawnParticle(4, particleSpots[1].position, 0.1f, null);
+            GameManager.Instance.AudioManager.Play("LargeExplosionSFX", gameObject);
+            parentCell.Damage(100);
+        }
+
+        public void UpdateUI()
+        {
+            for (int i = 0; i < boilerSprites.Length; i++) {
+                boilerSprites[i].color = Color.Lerp(temperatureLowColor, temperatureHighColor, pressure / 100f);
+            }
+
+            if (canExplode)
+            {
+                for (int i = 0; i < dangerSprites.Length; i++)
+                {
+                    Color tempColor = dangerSprites[i].color;
+                    float alpha = Mathf.Lerp(1f, 0f, (targetTimer / targetValue));
+                    tempColor.a = alpha;
+                    dangerSprites[i].color = tempColor;
+
+                    float scale = Mathf.Lerp(1.2f, 1f, (targetTimer / targetValue));
+                    danger.localScale = new Vector3(scale, scale, 1f);
+                }
+                targetTimer += Time.deltaTime;
+                if (targetTimer >= targetValue)
+                {
+                    targetTimer = 0;
+                }
+
+            }
+            else
+            {
+                for (int i = 0; i < dangerSprites.Length; i++)
+                {
+                    Color tempColor = dangerSprites[i].color;
+                    float alpha = 0;
+                    tempColor.a = alpha;
+                    dangerSprites[i].color = tempColor;
+                }
+                danger.localScale = new Vector3(1f, 1f, 1f);
+            }
+
+            if (pressureBar != null)
+            {
+                pressureBar.localScale = new Vector3(0.1f, 0.5f * (pressure / 100f));
+            }
+        }
+
+        public override void OnDestroy()
+        {
+            base.OnDestroy();
+            if (isPowered) tank.treadSystem.currentEngines -= 1;
+        }
     }
 }

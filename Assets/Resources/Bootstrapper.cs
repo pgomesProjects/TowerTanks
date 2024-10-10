@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public static class Bootstrapper
 {
@@ -7,10 +8,17 @@ public static class Bootstrapper
     {
         //Before the scene loads, spawn an Init prefab and make sure it never gets destroyed, even between scenes
         Object.DontDestroyOnLoad(Object.Instantiate(Resources.Load("Init")));
+        Object.DontDestroyOnLoad(Object.Instantiate(Resources.Load("CampaignManager")));
         Object.DontDestroyOnLoad(Object.Instantiate(Resources.Load("DebugCanvas")));
 
         Cursor.lockState = CursorLockMode.Confined;
         SettingsOnStart();
+    }
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+    private static void InitializeAfterSceneLoad()
+    {
+        DebugManager.instance.enableRuntimeUI = false;
     }
 
     private static void SettingsOnStart()
