@@ -299,17 +299,25 @@ public class PlayerMovement : Character
             currentGroundMoveSpeed = groundMoveSpeed * deAccel;
         } else currentGroundMoveSpeed = groundMoveSpeed;
         
-        Vector2 force = transform.right * (moveInput.x * (CheckGround() ? currentGroundMoveSpeed : airMoveSpeed));
+        Vector2 force = transform.right * (moveInput.x * ((CheckGround()) ? currentGroundMoveSpeed : defaultAirForce));
         
         if (CheckGround())
         {
             rb.AddForce(force, ForceMode2D.Impulse);
             //draw gizmo for force
+            if (!jetpackInputHeld)
+            {
+                Vector2 localVel = transform.InverseTransformDirection(rb.velocity);
+                if (localVel.y >= 0) localVel.y = 0; // if we are grounded, and not trying to move up,
+                                                     // we always want our local up axis, which is aligned with the tank, to be 0
+                rb.velocity = transform.TransformDirection(localVel);
+            }
             Debug.DrawRay(transform.position, force, Color.red);
         }
         else
         {
-            rb.AddForce(force, ForceMode2D.Force);
+            rb.AddForce(force * 5, ForceMode2D.Force); //* 5 just makes the air force value more intuitive when compared to ground speed, air force requires more force because
+                                                       // its using force.force instead of impulse
             
             //draw gizmo for force
             Debug.DrawRay(transform.position, force, Color.blue);

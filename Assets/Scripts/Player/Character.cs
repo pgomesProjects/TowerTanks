@@ -33,7 +33,7 @@ public abstract class Character : SerializedMonoBehaviour
     [SerializeField] protected float groundMoveSpeed;
 
     protected float currentGroundMoveSpeed;
-    [SerializeField] protected float airMoveSpeed;
+    [SerializeField] protected float defaultAirForce;
     [SerializeField] protected float groundDeAcceleration;
     [SerializeField] protected float airDeAcceleration;
     [SerializeField] protected float jetpackForce;

@@ -5095,7 +5095,7 @@ MonoBehaviour:
   currentState: 0
   characterSettings: {fileID: 11400000, guid: a7bc3075ff116a040a2a22890b0f100a, type: 2}
   groundMoveSpeed: 15
-  airMoveSpeed: 80
+  defaultAirForce: 40
   groundDeAcceleration: 20
   airDeAcceleration: 5
   jetpackForce: 150
@@ -5137,7 +5137,7 @@ MonoBehaviour:
   ladderDetectionRadius: 0.05
   maxSlope: 95
   maxYVelocity: 7
-  maxXVelocity: 8
+  maxXVelocity: 6
 --- !u!114 &3919349592667607501
 MonoBehaviour:
   m_ObjectHideFlags: 0
