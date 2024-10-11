@@ -170,6 +170,9 @@ namespace TowerTanks.Scripts
                 TreadSystem treads = target.GetComponentInParent<TankController>().treadSystem;
                 if (treads != null)
                 {
+                    //Damage Treads
+                    treads.Damage(damage);
+
                     //Apply Knockback Force
                     if (knockbackForce > 0)
                     {

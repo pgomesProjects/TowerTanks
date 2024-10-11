@@ -48,6 +48,11 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("Minimum Speed for Ramming Effects to Apply")]         public float rammingSpeed;
         private float stunTimer = 0;
         [SerializeField, Tooltip("Multiplier on speed when stunned by an impact/force")] public float speedStunMultiplier = 1f;
+        public float treadHealth;
+        private float treadMaxHealth = 200f;
+        public float healthRegenRate;
+        private float unjamHealthThreshold = 60f;
+        public bool isJammed;
 
         //Runtime Variables:
         private bool initialized;    //True if tread system has already been set up
@@ -108,6 +113,9 @@ namespace TowerTanks.Scripts
             }
             else speedStunMultiplier = 1f;
 
+            //Update Health
+            UpdateHealth();
+
             //Update throttle:
             float throttleTarget = gear / (float)((gearPositions - 1) / 2);                                          //Get target throttle value between -1 and 1 based on current gear setting
             throttleTarget = Mathf.Lerp(throttleValue, throttleTarget, accelerationDamping);                         //Use lerp to soften throttle target, making accelerations less abrupt
@@ -117,8 +125,12 @@ namespace TowerTanks.Scripts
             int groundedWheels = 0;                                                         //Initialize variable to track how many wheels are grounded
             foreach (TreadWheel wheel in wheels) { if (wheel.grounded) groundedWheels++; }; //Pre-calculate number of grounded wheels
 
+            //Check for Jam
+            float jamMultiplier = 1f;
+            if (isJammed) jamMultiplier = 0f;
+
             //Apply wheel forces:
-            Vector2 targetTankSpeed = transform.right * maxSpeed * throttleValue;                  //Get target speed based on tank throttle
+            Vector2 targetTankSpeed = transform.right * maxSpeed * throttleValue * jamMultiplier;  //Get target speed based on tank throttle
             Vector2 deltaSpeed = targetTankSpeed - r.velocity;                                     //Get value which would change current speed to target speed
             Vector2 baseWheelAccel = deltaSpeed / Time.fixedDeltaTime;                             //Get ideal acceleration value which each wheel will use to compute actual force (apply actual acceleration to smooth out speed changes)
             baseWheelAccel *= Mathf.Min((float)groundedWheels / (wheels.Length - extraWheels), 1); //Handicap acceleration when wheels are off ground (prevents tank from doing extended wheelies)
@@ -214,6 +226,9 @@ namespace TowerTanks.Scripts
                 newTreads.Add(newTread);                                            //Add new tread to list
             }
             treads = newTreads.ToArray(); //Commit generated list to array
+
+            //Set health
+            treadHealth = treadMaxHealth;
         }
 
         public IEnumerator SpeedSurge(float duration, int power)
@@ -244,6 +259,45 @@ namespace TowerTanks.Scripts
 
             stunTimer += stunTime;
             if (stunTimer > 3f) stunTimer = 3f;
+        }
+
+        private void UpdateHealth()
+        {
+            if (treadHealth < treadMaxHealth)
+            {
+                treadHealth += healthRegenRate * Time.fixedDeltaTime;
+
+                if (treadHealth >= unjamHealthThreshold)
+                {
+                    if (isJammed) isJammed = false;
+                }
+
+                if (treadHealth >= treadMaxHealth)
+                {
+                    treadHealth = treadMaxHealth;
+                }
+            }
+        }
+
+        public void Damage(float amount)
+        {
+            treadHealth -= amount;
+
+            //Check for Jam
+            if (treadHealth <= 0)
+            {
+                treadHealth = 0;
+                Jam();
+            }
+        }
+
+        public void Jam()
+        {
+            if (!isJammed)
+            {
+                isJammed = true;
+                GameManager.Instance.AudioManager.Play("EngineDyingSFX", this.gameObject);
+            }
         }
 
         //UTILITY METHODS:
