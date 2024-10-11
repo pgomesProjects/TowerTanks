@@ -33,9 +33,23 @@ namespace TowerTanks.Scripts
             ToggleGameUI(!isVisible);
         }
 
+        private PlayerControlSystem playerControls;
+
         private void Awake()
         {
             isVisible = true;
+            playerControls = new PlayerControlSystem();
+            playerControls.Debug.ToggleUI.started += _ => DebugToggleGameUI();
+        }
+
+        private void OnEnable()
+        {
+            playerControls?.Enable();
+        }
+
+        private void OnDisable()
+        {
+            playerControls?.Disable();
         }
 
         /// <summary>
@@ -69,7 +83,19 @@ namespace TowerTanks.Scripts
             //Toggle the visibility of any main UI objects
             GameMultiplayerUI gameMultiplayerUI = FindObjectOfType<GameMultiplayerUI>();
             if (gameMultiplayerUI != null)
+            {
+                CanvasGroup canvasGroup = gameMultiplayerUI.GetComponent<CanvasGroup>();
+
+                //Adds a CanvasGroup if not already added
+                if (canvasGroup == null)
+                {
+                    canvasGroup = gameMultiplayerUI.gameObject.AddComponent<CanvasGroup>();
+                    canvasGroup.interactable = false;
+                    canvasGroup.blocksRaycasts = false;
+                }
+
                 gameMultiplayerUI.GetComponent<CanvasGroup>().alpha = isVisible ? 1 : 0;
+            }
 
             CombatHUD combatHUD = FindObjectOfType<CombatHUD>();
             if (combatHUD != null)
