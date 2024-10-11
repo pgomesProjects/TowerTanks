@@ -64,9 +64,6 @@ namespace TowerTanks.Scripts
         {
             //Update timers:
             timeInGear += Time.deltaTime; //Update time in gear tracker
-            if (stunTimer > 0) stunTimer -= Time.deltaTime;
-            speedStunMultiplier = 1f - (stunTimer);
-            speedStunMultiplier = Mathf.Clamp(speedStunMultiplier, 0.05f, 1f);
 
             //Update treads:
             for (int wheelIndex = 0; wheelIndex < wheels.Length; wheelIndex++) //Iterate once for each wheel
@@ -102,6 +99,15 @@ namespace TowerTanks.Scripts
         }
         private void FixedUpdate()
         {
+            //Update Stun Timer
+            if (stunTimer > 0)
+            {
+                stunTimer -= Time.fixedDeltaTime;
+                speedStunMultiplier = Mathf.Lerp(0.05f, 1f, (3f / stunTimer) * Time.fixedDeltaTime);
+                speedStunMultiplier = Mathf.Clamp(speedStunMultiplier, 0.05f, 1f);
+            }
+            else speedStunMultiplier = 1f;
+
             //Update throttle:
             float throttleTarget = gear / (float)((gearPositions - 1) / 2);                                          //Get target throttle value between -1 and 1 based on current gear setting
             throttleTarget = Mathf.Lerp(throttleValue, throttleTarget, accelerationDamping);                         //Use lerp to soften throttle target, making accelerations less abrupt
@@ -131,7 +137,7 @@ namespace TowerTanks.Scripts
                     if (wheel.lastGroundHit.collider != null) //Wheel has valid information about hit ground
                     {
                         //Apply drive torque:
-                        Vector2 wheelAccel = Vector3.Project(baseWheelAccel, wheelDirection); //Project base acceleration onto vector representing direction wheel is capable of producing force in (depends on ground angle)
+                        Vector2 wheelAccel = Vector3.Project(baseWheelAccel * speedStunMultiplier, wheelDirection); //Project base acceleration onto vector representing direction wheel is capable of producing force in (depends on ground angle)
                         wheelAccel /= (wheels.Length - extraWheels);                          //Divide wheel acceleration value by number of main wheels so that tank is most stable when all wheels are on the ground
                         Debug.DrawRay(wheel.lastGroundHit.point, wheelAccel);
                         r.AddForceAtPosition(wheelAccel * speedStunMultiplier, wheel.lastGroundHit.point, ForceMode2D.Force); //Apply wheel traction to system
