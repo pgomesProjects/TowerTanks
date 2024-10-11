@@ -15,6 +15,7 @@ public enum GAMESCENE { TITLE = 0, BUILDING = 1, COMBAT = 3 };
 public static class GameSettings
 {
     public static bool debugMode = false;
+    public static bool customPlayerNames = false;
 
     public static string controlSchemeUI = "Gamepad";
 

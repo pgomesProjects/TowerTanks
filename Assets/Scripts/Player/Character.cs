@@ -426,6 +426,7 @@ namespace TowerTanks.Scripts
         {
             currentHealth = characterSettings.maxHealth;
             currentFuel = characterSettings.fuelAmount;
+            characterHUD?.UpdateFuelBar((currentFuel / characterSettings.fuelAmount) * 100f);
             currentState = CharacterState.NONCLIMBING;
 
             if (currentInteractable != null)

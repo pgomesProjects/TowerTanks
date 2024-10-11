@@ -143,9 +143,13 @@ namespace TowerTanks.Scripts
 
         public void AddPlayer(PlayerInput playerInput)
         {
-            NamepadController namepad = playerNamepadContainer.GetChild(playerInput.playerIndex).GetComponent<NamepadController>();
-            namepad.gameObject.SetActive(true);
-            namepad.AssignPlayerToGamepad(playerInput);
+            if (GameSettings.customPlayerNames)
+            {
+                //Give the player a namepad to name themselves
+                NamepadController namepad = playerNamepadContainer.GetChild(playerInput.playerIndex).GetComponent<NamepadController>();
+                namepad.gameObject.SetActive(true);
+                namepad.AssignPlayerToGamepad(playerInput);
+            }
 
             CheckForAllPlayersConnectedAndReady();
         }
