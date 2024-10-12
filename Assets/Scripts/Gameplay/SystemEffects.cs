@@ -142,61 +142,25 @@ namespace TowerTanks.Scripts
         /// Applies controller haptics to the player.
         /// </summary>
         /// <param name="playerInput">The player input component.</param>
-        /// <param name="leftIntensity">The intensity of the left motor.</param>
-        /// <param name="rightIntensity">The intensity of the right motor.</param>
-        /// <param name="duration">The duration of the haptics effect.</param>
-        public void ApplyControllerHaptics(PlayerInput playerInput, float leftIntensity, float rightIntensity, float duration)
+        /// <param name="hapticsSettings">The settings for the haptics event.</param>
+        public void ApplyControllerHaptics(PlayerInput playerInput, HapticsSettings hapticsSettings)
         {
             Gamepad gamepad = playerInput.devices[0] as Gamepad;
 
-            //Apply haptics if the player is using a Gamepad
-            if (gamepad != null)
-                StartCoroutine(PlayHapticsConstant(gamepad, leftIntensity, rightIntensity, duration));
-        }
+            //Return if the player does not have a gamepad or there are no settings
+            if (gamepad == null || hapticsSettings == null)
+                return;
 
-        /// <summary>
-        /// Applies controller haptics to the player.
-        /// </summary>
-        /// <param name="playerInput">The player input component.</param>
-        /// <param name="intensity">The intensity of both the left and right motors.</param>
-        /// <param name="duration">The duration of the haptics effect.</param>
-        public void ApplyControllerHaptics(PlayerInput playerInput, float intensity, float duration)
-        {
-            ApplyControllerHaptics(playerInput, intensity, intensity, duration);
-        }
-
-        /// <summary>
-        /// Applies ramped controller haptics feedback to the player.
-        /// </summary>
-        /// <param name="playerInput">The player input component.</param>
-        /// <param name="startLeftIntensity">The starting intensity of the left motor.</param>
-        /// <param name="startRightIntensity">The starting intensity of the right motor.</param>
-        /// <param name="endLeftIntensity">The target intensity of the left motor.</param>
-        /// <param name="endRightIntensity">The target intensity of the right motor.</param>
-        /// <param name="rampUpDuration">The time it takes to ramp from start to end intensity.</param>
-        /// <param name="holdDuration">The time after the ramped duration to maintain the ending intensity.</param>
-        /// <param name="rampDownDuration">The time it takes to ramp from end to start intensity.</param>
-        public void ApplyRampedControllerHaptics(PlayerInput playerInput, float startLeftIntensity, float startRightIntensity, float endLeftIntensity, float endRightIntensity, float rampUpDuration, float holdDuration, float rampDownDuration)
-        {
-            Gamepad gamepad = playerInput.devices[0] as Gamepad;
-
-            //Apply haptics if the player is using a Gamepad
-            if (gamepad != null)
-                StartCoroutine(PlayHapticsRamped(gamepad, startLeftIntensity, startRightIntensity, endLeftIntensity, endRightIntensity, rampUpDuration, holdDuration, rampDownDuration));
-        }
-
-        /// <summary>
-        /// Applies ramped controller haptics feedback to the player.
-        /// </summary>
-        /// <param name="playerInput">The player input component.</param>
-        /// <param name="startIntensity">The starting intensity of both the left and right motors.</param>
-        /// <param name="endIntensity">The ending intensity of both the left and right motors.</param>
-        /// <param name="rampUpDuration">The time it takes to ramp from start to end intensity.</param>
-        /// <param name="holdDuration">The time after the ramped duration to maintain the ending intensity.</param>
-        /// <param name="rampDownDuration">The time it takes to ramp from end to start intensity.</param>
-        public void ApplyRampedControllerHaptics(PlayerInput playerInput, float startIntensity, float endIntensity, float rampUpDuration, float holdDuration, float rampDownDuration)
-        {
-            ApplyRampedControllerHaptics(playerInput, startIntensity, startIntensity, endIntensity, endIntensity, rampUpDuration, holdDuration, rampDownDuration);
+            //Start a coroutine based on the type of haptics
+            switch (hapticsSettings.hapticsType)
+            {
+                case HapticsType.STANDARD:
+                    StartCoroutine(PlayHapticsConstant(gamepad, hapticsSettings.leftMotorIntensity, hapticsSettings.rightMotorIntensity, hapticsSettings.duration));
+                    break;
+                case HapticsType.RAMPED:
+                    StartCoroutine(PlayHapticsRamped(gamepad, hapticsSettings.leftStartIntensity, hapticsSettings.rightStartIntensity, hapticsSettings.leftEndIntensity, hapticsSettings.rightEndIntensity, hapticsSettings.rampUpDuration, hapticsSettings.holdDuration, hapticsSettings.rampDownDuration));
+                    break;
+            }
         }
 
         /// <summary>
