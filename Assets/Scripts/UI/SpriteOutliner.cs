@@ -80,6 +80,7 @@ namespace TowerTanks.Scripts
 
             // Create line prefab
             LineRenderer currentOutline = new GameObject("Line").AddComponent<LineRenderer>();
+            currentOutline.useWorldSpace = false;
             currentOutline.transform.parent = spriteRenderer.transform;
             currentOutline.material = outlineMat;
             currentOutline.startWidth = currentOutline.endWidth = outlineWidth;
