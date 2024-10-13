@@ -248,13 +248,14 @@ namespace TowerTanks.Scripts
         /// Shakes the Cinemachine camera given.
         /// </summary>
         /// <param name="currentCamera">The current camera to shake (requires a Perlin Noise Profile on the camera to work).</param>
-        /// <param name="intensity">The intensity of the screen shake.</param>
-        /// <param name="duration">The duration of the screen shake.</param>
-        public void ShakeCamera(CinemachineVirtualCamera currentCamera, float intensity, float duration)
+        /// <param name="screenshakeSettings">The settings for the screenshake event.</param>
+        public void ShakeCamera(CinemachineVirtualCamera currentCamera, ScreenshakeSettings screenshakeSettings)
         {
-            //If the users have Screenshake turned on
-            if (PlayerPrefs.GetInt("Screenshake", 1) == 1)
-                StartCoroutine(ShakeCameraAnimation(currentCamera, intensity, duration));
+            //If the users have Screenshake turned off or there are no settings, return
+            if (PlayerPrefs.GetInt("Screenshake", 1) == 0 || screenshakeSettings == null)
+                return;
+
+            StartCoroutine(ShakeCameraAnimation(currentCamera, screenshakeSettings.intensity, screenshakeSettings.duration));
         }
 
         /// <summary>
