@@ -584,6 +584,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 917774233966636334}
+  - component: {fileID: 5167400298972089741}
   m_Layer: 0
   m_Name: Visuals
   m_TagString: Untagged
@@ -611,6 +612,24 @@ Transform:
   m_Father: {fileID: 917774235452588907}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5167400298972089741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 917774233966636335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 075b81b5ae3b09b4b8ab931ac1369df2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isVisible: 0
+  outlineWidth: 0.05
+  smoothness: 0
+  outlineColor: {r: 0, g: 1, b: 0.0184803, a: 1}
+  outlineMat: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+  scaleMultiplier: 1
 --- !u!1 &917774234130947397
 GameObject:
   m_ObjectHideFlags: 0

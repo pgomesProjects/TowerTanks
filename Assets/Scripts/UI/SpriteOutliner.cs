@@ -1,17 +1,20 @@
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace TowerTanks.Scripts
 {
     [ExecuteInEditMode]
     public class SpriteOutliner : MonoBehaviour
     {
+        [SerializeField, Tooltip("Enables / Disables the outline.")] private bool isVisible = false;
         [SerializeField, Tooltip("The width of the outline.")] private float outlineWidth;
         [SerializeField, Tooltip("The smoothness of the outline.")] private int smoothness;
         [SerializeField, Tooltip("The color of the outline.")] private Color outlineColor;
         [SerializeField, Tooltip("The material for the outline.")] private Material outlineMat;
-
+        [SerializeField, Tooltip("The scale multiplier.")] private float scaleMultiplier = 1;
 
         private List<LineRenderer> currentOutlines = new List<LineRenderer>();
 
@@ -20,15 +23,41 @@ namespace TowerTanks.Scripts
         {
             ClearOutline();
 
-            //Generate an outline for all SpriteRenderers childed to the object
-            foreach (SpriteRenderer spriteRenderer in GetComponentsInChildren<SpriteRenderer>())
-                GenerateOutline(spriteRenderer, smoothness);
+            if (isVisible)
+            {
+                //Generate an outline for all SpriteRenderers childed to the object
+                foreach (SpriteRenderer spriteRenderer in GetComponentsInChildren<SpriteRenderer>())
+                    GenerateOutline(spriteRenderer, smoothness);
+            }
+        }
+
+        private void OnValidate()
+        {
+            DebugGenerateOutline();
         }
 
         [Button]
         public void DebugRemoveOutlines()
         {
             ClearOutline();
+        }
+
+        private Bounds CalculateBounds()
+        {
+            Renderer[] renderers = GetComponentsInChildren<SpriteRenderer>();
+
+            //If there are no renderers in the object, return null
+            if (renderers.Length == 0)
+                return new Bounds();
+
+            Bounds bounds = renderers[0].bounds;
+
+            foreach (var renderer in renderers)
+            {
+                //Increases the bounds of the main renderer to include all renderers in the GameObject
+                bounds.Encapsulate(renderer.bounds);
+            }
+            return bounds;
         }
 
         /// <summary>
@@ -94,6 +123,12 @@ namespace TowerTanks.Scripts
             currentOutline.transform.localScale = Vector3.one;
             currentOutline.useWorldSpace = false;
 
+            Vector3 center = CalculateBounds().center;
+            Vector3 directionFromCenter = currentOutline.transform.position - center;
+            Vector3 scaledPosition = center + directionFromCenter * scaleMultiplier;
+            currentOutline.transform.position = scaledPosition;
+            currentOutline.transform.localScale *= scaleMultiplier;
+
             //Add material, width, and color
             currentOutline.material = outlineMat;
             currentOutline.startWidth = currentOutline.endWidth = outlineWidth;
@@ -149,7 +184,13 @@ namespace TowerTanks.Scripts
             foreach(LineRenderer line in currentOutlines)
             {
                 if (line != null)
+                {
+#if UNITY_EDITOR
                     DestroyImmediate(line.gameObject);
+#else
+                    Destroy(line.gameObject);
+#endif
+                }
             }
 
             currentOutlines.Clear();
