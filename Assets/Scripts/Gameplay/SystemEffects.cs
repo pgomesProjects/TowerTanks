@@ -139,6 +139,17 @@ namespace TowerTanks.Scripts
         #endregion
         #region HAPTICS
         /// <summary>
+        /// Applies controller haptics to all players.
+        /// </summary>
+        /// <param name="hapticsSettings">The settings for the haptics event.</param>
+        public void ApplyControllerHaptics(HapticsSettings hapticsSettings)
+        {
+            //Goes through each player and applies haptics
+            foreach (PlayerData player in GameManager.Instance.MultiplayerManager.GetAllPlayers())
+                ApplyControllerHaptics(player.playerInput, hapticsSettings);
+        }
+
+        /// <summary>
         /// Applies controller haptics to the player.
         /// </summary>
         /// <param name="playerInput">The player input component.</param>
