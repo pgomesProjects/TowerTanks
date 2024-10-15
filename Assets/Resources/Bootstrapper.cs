@@ -23,6 +23,7 @@ public static class Bootstrapper
 
     private static void SettingsOnStart()
     {
+        Debug.Log(GameSettings.systemSpecs.DisplaySystemInfo());
         GameSettings.CheckBGM();
         GameSettings.CheckSFX();
         GameSettings.CheckFullscreen();

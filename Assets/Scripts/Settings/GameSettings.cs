@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TowerTanks.Scripts;
 
 public enum DIFFICULTYMODE { EASY, NORMAL, HARD }
 
@@ -30,6 +31,8 @@ public static class GameSettings
 
     //0.5 = Easy, 1 = Normal, 1.5 = Hard
     public static float difficulty = 1f;
+
+    public static PlayerSystemSpecs systemSpecs = new PlayerSystemSpecs();
 
     public static void CheckBGM()
     {
