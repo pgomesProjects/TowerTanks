@@ -53,6 +53,7 @@ namespace TowerTanks.Scripts
         public float healthRegenRate;
         private float unjamHealthThreshold = 60f;
         public bool isJammed;
+        private float jamEffectTimer = 0f;
 
         //Runtime Variables:
         private bool initialized;    //True if tread system has already been set up
@@ -86,7 +87,9 @@ namespace TowerTanks.Scripts
                 tread.eulerAngles = Vector3.forward * Vector2.SignedAngle(Vector2.up, treadNormal); //Rotate tread to target rotation
                 tread.localScale = new Vector3(treadWidth, tread.localScale.y, 1);                  //Scale tread to target length
             }
-
+        }
+        private void FixedUpdate()
+        {
             //Calculate Speed
             if (useEngines) CalculateSpeed();
 
@@ -101,9 +104,7 @@ namespace TowerTanks.Scripts
             {
                 //tankController.DisableSpeedTrails();
             }
-        }
-        private void FixedUpdate()
-        {
+
             //Update Stun Timer
             if (stunTimer > 0)
             {
@@ -127,7 +128,11 @@ namespace TowerTanks.Scripts
 
             //Check for Jam
             float jamMultiplier = 1f;
-            if (isJammed) jamMultiplier = 0f;
+            if (isJammed)
+            {
+                jamMultiplier = 0f;
+                JamEffects();
+            }
 
             //Apply wheel forces:
             Vector2 targetTankSpeed = transform.right * maxSpeed * throttleValue * jamMultiplier;  //Get target speed based on tank throttle
@@ -300,6 +305,38 @@ namespace TowerTanks.Scripts
             }
         }
 
+        private void JamEffects()
+        {
+            jamEffectTimer -= Time.fixedDeltaTime;
+
+            if (jamEffectTimer <= 0)
+            {
+                //Randomize Position
+                float randomX = Random.Range(-3f, 3f);
+                float randomY = Random.Range(-0.7f, 0f);
+
+                Vector2 randomPos = new Vector2(transform.position.x + randomX, transform.position.y + randomY);
+
+                //Spark Particle
+                float particleScale = Random.Range(0.05f, 0.1f);
+                GameObject particle = GameManager.Instance.ParticleSpawner.SpawnParticle(14, randomPos, particleScale, transform);
+
+                //Smoke Particle
+                GameManager.Instance.ParticleSpawner.SpawnParticle(3, randomPos, particleScale, null);
+
+                //Randomize Rotation
+                float randomRot = Random.Range(0f, 360f);
+                Quaternion newRot = Quaternion.Euler(0, 0, randomRot);
+                particle.transform.rotation = newRot;
+
+                //Randomize Interval between Sparks
+                float randomTimer = Random.Range(0.1f, 0.5f);
+                jamEffectTimer = randomTimer;
+
+                //TODO: Sparking Sound Effect here
+            }
+        }
+
         //UTILITY METHODS:
         /// <summary>
         /// Evaluates mass and center of gravity for tank depending on position and quantity of cells.
@@ -336,7 +373,8 @@ namespace TowerTanks.Scripts
             if (c_maxSpeed < 1f) c_maxSpeed = 1f; //minimum speed
             if (c_maxSpeed > 50f) c_maxSpeed = 50f; //maximum speed
 
-            maxSpeed = Mathf.MoveTowards(maxSpeed, c_maxSpeed, speedShiftRate * Time.deltaTime);
+            maxSpeed = Mathf.MoveTowards(maxSpeed, c_maxSpeed, speedShiftRate * Time.fixedDeltaTime);
+            if (isJammed) maxSpeed = 0;
 
             //Acceleration
             float c_maxAcceleration = 0.4f + ((currentEngines + 1) * 0.1f);
