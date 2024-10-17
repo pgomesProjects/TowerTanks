@@ -19,6 +19,7 @@ namespace TowerTanks.Scripts
         protected CapsuleCollider2D characterHitbox;
         protected GameObject currentLadder;
         protected PlayerHUD characterHUD;
+        protected GameObject currentButtonPrompt;
         protected int characterIndex;
         protected Transform hands;
         protected Transform characterVisualParent;
@@ -358,6 +359,18 @@ namespace TowerTanks.Scripts
         public Vector2 GetCharacterInput()
         {
             return moveInput;
+        }
+
+        public void ShowPromptOnHUD(GameAction gameAction)
+        {
+            ClearButtonPrompts();
+            currentButtonPrompt = GameManager.Instance.UIManager.AddButtonPrompt(characterHUD.gameObject, new Vector2(-57.59997f, 17.79999f), gameAction, PlatformType.Gamepad, false);
+        }
+
+        public void ClearButtonPrompts()
+        {
+            if (currentButtonPrompt != null)
+                Destroy(currentButtonPrompt);
         }
 
         public float ModifyHealth(float amount)

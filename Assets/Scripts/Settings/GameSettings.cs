@@ -82,4 +82,25 @@ public static class GameSettings
                 break;
         }
     }
+
+    public static PlatformType GetRunningPlatform()
+    {
+        switch (Application.platform)
+        {
+            //Playstation
+            case RuntimePlatform.PS4:
+            case RuntimePlatform.PS5:
+                return PlatformType.PlayStation;
+            //Switch
+            case RuntimePlatform.Switch:
+                return PlatformType.Switch;
+            //Xbox
+            case RuntimePlatform.XboxOne:
+            case RuntimePlatform.GameCoreXboxSeries:
+                return PlatformType.Xbox;
+            //PC
+            default:
+                return PlatformType.PC;
+        }
+    }
 }

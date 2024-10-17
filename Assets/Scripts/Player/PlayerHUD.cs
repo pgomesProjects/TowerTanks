@@ -24,8 +24,6 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("The fill of the respawn timer.")] private Image respawnBar;
         [SerializeField, Tooltip("The text for the respawn timer.")] private TextMeshProUGUI respawnText;
 
-        [SerializeField, Tooltip("The Image for the player button prompt.")] private Image buttonPrompt;
-
         private Color playerColor;
 
         private Color startingColor;
@@ -56,8 +54,6 @@ namespace TowerTanks.Scripts
 
             playerNameBackground.color = playerColor;
             playerBorder.color = playerColor;
-            buttonPrompt.sprite = null;
-            buttonPrompt.color = new Color(0, 0, 0, 0);
             playerNameText.text = playerName;
             playerDeathImage.color = new Color(0, 0, 0, 0);
         }
@@ -159,12 +155,6 @@ namespace TowerTanks.Scripts
         {
             respawnBar.fillAmount = respawnFill;
             respawnText.text = (Mathf.Ceil(time)).ToString();
-        }
-
-        public void ShowButtonPrompt(Sprite buttonPromptSprite)
-        {
-            buttonPrompt.sprite = buttonPromptSprite;
-            buttonPrompt.color = buttonPromptSprite == null ? new Color(0, 0, 0, 0) : new Color(1, 1, 1, 1);
         }
 
         public void KillPlayerHUD()

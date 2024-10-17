@@ -1,16 +1,19 @@
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace TowerTanks.Scripts
 {
     public class GameUIManager : SerializedMonoBehaviour
     {
         private const string CANVAS_TAG_NAME = "GameUI";
-        public enum UIType { TaskBar, RadialTaskBar, TimingGauge, RadialTimingGauge }
+        public enum UIType { TaskBar, RadialTaskBar, TimingGauge, RadialTimingGauge, ButtonPrompt }
 
         [SerializeField, Tooltip("The prefabs of the different UI elements (only one of each type should exist).")] private UIPrefab[] uiPrefabs;
+        [SerializeField, Tooltip("The button prompt settings.")] private ButtonPromptSettings buttonPromptSettings;
 
         [System.Serializable]
         public class UIPrefab
@@ -106,11 +109,13 @@ namespace TowerTanks.Scripts
         /// Adds a task bar to a GameObject.
         /// </summary>
         /// <param name="gameObject">The GameObject to add the task bar to (must have a canvas).</param>
+        /// <param name="position">The position of the UI object relative to the GameObject.</param>
         /// <param name="duration">The duration of the task.</param>
+        /// <param name="inGameWorld">Determines whether the canvas is to be treated as an overlay or in the game world.</param>
         /// <returns>Returns the task bar created.</returns>
-        public TaskProgressBar AddTaskBar(GameObject gameObject, float duration)
+        public TaskProgressBar AddTaskBar(GameObject gameObject, Vector2 position, float duration, bool inGameWorld)
         {
-            Canvas canvas = GetCanvasFromGameObject(gameObject);
+            Canvas canvas = GetCanvasFromGameObject(gameObject, position, inGameWorld);
 
             //If no canvas is found, return
             if (canvas == null)
@@ -125,12 +130,14 @@ namespace TowerTanks.Scripts
         /// Adds a task bar to a GameObject.
         /// </summary>
         /// <param name="gameObject">The GameObject to add the task bar to (must have a canvas).</param>
+        /// <param name="position">The position of the UI object relative to the GameObject.</param>
         /// <param name="duration">The duration of the task.</param>
         /// <param name="barColor">The color of the task bar.</param>
+        /// <param name="inGameWorld">Determines whether the canvas is to be treated as an overlay or in the game world.</param>
         /// <returns>Returns the task bar created.</returns>
-        public TaskProgressBar AddTaskBar(GameObject gameObject, float duration, Color barColor)
+        public TaskProgressBar AddTaskBar(GameObject gameObject, Vector2 position, float duration, Color barColor, bool inGameWorld)
         {
-            Canvas canvas = GetCanvasFromGameObject(gameObject);
+            Canvas canvas = GetCanvasFromGameObject(gameObject, position, inGameWorld);
 
             //If no canvas is found, return null
             if (canvas == null)
@@ -146,11 +153,13 @@ namespace TowerTanks.Scripts
         /// Adds a radial task bar to a GameObject.
         /// </summary>
         /// <param name="gameObject">The GameObject to add the task bar to (must have a canvas).</param>
+        /// <param name="position">The position of the UI object relative to the GameObject.</param>
         /// <param name="duration">The duration of the task.</param>
+        /// <param name="inGameWorld">Determines whether the canvas is to be treated as an overlay or in the game world.</param>
         /// <returns>Returns the task bar created.</returns>
-        public TaskProgressBar AddRadialTaskBar(GameObject gameObject, float duration)
+        public TaskProgressBar AddRadialTaskBar(GameObject gameObject, Vector2 position, float duration, bool inGameWorld)
         {
-            Canvas canvas = GetCanvasFromGameObject(gameObject);
+            Canvas canvas = GetCanvasFromGameObject(gameObject, position, inGameWorld);
 
             //If no canvas is found, return
             if (canvas == null)
@@ -165,12 +174,14 @@ namespace TowerTanks.Scripts
         /// Adds a radial task bar to a GameObject.
         /// </summary>
         /// <param name="gameObject">The GameObject to add the task bar to (must have a canvas).</param>
+        /// <param name="position">The position of the UI object relative to the GameObject.</param>
         /// <param name="duration">The duration of the task.</param>
         /// <param name="barColor">The color of the task bar.</param>
+        /// <param name="inGameWorld">Determines whether the canvas is to be treated as an overlay or in the game world.</param>
         /// <returns>Returns the task bar created.</returns>
-        public TaskProgressBar AddRadialTaskBar(GameObject gameObject, float duration, Color barColor)
+        public TaskProgressBar AddRadialTaskBar(GameObject gameObject, Vector2 position, float duration, Color barColor, bool inGameWorld)
         {
-            Canvas canvas = GetCanvasFromGameObject(gameObject);
+            Canvas canvas = GetCanvasFromGameObject(gameObject, position, inGameWorld);
 
             //If no canvas is found, return null
             if (canvas == null)
@@ -186,13 +197,15 @@ namespace TowerTanks.Scripts
         /// Adds a timing gauge to a GameObject.
         /// </summary>
         /// <param name="gameObject">The GameObject to add the timing gauge to (must have a canvas).</param>
+        /// <param name="position">The position of the UI object relative to the GameObject.</param>
         /// <param name="tickSpeed">The time it takes for the tick bar to go from one end to another (in seconds).</param>
         /// <param name="minimumRange">The minimum value in the zone range.</param>
         /// <param name="maximumRange">The maximum value in the zone range.</param>
+        /// <param name="inGameWorld">Determines whether the canvas is to be treated as an overlay or in the game world.</param>
         /// <returns>Returns the timing gauge created.</returns>
-        public TimingGauge AddTimingGauge(GameObject gameObject, float tickSpeed, float minimumRange, float maximumRange)
+        public TimingGauge AddTimingGauge(GameObject gameObject, Vector2 position, float tickSpeed, float minimumRange, float maximumRange, bool inGameWorld)
         {
-            Canvas canvas = GetCanvasFromGameObject(gameObject);
+            Canvas canvas = GetCanvasFromGameObject(gameObject, position, inGameWorld);
 
             //If no canvas is found, return null
             if (canvas == null)
@@ -207,15 +220,17 @@ namespace TowerTanks.Scripts
         /// Adds a timing gauge to a GameObject.
         /// </summary>
         /// <param name="gameObject">The GameObject to add the timing gauge to (must have a canvas).</param>
+        /// <param name="position">The position of the UI object relative to the GameObject.</param>
         /// <param name="tickSpeed">The time it takes for the tick bar to go from one end to another (in seconds).</param>
         /// <param name="minimumRange">The minimum value in the zone range.</param>
         /// <param name="maximumRange">The maximum value in the zone range.</param>
         /// <param name="hitZoneColor">The color of the zone to hit.</param>
         /// <param name="noHitZoneColor">The color of the zone to not hit.</param>
+        /// <param name="inGameWorld">Determines whether the canvas is to be treated as an overlay or in the game world.</param>
         /// <returns>Returns the timing gauge created.</returns>
-        public TimingGauge AddTimingGauge(GameObject gameObject, float tickSpeed, float minimumRange, float maximumRange, Color hitZoneColor, Color noHitZoneColor)
+        public TimingGauge AddTimingGauge(GameObject gameObject, Vector2 position, float tickSpeed, float minimumRange, float maximumRange, Color hitZoneColor, Color noHitZoneColor, bool inGameWorld)
         {
-            Canvas canvas = GetCanvasFromGameObject(gameObject);
+            Canvas canvas = GetCanvasFromGameObject(gameObject, position, inGameWorld);
 
             //If no canvas is found, return null
             if (canvas == null)
@@ -231,13 +246,15 @@ namespace TowerTanks.Scripts
         /// Adds a radial timing gauge to a GameObject.
         /// </summary>
         /// <param name="gameObject">The GameObject to add the timing gauge to (must have a canvas).</param>
+        /// <param name="position">The position of the UI object relative to the GameObject.</param>
         /// <param name="tickSpeed">The time it takes for the tick bar to go from one end to another (in seconds).</param>
         /// <param name="minimumRange">The minimum value in the zone range.</param>
         /// <param name="maximumRange">The maximum value in the zone range.</param>
+        /// <param name="inGameWorld">Determines whether the canvas is to be treated as an overlay or in the game world.</param>
         /// <returns>Returns the timing gauge created.</returns>
-        public RadialTimingGauge AddRadialTimingGauge(GameObject gameObject, float tickSpeed, float minimumRange, float maximumRange)
+        public RadialTimingGauge AddRadialTimingGauge(GameObject gameObject, Vector2 position, float tickSpeed, float minimumRange, float maximumRange, bool inGameWorld)
         {
-            Canvas canvas = GetCanvasFromGameObject(gameObject);
+            Canvas canvas = GetCanvasFromGameObject(gameObject, position, inGameWorld);
 
             //If no canvas is found, return null
             if (canvas == null)
@@ -252,15 +269,17 @@ namespace TowerTanks.Scripts
         /// Adds a radial timing gauge to a GameObject.
         /// </summary>
         /// <param name="gameObject">The GameObject to add the timing gauge to (must have a canvas).</param>
+        /// <param name="position">The position of the UI object relative to the GameObject.</param>
         /// <param name="tickSpeed">The time it takes for the tick bar to go from one end to another (in seconds).</param>
         /// <param name="minimumRange">The minimum value in the zone range.</param>
         /// <param name="maximumRange">The maximum value in the zone range.</param>
         /// <param name="hitZoneColor">The color of the zone to hit.</param>
         /// <param name="noHitZoneColor">The color of the zone to not hit.</param>
+        /// <param name="inGameWorld">Determines whether the canvas is to be treated as an overlay or in the game world.</param>
         /// <returns>Returns the timing gauge created.</returns>
-        public RadialTimingGauge AddRadialTimingGauge(GameObject gameObject, float tickSpeed, float minimumRange, float maximumRange, Color hitZoneColor, Color noHitZoneColor)
+        public RadialTimingGauge AddRadialTimingGauge(GameObject gameObject, Vector2 position, float tickSpeed, float minimumRange, float maximumRange, Color hitZoneColor, Color noHitZoneColor, bool inGameWorld)
         {
-            Canvas canvas = GetCanvasFromGameObject(gameObject);
+            Canvas canvas = GetCanvasFromGameObject(gameObject, position, inGameWorld);
 
             //If no canvas is found, return null
             if (canvas == null)
@@ -273,22 +292,80 @@ namespace TowerTanks.Scripts
         }
 
         /// <summary>
+        /// Adds a button prompt to a GameObject.
+        /// </summary>
+        /// <param name="gameObject">The GameObject to add the timing gauge to (must have a canvas).</param>
+        /// <param name="position">The position of the UI object relative to the GameObject.</param>
+        /// <param name="gameAction">The action to display the prompt for.</param>
+        /// <param name="platform">The platform the game is being played on.</param>
+        /// <param name="inGameWorld">Determines whether the canvas is to be treated as an overlay or in the game world.</param>
+        /// <returns>Returns the GameObject created.</returns>
+        public GameObject AddButtonPrompt(GameObject gameObject, Vector2 position, GameAction gameAction, PlatformType platform, bool inGameWorld)
+        {
+            //If there are no button settings, return null
+            if (buttonPromptSettings == null)
+                return null;
+
+            Canvas canvas = GetCanvasFromGameObject(gameObject, position, inGameWorld);
+
+            //If no canvas is found, return null
+            if (canvas == null)
+                return null;
+
+            GameObject buttonPrompt = Instantiate(GetPrefabFromList(UIType.ButtonPrompt), canvas.transform);
+            Image buttonImage = buttonPrompt.GetComponentInChildren<Image>();
+            TextMeshProUGUI buttonText = buttonPrompt.GetComponentInChildren<TextMeshProUGUI>();
+
+            PlatformPrompt currentPrompt = buttonPromptSettings.GetButtonPrompt(gameAction, platform);
+
+            if (currentPrompt.PromptSprite == null)
+                buttonImage.color = new Color(0, 0, 0, 0);
+            else
+                buttonImage.sprite = currentPrompt.PromptSprite;
+
+            buttonText.text = currentPrompt.PromptText;
+
+            return buttonPrompt.gameObject;
+        }
+
+        /// <summary>
         /// Gets the canvas with the standard UI tag name on a GameObject.
         /// </summary>
         /// <param name="gameObject">The GameObject to check the canvas of.</param>
-        /// <returns>Returns a canvas component, if found. Otherwise, returns null.</returns>
-        private Canvas GetCanvasFromGameObject(GameObject gameObject)
+        /// <param name="position">The position of the canvas.</param>
+        /// <param name="inGameWorld">If true, the canvas is in the game world. If false, the canvas is in the UI.</param>
+        /// <returns>Returns a found or newly created canvas component.</returns>
+        private Canvas GetCanvasFromGameObject(GameObject gameObject, Vector2 position, bool inGameWorld)
         {
             //Find the canvas on the GameObject
             foreach (Canvas canvas in gameObject.GetComponentsInChildren<Canvas>())
             {
                 if (canvas.tag == CANVAS_TAG_NAME)
+                {
+                    canvas.GetComponent<RectTransform>().anchoredPosition = position;
                     return canvas;
+                }
             }
 
-            //If there is no canvas, return null
-            Debug.LogError("Canvas could not be found on " + gameObject.name);
-            return null;
+            //If there is no canvas, create one
+            GameObject newCanvasObject = new GameObject("InGameCanvas");
+            newCanvasObject.transform.SetParent(gameObject.transform);
+            Canvas newCanvas = newCanvasObject.AddComponent<Canvas>();
+
+            //Settings
+            newCanvas.renderMode = inGameWorld ? RenderMode.WorldSpace : RenderMode.ScreenSpaceOverlay;
+            newCanvas.GetComponent<RectTransform>().localScale = Vector3.one * (inGameWorld ? 0.01f : 1f);
+            newCanvas.tag = CANVAS_TAG_NAME;
+            newCanvas.GetComponent<RectTransform>().anchoredPosition = position;
+            newCanvas.GetComponent<RectTransform>().sizeDelta = Vector2.zero;
+
+            if (inGameWorld)
+            {
+                newCanvas.sortingLayerName = "Foreground";
+                newCanvas.sortingOrder = 0;
+            }
+
+            return newCanvas;
         }
 
         /// <summary>

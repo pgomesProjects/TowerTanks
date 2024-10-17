@@ -796,13 +796,13 @@ namespace TowerTanks.Scripts.Deprecated
 
             PlayerButtonPrompt currentButtonPromptData;
 
-            if (currentAction == PlayerActions.NONE)
+/*            if (currentAction == PlayerActions.NONE)
                 playerHUD.ShowButtonPrompt(null);
             else
             {
                 playerButtonPrompts.TryGetValue(currentAction, out currentButtonPromptData);
                 playerHUD.ShowButtonPrompt(currentButtonPromptData.buttonSprite);
-            }
+            }*/
         }
 
         public void StartProgressBar(float interval, bool useSpeed, Action actionOnComplete, PlayerActions currentPlayerAction = PlayerActions.NONE)

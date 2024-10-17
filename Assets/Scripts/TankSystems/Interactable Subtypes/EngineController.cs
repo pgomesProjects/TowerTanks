@@ -215,7 +215,7 @@ namespace TowerTanks.Scripts
             float min = ((targetCharge - targetChargeOffset)) / maxChargeTime;
             float max = ((targetCharge + targetChargeOffset)) / maxChargeTime;
 
-            currentGauge = GameManager.Instance.UIManager.AddTimingGauge(gameObject, maxChargeTime, min, max);
+            currentGauge = GameManager.Instance.UIManager.AddTimingGauge(gameObject, new Vector2(0f, -0.56f), maxChargeTime, min, max, true);
         }
 
         public void CheckCharge()

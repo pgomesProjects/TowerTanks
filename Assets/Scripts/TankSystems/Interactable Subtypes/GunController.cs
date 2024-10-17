@@ -247,7 +247,7 @@ namespace TowerTanks.Scripts
                         GameManager.Instance.AudioManager.Play("SteamExhaust", gameObject);
                     }
 
-                    GameManager.Instance.UIManager.AddTaskBar(gameObject, overheatTime / (1 / overheatCooldownMultiplier));
+                    GameManager.Instance.UIManager.AddTaskBar(gameObject, new Vector2(-0.4f, -0.55f), overheatTime / (1 / overheatCooldownMultiplier), true);
                 }
 
                 if (isOverheating) canFire = false;
@@ -313,7 +313,7 @@ namespace TowerTanks.Scripts
                     GameManager.Instance.ParticleSpawner.SpawnParticle(random, particleSpots[0].position, particleScale, null);
                     GameManager.Instance.AudioManager.Play("CannonFire", gameObject);
                     GameManager.Instance.AudioManager.Play("CannonThunk", gameObject); //Play firing audioclips
-                    GameManager.Instance.UIManager.AddTaskBar(gameObject, rateOfFire);
+                    GameManager.Instance.UIManager.AddTaskBar(gameObject, new Vector2(-0.4f, -0.55f), rateOfFire, true);
                 }
 
                 if (gunType == GunType.MACHINEGUN)
@@ -333,7 +333,7 @@ namespace TowerTanks.Scripts
                     GameManager.Instance.ParticleSpawner.SpawnParticle(random, particleSpots[0].position, particleScale, null);
                     GameManager.Instance.AudioManager.Play("CannonThunk", gameObject);
                     GameManager.Instance.AudioManager.Play("ProjectileInAirSFX", gameObject);
-                    GameManager.Instance.UIManager.AddTaskBar(gameObject, rateOfFire);
+                    GameManager.Instance.UIManager.AddTaskBar(gameObject, new Vector2(-0.4f, -0.55f), rateOfFire, true);
                 }
 
                 //Set Cooldown

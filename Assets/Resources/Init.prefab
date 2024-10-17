@@ -1453,6 +1453,9 @@ MonoBehaviour:
     gameObject: {fileID: 6727710507555382365, guid: 1ee83dc5db9593346a10edee810e55c8, type: 3}
   - type: 3
     gameObject: {fileID: 6727710507555382365, guid: 8b5e4e6f03915484fa809d56d2426344, type: 3}
+  - type: 4
+    gameObject: {fileID: 5504484630492744355, guid: 5b0529b2d9504a34b98ec7b4cc0fd408, type: 3}
+  buttonPromptSettings: {fileID: 11400000, guid: d9592cc9952e7b4449964cc3e6a40d1b, type: 2}
 --- !u!1001 &7563297248085180075
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1461,6 +1464,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 8741092470865181326}
     m_Modifications:
     - target: {fileID: 1677053946353664523, guid: 35344d1a984a0834fbdf346dbf44c3d4, type: 3}
+      propertyPath: m_Alpha
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1962461436136326790, guid: 35344d1a984a0834fbdf346dbf44c3d4, type: 3}
       propertyPath: m_Alpha
       value: 0
       objectReference: {fileID: 0}
