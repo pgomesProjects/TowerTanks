@@ -21,7 +21,7 @@ namespace TowerTanks.Scripts
 
         [Header("Drive Settings:")]
         [Tooltip("True = Engines determine tank's overall speed & acceleration, False = Set manual values")]       public bool useEngines;
-        [SerializeField, Tooltip("Current number of active engines in the tank")]                                  internal int currentEngines;
+        [SerializeField, Tooltip("Current number of active engines in the tank")]                                  internal float horsePower;
         [SerializeField, Tooltip("Base multiplier that affects how much power each individual engine has on the tank's speed")] internal float speedFactor;
         [Tooltip("Greatest speed tank can achieve at maximum gear.")]                                              public float maxSpeed = 100;
         [Tooltip("Current x Velocity of the tank's rigidbody")]                                                    public float actualSpeed;
@@ -236,15 +236,6 @@ namespace TowerTanks.Scripts
             treadHealth = treadMaxHealth;
         }
 
-        public IEnumerator SpeedSurge(float duration, int power)
-        {
-            currentEngines += power;
-            speedShiftRate += power;
-            yield return new WaitForSeconds(duration);
-            currentEngines -= power;
-            speedShiftRate -= power;
-        }
-
         /// <summary>
         /// Shifts to target gear.
         /// </summary>
@@ -358,7 +349,7 @@ namespace TowerTanks.Scripts
             }
 
             //Calculation:
-            totalWeight = cellCount * 50f;
+            totalWeight = cellCount * 100f;
             avgCellPos /= cellCount;                                                                         //Get average position of cells
                                                                                                              //r.centerOfMass = new Vector2(Mathf.Clamp(avgCellPos.x, -COGWidth / 2, COGWidth / 2), COGHeight); //Constrain center mass to line segment controlled in settings (for tank handling reliability)
         }
@@ -367,8 +358,19 @@ namespace TowerTanks.Scripts
         /// </summary>
         public void CalculateSpeed()
         {
+            //Horsepower & Boost Accel
+            float c_totalHorsepower = 0;
+            float c_totalBonusAccel = 0;
+            EngineController[] engines = tankController.GetComponentsInChildren<EngineController>();
+            foreach(EngineController engine in engines)
+            {
+                c_totalHorsepower += engine.power;
+                //if (engine.isSurging) c_totalBonusAccel += 0.4f;
+            }
+            horsePower = c_totalHorsepower;
+
             //Speed
-            float c_maxSpeed = speedFactor * (750f * ((currentEngines + 1) / totalWeight));
+            float c_maxSpeed = speedFactor * ((horsePower) / totalWeight);
 
             if (c_maxSpeed < 1f) c_maxSpeed = 1f; //minimum speed
             if (c_maxSpeed > 50f) c_maxSpeed = 50f; //maximum speed
@@ -377,7 +379,7 @@ namespace TowerTanks.Scripts
             if (isJammed) maxSpeed = 0;
 
             //Acceleration
-            float c_maxAcceleration = 0.4f + ((currentEngines + 1) * 0.1f);
+            float c_maxAcceleration = 0.4f + c_totalBonusAccel;
 
             maxAcceleration = c_maxAcceleration;
         }

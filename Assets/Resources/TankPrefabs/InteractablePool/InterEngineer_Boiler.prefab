@@ -1336,6 +1336,9 @@ MonoBehaviour:
   - {fileID: 4223996395297889378}
   - {fileID: 828606465616710838}
   isPowered: 0
+  power: 0
+  isSurging: 0
+  boostMultiplier: 3
   temperatureLowColor: {r: 0.1764706, g: 0.7058824, b: 0.22745098, a: 1}
   temperatureHighColor: {r: 1, g: 0.30625758, b: 0, a: 1}
   pressure: 0

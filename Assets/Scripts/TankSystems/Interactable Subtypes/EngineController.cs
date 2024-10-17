@@ -12,6 +12,9 @@ namespace TowerTanks.Scripts
         //Settings:
         [Header("Engine Settings:")]
         public bool isPowered;
+        public float power; //Total horsepower being output by this engine
+        public bool isSurging;
+        public float boostMultiplier; //Multiplier on speed when boosting/surging
 
         private float smokePuffRate = 1f;
         private float smokePuffTimer = 0;
@@ -75,24 +78,7 @@ namespace TowerTanks.Scripts
             if (addPressure) { AddPressure(15, true, true); addPressure = false; }
 
             UpdateUI();
-
-            //Add to Tank Engine Count
-            if (pressure > 0)
-            {
-                if (!isPowered)
-                {
-                    isPowered = true;
-                    tank.treadSystem.currentEngines += 1;
-                }
-            }
-            else
-            {
-                if (isPowered)
-                {
-                    isPowered = false;
-                    tank.treadSystem.currentEngines -= 1;
-                }
-            }
+            UpdatePowerOutput();
         }
 
         protected override void FixedUpdate()
@@ -142,9 +128,24 @@ namespace TowerTanks.Scripts
             }
 
             //Small Speed Boost
-            if (surgeSpeed)
+            if (!isSurging && surgeSpeed)
             {
-                StartCoroutine(tank.treadSystem.SpeedSurge(0.7f, 2));
+                float duration = 0.5f;
+                float force = boostMultiplier * 2f;
+
+                if (pressure >= 50)
+                {
+                    duration = 0.8f;
+                    force += 5;
+                }
+
+                if (pressure >= dangerZoneThreshold)
+                {
+                    duration = 1.1f;
+                    force += 5;
+                }
+
+                StartCoroutine(SpeedSurge(duration, force));
             }
         }
 
@@ -153,15 +154,16 @@ namespace TowerTanks.Scripts
             float lowerSpeed = pressureReleaseSpeed * Time.deltaTime;
             float pressureDif = (50f + (pressure * 0.5f)) / 100f; //slows down the closer it gets to 0
 
-                    if (!chargeStarted && repairInputHeld)
-                    {
-                        lowerSpeed *= 10f;
-                        if (!GameManager.Instance.AudioManager.IsPlaying("SteamExhaustLoop", this.gameObject)) GameManager.Instance.AudioManager.Play("SteamExhaustLoop", this.gameObject);
-                    }
-                    else if (GameManager.Instance.AudioManager.IsPlaying("SteamExhaustLoop", this.gameObject)) GameManager.Instance.AudioManager.Stop("SteamExhaustLoop", this.gameObject);
+            if (!chargeStarted && repairInputHeld)
+            {
+                lowerSpeed *= 10f;
+                if (!GameManager.Instance.AudioManager.IsPlaying("SteamExhaustLoop", this.gameObject)) GameManager.Instance.AudioManager.Play("SteamExhaustLoop", this.gameObject);
+            }
+            else if (GameManager.Instance.AudioManager.IsPlaying("SteamExhaustLoop", this.gameObject)) GameManager.Instance.AudioManager.Stop("SteamExhaustLoop", this.gameObject);
 
             if (pressure > 0)
             {
+                if (!isPowered) isPowered = true;
                 pressure -= lowerSpeed * pressureDif;
 
                 //Puff Smoke
@@ -174,9 +176,21 @@ namespace TowerTanks.Scripts
             }
             else
             {
+                if (isPowered) isPowered = false;
                 pressure = 0;
             }
 
+        }
+
+        public IEnumerator SpeedSurge(float duration, float force)
+        {
+            isSurging = true;
+
+            force = force * Mathf.Sign(tank.treadSystem.gear);
+            tank.treadSystem.ApplyForce(transform.position, force, duration);
+
+            yield return new WaitForSeconds(duration);
+            isSurging = false;
         }
 
         public override void Use(bool overrideConditions = false)
@@ -247,6 +261,19 @@ namespace TowerTanks.Scripts
                 currentGauge.EndTimingGauge();
                 currentGauge = null;
             }
+        }
+
+        private void UpdatePowerOutput()
+        {
+            if (isPowered)
+            {
+                power = 100f;
+                if (pressure >= 50) power = 150f;
+                if (pressure >= dangerZoneThreshold) power = 300f;
+
+                if (isSurging) power *= boostMultiplier;
+            }
+            else power = 0;
         }
 
         private void CheckForExplosion()
@@ -332,7 +359,7 @@ namespace TowerTanks.Scripts
         public override void OnDestroy()
         {
             base.OnDestroy();
-            if (isPowered) tank.treadSystem.currentEngines -= 1;
+            if (isPowered) tank.treadSystem.horsePower -= power;
         }
     }
 }

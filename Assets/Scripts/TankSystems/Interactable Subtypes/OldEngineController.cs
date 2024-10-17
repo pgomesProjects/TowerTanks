@@ -83,6 +83,7 @@ namespace TowerTanks.Scripts
             if (hasOperator == false) repairInputHeld = false;
 
             //Add to Tank Engine Count
+            /*
             if (pressure > 0)
             {
                 if (!isPowered)
@@ -99,6 +100,7 @@ namespace TowerTanks.Scripts
                     tank.treadSystem.currentEngines -= 1;
                 }
             }
+            */
         }
 
         //FUNCTIONALITY METHODS:
@@ -127,7 +129,7 @@ namespace TowerTanks.Scripts
             //Small Speed Boost
             if ((coal < maxCoal) && surgeSpeed)
             {
-                StartCoroutine(tank.treadSystem.SpeedSurge(0.7f, 2));
+                //StartCoroutine(tank.treadSystem.SpeedSurge(0.7f, 2));
             }
         }
 
@@ -376,7 +378,7 @@ namespace TowerTanks.Scripts
         public override void OnDestroy()
         {
             base.OnDestroy();
-            if (isPowered) tank.treadSystem.currentEngines -= 1;
+            //if (isPowered) tank.treadSystem.currentEngines -= 1;
         }
     }
 }
