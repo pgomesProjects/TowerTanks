@@ -1710,8 +1710,8 @@ MonoBehaviour:
   COGWidth: 3.5
   totalWeight: 0
   useEngines: 1
-  currentEngines: 0
-  speedFactor: 3
+  horsePower: 0
+  speedFactor: 30
   maxSpeed: 8
   actualSpeed: 0
   maxAcceleration: 0.7

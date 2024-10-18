@@ -70,11 +70,11 @@ namespace TowerTanks.Scripts
 
         private void AddEngine()
         {
-            treadSystem.currentEngines += 1;
+            treadSystem.horsePower += 100;
         }
         private void LoseEngine()
         {
-            treadSystem.currentEngines -= 1;
+            treadSystem.horsePower -= 100;
         }
 
         [PropertySpace]
@@ -289,7 +289,7 @@ namespace TowerTanks.Scripts
 
             //Debug 
             gear = treadSystem.gear;
-            horsePower = treadSystem.currentEngines * 100;
+            horsePower = treadSystem.horsePower;
 
             //Death Sequence Events
             if (isDying)

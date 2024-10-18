@@ -75,12 +75,9 @@ namespace TowerTanks.Scripts
 
                 if (state != TankBehavior.SURRENDER)
                 {
-                    if (tank.treadSystem.currentEngines <= 0)
-                    {
-                        flag.gameObject.SetActive(true);
-                        Debug.Log("You have bested me.");
-                        state = TankBehavior.SURRENDER;
-                    }
+                    flag.gameObject.SetActive(true);
+                    Debug.Log("You have bested me.");
+                    state = TankBehavior.SURRENDER;
                 }
             }
 
