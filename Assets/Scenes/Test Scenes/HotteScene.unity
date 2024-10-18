@@ -1164,7 +1164,7 @@ MonoBehaviour:
     tankType: 0
     gameObject: {fileID: 1411317892}
     design: {fileID: 4900000, guid: 0ae7f54292a46314da4951bdac3723a3, type: 3}
-    buildOnStart: 1
+    buildOnStart: 0
 --- !u!1 &511407189
 GameObject:
   m_ObjectHideFlags: 0
@@ -1181,7 +1181,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &511407190
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3689,12 +3689,12 @@ MonoBehaviour:
   RENDER_DISTANCE: 600
   obstacles:
   - obstacle: {fileID: 7245675298519190089, guid: 8d1ac7cdbdbefb843bad6d3cd7f79167, type: 3}
-    weight: 10
+    weight: 0
   - obstacle: {fileID: 951168179812281977, guid: 28228dd6287a00544b1d07b5430181b8, type: 3}
-    weight: 10
+    weight: 0
   - obstacle: {fileID: 2880273055600732949, guid: 38c534f27b881694b81cbcead9c56314, type: 3}
     weight: 2
-  obstacleChance: 0
+  obstacleChance: 2
   biasesCanRepeat: 0
   enableLevelBuilder: 0
   levelBuilderUI: {fileID: 1659328985}
@@ -4350,7 +4350,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1712007782
 Transform:
   m_ObjectHideFlags: 0
@@ -5784,6 +5784,10 @@ PrefabInstance:
     - target: {fileID: 4653194585202519219, guid: 6737c50766a366e44bde6a7c03e708ad, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8683819494621219795, guid: 6737c50766a366e44bde6a7c03e708ad, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6737c50766a366e44bde6a7c03e708ad, type: 3}

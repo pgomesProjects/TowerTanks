@@ -1358,7 +1358,8 @@ MonoBehaviour:
   - {fileID: 7630956752536001884}
   - {fileID: 4890534004106587855}
   pressureBar: {fileID: 8355516534664254739}
-  explosionTime: 5
+  explosionChance: 0
+  explosionTime: 4.5
   explosionTimer: 0
   addPressure: 0
   repairInputHeld: 0
