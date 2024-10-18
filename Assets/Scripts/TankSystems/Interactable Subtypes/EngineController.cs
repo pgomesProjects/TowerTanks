@@ -186,8 +186,8 @@ namespace TowerTanks.Scripts
         {
             isSurging = true;
 
-            force = force * Mathf.Sign(tank.treadSystem.gear);
-            tank.treadSystem.ApplyForce(transform.position, force, duration);
+            /*force = force * Mathf.Sign(tank.treadSystem.gear);
+            tank.treadSystem.ApplyForce(transform.position, force, duration);*/
 
             yield return new WaitForSeconds(duration);
             isSurging = false;
