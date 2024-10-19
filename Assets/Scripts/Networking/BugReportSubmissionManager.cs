@@ -8,33 +8,31 @@ namespace TowerTanks.Scripts
 {
     public class BugReportSubmissionManager : MonoBehaviour
     {
-        //API information
-        private string trelloApiURL = "https://api.trello.com/1/";
-        private readonly string apiKey = "61cd93a3df6dd9724368874b1d2b9f18";
-        private readonly string apiToken = "ATTA8955446b652d8f1a617e70832ade2ed8491e34ad11e7daa964d5724357c2de2205A40858";
-        private readonly string listId = "671347842a88e247313252b7";
-
-        //Label information
-        private readonly string mildLabelID = "6713452bcfe89b3b843b96dc";
-        private readonly string moderateLabelID = "6713452bcfe89b3b843b96da";
-        private readonly string severeLabelID = "6713452bcfe89b3b843b96de";
+        private readonly string decryptionKey = "+DmMYwtbmiQwYoS0B/1bbw==";
+        private string apiInfoFileName;
 
         //The amount of characters each bug report ID will have
         private const int REPORT_ID_CHAR_COUNT = 10;
 
+        private void Awake()
+        {
+            apiInfoFileName = Application.dataPath + "/bug_report_api_info.dat";
+        }
+
         [Button]
         public void TestSendReport()
         {
-            StartCoroutine(SendBugReport(new BugReportInfo()));
+            string decryptedJson = DataEncrypter.DecryptFile(apiInfoFileName, decryptionKey);
+            StartCoroutine(SendBugReport(JsonUtility.FromJson<APIInformation>(decryptedJson), new BugReportInfo()));
         }
 
         /// <summary>
         /// Sends a bug report to the Tower Tanks Trello list.
         /// </summary>
-        /// <param name="bugDescription">A description of the bug.</param>
-        /// <param name="bugData">The data for the bug.</param>
+        /// <param name="apiInfo">The API information for the HTTP request.</param>
+        /// <param name="bugReportInfo">The object holding all of the bug report information from the user.</param>
         /// <returns></returns>
-        public IEnumerator SendBugReport(BugReportInfo bugReportInfo)
+        public IEnumerator SendBugReport(APIInformation apiInfo, BugReportInfo bugReportInfo)
         {
             //Attempt to get a screenshot of the game
             yield return new WaitForEndOfFrame();
@@ -44,13 +42,13 @@ namespace TowerTanks.Scripts
             string reportID = GenerateID();
 
             //Get the card API url
-            string url = trelloApiURL + "cards";
+            string url = apiInfo.apiURL + "cards";
 
             //Create the form data for the card
             WWWForm form = new WWWForm();
-            form.AddField("key", apiKey);
-            form.AddField("token", apiToken);
-            form.AddField("idList", listId);
+            form.AddField("key", apiInfo.apiKey);
+            form.AddField("token", apiInfo.apiToken);
+            form.AddField("idList", apiInfo.listID);
 
             //Card title
             form.AddField("name", "Bug Report (ID = " + reportID + ")");
@@ -64,13 +62,13 @@ namespace TowerTanks.Scripts
             switch (bugReportInfo.bugSeverity)
             {
                 case BugSeverity.SEVERE:
-                    currentSeverity = severeLabelID;
+                    currentSeverity = apiInfo.severeLabelID;
                     break;
                 case BugSeverity.MODERATE:
-                    currentSeverity = moderateLabelID;
+                    currentSeverity = apiInfo.moderateLabelID;
                     break;
                 case BugSeverity.MILD:
-                    currentSeverity = mildLabelID;
+                    currentSeverity = apiInfo.mildLabelID;
                     break;
             }
 
@@ -99,12 +97,12 @@ namespace TowerTanks.Scripts
 
                 // If a screenshot was successfully taken, attach it to the card
                 if (screenshot != null)
-                    StartCoroutine(AttachFileToCard(cardID, screenshot.EncodeToPNG(), "TowerTanks-Screenshot-" + System.DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss") + ".png", "image/png"));
+                    StartCoroutine(AttachFileToCard(apiInfo, cardID, screenshot.EncodeToPNG(), "TowerTanks-Screenshot-" + System.DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss") + ".png", "image/png"));
 
                 Destroy(screenshot);
 
                 //Attach the system information to the card
-                StartCoroutine(AttachDataToCard(cardID, GameSettings.systemSpecs.DisplaySystemInfo(), "System_Info.txt", "text/plain"));
+                StartCoroutine(AttachDataToCard(apiInfo, cardID, GameSettings.systemSpecs.DisplaySystemInfo(), "System_Info.txt", "text/plain"));
 
                 GameSettings.CopyToClipboard(reportID);
             }
@@ -113,35 +111,37 @@ namespace TowerTanks.Scripts
         /// <summary>
         /// Attaches a string of data to an existing Trello card as a file.
         /// </summary>
+        /// <param name="apiInfo">The API information for the HTTP request.</param>
         /// <param name="cardID">The ID of the card to attach to.</param>
         /// <param name="data">The data to attach.</param>
         /// <param name="fileName">The name of the file.</param>
         /// <param name="fileType">The type of file.</param>
         /// <returns></returns>
-        private IEnumerator AttachDataToCard(string cardID, string data, string fileName, string fileType)
+        private IEnumerator AttachDataToCard(APIInformation apiInfo, string cardID, string data, string fileName, string fileType)
         {
             // Convert the string data to a byte array
             byte[] fileData = Encoding.UTF8.GetBytes(data);
-            yield return StartCoroutine(AttachFileToCard(cardID, fileData, fileName, fileType));
+            yield return StartCoroutine(AttachFileToCard(apiInfo, cardID, fileData, fileName, fileType));
         }
 
         /// <summary>
         /// Attaches a screenshot to an existing card.
         /// </summary>
+        /// <param name="apiInfo">The API information for the HTTP request.</param>
         /// <param name="cardID">The ID of the card to attach to.</param>
         /// <param name="fileData">The file to attach.</param>
         /// <param name="fileName">The name of the file.</param>
         /// <param name="fileType">The type of file.</param>
         /// <returns></returns>
-        private IEnumerator AttachFileToCard(string cardID, byte[] fileData, string fileName, string fileType)
+        private IEnumerator AttachFileToCard(APIInformation apiInfo, string cardID, byte[] fileData, string fileName, string fileType)
         {
             //Get the attachment card API urls
-            string url = trelloApiURL + "cards/" + cardID + "/attachments";
+            string url = apiInfo.apiURL + "cards/" + cardID + "/attachments";
 
             // Create form data for the attachment
             WWWForm form = new WWWForm();
-            form.AddField("key", apiKey);
-            form.AddField("token", apiToken);
+            form.AddField("key", apiInfo.apiKey);
+            form.AddField("token", apiInfo.apiToken);
 
             //Add the bytes of the attachment
             form.AddBinaryData("file", fileData, fileName, fileType);
