@@ -466,17 +466,19 @@ namespace TowerTanks.Scripts
         private void Burn()
         {
             burnDamageTimer -= Time.deltaTime;
+
+            //Check to See if there's an Engine in the Cell
+            EngineController engine = interactable?.gameObject.GetComponent<EngineController>();
+
             if (burnDamageTimer <= 0)
             {
                 burnDamageTimer = burnDamageRate;
-                if (health >= maxHealth * 0.25f) Damage(5f, true);
-                else if (interactable != null)
-                {
-                    if (room.targetTank != null && room.targetTank.tankType == TankId.TankType.PLAYER) StackManager.AddToStack(GameManager.Instance.TankInteractableToEnum(interactable)); //Add interactable data to stack upon destruction (if it is in a player tank)
-                    interactable.DebugDestroy();
 
-                    GameManager.Instance.ParticleSpawner.SpawnParticle(0, transform.position, 0.15f, null);
-                    GameManager.Instance.AudioManager.Play("ExplosionSFX", gameObject);
+                if (health >= maxHealth * 0.25f) Damage(5f, true);
+
+                if (interactable != null)
+                {
+                    if (engine != null) engine.AddPressure(10, false, true);
                 }
 
                 //Check for Characters in Cell
@@ -505,6 +507,24 @@ namespace TowerTanks.Scripts
                 float burnTimeMult = 1.5f;
                 burnTimer = Random.Range(minBurnTime * burnTimeMult, maxBurnTime * burnTimeMult);
 
+                //Destroy Cell Contents
+                if (interactable != null)
+                {
+                    if (engine != null)
+                    {
+                        engine.Explode();
+                    }
+                    else
+                    {
+                        if (room.targetTank != null && room.targetTank.tankType == TankId.TankType.PLAYER) StackManager.AddToStack(GameManager.Instance.TankInteractableToEnum(interactable)); //Add interactable data to stack upon destruction (if it is in a player tank)
+                        interactable.DebugDestroy();
+                    }
+
+                    GameManager.Instance.ParticleSpawner.SpawnParticle(0, transform.position, 0.15f, null);
+                    GameManager.Instance.AudioManager.Play("ExplosionSFX", gameObject);
+                }
+
+
                 //Try to Spread Fire
                 List<Cell> flammables = new List<Cell>();
 
@@ -519,7 +539,7 @@ namespace TowerTanks.Scripts
                     }
                 }
 
-                //Pick a Random Neighbor and spread to it
+                //Spread to Neighbors
                 if (flammables.Count > 0)
                 {
                     int random = Random.Range(0, flammables.Count);

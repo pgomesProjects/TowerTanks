@@ -29,7 +29,6 @@ namespace TowerTanks.Scripts
         private bool overdriveActive = false;
         public float overDriveOffset = 1f; //multiplier on engine rates while overdrive is active
         private float pressureReleaseCd = 0;
-        [SerializeField, Tooltip("The settings for the adding pressure haptics.")] private HapticsSettings enginePressureHaptics;
 
         [Header("Charge Settings:")]
         public float maxChargeTime;
@@ -52,6 +51,8 @@ namespace TowerTanks.Scripts
         public Transform pressureBar;
 
         [Header("Explosion Settings:")]
+        public float explosionChance; //chance out of 100 that an explosion will happen when conditions are met
+        private float explosionChanceOriginal;
         public float explosionTime; //how long it takes to trigger an explosion when conditions are met
         private bool canExplode = false;
         private float explosionTimeOriginal;
@@ -66,6 +67,7 @@ namespace TowerTanks.Scripts
         private void Start()
         {
             explosionTimeOriginal = explosionTime;
+            explosionChanceOriginal = explosionChance;
             chargeStarted = false;
 
             maxTargetCharge = maxChargeTime - (targetChargeOffset * 2f);
@@ -87,7 +89,7 @@ namespace TowerTanks.Scripts
             base.FixedUpdate();
 
             UpdatePressure();
-            CheckForExplosion();
+            CheckForFire();
 
             //Input
             if (hasOperator)
@@ -112,20 +114,25 @@ namespace TowerTanks.Scripts
         {
             //Increase coal total:
             pressure += amount;
-            if (enableSounds)
+
+            if (pressure > 100)
             {
-                if (pressure > 100)
-                {
-                    GameManager.Instance.AudioManager.Play("InvalidAlert"); //Can't do that, sir
-                    pressure = 100;
-                }
-                else
-                {
-                    //Other effects:
-                    GameManager.Instance.ParticleSpawner.SpawnParticle(3, particleSpots[0].position, 0.15f, null);
-                    GameManager.Instance.AudioManager.Play("CoalLoad", this.gameObject); //Play loading clip
-                    GameManager.Instance.SystemEffects.ApplyControllerHaptics(operatorID.GetPlayerData().playerInput, enginePressureHaptics); //Apply haptics
-                }
+                pressure = 100;
+                float random = Random.Range(0f, 100f);
+                float chance = explosionChance;
+                //if (parentCell.isOnFire) chance += explosionChance;
+
+                if (random < chance && parentCell.isOnFire == false) parentCell.Ignite();
+
+                explosionChance += 5f;
+            }
+
+            if (enableSounds)
+            { 
+                //Other effects:
+                GameManager.Instance.ParticleSpawner.SpawnParticle(3, particleSpots[0].position, 0.15f, null);
+                GameManager.Instance.AudioManager.Play("CoalLoad", this.gameObject); //Play loading clip
+                if (operatorID != null) GameManager.Instance.SystemEffects.ApplyRampedControllerHaptics(operatorID.GetPlayerData().playerInput, 0f, 0.5f, 0.25f, 0.5f, 0.25f); //Apply haptics
             }
 
             //Small Speed Boost
@@ -181,14 +188,19 @@ namespace TowerTanks.Scripts
                 pressure = 0;
             }
 
+            if (pressure < dangerZoneThreshold)
+            {
+                if (explosionChance != explosionChanceOriginal) { explosionChance = explosionChanceOriginal; }
+            }
+
         }
 
         public IEnumerator SpeedSurge(float duration, float force)
         {
             isSurging = true;
 
-            force = force * Mathf.Sign(tank.treadSystem.gear);
-            tank.treadSystem.ApplyForce(transform.position, force, duration);
+            /*force = force * Mathf.Sign(tank.treadSystem.gear);
+            tank.treadSystem.ApplyForce(transform.position, force, duration);*/
 
             yield return new WaitForSeconds(duration);
             isSurging = false;
@@ -229,7 +241,7 @@ namespace TowerTanks.Scripts
             float min = ((targetCharge - targetChargeOffset)) / maxChargeTime;
             float max = ((targetCharge + targetChargeOffset)) / maxChargeTime;
 
-            currentGauge = GameManager.Instance.UIManager.AddTimingGauge(gameObject, new Vector2(0f, -0.56f), maxChargeTime, min, max, true);
+            currentGauge = GameManager.Instance.UIManager.AddTimingGauge(gameObject, maxChargeTime, min, max);
         }
 
         public void CheckCharge()
@@ -277,14 +289,14 @@ namespace TowerTanks.Scripts
             else power = 0;
         }
 
-        private void CheckForExplosion()
+        private void CheckForFire()
         {
             if (pressure > dangerZoneThreshold)
             {
                 if (!canExplode)
                 {
                     explosionTimer = 0;
-                    float randomOffset = Random.Range(-1f, 5f);
+                    float randomOffset = Random.Range(-1f, 3f);
                     explosionTime += randomOffset;
                 }
                 canExplode = true;
@@ -302,7 +314,7 @@ namespace TowerTanks.Scripts
                 if (explosionTimer > explosionTime)
                 {
                     explosionTimer = 0;
-                    Explode();
+                    if (parentCell.isOnFire != true) parentCell.Ignite();
                 }
             }
         }
