@@ -29,6 +29,7 @@ namespace TowerTanks.Scripts
         private bool overdriveActive = false;
         public float overDriveOffset = 1f; //multiplier on engine rates while overdrive is active
         private float pressureReleaseCd = 0;
+        [SerializeField, Tooltip("The settings for the adding pressure haptics.")] private HapticsSettings enginePressureHaptics;
 
         [Header("Charge Settings:")]
         public float maxChargeTime;
@@ -132,7 +133,7 @@ namespace TowerTanks.Scripts
                 //Other effects:
                 GameManager.Instance.ParticleSpawner.SpawnParticle(3, particleSpots[0].position, 0.15f, null);
                 GameManager.Instance.AudioManager.Play("CoalLoad", this.gameObject); //Play loading clip
-                if (operatorID != null) GameManager.Instance.SystemEffects.ApplyRampedControllerHaptics(operatorID.GetPlayerData().playerInput, 0f, 0.5f, 0.25f, 0.5f, 0.25f); //Apply haptics
+                if (operatorID != null) GameManager.Instance.SystemEffects.ApplyControllerHaptics(operatorID.GetPlayerData().playerInput, enginePressureHaptics); //Apply haptics
             }
 
             //Small Speed Boost
@@ -241,7 +242,7 @@ namespace TowerTanks.Scripts
             float min = ((targetCharge - targetChargeOffset)) / maxChargeTime;
             float max = ((targetCharge + targetChargeOffset)) / maxChargeTime;
 
-            currentGauge = GameManager.Instance.UIManager.AddTimingGauge(gameObject, maxChargeTime, min, max);
+            currentGauge = GameManager.Instance.UIManager.AddTimingGauge(gameObject, new Vector2(0f, -0.56f), maxChargeTime, min, max, true);
         }
 
         public void CheckCharge()

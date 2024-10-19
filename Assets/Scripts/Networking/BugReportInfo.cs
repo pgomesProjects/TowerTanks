@@ -6,12 +6,15 @@ public enum BugSeverity { SEVERE = 1, MODERATE = 2, MILD = 3 }
 
 public class BugReportInfo
 {
-    public BugSeverity bugSeverity;
+    public BugSeverity bugSeverity { get; private set; }
     public string description { get; private set; }
+    public string gameVersion { get; private set; }
 
     public BugReportInfo()
     {
-
+        this.gameVersion = Application.version;
+        this.description = "This is a test description.";
+        this.bugSeverity = BugSeverity.MILD;
     }
 
     /// <summary>

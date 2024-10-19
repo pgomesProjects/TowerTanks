@@ -1,6 +1,4 @@
 using Sirenix.OdinInspector;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,7 +8,7 @@ namespace TowerTanks.Scripts
     public class GameUIManager : SerializedMonoBehaviour
     {
         private const string CANVAS_TAG_NAME = "GameUI";
-        public enum UIType { TaskBar, RadialTaskBar, TimingGauge, RadialTimingGauge, ButtonPrompt }
+        public enum UIType { TaskBar, RadialTaskBar, TimingGauge, RadialTimingGauge, ButtonPrompt, Damage }
 
         [SerializeField, Tooltip("The prefabs of the different UI elements (only one of each type should exist).")] private UIPrefab[] uiPrefabs;
         [SerializeField, Tooltip("The button prompt settings.")] private ButtonPromptSettings buttonPromptSettings;
@@ -326,6 +324,32 @@ namespace TowerTanks.Scripts
             buttonText.text = currentPrompt.PromptText;
 
             return buttonPrompt.gameObject;
+        }
+
+        /// <summary>
+        /// Displays a number on top of a GameObject.
+        /// </summary>
+        /// <param name="gameObject">The GameObject to add the timing gauge to (must have a canvas).</param>
+        /// <param name="position">The position of the UI object relative to the GameObject.</param>
+        /// <param name="textColor">The color of the damage text.</param>
+        /// <param name="damage">The amount of damage taken by the GameObject.</param>
+        /// <param name="duration">The amount of time the text should last on the screen for.</param>
+        public void AddDamageNumber(GameObject gameObject, Vector2 position, Color textColor, float damage, float duration)
+        {
+            Canvas canvas = GetCanvasFromGameObject(gameObject, position, true);
+
+            //If no canvas is found, return
+            if (canvas == null)
+                return;
+
+            GameObject damageObj = Instantiate(GetPrefabFromList(UIType.Damage), canvas.transform);
+            TextMeshProUGUI damageText = damageObj.GetComponentInChildren<TextMeshProUGUI>();
+            damageText.color = textColor;
+            damageText.text = damage.ToString("F0");
+
+            LeanTween.scale(gameObject, Vector3.one + (Vector3.one * 1.2f), 0.2f).setEase(LeanTweenType.punch);
+
+            Destroy(damageObj, duration);
         }
 
         /// <summary>

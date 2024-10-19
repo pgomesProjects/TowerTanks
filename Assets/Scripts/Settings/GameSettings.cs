@@ -83,6 +83,15 @@ public static class GameSettings
         }
     }
 
+    public static void CopyToClipboard(string text)
+    {
+        TextEditor textEditor = new TextEditor();
+        textEditor.text = text;
+        textEditor.SelectAll();
+        textEditor.Copy();
+        Debug.Log("Copied " + text + " to clipboard.");
+    }
+
     public static PlatformType GetRunningPlatform()
     {
         switch (Application.platform)
