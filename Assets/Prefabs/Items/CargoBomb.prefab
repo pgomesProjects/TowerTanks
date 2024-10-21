@@ -5340,19 +5340,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91eab16b746af374a8f43f69892684ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cargoID: Bomb
   type: 2
+  contents: []
   amount: 0
   isOnTank: 0
   onTankMask:
     serializedVersion: 2
     m_Bits: 32768
   throwForce: 400
+  isContinuous: 0
   fuseTimer: 5
   isLit: 0
   hitboxMask:
     serializedVersion: 2
     m_Bits: 1082120
   explosionRadius: 2
+  detonate: 0
 --- !u!58 &6709355951469824717
 CircleCollider2D:
   m_ObjectHideFlags: 0

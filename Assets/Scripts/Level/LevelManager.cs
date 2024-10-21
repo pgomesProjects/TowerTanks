@@ -581,7 +581,9 @@ namespace TowerTanks.Scripts
         public void CompleteMission()
         {
             TankDesign currentTankDesign = playerTank.GetCurrentDesign();
+            CargoManifest manifest = playerTank.GetCurrentManifest();
             GameManager.Instance.tankDesign = currentTankDesign;
+            GameManager.Instance.cargoManifest = manifest;
             GameManager.Instance.LoadScene("BuildTankScene", LevelTransition.LevelTransitionType.GATE, true, true, false);
         }
 
