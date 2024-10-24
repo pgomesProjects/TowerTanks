@@ -786,7 +786,7 @@ namespace TowerTanks.Scripts
                         _item.itemID = itemID; //update id
 
                         Transform temp = item.transform.parent;
-                        item.transform.parent = this.transform; //set new temp parent
+                        item.transform.parent = towerJoint.transform; //set new temp parent
 
                         _item.localSpawnVector = item.transform.localPosition; //Get it's current localPosition
 
