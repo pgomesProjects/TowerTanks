@@ -214,6 +214,23 @@ namespace TowerTanks.Scripts
             }
         }
 
+        public void Sell(float percentage) //percentage = multiplier 1f = 1x sale, 0.5f = half-price, etc
+        {
+            //Apply Percentage Multiplier
+            int saleAmount = Mathf.RoundToInt(amount * percentage);
+
+            //Add to Total Resources
+            LevelManager.Instance.UpdateResources(saleAmount);
+
+            //Other Effects
+            GameManager.Instance.AudioManager.Play("UseWrench", gameObject);
+            GameManager.Instance.AudioManager.Play("ItemPickup", gameObject);
+            GameManager.Instance.ParticleSpawner.SpawnParticle(6, transform.position, 0.2f, null);
+            GameManager.Instance.ParticleSpawner.SpawnParticle(7, transform.position, 0.2f, null);
+
+            Destroy(gameObject);
+        }
+
         protected virtual void OnDestroy()
         {
             if (currentHolder != null)

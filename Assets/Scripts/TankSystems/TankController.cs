@@ -160,6 +160,9 @@ namespace TowerTanks.Scripts
         //Runtime Variables:
         private bool isDying = false; //true when the tank is in the process of blowing up
         private float deathSequenceTimer = 0;
+        private bool isTransitioning = false; //true when the tank is about to move between scenes
+        private float transitionSequenceTimer = 0;
+        private float transitionSequenceInterval = 0;
         [Tooltip("Describes the size of the tank in each cardinal direction (relative to treadbase). X = height, Y = left width, Z = depth, W = right width.")] internal Vector4 tankSizeValues;
 
         //UI
@@ -298,11 +301,20 @@ namespace TowerTanks.Scripts
             //Debug 
             gear = treadSystem.gear;
             horsePower = treadSystem.horsePower;
+        }
 
+        private void FixedUpdate()
+        {
             //Death Sequence Events
             if (isDying)
             {
                 DeathSequenceEvents();
+            }
+
+            //Transition Sequence Events
+            if (isTransitioning)
+            {
+                TransitionSequenceEvents();
             }
 
             //UI
@@ -315,7 +327,7 @@ namespace TowerTanks.Scripts
         private void UpdateUI()
         {
             Color newColor = damageSprite.color;
-            newColor.a = Mathf.Lerp(0, 255f, (damageTimer / damageTime) * Time.deltaTime);
+            newColor.a = Mathf.Lerp(0, 255f, (damageTimer / damageTime) * Time.fixedDeltaTime);
             damageSprite.color = newColor;
 
             damageTimer -= Time.deltaTime;
@@ -460,6 +472,180 @@ namespace TowerTanks.Scripts
             }
         }
 
+        public void Damage(float amount)
+        {
+            currentCoreHealth -= amount;
+
+            //UI
+            damageTime += (amount / 50f);
+            damageTimer = damageTime;
+
+            if (currentCoreHealth <= 0)
+            {
+                if (!isDying)
+                {
+                    EventSpawnerManager spawner = GameObject.Find("LevelManager")?.GetComponent<EventSpawnerManager>();
+                    if (tankType == TankId.TankType.ENEMY) spawner.EnemyDestroyed(this);
+                    StartCoroutine(DeathSequence(2.5f));
+                }
+            }
+            OnCoreDamaged?.Invoke(currentCoreHealth / coreHealth);
+        }
+
+        public void DeathSequenceEvents()
+        {
+            deathSequenceTimer -= Time.fixedDeltaTime;
+            if (deathSequenceTimer <= 0)
+            {
+                int randomParticle = Random.Range(0, 3);
+                float randomX = Random.Range(-4f, 4f);
+                float randomY = Random.Range(0, 2f);
+                float randomS = Random.Range(0.1f, 0.2f);
+
+                Vector2 randomPos = new Vector2(treadSystem.transform.position.x + randomX, treadSystem.transform.position.y + randomY);
+
+                GameManager.Instance.ParticleSpawner.SpawnParticle(randomParticle, randomPos, randomS, treadSystem.transform);
+
+                GameManager.Instance.AudioManager.Play("ExplosionSFX", treadSystem.gameObject);
+                GameManager.Instance.AudioManager.Play("LargeExplosionSFX", treadSystem.gameObject);
+
+                deathSequenceTimer = Random.Range(0.1f, 0.2f);
+            }
+        }
+
+        public IEnumerator DeathSequence(float duration)
+        {
+            isDying = true;
+            yield return new WaitForSeconds(duration);
+            BlowUp(false);
+        }
+
+        public void Transition()
+        {
+            StartCoroutine(TransitionSequence(4f));
+        }
+
+        public void TransitionSequenceEvents()
+        {
+            transitionSequenceTimer -= Time.fixedDeltaTime;
+            if (transitionSequenceTimer <= 0)
+            {
+                Cargo[] cargo = GetComponentsInChildren<Cargo>();
+                if (cargo.Length > 0)
+                {
+                    foreach (Cargo item in cargo)
+                    {
+                        if (item.type == Cargo.CargoType.SCRAP)
+                        {
+                            item.Sell(1f);
+                            break;
+                        }
+                    }
+                }
+                transitionSequenceTimer = transitionSequenceInterval;
+            }
+        }
+
+        public IEnumerator TransitionSequence(float duration)
+        {
+            isTransitioning = true;
+            isInvincible = true;
+
+            //Determine Interval Based on Duration
+            float sequenceDuration = duration + 1;
+            Cargo[] cargo = GetComponentsInChildren<Cargo>();
+            if (cargo.Length > 0)
+            {
+                float crateCount = 0;
+                foreach(Cargo item in cargo)
+                {
+                    if (item.type == Cargo.CargoType.SCRAP)
+                    {
+                        crateCount++;
+                    }
+                }
+
+                if (crateCount > 0) transitionSequenceInterval = duration / crateCount;
+                else transitionSequenceInterval = 0;
+            }
+            else sequenceDuration = 1;
+
+            yield return new WaitForSeconds(sequenceDuration);
+            LevelManager.Instance.CompleteMission();
+            isInvincible = false;
+        }
+
+        public void BlowUp(bool immediate)
+        {
+            CameraManipulator.main?.OnTankDestroyed(this);
+            if (immediate) DestroyImmediate(gameObject);
+            else
+            {
+                Cell[] cells = GetComponentsInChildren<Cell>();
+                foreach (Cell cell in cells)
+                {
+                    //Destroy all cells
+                    cell.Kill();
+
+                    //Blow up the core
+                    if (cell.room.isCore)
+                    {
+                        GameManager.Instance.ParticleSpawner.SpawnParticle(5, cell.transform.position, 0.15f, null);
+                    }
+                }
+
+                //Spawn Cargo
+                foreach (GameObject _cargo in cargoHold)
+                {
+                    GameObject flyingCargo = Instantiate(_cargo, treadSystem.transform.position, treadSystem.transform.rotation, null);
+                    float randomX = Random.Range(-10f, 10f);
+                    float randomY = Random.Range(5f, 20f);
+                    float randomT = Random.Range(-16f, 16f);
+                    Vector2 _random = new Vector2(randomX, randomY);
+
+                    Rigidbody2D rb = flyingCargo.GetComponent<Rigidbody2D>();
+                    rb.AddForce(_random * 40);
+                    rb.AddTorque(randomT * 10);
+                }
+
+                if (tankType == TankId.TankType.ENEMY)
+                {
+                    //If we're checking for enemies destroyed, add 1 to the Objective
+                    LevelManager.Instance?.AddObjectiveValue(ObjectiveType.DefeatEnemies, 1);
+
+                    //Random Interactable Drops
+                    if (interactablePool.Count > 0)
+                    {
+                        int random = Random.Range(1, Mathf.CeilToInt(interactablePool.Count / 3) + 1); //# of drops
+                        for (int i = 0; i < random; i++)
+                        {
+                            int randomDrop = Random.Range(0, interactablePool.Count); //Randomly Select from Pool
+                            TankInteractable interactable = interactablePool[randomDrop].script;
+
+                            INTERACTABLE _interactable = GameManager.Instance.TankInteractableToEnum(interactable); //Convert to Enum
+                            StackManager.AddToStack(_interactable); //Add to Stack
+
+                            interactablePool.RemoveAt(randomDrop); //Remove from the Pool
+                        }
+                    }
+                }
+
+                //Unassign all characters from this tank
+                foreach (Character character in GetCharactersAssignedToTank(this))
+                    character.SetAssignedTank(null);
+
+                //Detach the characters that are still in the tank and kill them
+                foreach (Character character in GetCharactersInTank())
+                {
+                    character.transform.SetParent(null);
+                    character.KillCharacterImmediate();
+                }
+
+                //GameManager.Instance.SystemEffects.ActivateSlowMotion(0.05f, 0.4f, 1.5f, 0.4f);
+                Destroy(gameObject);
+            }
+        }
+
         public void GetTankInfo()
         {
             tankManager = GameObject.Find("TankManager")?.GetComponent<TankManager>();
@@ -487,125 +673,8 @@ namespace TowerTanks.Scripts
             }
         }
 
-        public void Damage(float amount)
-        {
-            currentCoreHealth -= amount;
-
-            //UI
-            damageTime += (amount / 50f);
-            damageTimer = damageTime;
-
-            if (currentCoreHealth <= 0)
-            {
-                if (!isDying)
-                {
-                    EventSpawnerManager spawner = GameObject.Find("LevelManager")?.GetComponent<EventSpawnerManager>();
-                    if (tankType == TankId.TankType.ENEMY) spawner.EnemyDestroyed(this);
-                    StartCoroutine(DeathSequence(2.5f));
-                }
-            }
-            OnCoreDamaged?.Invoke(currentCoreHealth / coreHealth);
-        }
-
-        public void DeathSequenceEvents()
-        {
-            deathSequenceTimer -= Time.deltaTime;
-            if (deathSequenceTimer <= 0)
-            {
-                int randomParticle = Random.Range(0, 3);
-                float randomX = Random.Range(-4f, 4f);
-                float randomY = Random.Range(0, 2f);
-                float randomS = Random.Range(0.1f, 0.2f);
-
-                Vector2 randomPos = new Vector2(treadSystem.transform.position.x + randomX, treadSystem.transform.position.y + randomY);
-
-                GameManager.Instance.ParticleSpawner.SpawnParticle(randomParticle, randomPos, randomS, treadSystem.transform);
-
-                GameManager.Instance.AudioManager.Play("ExplosionSFX", treadSystem.gameObject);
-                GameManager.Instance.AudioManager.Play("LargeExplosionSFX", treadSystem.gameObject);
-
-                deathSequenceTimer = Random.Range(0.1f, 0.2f);
-            }
-        }
-
-        public IEnumerator DeathSequence(float duration)
-        {
-            isDying = true;
-            yield return new WaitForSeconds(duration);
-            BlowUp(false);
-        }
-
-        public void BlowUp(bool immediate)
-        {
-            CameraManipulator.main?.OnTankDestroyed(this);
-            if (immediate) DestroyImmediate(gameObject);
-            else
-            {
-                Cell[] cells = GetComponentsInChildren<Cell>();
-                foreach(Cell cell in cells)
-                {
-                    //Destroy all cells
-                    cell.Kill();
-
-                    //Blow up the core
-                    if (cell.room.isCore)
-                    {
-                        GameManager.Instance.ParticleSpawner.SpawnParticle(5, cell.transform.position, 0.15f, null);
-                    }
-                }
-
-                //Spawn Cargo
-                foreach(GameObject _cargo in cargoHold)
-                {
-                    GameObject flyingCargo = Instantiate(_cargo, treadSystem.transform.position, treadSystem.transform.rotation, null);
-                    float randomX = Random.Range(-10f, 10f);
-                    float randomY = Random.Range(5f, 20f);
-                    float randomT = Random.Range(-16f, 16f);
-                    Vector2 _random = new Vector2(randomX, randomY);
-
-                    Rigidbody2D rb = flyingCargo.GetComponent<Rigidbody2D>();
-                    rb.AddForce(_random * 40);
-                    rb.AddTorque(randomT * 10);
-                }
-
-                if(tankType == TankId.TankType.ENEMY)
-                {
-                    //If we're checking for enemies destroyed, add 1 to the Objective
-                    LevelManager.Instance?.AddObjectiveValue(ObjectiveType.DefeatEnemies, 1);
-
-                    //Random Interactable Drops
-                    if (interactablePool.Count > 0)
-                    {
-                        int random = Random.Range(1, Mathf.CeilToInt(interactablePool.Count / 3) + 1); //# of drops
-                        for (int i = 0; i < random; i++)
-                        {
-                            int randomDrop = Random.Range(0, interactablePool.Count); //Randomly Select from Pool
-                            TankInteractable interactable = interactablePool[randomDrop].script;
-
-                            INTERACTABLE _interactable = GameManager.Instance.TankInteractableToEnum(interactable); //Convert to Enum
-                            StackManager.AddToStack(_interactable); //Add to Stack
-
-                            interactablePool.RemoveAt(randomDrop); //Remove from the Pool
-                        }
-                    }
-                }
-
-                //Unassign all characters from this tank
-                foreach(Character character in GetCharactersAssignedToTank(this))
-                    character.SetAssignedTank(null);
-
-                //Detach the characters that are still in the tank and kill them
-                foreach (Character character in GetCharactersInTank())
-                {
-                    character.transform.SetParent(null);
-                    character.KillCharacterImmediate();
-                }
-
-                //GameManager.Instance.SystemEffects.ActivateSlowMotion(0.05f, 0.4f, 1.5f, 0.4f);
-                Destroy(gameObject);
-            }
-        }
-
+        
+        //FUNCTIONALITY METHODS:
         public void Build(TankDesign tankDesign) //Called from TankManager when constructing a specific design
         {
             //Build core interactables:
@@ -865,6 +934,7 @@ namespace TowerTanks.Scripts
             return characters;
         }
 
+        //UTILITY METHODS:
         public void SetTankName(string newTankName)
         {
             TankName = newTankName;

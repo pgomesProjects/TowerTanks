@@ -74,7 +74,7 @@ namespace TowerTanks.Scripts
             if (endLevel == true && levelEnded == false)
             {
                 Debug.Log("Level Finished!");
-                LevelManager.Instance.CompleteMission();
+                playerTank.Transition();
                 levelEnded = true;
             }
         }

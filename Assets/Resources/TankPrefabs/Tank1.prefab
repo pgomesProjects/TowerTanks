@@ -1711,7 +1711,7 @@ MonoBehaviour:
   totalWeight: 0
   useEngines: 1
   horsePower: 0
-  speedFactor: 30
+  speedFactor: 45
   maxSpeed: 8
   actualSpeed: 0
   maxAcceleration: 0.7
