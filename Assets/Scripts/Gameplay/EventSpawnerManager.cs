@@ -24,9 +24,9 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("The maximum number of events that can be active at once in the current encounter")] public int maxEvents = 1;
 
         [Header("Spawner Variables")]
-        [SerializeField, Tooltip("The current chunk the player tank is on")] public float currentChunk = 0;
-        [SerializeField, Tooltip("The chunk players have to travel passed for it to be considered new territory")] private float lastChunk = 0;
-        [SerializeField, Tooltip("The number of chunks the player tank has traveled since the last event marker")] public float chunksTraveled = 0;
+        [SerializeField, Tooltip("The current chunk the player tank is on")] public int currentChunk = 0;
+        [SerializeField, Tooltip("The chunk players have to travel passed for it to be considered new territory")] private int lastChunk = 0;
+        [SerializeField, Tooltip("The number of chunks the player tank has traveled since the last event marker")] public int chunksTraveled = 0;
         [SerializeField, Tooltip("The minimum distance in chunks players need to travel before another event can trigger")] public float minTriggerDistance;
         [SerializeField, Tooltip("The maximum distance in chunks players need to travel before another event can trigger")] public float maxTriggerDistance;
         private float triggerDistanceCheck = 0;
@@ -36,6 +36,9 @@ namespace TowerTanks.Scripts
 
         private TankController playerTank;
         private List<TankController> enemies = new List<TankController>();
+
+        public bool endFlagExists;
+        private bool levelEnded;
 
         private void Awake()
         {
@@ -65,6 +68,14 @@ namespace TowerTanks.Scripts
             {
                 lastChunk = currentChunk;
                 chunksTraveled += 1;
+            }
+
+            bool endLevel = chunkLoader.CheckEndFlag();
+            if (endLevel == true && levelEnded == false)
+            {
+                Debug.Log("Level Finished!");
+                LevelManager.Instance.CompleteMission();
+                levelEnded = true;
             }
         }
 
@@ -132,9 +143,16 @@ namespace TowerTanks.Scripts
             if (enemies.Count == 0)
             {
                 Vector3 destroyedPos = tank.treadSystem.transform.position;
-                float newMarker = chunkLoader.GetChunkAtPosition(destroyedPos).chunkNumber;
+                int newMarker = chunkLoader.GetChunkAtPosition(destroyedPos).chunkNumber;
                 if (newMarker != -1) lastChunk = newMarker;
             }
+        }
+
+        public void SpawnEndOfLevel()
+        {
+            Debug.Log("Spawned Flag!");
+            int flagOffset = lastChunk + 3;
+            chunkLoader.SpawnEndFlag(flagOffset);
         }
     }
 }

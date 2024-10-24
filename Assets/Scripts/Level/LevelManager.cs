@@ -25,6 +25,7 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("The parent that holds all of the player HUD objects.")] private RectTransform playerHUDParentTransform;
         [SerializeField, Tooltip("The value of a singular scrap piece.")] private int scrapValue;
         [SerializeField, Tooltip("The component that tracks the objective information.")] private ObjectiveTracker objectiveTracker;
+        [SerializeField, Tooltip("The component that tracks encounter & event information.")] private EventSpawnerManager eventManager;
         [SerializeField, Tooltip("The component that tracks tank information.")] public TankManager tankManager;
         [SerializeField] public float enemiesDestroyed;
         public static float totalEnemiesDestroyed;
@@ -88,6 +89,7 @@ namespace TowerTanks.Scripts
             spawnPoint = playerParent.transform;
             tankManager = GameObject.Find("TankManager").GetComponent<TankManager>();
             playerTank = tankManager.tanks[0].gameObject.GetComponent<TankController>();
+            eventManager = GetComponent<EventSpawnerManager>();
             //GameObject.FindGameObjectWithTag("SpawnPoint").transform;
         }
 
@@ -572,8 +574,8 @@ namespace TowerTanks.Scripts
             {
                 if (enemiesDestroyed >= CampaignManager.Instance.GetCurrentLevelEvent().enemiesToDefeat)
                 {
-                    //Complete the Mission
-                    CompleteMission();
+                    //Spawn the End Level Flag
+                    eventManager.SpawnEndOfLevel();
                 }
             }
         }
