@@ -7,9 +7,11 @@ namespace TowerTanks.Scripts.DebugTools
     public class DebugTools : MonoBehaviour
     {
         [SerializeField, Tooltip("The main debug display.")] private CanvasGroup debugCanvasGroup;
+        [SerializeField, Tooltip("The bug report screen.")] private BugReportForm bugReportScreenPrefab;
         [SerializeField, Tooltip("The command menu to spawn.")] private CheatInputField commandMenuPrefab;
         private PlayerControlSystem playerControlSystem;
         private CheatInputField currentDebugMenu;
+        private BugReportForm currentBugReportForm;
 
         internal string logHistory;
 
@@ -19,6 +21,7 @@ namespace TowerTanks.Scripts.DebugTools
             playerControlSystem.Debug.ToggleGamepadCursors.performed += _ => OnToggleGamepadCursors();
             playerControlSystem.Debug.ToggleCommandMenu.performed += _ => ToggleCommandMenu();
             playerControlSystem.Debug.Screenshot.performed += _ => GameManager.Instance.SystemEffects.TakeScreenshot();
+            playerControlSystem.Debug.BugReport.performed += _ => ToggleBugReportScreen();
         }
 
         private void OnEnable()
@@ -65,6 +68,19 @@ namespace TowerTanks.Scripts.DebugTools
 
             if (currentDebugMenu.gameObject.activeInHierarchy)
                 currentDebugMenu.ForceActivateInput();
+        }
+
+        private void ToggleBugReportScreen()
+        {
+            if (currentBugReportForm == null)
+            {
+                currentBugReportForm = Instantiate(bugReportScreenPrefab, GameObject.FindGameObjectWithTag("CursorCanvas").transform);
+                currentBugReportForm.transform.SetAsLastSibling();
+            }
+            else
+            {
+                currentBugReportForm.gameObject.SetActive(currentBugReportForm.gameObject.activeInHierarchy ? false : true);
+            }
         }
     }
 }
