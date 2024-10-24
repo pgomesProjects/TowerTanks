@@ -15,7 +15,7 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("The chunk that the level starts with.")] private ChunkData startingChunk;
 
         public Transform playerTank;
-        public float currentChunk; //which chunk the player is currently on
+        public int currentChunk; //which chunk the player is currently on
         private TankManager tankManager;
 
         // The object pool for the ground chunks
@@ -37,7 +37,7 @@ namespace TowerTanks.Scripts
         private string[] spawnerWeights;
         private int currentBias = 0;
         private bool biasJustEnded = false;
-        private float chunkCounter = 0f;
+        private int chunkCounter = 0;
         private float previousY = 0f;
         private GameObject previousChunk = null;
 
@@ -141,7 +141,7 @@ namespace TowerTanks.Scripts
 
             float direction = -1f;
             if (directions == 1) direction = 1f;
-            chunkCounter = 0f;
+            chunkCounter = 0;
             previousY = 0f;
 
             //Creates each chunk in the world
@@ -205,7 +205,7 @@ namespace TowerTanks.Scripts
 
                 if (i == Mathf.Round(poolSize * 0.5f)) //Spawn a flag at the halfway mark
                 {
-                    chunkData.SpawnFlag(Color.blue);
+                    //chunkData.SpawnFlag(Color.blue);
                 }
             }
         }
@@ -437,6 +437,8 @@ namespace TowerTanks.Scripts
         }
         #endregion
 
+        //RUNTIME METHODS:
+
         private void Update()
         {
             if (playerTank != null)
@@ -447,6 +449,26 @@ namespace TowerTanks.Scripts
         {
             //Gizmos.color = Color.green;
             //Gizmos.DrawWireSphere(playerTank.position, RENDER_DISTANCE);
+        }
+
+        public void SpawnEndFlag(int chunkIndex)
+        {
+            groundPool[chunkIndex].SpawnFlag(Color.red);
+        }
+
+        public bool CheckEndFlag()
+        {
+            bool hasRedFlag = false;
+            Transform flag = groundPool[currentChunk].currentFlag;
+            if (flag != null)
+            {
+                if (flag.gameObject.name == "Flag (End)")
+                {
+                    hasRedFlag = true;
+                }
+            }
+
+            return hasRedFlag;
         }
 
         #region LevelBuilder
@@ -515,7 +537,7 @@ namespace TowerTanks.Scripts
         public void InitializeChunksFromLayout(LevelLayout layout)
         {
             float direction = 1f;
-            chunkCounter = 0f;
+            chunkCounter = 0;
             previousY = 0f;
 
             int _poolSize = 0;
