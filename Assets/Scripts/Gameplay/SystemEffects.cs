@@ -263,7 +263,7 @@ namespace TowerTanks.Scripts
         public void ShakeCamera(CinemachineVirtualCamera currentCamera, ScreenshakeSettings screenshakeSettings)
         {
             //If the users have Screenshake turned off or there are no settings, return
-            if (PlayerPrefs.GetInt("Screenshake", 1) == 0 || screenshakeSettings == null)
+            if (GameSettings.currentSettings.screenshakeOn == 0 || screenshakeSettings == null)
                 return;
 
             StartCoroutine(ShakeCameraAnimation(currentCamera, screenshakeSettings.intensity, screenshakeSettings.duration));

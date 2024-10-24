@@ -12,7 +12,8 @@ public static class Bootstrapper
         Object.DontDestroyOnLoad(Object.Instantiate(Resources.Load("DebugCanvas")));
 
         Cursor.lockState = CursorLockMode.Confined;
-        SettingsOnStart();
+        GetCurrentSettings();
+        GameSettings.RefreshSettings();
     }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
@@ -21,47 +22,15 @@ public static class Bootstrapper
         DebugManager.instance.enableRuntimeUI = false;
     }
 
-    private static void SettingsOnStart()
+    private static void GetCurrentSettings()
     {
-        Debug.Log(GameSettings.systemSpecs.DisplaySystemInfo());
-        GameSettings.CheckBGM();
-        GameSettings.CheckSFX();
-        GameSettings.CheckFullscreen();
-        ResolutionOnStart();
-        GameSettings.CheckScreenshake();
-    }
-
-    private static void ResolutionOnStart()
-    {
-        int currentResolutionIndex = -1;
-
-
-        //If the game is currently fullscreen, check the size of the whole screen
-        if (PlayerPrefs.GetInt("IsFullscreen", 1) == 1)
-        {
-            for (int i = 0; i < GameSettings.possibleResolutions.GetLength(0); i++)
-            {
-                if (Screen.currentResolution.width == GameSettings.possibleResolutions[i, 0]
-                    && Screen.currentResolution.height == GameSettings.possibleResolutions[i, 1])
-                    currentResolutionIndex = i;
-            }
-        }
-        else
-        {
-            for (int i = 0; i < GameSettings.possibleResolutions.GetLength(0); i++)
-            {
-                if (Screen.width == GameSettings.possibleResolutions[i, 0]
-                    && Screen.height == GameSettings.possibleResolutions[i, 1])
-                    currentResolutionIndex = i;
-            }
-        }
-
-        //Set to 1080p if none apply
-        if (currentResolutionIndex == -1)
-            currentResolutionIndex = 1;
-
-        PlayerPrefs.SetInt("CurrentRes", currentResolutionIndex);
-
-        GameSettings.CheckResolution();
+        ConfigurationSettings currentSettings = new ConfigurationSettings();
+        currentSettings.SetBGMVolume(PlayerPrefs.GetFloat("MasterVolume", GameSettings.defaultSettings.masterVolume));
+        currentSettings.SetBGMVolume(PlayerPrefs.GetFloat("BGMVolume", GameSettings.defaultSettings.bgmVolume));
+        currentSettings.SetSFXVolume(PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSettings.sfxVolume));
+        currentSettings.SetResolution(PlayerPrefs.GetInt("CurrentRes", GameSettings.defaultSettings.resolution));
+        currentSettings.SetFullscreen(PlayerPrefs.GetInt("IsFullscreen", GameSettings.defaultSettings.isFullScreen));
+        currentSettings.SetScreenshakeOn(PlayerPrefs.GetInt("Screenshake", GameSettings.defaultSettings.screenshakeOn));
+        GameSettings.currentSettings = currentSettings;
     }
 }

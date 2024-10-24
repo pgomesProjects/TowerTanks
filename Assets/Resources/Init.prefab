@@ -54,6 +54,7 @@ GameObject:
   m_Component:
   - component: {fileID: 942814128700547139}
   - component: {fileID: 689608177952213201}
+  - component: {fileID: 2776762177459489224}
   m_Layer: 0
   m_Name: Init
   m_TagString: Untagged
@@ -146,6 +147,18 @@ MonoBehaviour:
     buildingSteps: []
   cargoManifest:
     items: []
+--- !u!114 &2776762177459489224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 942814128700547141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 389e814b3ad68d4448e73a55052b5099, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1903508510957378736
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,7 +12,7 @@ namespace TowerTanks.Scripts
         private string apiInfoFileName;
 
         //The amount of characters each bug report ID will have
-        private const int REPORT_ID_CHAR_COUNT = 10;
+        private const int REPORT_ID_CHAR_COUNT = 6;
 
         private void Awake()
         {
@@ -51,7 +51,7 @@ namespace TowerTanks.Scripts
             form.AddField("idList", apiInfo.listID);
 
             //Card title
-            form.AddField("name", "Bug Report (ID = " + reportID + ")");
+            form.AddField("name", "" + reportID + ": " + bugReportInfo.title);
 
             //Card description
             form.AddField("desc", bugReportInfo.gameVersion + "\n\n" + bugReportInfo.description);
@@ -89,20 +89,24 @@ namespace TowerTanks.Scripts
             //Card was created successfully
             else
             {
-                Debug.Log("Trello card successfully created.");
-
                 //Get the response data to extract the ID of the new card
                 string responseText = www.downloadHandler.text;
                 string cardID = GetCardID(responseText);
+
+                //Attach the debug logs to the card
+                StartCoroutine(AttachDataToCard(apiInfo, cardID, GameManager.Instance.GetComponent<GameLog>().ToString(), "log.txt", "text/plain"));
+
+                //Attach the system information to the card
+                StartCoroutine(AttachDataToCard(apiInfo, cardID, GameSettings.systemSpecs.ToString(), "System_Info.txt", "text/plain"));
+
+                //Attach the configuration settings to the card
+                StartCoroutine(AttachDataToCard(apiInfo, cardID, GameSettings.currentSettings.ToString(), "Config_Settings.txt", "text/plain"));
 
                 // If a screenshot was successfully taken, attach it to the card
                 if (screenshot != null)
                     StartCoroutine(AttachFileToCard(apiInfo, cardID, screenshot.EncodeToPNG(), "TowerTanks-Screenshot-" + System.DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss") + ".png", "image/png"));
 
                 Destroy(screenshot);
-
-                //Attach the system information to the card
-                StartCoroutine(AttachDataToCard(apiInfo, cardID, GameSettings.systemSpecs.DisplaySystemInfo(), "System_Info.txt", "text/plain"));
 
                 GameSettings.CopyToClipboard(reportID);
             }
@@ -180,7 +184,7 @@ namespace TowerTanks.Scripts
             for (int i = 0; i < REPORT_ID_CHAR_COUNT; i++)
                 result.Append(characters[Random.Range(0, characters.Length)]);
 
-            return result.ToString();
+            return "TT-" + result.ToString();
         }
 
         /// <summary>

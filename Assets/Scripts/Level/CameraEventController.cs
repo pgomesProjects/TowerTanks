@@ -94,7 +94,7 @@ public class CameraEventController : MonoBehaviour
     public void ShakeCamera(float intensity, float seconds, float hapticsAmplitude = 0.75f)
     {
         //If the users have Screenshake turned on
-        if(PlayerPrefs.GetInt("Screenshake", 1) == 1)
+        if(GameSettings.currentSettings.screenshakeOn == 1)
         {
             //Set the amplitude gain of the camera
             CinemachineBasicMultiChannelPerlin cinemachineBasicMultiChannelPerlin = _currentActiveCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();

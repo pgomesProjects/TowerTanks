@@ -26,26 +26,27 @@ namespace TowerTanks.Scripts
             float setVal;
 
             //BGM Settings
-            setVal = PlayerPrefs.GetFloat("BGMVolume", GameSettings.defaultBGMVolume) * 10f;
+            setVal = GameSettings.currentSettings.bgmVolume * 10f;
             bgmController.SetIndex((int)setVal);
 
             //SFX Settings
-            setVal = PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume) * 10f;
+            setVal = GameSettings.currentSettings.sfxVolume * 10f;
             sfxController.SetIndex((int)setVal);
 
             //Res Settings
-            resController.SetIndex(PlayerPrefs.GetInt("CurrentRes", -1));
+            resController.SetIndex(GameSettings.currentSettings.resolution);
 
             //Fullscreen Settings
-            fullscreenController.SetIndex(PlayerPrefs.GetInt("IsFullscreen", 1));
+            fullscreenController.SetIndex(GameSettings.currentSettings.isFullScreen);
 
             //Screenshake Settings
-            shakeController.SetIndex(PlayerPrefs.GetInt("Screenshake", 1));
+            shakeController.SetIndex(GameSettings.currentSettings.screenshakeOn);
         }
 
         public void ChangeBGM(int val)
         {
             PlayerPrefs.SetFloat("BGMVolume", val * 0.1f);
+            GameSettings.currentSettings.SetBGMVolume(val * 0.1f);
             GameSettings.CheckBGM();
             GameManager.Instance.AudioManager.UpdateMusicVolume();
         }
@@ -53,6 +54,7 @@ namespace TowerTanks.Scripts
         public void ChangeSFX(int val)
         {
             PlayerPrefs.SetFloat("SFXVolume", val * 0.1f);
+            GameSettings.currentSettings.SetSFXVolume(val * 0.1f);
             GameSettings.CheckSFX();
             GameManager.Instance.AudioManager.UpdateSFXVolume();
         }
@@ -60,19 +62,21 @@ namespace TowerTanks.Scripts
         public void ChangeRes(int val)
         {
             PlayerPrefs.SetInt("CurrentRes", val);
+            GameSettings.currentSettings.SetResolution(val);
             GameSettings.CheckResolution();
         }
 
         public void ChangeFullscreen(int val)
         {
             PlayerPrefs.SetInt("IsFullscreen", val);
+            GameSettings.currentSettings.SetFullscreen(val);
             GameSettings.CheckFullscreen();
         }
 
         public void ChangeScreenshake(int val)
         {
             PlayerPrefs.SetInt("Screenshake", val);
-            GameSettings.CheckScreenshake();
+            GameSettings.currentSettings.SetScreenshakeOn(val);
         }
     }
 }

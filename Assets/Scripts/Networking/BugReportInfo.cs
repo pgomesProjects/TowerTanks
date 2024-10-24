@@ -7,12 +7,14 @@ public enum BugSeverity { SEVERE = 1, MODERATE = 2, MILD = 3 }
 public class BugReportInfo
 {
     public BugSeverity bugSeverity { get; private set; }
+    public string title { get; private set; }
     public string description { get; private set; }
     public string gameVersion { get; private set; }
 
     public BugReportInfo()
     {
-        this.gameVersion = Application.version;
+        this.title = "Found a test bug.";
+        this.gameVersion = "Version: " + Application.version;
         this.description = "This is a test description.";
         this.bugSeverity = BugSeverity.MILD;
     }
@@ -64,8 +66,8 @@ public class PlayerSystemSpecs
     /// <summary>
     /// Prints all of the user's system information.
     /// </summary>
-    /// <returns>The system information.</returns>
-    public string DisplaySystemInfo()
+    /// <returns>Returns the system information.</returns>
+    public override string ToString()
     {
         string log = "===System Information===\n";
 
