@@ -5781,6 +5781,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bef400d466c75224d99cf51f1be29155, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cargoID: Fire Extinguisher
   type: 3
   contents: []
   amount: 200

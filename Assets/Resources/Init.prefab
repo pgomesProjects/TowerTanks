@@ -144,6 +144,8 @@ MonoBehaviour:
     TankName: 
     coreInteractables: []
     buildingSteps: []
+  cargoManifest:
+    items: []
 --- !u!1 &1903508510957378736
 GameObject:
   m_ObjectHideFlags: 0
@@ -1095,13 +1097,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cargoList:
-  - cargoPrefab: {fileID: 3642906957018620649, guid: 3fced5b46cb66c44f99395b2f109e3ad, type: 3}
+  - id: Scrap Crate
+    cargoPrefab: {fileID: 3642906957018620649, guid: 3fced5b46cb66c44f99395b2f109e3ad, type: 3}
     weight: 6
-  - cargoPrefab: {fileID: 6075565973188652431, guid: 3f169db2fab03e84497edc54b1373a5d, type: 3}
+  - id: Bomb
+    cargoPrefab: {fileID: 6075565973188652431, guid: 3f169db2fab03e84497edc54b1373a5d, type: 3}
     weight: 1
-  - cargoPrefab: {fileID: 8368367451371843906, guid: 3dfacf7975c2dea4bb777510128ff977, type: 3}
+  - id: Incendiary Shells
+    cargoPrefab: {fileID: 8368367451371843906, guid: 3dfacf7975c2dea4bb777510128ff977, type: 3}
     weight: 2
-  - cargoPrefab: {fileID: 8695668838568183417, guid: 61afdcf2de5e52d4785c259326d39da4, type: 3}
+  - id: Fire Extinguisher
+    cargoPrefab: {fileID: 8695668838568183417, guid: 61afdcf2de5e52d4785c259326d39da4, type: 3}
     weight: 1
 --- !u!1 &6961505860283407432
 GameObject:

@@ -57,6 +57,8 @@ namespace TowerTanks.Scripts
         private bool loadingScene = false;
 
         public TankDesign tankDesign;
+        public CargoManifest cargoManifest;
+
         public bool CheatsMenuActive { get; private set; }
 
         private void Awake()

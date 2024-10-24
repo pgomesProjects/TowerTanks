@@ -319,13 +319,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 051dacafdc104ba4683fc9ca739ea105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cargoID: Scrap Crate
   type: 0
+  contents: []
   amount: 0
   isOnTank: 0
   onTankMask:
     serializedVersion: 2
     m_Bits: 32768
   throwForce: 400
+  isContinuous: 0
 --- !u!1 &8007985572782892186
 GameObject:
   m_ObjectHideFlags: 0

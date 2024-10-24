@@ -6,6 +6,7 @@ namespace TowerTanks.Scripts
 {
     public class Cargo : MonoBehaviour
     {
+        public string cargoID = ""; //default identifier for this item
         public enum CargoType { SCRAP, AMMO, EXPLOSIVE, TOOL }
         public CargoType type;
 
@@ -17,6 +18,7 @@ namespace TowerTanks.Scripts
         private BoxCollider2D box2D;
         private CircleCollider2D circle2D;
         private CapsuleCollider2D capsule2D;
+        public bool ignoreInit; //set to true if we want to just have this object instantiate normally
         private float initCooldown; //time it takes for collider to enable
 
         private TrailRenderer trail;
@@ -69,6 +71,13 @@ namespace TowerTanks.Scripts
         protected virtual void Start()
         {
             currentHolder = null;
+
+            if (ignoreInit)
+            {
+                initCooldown = 0f;
+                trailCooldown = 0f;
+            }
+
             StartCoroutine(Initialize());
             StartCoroutine(InitializeTrail());
         }

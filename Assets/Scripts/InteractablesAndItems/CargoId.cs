@@ -6,6 +6,7 @@ using Sirenix.OdinInspector;
 [System.Serializable]
 public class CargoId
 {
+    public string id; //identifier for this item
     public GameObject cargoPrefab;
 
     [InlineButton("SubOne", "-1")]
