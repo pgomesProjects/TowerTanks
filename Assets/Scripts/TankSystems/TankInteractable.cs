@@ -24,32 +24,30 @@ namespace TowerTanks.Scripts
 
         //Settings:
         [Header("Stack Properties:")]
-        [Tooltip("Display name for interactable while in stack.")] public string stackName;
-        [Tooltip("Reference to this interactable's prefab.")] public GameObject prefabRef;
+        [Tooltip("Display name for interactable while in stack.")]    public string stackName;
+        [Tooltip("Reference to this interactable's prefab.")]         public GameObject prefabRef;
         [Tooltip("Image used to represent this interactable in UI.")] public Sprite uiImage;
         //ADD SPATIAL CONSTRAINT SYSTEM
-        [Button("Debug Place")]
-        public void DebugPlace()
+        [Button("Debug Place")] public void DebugPlace()
         {
             Collider2D targetColl = Physics2D.OverlapArea(transform.position + new Vector3(-0.1f, 0.1f), transform.position + new Vector3(0.1f, -0.1f), LayerMask.GetMask("Cell")); //Try to get cell collider interactable is on top of
             if (targetColl == null || !targetColl.TryGetComponent(out Cell cell)) { Debug.LogWarning("Could not find cell."); return; }                                             //Cancel if interactable is not on a cell
             InstallInCell(targetColl.GetComponent<Cell>());                                                                                                                         //Install interactable in target cell
         }
-        [Button("Debug Destroy")]
-        public void DebugDestroy()
+        [Button("Debug Destroy")] public void DebugDestroy()
         {
             Destroy(gameObject); //Destroy interactable
         }
 
         //Runtime Variables:
-        [Tooltip("The cell this interactable is currently installed within.")] internal Cell parentCell;
-        [Tooltip("True if interactable is a ghost and is currently unuseable.")] internal bool ghosted;
-        [Tooltip("True if a user is currently operating this system")] public bool hasOperator;
-        [Tooltip("User currently interacting with this system.")] internal PlayerMovement operatorID;
+        [Tooltip("The cell this interactable is currently installed within.")]                                      internal Cell parentCell;
+        [Tooltip("True if interactable is a ghost and is currently unuseable.")]                                    internal bool ghosted;
+        [Tooltip("True if a user is currently operating this system")]                                              public bool hasOperator;
+        [Tooltip("User currently interacting with this system.")]                                                   internal PlayerMovement operatorID;
         [Tooltip("Whether or not interact can be held down to use this interactable continuously"), SerializeField] public bool isContinuous;
-        [Tooltip("Whether or not this interactable can be aimed in some way"), SerializeField] public bool canAim;
-        [Tooltip("Direction this interactable is facing. (1 = right; -1 = left)")] public float direction = 1;
-        [Tooltip("Unique identifier associating this interactable with a stack item")] internal int stackId = 0;
+        [Tooltip("Whether or not this interactable can be aimed in some way"), SerializeField]                      public bool canAim;
+        [Tooltip("Direction this interactable is facing. (1 = right; -1 = left)")]                                  public float direction = 1;
+        [Tooltip("Unique identifier associating this interactable with a stack item")]                              internal int stackId = 0;
 
         //Debug
         public bool debugMoveUp;
@@ -172,7 +170,7 @@ namespace TowerTanks.Scripts
 
         public virtual void Use(bool overrideConditions = false) //Called from operator when they press Interact
         {
-            Debug.Log("Interact Started");
+            //Debug.Log("Interact Started");
         }
 
         public virtual void CancelUse() //Called from operator when they release Interact

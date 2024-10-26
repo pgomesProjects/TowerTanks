@@ -1364,7 +1364,10 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: OnCoreDamaged
+      Entry: 6
+      Data: 
   TankName: 
   tankType: 0
   coreHealth: 500
@@ -1707,8 +1710,8 @@ MonoBehaviour:
   COGWidth: 3.5
   totalWeight: 0
   useEngines: 1
-  currentEngines: 0
-  speedFactor: 3
+  horsePower: 0
+  speedFactor: 30
   maxSpeed: 8
   actualSpeed: 0
   maxAcceleration: 0.7
@@ -1750,6 +1753,9 @@ MonoBehaviour:
   tipPreventionForce: 50
   rammingSpeed: 10
   speedStunMultiplier: 1
+  treadHealth: 0
+  healthRegenRate: 10
+  isJammed: 0
 --- !u!50 &1677695872800944110
 Rigidbody2D:
   serializedVersion: 4

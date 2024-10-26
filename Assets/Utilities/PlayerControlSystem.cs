@@ -2526,6 +2526,15 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ToggleUI"",
+                    ""type"": ""Button"",
+                    ""id"": ""39e0dc92-2c7b-4bbf-9fda-9bd9906d243d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -3331,6 +3340,17 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""action"": ""Screenshot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f6b36f6c-5039-4ed1-83aa-7162a7f8be14"",
+                    ""path"": ""<Keyboard>/f3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""ToggleUI"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -3471,6 +3491,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         m_Debug_Cycle = m_Debug.FindAction("Cycle", throwIfNotFound: true);
         m_Debug_Flip = m_Debug.FindAction("Flip", throwIfNotFound: true);
         m_Debug_Screenshot = m_Debug.FindAction("Screenshot", throwIfNotFound: true);
+        m_Debug_ToggleUI = m_Debug.FindAction("ToggleUI", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -3931,6 +3952,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
     private readonly InputAction m_Debug_Cycle;
     private readonly InputAction m_Debug_Flip;
     private readonly InputAction m_Debug_Screenshot;
+    private readonly InputAction m_Debug_ToggleUI;
     public struct DebugActions
     {
         private @PlayerControlSystem m_Wrapper;
@@ -3957,6 +3979,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         public InputAction @Cycle => m_Wrapper.m_Debug_Cycle;
         public InputAction @Flip => m_Wrapper.m_Debug_Flip;
         public InputAction @Screenshot => m_Wrapper.m_Debug_Screenshot;
+        public InputAction @ToggleUI => m_Wrapper.m_Debug_ToggleUI;
         public InputActionMap Get() { return m_Wrapper.m_Debug; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -4032,6 +4055,9 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @Screenshot.started -= m_Wrapper.m_DebugActionsCallbackInterface.OnScreenshot;
                 @Screenshot.performed -= m_Wrapper.m_DebugActionsCallbackInterface.OnScreenshot;
                 @Screenshot.canceled -= m_Wrapper.m_DebugActionsCallbackInterface.OnScreenshot;
+                @ToggleUI.started -= m_Wrapper.m_DebugActionsCallbackInterface.OnToggleUI;
+                @ToggleUI.performed -= m_Wrapper.m_DebugActionsCallbackInterface.OnToggleUI;
+                @ToggleUI.canceled -= m_Wrapper.m_DebugActionsCallbackInterface.OnToggleUI;
             }
             m_Wrapper.m_DebugActionsCallbackInterface = instance;
             if (instance != null)
@@ -4102,6 +4128,9 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @Screenshot.started += instance.OnScreenshot;
                 @Screenshot.performed += instance.OnScreenshot;
                 @Screenshot.canceled += instance.OnScreenshot;
+                @ToggleUI.started += instance.OnToggleUI;
+                @ToggleUI.performed += instance.OnToggleUI;
+                @ToggleUI.canceled += instance.OnToggleUI;
             }
         }
     }
@@ -4222,5 +4251,6 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         void OnCycle(InputAction.CallbackContext context);
         void OnFlip(InputAction.CallbackContext context);
         void OnScreenshot(InputAction.CallbackContext context);
+        void OnToggleUI(InputAction.CallbackContext context);
     }
 }

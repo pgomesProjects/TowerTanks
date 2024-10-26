@@ -8,46 +8,48 @@ using Sirenix.OdinInspector;
 public class TimingGauge : SerializedMonoBehaviour
 {
     [Header("Settings")]
-    [SerializeField, Tooltip("The speed of the tick bar (how many seconds it takes for the tick bar to reach the other side.")] private float tickSpeed;
-    [SerializeField, Tooltip("The range of the target zone.")] private Vector2 targetZoneRange;
+    [SerializeField, Tooltip("The speed of the tick bar (how many seconds it takes for the tick bar to reach the other side.")] protected float tickSpeed;
+    [SerializeField, Tooltip("The range of the target zone.")] protected Vector2 targetZoneRange;
     [Space(20)]
     [Header("Graphics")]
-    [SerializeField, Tooltip("The tick bar that moves left to right.")] private RectTransform tickBar;
-    [SerializeField, Tooltip("The target bar.")] private RectTransform targetBar;
-    [SerializeField, Tooltip("The target zone bar.")] private RectTransform zoneBar;
+    [SerializeField, Tooltip("The tick bar transform that moves.")] protected RectTransform tickBar;
+    [SerializeField, Tooltip("The target bar.")] protected RectTransform targetBar;
+    [SerializeField, Tooltip("The target zone bar.")] protected RectTransform zoneBar;
     [Space]
     [Header("Animation Settings")]
-    [SerializeField, Tooltip("The pulse amount of the tick bar.")] private float tickBarPulse;
-    [SerializeField, Tooltip("The duration of the animation.")] private float hitAnimationDuration;
-    [SerializeField, Tooltip("The ease type of the animation.")] private LeanTweenType hitAnimationEaseType;
-    [SerializeField, Tooltip("The color to flash when the zone is hit.")] private Color hitZoneColor;
-    [SerializeField, Tooltip("The color to flash when the zone is not hit.")] private Color noHitZoneColor;
+    [SerializeField, Tooltip("The pulse amount of the tick bar.")] protected float tickBarPulse;
+    [SerializeField, Tooltip("The duration of the animation.")] protected float hitAnimationDuration;
+    [SerializeField, Tooltip("The ease type of the animation.")] protected LeanTweenType hitAnimationEaseType;
+    [SerializeField, Tooltip("The color to flash when the zone is hit.")] protected Color hitZoneColor;
+    [SerializeField, Tooltip("The color to flash when the zone is not hit.")] protected Color noHitZoneColor;
+
+    protected bool timingActive = false;
+    protected float tickMovementSpeed;
+    protected float direction;
+    protected Image zoneBarImage;
+    protected Image tickBarImage;
+    protected Color defaultColor;
 
     private float targetBarWidth;
-    private bool timingActive = false;
-    private float tickMovementSpeed;
     private Vector2 tickBarPos;
-    private float direction;
-
-    private Image tickBarImage;
-    private Color defaultColor;
 
     [Button(ButtonSizes.Medium)]
-    private void DebugPressGauge()
+    protected void DebugPressGauge()
     {
         Debug.Log("Hit Gauge: " + PressGauge());
     }
 
-    private void Awake()
+    protected virtual void Awake()
     {
         targetBarWidth = targetBar.rect.width;
+        zoneBarImage = zoneBar.GetComponent<Image>();
         tickBarImage = tickBar.GetComponentInChildren<Image>();
         defaultColor = tickBarImage.color;
-        UpdateTargetZoneRange(targetZoneRange);
         timingActive = false;
+        UpdateTargetZoneRange(targetZoneRange);
     }
 
-    private void OnDisable()
+    protected virtual void OnDisable()
     {
         timingActive = false;
     }
@@ -61,10 +63,16 @@ public class TimingGauge : SerializedMonoBehaviour
         ActivateTimer();
     }
 
+    public void ChangeColor(Color hitZoneColor, Color noHitZoneColor)
+    {
+        zoneBar.GetComponentInChildren<Image>().color = hitZoneColor;
+        targetBar.GetComponent<Image>().color = noHitZoneColor;
+    }
+
     /// <summary>
     /// Activates the timer gauge so that it begins to move.
     /// </summary>
-    private void ActivateTimer()
+    protected virtual void ActivateTimer()
     {
         if (Application.isPlaying)
         {
@@ -80,7 +88,7 @@ public class TimingGauge : SerializedMonoBehaviour
     /// Updates that target zone range.
     /// </summary>
     /// <param name="zoneRange">The minimum and maximum values of the zone range.</param>
-    public void UpdateTargetZoneRange(Vector2 zoneRange)
+    public virtual void UpdateTargetZoneRange(Vector2 zoneRange)
     {
         //Get the desired width of the zone
         float range = zoneRange.y - zoneRange.x;
@@ -98,7 +106,7 @@ public class TimingGauge : SerializedMonoBehaviour
     /// Gets the value of the tick bar within the target.
     /// </summary>
     /// <returns>Returns a value from 0 to 1 based on the based on where it is on the target bar.</returns>
-    private float GetTickBarPosition()
+    protected virtual float GetTickBarPosition()
     {
         //Ensure that the tick bar stays within the bounds of the zone bar
         tickBar.anchoredPosition = new Vector2(Mathf.Clamp(tickBar.anchoredPosition.x, -targetBarWidth / 2, targetBarWidth / 2), tickBar.anchoredPosition.y);
@@ -109,7 +117,7 @@ public class TimingGauge : SerializedMonoBehaviour
     /// <summary>
     /// Moves the tick bar on the target bar.
     /// </summary>
-    private void MoveTickBar()
+    protected virtual void MoveTickBar()
     {
         tickBarPos.x += tickMovementSpeed * direction * Time.deltaTime;
 
@@ -158,19 +166,19 @@ public class TimingGauge : SerializedMonoBehaviour
     /// Animates the tick bar so that it pulses and flashes a color.
     /// </summary>
     /// <param name="flashColor">The color for the tick bar to flash.</param>
-    private void TickAnimation(Color flashColor)
+    protected void TickAnimation(Color flashColor)
     {
         //Pulse the tick bar's scale
-        LeanTween.scale(tickBar, Vector3.one * tickBarPulse, hitAnimationDuration).setEase(hitAnimationEaseType).setOnComplete(() => tickBar.transform.localScale = Vector3.one);
+        LeanTween.scale(tickBarImage.gameObject, Vector3.one * tickBarPulse, hitAnimationDuration).setEase(hitAnimationEaseType).setOnComplete(() => tickBarImage.transform.localScale = Vector3.one);
 
         //Ease between the default color and the target color, and then do the reverse back to its original color
-        LeanTween.value(tickBar.gameObject, tickBarImage.color, flashColor, hitAnimationDuration).setEase(hitAnimationEaseType)
+        LeanTween.value(tickBarImage.gameObject, tickBarImage.color, flashColor, hitAnimationDuration).setEase(hitAnimationEaseType)
             .setOnUpdate((Color val) => tickBarImage.color = val)
-            .setOnComplete(() => LeanTween.value(tickBar.gameObject, tickBarImage.color, defaultColor, hitAnimationDuration).setEase(hitAnimationEaseType)
+            .setOnComplete(() => LeanTween.value(tickBarImage.gameObject, tickBarImage.color, defaultColor, hitAnimationDuration).setEase(hitAnimationEaseType)
             .setOnUpdate((Color val) => tickBarImage.color = val));
     }
 
-    private void Update()
+    protected virtual void Update()
     {
 #if UNITY_EDITOR
         //If working in the editor, update the target zone visual
@@ -186,5 +194,5 @@ public class TimingGauge : SerializedMonoBehaviour
             MoveTickBar();
     }
 
-    private bool InTargetZone(float position) => position >= targetZoneRange.x && position <= targetZoneRange.y;
+    protected bool InTargetZone(float position) => position >= targetZoneRange.x && position <= targetZoneRange.y;
 }

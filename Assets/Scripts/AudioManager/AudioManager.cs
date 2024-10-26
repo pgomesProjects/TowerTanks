@@ -160,12 +160,12 @@ namespace TowerTanks.Scripts
 
         public void UpdateMusicVolume()
         {
-            AkSoundEngine.SetRTPCValue("MusicVolume", PlayerPrefs.GetFloat("BGMVolume", GameSettings.defaultBGMVolume) * 100f);
+            AkSoundEngine.SetRTPCValue("MusicVolume", GameSettings.currentSettings.masterVolume * GameSettings.currentSettings.bgmVolume * 100f);
         }
 
         public void UpdateSFXVolume()
         {
-            AkSoundEngine.SetRTPCValue("SFXVolume", PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume) * 100f);
+            AkSoundEngine.SetRTPCValue("SFXVolume", GameSettings.currentSettings.masterVolume * GameSettings.currentSettings.sfxVolume * 100f);
         }
 
         private Sound GetSound(string name) => Array.Find(sounds, sound => sound.name == name);

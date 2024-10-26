@@ -6,13 +6,6 @@ using UnityEngine.Serialization;
 
 namespace TowerTanks.Scripts
 {
-    public enum CharacterStat
-    {
-        HEALTH,
-        FUEL,
-        PROGRESS
-    }
-
     public abstract class Character : SerializedMonoBehaviour
     {
         #region Fields and Properties
@@ -26,6 +19,7 @@ namespace TowerTanks.Scripts
         protected CapsuleCollider2D characterHitbox;
         protected GameObject currentLadder;
         protected PlayerHUD characterHUD;
+        protected GameObject currentButtonPrompt;
         protected int characterIndex;
         protected Transform hands;
         protected Transform characterVisualParent;
@@ -42,17 +36,18 @@ namespace TowerTanks.Scripts
         [SerializeField] protected float groundMoveSpeed;
 
         protected float currentGroundMoveSpeed;
-        [SerializeField] protected float airMoveSpeed;
+        [SerializeField] protected float defaultAirForce;
         [SerializeField] protected float groundDeAcceleration;
         [SerializeField] protected float airDeAcceleration;
         [SerializeField] protected float jetpackForce;
-        [SerializeField] protected float climbSpeed;
+        [SerializeField] protected float ladderClimbUpSpeed;
+        [SerializeField] protected float ladderClimbDownSpeed;
         [SerializeField] protected float slipSlopeValue;
         [Range(0, 2)]
         [SerializeField] protected float groundedBoxX, groundedBoxY;
 
         [SerializeField] protected float groundedBoxOffset;
-
+        
         [Header("Jetpack values")]
         [SerializeField] protected float fuelDepletionRate;
         [SerializeField] protected float fuelRegenerationRate;
@@ -62,6 +57,13 @@ namespace TowerTanks.Scripts
         [SerializeField] protected float respawnTime = 3f;
         private float currentRespawnTime;
         private bool isRespawning;
+
+        private Transform dismountPoint;
+        [SerializeField] 
+        [Tooltip("The distance the player must be from the tank to fully dismount. (no more tank vel inheritance)")]
+        private float tankDistanceToFullDismount;
+        private bool softTankDismount; // if we have left the tank, but are still in it's vicinity
+        private bool fullTankDismount; //if we have left the tank and have left it's vicinity
 
         //objects
         [Header("Interactables")]
@@ -79,13 +81,13 @@ namespace TowerTanks.Scripts
 
         //internal movement
         protected Vector2 moveInput;
-        private Transform currentCellJoint;
+        private Transform lastCellJoint;
         private int cellLayerIndex = 15;
-
+        
         protected LayerMask ladderLayer;
 
         private TankController assignedTank;
-
+        
         protected List<Collider2D> currentOtherColliders = new List<Collider2D>();
 
         [Button(ButtonSizes.Medium)]
@@ -100,6 +102,8 @@ namespace TowerTanks.Scripts
             KillCharacterImmediate();
         }
         private int healthToModify = -10;
+
+        private Rigidbody2D lastFoundTankRb;
 
         #endregion
 
@@ -122,12 +126,12 @@ namespace TowerTanks.Scripts
             taskProgressBar = GetComponent<TaskProgressBar>();
             isAlive = true;
             permaDeath = false;
+            dismountPoint = transform;
         }
 
         private bool useAirDrag;
         protected virtual void Update()
         {
-
             if (!isAlive)
             {
                 if (isRespawning)
@@ -135,43 +139,73 @@ namespace TowerTanks.Scripts
 
                 return;
             }
-
+            
             currentFuel = Mathf.Clamp(currentFuel, 0, characterSettings.fuelAmount);
 
-            Transform cellJoint = Physics2D.OverlapBox(
+            
+            Transform newCellJoint = Physics2D.OverlapBox(
                 transform.position,
                 transform.localScale * 1.5f,
-                0f,
+                0f, 
                 1 << cellLayerIndex)?.gameObject.transform;
-
-            if (currentCellJoint != cellJoint) // will only run once every time a new cell is entered
+            
+            
+            
+            if (softTankDismount && !fullTankDismount) // if we left the tank, but we're still near the tank
             {
-                Rigidbody2D tankRb = null;
-                if (cellJoint != null && cellJoint.TryGetComponent<Cell>(out Cell cell))
+                if (CheckGround())
                 {
-                    tankRb = cell.room.targetTank.treadSystem.r;
+                    FullyDismountTank();
                 }
-                else if (currentCellJoint.TryGetComponent<Cell>(out Cell cellTwo))
+                if (Vector3.Distance(transform.position, dismountPoint ? dismountPoint.position : transform.position) > tankDistanceToFullDismount)
                 {
-                    tankRb = cellTwo.room.targetTank.treadSystem.r;
+                    FullyDismountTank(lastFoundTankRb);
                 }
+                
+            }
+            
+            if (lastCellJoint != newCellJoint) // will only run once every time a new cell is entered
+            {
+                EnterNewCell(newCellJoint);
+                if (lastCellJoint != null && lastCellJoint.TryGetComponent<Cell>(out Cell cell)) lastFoundTankRb = cell.room.targetTank.treadSystem.r;
+                lastCellJoint = newCellJoint;
+            }
+        }
 
-                currentCellJoint = cellJoint;
-                transform.SetParent(currentCellJoint);
-                if (currentCellJoint == null)
+        private void FullyDismountTank(Rigidbody2D tankRb = null)
+        {
+            Debug.Log("TankRB: " + tankRb + "  " + (tankRb ? tankRb.GetPointVelocity(transform.position) : "null"));
+            if (tankRb)
+            {
+                rb.AddForce(tankRb.GetPointVelocity(transform.position) * rb.mass, ForceMode2D.Impulse);
+                Debug.Log($"Force applied: {tankRb.GetPointVelocity(transform.position)}");
+            }
+                
+            transform.SetParent(null);
+            fullTankDismount = true;
+        }
+
+        private void EnterNewCell(Transform cellToEnter)
+        {
+            if (cellToEnter != null) // we are still inside of a tank
+            {
+                transform.SetParent(cellToEnter);
+                softTankDismount = false;
+                fullTankDismount = false;
+                if (!Mathf.Approximately(transform.eulerAngles.z, cellToEnter.eulerAngles.z))
                 {
-                    if (tankRb) rb.AddForce(tankRb.GetPointVelocity(transform.position), ForceMode2D.Impulse);
-                    transform.rotation = Quaternion.identity; //player is always internally rotated with the tank,
-                                                              //so we need to reset the rotation when they leave a tank to avoid weirdness.
-                                                              //it's just the player's visual sprite which is always at 0 rotation
-                }
-                else
-                {
-                    if (!Mathf.Approximately(transform.eulerAngles.z, currentCellJoint.eulerAngles.z))
-                    {
-                        transform.rotation = Quaternion.Euler(new Vector3(0, 0, currentCellJoint.eulerAngles.z));
-                    }
-                }
+                    transform.rotation = Quaternion.Euler(new Vector3(0, 0, cellToEnter.eulerAngles.z));
+                } //makes sure you're aligned with the new cell that you're entering
+            }
+            else
+            {
+                softTankDismount = true;
+                fullTankDismount = false;
+                dismountPoint = lastCellJoint;
+                
+                transform.rotation = Quaternion.identity; //player is always internally rotated with the tank,
+                //so we need to reset the rotation when they leave a tank to avoid weirdness.
+                //it's just the player's visual sprite which is always at 0 rotation
             }
         }
 
@@ -193,6 +227,9 @@ namespace TowerTanks.Scripts
             //visualizes the grounded box for debugging
             Gizmos.color = Color.green;
             Gizmos.DrawWireCube(new Vector2(transform.position.x, transform.position.y - groundedBoxOffset), new Vector3(groundedBoxX, groundedBoxY, 0));
+            if (!softTankDismount || fullTankDismount) return;
+            Gizmos.color = Color.Lerp(Color.blue, Color.red, Mathf.InverseLerp(0, tankDistanceToFullDismount, Vector3.Distance(transform.position, dismountPoint ? dismountPoint.position : transform.position)));
+            Gizmos.DrawWireSphere(dismountPoint.position, tankDistanceToFullDismount);
         }
 
         /* TODO: Ladders are not triggers. Change this to use checksurfacecollider with the ladder layerindex
@@ -225,7 +262,7 @@ namespace TowerTanks.Scripts
                 if (collider.gameObject.layer == LayerMask.NameToLayer("Ground") || //if we are touching ground
                     collider.gameObject.layer == LayerMask.NameToLayer("Coupler"))
                 {
-
+                    
                     return Physics2D.OverlapBox(new Vector2(transform.position.x, //if our position is over that ground
                             transform.position.y - groundedBoxOffset),
                         new Vector2(groundedBoxX, groundedBoxY),
@@ -241,7 +278,7 @@ namespace TowerTanks.Scripts
                 bothLayers);
 
         }
-
+        
         protected Collider2D CheckSurfaceCollider(int layer)
         {
             return Physics2D.OverlapBox(new Vector2(transform.position.x, //if our position is over that ground
@@ -269,7 +306,7 @@ namespace TowerTanks.Scripts
             Vector3 localPosition = currentLadder.transform.InverseTransformPoint(transform.position);
 
             // set the local x position to 0 bc ladder transform is in the the center of the ladder
-            localPosition.x = 0;
+            localPosition.x = 0; 
 
             // Convert the updated local position back to world space
             Vector3 worldPosition = currentLadder.transform.TransformPoint(localPosition);
@@ -318,10 +355,22 @@ namespace TowerTanks.Scripts
         {
             moveInput = movement;
         }
-
+        
         public Vector2 GetCharacterInput()
         {
             return moveInput;
+        }
+
+        public void ShowPromptOnHUD(GameAction gameAction)
+        {
+            ClearButtonPrompts();
+            currentButtonPrompt = GameManager.Instance.UIManager.AddButtonPrompt(characterHUD.gameObject, new Vector2(-57.59997f, 17.79999f), gameAction, PlatformType.Gamepad, false);
+        }
+
+        public void ClearButtonPrompts()
+        {
+            if (currentButtonPrompt != null)
+                Destroy(currentButtonPrompt);
         }
 
         public float ModifyHealth(float amount)
@@ -390,6 +439,7 @@ namespace TowerTanks.Scripts
         {
             currentHealth = characterSettings.maxHealth;
             currentFuel = characterSettings.fuelAmount;
+            characterHUD?.UpdateFuelBar((currentFuel / characterSettings.fuelAmount) * 100f);
             currentState = CharacterState.NONCLIMBING;
 
             if (currentInteractable != null)
@@ -469,12 +519,12 @@ namespace TowerTanks.Scripts
         }
 
         #endregion
-
+        
         private void OnCollisionEnter2D(Collision2D other)
         {
             currentOtherColliders.Add(other.collider);
         }
-
+        
         private void OnCollisionExit2D(Collision2D other)
         {
             currentOtherColliders.Remove(other.collider);

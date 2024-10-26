@@ -34,6 +34,7 @@ namespace TowerTanks.Scripts
             //Initialize:
             main = this; //Set main game hud to this script
             StackManager.activeStackUI = stackUI; //Send stackUI object reference to stack manager
+            StackManager.stackUIContainer = stackUI.transform.Find("StackContainer").transform; //Send stackUI object reference to stack manager
         }
 
 

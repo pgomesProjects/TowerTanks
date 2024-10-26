@@ -18,6 +18,7 @@ namespace TowerTanks.Scripts
         //Settings:
         [SerializeField, Tooltip("Damage dealt on direct hit")] public float damage;  //Damage projectile will deal upon hitting a valid target
         [SerializeField, Tooltip("Directional force to apply to the target when hit")] public float knockbackForce;
+        [SerializeField, Tooltip("Amount of time to apply tread system stun effect when applying knockback")] public float stunTime;
         [SerializeField, Tooltip("If true, this projectile utilizes splash damage")] public bool hasSplashDamage; //Whether or not this projectile deals splash damage
         [SerializeField, Tooltip("Contains values related to splash damage zones")] public SplashData[] splashData; //Contains all values related to different splash damage zones
         [SerializeField, Tooltip("If true, this projectile uses the 'Tunneling' mechanic")] public bool isTunneling;
@@ -157,10 +158,8 @@ namespace TowerTanks.Scripts
                 //Apply Knockback Force
                 if (knockbackForce > 0)
                 {
-                    float knockBackTime = knockbackForce * 0.05f;
-
                     knockbackForce *= Mathf.Sign(velocity.x);
-                    cellHit.room.targetTank.treadSystem.ApplyForce(transform.position, knockbackForce, knockBackTime);
+                    cellHit.room.targetTank.treadSystem.ApplyForce(transform.position, knockbackForce, stunTime);
                 }
 
                 GameManager.Instance.AudioManager.Play("ShellImpact", gameObject);
@@ -171,6 +170,9 @@ namespace TowerTanks.Scripts
                 TreadSystem treads = target.GetComponentInParent<TankController>().treadSystem;
                 if (treads != null)
                 {
+                    //Damage Treads
+                    treads.Damage(damage);
+
                     //Apply Knockback Force
                     if (knockbackForce > 0)
                     {

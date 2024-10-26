@@ -1046,7 +1046,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 73a18d7bfd391214eb6d06a3bbe7be7a, type: 2}
+  - {fileID: 2100000, guid: 58cc551cfabc56f4487925b041b1b9a2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1093,8 +1093,7 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects:
-    - {fileID: -7783586629661608857, guid: 3be263eccd052b043b80aac2816cea0a, type: 3}
+    ReferencedUnityObjects: []
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -1102,12 +1101,13 @@ MonoBehaviour:
     SerializationNodes:
     - Name: playerButtonPrompts
       Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[PlayerController+PlayerActions,
-        Assembly-CSharp],[PlayerButtonPrompt, Assembly-CSharp]], mscorlib
+      Data: 0|System.Collections.Generic.Dictionary`2[[TowerTanks.Scripts.Deprecated.PlayerController+PlayerActions,
+        TowerTanks.Scripts],[TowerTanks.Scripts.Deprecated.PlayerButtonPrompt, TowerTanks.Scripts]],
+        mscorlib
     - Name: comparer
       Entry: 7
-      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[PlayerController+PlayerActions,
-        Assembly-CSharp]], mscorlib
+      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[TowerTanks.Scripts.Deprecated.PlayerController+PlayerActions,
+        TowerTanks.Scripts]], mscorlib
     - Name: 
       Entry: 12
       Data: 0
@@ -1128,13 +1128,13 @@ MonoBehaviour:
       Data: 5
     - Name: $v
       Entry: 7
-      Data: PlayerButtonPrompt, Assembly-CSharp
+      Data: TowerTanks.Scripts.Deprecated.PlayerButtonPrompt, TowerTanks.Scripts
     - Name: buttonSprite
-      Entry: 10
-      Data: 0
+      Entry: 6
+      Data: 
     - Name: buttonText
-      Entry: 1
-      Data: <sprite = 0 tint = 1>
+      Entry: 6
+      Data: 
     - Name: 
       Entry: 8
       Data: 

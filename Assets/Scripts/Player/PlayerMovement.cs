@@ -14,8 +14,7 @@ namespace TowerTanks.Scripts
         #region Fields and Properties
 
         //input
-        [Header("Player Specific Options:")]
-        public bool isDebugPlayer;
+        [Header("Player Specific Options:")] public bool isDebugPlayer;
         public bool jetpackInputHeld;
 
         public bool interactInputHeld;
@@ -27,8 +26,9 @@ namespace TowerTanks.Scripts
         InputActionMap inputMap;
         private bool isHoldingDown = false;
 
-        [Header("Joystick Spin Detection Options")]
-        [SerializeField] private float spinAngleCheckUpdateTimer = 0.1f;
+        [Header("Joystick Spin Detection Options")] [SerializeField]
+        private float spinAngleCheckUpdateTimer = 0.1f;
+
         [SerializeField] [Range(0.0f, 180.0f)] private float spinValidAngleLimit = 30.0f;
         [SerializeField] private int validSpinCheckRows = 1;
         [SerializeField] private float cannonScrollSensitivity = 3f;
@@ -41,19 +41,23 @@ namespace TowerTanks.Scripts
         private bool isCheckingSpinInput = false;
         private int validSpinCheckCounter = 0;
 
-        private Cell buildCell;         //Cell player is currently building a stack interactable in (null if not building)
+        private Cell buildCell; //Cell player is currently building a stack interactable in (null if not building)
         private float timeBuilding = 0; //Time spent in build mode
 
-        [Header("Objects")]
-        public LayerMask carryableObjects;
+        [Header("Objects")] public LayerMask carryableObjects;
         public bool isCarryingSomething; //true if player is currently carrying something
         public Cargo currentObject; //what object the player is currently carrying
 
-        [Header("Repairing")]
-        [SerializeField, Tooltip("What cell the player is currently repairing")] private Cell currentRepairJob; //what cell the player is currently repairing
-        [SerializeField, Tooltip("Time it takes the player to complete one repair tick")] private float repairTime;
+        [Header("Repairing")] [SerializeField, Tooltip("What cell the player is currently repairing")]
+        private Cell currentRepairJob; //what cell the player is currently repairing
+
+        [SerializeField, Tooltip("Time it takes the player to complete one repair tick")]
+        private float repairTime;
+
         private float repairTimer = 0;
-        [SerializeField, Tooltip("How much health the player repairs each completed tick")] private float repairAmount;
+
+        [SerializeField, Tooltip("How much health the player repairs each completed tick")]
+        private float repairAmount;
 
         private float maxShakeIntensity = 0.5f;
         private float currentShakeTime;
@@ -83,11 +87,11 @@ namespace TowerTanks.Scripts
         [SerializeField] private float ladderDetectionRadius;
 
         [SerializeField]
-        [Tooltip("Player speed would reach zero at this slope value. The higher this value is set, the faster the player will walk on slopes up until this value. ")]
+        [Tooltip(
+            "Player speed would reach zero at this slope value. The higher this value is set, the faster the player will walk on slopes up until this value. ")]
         private float maxSlope = 100;
 
-        [SerializeField]
-        private float maxYVelocity, maxXVelocity;
+        [SerializeField] private float maxYVelocity, maxXVelocity;
 
         #endregion
 
@@ -155,6 +159,7 @@ namespace TowerTanks.Scripts
                 {
                     GameManager.Instance.AudioManager.Stop("JetpackRocket", gameObject);
                 }
+
                 return;
             }
 
@@ -172,8 +177,9 @@ namespace TowerTanks.Scripts
                 timeBuilding += Time.deltaTime; //Increment build time tracker
                 if (timeBuilding >= characterSettings.buildTime) //Player has finished build
                 {
-                    StackManager.BuildTopStackItem().InstallInCell(buildCell); //Install interactable from top of stack into designated build cell
-                    StopBuilding();                                            //Indicate that build has stopped
+                    StackManager.BuildTopStackItem()
+                        .InstallInCell(buildCell); //Install interactable from top of stack into designated build cell
+                    StopBuilding(); //Indicate that build has stopped
                     CancelInteraction();
                 }
             }
@@ -210,6 +216,7 @@ namespace TowerTanks.Scripts
                 {
                     GameManager.Instance.AudioManager.Play("JetpackRocket", gameObject);
                 }
+                characterHUD?.UpdateFuelBar((currentFuel / characterSettings.fuelAmount) * 100f);
             }
             else
             {
@@ -223,6 +230,7 @@ namespace TowerTanks.Scripts
                 {
                     GameManager.Instance.AudioManager.Stop("JetpackRocket", gameObject);
                 }
+                characterHUD?.UpdateFuelBar((currentFuel / characterSettings.fuelAmount) * 100f);
             }
 
             //If we're manning an Interactable
@@ -293,6 +301,7 @@ namespace TowerTanks.Scripts
         protected override void MoveCharacter()
         {
             var slope = transform.eulerAngles.z < 180 ? transform.eulerAngles.z : transform.eulerAngles.z - 360;
+            //^ im gonna change this to use a raycast and a normal, but for now this is fine and works for checking in-tank slopes
 
             float deAccel = Mathf.InverseLerp(maxSlope, 0, Mathf.Abs(slope));
 
@@ -302,30 +311,39 @@ namespace TowerTanks.Scripts
             }
             else currentGroundMoveSpeed = groundMoveSpeed;
 
-            Vector2 force = transform.right * (moveInput.x * (CheckGround() ? currentGroundMoveSpeed : airMoveSpeed));
+            Vector2 force = transform.right *
+                            (moveInput.x * ((CheckGround()) ? currentGroundMoveSpeed : defaultAirForce));
 
             if (CheckGround())
             {
                 rb.AddForce(force, ForceMode2D.Impulse);
                 //draw gizmo for force
-                Debug.DrawRay(transform.position, force, Color.red);
+                if (!jetpackInputHeld)
+                {
+                    Vector2 localVel = transform.InverseTransformDirection(rb.velocity);
+                    if (localVel.y is >= 0 and < 1.5f) localVel.y = 0; // if we are grounded, and not trying to move up,
+                    // we always want our local up axis, which is aligned with the tank, to be 0
+                    // if we are over 2 velocity, this code will not run, this fixes
+                    // issues where you would stop moving in the middle of flying up a coupler
+                    rb.velocity = transform.TransformDirection(localVel);
+                }
             }
             else
             {
-                rb.AddForce(force, ForceMode2D.Force);
-
-                //draw gizmo for force
-                Debug.DrawRay(transform.position, force, Color.blue);
+                rb.AddForce(force * 5,
+                    ForceMode2D
+                        .Force); //* 5 just makes the air force value more intuitive when compared to ground speed, air force requires more force because
+                // its using force.force instead of impulse
             }
 
             Vector3 localVelocity = transform.InverseTransformDirection(rb.velocity);
 
-            localVelocity.x = Mathf.Lerp(localVelocity.x, 0, CheckGround() ? groundDeAcceleration * Time.deltaTime
-                                                                                 : 0);
+            localVelocity.x = Mathf.Lerp(localVelocity.x, 0,
+                (CheckGround() ? groundDeAcceleration : airDeAcceleration) * Time.deltaTime);
 
             rb.velocity = transform.TransformDirection(localVelocity);
 
-            if (Mathf.Abs(rb.velocity.x) > maxXVelocity)
+            if (Mathf.Abs(rb.velocity.x) > maxXVelocity && moveInput.x != 0)
             {
                 rb.velocity = new Vector2(Mathf.Sign(rb.velocity.x) * maxXVelocity, rb.velocity.y);
             }
@@ -345,13 +363,15 @@ namespace TowerTanks.Scripts
 
         protected override void ClimbLadder()
         {
-            float raycastDistance = .19f;
+            var onCoupler = Physics2D.OverlapBox(transform.position, transform.localScale, transform.eulerAngles.z,
+                1 << LayerMask.NameToLayer("Coupler"));
+            var onLadder = Physics2D.OverlapBox(transform.position, transform.localScale, transform.eulerAngles.z,
+                1 << LayerMask.NameToLayer("Ladder"));
+            var hitGround = Physics2D.Raycast(transform.position, -transform.up, transform.localScale.y * .5f,
+                1 << LayerMask.NameToLayer("Ground"));
 
-            var onCoupler = Physics2D.OverlapBox(transform.position, transform.localScale, transform.eulerAngles.z, 1 << LayerMask.NameToLayer("Coupler"));
-            var onLadder = Physics2D.OverlapBox(transform.position, transform.localScale, transform.eulerAngles.z, 1 << LayerMask.NameToLayer("Ladder"));
-            var hitGround = Physics2D.Raycast(transform.position, -transform.up, raycastDistance, 1 << LayerMask.NameToLayer("Ground"));
-
-            Vector3 displacement = transform.up * (climbSpeed * moveInput.y * Time.deltaTime);
+            Vector3 displacement = transform.up * ((moveInput.y > 0 ? ladderClimbUpSpeed : ladderClimbDownSpeed) *
+                                                   moveInput.y * Time.deltaTime);
 
             // If you hit ground, and you're trying to move down, stop climbing.
             // If you're not on a coupler or ladder, and you're trying to move up, stop climbing.
@@ -361,7 +381,8 @@ namespace TowerTanks.Scripts
                 displacement = Vector3.zero;
             }
 
-            if (!onCoupler && !onLadder) //final failsafe for if you're somehow in this state and not in a ladder or coupler
+            if (!onCoupler &&
+                !onLadder) //final failsafe for if you're somehow in this state and not in a ladder or coupler
             {
                 SwitchOffLadder();
             }
@@ -384,6 +405,7 @@ namespace TowerTanks.Scripts
         #endregion
 
         #region Input
+
         public void LinkPlayerInput(PlayerInput newInput)
         {
             playerInputComponent = newInput;
@@ -427,15 +449,33 @@ namespace TowerTanks.Scripts
             //Gets the name of the action and calls the appropriate events
             switch (ctx.action.name)
             {
-                case "Move": OnMove(ctx); break;
-                case "Pause": OnPause(ctx); break;
-                case "Jetpack": OnJetpack(ctx); break;
-                case "Control Steering": OnControlSteering(ctx); break;
-                case "Interact": OnInteract(ctx); break;
-                case "Cancel": OnCancel(ctx); break;
-                case "Repair": OnRepair(ctx); break;
-                case "Build": OnBuild(ctx); break;
-                case "Persona3": OnSelfDestruct(ctx); break;
+                case "Move":
+                    OnMove(ctx);
+                    break;
+                case "Pause":
+                    OnPause(ctx);
+                    break;
+                case "Jetpack":
+                    OnJetpack(ctx);
+                    break;
+                case "Control Steering":
+                    OnControlSteering(ctx);
+                    break;
+                case "Interact":
+                    OnInteract(ctx);
+                    break;
+                case "Cancel":
+                    OnCancel(ctx);
+                    break;
+                case "Repair":
+                    OnRepair(ctx);
+                    break;
+                case "Build":
+                    OnBuild(ctx);
+                    break;
+                case "Persona3":
+                    OnSelfDestruct(ctx);
+                    break;
             }
         }
 
@@ -444,15 +484,33 @@ namespace TowerTanks.Scripts
             //Gets the name of the action and calls the appropriate events
             switch (ctx.action.name)
             {
-                case "Move": OnMove(ctx); break;
-                case "Pause": OnPause(ctx); break;
-                case "1": OnJetpack(ctx); break;
-                case "Control Steering": OnControlSteering(ctx); break;
-                case "2": OnInteract(ctx); break;
-                case "3": OnRepair(ctx); break;
-                case "4": OnCancel(ctx); break;
-                case "Build": OnBuild(ctx); break;
-                case "Persona3": OnSelfDestruct(ctx); break;
+                case "Move":
+                    OnMove(ctx);
+                    break;
+                case "Pause":
+                    OnPause(ctx);
+                    break;
+                case "1":
+                    OnJetpack(ctx);
+                    break;
+                case "Control Steering":
+                    OnControlSteering(ctx);
+                    break;
+                case "2":
+                    OnInteract(ctx);
+                    break;
+                case "3":
+                    OnRepair(ctx);
+                    break;
+                case "4":
+                    OnCancel(ctx);
+                    break;
+                case "Build":
+                    OnBuild(ctx);
+                    break;
+                case "Persona3":
+                    OnSelfDestruct(ctx);
+                    break;
             }
         }
 
@@ -462,8 +520,10 @@ namespace TowerTanks.Scripts
 
             SetCharacterMovement(ctx.ReadValue<Vector2>());
 
-            if (((moveInput.y > ladderEnterDeadzone) || (moveInput.y < -ladderEnterDeadzone && !CheckGround())) && (currentLadder != null && currentState != CharacterState.CLIMBING))
-            {   //if up is pressed above the deadzone, if down is pressed under the deadzone and we aren't grounded, and if we are near a ladder and we aren't already climbing
+            if (((moveInput.y > ladderEnterDeadzone) || (moveInput.y < -ladderEnterDeadzone && !CheckGround())) &&
+                (currentLadder != null && currentState != CharacterState.CLIMBING))
+            {
+                //if up is pressed above the deadzone, if down is pressed under the deadzone and we aren't grounded, and if we are near a ladder and we aren't already climbing
                 SetLadder();
             }
 
@@ -471,9 +531,10 @@ namespace TowerTanks.Scripts
             {
                 if (CheckSurfaceCollider(18).gameObject.TryGetComponent(out PlatformCollisionSwitcher collSwitcher))
                 {
-                    StartCoroutine(collSwitcher.DisableCollision(GetComponent<Collider2D>())); //Disable collision with platform
-                }                                                       // if leg floater is present, 
-                                                                        // disable use on platform  (leg floater floats the character collider by a few pixels which means the character won't slip and also won't trip over small changes in terrain collision)
+                    StartCoroutine(
+                        collSwitcher.DisableCollision(GetComponent<Collider2D>())); //Disable collision with platform
+                } // if leg floater is present, 
+                // disable use on platform  (leg floater floats the character collider by a few pixels which means the character won't slip and also won't trip over small changes in terrain collision)
             }
         }
 
@@ -498,7 +559,8 @@ namespace TowerTanks.Scripts
             if (buildCell != null) return;
 
             jetpackInputHeld = ctx.ReadValue<float>() > 0;
-            if (ctx.ReadValue<float>() > 0 && currentState != CharacterState.OPERATING) GameManager.Instance.AudioManager.Play("JetpackStartup", gameObject);
+            if (ctx.ReadValue<float>() > 0 && currentState != CharacterState.OPERATING)
+                GameManager.Instance.AudioManager.Play("JetpackStartup", gameObject);
         }
 
         public void OnInteract(InputAction.CallbackContext ctx)
@@ -542,14 +604,18 @@ namespace TowerTanks.Scripts
             if (StackManager.stack.Count > 0 && ctx.performed && !isOperator)
             {
                 //Check if build is valid:
-                Collider2D cellColl = Physics2D.OverlapPoint(transform.position, LayerMask.GetMask("Cell")); //Get cell player is currently on top of (if any)
+                Collider2D cellColl =
+                    Physics2D.OverlapPoint(transform.position,
+                        LayerMask.GetMask("Cell")); //Get cell player is currently on top of (if any)
                 if (cellColl != null && cellColl.TryGetComponent(out Cell cell)) //Player is on top of a cell
                 {
-                    if (cell.room.targetTank.tankType == TankId.TankType.PLAYER && cell.interactable == null && cell.playerBuilding == null && //Cell is friendly and unoccupied
-                        !cell.room.isCore &&                      //Interactables cannot be built in the core
-                        cell.room.type == Room.RoomType.Standard) //Interactables cannot be built in armor or cargo rooms
+                    if (cell.room.targetTank.tankType == TankId.TankType.PLAYER && cell.interactable == null &&
+                        cell.playerBuilding == null && //Cell is friendly and unoccupied
+                        !cell.room.isCore && //Interactables cannot be built in the core
+                        cell.room.type ==
+                        Room.RoomType.Standard) //Interactables cannot be built in armor or cargo rooms
                     {
-                        buildCell = cell;           //Indicate that player is building in this cell
+                        buildCell = cell; //Indicate that player is building in this cell
                         cell.playerBuilding = this; //Indicate that this player is building in given cell
                         print("started building");
                         taskProgressBar?.StartTask(characterSettings.buildTime);
@@ -577,7 +643,10 @@ namespace TowerTanks.Scripts
 
                 if (currentObject != null)
                 {
-                    if (isHoldingDown) { currentObject.Drop(this, false, moveInput); }
+                    if (isHoldingDown)
+                    {
+                        currentObject.Drop(this, false, moveInput);
+                    }
                     else currentObject.Drop(this, true, moveInput);
                 }
             }
@@ -618,9 +687,9 @@ namespace TowerTanks.Scripts
                     if (cell != null)
                     {
                         Cell cellscript = cell.GetComponent<Cell>();
-                        if (cellscript.health < cellscript.maxHealth && cellscript.repairMan == null && cellscript.room.isCore == false)
+                        if (cellscript.health < cellscript.maxHealth && cellscript.repairMan == null &&
+                            cellscript.room.isCore == false)
                         {
-                            //Debug.Log("I can fix it!");
                             GameManager.Instance.AudioManager.Play("UseSFX");
                             currentRepairJob = cell.GetComponent<Cell>();
                             currentRepairJob.repairMan = this.gameObject;
@@ -799,12 +868,13 @@ namespace TowerTanks.Scripts
                 }
             }
         }
+
         public void StopBuilding()
         {
-            if (buildCell == null) return;   //Do nothing if player is not building
+            if (buildCell == null) return; //Do nothing if player is not building
             buildCell.playerBuilding = null; //Indicate to cell that it is no longer being built in
-            buildCell = null;                //Clear cell reference
-            timeBuilding = 0;                //Reset build time tracker
+            buildCell = null; //Clear cell reference
+            timeBuilding = 0; //Reset build time tracker
             currentState = CharacterState.NONCLIMBING;
             taskProgressBar?.EndTask();
             print("stopped building");
@@ -837,6 +907,7 @@ namespace TowerTanks.Scripts
             if (TankManager.instance != null)
                 SetAssignedTank(TankManager.instance.playerTank);
         }
+
         #endregion
 
 

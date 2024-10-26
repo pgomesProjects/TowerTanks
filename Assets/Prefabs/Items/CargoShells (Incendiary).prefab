@@ -892,6 +892,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 051dacafdc104ba4683fc9ca739ea105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cargoID: Incendiary Shells
   type: 1
   contents:
   - {fileID: 3640374074342539547, guid: 1e93586965860dd45b48c21673aea549, type: 3}
@@ -902,3 +903,4 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 32768
   throwForce: 400
+  isContinuous: 0

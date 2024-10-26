@@ -6,7 +6,7 @@ namespace TowerTanks.Scripts
 {
     public class ChunkData : MonoBehaviour
     {
-        public float chunkNumber;
+        public int chunkNumber;
 
         public enum ChunkType { FLAT, SLOPEUP, SLOPEDOWN, RAMPUP, RAMPDOWN, PRESET };
         public ChunkType chunkType;
@@ -17,7 +17,8 @@ namespace TowerTanks.Scripts
         public const float CHUNK_WIDTH = 30f;
         public float yOffset;
 
-        [SerializeField, Tooltip("Flag that signals the end of the level.")] GameObject flag;
+        [SerializeField, Tooltip("Flag that signals the end of the level.")] private GameObject flag;
+        [SerializeField, Tooltip("Current flag on this chunk")] public Transform currentFlag;
         [SerializeField, Tooltip("Position on this chunk to spawn a flag")] private Transform flagSpawn; //place to spawn a flag if needed
         [SerializeField, Tooltip("Positions on this chunk to spawn obstacles")] private Transform[] obstacleSpawns; //place to spawn a flag if needed
 
@@ -58,6 +59,10 @@ namespace TowerTanks.Scripts
             var newflag = Instantiate(flag, flagSpawn);
             SpriteRenderer flagSprite = newflag.transform.Find("Visuals").Find("FlagSprite").GetComponent<SpriteRenderer>();
             flagSprite.color = color;
+
+            if (color == Color.red) { newflag.name = "Flag (End)"; }
+
+            currentFlag = newflag.transform;
         }
 
         /// <summary>

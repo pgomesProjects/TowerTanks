@@ -21,7 +21,7 @@ namespace TowerTanks.Scripts
 
         [Header("Drive Settings:")]
         [Tooltip("True = Engines determine tank's overall speed & acceleration, False = Set manual values")]       public bool useEngines;
-        [SerializeField, Tooltip("Current number of active engines in the tank")]                                  internal int currentEngines;
+        [SerializeField, Tooltip("Current number of active engines in the tank")]                                  internal float horsePower;
         [SerializeField, Tooltip("Base multiplier that affects how much power each individual engine has on the tank's speed")] internal float speedFactor;
         [Tooltip("Greatest speed tank can achieve at maximum gear.")]                                              public float maxSpeed = 100;
         [Tooltip("Current x Velocity of the tank's rigidbody")]                                                    public float actualSpeed;
@@ -48,6 +48,12 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("Minimum Speed for Ramming Effects to Apply")]         public float rammingSpeed;
         private float stunTimer = 0;
         [SerializeField, Tooltip("Multiplier on speed when stunned by an impact/force")] public float speedStunMultiplier = 1f;
+        public float treadHealth;
+        private float treadMaxHealth = 200f;
+        public float healthRegenRate;
+        private float unjamHealthThreshold = 60f;
+        public bool isJammed;
+        private float jamEffectTimer = 0f;
 
         //Runtime Variables:
         private bool initialized;    //True if tread system has already been set up
@@ -64,9 +70,6 @@ namespace TowerTanks.Scripts
         {
             //Update timers:
             timeInGear += Time.deltaTime; //Update time in gear tracker
-            if (stunTimer > 0) stunTimer -= Time.deltaTime;
-            speedStunMultiplier = 1f - (stunTimer);
-            speedStunMultiplier = Mathf.Clamp(speedStunMultiplier, 0.05f, 1f);
 
             //Update treads:
             for (int wheelIndex = 0; wheelIndex < wheels.Length; wheelIndex++) //Iterate once for each wheel
@@ -84,7 +87,9 @@ namespace TowerTanks.Scripts
                 tread.eulerAngles = Vector3.forward * Vector2.SignedAngle(Vector2.up, treadNormal); //Rotate tread to target rotation
                 tread.localScale = new Vector3(treadWidth, tread.localScale.y, 1);                  //Scale tread to target length
             }
-
+        }
+        private void FixedUpdate()
+        {
             //Calculate Speed
             if (useEngines) CalculateSpeed();
 
@@ -99,9 +104,19 @@ namespace TowerTanks.Scripts
             {
                 //tankController.DisableSpeedTrails();
             }
-        }
-        private void FixedUpdate()
-        {
+
+            //Update Stun Timer
+            if (stunTimer > 0)
+            {
+                stunTimer -= Time.fixedDeltaTime;
+                speedStunMultiplier = Mathf.Lerp(0.05f, 1f, (3f / stunTimer) * Time.fixedDeltaTime);
+                speedStunMultiplier = Mathf.Clamp(speedStunMultiplier, 0.05f, 1f);
+            }
+            else speedStunMultiplier = 1f;
+
+            //Update Health
+            UpdateHealth();
+
             //Update throttle:
             float throttleTarget = gear / (float)((gearPositions - 1) / 2);                                          //Get target throttle value between -1 and 1 based on current gear setting
             throttleTarget = Mathf.Lerp(throttleValue, throttleTarget, accelerationDamping);                         //Use lerp to soften throttle target, making accelerations less abrupt
@@ -111,8 +126,16 @@ namespace TowerTanks.Scripts
             int groundedWheels = 0;                                                         //Initialize variable to track how many wheels are grounded
             foreach (TreadWheel wheel in wheels) { if (wheel.grounded) groundedWheels++; }; //Pre-calculate number of grounded wheels
 
+            //Check for Jam
+            float jamMultiplier = 1f;
+            if (isJammed)
+            {
+                jamMultiplier = 0f;
+                JamEffects();
+            }
+
             //Apply wheel forces:
-            Vector2 targetTankSpeed = transform.right * maxSpeed * throttleValue;                  //Get target speed based on tank throttle
+            Vector2 targetTankSpeed = transform.right * maxSpeed * throttleValue * jamMultiplier;  //Get target speed based on tank throttle
             Vector2 deltaSpeed = targetTankSpeed - r.velocity;                                     //Get value which would change current speed to target speed
             Vector2 baseWheelAccel = deltaSpeed / Time.fixedDeltaTime;                             //Get ideal acceleration value which each wheel will use to compute actual force (apply actual acceleration to smooth out speed changes)
             baseWheelAccel *= Mathf.Min((float)groundedWheels / (wheels.Length - extraWheels), 1); //Handicap acceleration when wheels are off ground (prevents tank from doing extended wheelies)
@@ -131,7 +154,7 @@ namespace TowerTanks.Scripts
                     if (wheel.lastGroundHit.collider != null) //Wheel has valid information about hit ground
                     {
                         //Apply drive torque:
-                        Vector2 wheelAccel = Vector3.Project(baseWheelAccel, wheelDirection); //Project base acceleration onto vector representing direction wheel is capable of producing force in (depends on ground angle)
+                        Vector2 wheelAccel = Vector3.Project(baseWheelAccel * speedStunMultiplier, wheelDirection); //Project base acceleration onto vector representing direction wheel is capable of producing force in (depends on ground angle)
                         wheelAccel /= (wheels.Length - extraWheels);                          //Divide wheel acceleration value by number of main wheels so that tank is most stable when all wheels are on the ground
                         Debug.DrawRay(wheel.lastGroundHit.point, wheelAccel);
                         r.AddForceAtPosition(wheelAccel * speedStunMultiplier, wheel.lastGroundHit.point, ForceMode2D.Force); //Apply wheel traction to system
@@ -208,15 +231,9 @@ namespace TowerTanks.Scripts
                 newTreads.Add(newTread);                                            //Add new tread to list
             }
             treads = newTreads.ToArray(); //Commit generated list to array
-        }
 
-        public IEnumerator SpeedSurge(float duration, int power)
-        {
-            currentEngines += power;
-            speedShiftRate += power;
-            yield return new WaitForSeconds(duration);
-            currentEngines -= power;
-            speedShiftRate -= power;
+            //Set health
+            treadHealth = treadMaxHealth;
         }
 
         /// <summary>
@@ -240,6 +257,77 @@ namespace TowerTanks.Scripts
             if (stunTimer > 3f) stunTimer = 3f;
         }
 
+        private void UpdateHealth()
+        {
+            if (treadHealth < treadMaxHealth)
+            {
+                treadHealth += healthRegenRate * Time.fixedDeltaTime;
+
+                if (treadHealth >= unjamHealthThreshold)
+                {
+                    if (isJammed) isJammed = false;
+                }
+
+                if (treadHealth >= treadMaxHealth)
+                {
+                    treadHealth = treadMaxHealth;
+                }
+            }
+        }
+
+        public void Damage(float amount)
+        {
+            treadHealth -= amount;
+
+            //Check for Jam
+            if (treadHealth <= 0)
+            {
+                treadHealth = 0;
+                Jam();
+            }
+        }
+
+        public void Jam()
+        {
+            if (!isJammed)
+            {
+                isJammed = true;
+                GameManager.Instance.AudioManager.Play("EngineDyingSFX", this.gameObject);
+            }
+        }
+
+        private void JamEffects()
+        {
+            jamEffectTimer -= Time.fixedDeltaTime;
+
+            if (jamEffectTimer <= 0)
+            {
+                //Randomize Position
+                float randomX = Random.Range(-3f, 3f);
+                float randomY = Random.Range(-0.7f, 0f);
+
+                Vector2 randomPos = new Vector2(transform.position.x + randomX, transform.position.y + randomY);
+
+                //Spark Particle
+                float particleScale = Random.Range(0.05f, 0.1f);
+                GameObject particle = GameManager.Instance.ParticleSpawner.SpawnParticle(14, randomPos, particleScale, transform);
+
+                //Smoke Particle
+                GameManager.Instance.ParticleSpawner.SpawnParticle(3, randomPos, particleScale, null);
+
+                //Randomize Rotation
+                float randomRot = Random.Range(0f, 360f);
+                Quaternion newRot = Quaternion.Euler(0, 0, randomRot);
+                particle.transform.rotation = newRot;
+
+                //Randomize Interval between Sparks
+                float randomTimer = Random.Range(0.1f, 0.5f);
+                jamEffectTimer = randomTimer;
+
+                //TODO: Sparking Sound Effect here
+            }
+        }
+
         //UTILITY METHODS:
         /// <summary>
         /// Evaluates mass and center of gravity for tank depending on position and quantity of cells.
@@ -261,7 +349,7 @@ namespace TowerTanks.Scripts
             }
 
             //Calculation:
-            totalWeight = cellCount * 50f;
+            totalWeight = cellCount * 100f;
             avgCellPos /= cellCount;                                                                         //Get average position of cells
                                                                                                              //r.centerOfMass = new Vector2(Mathf.Clamp(avgCellPos.x, -COGWidth / 2, COGWidth / 2), COGHeight); //Constrain center mass to line segment controlled in settings (for tank handling reliability)
         }
@@ -270,16 +358,28 @@ namespace TowerTanks.Scripts
         /// </summary>
         public void CalculateSpeed()
         {
+            //Horsepower & Boost Accel
+            float c_totalHorsepower = 0;
+            float c_totalBonusAccel = 0;
+            EngineController[] engines = tankController.GetComponentsInChildren<EngineController>();
+            foreach(EngineController engine in engines)
+            {
+                c_totalHorsepower += engine.power;
+                //if (engine.isSurging) c_totalBonusAccel += 0.4f;
+            }
+            horsePower = c_totalHorsepower;
+
             //Speed
-            float c_maxSpeed = speedFactor * (750f * ((currentEngines + 1) / totalWeight));
+            float c_maxSpeed = speedFactor * ((horsePower) / totalWeight);
 
             if (c_maxSpeed < 1f) c_maxSpeed = 1f; //minimum speed
             if (c_maxSpeed > 50f) c_maxSpeed = 50f; //maximum speed
 
-            maxSpeed = Mathf.MoveTowards(maxSpeed, c_maxSpeed, speedShiftRate * Time.deltaTime);
+            maxSpeed = Mathf.MoveTowards(maxSpeed, c_maxSpeed, speedShiftRate * Time.fixedDeltaTime);
+            if (isJammed) maxSpeed = 0;
 
             //Acceleration
-            float c_maxAcceleration = 0.4f + ((currentEngines + 1) * 0.1f);
+            float c_maxAcceleration = 0.4f + c_totalBonusAccel;
 
             maxAcceleration = c_maxAcceleration;
         }

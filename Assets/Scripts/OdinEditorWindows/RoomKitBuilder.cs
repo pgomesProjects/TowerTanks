@@ -20,13 +20,13 @@ namespace TowerTanks.Scripts.OdinTools
         }
 
         //Objects & Components:
-    
+        
 
         //Settings:
         [SerializeField, Tooltip("The kit you are modifying.")]                                                                   private RoomAssetKit targetKit;
         [SerializeField, Tooltip("This is how the kit will be displayed in the demo window.")]                                    private KitVisType visualizationMethod = 0;
         [SerializeField, ShowIf(condition: "visualizationMethod", Value = KitVisType.Room), Tooltip("Room prefab to visualize.")] private GameObject targetRoom;
-        [Button("Visualize", buttonSize: ButtonSizes.Small), Tooltip("Re-generates visualization with random assets from set.")] 
+        [Button("Visualize", buttonSize: ButtonSizes.Small), Tooltip("Re-generates visualization with random assets from set.")]
         private void GenerateVisualization()
         {
 

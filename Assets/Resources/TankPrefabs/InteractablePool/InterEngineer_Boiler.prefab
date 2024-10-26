@@ -406,7 +406,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0.4, y: -0.55}
+  m_AnchoredPosition: {x: 0, y: -0.56}
   m_SizeDelta: {x: 85, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &5116245806759661281
@@ -1336,13 +1336,17 @@ MonoBehaviour:
   - {fileID: 4223996395297889378}
   - {fileID: 828606465616710838}
   isPowered: 0
+  power: 0
+  isSurging: 0
+  boostMultiplier: 3
   temperatureLowColor: {r: 0.1764706, g: 0.7058824, b: 0.22745098, a: 1}
   temperatureHighColor: {r: 1, g: 0.30625758, b: 0, a: 1}
   pressure: 0
   pressureReleaseSpeed: 3
   dangerZoneThreshold: 80
   overDriveOffset: 0.5
-  maxChargeTime: 4
+  enginePressureHaptics: {fileID: 11400000, guid: f6ee0d036abf32946a3646619f163502, type: 2}
+  maxChargeTime: 1.5
   chargeTimer: 0
   targetCharge: 0
   boilerSprites:
@@ -1355,7 +1359,8 @@ MonoBehaviour:
   - {fileID: 7630956752536001884}
   - {fileID: 4890534004106587855}
   pressureBar: {fileID: 8355516534664254739}
-  explosionTime: 5
+  explosionChance: 0
+  explosionTime: 4.5
   explosionTimer: 0
   addPressure: 0
   repairInputHeld: 0

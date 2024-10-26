@@ -70,11 +70,12 @@ namespace TowerTanks.Scripts
 
         private void AddEngine()
         {
-            treadSystem.currentEngines += 1;
+            treadSystem.horsePower += 100;
+            
         }
         private void LoseEngine()
         {
-            treadSystem.currentEngines -= 1;
+            treadSystem.horsePower -= 100;
         }
 
         [PropertySpace]
@@ -224,7 +225,7 @@ namespace TowerTanks.Scripts
                         }
                     }
                 }
-            }
+            } //Build the tank
 
             //Check Room Typing for Random Drops
             foreach(Room room in rooms)
@@ -245,6 +246,13 @@ namespace TowerTanks.Scripts
 
             //Identify what tank I am
             GetTankInfo();
+
+            //Player Cargo Logic
+            if (tankType == TankId.TankType.PLAYER)
+            {
+                CargoManifest manifest = GameManager.Instance.cargoManifest;
+                SpawnCargo(manifest);
+            }
 
             //Enemy Logic
             if (tankType == TankId.TankType.ENEMY)
@@ -289,7 +297,7 @@ namespace TowerTanks.Scripts
 
             //Debug 
             gear = treadSystem.gear;
-            horsePower = treadSystem.currentEngines * 100;
+            horsePower = treadSystem.horsePower;
 
             //Death Sequence Events
             if (isDying)
@@ -719,13 +727,76 @@ namespace TowerTanks.Scripts
                     //TODO:
                     //Is this an enemy or player design?
                     //Cell damage values?
-                    //Where cargo is located in the tank?
+                    
                     roomCount++;
                 }
             }
 
             design.TankName = TankName; //Name the design after the current tank
             return design;
+        }
+
+        public void SpawnCargo(CargoManifest manifest) //Called when spawning a tank that contains cargo/items
+        {
+            if (GameManager.Instance.cargoManifest.items.Count > 0) //if we have any cargo
+            {
+                foreach (CargoManifest.ManifestItem item in GameManager.Instance.cargoManifest.items) //go through each item in the manifest
+                {
+                    GameObject prefab = null;
+                    foreach (CargoId cargoItem in GameManager.Instance.CargoManager.cargoList)
+                    {
+                        if (cargoItem.id == item.itemID) //if the item id matches an object in the cargomanager
+                        {
+                            prefab = cargoItem.cargoPrefab; //get the object we need to spawn from the list
+                        }
+                    }
+
+                    GameObject _item = Instantiate(prefab, towerJoint, false); //spawn the object
+                    _item.GetComponent<Cargo>().ignoreInit = true;
+
+                    Vector3 spawnVector = item.localSpawnVector;
+                    _item.transform.localPosition = spawnVector;
+                }
+            }
+        }
+
+        public CargoManifest GetCurrentManifest()
+        {
+            CargoManifest manifest = new CargoManifest();
+
+            //Find All Cargo Items currently inside the Tank
+            Cargo[] cargoItems = GetComponentsInChildren<Cargo>();
+
+            if (cargoItems.Length > 0)
+            {
+                foreach(Cargo item in cargoItems) //go through each item in the tank
+                {
+                    string itemID = "";
+                    foreach(CargoId _cargo in GameManager.Instance.CargoManager.cargoList)
+                    {
+                        if(_cargo.id == item.cargoID) //if it's on the list of valid cargo items
+                        {
+                            itemID = item.cargoID;
+                        }
+                    }
+
+                    if (itemID != "")
+                    {
+                        CargoManifest.ManifestItem _item = new CargoManifest.ManifestItem();
+                        _item.itemID = itemID; //update id
+
+                        Transform temp = item.transform.parent;
+                        item.transform.parent = towerJoint.transform; //set new temp parent
+
+                        _item.localSpawnVector = item.transform.localPosition; //Get it's current localPosition
+
+                        item.transform.parent = temp;
+                        manifest.items.Add(_item); //add it to the manifest
+                    }
+                }
+            }
+
+            return manifest;
         }
 
         public void EnableCannonBrains(bool enabled)

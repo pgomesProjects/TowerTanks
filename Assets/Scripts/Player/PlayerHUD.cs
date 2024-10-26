@@ -10,22 +10,21 @@ namespace TowerTanks.Scripts
     public class PlayerHUD : MonoBehaviour
     {
         [SerializeField, Tooltip("The border that shows the player's color.")] private Image playerBorder;
+        [SerializeField, Tooltip("The background behind the player's name.")] private Image playerNameBackground;
         [SerializeField, Tooltip("The player avatar.")] private Image playerAvatar;
         [SerializeField, Tooltip("The ending color for the character avatar when they have no more health")] private Color maxDamageColor = Color.red;
         [SerializeField, Tooltip("The image for when the player dies.")] private Image playerDeathImage;
 
         [SerializeField, Tooltip("The text for the player's name.")] private TextMeshProUGUI playerNameText;
+        [SerializeField, Tooltip("The fuel bar.")] private ProgressBar fuelBar;
 
-        [SerializeField, Tooltip("The fill of the health bar.")] private Image healthBar;
-        [SerializeField, Tooltip("The fill of the fuel bar.")] private Image fuelBar;
-        [SerializeField, Tooltip("The fill of the progress bar.")] private Image progressBar;
         [SerializeField, Tooltip("The animation curve for when the player HUD shakes.")] private AnimationCurve shakeIntensityCurve;
 
         [SerializeField, Tooltip("The respawn timer transform.")] private RectTransform respawnTransform;
         [SerializeField, Tooltip("The fill of the respawn timer.")] private Image respawnBar;
         [SerializeField, Tooltip("The text for the respawn timer.")] private TextMeshProUGUI respawnText;
 
-        [SerializeField, Tooltip("The Image for the player button prompt.")] private Image buttonPrompt;
+        private Color playerColor;
 
         private Color startingColor;
         private RectTransform hudRectTransform;
@@ -48,40 +47,15 @@ namespace TowerTanks.Scripts
         /// <param name="playerName">The name of the player.</param>
         public void InitializeHUD(int characterIndex, string playerName = "")
         {
+            playerColor = GameManager.Instance.MultiplayerManager.GetPlayerColors()[characterIndex];
             transform.name = playerName + "HUD";
             hudRectTransform.anchoredPosition = new Vector2((hudRectTransform.sizeDelta.x + 35f) * characterIndex, 0f);
             hudPosition = hudRectTransform.localPosition;
-            //Debug.Log("Moving HUD To Y = " + ((hudRectTransform.sizeDelta.x + 35f) * characterIndex).ToString());
-            playerBorder.color = GameManager.Instance.MultiplayerManager.GetPlayerColors()[characterIndex];
-            healthBar.fillAmount = 1f;
-            fuelBar.fillAmount = 1f;
-            progressBar.fillAmount = 0f;
-            buttonPrompt.sprite = null;
-            buttonPrompt.color = new Color(0, 0, 0, 0);
+
+            playerNameBackground.color = playerColor;
+            playerBorder.color = playerColor;
             playerNameText.text = playerName;
             playerDeathImage.color = new Color(0, 0, 0, 0);
-        }
-
-
-        /// <summary>
-        /// Updates the value of a player stat bar.
-        /// </summary>
-        /// <param name="statBar">The stat to update.</param>
-        /// <param name="fillAmount">The amount to fill the bar (0 = empty, 1 = full).</param>
-        public void UpdateStatBar(CharacterStat statBar, float fillAmount)
-        {
-            switch (statBar)
-            {
-                case CharacterStat.HEALTH:
-                    healthBar.fillAmount = fillAmount;
-                    break;
-                case CharacterStat.FUEL:
-                    fuelBar.fillAmount = fillAmount;
-                    break;
-                case CharacterStat.PROGRESS:
-                    progressBar.fillAmount = fillAmount;
-                    break;
-            }
         }
 
         private void Update()
@@ -116,6 +90,15 @@ namespace TowerTanks.Scripts
                 // Reset position after shake duration is over
                 hudRectTransform.localPosition = hudPosition;
             }
+        }
+
+        /// <summary>
+        /// Updates the fuel bar on the player HUD.
+        /// </summary>
+        /// <param name="fuelBarPercentage">The percentage of fuel (from 0 to 100).</param>
+        public void UpdateFuelBar(float fuelBarPercentage)
+        {
+            fuelBar.UpdateProgressValue(fuelBarPercentage);
         }
 
         public void ShakePlayerHUD(float shakeDuration, float shakeAmount)
@@ -172,12 +155,6 @@ namespace TowerTanks.Scripts
         {
             respawnBar.fillAmount = respawnFill;
             respawnText.text = (Mathf.Ceil(time)).ToString();
-        }
-
-        public void ShowButtonPrompt(Sprite buttonPromptSprite)
-        {
-            buttonPrompt.sprite = buttonPromptSprite;
-            buttonPrompt.color = buttonPromptSprite == null ? new Color(0, 0, 0, 0) : new Color(1, 1, 1, 1);
         }
 
         public void KillPlayerHUD()

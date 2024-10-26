@@ -5036,6 +5036,7 @@ MonoBehaviour:
   particleScale: 0.6
   damage: 50
   knockbackForce: 10
+  stunTime: 1
   hasSplashDamage: 1
   splashData:
   - splashDamage: 25
