@@ -8,7 +8,7 @@ using Sirenix.OdinInspector;
 
 namespace TowerTanks.Scripts
 {
-    public class BuildSystemManager : SerializedMonoBehaviour
+    public class BuildingManager : SerializedMonoBehaviour
     {
         private class WorldRoom
         {
@@ -73,25 +73,25 @@ namespace TowerTanks.Scripts
             public void SetIsMovementRepeating(bool isMovementRepeating) => this.isMovementRepeating = isMovementRepeating;
         }
 
-        public static BuildSystemManager Instance;
+        public static BuildingManager Instance;
 
         [SerializeField, Tooltip("Building canvas.")] private Canvas buildingCanvas;
         [SerializeField, Tooltip("The UI that shows the transition between game phases.")] private GamePhaseUI gamePhaseUI;
         [SerializeField, Tooltip("The transform for all of the room pieces.")] private Transform roomParentTransform;
         [SerializeField, Tooltip("The Spawn Point for all players in the build scene.")] private Transform spawnPoint;
+        [SerializeField, Tooltip("The player action container.")] private RectTransform playerActionContainer;
+        [SerializeField, Tooltip("The player action prefab.")] private GameObject playerActionPrefab;
+        [SerializeField, Tooltip("The color for the most recent action.")] private Color mostRecentActionColor;
         [SerializeField, Tooltip("The Ready Up Manager that lets players display that they are ready.")] private ReadyUpManager readyUpManager;
         [SerializeField, Tooltip("The delay between the first input made for room movement and repeated tick movement.")] private float roomMoveDelay = 0.5f;
         [SerializeField, Tooltip("The tick rate for moving a room.")] private float roomMoveTickRate = 0.35f;
 
         private TankController defaultPlayerTank;
+        private Color defaultPlayerActionColor;
+
         private List<WorldRoom> worldRoomObjects;
         private Stack<PlayerAction> tankBuildHistory;
-
-        public static System.Action<string, string> OnPlayerAction;
-        public static System.Action OnPlayerUndo;
-
-        public enum BuildingSubphase { Naming, PickRooms, BuildTank, ReadyUp }
-        public BuildingSubphase CurrentSubPhase { get; private set; }
+        private RectTransform historyParentTransform;
 
         [Button(ButtonSizes.Medium)]
         private void DebugUndo()
@@ -117,6 +117,8 @@ namespace TowerTanks.Scripts
             worldRoomObjects = new List<WorldRoom>();
             tankBuildHistory = new Stack<PlayerAction>();
             defaultPlayerTank = FindObjectOfType<TankController>();
+            defaultPlayerActionColor = playerActionPrefab.GetComponentInChildren<Image>().color;
+            historyParentTransform = playerActionContainer.parent.GetComponent<RectTransform>();
         }
 
         // Start is called before the first frame update
@@ -132,13 +134,11 @@ namespace TowerTanks.Scripts
         private void OnEnable()
         {
             ReadyUpManager.OnAllReady += FinishTank;
-            GameManager.Instance.MultiplayerManager.OnPlayerConnected += AddPlayerToBuildSystem;
         }
 
         private void OnDisable()
         {
             ReadyUpManager.OnAllReady -= FinishTank;
-            GameManager.Instance.MultiplayerManager.OnPlayerConnected -= AddPlayerToBuildSystem;
         }
 
         /// <summary>
@@ -163,21 +163,13 @@ namespace TowerTanks.Scripts
             }
         }
 
-        /// <summary>
-        /// Moves the player's room.
-        /// </summary>
-        /// <param name="room">The data for the room to move.</param>
         private void MoveRoom(WorldRoom room)
         {
-            //Get the movement data from the player
             PlayerData player = PlayerData.ToPlayerData(room.playerSelector.GetCurrentPlayerInput());
             Vector2 playerMovement = player.movementData;
 
-            //If the movement vector is not zero and the room isn't moving, start moving
             if (playerMovement != Vector2.zero && room.currentRoomState == WorldRoom.RoomState.FLOATING)
                 room.SetRoomState(WorldRoom.RoomState.MOVING);
-
-            //If the movement vector is zero and the room is moving, stop moving
             else if (playerMovement == Vector2.zero && room.currentRoomState != WorldRoom.RoomState.FLOATING)
             {
                 room.SetRoomState(WorldRoom.RoomState.FLOATING);
@@ -186,38 +178,26 @@ namespace TowerTanks.Scripts
 
             switch (room.currentRoomState)
             {
-                //If the room is moving, move it and add a cooldown
                 case WorldRoom.RoomState.MOVING:
                     MoveRoomInScene(room, playerMovement * 0.25f);
                     room.ResetCooldown(room.isMovementRepeating ? roomMoveTickRate : roomMoveDelay);
                     break;
-                //If the room movement is on cooldown, tick the cooldown
                 case WorldRoom.RoomState.ONCOOLDOWN:
                     room.UpdateTick();
                     break;
             }
         }
 
-        /// <summary>
-        /// Takes the room object in the scene and moves it.
-        /// </summary>
-        /// <param name="room">The data for the room to move.</param>
-        /// <param name="distance">The distance to move the room.</param>
         private void MoveRoomInScene(WorldRoom room, Vector2 distance)
         {
             room.cursorTransform.position = Camera.main.WorldToScreenPoint(
                 room.roomObject.SnapMove((Vector2)Camera.main.ScreenToWorldPoint(room.cursorTransform.position) + distance));
         }
 
-        /// <summary>
-        /// Rotates the room.
-        /// </summary>
-        /// <param name="playerInput">The player rotating the room.</param>
         public void RotateRoom(PlayerInput playerInput)
         {
             WorldRoom playerRoom = GetPlayerRoom(playerInput);
 
-            //If the room is not mounted, rotate the room
             if (!(playerRoom.currentRoomState == WorldRoom.RoomState.MOUNTED))
             {
                 GameManager.Instance.AudioManager.Play("RotateRoom");
@@ -225,51 +205,33 @@ namespace TowerTanks.Scripts
             }
         }
 
-        /// <summary>
-        /// Mounts the room to the tank.
-        /// </summary>
-        /// <param name="playerInput">The player mounting their room.</param>
-        /// <returns>Returns true if the mount was successful and false if it was not.</returns>
         public bool MountRoom(PlayerInput playerInput)
         {
-            //If the current building subphase is not in a phase that allows for building, return false
-            if (CurrentSubPhase == BuildingSubphase.Naming || CurrentSubPhase == BuildingSubphase.PickRooms)
-                return false;
-
-            //Get the room from the player and mount it
             WorldRoom playerRoom = GetPlayerRoom(playerInput);
             Room mountedRoom = playerRoom.Mount();
 
-            //If there is no room, return false
             if (mountedRoom == null)
                 return false;
 
-            //Add the room to the stats
-            defaultPlayerTank.AddRoomToStats(mountedRoom);
-
-            //Add the room mounting to the player action history
             AddToPlayerActionHistory(playerInput, playerRoom.playerSelector.GetRoomAt(playerRoom.playerSelector.GetNumberOfRoomsPlaced() - 1), mountedRoom);
 
-            //If all of the rooms are mounted from the player
             if (playerRoom.currentRoomState == WorldRoom.RoomState.MOUNTED)
             {
-                //Spawn the player in the tank
+
                 Vector3 playerPos = spawnPoint.position;
                 playerPos.x += Random.Range(-0.25f, 0.25f);
                 playerRoom.playerSelector.GetCurrentPlayerData().SpawnPlayerInScene(playerPos);
 
-                //If all rooms from all players are mounted, note that all of them are ready and start the ready up manager
                 if (AllRoomsMounted())
                 {
-                    UpdateBuildPhase(BuildingSubphase.ReadyUp);
                     foreach (PlayerData player in GameManager.Instance.MultiplayerManager.GetAllPlayers())
                         player.SetPlayerState(PlayerData.PlayerState.ReadyForCombat);
+
                     readyUpManager.Init();
                 }
 
                 return true;
             }
-            //If the player has not mounted all of their rooms, give them their next room
             else
             {
                 playerRoom.SetRoomObject(Instantiate(playerRoom.playerSelector.GetRoomToPlace(), roomParentTransform));
@@ -279,22 +241,19 @@ namespace TowerTanks.Scripts
             return false;
         }
 
-        /// <summary>
-        /// Adds a player action to the action history.
-        /// </summary>
-        /// <param name="playerInput">The player performing the action.</param>
-        /// <param name="currentRoomInfo">The room information.</param>
-        /// <param name="mountedRoom">The room object mounted.</param>
         private void AddToPlayerActionHistory(PlayerInput playerInput, RoomInfo currentRoomInfo, Room mountedRoom)
         {
+            if (tankBuildHistory.Count != 0)
+                playerActionContainer.GetChild(playerActionContainer.childCount - 1).GetComponentInChildren<Image>().color = defaultPlayerActionColor;
+
+            GameObject newAction = Instantiate(playerActionPrefab, playerActionContainer);
+            newAction.GetComponentInChildren<TextMeshProUGUI>().text = playerInput.name + " Placed " + currentRoomInfo.name;
+            newAction.GetComponentInChildren<Image>().color = mostRecentActionColor;
+            LayoutRebuilder.ForceRebuildLayoutImmediate(historyParentTransform);
+
             tankBuildHistory.Push(new PlayerAction(playerInput, mountedRoom));
-            OnPlayerAction?.Invoke(playerInput.name, currentRoomInfo.name);
         }
 
-        /// <summary>
-        /// Undoes the player's most recent action.
-        /// </summary>
-        /// <param name="playerInput">The player undoing.</param>
         public void UndoPlayerAction(PlayerInput playerInput)
         {
             if (tankBuildHistory.Count == 0)
@@ -314,11 +273,12 @@ namespace TowerTanks.Scripts
                 currentAction.room.Dismount();
                 Destroy(currentAction.room.gameObject);
 
-                //Remove the room from the stats
-                defaultPlayerTank.RemoveRoomFromStats(currentAction.room);
+                //Update the action container
+                if (playerActionContainer.childCount - 2 >= 0)
+                    playerActionContainer.GetChild(playerActionContainer.childCount - 2).GetComponentInChildren<Image>().color = mostRecentActionColor;
 
-                //Update the UI
-                OnPlayerUndo?.Invoke();
+                if (playerActionContainer.childCount > 0)
+                    Destroy(playerActionContainer.GetChild(playerActionContainer.childCount - 1).gameObject);
 
                 //Revert to the previous room placed
                 WorldRoom playerRoom = GetPlayerRoom(playerInput);
@@ -343,14 +303,10 @@ namespace TowerTanks.Scripts
                     playerData.SetPlayerState(PlayerData.PlayerState.IsBuilding);
                     playerData.RemovePlayerFromScene();
                     readyUpManager.HideReadyUpManager();
-                    UpdateBuildPhase(BuildingSubphase.BuildTank);
                 }
             }
         }
 
-        /// <summary>
-        /// Finalizes the tank design by saving the design to the GameManager.
-        /// </summary>
         private void FinishTank()
         {
             TankDesign currentTankDesign = defaultPlayerTank.GetCurrentDesign();
@@ -358,11 +314,6 @@ namespace TowerTanks.Scripts
             gamePhaseUI?.ShowPhase(GAMESTATE.COMBAT);
         }
 
-        /// <summary>
-        /// Get the player's room from the list of room objects in the world.
-        /// </summary>
-        /// <param name="playerInput">The player to get the room of.</param>
-        /// <returns>Returns the world room data, if found. Returns null otherwise.</returns>
         private WorldRoom GetPlayerRoom(PlayerInput playerInput)
         {
             for (int i = 0; i < worldRoomObjects.Count; i++)
@@ -374,10 +325,6 @@ namespace TowerTanks.Scripts
             return null;
         }
 
-        /// <summary>
-        /// Checks to see if all rooms have been mounted.
-        /// </summary>
-        /// <returns>Returns true if all rooms are mounted. Returns false if otherwise.</returns>
         public bool AllRoomsMounted()
         {
             foreach (WorldRoom room in worldRoomObjects)
@@ -389,27 +336,6 @@ namespace TowerTanks.Scripts
             return true;
         }
 
-        /// <summary>
-        /// Adds a player to the build scene after connecting.
-        /// </summary>
-        /// <param name="playerInput">The player to add to the build scene.</param>
-        public void AddPlayerToBuildSystem(PlayerInput playerInput)
-        {
-            switch (CurrentSubPhase)
-            {
-                //If the rooms have all been picked, immediately spawn them in the tank
-                case BuildingSubphase.BuildTank:
-                case BuildingSubphase.ReadyUp:
-                    Vector3 playerPos = spawnPoint.position;
-                    playerPos.x += Random.Range(-0.25f, 0.25f);
-                    PlayerData playerData = PlayerData.ToPlayerData(playerInput);
-                    playerData.SpawnPlayerInScene(playerPos);
-                    playerData.SetPlayerState(PlayerData.PlayerState.ReadyForCombat);
-                    break;
-            }
-        }
-
-        public void UpdateBuildPhase(BuildingSubphase newPhase) => CurrentSubPhase = newPhase;
         public ReadyUpManager GetReadyUpManager() => readyUpManager;
         public void RefreshPlayerTankName() => defaultPlayerTank.SetTankName(CampaignManager.Instance.PlayerTankName);
     }

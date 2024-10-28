@@ -12,7 +12,7 @@ using UnityEngine.UI;
 
 namespace TowerTanks.Scripts
 {
-    public enum INTERACTABLE { Throttle, EnergyShield, Boiler, Refuel, Cannon, MachineGun, Mortar, Armor, ShopTerminal };
+    public enum INTERACTABLE { Throttle, EnergyShield, Boiler, Refuel, Cannon, MachineGun, Mortar, Armor };
 
     public class GameManager : SerializedMonoBehaviour
     {
@@ -24,14 +24,8 @@ namespace TowerTanks.Scripts
         public GameUIManager UIManager { get; private set; }
         public CargoManager CargoManager { get; private set; }
 
-        [SerializeField, Tooltip("The prefab for the tutorial popup.")] private TutorialPopupController tutorialPopup;
-        [SerializeField, Tooltip("The list of all possible tutorials.")] private TutorialPopupSettings[] tutorialsList;
-
         [SerializeField, Tooltip("The list of possible rooms for the players to pick.")] public RoomInfo[] roomList;
-        [SerializeField, Tooltip("The list of possible special rooms for use in the game.")] public RoomInfo[] specialRoomList;
         [SerializeField, Tooltip("The list of possible interactables for the players to pick. NOTE: Remember to update the enum list when updating this list.")] public TankInteractable[] interactableList;
-
-        internal SessionStats currentSessionStats;
 
         internal int TotalInteractables = Enum.GetNames(typeof(INTERACTABLE)).Length;
 
@@ -42,23 +36,18 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("The canvas for the loading screen.")] private GameObject loaderCanvas;
         [SerializeField, Tooltip("The loading progress bar.")] private Image progressBar;
 
-        public bool tutorialWindowActive;
         public bool isPaused;
         public bool inBugReportMenu;
         public bool inDebugMenu;
         public bool InGameMenu
         {
-            get { return isPaused || inBugReportMenu || inDebugMenu || tutorialWindowActive; }
+            get { return isPaused || inBugReportMenu || inDebugMenu; }
         }
 
-        //Global Static Variables
         public static float gameTimeScale = 1.0f;
         private static float gameDeltaTime;
         private static float gameElapsedTime;
         private static float gameFixedDeltaTimeStep;
-
-        public static float shopChance;
-        public float _shopChance;
 
         public static float GameDeltaTime
         {
@@ -94,7 +83,6 @@ namespace TowerTanks.Scripts
             SystemEffects = GetComponentInChildren<SystemEffects>();
             CargoManager = GetComponentInChildren<CargoManager>();
             UIManager = GetComponentInChildren<GameUIManager>();
-            currentSessionStats = new SessionStats();
             gameFixedDeltaTimeStep = Time.fixedDeltaTime;
 
             //LoadBearingCheck();
@@ -232,16 +220,6 @@ namespace TowerTanks.Scripts
         }
 
         /// <summary>
-        /// Displays a tutorial on the screen.
-        /// </summary>
-        /// <param name="tutorialIndex">The index of the tutorial to show.</param>
-        public void DisplayTutorial(int tutorialIndex)
-        {
-            TutorialPopupController currentTutorialPopup = Instantiate(tutorialPopup, GameObject.FindGameObjectWithTag("CursorCanvas").transform);
-            currentTutorialPopup.StartTutorial(tutorialsList[tutorialIndex]);
-        }
-
-        /// <summary>
         /// Sets the gamepad cursors to be active or not active.
         /// </summary>
         /// <param name="setActive">If true, the gamepad cursors are active. If false, the gamepad cursors are not active.</param>
@@ -273,106 +251,6 @@ namespace TowerTanks.Scripts
 
             //If no interactable is found, return the first enum in the list.
             return default;
-        }
-
-        /// <summary>
-        /// Takes an Interactable Type & creates an array of all valid Interactables of that type.
-        /// </summary>
-        /// <param name="type">The interactable type you're looking for.</param>
-        /// <returns>Returns an array of interactables of that type.</returns>
-        public TankInteractable[] GetInteractablesOfType(TankInteractable.InteractableType type)
-        {
-            TankInteractable[] validInteractables = null;
-            int count = 0;
-
-            //Find Count of Valid Interactables
-            foreach (TankInteractable interactable in interactableList)
-            {
-                if(interactable.interactableType == type)
-                {
-                    count++;
-                }
-            }
-
-            //If Count > 0, create an array of the Valid Interactables
-            if (count > 0)
-            {
-                validInteractables = new TankInteractable[count];
-
-                int _count = 0;
-                foreach(TankInteractable interactable in interactableList)
-                {
-                    if (interactable.interactableType == type)
-                    {
-                        validInteractables[_count] = interactable;
-                        _count++;
-                    }
-                }
-            }
-
-            return validInteractables;
-        }
-
-        /// <summary>
-        /// Takes an Interactable Type & creates an array of all valid Interactables that are specifically NOT that type.
-        /// </summary>
-        /// <param name="type">The interactable type you're NOT looking for.</param>
-        /// <returns>Returns an array of all interactables that are NOT that type.</returns>
-        public TankInteractable[] GetInteractablesNotOfType(TankInteractable.InteractableType type)
-        {
-            TankInteractable[] validInteractables = null;
-            int count = 0;
-
-            //Find Count of Valid Interactables
-            foreach (TankInteractable interactable in interactableList)
-            {
-                if (interactable.interactableType != type)
-                {
-                    if (interactable.interactableType != TankInteractable.InteractableType.CONSUMABLE)
-                    {
-                        if (interactable.interactableType != TankInteractable.InteractableType.SHOP)
-                        {
-                            count++;
-                        }
-                    }
-                }
-            }
-
-            //If Count > 0, create an array of the Valid Interactables
-            if (count > 0)
-            {
-                validInteractables = new TankInteractable[count];
-
-                int _count = 0;
-                foreach (TankInteractable interactable in interactableList)
-                {
-                    if (interactable.interactableType != type)
-                    {
-                        if (interactable.interactableType != TankInteractable.InteractableType.CONSUMABLE)
-                        {
-                            if (interactable.interactableType != TankInteractable.InteractableType.SHOP)
-                            {
-                                validInteractables[_count] = interactable;
-                                _count++;
-                            }
-                        }
-                    }
-                }
-            }
-
-            return validInteractables;
-        }
-
-        public TankInteractable[] GetInteractableList()
-        {
-            TankInteractable[] validInteractables = new TankInteractable[interactableList.Length - 1];
-
-            for(int i = 0; i < validInteractables.Length; i++)
-            {
-                validInteractables[i] = interactableList[i];
-            }
-
-            return validInteractables;
         }
 
         public bool SetCheatsMenuActive(bool cheatsActive) => CheatsMenuActive = cheatsActive;

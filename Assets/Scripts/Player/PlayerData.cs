@@ -18,6 +18,7 @@ namespace TowerTanks.Scripts
 
         private NamepadController playerNamepad;
         private string playerName;
+        private PlayerMovement currentPlayer;
 
         public static Action OnPlayerStateChanged;
 
@@ -94,10 +95,8 @@ namespace TowerTanks.Scripts
         {
             if (ctx.performed)
             {
-                if (currentPlayerState == PlayerState.ReadyForCombat)
-                {
-                    BuildingManager.Instance?.UndoPlayerAction(playerInput);
-                }
+                if (currentPlayerState == PlayerState.IsBuilding || currentPlayerState == PlayerState.ReadyForCombat)
+                    BuildingManager.Instance.UndoPlayerAction(playerInput);
             }
         }
 
@@ -130,6 +129,32 @@ namespace TowerTanks.Scripts
             }
         }
 
+        public PlayerMovement SpawnPlayerInScene(Vector2 playerPos)
+        {
+            currentPlayer = Instantiate(GameManager.Instance.MultiplayerManager.GetPlayerPrefab());
+            currentPlayer.gameObject.name = playerName;
+            currentPlayer.LinkPlayerInput(playerInput);
+            currentPlayer.GetComponent<Rigidbody2D>().isKinematic = false;
+            currentPlayer.transform.position = playerPos;
+            currentPlayer.transform.GetComponentInChildren<Renderer>().material.SetColor("_Color", GameManager.Instance.MultiplayerManager.GetPlayerColors()[playerInput.playerIndex]);
+            GameManager.Instance.SetPlayerCursorActive(playerInput.GetComponent<GamepadCursor>(), false);
+
+            return currentPlayer;
+        }
+
+        public void RemovePlayerFromScene()
+        {
+            if(currentPlayer != null)
+                StartCoroutine(RemovePlayerAtEndOfFrame());
+        }
+
+        private IEnumerator RemovePlayerAtEndOfFrame()
+        {
+            yield return new WaitForEndOfFrame();
+            Destroy(currentPlayer.gameObject);
+            currentPlayer = null;
+        }
+
         public static PlayerData ToPlayerData(PlayerInput playerInput)
         {
             foreach (PlayerData player in GameManager.Instance.MultiplayerManager.GetAllPlayers())
@@ -140,18 +165,6 @@ namespace TowerTanks.Scripts
 
             Debug.Log("No Player Data Found.");
 
-            return null;
-        }
-
-        public static PlayerMovement ToPlayerMovement(PlayerData playerData)
-        {
-            foreach (PlayerMovement player in FindObjectsOfType<PlayerMovement>())
-            {
-                if (player.GetPlayerData() == playerData)
-                    return player;
-            }
-
-            Debug.Log("No Player Found In Scene.");
             return null;
         }
 
