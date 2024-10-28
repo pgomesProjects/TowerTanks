@@ -29,6 +29,7 @@ namespace TowerTanks.Scripts.DebugTools
             playerControls?.Enable();
             GameManager.Instance.MultiplayerManager.EnableDebugInput();
             logText.text = debugTools.logHistory;
+            GameManager.Instance.inDebugMenu = true;
         }
 
         private void OnDisable()
@@ -36,6 +37,7 @@ namespace TowerTanks.Scripts.DebugTools
             playerControls?.Disable();
             inputField.text = string.Empty;
             GameManager.Instance.MultiplayerManager.DisableDebugInput();
+            GameManager.Instance.inDebugMenu = false;
         }
 
         public void ClearLog()

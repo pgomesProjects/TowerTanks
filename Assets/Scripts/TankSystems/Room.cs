@@ -476,6 +476,7 @@ namespace TowerTanks.Scripts
             }
             mounted = false;                   //Indicate that room is now disconnected
             SnapMove(transform.localPosition); //Re-generate ghost couplers and stuff once everything is cleaned up and room is disconnected
+            targetTank.UpdateSizeValues();     //Check to see if any added cells are higher than the known highest cell
         }
         /// <summary>
         /// Changes room type to given value.

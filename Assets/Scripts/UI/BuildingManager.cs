@@ -62,6 +62,7 @@ namespace TowerTanks.Scripts
             }
 
             public void SetRoomObject(Room roomObject) => this.roomObject = roomObject;
+
             public void ResetCooldown(float cooldownTimer)
             {
                 currentRoomState = RoomState.ONCOOLDOWN;
@@ -216,7 +217,10 @@ namespace TowerTanks.Scripts
 
             if (playerRoom.currentRoomState == WorldRoom.RoomState.MOUNTED)
             {
-                SpawnPlayerInScene(playerRoom.playerSelector.GetCurrentPlayerInput());
+
+                Vector3 playerPos = spawnPoint.position;
+                playerPos.x += Random.Range(-0.25f, 0.25f);
+                playerRoom.playerSelector.GetCurrentPlayerData().SpawnPlayerInScene(playerPos);
 
                 if (AllRoomsMounted())
                 {
@@ -269,15 +273,12 @@ namespace TowerTanks.Scripts
                 currentAction.room.Dismount();
                 Destroy(currentAction.room.gameObject);
 
-                // Update the action container
+                //Update the action container
                 if (playerActionContainer.childCount - 2 >= 0)
                     playerActionContainer.GetChild(playerActionContainer.childCount - 2).GetComponentInChildren<Image>().color = mostRecentActionColor;
 
                 if (playerActionContainer.childCount > 0)
                     Destroy(playerActionContainer.GetChild(playerActionContainer.childCount - 1).gameObject);
-
-                //Despawn the player from the tank
-                Destroy(PlayerData.ToPlayerMovement(playerData).gameObject);
 
                 //Revert to the previous room placed
                 WorldRoom playerRoom = GetPlayerRoom(playerInput);
@@ -288,28 +289,22 @@ namespace TowerTanks.Scripts
                 GameManager.Instance.SetPlayerCursorActive(gamepadCursor, true);
                 gamepadCursor.SetCursorMove(false);
                 gamepadCursor.transform.position = Vector2.zero;
+
+                //Destroy the current room object selected if it exists and replace it with the previous one
+                if (playerRoom.roomObject != null)
+                    Destroy(playerRoom.roomObject.gameObject);
                 playerRoom.SetRoomObject(Instantiate(playerRoom.playerSelector.GetRoomToPlace(), roomParentTransform));
                 MoveRoomInScene(playerRoom, Vector2.zero);
                 playerRoom.SetRoomState(WorldRoom.RoomState.FLOATING);
 
-                //Set the player state to building
-                playerData.SetPlayerState(PlayerData.PlayerState.IsBuilding);
-
-                //Hide the ready up manager
-                readyUpManager.HideReadyUpManager();
+                //If the player is ready for combat, revert that status and ensure the ready up manager is hidden
+                if(playerData.GetCurrentPlayerState() == PlayerData.PlayerState.ReadyForCombat)
+                {
+                    playerData.SetPlayerState(PlayerData.PlayerState.IsBuilding);
+                    playerData.RemovePlayerFromScene();
+                    readyUpManager.HideReadyUpManager();
+                }
             }
-        }
-
-        private void SpawnPlayerInScene(PlayerInput playerInput)
-        {
-            PlayerMovement character = Instantiate(GameManager.Instance.MultiplayerManager.GetPlayerPrefab());
-            character.LinkPlayerInput(playerInput);
-            character.GetComponent<Rigidbody2D>().isKinematic = false;
-            Vector3 playerPos = spawnPoint.position;
-            playerPos.x += Random.Range(-0.25f, 0.25f);
-            character.transform.position = playerPos;
-            character.transform.GetComponentInChildren<Renderer>().material.SetColor("_Color", GameManager.Instance.MultiplayerManager.GetPlayerColors()[playerInput.playerIndex]);
-            GameManager.Instance.SetPlayerCursorActive(playerInput.GetComponent<GamepadCursor>(), false);
         }
 
         private void FinishTank()

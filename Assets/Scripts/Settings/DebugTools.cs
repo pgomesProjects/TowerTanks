@@ -56,30 +56,45 @@ namespace TowerTanks.Scripts.DebugTools
 
         private void ToggleCommandMenu()
         {
-            if (currentDebugMenu == null)
-            {
-                currentDebugMenu = Instantiate(commandMenuPrefab, GameObject.FindGameObjectWithTag("CursorCanvas").transform);
-                currentDebugMenu.transform.SetAsLastSibling();
-            }
+            //If the user is in the debug menu already, disable it
+            if (GameManager.Instance.inDebugMenu)
+                currentDebugMenu.gameObject.SetActive(false);
             else
             {
-                currentDebugMenu.gameObject.SetActive(currentDebugMenu.gameObject.activeInHierarchy ? false : true);
-            }
+                //If the game has another menu up, return
+                if (GameManager.Instance.InGameMenu)
+                    return;
 
-            if (currentDebugMenu.gameObject.activeInHierarchy)
+                if (currentDebugMenu == null)
+                {
+                    currentDebugMenu = Instantiate(commandMenuPrefab, GameObject.FindGameObjectWithTag("CursorCanvas").transform);
+                    currentDebugMenu.transform.SetAsLastSibling();
+                }
+                else
+                    currentDebugMenu.gameObject.SetActive(true);
+
                 currentDebugMenu.ForceActivateInput();
+            }
         }
 
         private void ToggleBugReportScreen()
         {
-            if (currentBugReportForm == null)
-            {
-                currentBugReportForm = Instantiate(bugReportScreenPrefab, GameObject.FindGameObjectWithTag("CursorCanvas").transform);
-                currentBugReportForm.transform.SetAsLastSibling();
-            }
+            //If the user is in the bug report screen already, disable it
+            if (GameManager.Instance.inBugReportMenu)
+                currentBugReportForm.gameObject.SetActive(false);
             else
             {
-                currentBugReportForm.gameObject.SetActive(currentBugReportForm.gameObject.activeInHierarchy ? false : true);
+                //If the game has another menu up, return
+                if (GameManager.Instance.InGameMenu)
+                    return;
+
+                if (currentBugReportForm == null)
+                {
+                    currentBugReportForm = Instantiate(bugReportScreenPrefab, GameObject.FindGameObjectWithTag("CursorCanvas").transform);
+                    currentBugReportForm.transform.SetAsLastSibling();
+                }
+                else
+                    currentBugReportForm.gameObject.SetActive(true);
             }
         }
     }

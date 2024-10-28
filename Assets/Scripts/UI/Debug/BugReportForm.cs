@@ -54,6 +54,7 @@ namespace TowerTanks.Scripts
             BugReportSubmissionManager.OnBugReportFailed += BugReportFailed;
             StartCoroutine(OpenForm());
             playerControls?.Enable();
+            GameManager.Instance.inBugReportMenu = true;
         }
 
         private void OnDisable()
@@ -64,6 +65,7 @@ namespace TowerTanks.Scripts
             currentActiveTransform.gameObject.SetActive(false);
             mainScreen.gameObject.SetActive(false);
             playerControls?.Disable();
+            GameManager.Instance.inBugReportMenu = false;
         }
 
         /// <summary>

@@ -38,6 +38,7 @@ namespace TowerTanks.Scripts
 
         public void MountRoom() => roomsPlaced++;
 
+        public PlayerData GetCurrentPlayerData() => currentPlayer;
         public PlayerInput GetCurrentPlayerInput() => currentPlayer.playerInput;
         public RoomInfo GetRoomAt(int index) => currentRooms[index];
         public int GetMaxRoomsToPlace() => maxRoomsToPlace;
@@ -219,7 +220,7 @@ namespace TowerTanks.Scripts
                 PlayerData currentPlayerData = PlayerData.ToPlayerData(playerSelected);
                 currentPlayerData.SetPlayerState(PlayerData.PlayerState.PickedRooms);
 
-                Debug.Log("Player " + (currentPlayerData.playerInput.playerIndex + 1).ToString() + " Has Stopped Selecting.");
+                //Debug.Log("Player " + (currentPlayerData.playerInput.playerIndex + 1).ToString() + " Has Stopped Selecting.");
                 playerSelected.GetComponent<GamepadCursor>().SetCursorMove(false);
             }
 
