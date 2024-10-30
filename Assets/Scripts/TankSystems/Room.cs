@@ -488,10 +488,19 @@ namespace TowerTanks.Scripts
 
             //Change room color:
             Color newColor = roomData.roomTypeColors[(int)newType]; //Get new color for room backwall
-            foreach (Cell cell in cells) //Iterate through each cell in room
+
+            if (backWallSprite != null)
             {
-                cell.backWall.GetComponent<SpriteRenderer>().color = newColor;                                               //Set cell color to new type
-                //foreach (Connector connector in cell.connectors) if (connector != null) connector.backWall.color = newColor; //Set color of connector back wall
+                backWallSprite.color = newColor;    //Set the back wall sprite color to new type
+            }
+            else
+            {
+                foreach (Cell cell in cells) //Iterate through each cell in room
+                {
+                    if (cell.backWall.TryGetComponent(out SpriteRenderer backWallRenderer))
+                        backWallRenderer.color = newColor;                                //Set cell color to new type
+                    //foreach (Connector connector in cell.connectors) if (connector != null) connector.backWall.color = newColor; //Set color of connector back wall
+                }
             }
         }
         /// <summary>
