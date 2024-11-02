@@ -4,18 +4,16 @@ using UnityEngine;
 
 namespace TowerTanks.Scripts
 {
-    public class Interfaces : MonoBehaviour
+    public interface ITankGridItem
     {
-        // Start is called before the first frame update
-        void Start()
-        {
-        
-        }
+        Vector2[] gridSlots { get; set; }
+        void AddToGrid(Vector2 gridPos);
 
-        // Update is called once per frame
-        void Update()
-        {
-        
-        }
+        /* NOTES: TankController needs to have data and functions for maintaining the grid.
+         * GridSlots represents dimensions of item relative to its transform pivot
+         * Every object that implements ITankGridItem needs to add itself to the relevant slots in its TankController grid
+         * TankController needs to have a method to check if any given position is taken up by a grid item, then return that item if so
+         * TankController needs a method for 
+         */
     }
 }
