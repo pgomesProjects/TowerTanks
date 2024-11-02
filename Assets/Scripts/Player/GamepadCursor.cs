@@ -159,14 +159,14 @@ namespace TowerTanks.Scripts
             {
                 if (lastHoveredObject != null)
                 {
-                    Debug.Log("Hover Exited");
+                    //Debug.Log("Hover Exited");
                     lastHoveredObject.RemovePlayerSelecting(playerInput);
                     lastHoveredObject.OnCursorExit(playerInput);
                 }
 
                 if (newHoveredObject != null)
                 {
-                    Debug.Log("Hover Entered");
+                    //Debug.Log("Hover Entered");
                     newHoveredObject.AddPlayerSelecting(playerInput);
                     newHoveredObject.OnCursorEnter(playerInput);
                 }
@@ -205,7 +205,7 @@ namespace TowerTanks.Scripts
                     if (draggableObject != null)
                     {
                         // Perform actions for the clicked GamepadSelectable
-                        Debug.Log("Pointer Down!");
+                        // Debug.Log("Pointer Down!");
                         draggableObject.OnSelectObject(playerInput);
                     }
                 }
@@ -223,7 +223,7 @@ namespace TowerTanks.Scripts
                     if (draggableObject != null)
                     {
                         // Perform actions for the clicked GamepadSelectable
-                        Debug.Log("Pointer Up!");
+                        // Debug.Log("Pointer Up!");
                     }
                 }
             }

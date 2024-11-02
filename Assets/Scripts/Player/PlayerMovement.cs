@@ -446,6 +446,10 @@ namespace TowerTanks.Scripts
 
         private void OnPlayerInput(InputAction.CallbackContext ctx)
         {
+            //If the player is in a menu, ignore input
+            if (GameManager.Instance.InGameMenu)
+                return;
+
             //Gets the name of the action and calls the appropriate events
             switch (ctx.action.name)
             {
@@ -481,6 +485,10 @@ namespace TowerTanks.Scripts
 
         private void OnDebugInput(InputAction.CallbackContext ctx)
         {
+            //If the player is in a menu, ignore input
+            if (GameManager.Instance.InGameMenu)
+                return;
+
             //Gets the name of the action and calls the appropriate events
             switch (ctx.action.name)
             {
@@ -543,13 +551,9 @@ namespace TowerTanks.Scripts
             //If the player presses the pause button
             if (ctx.started)
             {
-
-                if (!LevelManager.Instance.isPaused)
-                {
-                    //Pause the game
-                    Debug.Log("Player " + characterIndex + " Paused.");
-                    LevelManager.Instance?.PauseToggle(characterIndex);
-                }
+                //Pause the game
+                Debug.Log("Player " + characterIndex + " Paused.");
+                LevelManager.Instance?.PauseToggle(characterIndex);
             }
         }
 

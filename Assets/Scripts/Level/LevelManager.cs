@@ -32,7 +32,6 @@ namespace TowerTanks.Scripts
 
         public static LevelManager Instance;
 
-        internal bool isPaused;
         internal bool readingTutorial;
         internal GAMESTATE levelPhase = GAMESTATE.BUILDING;
         internal WeatherConditions currentWeatherConditions;
@@ -78,7 +77,6 @@ namespace TowerTanks.Scripts
         private void Awake()
         {
             Instance = this;
-            isPaused = false;
             readingTutorial = false;
             currentPlayerPaused = -1;
             totalLayers = 1;
@@ -341,20 +339,18 @@ namespace TowerTanks.Scripts
         public void PauseToggle(int playerIndex)
         {
             //If the game is not paused, pause the game
-            if (!isPaused)
+            if (!GameManager.Instance.isPaused)
             {
                 Time.timeScale = 0;
                 GameManager.Instance.AudioManager.PauseAllSounds();
                 currentPlayerPaused = playerIndex;
-                isPaused = true;
                 OnGamePaused?.Invoke(playerIndex);
             }
             //If the game is paused, resume the game if the person that paused the game unpauses
-            else if (isPaused && playerIndex == currentPlayerPaused)
+            else if (GameManager.Instance.isPaused && playerIndex == currentPlayerPaused)
             {
                 Time.timeScale = 1;
                 GameManager.Instance.AudioManager.ResumeAllSounds();
-                isPaused = false;
                 currentPlayerPaused = -1;
                 OnGameResumed?.Invoke();
             }

@@ -10,6 +10,7 @@ public static class Bootstrapper
         Object.DontDestroyOnLoad(Object.Instantiate(Resources.Load("Init")));
         Object.DontDestroyOnLoad(Object.Instantiate(Resources.Load("CampaignManager")));
         Object.DontDestroyOnLoad(Object.Instantiate(Resources.Load("DebugCanvas")));
+        Object.DontDestroyOnLoad(Object.Instantiate(Resources.Load("AnalyticsManager")));
 
         Cursor.lockState = CursorLockMode.Confined;
         GetCurrentSettings();

@@ -22,13 +22,12 @@ namespace TowerTanks.Scripts
         public ParticleSpawner ParticleSpawner { get; private set; }
         public SystemEffects SystemEffects { get; private set; }
         public GameUIManager UIManager { get; private set; }
+        public CargoManager CargoManager { get; private set; }
 
         [SerializeField, Tooltip("The list of possible rooms for the players to pick.")] public RoomInfo[] roomList;
         [SerializeField, Tooltip("The list of possible interactables for the players to pick. NOTE: Remember to update the enum list when updating this list.")] public TankInteractable[] interactableList;
 
         internal int TotalInteractables = Enum.GetNames(typeof(INTERACTABLE)).Length;
-
-        public CargoManager CargoManager { get; private set; }
 
         [SerializeField, Tooltip("The time for levels to fade in.")] private float fadeInTime = 1f;
         [SerializeField, Tooltip("The time for levels to fade out.")] private float fadeOutTime = 0.5f;
@@ -36,6 +35,14 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("The time for the opening gate transition.")] private float openGateTime = 0.5f;
         [SerializeField, Tooltip("The canvas for the loading screen.")] private GameObject loaderCanvas;
         [SerializeField, Tooltip("The loading progress bar.")] private Image progressBar;
+
+        public bool isPaused;
+        public bool inBugReportMenu;
+        public bool inDebugMenu;
+        public bool InGameMenu
+        {
+            get { return isPaused || inBugReportMenu || inDebugMenu; }
+        }
 
         public static float gameTimeScale = 1.0f;
         private static float gameDeltaTime;
