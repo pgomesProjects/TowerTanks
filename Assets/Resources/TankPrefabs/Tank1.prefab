@@ -1320,6 +1320,7 @@ GameObject:
   - component: {fileID: 1677695872598849026}
   - component: {fileID: 1677695872598849027}
   - component: {fileID: -1844445078350209630}
+  - component: {fileID: 1783300488993757565}
   m_Layer: 0
   m_Name: Tank1
   m_TagString: Untagged
@@ -1397,6 +1398,28 @@ MonoBehaviour:
   maxDetectionRange: 160
   maxEngagementRange: 80
   minEngagementRange: 30
+--- !u!114 &1783300488993757565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1677695872598849025}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b38cdfd5ed31db47bc59449c38a451f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultStock:
+  - type: 1
+    cost: 100
+  - type: 2
+    cost: 100
+  - type: 7
+    cost: 100
+  - type: 6
+    cost: 50
+  terminals: []
 --- !u!1 &1677695872621142252
 GameObject:
   m_ObjectHideFlags: 0

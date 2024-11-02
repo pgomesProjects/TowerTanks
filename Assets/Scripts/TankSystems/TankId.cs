@@ -15,7 +15,7 @@ namespace TowerTanks.Scripts
         public string TankName = "New Tank";
         [SerializeField] internal TankController tankScript;
 
-        public enum TankType { PLAYER, ENEMY };
+        public enum TankType { PLAYER, ENEMY, NEUTRAL };
         public TankType tankType;
 
         //Components

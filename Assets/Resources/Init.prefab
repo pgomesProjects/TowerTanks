@@ -135,12 +135,16 @@ MonoBehaviour:
   - {fileID: 3262801775000389726, guid: 4c9471e38aa55d54d9cac81b6976812c, type: 3}
   - {fileID: 8072893013890943906, guid: 9db0351e829fb35458967d2f96877466, type: 3}
   - {fileID: 567104992841369455, guid: 978f43829255d8d4c8791407597e5ce3, type: 3}
+  - {fileID: 4934123908763884095, guid: ec2891b163a8bd9498d286636eaf3c4b, type: 3}
   fadeInTime: 1
   fadeOutTime: 0.5
   closeGateTime: 1
   openGateTime: 0.5
   loaderCanvas: {fileID: 6961505860615057902}
   progressBar: {fileID: 3983473102911642745}
+  isPaused: 0
+  inBugReportMenu: 0
+  inDebugMenu: 0
   tankDesign:
     TankName: 
     coreInteractables: []

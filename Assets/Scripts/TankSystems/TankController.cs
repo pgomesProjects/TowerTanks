@@ -223,12 +223,12 @@ namespace TowerTanks.Scripts
                             {
                                 TankDesign _design = JsonUtility.FromJson<TankDesign>(json);
                                 //Debug.Log("" + layout.chunks[0] + ", " + layout.chunks[1] + "...");
-                                Build(_design);
+                                Build(_design); //Build the tank
                             }
                         }
                     }
                 }
-            } //Build the tank
+            } 
 
             //Check Room Typing for Random Drops
             foreach(Room room in rooms)
@@ -265,6 +265,14 @@ namespace TowerTanks.Scripts
                 AddCargo();
             }
             currentCoreHealth = coreHealth;
+
+            //Shop Logic
+            if (tankType == TankId.TankType.NEUTRAL)
+            {
+                isInvincible = true;
+                ShopManager shopMan = GetComponent<ShopManager>();
+                shopMan.InitializeShop();
+            }
 
             //Camera setup:
             if (CameraManipulator.main != null) CameraManipulator.main.OnTankSpawned(this); //Generate this tank a camera system
