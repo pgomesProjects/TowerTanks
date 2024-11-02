@@ -54,6 +54,7 @@ GameObject:
   m_Component:
   - component: {fileID: 942814128700547139}
   - component: {fileID: 689608177952213201}
+  - component: {fileID: 2776762177459489224}
   m_Layer: 0
   m_Name: Init
   m_TagString: Untagged
@@ -146,6 +147,18 @@ MonoBehaviour:
     buildingSteps: []
   cargoManifest:
     items: []
+--- !u!114 &2776762177459489224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 942814128700547141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 389e814b3ad68d4448e73a55052b5099, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1903508510957378736
 GameObject:
   m_ObjectHideFlags: 0
@@ -1459,6 +1472,11 @@ MonoBehaviour:
     gameObject: {fileID: 6727710507555382365, guid: 1ee83dc5db9593346a10edee810e55c8, type: 3}
   - type: 3
     gameObject: {fileID: 6727710507555382365, guid: 8b5e4e6f03915484fa809d56d2426344, type: 3}
+  - type: 4
+    gameObject: {fileID: 5504484630492744355, guid: 5b0529b2d9504a34b98ec7b4cc0fd408, type: 3}
+  - type: 5
+    gameObject: {fileID: 5504484630492744355, guid: b2ef24e05e7ad8545b6926e5edf79ed7, type: 3}
+  buttonPromptSettings: {fileID: 11400000, guid: d9592cc9952e7b4449964cc3e6a40d1b, type: 2}
 --- !u!1001 &7563297248085180075
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1467,6 +1485,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 8741092470865181326}
     m_Modifications:
     - target: {fileID: 1677053946353664523, guid: 35344d1a984a0834fbdf346dbf44c3d4, type: 3}
+      propertyPath: m_Alpha
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1962461436136326790, guid: 35344d1a984a0834fbdf346dbf44c3d4, type: 3}
       propertyPath: m_Alpha
       value: 0
       objectReference: {fileID: 0}

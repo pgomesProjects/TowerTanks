@@ -7,38 +7,76 @@ namespace TowerTanks.Scripts
     public class ButtonPrompt
     {
         public GameAction action;
+        public ActionType actionType;
         public List<PlatformPrompt> prompts;
 
         public ButtonPrompt(GameAction action)
         {
             this.action = action;
+            this.actionType = ActionType.Press;
+            prompts = new List<PlatformPrompt>();
+            GeneratePromptList();
+        }
+
+        public ButtonPrompt(GameAction action, ActionType actionType)
+        {
+            this.action = action;
+            this.actionType = actionType;
+            GeneratePromptList();
+        }
+
+        private void GeneratePromptList()
+        {
             prompts = new List<PlatformPrompt>();
             foreach (PlatformType platform in System.Enum.GetValues(typeof(PlatformType)))
-                prompts.Add(new PlatformPrompt(platform, ""));
+            {
+                if (platform == PlatformType.PC)
+                    prompts.Add(new PlatformPrompt(platform, ""));
+                else
+                    prompts.Add(new PlatformPrompt(platform, 0, null));
+            }
         }
     }
 
     [System.Serializable]
     public class PlatformPrompt
     {
-        [SerializeField]
-        private PlatformType platform; // We no longer use { get; private set; }.
+        [SerializeField] private PlatformType platform;
 
-        [SerializeField]
-        private string prompt; // Ensure this field is serialized
+        [SerializeField] private int spriteID;
+        [SerializeField] private Sprite promptSprite;
 
-        public PlatformPrompt(PlatformType platform, string prompt)
+        [SerializeField] private string promptText;
+
+        public PlatformPrompt(PlatformType platform, int spriteID, Sprite promptSprite)
         {
             this.platform = platform;
-            this.prompt = prompt;
+            this.spriteID = spriteID;
+            this.promptSprite = promptSprite;
         }
 
-        // Public getters so that we can still access these fields if needed
-        public PlatformType Platform => platform;
-        public string Prompt
+        public PlatformPrompt(PlatformType platform, string promptText)
         {
-            get => prompt;
-            set => prompt = value; // Ensures that prompt is still editable
+            this.platform = platform;
+            this.promptText = promptText;
+        }
+
+        public PlatformType Platform => platform;
+        public int SpriteID
+        {
+            get => spriteID;
+            set => spriteID = value;
+        }
+        public Sprite PromptSprite
+        {
+            get => promptSprite;
+            set => promptSprite = value;
+        }
+
+        public string PromptText
+        {
+            get => promptText;
+            set => promptText = value;
         }
     }
 
@@ -48,7 +86,15 @@ namespace TowerTanks.Scripts
         Build,
         Cancel,
         Pause,
-        Jetpack
+        Jetpack,
+        Mount
+    }
+
+    public enum ActionType
+    {
+        Press,
+        Hold,
+        Rotate
     }
 
     public enum PlatformType
@@ -73,8 +119,30 @@ namespace TowerTanks.Scripts
                 buttonPrompts = new List<ButtonPrompt>();
 
                 foreach (GameAction gameAction in System.Enum.GetValues(typeof(GameAction)))
-                    buttonPrompts.Add(new ButtonPrompt(gameAction));
+                    AddButtonPrompt(gameAction);
             }
+        }
+
+        public void AddButtonPrompt(GameAction gameAction)
+        {
+            buttonPrompts.Add(new ButtonPrompt(gameAction));
+        }
+
+        public PlatformPrompt GetButtonPrompt(GameAction gameAction, PlatformType platform)
+        {
+            foreach(ButtonPrompt prompt in buttonPrompts)
+            {
+                //If the action is found in the list
+                if (prompt.action == gameAction)
+                {
+                    //Search for the prompt data based on the platform given
+                    foreach (PlatformPrompt platformPrompt in prompt.prompts)
+                        if (platformPrompt.Platform == platform)
+                            return platformPrompt;
+                }
+            }
+
+            return null;
         }
     }
 }
