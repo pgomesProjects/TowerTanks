@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using TowerTanks.Scripts.Deprecated;
-using Sirenix.OdinInspector;
 
 namespace TowerTanks.Scripts
 {
@@ -25,10 +24,6 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("The fill of the respawn timer.")] private Image respawnBar;
         [SerializeField, Tooltip("The text for the respawn timer.")] private TextMeshProUGUI respawnText;
 
-        [Space]
-        [SerializeField, Tooltip("The RectTransform of the minigame screen.")] private RectTransform miniGameRectTransform;
-        [SerializeField, Tooltip("The duration of the minigame screen animation.")] private float miniGameScreenStartDuration;
-
         private Color playerColor;
 
         private Color startingColor;
@@ -38,27 +33,10 @@ namespace TowerTanks.Scripts
         private float currentShakeDuration;
         private float currentShakeAmount;
 
-        private float startingMinigameScreenYPos;
-        private bool isMinigameActive;
-
-        [Button]
-        private void DebugStartMinigame()
-        {
-            StartMinigame();
-        }
-
-        [Button]
-        private void DebugStopMinigame()
-        {
-            StopMinigame();
-        }
-
         private void Awake()
         {
             hudRectTransform = GetComponent<RectTransform>();
             startingColor = playerAvatar.color;
-            startingMinigameScreenYPos = miniGameRectTransform.anchoredPosition.y;
-            isMinigameActive = false;
             ShowRespawnTimer(false);
         }
 
@@ -166,18 +144,6 @@ namespace TowerTanks.Scripts
 
             // Ensure the avatar color ends up exactly at the target color
             playerAvatar.color = targetColor;
-        }
-
-        public void StartMinigame()
-        {
-            isMinigameActive = true;
-            LeanTween.moveY(miniGameRectTransform, 0f, miniGameScreenStartDuration);
-        }
-
-        public void StopMinigame()
-        {
-            isMinigameActive = false;
-            LeanTween.moveY(miniGameRectTransform, startingMinigameScreenYPos, miniGameScreenStartDuration);
         }
 
         public void ShowRespawnTimer(bool showTimer)

@@ -367,8 +367,7 @@ MonoBehaviour:
   respawnTransform: {fileID: 6035850550946011017}
   respawnBar: {fileID: 1105905601225245246}
   respawnText: {fileID: 5020668860190946167}
-  miniGameRectTransform: {fileID: 7624561308606195099}
-  miniGameScreenStartDuration: 0.3
+  buttonPrompt: {fileID: 0}
 --- !u!114 &7608924974965529203
 MonoBehaviour:
   m_ObjectHideFlags: 0
