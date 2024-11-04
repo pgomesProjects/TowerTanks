@@ -85,6 +85,18 @@ namespace TowerTanks.Scripts
             HasCampaignStarted = false;
         }
 
+        public TankController GetCurrentPlayerTank()
+        {
+            TankController tankController = FindObjectOfType<TankController>();
+            if (tankController == null)
+                return null;
+
+            if (tankController.tankType == TankId.TankType.PLAYER)
+                return tankController;
+
+            return null;
+        }
+
         public void SetPlayerTankName(string playerTankName) => PlayerTankName = playerTankName;
         public LevelEvents GetCurrentLevelEvent() => currentLevelEvent;
     }

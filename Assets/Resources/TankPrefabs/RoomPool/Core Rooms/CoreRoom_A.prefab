@@ -46,14 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fea0bc18cc7b2b459d06e46afba26a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  assetKit: {fileID: 11400000, guid: 530fa040df4a8014d8d7b5abd56e4bdf, type: 2}
   isCore: 1
-  randomizeType: 0
-  debugRotate: 0
-  debugMoveUp: 0
-  debugMoveDown: 0
-  debugMoveLeft: 0
-  debugMoveRight: 0
-  debugMount: 0
   type: 0
 --- !u!1 &5589452626421846320
 GameObject:
@@ -542,6 +536,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7737954280297247946}
     m_Modifications:
+    - target: {fileID: 566316831114762904, guid: dc6cecb12a490e5499e650da19ca3b9b, type: 3}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3114631812934491903, guid: dc6cecb12a490e5499e650da19ca3b9b, type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7055750361644340258, guid: dc6cecb12a490e5499e650da19ca3b9b, type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8413958119541848943, guid: dc6cecb12a490e5499e650da19ca3b9b, type: 3}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 8667256878992978240, guid: dc6cecb12a490e5499e650da19ca3b9b, type: 3}
       propertyPath: m_RootOrder
       value: 2
