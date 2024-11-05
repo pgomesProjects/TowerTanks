@@ -46,8 +46,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fea0bc18cc7b2b459d06e46afba26a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  assetKit: {fileID: 11400000, guid: 530fa040df4a8014d8d7b5abd56e4bdf, type: 2}
   isCore: 0
+  randomizeType: 1
+  debugRotate: 0
+  debugRotation: 0
+  debugMoveUp: 0
+  debugMoveDown: 0
+  debugMoveLeft: 0
+  debugMoveRight: 0
+  debugMount: 0
   type: 0
 --- !u!1 &5589452626421846320
 GameObject:
