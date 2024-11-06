@@ -48,6 +48,7 @@ namespace TowerTanks.Scripts
                     //Debug.Log("Found " + player);
                     players.Add(player.gameObject);
                     player.currentZone = this;
+                    player.GetCharacterHUD().SetButtonPrompt(GameAction.Interact, true);
                 }
             }
         }
@@ -64,6 +65,7 @@ namespace TowerTanks.Scripts
                     {
                         players.Remove(player.gameObject);
                         if (player.currentZone == this) player.currentZone = null;
+                        player.GetCharacterHUD().SetButtonPrompt(GameAction.Interact, false);
                     }
                 }
             }

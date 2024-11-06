@@ -42,41 +42,37 @@ namespace TowerTanks.Scripts
     public class PlatformPrompt
     {
         [SerializeField] private PlatformType platform;
-
-        [SerializeField] private int spriteID;
-        [SerializeField] private Sprite promptSprite;
-
-        [SerializeField] private string promptText;
+        [SerializeField] private PromptInfo promptInfo;
 
         public PlatformPrompt(PlatformType platform, int spriteID, Sprite promptSprite)
         {
             this.platform = platform;
-            this.spriteID = spriteID;
-            this.promptSprite = promptSprite;
+            promptInfo.spriteID = spriteID;
+            promptInfo.promptSprite = promptSprite;
         }
 
         public PlatformPrompt(PlatformType platform, string promptText)
         {
             this.platform = platform;
-            this.promptText = promptText;
+            promptInfo.name = promptText;
         }
 
         public PlatformType Platform => platform;
         public int SpriteID
         {
-            get => spriteID;
-            set => spriteID = value;
+            get => promptInfo.spriteID;
+            set => promptInfo.spriteID = value;
         }
         public Sprite PromptSprite
         {
-            get => promptSprite;
-            set => promptSprite = value;
+            get => promptInfo.promptSprite;
+            set => promptInfo.promptSprite = value;
         }
 
         public string PromptText
         {
-            get => promptText;
-            set => promptText = value;
+            get => promptInfo.name;
+            set => promptInfo.name = value;
         }
     }
 

@@ -142,6 +142,7 @@ MonoBehaviour:
   openGateTime: 0.5
   loaderCanvas: {fileID: 6961505860615057902}
   progressBar: {fileID: 3983473102911642745}
+  buttonPromptSettings: {fileID: 11400000, guid: d9592cc9952e7b4449964cc3e6a40d1b, type: 2}
   isPaused: 0
   inBugReportMenu: 0
   inDebugMenu: 0

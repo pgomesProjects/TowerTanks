@@ -35,6 +35,7 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("The time for the opening gate transition.")] private float openGateTime = 0.5f;
         [SerializeField, Tooltip("The canvas for the loading screen.")] private GameObject loaderCanvas;
         [SerializeField, Tooltip("The loading progress bar.")] private Image progressBar;
+        public ButtonPromptSettings buttonPromptSettings;
 
         public bool isPaused;
         public bool inBugReportMenu;

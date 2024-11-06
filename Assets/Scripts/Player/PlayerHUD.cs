@@ -41,6 +41,8 @@ namespace TowerTanks.Scripts
         private float startingMinigameScreenYPos;
         private bool isMinigameActive;
 
+        private FaceButtons playerFaceButtons;
+
         [Button]
         private void DebugStartMinigame()
         {
@@ -56,6 +58,7 @@ namespace TowerTanks.Scripts
         private void Awake()
         {
             hudRectTransform = GetComponent<RectTransform>();
+            playerFaceButtons = GetComponentInChildren<FaceButtons>();
             startingColor = playerAvatar.color;
             startingMinigameScreenYPos = miniGameRectTransform.anchoredPosition.y;
             isMinigameActive = false;
@@ -194,6 +197,19 @@ namespace TowerTanks.Scripts
         public void KillPlayerHUD()
         {
             playerDeathImage.color = new Color(1, 1, 1, 1);
+        }
+
+        public void SetButtonPrompt(GameAction gameAction, bool promptSet)
+        {
+            PlatformPrompt promptInfo = GameManager.Instance.buttonPromptSettings.GetButtonPrompt(gameAction, playerFaceButtons.currentPlatform);
+
+            if (promptInfo == null)
+                return;
+
+            if (promptSet)
+                playerFaceButtons.AddFaceInput(promptInfo.PromptText);
+            else
+                playerFaceButtons.RemoveFaceInput(promptInfo.PromptText);
         }
     }
 }

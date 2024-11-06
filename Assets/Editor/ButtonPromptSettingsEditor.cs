@@ -57,26 +57,12 @@ public class ButtonPromptSettingsEditor : Editor
             {
                 SerializedProperty platformPromptProp = promptsProp.GetArrayElementAtIndex(j);
                 SerializedProperty platformProp = platformPromptProp.FindPropertyRelative("platform");
-                SerializedProperty spriteIDProp = platformPromptProp.FindPropertyRelative("spriteID");
-                SerializedProperty promptSpriteProp = platformPromptProp.FindPropertyRelative("promptSprite");
-                SerializedProperty promptTextProp = platformPromptProp.FindPropertyRelative("promptText");
+                SerializedProperty promptInfoProp = platformPromptProp.FindPropertyRelative("promptInfo");
 
                 EditorGUILayout.BeginHorizontal();
                 string platformName = platformProp.enumDisplayNames[platformProp.enumValueIndex];
                 EditorGUILayout.LabelField(platformName.Replace(" ", ""), italicStyle, GUILayout.Width(100));
-
-                if((PlatformType)platformProp.enumValueIndex == PlatformType.PC)
-                {
-                    EditorGUILayout.LabelField("Prompt Text", GUILayout.Width(75));
-                    promptTextProp.stringValue = EditorGUILayout.TextField(promptTextProp.stringValue, GUILayout.Width(230));
-                }
-                else
-                {
-                    EditorGUILayout.LabelField("Sprite ID", GUILayout.Width(55));
-                    spriteIDProp.intValue = Mathf.Max(0, EditorGUILayout.IntField(spriteIDProp.intValue, GUILayout.Width(50)));
-                    EditorGUILayout.LabelField("Sprite", GUILayout.Width(45));
-                    promptSpriteProp.objectReferenceValue = (Sprite)EditorGUILayout.ObjectField(promptSpriteProp.objectReferenceValue, typeof(Sprite), false, GUILayout.Width(150));
-                }
+                promptInfoProp.objectReferenceValue = (PromptInfo)EditorGUILayout.ObjectField(promptInfoProp.objectReferenceValue, typeof(PromptInfo), false, GUILayout.Width(400));
 
                 EditorGUILayout.EndHorizontal();
             }

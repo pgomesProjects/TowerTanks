@@ -529,5 +529,7 @@ namespace TowerTanks.Scripts
         {
             currentOtherColliders.Remove(other.collider);
         }
+
+        public PlayerHUD GetCharacterHUD() => characterHUD;
     }
 }
