@@ -21,19 +21,13 @@ namespace TowerTanks.Scripts
         {
             if (Random.Range(0, 2) == 1)
             {
-                while (_tank.gear != 1)
-                {
-                    _tank.ShiftRight();
-                    yield return null;
-                }
+                Debug.Log("Setting Tank Gear to 1.0");
+                _tank.SetTankGear(1, .25f);
             }
             else
             {
-                while (_tank.gear != -1)
-                {
-                    _tank.ShiftLeft();
-                    yield return null;
-                }
+                Debug.Log("Setting Tank Gear to -1.0");
+                _tank.SetTankGear(-1, .25f);
             }
 
             yield return new WaitForSeconds(Random.Range(_timeBetweenMovesRange.x, _timeBetweenMovesRange.y));

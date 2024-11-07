@@ -17,7 +17,5 @@ public class TankAISettings : ScriptableObject
 
     [Tooltip("The max amount of tokens that this tank can have, and the amount of tokens that this tank starts with")]
     public int tankEconomy;
-    
-    public float timeBetweenMovesMin;
-    public float timeBetweenMovesMax;
+
 }

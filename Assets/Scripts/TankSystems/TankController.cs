@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using System.Threading.Tasks;
 using TMPro;
 using System.Linq;
 using Sirenix.OdinInspector;
+using TowerTanks.Scripts.DebugTools;
 
 namespace TowerTanks.Scripts
 {
@@ -51,6 +53,39 @@ namespace TowerTanks.Scripts
         public void ShiftLeft()
         {
             ChangeAllGear(-1);
+        }
+        
+        /// <summary>
+        /// Sets the tank's gear to the specified value.
+        /// </summary>
+        /// <param name="newGear">
+        /// int to set the tank's gear to. Must be between -throttle.speedSettings and throttle.speedSettings.
+        /// </param>
+        public async void SetTankGear(int newGear, float secondsBetweenThrottleShifts = 0)
+        {
+            if (Mathf.Abs(newGear) > 2)
+            {
+                Debug.LogError("SETTANKGEAR: New gear input parameter is over max threshold."); 
+                return;
+            }
+            
+            while (treadSystem.gear != newGear)
+            {
+                if (treadSystem.gear < newGear)
+                {
+                    ShiftRight();
+                }
+                else 
+                {
+                    ShiftLeft();
+                }
+                await Task.Yield();
+                Debug.Log("Shifted Gear to " + treadSystem.gear + " in " + secondsBetweenThrottleShifts + " seconds.");
+                int milli = (int) (secondsBetweenThrottleShifts * 1000);
+                
+                await Task.Delay(milli);
+            }
+            Debug.Log("Gear successfully set to desired value.");
         }
 
         private float damage = 100f;

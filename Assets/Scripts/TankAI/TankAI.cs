@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -13,6 +14,7 @@ namespace TowerTanks.Scripts
         private TankManager _tankManager;
         private GunController[] _guns;
         private float currentTokenCount;
+        private Vector3 movePoint;
 
         [Header("AI Configuration")]
         public TankAISettings aiSettings;
@@ -43,6 +45,7 @@ namespace TowerTanks.Scripts
             At(engageState, pursueState, TargetInEngagementRange);
             _stateMachine.SetState(patrolState);
         }
+        
 
         public void SetTarget(TankController tank)
         {
@@ -64,5 +67,22 @@ namespace TowerTanks.Scripts
         {
             _stateMachine.PhysicsUpdate();
         }
+
+        #region Tank AI Functionality Methods
+        
+        /// <summary>
+        /// Will set the tank's throttle towards it's set movepoint value.
+        /// </summary>
+        /// <param name="speedSetting">
+        /// The speed setting to set the throttle to.
+        /// </param>
+        public void ChangeThrottleTowardsMovepoint(int speedSetting)
+        {
+            int dir = _tank.transform.position.x < movePoint.x ? 1 : -1;
+            _tank.SetTankGear(speedSetting, .1f);
+        }
+
+        #endregion
+
     }
 }
