@@ -29,20 +29,24 @@ namespace TowerTanks.Scripts
             }
             currentTokenCount = aiSettings.tankEconomy;
             _tankManager = FindObjectOfType<TankManager>();
+        }
+        
+        private void Start()
+        {
             _stateMachine = new StateMachine();
-
             var patrolState = new TankPatrolState(this);
             var pursueState = new TankPursueState(this);
             var engageState = new TankEngageState(this);
             var surrenderState = new TankSurrenderState(this);
-
-            void At(IState to, IState from, Func<bool> condition) => _stateMachine.AddTransition(to, from, condition);
-
+            
+            Debug.Log($"PlayerInViewRange: {Vector2.Distance(_tank.transform.position, _tankManager.playerTank.transform.position)}");
             bool PlayerInViewRange() => Vector2.Distance(_tank.transform.position, _tankManager.playerTank.transform.position) < aiSettings.viewRange;
             bool TargetInEngagementRange() => Vector2.Distance(_tank.transform.position, targetTank.transform.position) < aiSettings.engagementRange;
-
+            
+            
+            void At(IState to, IState from, Func<bool> condition) => _stateMachine.AddTransition(from, to, condition);
             At(pursueState, patrolState, PlayerInViewRange);
-            At(engageState, pursueState, TargetInEngagementRange);
+            //At(engageState, pursueState, TargetInEngagementRange);
             _stateMachine.SetState(patrolState);
         }
         
@@ -80,6 +84,11 @@ namespace TowerTanks.Scripts
         {
             int dir = _tank.transform.position.x < movePoint.x ? 1 : -1;
             _tank.SetTankGear(speedSetting, .1f);
+        }
+        
+        public void SetMovePoint(Vector3 point)
+        {
+            movePoint = point;
         }
 
         #endregion

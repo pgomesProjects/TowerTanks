@@ -80,12 +80,10 @@ namespace TowerTanks.Scripts
                     ShiftLeft();
                 }
                 await Task.Yield();
-                Debug.Log("Shifted Gear to " + treadSystem.gear + " in " + secondsBetweenThrottleShifts + " seconds.");
                 int milli = (int) (secondsBetweenThrottleShifts * 1000);
                 
                 await Task.Delay(milli);
             }
-            Debug.Log("Gear successfully set to desired value.");
         }
 
         private float damage = 100f;
@@ -842,8 +840,8 @@ namespace TowerTanks.Scripts
                 brain.enabled = enabled;
             }
 
-            SimpleTankBrain _brain = GetComponent<SimpleTankBrain>();
-            _brain.enabled = true;
+            //SimpleTankBrain _brain = GetComponent<SimpleTankBrain>();
+            //_brain.enabled = true;
         }
         /// <summary>
         /// Updates envelope describing height and width of tank relative to treadbase.

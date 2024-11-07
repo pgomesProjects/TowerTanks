@@ -21,13 +21,11 @@ namespace TowerTanks.Scripts
         {
             if (Random.Range(0, 2) == 1)
             {
-                Debug.Log("Setting Tank Gear to 1.0");
-                _tank.SetTankGear(1, .25f);
+                _tank.SetTankGear(1, .15f);
             }
             else
             {
-                Debug.Log("Setting Tank Gear to -1.0");
-                _tank.SetTankGear(-1, .25f);
+                _tank.SetTankGear(-1, .15f);
             }
 
             yield return new WaitForSeconds(Random.Range(_timeBetweenMovesRange.x, _timeBetweenMovesRange.y));
@@ -48,6 +46,7 @@ namespace TowerTanks.Scripts
         public void OnExit()
         {
             _tank.StopCoroutine(_movementCoroutine);
+            Debug.Log("OnExit patrol called.");
         }
 
 
