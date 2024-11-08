@@ -21,6 +21,8 @@ namespace TowerTanks.Scripts
         {
             _tankAI.SetTarget(TankManager.instance.playerTank);
             _heartbeatCoroutine = _tank.StartCoroutine(Heartbeat());
+            _tankAI.DistributeToken(typeof(SimpleCannonBrain));
+            _tankAI.DistributeToken(typeof(SimpleCannonBrain));
             Debug.Log("Pursue state entered.");
         }
 

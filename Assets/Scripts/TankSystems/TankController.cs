@@ -879,10 +879,14 @@ namespace TowerTanks.Scripts
             InteractableId newId = new InteractableId();
             newId.interactable = interactable;
             newId.script = interactable.GetComponent<TankInteractable>();
+            
             newId.type = newId.script.interactableType;
             newId.stackName = newId.script.stackName;
             interactableList.Add(newId);
-            if (tankType == TankId.TankType.ENEMY) interactablePool.Add(newId);
+            if (tankType == TankId.TankType.ENEMY)
+            {
+                interactablePool.Add(newId);
+            }
         }
 
         public static List<Character> GetCharactersAssignedToTank(TankController tank)

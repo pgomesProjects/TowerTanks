@@ -4,9 +4,10 @@ using UnityEngine;
 
 namespace TowerTanks.Scripts
 {
-    public class SimpleCannonBrain : MonoBehaviour
+    public class SimpleCannonBrain : InteractableBrain
     {
         private GunController gunScript;
+        
         public float fireCooldown;
         private float fireTimer;
         public float aimCooldown;

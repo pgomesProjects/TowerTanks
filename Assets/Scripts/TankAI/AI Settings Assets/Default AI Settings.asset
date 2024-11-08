@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e90a7e6e0adf4444abf9b82d5cfdaba, type: 3}
   m_Name: Default AI Settings
   m_EditorClassIdentifier: 
-  viewRange: 100
-  engagementRange: 50
+  viewRange: 50
+  engagementRange: 28.7
   defaultFightingDistance: 15
   tankEconomy: 5

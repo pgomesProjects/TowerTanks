@@ -12,7 +12,11 @@ namespace TowerTanks.Scripts
         public string stackName;
         public GameObject interactable;
         public TankInteractable script;
+        public InteractableBrain brain;
         public TankInteractable.InteractableType type;
+        public bool tokenActivated = false;
+
+        private TankAI returnTokenHere;
 
         //RUNTIME METHODS:
         [HorizontalGroup("Horizontal Buttons")]
@@ -35,5 +39,19 @@ namespace TowerTanks.Scripts
             script.DebugDestroy();
         }
 
+        public void ReceiveToken(TankAI returnToken) //takes in a class to later return the token to
+        {
+            returnTokenHere = returnToken;
+            brain.enabled = true;
+            tokenActivated = true;
+        }
+        
+        public void ReturnToken()
+        {
+            if (!returnTokenHere) return;
+            returnTokenHere.RetrieveToken(this);
+        }
+        
+        
     }
 }

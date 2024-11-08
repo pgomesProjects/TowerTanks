@@ -52,6 +52,7 @@ namespace TowerTanks.Scripts
         private float smokePuffTimer = 0;
 
         private SpriteRenderer heatRenderer;
+        public InteractableBrain brain;
 
         //Mortar
         private float maxVelocity;
@@ -74,6 +75,7 @@ namespace TowerTanks.Scripts
 
         private void Start()
         {
+            brain = GetComponent<InteractableBrain>();
             if (gunType == GunType.MACHINEGUN) { heatRenderer = transform.Find("Visuals/JointParent/MachineGun_Heat").GetComponent<SpriteRenderer>(); }
             if (gunType == GunType.MORTAR) {
                 trajectoryLine.positionCount = 100;
