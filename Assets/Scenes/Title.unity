@@ -1504,6 +1504,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1400260961248362345, guid: 98387d1fa185534449096ffa640c9f7e, type: 3}
   m_PrefabInstance: {fileID: 245642832}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &293825311 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1777090959096936611, guid: a87bebb78c06ef9488bf50a11736cb4a, type: 3}
+  m_PrefabInstance: {fileID: 4830483759726718006}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a98125502f715b4b83cfb77b434e436, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &298137042
 GameObject:
   m_ObjectHideFlags: 0
@@ -5255,7 +5266,7 @@ MonoBehaviour:
   - {fileID: 1010538005}
   - {fileID: 1136055147}
   - {fileID: 2109215251}
-  optionsMenuSelected: {fileID: 2674183664572493345}
+  optionsMenuSelected: {fileID: 293825311}
   difficultySettingsMenuSelected: {fileID: 1257045553}
   sceneToLoad: BuildTankScene
 --- !u!114 &1084138872
@@ -9756,17 +9767,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 98387d1fa185534449096ffa640c9f7e, type: 3}
---- !u!114 &2674183664572493345 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2185865659121361120, guid: a87bebb78c06ef9488bf50a11736cb4a, type: 3}
-  m_PrefabInstance: {fileID: 4830483759726718006}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a98125502f715b4b83cfb77b434e436, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &4830483759726718006
 PrefabInstance:
   m_ObjectHideFlags: 0
