@@ -732,7 +732,7 @@ namespace TowerTanks.Scripts
 
         public void OnSelfDestruct(InputAction.CallbackContext ctx)
         {
-            if (!isAlive || LevelManager.Instance == null) return;
+            if (!isAlive) return;
 
             if (ctx.started)
             {

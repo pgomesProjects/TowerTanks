@@ -204,7 +204,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""id"": ""8023a4e2-3693-4e27-afe4-95d2740fa2ce"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Hold(duration=3)"",
+                    ""interactions"": ""MultiTap(tapCount=20)"",
                     ""initialStateCheck"": false
                 },
                 {

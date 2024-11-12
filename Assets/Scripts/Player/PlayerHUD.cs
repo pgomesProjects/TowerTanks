@@ -203,7 +203,7 @@ namespace TowerTanks.Scripts
         {
             PlatformPrompt promptInfo = GameManager.Instance.buttonPromptSettings.GetButtonPrompt(gameAction, playerFaceButtons.currentPlatform);
 
-            if (promptInfo == null)
+            if (promptInfo == null || playerFaceButtons == null)
                 return;
 
             if (promptSet)

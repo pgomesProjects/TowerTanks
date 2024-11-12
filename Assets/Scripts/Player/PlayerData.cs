@@ -76,7 +76,7 @@ namespace TowerTanks.Scripts
         {
             if (currentPlayerState == PlayerState.IsBuilding && ctx.started)
             {
-                BuildingManager.Instance.RotateRoom(playerInput);
+                BuildSystemManager.Instance.RotateRoom(playerInput);
             }
         }
 
@@ -86,7 +86,7 @@ namespace TowerTanks.Scripts
             {
                 if (currentPlayerState == PlayerState.IsBuilding)
                 {
-                    BuildingManager.Instance?.MountRoom(playerInput);
+                    BuildSystemManager.Instance?.MountRoom(playerInput);
                 }
             }
         }
@@ -96,7 +96,7 @@ namespace TowerTanks.Scripts
             if (ctx.performed)
             {
                 if (currentPlayerState == PlayerState.IsBuilding || currentPlayerState == PlayerState.ReadyForCombat)
-                    BuildingManager.Instance.UndoPlayerAction(playerInput);
+                    BuildSystemManager.Instance.UndoPlayerAction(playerInput);
             }
         }
 
@@ -104,7 +104,7 @@ namespace TowerTanks.Scripts
         {
             if (currentPlayerState == PlayerState.ReadyForCombat && ctx.started)
             {
-                BuildingManager.Instance.GetReadyUpManager().ReadyPlayer(playerInput.playerIndex, !BuildingManager.Instance.GetReadyUpManager().IsPlayerReady(playerInput.playerIndex));
+                BuildSystemManager.Instance.GetReadyUpManager().ReadyPlayer(playerInput.playerIndex, !BuildSystemManager.Instance.GetReadyUpManager().IsPlayerReady(playerInput.playerIndex));
             }
         }
 

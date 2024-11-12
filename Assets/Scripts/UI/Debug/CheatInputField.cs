@@ -131,8 +131,8 @@ namespace TowerTanks.Scripts.DebugTools
             switch (sceneCommand)
             {
                 case "combat":
-                    if (BuildingManager.Instance != null)
-                        BuildingManager.Instance?.GetReadyUpManager().StartReadySequence();
+                    if (BuildSystemManager.Instance != null)
+                        BuildSystemManager.Instance?.GetReadyUpManager().StartReadySequence();
                     else
                         GameManager.Instance.LoadScene("HotteScene", LevelTransition.LevelTransitionType.GATE, true, true, false);
                     AddToLog("Transitioning to Combat Scene...", MessageType.Log);

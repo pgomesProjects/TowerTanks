@@ -229,7 +229,7 @@ namespace TowerTanks.Scripts
                 Collider2D[] overlapColliders = Physics2D.OverlapBoxAll(cell.transform.position, cell.c.size, 0, LayerMask.GetMask("Cell")); //Get an array of all cell colliders overlapping current cell
                 foreach (Collider2D collider in overlapColliders) //Iterate through colliders overlapping cell
                 {
-                    if (collider.TryGetComponent(out Cell otherCell) && otherCell.room != this) //Collider overlaps with a cell from another room
+                    if (collider.TryGetComponent(out Cell otherCell) && otherCell.room != this && otherCell.room.mounted) //Collider overlaps with a cell from another room
                     {
                         //print("Cell obstructed");
                         RefreshCollision(false);
@@ -262,6 +262,7 @@ namespace TowerTanks.Scripts
                             //Inverse check:
                             Room otherRoom = hitCell1 == null ? hitCell2.room : hitCell1.room; //Get other room hit by either raycast (works even if only one raycast hit a room)
                             if (otherRoom == this) { continue; }  //Ignore if hit block is part of this room (happens before potential inverse check)
+                            if (!otherRoom.mounted) { continue; }  //Ignore if hit block is part of a room that is not mounted
                             if (hitCell1 == null || hitCell2 == null) //Only one hit made contact with a cell
                             {
                                 cellPos = (hitCell1 == null ? hitCell2 : hitCell1).transform.position; //Get position of partially-hit cell

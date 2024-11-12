@@ -66,6 +66,21 @@ namespace TowerTanks.Scripts
         {
             return "Player " + (this.currentPlayer.playerInput.playerIndex + 1).ToString() + " | " + this.roomsPlaced + " Rooms Placed Out Of " + this.maxRoomsToPlace;
         }
+
+        public void DebugPrintRooms()
+        {
+            string message = "Rooms: ";
+
+            for(int i = 0; i < currentRooms.Count; i++)
+            {
+                message += currentRooms[i].roomObject.name;
+
+                if (i < currentRooms.Count - 1)
+                    message += ", ";
+            }
+
+            Debug.Log(message);
+        }
     }
 
     public class RoomBuildingMenu : SerializedMonoBehaviour
@@ -115,7 +130,8 @@ namespace TowerTanks.Scripts
 
         public void AddPlayerToSelection(PlayerInput playerInput)
         {
-            StartCoroutine(WaitForAddPlayerToSelection(playerInput));
+            if(BuildSystemManager.Instance.CurrentSubPhase == BuildSystemManager.BuildingSubphase.PickRooms)
+                StartCoroutine(WaitForAddPlayerToSelection(playerInput));
         }
 
         private IEnumerator WaitForAddPlayerToSelection(PlayerInput playerInput)
@@ -229,6 +245,7 @@ namespace TowerTanks.Scripts
             {
                 CloseMenu();
                 GivePlayersRooms();
+                BuildSystemManager.Instance.UpdateBuildPhase(BuildSystemManager.BuildingSubphase.BuildTank);
             }
         }
 
@@ -247,9 +264,7 @@ namespace TowerTanks.Scripts
         private void GivePlayersRooms()
         {
             foreach (var room in roomSelections)
-                BuildingManager.Instance.SpawnRoom(room.GetRoomAt(0), room);
-
-            //GameManager.Instance.SetGamepadCursorsActive(true);
+                BuildSystemManager.Instance.SpawnRoom(room.GetRoomAt(0), room);
         }
 
         /// <summary>
