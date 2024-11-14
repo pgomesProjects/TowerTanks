@@ -59,7 +59,7 @@ namespace TowerTanks.Scripts
         protected float cooldown;
 
         //RUNTIME METHODS:
-        private void Awake()
+        protected virtual void Awake()
         {
             //Get objects & components:
             renderers = GetComponentsInChildren<SpriteRenderer>(); //Get all spriterenderers for interactable visual

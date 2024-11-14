@@ -24,22 +24,23 @@ namespace TowerTanks.Scripts
         public class ShopItem
         {
             public ShopItemType type;
-            public float cost;
+            public int cost;
         }
 
         public ShopItem[] defaultStock; //default shop lineup
         public ShopTerminal[] terminals; //list of active shop terminals on the Shop Tank
 
+        private LevelManager levelMan;
+
+        public void Awake()
+        {
+            levelMan = GameObject.Find("LevelManager").GetComponent<LevelManager>();
+        }
+
         // Start is called before the first frame update
         void Start()
         {
             //InitializeShop();
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-        
         }
 
         public void InitializeShop()
@@ -51,6 +52,7 @@ namespace TowerTanks.Scripts
             {
                 terminals[t].item = defaultStock[t];
 
+                //Assign Items to each Terminal
                 if(defaultStock[t].type != ShopItemType.Cargo_RandomSetOfThree)
                 {
                     TankInteractable interactable = GetStackItem(defaultStock[t]);
@@ -61,6 +63,12 @@ namespace TowerTanks.Scripts
                     CargoId cargo = GetCargoItem(defaultStock[t]);
                     terminals[t].AssignItem(cargoItem: cargo);
                 }
+
+                //Update Prices
+                terminals[t].UpdatePrice(defaultStock[t].cost);
+
+                //Assign ShopID
+                terminals[t].AssignShop(this);
             }
         }
 
@@ -117,6 +125,28 @@ namespace TowerTanks.Scripts
             cargo = GameManager.Instance.CargoManager.cargoList[random];
 
             return cargo;
+        }
+
+        public bool PurchaseItem(int price)
+        {
+            bool purchased = false;
+
+            if (levelMan != null)
+            {
+                if (levelMan.CanPlayerAfford(price))
+                {
+                    //Spend the Resources
+                    levelMan.UpdateResources(-price);
+
+                    purchased = true;
+                }
+                else
+                {
+                    purchased = false;
+                }
+            }
+
+            return purchased;
         }
     }
 }
