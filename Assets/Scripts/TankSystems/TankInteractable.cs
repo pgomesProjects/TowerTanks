@@ -13,7 +13,7 @@ namespace TowerTanks.Scripts
         public TankController tank; //Controller script for tank this interactable is attached to
         private InteractableZone interactZone; //Hitbox for player detection
         public Transform seat; //Transform operator snaps to while using this interactable
-        public enum InteractableType { WEAPONS, ENGINEERING, DEFENSE, LOGISTICS };
+        public enum InteractableType { WEAPONS, ENGINEERING, DEFENSE, LOGISTICS, CONSUMABLE, SHOP };
         public InteractableType interactableType;
 
         //Interactable Scripts

@@ -695,7 +695,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tank: {fileID: 0}
   seat: {fileID: 6166992022861532398}
-  interactableType: 3
+  interactableType: 5
   stackName: Shop Terminal
   prefabRef: {fileID: 8786575114440579556}
   uiImage: {fileID: 0}
@@ -708,7 +708,9 @@ MonoBehaviour:
   debugMoveLeft: 0
   debugMoveRight: 0
   debugFlip: 0
-  cost: 100
+  item:
+    type: 0
+    cost: 0
 --- !u!1 &8786575114594311322
 GameObject:
   m_ObjectHideFlags: 0

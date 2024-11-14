@@ -10,5 +10,13 @@ namespace TowerTanks.Scripts
     {
         [Header("Shop Item Settings:")]
         public ShopManager.ShopItem item;
+        public TankInteractable interactableForSale;
+        public CargoId cargoForSale;
+
+        public void AssignItem(TankInteractable interactableItem = null, CargoId cargoItem = null)
+        {
+            interactableForSale = interactableItem;
+            cargoForSale = cargoItem;
+        }
     }
 }
