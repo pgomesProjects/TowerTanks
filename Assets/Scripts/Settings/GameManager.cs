@@ -254,6 +254,106 @@ namespace TowerTanks.Scripts
             return default;
         }
 
+        /// <summary>
+        /// Takes an Interactable Type & creates an array of all valid Interactables of that type.
+        /// </summary>
+        /// <param name="type">The interactable type you're looking for.</param>
+        /// <returns>Returns an array of interactables of that type.</returns>
+        public TankInteractable[] GetInteractablesOfType(TankInteractable.InteractableType type)
+        {
+            TankInteractable[] validInteractables = null;
+            int count = 0;
+
+            //Find Count of Valid Interactables
+            foreach (TankInteractable interactable in interactableList)
+            {
+                if(interactable.interactableType == type)
+                {
+                    count++;
+                }
+            }
+
+            //If Count > 0, create an array of the Valid Interactables
+            if (count > 0)
+            {
+                validInteractables = new TankInteractable[count];
+
+                int _count = 0;
+                foreach(TankInteractable interactable in interactableList)
+                {
+                    if (interactable.interactableType == type)
+                    {
+                        validInteractables[_count] = interactable;
+                        _count++;
+                    }
+                }
+            }
+
+            return validInteractables;
+        }
+
+        /// <summary>
+        /// Takes an Interactable Type & creates an array of all valid Interactables that are specifically NOT that type.
+        /// </summary>
+        /// <param name="type">The interactable type you're NOT looking for.</param>
+        /// <returns>Returns an array of all interactables that are NOT that type.</returns>
+        public TankInteractable[] GetInteractablesNotOfType(TankInteractable.InteractableType type)
+        {
+            TankInteractable[] validInteractables = null;
+            int count = 0;
+
+            //Find Count of Valid Interactables
+            foreach (TankInteractable interactable in interactableList)
+            {
+                if (interactable.interactableType != type)
+                {
+                    if (interactable.interactableType != TankInteractable.InteractableType.CONSUMABLE)
+                    {
+                        if (interactable.interactableType != TankInteractable.InteractableType.SHOP)
+                        {
+                            count++;
+                        }
+                    }
+                }
+            }
+
+            //If Count > 0, create an array of the Valid Interactables
+            if (count > 0)
+            {
+                validInteractables = new TankInteractable[count];
+
+                int _count = 0;
+                foreach (TankInteractable interactable in interactableList)
+                {
+                    if (interactable.interactableType != type)
+                    {
+                        if (interactable.interactableType != TankInteractable.InteractableType.CONSUMABLE)
+                        {
+                            if (interactable.interactableType != TankInteractable.InteractableType.SHOP)
+                            {
+                                validInteractables[_count] = interactable;
+                                _count++;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return validInteractables;
+        }
+
+        public TankInteractable[] GetInteractableList()
+        {
+            TankInteractable[] validInteractables = new TankInteractable[interactableList.Length - 1];
+
+            for(int i = 0; i < validInteractables.Length; i++)
+            {
+                validInteractables[i] = interactableList[i];
+            }
+
+            return validInteractables;
+        }
+
         public bool SetCheatsMenuActive(bool cheatsActive) => CheatsMenuActive = cheatsActive;
     }
 }

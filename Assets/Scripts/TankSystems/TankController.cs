@@ -20,10 +20,10 @@ namespace TowerTanks.Scripts
         [SerializeField] public float coreHealth = 500;
 
         //Objects & Components:
-        [Tooltip("Rooms currently installed on tank.")]                                             internal List<Room> rooms;
-        [Tooltip("Core room of tank (there can only be one.")]                                      internal Room coreRoom;
-        [Tooltip("This tank's traction system.")]                                                   internal TreadSystem treadSystem;
-        [Tooltip("Transform containing all tank rooms, point around which tower tilts.")]           private Transform towerJoint;
+        [Tooltip("Rooms currently installed on tank.")] internal List<Room> rooms;
+        [Tooltip("Core room of tank (there can only be one.")] internal Room coreRoom;
+        [Tooltip("This tank's traction system.")] internal TreadSystem treadSystem;
+        [Tooltip("Transform containing all tank rooms, point around which tower tilts.")] private Transform towerJoint;
         [SerializeField, Tooltip("Target transform in tread system which tower joint locks onto.")] private Transform towerJointTarget;
         public bool isInvincible;
 
@@ -35,7 +35,7 @@ namespace TowerTanks.Scripts
         public GameObject[] cargoHold;
 
         //Settings:
-                [Header("Visual Settings:")]
+        [Header("Visual Settings:")]
         [Tooltip("Defines how cells in the tank look.")] public RoomAssetKit roomKit;
         #region Debug Controls
         [Header("Debug Controls")]
@@ -71,7 +71,7 @@ namespace TowerTanks.Scripts
         private void AddEngine()
         {
             treadSystem.horsePower += 100;
-            
+
         }
         private void LoseEngine()
         {
@@ -88,13 +88,13 @@ namespace TowerTanks.Scripts
         private void SortListByType()
         {
             List<InteractableId> newList = new List<InteractableId>();
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 6; i++)
             {
                 if (i == 0)
                 {
-                    foreach(InteractableId interactable in interactableList)
+                    foreach (InteractableId interactable in interactableList)
                     {
-                        if(interactable.type == TankInteractable.InteractableType.WEAPONS)
+                        if (interactable.type == TankInteractable.InteractableType.WEAPONS)
                         {
                             newList.Add(interactable);
                         }
@@ -133,8 +133,29 @@ namespace TowerTanks.Scripts
                         }
                     }
                 }
-            }
 
+                if (i == 4)
+                {
+                    foreach (InteractableId interactable in interactableList)
+                    {
+                        if (interactable.type == TankInteractable.InteractableType.CONSUMABLE)
+                        {
+                            newList.Add(interactable);
+                        }
+                    }
+                }
+
+                if (i == 5)
+                {
+                    foreach (InteractableId interactable in interactableList)
+                    {
+                        if (interactable.type == TankInteractable.InteractableType.SHOP)
+                        {
+                            newList.Add(interactable);
+                        }
+                    }
+                }
+            }
             interactableList = newList;
         }
 
