@@ -3,6 +3,7 @@ using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace TowerTanks.Scripts
 {
@@ -91,13 +92,21 @@ namespace TowerTanks.Scripts
         {
             if (currentTokenCount <= 0) return;
             
-            InteractableId interactable = _tank.interactableList
-                .FirstOrDefault(i => i.brain != null && i.brain.GetType() == interactableEnumToBrainMap[toInteractable] && !tokenActivatedInteractables.Contains(i));
+            List<InteractableId> commonInteractables = _tank.interactableList
+                .Where(i => i.brain != null && i.brain.GetType() == interactableEnumToBrainMap[toInteractable]
+                && !tokenActivatedInteractables.Contains(i))
+                .ToList();
+            //list of all interactables which have an AI, 
+
+            if (!commonInteractables.Any()) return; //if there are no interactables of this type, return
+            InteractableId interactable = commonInteractables[Random.Range(0, commonInteractables.Count)];
+            
+            
             //uses the FirstOrDefault LINQ method to find the first interactable in the list whose type matches the toInteractable type.
             //i => is a lambda expression that checks if the type of the interactable i is equal to the toInteractable type. also makes sure the interactable isnt already added
             
             
-            if (interactable != null && !tokenActivatedInteractables.Contains(interactable))
+            if (interactable != null)
             {
                 tokenActivatedInteractables.Add(interactable);
                 interactable.ReceiveToken(this);
@@ -152,6 +161,7 @@ namespace TowerTanks.Scripts
             {
                 int tokens = Mathf.RoundToInt((weight.Value / 100) * currentTokenCount);
                 tokensToDistribute[weight.Key] = tokens;
+                if (weight.Key == INTERACTABLE.Throttle && tokens > 0) tokensToDistribute[weight.Key] = 1; //doesn't make sense to distribute more than 1 throttle token
                 Debug.Log($"Distributing {tokens} tokens to {weight.Key}");
             }
             
@@ -251,6 +261,13 @@ namespace TowerTanks.Scripts
             if (_tank == null) return;
             Vector3 tankPos = _tank.treadSystem.transform.position;
             Gizmos.DrawWireSphere(tankPos, aiSettings.viewRange);
+            foreach (var interactable in tokenActivatedInteractables)
+            {
+                //draw a box for each of their bounds
+                Gizmos.color = Color.green;
+                Bounds bnds = interactable.script.thisCollider.bounds;
+                Gizmos.DrawWireCube(interactable.script.transform.position, bnds.size);
+            }
             
             //draw circle for engagement range
             Gizmos.color = Color.yellow;
