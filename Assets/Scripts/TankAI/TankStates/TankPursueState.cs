@@ -19,10 +19,10 @@ namespace TowerTanks.Scripts
 
         public void OnEnter()
         {
+            _tankAI.DistributeAllWeightedTokens(_tankAI.aiSettings.pursueStateInteractableWeights);
             _tankAI.SetTarget(TankManager.instance.playerTank);
             _heartbeatCoroutine = _tank.StartCoroutine(Heartbeat());
-            _tankAI.DistributeToken(typeof(SimpleCannonBrain));
-            _tankAI.DistributeToken(typeof(SimpleCannonBrain));
+            _tankAI.DistributeToken(INTERACTABLE.Cannon);
             Debug.Log("Pursue state entered.");
         }
 
@@ -47,6 +47,7 @@ namespace TowerTanks.Scripts
 
         public void OnExit()
         {
+            _tankAI.RetrieveAllTokens();
             _tank.StopCoroutine(_heartbeatCoroutine);
         }
 

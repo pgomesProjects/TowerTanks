@@ -50,6 +50,8 @@ namespace TowerTanks.Scripts
         {
             if (!returnTokenHere) return;
             returnTokenHere.RetrieveToken(this);
+            brain.enabled = false;
+            tokenActivated = false;
         }
         
         

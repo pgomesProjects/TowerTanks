@@ -43,6 +43,7 @@ namespace TowerTanks.Scripts
 
         public void OnEnter()
         {
+            _tankAI.DistributeAllWeightedTokens(_tankAI.aiSettings.engageStateInteractableWeights);
             _heartbeatCoroutine = _tank.StartCoroutine(Heartbeat());
         }
 
@@ -52,6 +53,7 @@ namespace TowerTanks.Scripts
 
         public void OnExit()
         {
+            _tankAI.RetrieveAllTokens();
             _tank.StopCoroutine(_heartbeatCoroutine);
         }
 

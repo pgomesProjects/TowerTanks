@@ -270,6 +270,7 @@ namespace TowerTanks.Scripts
                     InteractableId newId = new InteractableId();
                     newId.interactable = interactable;
                     newId.script = interactable.GetComponent<TankInteractable>();
+                    //newId.brain = interactable.GetComponent<InteractableBrain>();
                     newId.type = newId.script.interactableType;
                     newId.stackName = newId.script.stackName;
                     interactableList.Add(newId);
@@ -879,8 +880,14 @@ namespace TowerTanks.Scripts
             InteractableId newId = new InteractableId();
             newId.interactable = interactable;
             newId.script = interactable.GetComponent<TankInteractable>();
-            
+
+            if (interactable.TryGetComponent(out InteractableBrain brain))
+            {
+                newId.brain = brain;
+                newId.brain.enabled = false;
+            }
             newId.type = newId.script.interactableType;
+            
             newId.stackName = newId.script.stackName;
             interactableList.Add(newId);
             if (tankType == TankId.TankType.ENEMY)

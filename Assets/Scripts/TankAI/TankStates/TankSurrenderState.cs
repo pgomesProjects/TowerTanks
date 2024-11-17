@@ -14,13 +14,20 @@ namespace TowerTanks.Scripts
             _tankAI = tank;
             _tank = tank.GetComponent<TankController>();
         }
-        public void OnEnter() { }
+
+        public void OnEnter()
+        {
+            _tankAI.DistributeAllWeightedTokens(_tankAI.aiSettings.surrenderStateInteractableWeights);
+        }
 
         public void FrameUpdate() { }
 
         public void PhysicsUpdate() { }
 
-        public void OnExit() { }
+        public void OnExit()
+        {
+            _tankAI.RetrieveAllTokens();
+        }
 
     }
 }

@@ -36,6 +36,7 @@ namespace TowerTanks.Scripts
         public void OnEnter()
         {
             Debug.Log($"OnEnter called. _tank: {_tank}");
+            _tankAI.DistributeAllWeightedTokens(_tankAI.aiSettings.patrolStateInteractableWeights);
             if (_movementCoroutine == null) _movementCoroutine = _tank.StartCoroutine(SetTankMovement());
         }
 
@@ -46,6 +47,7 @@ namespace TowerTanks.Scripts
         public void OnExit()
         {
             _tank.StopCoroutine(_movementCoroutine);
+            _tankAI.RetrieveAllTokens();
             Debug.Log("OnExit patrol called.");
         }
 
