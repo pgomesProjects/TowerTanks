@@ -17,7 +17,8 @@ namespace TowerTanks.Scripts
 
         public void OnEnter()
         {
-            _tankAI.DistributeAllWeightedTokens(_tankAI.aiSettings.surrenderStateInteractableWeights);
+            _tank.SetTankGear(0, .15f); //stop moving
+            _tank.flag.SetActive(true);
         }
 
         public void FrameUpdate() { }

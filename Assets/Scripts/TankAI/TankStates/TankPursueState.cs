@@ -22,14 +22,13 @@ namespace TowerTanks.Scripts
             _tankAI.DistributeAllWeightedTokens(_tankAI.aiSettings.pursueStateInteractableWeights);
             _tankAI.SetTarget(TankManager.instance.playerTank);
             _heartbeatCoroutine = _tank.StartCoroutine(Heartbeat());
-            _tankAI.DistributeToken(INTERACTABLE.Cannon);
             Debug.Log("Pursue state entered.");
         }
 
         private IEnumerator Heartbeat()
         {
             Debug.Log("AI Beat");
-            if (_tankAI.GetTarget().transform.position.x < _tank.transform.position.x)
+            if (_tankAI.TankIsRightOfTarget())
             {
                 _tank.SetTankGear(-2);
             }

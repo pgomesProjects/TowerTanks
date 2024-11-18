@@ -19,11 +19,10 @@ namespace TowerTanks.Scripts
         public float viewRange;
         [Tooltip("Should be less than view range. Once an opposing tank is closer than this value in units, this tank " +
                  "goes into engage mode, real fight begins, hell breaks loose")]
-        public float engagementRange;
+        public float maxEngagementRange;
 
-        [Tooltip("Once in engagement state, the tank will try and maintain this much distance from the player while in" +
-                 " battle. Can be overridden for special moves like charging.")]
-        public float defaultFightingDistance;
+        [Tooltip("Once in engagement state, the tank will try and maintain this much minimum distance from the player while in battle.")]
+        public float minEngagementRange;
 
         [Tooltip("The max amount of tokens that this tank can have, and the amount of tokens that this tank starts with")]
         public int tankEconomy;
@@ -32,8 +31,10 @@ namespace TowerTanks.Scripts
         [InfoBox("Key: Interactable type to populate with tokens, \nValue: percentage of our tokens to give to this interactable type.")]
         [DictionaryDrawerSettings(KeyLabel = "Interactable", ValueLabel = "Weight (0-100)")]
         public Dictionary<INTERACTABLE, float> patrolStateInteractableWeights = new();
+        [DictionaryDrawerSettings(KeyLabel = "Interactable", ValueLabel = "Weight (0-100)")]
         public Dictionary<INTERACTABLE, float> pursueStateInteractableWeights = new();
+        [DictionaryDrawerSettings(KeyLabel = "Interactable", ValueLabel = "Weight (0-100)")]
         public Dictionary<INTERACTABLE, float> engageStateInteractableWeights = new();
-        public Dictionary<INTERACTABLE, float> surrenderStateInteractableWeights = new();
+
     }
 }

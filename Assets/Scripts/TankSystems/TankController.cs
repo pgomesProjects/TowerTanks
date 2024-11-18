@@ -32,6 +32,8 @@ namespace TowerTanks.Scripts
         private TextMeshProUGUI nameText;
         private float currentCoreHealth;
         private TankManager tankManager;
+        private TankAI _thisTankAI;
+        public GameObject flag;
 
         [Header("Cargo")]
         public GameObject[] cargoHold;
@@ -206,6 +208,7 @@ namespace TowerTanks.Scripts
         private void Awake()
         {
             //Get objects & components:
+            _thisTankAI = GetComponent<TankAI>();
             treadSystem = GetComponentInChildren<TreadSystem>(); //Get tread system from children
             towerJoint = transform.Find("TowerJoint");           //Get tower joint from children
             treadSystem.Initialize();                            //Make sure treads are initialized
@@ -835,8 +838,8 @@ namespace TowerTanks.Scripts
 
         public void EnableCannonBrains(bool enabled)
         {
-            SimpleCannonBrain[] brains = GetComponentsInChildren<SimpleCannonBrain>();
-            foreach(SimpleCannonBrain brain in brains)
+            WeaponBrain[] brains = GetComponentsInChildren<WeaponBrain>();
+            foreach(WeaponBrain brain in brains)
             {
                 brain.enabled = enabled;
             }
@@ -884,6 +887,8 @@ namespace TowerTanks.Scripts
             if (interactable.TryGetComponent(out InteractableBrain brain))
             {
                 newId.brain = brain;
+                newId.brain.myTankAI = _thisTankAI;
+                newId.brain.myInteractableID = newId;
                 newId.brain.enabled = false;
             }
             newId.type = newId.script.interactableType;

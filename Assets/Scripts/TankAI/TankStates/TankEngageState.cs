@@ -19,22 +19,16 @@ namespace TowerTanks.Scripts
 
         private IEnumerator Heartbeat()
         {
-            bool isPlayerOnLeft = _tankAI.GetTarget().transform.position.x < _tank.transform.position.x;
-            int directionToTarget = isPlayerOnLeft ? -1 : 1;
-            if (_tankAI.GetTarget().transform.position.x + (_tankAI.aiSettings.defaultFightingDistance * directionToTarget) < _tank.transform.position.x)
+            var dir = _tankAI.TankIsRightOfTarget() ? -1 : 1;
+            if (_tankAI.HasActiveThrottle())
             {
-                while (_tank.gear != -2)
+                if (_tankAI.TargetTooClose())
                 {
-                    _tank.ShiftLeft();
-                    yield return null;
+                    _tank.SetTankGear(2 * -dir, .15f);
                 }
-            }
-            else
-            {
-                while (_tank.gear != 2)
+                else
                 {
-                    _tank.ShiftRight();
-                    yield return null;
+                    _tankAI.MoveRandom(1);
                 }
             }
             yield return new WaitForSeconds(heartbeatTimer);

@@ -19,13 +19,9 @@ namespace TowerTanks.Scripts
         }
         private IEnumerator SetTankMovement()
         {
-            if (Random.Range(0, 2) == 1)
+            if (_tankAI.HasActiveThrottle())
             {
-                _tank.SetTankGear(1, .15f);
-            }
-            else
-            {
-                _tank.SetTankGear(-1, .15f);
+                _tankAI.MoveRandom(1);
             }
 
             yield return new WaitForSeconds(Random.Range(_timeBetweenMovesRange.x, _timeBetweenMovesRange.y));

@@ -14,6 +14,7 @@ namespace TowerTanks.Scripts
         public TankInteractable script;
         public InteractableBrain brain;
         public TankInteractable.InteractableType type;
+        public INTERACTABLE thisInteractableEnum;
         public bool tokenActivated = false;
 
         private TankAI returnTokenHere;

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace TowerTanks.Scripts
 {
-    public class SimpleCannonBrain : WeaponBrain
+    public class SimpleMachineGunBrain : WeaponBrain
     {
         private GunController gunScript;
         

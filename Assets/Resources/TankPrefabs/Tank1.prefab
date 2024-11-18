@@ -1319,7 +1319,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1677695872598849026}
   - component: {fileID: 1677695872598849027}
-  - component: {fileID: -1844445078350209630}
+  - component: {fileID: -2433247677247341884}
   m_Layer: 0
   m_Name: Tank1
   m_TagString: Untagged
@@ -1373,30 +1373,26 @@ MonoBehaviour:
   coreHealth: 500
   towerJointTarget: {fileID: 1677695871312723229}
   isInvincible: 0
+  flag: {fileID: 2687768884453491569}
   cargoHold: []
   roomKit: {fileID: 11400000, guid: 530fa040df4a8014d8d7b5abd56e4bdf, type: 2}
   gear: 0
   horsePower: 0
   interactableList: []
---- !u!114 &-1844445078350209630
+--- !u!114 &-2433247677247341884
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1677695872598849025}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 889c5509cf4f9f34c9386c09c9102fd8, type: 3}
+  m_Script: {fileID: 11500000, guid: d3c03d9066c91c1489b0edfde2a6b783, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  state: 0
-  flag: {fileID: 653320214817922089}
-  decisionCooldown: 4
-  distanceToPlayer: 0
-  maxDetectionRange: 160
-  maxEngagementRange: 80
-  minEngagementRange: 30
+  tokenActivatedInteractables: []
+  aiSettings: {fileID: 11400000, guid: 4ac42c6fcaa804d4babc900169c2e83e, type: 2}
 --- !u!1 &1677695872621142252
 GameObject:
   m_ObjectHideFlags: 0

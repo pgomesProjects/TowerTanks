@@ -1942,7 +1942,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5015744295796166024}
   - component: {fileID: 8072893013890943906}
-  - component: {fileID: 4672433656717689957}
+  - component: {fileID: -7033447428060440738}
   m_Layer: 0
   m_Name: InterWeapon_Mortar
   m_TagString: Untagged
@@ -1986,6 +1986,7 @@ MonoBehaviour:
   tank: {fileID: 0}
   seat: {fileID: 0}
   interactableType: 0
+  thisCollider: {fileID: 0}
   stackName: Mortar
   prefabRef: {fileID: 5015744295796166023}
   uiImage: {fileID: 21300000, guid: bd4779752aa58824d9aefc97bb61b137, type: 2}
@@ -2024,7 +2025,7 @@ MonoBehaviour:
   spread: 2
   fire: 0
   moveGimbal: 0.5
---- !u!114 &4672433656717689957
+--- !u!114 &-7033447428060440738
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2033,9 +2034,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 5015744295796166023}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2302162089f3edc4d9c67a91a197a6ed, type: 3}
+  m_Script: {fileID: 11500000, guid: f0d402e685f59b445aef7be2f38b4b16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myTankAI: {fileID: 0}
+  myInteractableID:
+    stackName: 
+    interactable: {fileID: 0}
+    script: {fileID: 0}
+    brain: {fileID: 0}
+    type: 0
+    thisInteractableEnum: 0
+    tokenActivated: 0
+  myInteractableType: 0
   fireCooldown: 5
   aimCooldown: 5
   cooldownOffset: 1

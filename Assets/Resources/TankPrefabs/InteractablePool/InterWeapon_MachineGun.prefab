@@ -1055,7 +1055,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1789302742507130484}
   - component: {fileID: 3262801775000389726}
-  - component: {fileID: 2132648102038243225}
+  - component: {fileID: -730474835192604699}
   m_Layer: 0
   m_Name: InterWeapon_MachineGun
   m_TagString: Untagged
@@ -1097,6 +1097,7 @@ MonoBehaviour:
   tank: {fileID: 0}
   seat: {fileID: 0}
   interactableType: 0
+  thisCollider: {fileID: 0}
   stackName: Chimpanzee Mk I
   prefabRef: {fileID: 1789302742507130491}
   uiImage: {fileID: 21300000, guid: 5e8b031fc02ec6c47a1785caa19c4751, type: 2}
@@ -1137,7 +1138,7 @@ MonoBehaviour:
   spread: 3
   fire: 0
   moveGimbal: 0.5
---- !u!114 &2132648102038243225
+--- !u!114 &-730474835192604699
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1146,9 +1147,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1789302742507130491}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2302162089f3edc4d9c67a91a197a6ed, type: 3}
+  m_Script: {fileID: 11500000, guid: 9e3099b1da81a4743b04e06f6092dec5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myTankAI: {fileID: 0}
   fireCooldown: 0.1
   aimCooldown: 5
   cooldownOffset: 0
