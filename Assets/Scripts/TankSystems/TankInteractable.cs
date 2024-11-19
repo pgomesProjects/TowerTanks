@@ -125,7 +125,7 @@ namespace TowerTanks.Scripts
             if (debugMoveRight) { debugMoveRight = false; SnapMoveTick(Vector2.right); }
         }
 
-        public void LockIn(GameObject playerID) //Called from InteractableZone.cs when a user locks in to the interactable
+        public virtual void LockIn(GameObject playerID) //Called from InteractableZone.cs when a user locks in to the interactable
         {
             hasOperator = true;
             operatorID = playerID.GetComponent<PlayerMovement>();

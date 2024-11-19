@@ -66,5 +66,13 @@ namespace TowerTanks.Scripts
             southFaceButton.color = activeFaceInputs[platformFaceButtons.southPrompt.name] > 0 ? Color.white : disabledFaceInputColor;
             westFaceButton.color = activeFaceInputs[platformFaceButtons.westPrompt.name] > 0 ? Color.white : disabledFaceInputColor;
         }
+
+        public void ClearFaceButtons()
+        {
+            activeFaceInputs[platformFaceButtons.northPrompt.name] = 0;
+            activeFaceInputs[platformFaceButtons.eastPrompt.name] = 0;
+            activeFaceInputs[platformFaceButtons.southPrompt.name] = 0;
+            activeFaceInputs[platformFaceButtons.westPrompt.name] = 0;
+        }
     }
 }

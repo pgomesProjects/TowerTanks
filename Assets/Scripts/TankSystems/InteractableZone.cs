@@ -32,7 +32,9 @@ namespace TowerTanks.Scripts
                 {
                     interactable.LockIn(playerID);
                     players.Remove(playerID);
-                    playerID.GetComponent<PlayerMovement>().currentZone = null;
+                    PlayerMovement currentPlayer = playerID.GetComponent<PlayerMovement>();
+                    currentPlayer.currentZone = null;
+                    currentPlayer.GetCharacterHUD().SetButtonPrompt(GameAction.Interact, false);
                 }
                 else GameManager.Instance.AudioManager.Play("InvalidAlert");
             }

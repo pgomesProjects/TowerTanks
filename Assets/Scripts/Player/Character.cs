@@ -78,6 +78,7 @@ namespace TowerTanks.Scripts
         protected GameObject flames;
         protected bool isAlive;
         protected bool permaDeath;
+        protected bool isJetpackActive;
 
         //internal movement
         protected Vector2 moveInput;
@@ -142,14 +143,11 @@ namespace TowerTanks.Scripts
             
             currentFuel = Mathf.Clamp(currentFuel, 0, characterSettings.fuelAmount);
 
-            
             Transform newCellJoint = Physics2D.OverlapBox(
                 transform.position,
                 transform.localScale * 1.5f,
                 0f, 
                 1 << cellLayerIndex)?.gameObject.transform;
-            
-            
             
             if (softTankDismount && !fullTankDismount) // if we left the tank, but we're still near the tank
             {

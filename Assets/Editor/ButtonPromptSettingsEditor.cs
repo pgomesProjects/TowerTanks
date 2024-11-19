@@ -69,7 +69,7 @@ public class ButtonPromptSettingsEditor : Editor
 
             EditorGUILayout.Space();
 
-            if (GUILayout.Button("Remove", GUILayout.Width(250)))
+            if (GUILayout.Button("Remove Action", GUILayout.Width(600)))
                 buttonPromptsProp.DeleteArrayElementAtIndex(i);
 
             EditorGUILayout.Space();
@@ -137,9 +137,9 @@ public class ButtonPromptSettingsEditor : Editor
                     for (int i = 0; i < promptsProp.arraySize; i++)
                     {
                         SerializedProperty platformPromptProp = promptsProp.GetArrayElementAtIndex(i);
-                        platformPromptProp.FindPropertyRelative("spriteID").intValue = 0;
-                        platformPromptProp.FindPropertyRelative("promptSprite").objectReferenceValue = null;
-                        platformPromptProp.FindPropertyRelative("promptText").stringValue = "";
+                        //platformPromptProp.FindPropertyRelative("spriteID").intValue = 0;
+                        //platformPromptProp.FindPropertyRelative("promptSprite").objectReferenceValue = null;
+                        //platformPromptProp.FindPropertyRelative("promptText").stringValue = "";
                     }
 
                     selectedUnusedActionIndex = 0;

@@ -211,5 +211,10 @@ namespace TowerTanks.Scripts
             else
                 playerFaceButtons.RemoveFaceInput(promptInfo.PromptText);
         }
+
+        public void ClearButtonPrompts()
+        {
+            playerFaceButtons?.ClearFaceButtons();
+        }
     }
 }

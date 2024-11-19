@@ -22,6 +22,7 @@ namespace TowerTanks.Scripts
         {
             this.action = action;
             this.actionType = actionType;
+            prompts = new List<PlatformPrompt>();
             GeneratePromptList();
         }
 
@@ -47,6 +48,7 @@ namespace TowerTanks.Scripts
         public PlatformPrompt(PlatformType platform, int spriteID, Sprite promptSprite)
         {
             this.platform = platform;
+            promptInfo = ScriptableObject.CreateInstance<PromptInfo>();
             promptInfo.spriteID = spriteID;
             promptInfo.promptSprite = promptSprite;
         }
@@ -54,6 +56,7 @@ namespace TowerTanks.Scripts
         public PlatformPrompt(PlatformType platform, string promptText)
         {
             this.platform = platform;
+            promptInfo = ScriptableObject.CreateInstance<PromptInfo>();
             promptInfo.name = promptText;
         }
 
@@ -83,14 +86,11 @@ namespace TowerTanks.Scripts
         Cancel,
         Pause,
         Jetpack,
-        Mount
-    }
-
-    public enum ActionType
-    {
-        Press,
-        Hold,
-        Rotate
+        Mount,
+        Fire,
+        Repair,
+        AddFuel,
+        ReleaseSteam
     }
 
     public enum PlatformType

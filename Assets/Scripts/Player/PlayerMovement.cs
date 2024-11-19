@@ -278,6 +278,21 @@ namespace TowerTanks.Scripts
             base.FixedUpdate();
         }
 
+        private void LateUpdate()
+        {
+            bool jetpackStatus = isJetpackActive;
+
+            //If the jetpack is held and there's fuel and the player isn't operating anything, the jetpack is active
+            if (jetpackInputHeld && currentFuel > 0 && !isOperator)
+                isJetpackActive = true;
+            else
+                isJetpackActive = false;
+
+            //If the status has changed, update the button prompts
+            if(jetpackStatus != isJetpackActive)
+                characterHUD.SetButtonPrompt(GameAction.Jetpack, !isJetpackActive);
+        }
+
         protected override void OnDrawGizmos()
         {
             base.OnDrawGizmos();
@@ -357,6 +372,16 @@ namespace TowerTanks.Scripts
             if (jetpackInputHeld && currentFuel > 0)
             {
                 PropelJetpack();
+                if (!isJetpackActive)
+                {
+                    characterHUD.SetButtonPrompt(GameAction.Jetpack, false);
+                    isJetpackActive = true;
+                }
+            }
+            else if (isJetpackActive)
+            {
+                characterHUD.SetButtonPrompt(GameAction.Jetpack, true);
+                isJetpackActive = false;
             }
         }
 
@@ -910,6 +935,15 @@ namespace TowerTanks.Scripts
 
             if (TankManager.instance != null)
                 SetAssignedTank(TankManager.instance.playerTank);
+
+            StartCoroutine(ResetAtEndOfFrame());
+        }
+
+        private IEnumerator ResetAtEndOfFrame()
+        {
+            yield return new WaitForEndOfFrame();
+            characterHUD.SetButtonPrompt(GameAction.Jetpack, true);
+            isJetpackActive = false;
         }
 
         #endregion
