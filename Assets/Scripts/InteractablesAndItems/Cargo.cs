@@ -219,6 +219,8 @@ namespace TowerTanks.Scripts
             //Apply Percentage Multiplier
             int saleAmount = Mathf.RoundToInt(amount * percentage);
 
+            if (type == CargoType.AMMO) { saleAmount = 25; }
+
             //Add to Total Resources
             LevelManager.Instance.UpdateResources(saleAmount);
 

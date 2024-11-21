@@ -720,6 +720,8 @@ namespace TowerTanks.Scripts
             {
                 //Get variables of the step
                 GameObject room = null;
+
+                //Build Normal Room
                 foreach(RoomInfo roomInfo in GameManager.Instance.roomList) //Find the prefab we want to spawn
                 {
                     if (roomInfo.roomObject.name == tankDesign.buildingSteps[i].roomID)
@@ -727,6 +729,16 @@ namespace TowerTanks.Scripts
                         room = roomInfo.roomObject.gameObject;
                     }
                 }
+
+                //Build Special Room
+                foreach (RoomInfo roomInfo in GameManager.Instance.specialRoomList) //Find the special prefab we want to spawn
+                {
+                    if (roomInfo.roomObject.name == tankDesign.buildingSteps[i].roomID)
+                    {
+                        room = roomInfo.roomObject.gameObject;
+                    }
+                }
+
                 Room roomScript = Instantiate(room.GetComponent<Room>(), towerJoint, false);
                 Vector3 spawnVector = tankDesign.buildingSteps[i].localSpawnVector;
                 int rotate = tankDesign.buildingSteps[i].rotate;

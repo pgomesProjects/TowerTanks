@@ -5343,7 +5343,8 @@ MonoBehaviour:
   cargoID: Bomb
   type: 2
   contents: []
-  amount: 0
+  amount: 50
+  ignoreInit: 0
   isOnTank: 0
   onTankMask:
     serializedVersion: 2
