@@ -6,26 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="5398b79a-e478-4a7d-b865-f9c27d850513" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TowerTanks/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TowerTanks/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/TankPrefabs/InteractablePool/InterCommand_Throttle.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/TankPrefabs/InteractablePool/InterCommand_Throttle.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/TankPrefabs/InteractablePool/InterWeapon_MachineGun.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/TankPrefabs/InteractablePool/InterWeapon_MachineGun.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/TankPrefabs/InteractablePool/InterWeapon_Mortar.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/TankPrefabs/InteractablePool/InterWeapon_Mortar.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/TankPrefabs/Tank1.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/TankPrefabs/Tank1.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Test Scenes/AITesting.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Test Scenes/AITesting.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/EnemyScripts/InteractableBrain.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/EnemyScripts/InteractableBrain.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/EnemyScripts/SimpleCannonBrain.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/EnemyScripts/SimpleCannonBrain.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Gameplay/TankManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Gameplay/TankManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TankAI/AI Settings Assets/Default AI Settings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TankAI/AI Settings Assets/Default AI Settings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TankAI/StateMachine/StateMachine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TankAI/StateMachine/StateMachine.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/EnemyScripts/SimpleMachineGunBrain.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/EnemyScripts/SimpleMachineGunBrain.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/EnemyScripts/SimpleMortarBrain.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/EnemyScripts/SimpleMortarBrain.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/EnemyScripts/WeaponBrain.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/EnemyScripts/WeaponBrain.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/TankAI/TankAI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TankAI/TankAI.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TankAI/TankAISettings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TankAI/TankAISettings.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TankAI/TankStates/TankEngageState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TankAI/TankStates/TankEngageState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TankAI/TankStates/TankPatrolState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TankAI/TankStates/TankPatrolState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TankAI/TankStates/TankPursueState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TankAI/TankStates/TankPursueState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TankAI/TankStates/TankSurrenderState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TankAI/TankStates/TankSurrenderState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TankSystems/Interactable Subtypes/InteractableId.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TankSystems/Interactable Subtypes/InteractableId.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TankSystems/TankController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TankSystems/TankController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserSettings/Search.settings" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Search.settings" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -127,10 +114,10 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="11176">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="11176" />
+      <option name="pid" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -171,7 +158,9 @@
       <workItem from="1730402265795" duration="632000" />
       <workItem from="1730996040456" duration="29333000" />
       <workItem from="1731791258707" duration="15020000" />
-      <workItem from="1731862396784" duration="29237000" />
+      <workItem from="1731862396784" duration="29531000" />
+      <workItem from="1732223827963" duration="112000" />
+      <workItem from="1732224083218" duration="1094000" />
     </task>
     <servers />
   </component>

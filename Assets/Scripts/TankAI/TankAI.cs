@@ -30,7 +30,7 @@ namespace TowerTanks.Scripts
             {INTERACTABLE.Throttle, typeof(InteractableBrain)},
         };
         
-        private StateMachine _stateMachine;
+        private StateMachine fsm;
         private TankController _tank, targetTank;
         private TankManager _tankManager;
         private GunController[] _guns;
@@ -52,11 +52,8 @@ namespace TowerTanks.Scripts
         private IEnumerator Start()
         {
             yield return new WaitForSeconds(0.1f); // AI Waits before initialization to give time for any tank room generation
-            /*if (_tank.tankType == TankId.TankType.PLAYER)
-            {
-                Destroy(this);
-            }*/
-            _stateMachine = new StateMachine();
+
+            fsm = new StateMachine();
             var patrolState = new TankPatrolState(this);
             var pursueState = new TankPursueState(this);
             var engageState = new TankEngageState(this);
@@ -66,8 +63,8 @@ namespace TowerTanks.Scripts
             //bool condition if there are no guncontrollers in _tank
             
             
-            void At(IState from, IState to, Func<bool> condition) => _stateMachine.AddTransition(from, to, condition);
-            void AnyAt(IState to, Func<bool> condition) => _stateMachine.AddAnyTransition(to, condition);
+            void At(IState from, IState to, Func<bool> condition) => fsm.AddTransition(from, to, condition);
+            void AnyAt(IState to, Func<bool> condition) => fsm.AddAnyTransition(to, condition);
             
             //patrol state transitions
             At(patrolState, pursueState, TargetInViewRange);
@@ -77,7 +74,7 @@ namespace TowerTanks.Scripts
             At(engageState, pursueState ,TargetOutOfEngageRange);
             AnyAt(surrenderState, NoGuns); //this being an "any transition" means that it can be triggered from any state
             
-            _stateMachine.SetState(patrolState);
+            fsm.SetState(patrolState);
         }
 
         public bool HasActiveThrottle()
@@ -98,15 +95,15 @@ namespace TowerTanks.Scripts
 
         private void Update()
         {
-            if (_stateMachine == null) return;
-            _stateMachine.FrameUpdate();
+            if (fsm == null) return;
+            fsm.FrameUpdate();
             //var tanks = Physics2D.OverlapCircleAll(transform.position, aiSettings.viewRange, 1 << LayerMask.NameToLayer("Treads"));
         }
 
         private void FixedUpdate()
         {
-            if (_stateMachine == null) return;
-            _stateMachine.PhysicsUpdate();
+            if (fsm == null) return;
+            fsm.PhysicsUpdate();
         }
 
         #region Tank AI Token System
@@ -301,7 +298,7 @@ namespace TowerTanks.Scripts
                 style.normal.textColor = Color.green;
                 Handles.Label(interactable.script.transform.position + Vector3.up * 2, $"{i}", style:style);
                 style.normal.textColor = Color.cyan;
-                Handles.Label(_tank.treadSystem.transform.position + Vector3.up * 25, $"AI STATE: {_stateMachine._currentState.GetType().Name}", style:style);
+                Handles.Label(_tank.treadSystem.transform.position + Vector3.up * 25, $"AI STATE: {fsm._currentState.GetType().Name}", style:style);
                 style.normal.textColor = Color.yellow;
                 Handles.Label(_tank.treadSystem.transform.position + Vector3.up * 22, $"Available Tokens: {currentTokenCount}", style:style);
                 style.normal.textColor = Color.red;
