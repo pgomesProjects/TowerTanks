@@ -113,7 +113,7 @@
             "roomType": 0,
             "localSpawnVector": {
                 "x": -2.25,
-                "y": 3.7100000381469728,
+                "y": 3.75,
                 "z": 0.0
             },
             "rotate": 1,
@@ -134,7 +134,7 @@
             "roomType": 0,
             "localSpawnVector": {
                 "x": 1.5,
-                "y": 3.7100000381469728,
+                "y": 3.75,
                 "z": 0.0
             },
             "rotate": 1,
@@ -147,6 +147,34 @@
             ],
             "cellManifest": [
                 true,
+                true
+            ]
+        },
+        {
+            "roomID": "Room_LadderUp_1A",
+            "roomType": 0,
+            "localSpawnVector": {
+                "x": -3.5,
+                "y": -0.039999961853027347,
+                "z": 0.0
+            },
+            "rotate": 1,
+            "cellInteractables": [],
+            "cellManifest": [
+                true
+            ]
+        },
+        {
+            "roomID": "Room_LadderUp_1A",
+            "roomType": 0,
+            "localSpawnVector": {
+                "x": 3.5,
+                "y": -0.039999961853027347,
+                "z": 0.0
+            },
+            "rotate": 0,
+            "cellInteractables": [],
+            "cellManifest": [
                 true
             ]
         }
