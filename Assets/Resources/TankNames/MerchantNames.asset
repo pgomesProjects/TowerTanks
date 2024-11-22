@@ -16,5 +16,45 @@ MonoBehaviour:
   - The
   - El
   - SS
-  adjectives: []
-  nouns: []
+  adjectives:
+  - Silver
+  - Golden
+  - Double-Decker
+  - Traveling
+  - Dodgy
+  - Clever
+  - Honest
+  - Poor-Man's
+  - Rich-Man's
+  - Average-Man's
+  - Frugal
+  - Thrifty
+  - General
+  - Grubby
+  - Painted
+  - Wartime
+  - Risky
+  - Stingy
+  - Lost
+  - Battlefield
+  nouns:
+  - Trader
+  - Merchant
+  - Dealer
+  - Swindler
+  - Bargain
+  - Broker
+  - Supplier
+  - Hoarder
+  - Peddler
+  - Trolley
+  - Carrier
+  - Freighter
+  - Ferry
+  - Manifest
+  - Mule
+  - Trucker
+  - Scrounger
+  - Porter
+  - Vendor
+  - Hustler

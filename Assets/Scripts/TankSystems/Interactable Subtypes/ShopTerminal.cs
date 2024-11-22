@@ -99,6 +99,11 @@ namespace TowerTanks.Scripts
 
                             cargoForSale = null;
                         }
+
+                        //Other Effects
+                        GameManager.Instance.AudioManager.Play("ItemPickup", gameObject);
+                        GameManager.Instance.ParticleSpawner.SpawnParticle(6, transform.position, 0.2f, null);
+                        GameManager.Instance.ParticleSpawner.SpawnParticle(7, transform.position, 0.2f, null);
                     }
                 }
             }
