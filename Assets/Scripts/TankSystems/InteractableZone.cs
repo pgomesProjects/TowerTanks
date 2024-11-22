@@ -56,6 +56,21 @@ namespace TowerTanks.Scripts
             }
         }
 
+        private void OnTriggerStay2D(Collider2D collider)
+        {
+            if (collider.gameObject.layer == LayerMask.NameToLayer("Player"))
+            {
+                PlayerMovement player = collider.GetComponent<PlayerMovement>();
+                if (player != null && player.currentZone != this && !players.Contains(player.gameObject))
+                {
+                    players.Add(player.gameObject);
+                    player.currentZone = this;
+                    if (player.GetCharacterHUD() != null)
+                        player.GetCharacterHUD().SetButtonPrompt(GameAction.Interact, true);
+                }
+            }
+        }
+
         private void OnTriggerExit2D(Collider2D collider)
         {
             if (collider.gameObject.layer == LayerMask.NameToLayer("Player"))

@@ -142,6 +142,9 @@ namespace TowerTanks.Scripts
 
                 if (cooldown <= 0) cooldown = introBuffer;
             }
+
+            //Show that the player can cancel to leave
+            operatorID.GetCharacterHUD().SetButtonPrompt(GameAction.Cancel, true);
         }
 
         public virtual void Exit(bool sameZone) //Called from operator (PlayerMovement.cs) when they press Cancel
@@ -161,6 +164,9 @@ namespace TowerTanks.Scripts
 
                 hasOperator = false;
                 Debug.Log(operatorID + " is out!");
+
+                //Remove the cancel option
+                operatorID.GetCharacterHUD().SetButtonPrompt(GameAction.Cancel, false);
 
                 operatorID = null;
 

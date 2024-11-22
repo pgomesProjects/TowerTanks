@@ -73,6 +73,8 @@ namespace TowerTanks.Scripts
             activeFaceInputs[platformFaceButtons.eastPrompt.name] = 0;
             activeFaceInputs[platformFaceButtons.southPrompt.name] = 0;
             activeFaceInputs[platformFaceButtons.westPrompt.name] = 0;
+
+            RefreshFaceButtons();
         }
     }
 }

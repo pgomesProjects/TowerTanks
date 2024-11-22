@@ -104,8 +104,8 @@ namespace TowerTanks.Scripts
 
         public override void Exit(bool sameZone)
         {
-            base.Exit(sameZone);
             ShowFirePrompt(false);
+            base.Exit(sameZone);
         }
 
         private void Update()

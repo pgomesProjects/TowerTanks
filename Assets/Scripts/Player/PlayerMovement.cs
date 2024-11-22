@@ -118,8 +118,9 @@ namespace TowerTanks.Scripts
             base.Start();
         }
 
-        private void OnEnable()
+        protected override void OnEnable()
         {
+            base.OnEnable();
             GetComponentInChildren<CanvasGroup>().alpha = GameManager.Instance.UIManager.isVisible ? 1 : 0;
         }
 
@@ -280,17 +281,20 @@ namespace TowerTanks.Scripts
 
         private void LateUpdate()
         {
-            bool jetpackStatus = isJetpackActive;
+            if (!isCharacterLoaded || !isAlive)
+                return;
+
+            bool jetpackStatus = jetpackCanBeUsed;
 
             //If the jetpack is held and there's fuel and the player isn't operating anything, the jetpack is active
-            if (jetpackInputHeld && currentFuel > 0 && !isOperator)
-                isJetpackActive = true;
+            if (jetpackInputHeld && currentFuel > 0 || isOperator)
+                jetpackCanBeUsed = false;
             else
-                isJetpackActive = false;
+                jetpackCanBeUsed = true;
 
             //If the status has changed, update the button prompts
-            if(jetpackStatus != isJetpackActive)
-                characterHUD.SetButtonPrompt(GameAction.Jetpack, !isJetpackActive);
+            if(jetpackStatus != jetpackCanBeUsed)
+                characterHUD.SetButtonPrompt(GameAction.Jetpack, jetpackCanBeUsed);
         }
 
         protected override void OnDrawGizmos()
@@ -315,6 +319,9 @@ namespace TowerTanks.Scripts
 
         protected override void MoveCharacter()
         {
+            if (!isAlive)
+                return;
+
             var slope = transform.eulerAngles.z < 180 ? transform.eulerAngles.z : transform.eulerAngles.z - 360;
             //^ im gonna change this to use a raycast and a normal, but for now this is fine and works for checking in-tank slopes
 
@@ -372,16 +379,16 @@ namespace TowerTanks.Scripts
             if (jetpackInputHeld && currentFuel > 0)
             {
                 PropelJetpack();
-                if (!isJetpackActive)
+                if (jetpackCanBeUsed)
                 {
-                    characterHUD.SetButtonPrompt(GameAction.Jetpack, false);
-                    isJetpackActive = true;
+                    jetpackCanBeUsed = false;
+                    characterHUD.SetButtonPrompt(GameAction.Jetpack, jetpackCanBeUsed);
                 }
             }
-            else if (isJetpackActive)
+            else if (!jetpackCanBeUsed)
             {
-                characterHUD.SetButtonPrompt(GameAction.Jetpack, true);
-                isJetpackActive = false;
+                jetpackCanBeUsed = true;
+                characterHUD.SetButtonPrompt(GameAction.Jetpack, jetpackCanBeUsed);
             }
         }
 
@@ -930,20 +937,22 @@ namespace TowerTanks.Scripts
         {
             base.ResetPlayer();
 
+            interactInputHeld = false;
+            jetpackInputHeld = false;
+
             if (currentObject != null)
                 currentObject.Drop(this, true, moveInput);
 
             if (TankManager.instance != null)
                 SetAssignedTank(TankManager.instance.playerTank);
-
-            StartCoroutine(ResetAtEndOfFrame());
         }
 
-        private IEnumerator ResetAtEndOfFrame()
+        protected override IEnumerator ResetAtEndOfFrame()
         {
+            StartCoroutine(base.ResetAtEndOfFrame());
             yield return new WaitForEndOfFrame();
             characterHUD.SetButtonPrompt(GameAction.Jetpack, true);
-            isJetpackActive = false;
+            jetpackCanBeUsed = true;
         }
 
         #endregion

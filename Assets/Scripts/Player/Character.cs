@@ -78,7 +78,8 @@ namespace TowerTanks.Scripts
         protected GameObject flames;
         protected bool isAlive;
         protected bool permaDeath;
-        protected bool isJetpackActive;
+        protected bool jetpackCanBeUsed;
+        protected bool isCharacterLoaded;
 
         //internal movement
         protected Vector2 moveInput;
@@ -128,6 +129,11 @@ namespace TowerTanks.Scripts
             isAlive = true;
             permaDeath = false;
             dismountPoint = transform;
+        }
+
+        protected virtual void OnEnable()
+        {
+            StartCoroutine(ResetAtEndOfFrame());
         }
 
         private bool useAirDrag;
@@ -400,6 +406,7 @@ namespace TowerTanks.Scripts
         {
             currentHealth = 0;
             characterHUD?.DamageAvatar(1f - (currentHealth / characterSettings.maxHealth), 0.01f);
+            characterHUD?.ClearButtonPrompts();
             OnCharacterDeath();
         }
 
@@ -438,6 +445,7 @@ namespace TowerTanks.Scripts
             currentHealth = characterSettings.maxHealth;
             currentFuel = characterSettings.fuelAmount;
             characterHUD?.UpdateFuelBar((currentFuel / characterSettings.fuelAmount) * 100f);
+            characterHUD?.ClearButtonPrompts();
             currentState = CharacterState.NONCLIMBING;
 
             if (currentInteractable != null)
@@ -447,6 +455,13 @@ namespace TowerTanks.Scripts
             }
 
             transform.parent = null;
+        }
+
+        protected virtual IEnumerator ResetAtEndOfFrame()
+        {
+            isCharacterLoaded = false;
+            yield return new WaitForEndOfFrame();
+            isCharacterLoaded = true;
         }
 
         private void RespawnTimer()
@@ -471,6 +486,7 @@ namespace TowerTanks.Scripts
             rb.isKinematic = false;
             characterHitbox.enabled = true;
             characterVisualParent?.gameObject.SetActive(true);
+            StartCoroutine(ResetAtEndOfFrame());
         }
 
         public Color GetCharacterColor() => characterColor;
