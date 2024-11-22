@@ -39,7 +39,8 @@ public class Trajectory : MonoBehaviour
     
     public static Vector3 GetHitPoint(List<Vector3> trajectoryPoints)
     {
-        var excludeLayer = 1 << LayerMask.NameToLayer("Camera");
+        var excludeLayer = (1 << LayerMask.NameToLayer("Camera")) |
+                              (1 << LayerMask.NameToLayer("Projectiles"));
         //starting i at 3 to avoid the first few points that are too close to the tank
         for (int i = 3; i < trajectoryPoints.Count - 1; i++)
         {
@@ -51,6 +52,6 @@ public class Trajectory : MonoBehaviour
                 return hit.point;
             }
         }
-        return trajectoryPoints[trajectoryPoints.Count - 1]; // Return the last point if no hit
+        return trajectoryPoints[Mathf.CeilToInt(trajectoryPoints.Count / 2)]; // Return the last point if no hit
     }
 }
