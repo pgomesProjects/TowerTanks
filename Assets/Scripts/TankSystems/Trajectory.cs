@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class Trajectory : MonoBehaviour
@@ -38,12 +39,13 @@ public class Trajectory : MonoBehaviour
     
     public static Vector3 GetHitPoint(List<Vector3> trajectoryPoints)
     {
+        var excludeLayer = 1 << LayerMask.NameToLayer("Camera");
         //starting i at 3 to avoid the first few points that are too close to the tank
         for (int i = 3; i < trajectoryPoints.Count - 1; i++)
         {
             Vector3 start = trajectoryPoints[i];
             Vector3 end = trajectoryPoints[i + 1];
-            RaycastHit2D hit = Physics2D.Raycast(start, end - start, Vector3.Distance(start, end));
+            RaycastHit2D hit = Physics2D.Raycast(start, end - start, Vector3.Distance(start, end), ~excludeLayer);
             if (hit.collider != null)
             {
                 return hit.point;
