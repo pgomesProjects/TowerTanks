@@ -52,6 +52,6 @@ public class Trajectory : MonoBehaviour
                 return hit.point;
             }
         }
-        return trajectoryPoints[Mathf.CeilToInt(trajectoryPoints.Count / 2)]; // Return the last point if no hit
+        return trajectoryPoints[10]; // Return the last point if no hit
     }
 }

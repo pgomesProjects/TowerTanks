@@ -10193,11 +10193,11 @@ MonoBehaviour:
     gameObject: {fileID: 1411317892}
     design: {fileID: 4900000, guid: 0ae7f54292a46314da4951bdac3723a3, type: 3}
     buildOnStart: 1
-  - TankName: The Battle Buster
+  - TankName: The Black Junker
     tankScript: {fileID: 1350443698}
     tankType: 1
     gameObject: {fileID: 1350443696}
-    design: {fileID: 4900000, guid: 7995271edfdf1d647baebb2fde1f9804, type: 3}
+    design: {fileID: 4900000, guid: 871697c44b6024a4abb06b2b3938c926, type: 3}
     buildOnStart: 1
 --- !u!1 &511407189
 GameObject:
@@ -27945,7 +27945,7 @@ GameObject:
   - component: {fileID: 1350443698}
   - component: {fileID: 1350443697}
   m_Layer: 0
-  m_Name: The Battle Buster
+  m_Name: The Black Junker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27991,7 +27991,7 @@ MonoBehaviour:
     - Name: OnCoreDamaged
       Entry: 6
       Data: 
-  TankName: The Battle Buster
+  TankName: The Black Junker
   tankType: 1
   coreHealth: 500
   towerJointTarget: {fileID: 80043416}
