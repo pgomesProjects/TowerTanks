@@ -6,6 +6,7 @@ using System.Drawing;
 using UnityEditor;
 using System.Diagnostics;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Color = UnityEngine.Color;
 using Random = UnityEngine.Random;
 
@@ -14,12 +15,12 @@ namespace TowerTanks.Scripts
     public class TankAI : MonoBehaviour
     {
         #region Transition Conditions
-        public bool TargetInViewRange() =>      Vector2.Distance(_tank.treadSystem.transform.position, _tankManager.playerTank.transform.position) < aiSettings.viewRange;
-        public bool TargetOutOfView() =>        Vector2.Distance(_tank.treadSystem.transform.position, _tankManager.playerTank.transform.position) > aiSettings.viewRange;
-        public bool TargetInEngageRange() =>    Vector2.Distance(_tank.treadSystem.transform.position, _tankManager.playerTank.transform.position) < aiSettings.maxEngagementRange;
-        public bool TargetOutOfEngageRange() => Vector2.Distance(_tank.treadSystem.transform.position, _tankManager.playerTank.transform.position) > aiSettings.maxEngagementRange;
-        public bool TargetTooClose() =>         Vector2.Distance(_tank.treadSystem.transform.position, _tankManager.playerTank.transform.position) < aiSettings.minEngagementRange;
-        bool NoGuns() => !_tank.interactableList.Any(i => i.script is GunController);
+        public bool TargetInViewRange() =>      Vector2.Distance(tank.treadSystem.transform.position, _tankManager.playerTank.transform.position) < aiSettings.viewRange;
+        public bool TargetOutOfView() =>        Vector2.Distance(tank.treadSystem.transform.position, _tankManager.playerTank.transform.position) > aiSettings.viewRange;
+        public bool TargetInEngageRange() =>    Vector2.Distance(tank.treadSystem.transform.position, _tankManager.playerTank.transform.position) < aiSettings.maxEngagementRange;
+        public bool TargetOutOfEngageRange() => Vector2.Distance(tank.treadSystem.transform.position, _tankManager.playerTank.transform.position) > aiSettings.maxEngagementRange;
+        public bool TargetTooClose() =>         Vector2.Distance(tank.treadSystem.transform.position, _tankManager.playerTank.transform.position) < aiSettings.minEngagementRange;
+        bool NoGuns() => !tank.interactableList.Any(i => i.script is GunController);
         #endregion
         
         public static Dictionary<INTERACTABLE, Type> interactableEnumToBrainMap = new()
@@ -31,7 +32,8 @@ namespace TowerTanks.Scripts
         };
         
         private StateMachine fsm;
-        private TankController _tank, targetTank;
+        [FormerlySerializedAs("_tank")] [HideInInspector] public TankController tank;
+        [HideInInspector] public TankController targetTank;
         private TankManager _tankManager;
         private GunController[] _guns;
         private int currentTokenCount;
@@ -43,7 +45,7 @@ namespace TowerTanks.Scripts
 
         private void Awake()
         {
-            _tank = GetComponent<TankController>();
+            tank = GetComponent<TankController>();
             
             currentTokenCount = aiSettings.tankEconomy;
             _tankManager = FindObjectOfType<TankManager>();
@@ -112,7 +114,7 @@ namespace TowerTanks.Scripts
         {
             if (currentTokenCount <= 0) return;
             
-            List<InteractableId> commonInteractables = _tank.interactableList
+            List<InteractableId> commonInteractables = tank.interactableList
                 .Where(i => i.brain != null && i.brain.GetType() == interactableEnumToBrainMap[toInteractable]
                 && !tokenActivatedInteractables.Contains(i))
                 .ToList();
@@ -228,8 +230,8 @@ namespace TowerTanks.Scripts
         /// </param>
         public void ChangeThrottleTowardsMovepoint(int speedSetting)
         {
-            int dir = _tank.transform.position.x < movePoint.x ? 1 : -1;
-            _tank.SetTankGear(speedSetting, .1f);
+            int dir = tank.transform.position.x < movePoint.x ? 1 : -1;
+            tank.SetTankGear(speedSetting, .1f);
         }
         
         public void SetMovePoint(Vector3 point)
@@ -239,14 +241,14 @@ namespace TowerTanks.Scripts
         
         public List<InteractableId> GetUnusedInteractables()
         {
-            return _tank.interactableList
+            return tank.interactableList
                 .Where(i => !tokenActivatedInteractables.Contains(i))
                 .ToList();
         }
         
         public bool TankIsRightOfTarget()
         {
-            return _tank.treadSystem.transform.position.x > targetTank.treadSystem.transform.position.x;
+            return tank.treadSystem.transform.position.x > targetTank.treadSystem.transform.position.x;
         }
 
         /// <summary>
@@ -266,11 +268,11 @@ namespace TowerTanks.Scripts
             
             if (Random.Range(0, 2) == 1)
             {
-                _tank.SetTankGear(s, .15f);
+                tank.SetTankGear(s, .15f);
             }
             else
             {
-                _tank.SetTankGear(-s, .15f);
+                tank.SetTankGear(-s, .15f);
             }
         }
 
@@ -282,8 +284,8 @@ namespace TowerTanks.Scripts
             //draw circle for view range
             if (!enabled) return;
             Gizmos.color = Color.red;
-            if (_tank == null) return;
-            Vector3 tankPos = _tank.treadSystem.transform.position;
+            if (tank == null) return;
+            Vector3 tankPos = tank.treadSystem.transform.position;
             Gizmos.DrawWireSphere(tankPos, aiSettings.viewRange);
             int i = 0;
             foreach (var interactable in tokenActivatedInteractables)
@@ -298,11 +300,11 @@ namespace TowerTanks.Scripts
                 style.normal.textColor = Color.green;
                 Handles.Label(interactable.script.transform.position + Vector3.up * 2, $"{i}", style:style);
                 style.normal.textColor = Color.cyan;
-                Handles.Label(_tank.treadSystem.transform.position + Vector3.up * 25, $"AI STATE: {fsm._currentState.GetType().Name}", style:style);
+                Handles.Label(tank.treadSystem.transform.position + Vector3.up * 25, $"AI STATE: {fsm._currentState.GetType().Name}", style:style);
                 style.normal.textColor = Color.yellow;
-                Handles.Label(_tank.treadSystem.transform.position + Vector3.up * 22, $"Available Tokens: {currentTokenCount}", style:style);
+                Handles.Label(tank.treadSystem.transform.position + Vector3.up * 22, $"Available Tokens: {currentTokenCount}", style:style);
                 style.normal.textColor = Color.red;
-                Handles.Label(_tank.treadSystem.transform.position + Vector3.up * 19, $"Total Tokens: {aiSettings.tankEconomy}", style:style);
+                Handles.Label(tank.treadSystem.transform.position + Vector3.up * 19, $"Total Tokens: {aiSettings.tankEconomy}", style:style);
                 i++;
             }
             

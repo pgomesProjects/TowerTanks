@@ -28,7 +28,7 @@ namespace TowerTanks.Scripts
                 }
                 else
                 {
-                    _tankAI.MoveRandom(1);
+                    _tankAI.MoveRandom(2);
                 }
             }
             yield return new WaitForSeconds(heartbeatTimer);

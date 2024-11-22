@@ -35,4 +35,20 @@ public class Trajectory : MonoBehaviour
 
         return listOfTrajectoryPoints;
     }
+    
+    public static Vector3 GetHitPoint(List<Vector3> trajectoryPoints)
+    {
+        //starting i at 3 to avoid the first few points that are too close to the tank
+        for (int i = 3; i < trajectoryPoints.Count - 1; i++)
+        {
+            Vector3 start = trajectoryPoints[i];
+            Vector3 end = trajectoryPoints[i + 1];
+            RaycastHit2D hit = Physics2D.Raycast(start, end - start, Vector3.Distance(start, end));
+            if (hit.collider != null)
+            {
+                return hit.point;
+            }
+        }
+        return trajectoryPoints[trajectoryPoints.Count - 1]; // Return the last point if no hit
+    }
 }
