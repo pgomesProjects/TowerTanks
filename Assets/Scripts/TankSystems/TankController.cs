@@ -35,7 +35,7 @@ namespace TowerTanks.Scripts
         public GameObject[] cargoHold;
 
         //Settings:
-                [Header("Visual Settings:")]
+        [Header("Visual Settings:")]
         [Tooltip("Defines how cells in the tank look.")] public RoomAssetKit roomKit;
         #region Debug Controls
         [Header("Debug Controls")]

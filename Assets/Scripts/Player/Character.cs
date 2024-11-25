@@ -6,7 +6,7 @@ using UnityEngine.Serialization;
 
 namespace TowerTanks.Scripts
 {
-    public abstract class Character : SerializedMonoBehaviour
+    public abstract class Character : SerializedMonoBehaviour, IDamageable
     {
         #region Fields and Properties
 
@@ -376,6 +376,15 @@ namespace TowerTanks.Scripts
         public float ModifyHealth(float amount)
         {
             return SetCharacterHealth(currentHealth + amount);
+        }
+
+        public float Damage(Projectile projectile, Vector2 position)
+        {
+            return ModifyHealth(-projectile.remainingDamage); //Reduce health by given amount of damage and return remainder
+        }
+        public void Damage(float damage)
+        {
+            ModifyHealth(-damage); //Reduce health by given amount of damage
         }
 
         private float SetCharacterHealth(float characterHealth)

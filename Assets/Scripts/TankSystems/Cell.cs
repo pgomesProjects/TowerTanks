@@ -9,7 +9,7 @@ namespace TowerTanks.Scripts
     /// <summary>
     /// Square component which rooms are made of.
     /// </summary>
-    public class Cell : MonoBehaviour
+    public class Cell : MonoBehaviour, IDamageable
     {
         //Static Variables:
         public static Vector2[] cardinals = { Vector2.up, Vector2.right, Vector2.down, Vector2.left };
@@ -219,7 +219,72 @@ namespace TowerTanks.Scripts
             foreach (GameObject wall in walls) wall.SetActive(true); //Reset walls
         }
         /// <summary>
-        /// Deals given amount of damage to the cell.
+        /// Processor for damaging cell with a projectile impact.
+        /// </summary>
+        /// <param name="projectile">Projectile which is doing damage to this cell.</param>
+        /// <param name="position">Position of impact.</param>
+        /// <returns>Returns leftover damage from impact (if projectile destroys cell).</returns>
+        public float Damage(Projectile projectile, Vector2 position)
+        {
+            //Do projectile impact:
+            if (projectile.impactProperties != null) //Projectile causes a tank impact event
+            {
+                room.targetTank.treadSystem.HandleImpact(projectile.impactProperties, projectile.velocity, position); //Create event based off of projectile's impact properties and velocity
+            }
+
+            //Do hit effects:
+            GameManager.Instance.AudioManager.Play("ShellImpact", gameObject); //Play impact sound
+
+            //Deal damage:
+            if (room.isCore) //Projectile has struck a core cell
+            {
+                Damage(projectile.remainingDamage); //Simply do normal projectile damage to the core
+                return 0;                           //Projectiles cannot tunnel through the core
+            }
+            else //Projectile has struck a non-core room
+            {
+                //Get damage values:
+                float incomingDamage = projectile.remainingDamage;                                                                                      //Get remaining damage from projectile as value to assign to damaging cell
+                float damageMitigated = Mathf.Min(room.type == Room.RoomType.Armor && !projectile.hitProperties.ignoresArmor ? 25 : 0, incomingDamage); //Determine amount of damage mitigated by armor
+                float dealtDamage = incomingDamage - damageMitigated;                                                                                   //Determine the amount of unmitigated damage dealt to cell
+                float extraDamage = projectile.hitProperties.tunnels ? Mathf.Abs(Mathf.Max(0, health - dealtDamage)) : 0;                               //Get overkill damage dealt by projectile (only if projectile can tunnel, otherwise alsways destroy it after hitting a cell)
+
+                //Check for fire:
+                if (dealtDamage < health && projectile.hitProperties.fireChance > 0) //Projectile has a chance of starting a fire (and cell is not being destroyed by this impact)
+                {
+                    if (Random.Range(0f, 1f) <= projectile.hitProperties.fireChance) { Ignite(); } //Light cell on fire if roll is high enough
+                }
+
+                //Cleanup:
+                Damage(dealtDamage); //Assign dealt damage to cell (this factors in protection from armor)
+                return extraDamage;  //Tell the projectile how much left over damage it has
+            }
+        }
+        /// <summary>
+        /// Simply deals given amount of damage to cell (used for non-projectile damage, ALWAYS IGNORES ARMOR).
+        /// </summary>
+        public void Damage(float damage)
+        {
+            if (room.isCore) //Damage is being dealt to core cell
+            {
+                if (!room.targetTank.isInvincible) room.targetTank.Damage(damage); //Deal all core cell damage directly to tank instead of destroying cells (unless tank is invincible)
+            }
+            else //Damage is being dealt to normal cell
+            {
+                //Visual effect:
+                float damageTimeAdd = (damage / 50f);
+                if (damageTimeAdd < 0.1f) damageTimeAdd = 0.1f;
+                damageTime += damageTimeAdd;
+                damageTimer = damageTime;
+
+                //Deal damage:
+                health = Mathf.Max(0, health - damage); //Deal damage to cell
+                if (health <= 0) Kill();                //Kill cell if mortal damage has been dealt
+            }
+        }
+        /*
+        /// <summary>
+        /// Deals given amount of damage to the cell (used for non-projectile damage).
         /// </summary>
         public float Damage(float amount, bool ignoreArmor = false)
         {
@@ -257,6 +322,7 @@ namespace TowerTanks.Scripts
 
             return healthLost;
         }
+        */
         /// <summary>
         /// Checks to see if this cell has been disconnected from the tank and then kills it if it has been.
         /// </summary>
@@ -474,7 +540,7 @@ namespace TowerTanks.Scripts
             {
                 burnDamageTimer = burnDamageRate;
 
-                if (health >= maxHealth * 0.25f) Damage(5f, true);
+                if (health >= maxHealth * 0.25f) Damage(5f);
 
                 if (interactable != null)
                 {

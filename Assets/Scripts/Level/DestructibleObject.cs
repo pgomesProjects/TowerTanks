@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace TowerTanks.Scripts
 {
-    public class DestructibleObject : MonoBehaviour
+    public class DestructibleObject : MonoBehaviour, IDamageable
     {
         public float maxHealth;
         public float health;
@@ -22,13 +22,18 @@ namespace TowerTanks.Scripts
                 }
             }
         }
+        public float Damage(Projectile projectile, Vector2 position)
+        {
+            Damage(projectile.remainingDamage);
+            return 0;
+        }
 
-        public float Damage(float amount)
+        public void Damage(float damage)
         {
             float tempHealth = health;
             float healthLost = 0;
 
-            health -= amount;
+            health -= damage;
             if (health < 0) health = 0;
             healthLost = tempHealth - health;
 
@@ -50,7 +55,6 @@ namespace TowerTanks.Scripts
             }
 
             EvaluateDamage();
-            return healthLost;
         }
 
         private void EvaluateDamage()

@@ -16,4 +16,15 @@ namespace TowerTanks.Scripts
          * TankController needs a method for 
          */
     }
+
+    public interface IDamageable
+    {
+        float Damage(Projectile projectile, Vector2 position);
+        void Damage(float damage);
+    }
+    public interface IBurnable
+    {
+        void Ignite();
+        void BurnTick();
+    }
 }

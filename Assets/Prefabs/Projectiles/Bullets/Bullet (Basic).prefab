@@ -50,9 +50,10 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 8552776
-  particleScale: 0.5
   damage: 5
-  knockbackForce: 0
+  hitProperties: {fileID: 11400000, guid: daf30304043c89544997c22316fc8f41, type: 2}
+  impactProperties: {fileID: 0}
+  knockbackProperties: {fileID: 0}
   hasSplashDamage: 0
   splashData: []
   isTunneling: 0
@@ -61,6 +62,7 @@ MonoBehaviour:
   radius: 0.06
   drag: 0
   gravity: 5
+  particleScale: 0.5
   factionId: 0
 --- !u!58 &6277512115526935628
 CircleCollider2D:
