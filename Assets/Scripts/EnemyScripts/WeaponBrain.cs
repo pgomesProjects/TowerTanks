@@ -38,7 +38,7 @@ namespace TowerTanks.Scripts
             if (fireTimer < fireCooldown) fireTimer += Time.deltaTime;
             else
             {
-                gunScript.Fire(true, gunScript.tank.tankType);
+                gunScript.Fire(false, gunScript.tank.tankType);
                 float randomOffset = Random.Range(-cooldownOffset, cooldownOffset);
                 fireTimer = 0 + randomOffset;
             }
@@ -65,6 +65,11 @@ namespace TowerTanks.Scripts
 
             trajectoryPoints = Trajectory.GetTrajectory(gunScript.barrel.position, gunScript.barrel.right * gunScript.muzzleVelocity, proj.gravity, 100);
             hitPoint = Trajectory.GetHitPoint(trajectoryPoints);
+
+            if (hitPoint == trajectoryPoints[^1]) // this means the trajectory hit nothing at all. so we want to use a
+            {                                      // point just a bit ahead of the barrel for accurate aiming,
+                hitPoint = trajectoryPoints[10];   // instead of that default endpoint
+            }
             
             //Adding Vector3.up * 2.5f because the tread system's transform is a bit low, we want to aim a little above that
             Vector3 target = myTankAI.targetTank.treadSystem.transform.position + Vector3.up * 2.5f;

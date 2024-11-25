@@ -15,11 +15,11 @@ namespace TowerTanks.Scripts
     public class TankAI : MonoBehaviour
     {
         #region Transition Conditions
-        public bool TargetInViewRange() =>      Vector2.Distance(tank.treadSystem.transform.position, _tankManager.playerTank.transform.position) < aiSettings.viewRange;
-        public bool TargetOutOfView() =>        Vector2.Distance(tank.treadSystem.transform.position, _tankManager.playerTank.transform.position) > aiSettings.viewRange;
-        public bool TargetInEngageRange() =>    Vector2.Distance(tank.treadSystem.transform.position, _tankManager.playerTank.transform.position) < aiSettings.maxEngagementRange;
-        public bool TargetOutOfEngageRange() => Vector2.Distance(tank.treadSystem.transform.position, _tankManager.playerTank.transform.position) > aiSettings.maxEngagementRange;
-        public bool TargetTooClose() =>         Vector2.Distance(tank.treadSystem.transform.position, _tankManager.playerTank.transform.position) < aiSettings.minEngagementRange;
+        public bool TargetInViewRange() =>      Vector2.Distance(tank.treadSystem.transform.position, _tankManager.playerTank.treadSystem.transform.position) < aiSettings.viewRange;
+        public bool TargetOutOfView() =>        Vector2.Distance(tank.treadSystem.transform.position, _tankManager.playerTank.treadSystem.transform.position) > aiSettings.viewRange;
+        public bool TargetInEngageRange() =>    Vector2.Distance(tank.treadSystem.transform.position, _tankManager.playerTank.treadSystem.transform.position) < aiSettings.maxEngagementRange;
+        public bool TargetOutOfEngageRange() => Vector2.Distance(tank.treadSystem.transform.position, _tankManager.playerTank.treadSystem.transform.position) > aiSettings.maxEngagementRange;
+        public bool TargetTooClose() =>         Vector2.Distance(tank.treadSystem.transform.position, _tankManager.playerTank.treadSystem.transform.position) < aiSettings.minEngagementRange;
         bool NoGuns() => !tank.interactableList.Any(i => i.script is GunController);
         #endregion
         
@@ -118,15 +118,11 @@ namespace TowerTanks.Scripts
                 .Where(i => i.brain != null && i.brain.GetType() == interactableEnumToBrainMap[toInteractable]
                 && !tokenActivatedInteractables.Contains(i))
                 .ToList();
-            //list of all interactables which have an AI, 
+            //list of all interactables which have an AI, as long as the AI is registered to an enum type in the dict,
+            //and the interactable isn't already active
 
             if (!commonInteractables.Any()) return; //if there are no interactables of this type, return
             InteractableId interactable = commonInteractables[Random.Range(0, commonInteractables.Count)];
-            
-            
-            //uses the Where LINQ method to find the interactables in the list whose type matches the toInteractable type, who have a valid AI, and who are not already active
-            //i => is a lambda expression that checks if the type of the interactable i is equal to the toInteractable type. also makes sure the interactable isnt already added
-            
             
             if (interactable != null)
             {

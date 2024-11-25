@@ -6,6 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="5398b79a-e478-4a7d-b865-f9c27d850513" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TowerTanks/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TowerTanks/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/EnemyScripts/WeaponBrain.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/EnemyScripts/WeaponBrain.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TankAI/AI Settings Assets/Default AI Settings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TankAI/AI Settings Assets/Default AI Settings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TankAI/TankAI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TankAI/TankAI.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/TankSystems/Trajectory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TankSystems/Trajectory.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -158,7 +161,8 @@
       <workItem from="1731791258707" duration="15020000" />
       <workItem from="1731862396784" duration="29531000" />
       <workItem from="1732223827963" duration="112000" />
-      <workItem from="1732224083218" duration="17034000" />
+      <workItem from="1732224083218" duration="18474000" />
+      <workItem from="1732573790003" duration="2315000" />
     </task>
     <servers />
   </component>

@@ -52,6 +52,6 @@ public class Trajectory : MonoBehaviour
                 return hit.point;
             }
         }
-        return trajectoryPoints[10]; // Return the last point if no hit
+        return trajectoryPoints[^1]; //return the last trajectory point if no collider was hit
     }
 }
