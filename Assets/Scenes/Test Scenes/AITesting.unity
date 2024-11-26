@@ -30402,6 +30402,13 @@ MonoBehaviour:
   towerJointTarget: {fileID: 1896601887}
   isInvincible: 0
   flag: {fileID: 809110002}
+  myTankID:
+    TankName: New Tank
+    tankScript: {fileID: 0}
+    tankType: 0
+    gameObject: {fileID: 0}
+    design: {fileID: 0}
+    buildOnStart: 0
   cargoHold: []
   roomKit: {fileID: 11400000, guid: 530fa040df4a8014d8d7b5abd56e4bdf, type: 2}
   gear: 0
@@ -30415,7 +30422,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 950391698}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 194.3, y: 61.8, z: 0}
+  m_LocalPosition: {x: 77.9, y: 13.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -82934,7 +82941,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1946078962
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82981,6 +82988,13 @@ MonoBehaviour:
   towerJointTarget: {fileID: 952794963}
   isInvincible: 0
   flag: {fileID: 1058115258}
+  myTankID:
+    TankName: New Tank
+    tankScript: {fileID: 0}
+    tankType: 0
+    gameObject: {fileID: 0}
+    design: {fileID: 0}
+    buildOnStart: 0
   cargoHold: []
   roomKit: {fileID: 11400000, guid: 530fa040df4a8014d8d7b5abd56e4bdf, type: 2}
   gear: 0

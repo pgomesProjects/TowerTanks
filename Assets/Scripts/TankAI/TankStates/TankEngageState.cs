@@ -24,6 +24,7 @@ namespace TowerTanks.Scripts
                 if (_tankAI.TargetTooClose())
                 {
                     _tank.SetTankGear(2 * -dir, .15f);
+                    Debug.Log("Target is too close!");
                 }
                 else
                 {
