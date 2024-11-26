@@ -151,7 +151,7 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  viewRange: 61.61
-  maxEngagementRange: 50.4
+  viewRange: 150.1
+  maxEngagementRange: 50.6
   minEngagementRange: 10
   tankEconomy: 10

@@ -28,13 +28,13 @@ namespace TowerTanks.Scripts
             if (tankIsRightOfTarget)
             {
                 gunScript.ChargeMortar(diffIsPositive);
-                currentForce = diffIsPositive ? .75f : -.75f;
             }
             else
             {
                 gunScript.ChargeMortar(!diffIsPositive);
-                currentForce = diffIsPositive ? -.75f : .75f;
             }
+            
+            currentForce = diffIsPositive ? .75f : -.75f;
             
             //currentForce = diff.x >= 0 ? .5f : -.5f; //with the mortar, positive force is right, negative force is left
         }
