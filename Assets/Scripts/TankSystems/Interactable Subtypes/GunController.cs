@@ -7,9 +7,9 @@ namespace TowerTanks.Scripts
     public class GunController : TankInteractable
     {
         //Objects & Components:
-        [Tooltip("Default projectile which will be fired by this weapon"), SerializeField]                      private GameObject projectilePrefab;
+        [Tooltip("Default projectile which will be fired by this weapon")]                                      public GameObject projectilePrefab;
         [Tooltip("List containing special Ammo loaded into this weapon"), SerializeField]                       private List<GameObject> specialAmmo = new List<GameObject>();
-        [Tooltip("Transform indicating direction and position in which projectiles are fired"), SerializeField] private Transform barrel;
+        [Tooltip("Transform indicating direction and position in which projectiles are fired"), SerializeField] internal Transform barrel;
         [Tooltip("Joint around which moving cannon assembly rotates."), SerializeField]                         private Transform pivot;
         [Tooltip("Transforms to spawn particles from when used."), SerializeField]                              private Transform[] particleSpots;
         [Tooltip("Scale particles are multiplied by when used by this weapon"), SerializeField]                 private float particleScale;
@@ -21,7 +21,7 @@ namespace TowerTanks.Scripts
 
         [Header("Gun Settings:")]
         [Tooltip("What type of weapon this is"), SerializeField] public GunType gunType;
-        [Tooltip("Velocity of projectile upon exiting the barrel."), SerializeField, Min(0)]  private float muzzleVelocity;
+        [Tooltip("Velocity of projectile upon exiting the barrel."), SerializeField, Min(0)]  internal float muzzleVelocity;
         [Tooltip("Force exerted on tank each time weapon is fired."), SerializeField, Min(0)] private float recoil;
         [Tooltip("Speed at which the cannon barrel rotates"), SerializeField]                 private float rotateSpeed;
         [Tooltip("Max angle (up or down) weapon joint can be rotated to."), SerializeField]   private float gimbalRange;
@@ -30,8 +30,8 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("How far the barrel reciprocates when firing."), Min(0)]          private float reciprocationDistance;
         [SerializeField, Tooltip("How long barrel reciprocation phase is."), Min(0)]               private float reciprocationTime;
         [SerializeField, Tooltip("Curve describing motion of barrel during reciprocation phase.")] private AnimationCurve reciprocationCurve;
-        [Space()]
-        private float fireCooldownTimer;
+        [Space(), HideInInspector]
+        public float fireCooldownTimer;
         [Tooltip("Radius of Degrees of the Cone of Fire for this weapon's projectiles"), SerializeField, Min(0)] private float spread;
 
         //Gun Specific Settings
@@ -58,7 +58,7 @@ namespace TowerTanks.Scripts
         private float minVelocity = 20f;
         private float maxChargeTime = 2.4f; //maximum duration weapon can be charged before firing
         private float minChargeTime = 0.4f; //minimum duration the weapon needs to be charged before it can fire
-        private float chargeTimer = 0;
+        [HideInInspector]public float chargeTimer = 0;
 
 
         [Header("Debug Controls:")]
@@ -76,8 +76,10 @@ namespace TowerTanks.Scripts
         {
             if (gunType == GunType.MACHINEGUN) { heatRenderer = transform.Find("Visuals/JointParent/MachineGun_Heat").GetComponent<SpriteRenderer>(); }
             if (gunType == GunType.MORTAR) {
+                trajectoryLine = GetComponentInChildren<LineRenderer>();
                 trajectoryLine.positionCount = 100;
-                //trajectoryLine.enabled = false;
+                
+                trajectoryLine.enabled = false;
                 maxVelocity = muzzleVelocity; 
             }
 
@@ -169,41 +171,60 @@ namespace TowerTanks.Scripts
             {
                 if (operatorID != null && operatorID.interactInputHeld && fireCooldownTimer <= 0)
                 {
-                    //Increase Charge Time
-                    if (chargeTimer < maxChargeTime)
-                    {
-                        chargeTimer += Time.deltaTime;
-                    }
+                    ChargeMortar();
+                }
+                else if (tank.tankType != TankId.TankType.ENEMY) 
+                {
+                    ChargeMortar(false);
+                }
+                
+            }
+        }
 
-                    if (chargeTimer >= minChargeTime)
+        /// <summary>
+        /// Should be called in update, will charge or discharge the mortar based on the parameter.
+        /// </summary>
+        /// <param name="charging">
+        /// "False" will cooldown it's charge, "True" will increment it.
+        /// </param>
+        public void ChargeMortar(bool charging = true)
+        {
+            if (charging)
+            {
+                if (chargeTimer < maxChargeTime)
+                {
+                    chargeTimer += Time.deltaTime;
+                }
+
+                if (chargeTimer >= minChargeTime)
+                {
+                    List<Vector3> trajectoryPoints = Trajectory.GetTrajectory(barrel.position, barrel.up * muzzleVelocity, 30, 100);
+
+                    if (operatorID)
                     {
-                        //Show trajectory based on velocity
                         Color playerColor = operatorID.GetCharacterColor();
                         trajectoryLine.startColor = playerColor;
                         trajectoryLine.endColor = playerColor;
 
                         trajectoryLine.enabled = true;
-                        List<Vector3> trajectoryPoints = Trajectory.GetTrajectory(barrel.position, barrel.up * muzzleVelocity, 30, 100);
                         for (int i = 0; i < trajectoryPoints.Count; i++)
                         {
                             trajectoryLine.SetPosition(i, trajectoryPoints[i]);
                         }
                     }
-
                 }
-                else
+            } else
+            {
+                trajectoryLine.enabled = false;
+                if (chargeTimer > 0)
                 {
-                    trajectoryLine.enabled = false;
-                    if (chargeTimer > 0)
-                    {
-                        chargeTimer -= Time.deltaTime;
-                    }
+                    chargeTimer -= Time.deltaTime;
                 }
-
-                //Adjust velocity based on charge
-                float newVelocity = Mathf.Lerp(minVelocity, maxVelocity, (chargeTimer / maxChargeTime));
-                muzzleVelocity = newVelocity;
-            };
+            }
+            
+            
+            float newVelocity = Mathf.Lerp(minVelocity, maxVelocity, (chargeTimer / maxChargeTime));
+            muzzleVelocity = newVelocity;
         }
 
         //FUNCTIONALITY METHODS:
@@ -262,12 +283,6 @@ namespace TowerTanks.Scripts
                     canFire = true;
                     chargeTimer = 0;
                 }
-
-                if (overrideConditions)
-                {
-                    float newVelocity = Random.Range((minVelocity + 15f), maxVelocity);
-                    muzzleVelocity = newVelocity;
-                }
             };
 
             if ((fireCooldownTimer <= 0 || overrideConditions) && canFire)
@@ -282,19 +297,11 @@ namespace TowerTanks.Scripts
                 GameObject projectile = projectilePrefab; //Default projectile
                 if (specialAmmo.Count > 0) { projectile = specialAmmo[0]; } //Special Ammo
 
-                //Adjust velocity:
-                Vector2 fireVelocity = barrel.up * muzzleVelocity;
-                fireVelocity += tank.treadSystem.r.GetPointVelocity(barrel.position);
-
                 //Fire projectile:
                 Projectile newProjectile = Instantiate(projectile).GetComponent<Projectile>();
                 if (gunType != GunType.MORTAR) newProjectile.Fire(barrel.position, barrel.right * muzzleVelocity);
-                else newProjectile.Fire(barrel.position, fireVelocity);
+                else newProjectile.Fire(barrel.position, barrel.up * muzzleVelocity);
                 newProjectile.factionId = inheritance;
-
-                //Handle knockback:
-                Vector2 knockbackForce = newProjectile.hitProperties.mass * muzzleVelocity * -barrel.right; //Calculate knockback force based on mass and muzzle velocity of projectile
-                parentCell.room.targetTank.treadSystem.HandleImpact(knockbackForce, barrel.position);       //Apply knockback to own treadsystem at barrel position in reverse direction of projectile
 
                 //If Special, Remove from List
                 if (projectile != projectilePrefab) { specialAmmo.RemoveAt(0); }
@@ -305,6 +312,10 @@ namespace TowerTanks.Scripts
                     newProjectile.layerMask |= (LayerMask.NameToLayer("Projectiles"));
                     newProjectile.layerMask &= (LayerMask.NameToLayer("EnemyProjectiles"));
                 }*/
+
+                //Apply recoil:
+                Vector2 recoilForce = -barrel.right * recoil;                                  //Get force of recoil from direction of barrel and set magnitude
+                tank.treadSystem.r.AddForceAtPosition(recoilForce, barrel.transform.position); //Apply recoil force at position of barrel
 
                 //Revert from Spread
                 barrel.localEulerAngles = tempRotation;

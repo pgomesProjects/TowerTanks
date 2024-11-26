@@ -9,7 +9,6 @@ namespace TowerTanks.Scripts
         private TankAI _tankAI;
         private TankController _tank;
         private float heartbeatTimer = 1f;
-        private Coroutine _heartbeatCoroutine;
 
         public TankEngageState(TankAI tank)
         {
@@ -19,31 +18,26 @@ namespace TowerTanks.Scripts
 
         private IEnumerator Heartbeat()
         {
-            bool isPlayerOnLeft = _tankAI.GetTarget().transform.position.x < _tank.transform.position.x;
-            int directionToTarget = isPlayerOnLeft ? -1 : 1;
-            if (_tankAI.GetTarget().transform.position.x + (_tankAI.aiSettings.defaultFightingDistance * directionToTarget) < _tank.transform.position.x)
+            var dir = _tankAI.TankIsRightOfTarget() ? -1 : 1;
+            if (_tankAI.HasActiveThrottle())
             {
-                while (_tank.gear != -2)
+                if (_tankAI.TargetTooClose())
                 {
-                    _tank.ShiftLeft();
-                    yield return null;
+                    _tank.SetTankGear(2 * -dir, .15f);
                 }
-            }
-            else
-            {
-                while (_tank.gear != 2)
+                else
                 {
-                    _tank.ShiftRight();
-                    yield return null;
+                    _tankAI.MoveRandom(2);
                 }
             }
             yield return new WaitForSeconds(heartbeatTimer);
-            _heartbeatCoroutine = _tank.StartCoroutine(Heartbeat());
+            _tank.StartCoroutine(Heartbeat());
         }
 
         public void OnEnter()
         {
-            _heartbeatCoroutine = _tank.StartCoroutine(Heartbeat());
+            _tankAI.DistributeAllWeightedTokens(_tankAI.aiSettings.engageStateInteractableWeights);
+            _tank.StartCoroutine(Heartbeat());
         }
 
         public void FrameUpdate() { }
@@ -52,7 +46,8 @@ namespace TowerTanks.Scripts
 
         public void OnExit()
         {
-            _tank.StopCoroutine(_heartbeatCoroutine);
+            _tankAI.RetrieveAllTokens();
+            _tank.StopAllCoroutines();
         }
 
     }

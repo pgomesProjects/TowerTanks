@@ -37,10 +37,10 @@ public class Trajectory : MonoBehaviour
         return listOfTrajectoryPoints;
     }
     
-    public static Vector3 GetHitPoint(List<Vector3> trajectoryPoints)
+    public static RaycastHit2D GetHitPoint(List<Vector3> trajectoryPoints)
     {
         var excludeLayer = (1 << LayerMask.NameToLayer("Camera")) |
-                              (1 << LayerMask.NameToLayer("Projectiles"));
+                           (1 << LayerMask.NameToLayer("Projectiles"));
         //starting i at 3 to avoid the first few points that are too close to the tank
         for (int i = 3; i < trajectoryPoints.Count - 1; i++)
         {
@@ -49,9 +49,10 @@ public class Trajectory : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(start, end - start, Vector3.Distance(start, end), ~excludeLayer);
             if (hit.collider != null)
             {
-                return hit.point;
+                return hit;
             }
         }
-        return trajectoryPoints[^1]; //return the last trajectory point if no collider was hit
+
+        return new RaycastHit2D();
     }
 }
