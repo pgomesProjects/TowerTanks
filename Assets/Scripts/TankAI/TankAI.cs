@@ -3,6 +3,7 @@ using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
 using System.Drawing;
+using Sirenix.OdinInspector;
 using UnityEditor;
 using System.Diagnostics;
 using UnityEngine;
@@ -15,11 +16,11 @@ namespace TowerTanks.Scripts
     public class TankAI : MonoBehaviour
     {
         #region Transition Conditions
-        public bool TargetInViewRange() =>      Vector2.Distance(tank.treadSystem.transform.position, _tankManager.playerTank.treadSystem.transform.position) < aiSettings.viewRange;
-        public bool TargetOutOfView() =>        Vector2.Distance(tank.treadSystem.transform.position, _tankManager.playerTank.treadSystem.transform.position) > aiSettings.viewRange;
-        public bool TargetInEngageRange() =>    Vector2.Distance(tank.treadSystem.transform.position, _tankManager.playerTank.treadSystem.transform.position) < aiSettings.maxEngagementRange;
-        public bool TargetOutOfEngageRange() => Vector2.Distance(tank.treadSystem.transform.position, _tankManager.playerTank.treadSystem.transform.position) > aiSettings.maxEngagementRange;
-        public bool TargetTooClose() =>         Vector2.Distance(tank.treadSystem.transform.position, _tankManager.playerTank.treadSystem.transform.position) < aiSettings.minEngagementRange;
+        public bool TargetInViewRange() =>      Vector2.Distance(tank.treadSystem.transform.position, targetTank.treadSystem.transform.position) < aiSettings.viewRange;
+        public bool TargetOutOfView() =>        Vector2.Distance(tank.treadSystem.transform.position, targetTank.treadSystem.transform.position) > aiSettings.viewRange;
+        public bool TargetInEngageRange() =>    Vector2.Distance(tank.treadSystem.transform.position, targetTank.treadSystem.transform.position) < aiSettings.maxEngagementRange;
+        public bool TargetOutOfEngageRange() => Vector2.Distance(tank.treadSystem.transform.position, targetTank.treadSystem.transform.position) > aiSettings.maxEngagementRange;
+        public bool TargetTooClose() =>         Vector2.Distance(tank.treadSystem.transform.position, targetTank.treadSystem.transform.position) < aiSettings.minEngagementRange;
         bool NoGuns() => !tank.interactableList.Any(i => i.script is GunController);
         #endregion
         
@@ -31,7 +32,7 @@ namespace TowerTanks.Scripts
             {INTERACTABLE.Throttle, typeof(InteractableBrain)},
         };
         
-        private StateMachine fsm;
+        public StateMachine fsm;
         [FormerlySerializedAs("_tank")] [HideInInspector] public TankController tank;
         [HideInInspector] public TankController targetTank;
         private TankManager _tankManager;
@@ -61,19 +62,18 @@ namespace TowerTanks.Scripts
             var engageState = new TankEngageState(this);
             var surrenderState = new TankSurrenderState(this);
             
-            
-            //bool condition if there are no guncontrollers in _tank
-            
-            
             void At(IState from, IState to, Func<bool> condition) => fsm.AddTransition(from, to, condition);
             void AnyAt(IState to, Func<bool> condition) => fsm.AddAnyTransition(to, condition);
             
             //patrol state transitions
             At(patrolState, pursueState, TargetInViewRange);
-            At(pursueState, patrolState ,TargetOutOfView);
+            //At(pursueState, patrolState ,TargetOutOfView);
             //pursue state transitions
             At(pursueState, engageState ,TargetInEngageRange);
-            At(engageState, pursueState ,TargetOutOfEngageRange);
+            At(engageState, patrolState ,TargetOutOfView);
+            
+            At(engageState, patrolState ,() => targetTank.treadSystem == null);
+            At(pursueState, patrolState ,() => targetTank.treadSystem == null);
             AnyAt(surrenderState, NoGuns); //this being an "any transition" means that it can be triggered from any state
             
             fsm.SetState(patrolState);
@@ -84,14 +84,25 @@ namespace TowerTanks.Scripts
             //see if token activated interactables has a throttle interactable in it
             return tokenActivatedInteractables.Any(i => i.brain.GetType() == interactableEnumToBrainMap[INTERACTABLE.Throttle]);
         }
-
-        public void SetTarget(TankController tank)
+        
+        public void SetClosestTarget()
         {
-            targetTank = tank;
+            if (TankManager.instance == null || TankManager.instance.tanks == null || TankManager.instance.tanks.Count == 0)
+            {
+                targetTank = null;
+                return;
+            }
+
+            targetTank = TankManager.instance.tanks
+                .Where(tankId => tankId.tankScript != tank)
+                .OrderBy(tankId => Vector2.Distance(tank.treadSystem.transform.position, tankId.tankScript.treadSystem.transform.position))
+                .FirstOrDefault()?.tankScript;
         }
 
+        [Button]
         public TankController GetTarget()
         {
+            Debug.Log($"{tank.name}'s target tank is: {targetTank.name}");
             return targetTank;
         }
 
@@ -282,7 +293,7 @@ namespace TowerTanks.Scripts
             Gizmos.color = Color.red;
             if (tank == null) return;
             Vector3 tankPos = tank.treadSystem.transform.position;
-            Gizmos.DrawWireSphere(tankPos, aiSettings.viewRange);
+            if (fsm._currentState.GetType() != typeof(TankPursueState)) Gizmos.DrawWireSphere(tankPos, aiSettings.viewRange);
             int i = 0;
             foreach (var interactable in tokenActivatedInteractables)
             {
@@ -306,7 +317,7 @@ namespace TowerTanks.Scripts
             
             //draw circle for engagement range
             Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(tankPos, aiSettings.maxEngagementRange);
+            if (fsm._currentState.GetType() != typeof(TankEngageState)) Gizmos.DrawWireSphere(tankPos, aiSettings.maxEngagementRange);
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(tankPos, aiSettings.minEngagementRange);
         }

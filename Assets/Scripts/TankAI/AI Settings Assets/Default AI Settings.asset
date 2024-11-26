@@ -68,7 +68,7 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 12
-      Data: 2
+      Data: 1
     - Name: 
       Entry: 7
       Data: 
@@ -78,18 +78,6 @@ MonoBehaviour:
     - Name: $v
       Entry: 4
       Data: 25
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 6
-    - Name: $v
-      Entry: 4
-      Data: 75
     - Name: 
       Entry: 8
       Data: 
@@ -108,7 +96,7 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 12
-      Data: 2
+      Data: 4
     - Name: 
       Entry: 7
       Data: 
@@ -129,7 +117,31 @@ MonoBehaviour:
       Data: 6
     - Name: $v
       Entry: 4
-      Data: 90
+      Data: 30
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 5
+    - Name: $v
+      Entry: 4
+      Data: 30
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 4
+    - Name: $v
+      Entry: 4
+      Data: 30
     - Name: 
       Entry: 8
       Data: 
@@ -139,7 +151,7 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  viewRange: 50
-  maxEngagementRange: 38.02
+  viewRange: 61.61
+  maxEngagementRange: 50.4
   minEngagementRange: 10
   tankEconomy: 10

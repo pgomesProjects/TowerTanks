@@ -9,7 +9,6 @@ namespace TowerTanks.Scripts
         private TankAI _tankAI;
         private TankController _tank;
         private float heartbeatTimer = 1f;
-        private Coroutine _heartbeatCoroutine;
 
         public TankEngageState(TankAI tank)
         {
@@ -32,13 +31,13 @@ namespace TowerTanks.Scripts
                 }
             }
             yield return new WaitForSeconds(heartbeatTimer);
-            _heartbeatCoroutine = _tank.StartCoroutine(Heartbeat());
+            _tank.StartCoroutine(Heartbeat());
         }
 
         public void OnEnter()
         {
             _tankAI.DistributeAllWeightedTokens(_tankAI.aiSettings.engageStateInteractableWeights);
-            _heartbeatCoroutine = _tank.StartCoroutine(Heartbeat());
+            _tank.StartCoroutine(Heartbeat());
         }
 
         public void FrameUpdate() { }
@@ -48,7 +47,7 @@ namespace TowerTanks.Scripts
         public void OnExit()
         {
             _tankAI.RetrieveAllTokens();
-            _tank.StopCoroutine(_heartbeatCoroutine);
+            _tank.StopAllCoroutines();
         }
 
     }

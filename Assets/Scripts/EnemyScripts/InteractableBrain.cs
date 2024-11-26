@@ -14,6 +14,8 @@ namespace TowerTanks.Scripts
         [HideInInspector] public INTERACTABLE myInteractableType;
         //will define common functionality for all interactable AI Brains. just here to use for polymorphism for now
         
+        public bool tokenActivated;
+        
         private void OnDestroy()
         {
             if (!myTankAI.tokenActivatedInteractables.Contains(myInteractableID)) return;

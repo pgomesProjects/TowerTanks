@@ -15,7 +15,7 @@ namespace TowerTanks.Scripts
         public float aimCooldown;
         internal float aimTimer;
         public float cooldownOffset;
-
+        
         public bool isRotating;
         internal float currentForce;
         internal List<Vector3> trajectoryPoints;
@@ -38,7 +38,7 @@ namespace TowerTanks.Scripts
             if (fireTimer < fireCooldown) fireTimer += Time.deltaTime;
             else
             {
-                gunScript.Fire(false, gunScript.tank.tankType);
+                gunScript.Fire(true, gunScript.tank.tankType);
                 float randomOffset = Random.Range(-cooldownOffset, cooldownOffset);
                 fireTimer = 0 + randomOffset;
             }
@@ -57,35 +57,53 @@ namespace TowerTanks.Scripts
             
         }
         
-        public virtual void AimAtTarget() //mortar overrides bc it uses slightly different aiming
+        public virtual void AimAtTarget()
         {
             if (myTankAI.targetTank == null) return;
 
             var proj = gunScript.projectilePrefab.GetComponent<Projectile>();
 
             trajectoryPoints = Trajectory.GetTrajectory(gunScript.barrel.position, gunScript.barrel.right * gunScript.muzzleVelocity, proj.gravity, 100);
-            hitPoint = Trajectory.GetHitPoint(trajectoryPoints);
+            RaycastHit2D hit = Trajectory.GetHitPoint(trajectoryPoints);
 
-            if (hitPoint == trajectoryPoints[^1]) // this means the trajectory hit nothing at all. so we want to use a
-            {                                      // point just a bit ahead of the barrel for accurate aiming,
-                hitPoint = trajectoryPoints[10];   // instead of that default endpoint
+            hitPoint = hit.point;
+
+            Vector3 tankPosition = myTankAI.tank.treadSystem.transform.position + Vector3.up * 2.5f;
+            Vector3 targetPosition = myTankAI.targetTank.treadSystem.transform.position + Vector3.up * 2.5f;
+            
+            bool hitPointIsRightOfTarget = hitPoint.x > targetPosition.x;
+
+            // if our projected hitpoint is past the tank we're fighting, the hitpoint is set right in front of the barrel, because in that scenario we want to aim based on our gun's general direction and not our hitpoint
+            if ((!myTankAI.TankIsRightOfTarget() && hitPointIsRightOfTarget) || (myTankAI.TankIsRightOfTarget() && !hitPointIsRightOfTarget) || hit.collider == null)
+            {
+                hitPoint = trajectoryPoints[2];
             }
-            
-            //Adding Vector3.up * 2.5f because the tread system's transform is a bit low, we want to aim a little above that
-            Vector3 target = myTankAI.targetTank.treadSystem.transform.position + Vector3.up * 2.5f;
-            
-            Vector3 diff = hitPoint - target;
-            
-            
-            currentForce = diff.y > 0 ? 1 : -1;
+
+            Vector3 direction = targetPosition - tankPosition;
+
+            // Project the hit point onto the direction vector
+            Vector3 projectedPoint = tankPosition + Vector3.Project(hitPoint - tankPosition, direction);
+
+            // Determine if the hit point is above or below the projected point
+            if (hitPoint.y > projectedPoint.y)
+            {
+                currentForce = myTankAI.TankIsRightOfTarget() ? 1 : -1;
+            }
+            else
+            {
+                currentForce = myTankAI.TankIsRightOfTarget() ? -1 : 1;
+            }
+
+            gunScript.RotateBarrel(currentForce, false);
         }
 
         private void OnDrawGizmos()
         {
             if (trajectoryPoints == null) return;
+            if (!tokenActivated) return;
             for (int i = 0; i < trajectoryPoints.Count - 1; i++)
             {
-                Gizmos.color = Color.red;
+                Gizmos.color = myTankAI.TankIsRightOfTarget() ? Color.red : Color.blue;
                 Gizmos.DrawLine(trajectoryPoints[i], trajectoryPoints[i + 1]);
                 if (trajectoryPoints[i] == hitPoint) break; // stops projecting line at target
             }

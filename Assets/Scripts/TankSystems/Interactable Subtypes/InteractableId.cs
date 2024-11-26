@@ -15,7 +15,6 @@ namespace TowerTanks.Scripts
         public InteractableBrain brain;
         public TankInteractable.InteractableType type;
         public INTERACTABLE thisInteractableEnum;
-        public bool tokenActivated = false;
 
         private TankAI returnTokenHere;
 
@@ -44,7 +43,7 @@ namespace TowerTanks.Scripts
         {
             returnTokenHere = returnToken;
             brain.enabled = true;
-            tokenActivated = true;
+            brain.tokenActivated = true;
         }
         
         public void ReturnToken()
@@ -52,7 +51,7 @@ namespace TowerTanks.Scripts
             if (!returnTokenHere) return;
             returnTokenHere.RetrieveToken(this);
             brain.enabled = false;
-            tokenActivated = false;
+            brain.tokenActivated = false;
         }
         
         

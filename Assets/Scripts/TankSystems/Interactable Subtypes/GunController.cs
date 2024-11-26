@@ -198,21 +198,19 @@ namespace TowerTanks.Scripts
 
                 if (chargeTimer >= minChargeTime)
                 {
-                    //Show trajectory based on velocity
-                    Color playerColor = Color.white;
+                    List<Vector3> trajectoryPoints = Trajectory.GetTrajectory(barrel.position, barrel.up * muzzleVelocity, 30, 100);
+
                     if (operatorID)
                     {
-                        playerColor = operatorID.GetCharacterColor();
-                    }
-                    
-                    trajectoryLine.startColor = playerColor;
-                    trajectoryLine.endColor = playerColor;
+                        Color playerColor = operatorID.GetCharacterColor();
+                        trajectoryLine.startColor = playerColor;
+                        trajectoryLine.endColor = playerColor;
 
-                    trajectoryLine.enabled = true;
-                    List<Vector3> trajectoryPoints = Trajectory.GetTrajectory(barrel.position, barrel.up * muzzleVelocity, 30, 100);
-                    for (int i = 0; i < trajectoryPoints.Count; i++)
-                    {
-                        trajectoryLine.SetPosition(i, trajectoryPoints[i]);
+                        trajectoryLine.enabled = true;
+                        for (int i = 0; i < trajectoryPoints.Count; i++)
+                        {
+                            trajectoryLine.SetPosition(i, trajectoryPoints[i]);
+                        }
                     }
                 }
             } else
@@ -284,12 +282,6 @@ namespace TowerTanks.Scripts
                 {
                     canFire = true;
                     chargeTimer = 0;
-                }
-
-                if (overrideConditions)
-                {
-                    float newVelocity = Random.Range((minVelocity + 15f), maxVelocity);
-                    muzzleVelocity = newVelocity;
                 }
             };
 
