@@ -16,11 +16,16 @@ namespace TowerTanks.Scripts
     public class TankAI : MonoBehaviour
     {
         #region Transition Conditions
-        public bool TargetInViewRange() =>      Vector2.Distance(tank.treadSystem.transform.position, targetTank.treadSystem.transform.position) < aiSettings.viewRange;
-        public bool TargetOutOfView() =>        Vector2.Distance(tank.treadSystem.transform.position, targetTank.treadSystem.transform.position) > aiSettings.viewRange;
-        public bool TargetInEngageRange() =>    Vector2.Distance(tank.treadSystem.transform.position, targetTank.treadSystem.transform.position) < aiSettings.maxEngagementRange;
-        public bool TargetOutOfEngageRange() => Vector2.Distance(tank.treadSystem.transform.position, targetTank.treadSystem.transform.position) > aiSettings.maxEngagementRange;
-        public bool TargetTooClose() =>         Vector2.Distance(tank.treadSystem.transform.position, targetTank.treadSystem.transform.position) < aiSettings.minEngagementRange;
+        public bool TargetInViewRange() =>      targetTank.treadSystem != null &&
+                                                Vector2.Distance(tank.treadSystem.transform.position, targetTank.treadSystem.transform.position) < aiSettings.viewRange;
+        public bool TargetOutOfView() =>        targetTank.treadSystem == null ||
+                                                Vector2.Distance(tank.treadSystem.transform.position, targetTank.treadSystem.transform.position) > aiSettings.viewRange;
+        public bool TargetInEngageRange() =>    targetTank.treadSystem != null &&
+                                                Vector2.Distance(tank.treadSystem.transform.position, targetTank.treadSystem.transform.position) < aiSettings.maxEngagementRange;
+        public bool TargetOutOfEngageRange() => targetTank.treadSystem == null ||
+                                                Vector2.Distance(tank.treadSystem.transform.position, targetTank.treadSystem.transform.position) > aiSettings.maxEngagementRange;
+        public bool TargetTooClose() =>         targetTank.treadSystem != null &&
+                                                Vector2.Distance(tank.treadSystem.transform.position, targetTank.treadSystem.transform.position) < aiSettings.minEngagementRange;
         bool NoGuns() => !tank.interactableList.Any(i => i.script is GunController);
         #endregion
         
@@ -49,13 +54,12 @@ namespace TowerTanks.Scripts
             tank = GetComponent<TankController>();
             
             currentTokenCount = aiSettings.tankEconomy;
-            _tankManager = FindObjectOfType<TankManager>();
+            _tankManager = TankManager.instance;
         }
         
         private IEnumerator Start()
         {
             yield return new WaitForSeconds(0.1f); // AI Waits before initialization to give time for any tank room generation
-
             fsm = new StateMachine();
             var patrolState = new TankPatrolState(this);
             var pursueState = new TankPursueState(this);
@@ -65,15 +69,12 @@ namespace TowerTanks.Scripts
             void At(IState from, IState to, Func<bool> condition) => fsm.AddTransition(from, to, condition);
             void AnyAt(IState to, Func<bool> condition) => fsm.AddAnyTransition(to, condition);
             
-            //patrol state transitions
+            
             At(patrolState, pursueState, TargetInViewRange);
-            //At(pursueState, patrolState ,TargetOutOfView);
-            //pursue state transitions
             At(pursueState, engageState ,TargetInEngageRange);
             At(engageState, patrolState ,TargetOutOfView);
-            
-            At(engageState, patrolState ,() => targetTank.treadSystem == null);
-            At(pursueState, patrolState ,() => targetTank.treadSystem == null);
+            At(pursueState, patrolState ,TargetOutOfView);
+
             AnyAt(surrenderState, NoGuns); //this being an "any transition" means that it can be triggered from any state
             
             fsm.SetState(patrolState);
@@ -87,16 +88,11 @@ namespace TowerTanks.Scripts
         
         public void SetClosestTarget()
         {
-            if (TankManager.instance == null || TankManager.instance.tanks == null || TankManager.instance.tanks.Count == 0)
-            {
-                targetTank = null;
-                return;
-            }
-
-            targetTank = TankManager.instance.tanks
+            targetTank = _tankManager.tanks
                 .Where(tankId => tankId.tankScript != tank)
                 .OrderBy(tankId => Vector2.Distance(tank.treadSystem.transform.position, tankId.tankScript.treadSystem.transform.position))
                 .FirstOrDefault()?.tankScript;
+            
         }
 
         [Button]
