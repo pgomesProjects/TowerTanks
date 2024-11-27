@@ -242,6 +242,13 @@ namespace TowerTanks.Scripts
 
         public void StartCharge()
         {
+            //If there is no operator, just add pressure
+            if(operatorID == null)
+            {
+                AddPressure(25, false, false);
+                return;
+            }
+
             float random = Random.Range(minTargetCharge, maxTargetCharge);
             targetCharge = random;
 
@@ -252,7 +259,7 @@ namespace TowerTanks.Scripts
             float max = ((targetCharge + targetChargeOffset)) / maxChargeTime;
 
             currentGauge = GameManager.Instance.UIManager.AddTimingGauge(gameObject, new Vector2(0f, -0.56f), maxChargeTime, min, max, true);
-            operatorID.GetCharacterHUD().SetButtonPrompt(GameAction.ReleaseSteam, false);
+            operatorID?.GetCharacterHUD()?.SetButtonPrompt(GameAction.ReleaseSteam, false);
         }
 
         public void CheckCharge()
@@ -284,7 +291,7 @@ namespace TowerTanks.Scripts
                 //Ends the timing gauge and destroys it
                 currentGauge.EndTimingGauge();
                 currentGauge = null;
-                operatorID.GetCharacterHUD().SetButtonPrompt(GameAction.ReleaseSteam, true);
+                operatorID?.GetCharacterHUD()?.SetButtonPrompt(GameAction.ReleaseSteam, true);
             }
         }
 
