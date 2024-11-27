@@ -303,6 +303,14 @@ namespace TowerTanks.Scripts
                 else newProjectile.Fire(barrel.position, barrel.up * muzzleVelocity);
                 newProjectile.factionId = inheritance;
 
+                //Handle knockback:
+                ImpactProperties knockbackProperties = newProjectile.knockbackProperties;              //Get knockback properties from projectile
+                if (knockbackProperties == null) knockbackProperties = newProjectile.impactProperties; //Use impact properties if none are given
+                if (knockbackProperties != null) //Projectile has useable knockback properties
+                {
+                    parentCell.room.targetTank.treadSystem.HandleImpact(knockbackProperties, -barrel.right * muzzleVelocity, barrel.position); //Apply knockback at barrel position in reverse direction of projectile
+                }
+
                 //If Special, Remove from List
                 if (projectile != projectilePrefab) { specialAmmo.RemoveAt(0); }
 
@@ -312,10 +320,6 @@ namespace TowerTanks.Scripts
                     newProjectile.layerMask |= (LayerMask.NameToLayer("Projectiles"));
                     newProjectile.layerMask &= (LayerMask.NameToLayer("EnemyProjectiles"));
                 }*/
-
-                //Apply recoil:
-                Vector2 recoilForce = -barrel.right * recoil;                                  //Get force of recoil from direction of barrel and set magnitude
-                tank.treadSystem.r.AddForceAtPosition(recoilForce, barrel.transform.position); //Apply recoil force at position of barrel
 
                 //Revert from Spread
                 barrel.localEulerAngles = tempRotation;
