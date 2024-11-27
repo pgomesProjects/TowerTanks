@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using System.Threading.Tasks;
 using TMPro;
 using System.Linq;
 using Sirenix.OdinInspector;
+using TowerTanks.Scripts.DebugTools;
 
 namespace TowerTanks.Scripts
 {
@@ -30,6 +32,8 @@ namespace TowerTanks.Scripts
         private TextMeshProUGUI nameText;
         private float currentCoreHealth;
         private TankManager tankManager;
+        private TankAI _thisTankAI;
+        public GameObject flag;
 
         [Header("Cargo")]
         public GameObject[] cargoHold;
@@ -51,6 +55,37 @@ namespace TowerTanks.Scripts
         public void ShiftLeft()
         {
             ChangeAllGear(-1);
+        }
+        
+        /// <summary>
+        /// Sets the tank's gear to the specified value.
+        /// </summary>
+        /// <param name="newGear">
+        /// int to set the tank's gear to. Must be between -throttle.speedSettings and throttle.speedSettings.
+        /// </param>
+        public async void SetTankGear(int newGear, float secondsBetweenThrottleShifts = 0)
+        {
+            if (Mathf.Abs(newGear) > 2)
+            {
+                Debug.LogError("SETTANKGEAR: New gear input parameter is over max threshold."); 
+                return;
+            }
+            
+            while (treadSystem.gear != newGear)
+            {
+                if (treadSystem.gear < newGear)
+                {
+                    ShiftRight();
+                }
+                else 
+                {
+                    ShiftLeft();
+                }
+                await Task.Yield();
+                int milli = (int) (secondsBetweenThrottleShifts * 1000);
+                
+                await Task.Delay(milli);
+            }
         }
 
         private float damage = 100f;
@@ -197,6 +232,7 @@ namespace TowerTanks.Scripts
         private void Awake()
         {
             //Get objects & components:
+            _thisTankAI = GetComponent<TankAI>();
             treadSystem = GetComponentInChildren<TreadSystem>(); //Get tread system from children
             towerJoint = transform.Find("TowerJoint");           //Get tower joint from children
             treadSystem.Initialize();                            //Make sure treads are initialized
@@ -261,6 +297,7 @@ namespace TowerTanks.Scripts
                     InteractableId newId = new InteractableId();
                     newId.interactable = interactable;
                     newId.script = interactable.GetComponent<TankInteractable>();
+                    //newId.brain = interactable.GetComponent<InteractableBrain>();
                     newId.type = newId.script.interactableType;
                     newId.stackName = newId.script.stackName;
                     interactableList.Add(newId);
@@ -948,14 +985,14 @@ namespace TowerTanks.Scripts
 
         public void EnableCannonBrains(bool enabled)
         {
-            SimpleCannonBrain[] brains = GetComponentsInChildren<SimpleCannonBrain>();
-            foreach(SimpleCannonBrain brain in brains)
+            WeaponBrain[] brains = GetComponentsInChildren<WeaponBrain>();
+            foreach(WeaponBrain brain in brains)
             {
                 brain.enabled = enabled;
             }
 
-            SimpleTankBrain _brain = GetComponent<SimpleTankBrain>();
-            _brain.enabled = true;
+            //SimpleTankBrain _brain = GetComponent<SimpleTankBrain>();
+            //_brain.enabled = true;
         }
         /// <summary>
         /// Updates envelope describing height and width of tank relative to treadbase.
@@ -1000,10 +1037,22 @@ namespace TowerTanks.Scripts
             InteractableId newId = new InteractableId();
             newId.interactable = interactable;
             newId.script = interactable.GetComponent<TankInteractable>();
+
+            if (interactable.TryGetComponent(out InteractableBrain brain))
+            {
+                newId.brain = brain;
+                newId.brain.myTankAI = _thisTankAI;
+                newId.brain.myInteractableID = newId;
+                newId.brain.enabled = false;
+            }
             newId.type = newId.script.interactableType;
+            
             newId.stackName = newId.script.stackName;
             interactableList.Add(newId);
-            if (tankType == TankId.TankType.ENEMY) interactablePool.Add(newId);
+            if (tankType == TankId.TankType.ENEMY)
+            {
+                interactablePool.Add(newId);
+            }
         }
 
         public void AddRoomToStats(Room currentRoom)

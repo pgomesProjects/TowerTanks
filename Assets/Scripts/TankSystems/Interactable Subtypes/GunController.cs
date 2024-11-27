@@ -32,6 +32,7 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("Curve describing motion of barrel during reciprocation phase.")] private AnimationCurve reciprocationCurve;
         [Space(), HideInInspector]
         public float fireCooldownTimer;
+        private bool isCooldownActive;
         [Tooltip("Radius of Degrees of the Cone of Fire for this weapon's projectiles"), SerializeField, Min(0)] private float spread;
 
         //Gun Specific Settings
@@ -85,6 +86,14 @@ namespace TowerTanks.Scripts
 
             //Initialize runtime variables:
             if (reciprocatingBarrel != null) barrelBasePos = reciprocatingBarrel.localPosition;
+            isCooldownActive = false;
+        }
+
+        public override void LockIn(GameObject playerID)
+        {
+            base.LockIn(playerID);
+
+            ShowFirePrompt(true);
         }
 
         public override void Use(bool overrideConditions = false)
@@ -93,6 +102,12 @@ namespace TowerTanks.Scripts
 
             if (cooldown <= 0)
                 Fire(overrideConditions, tank.tankType);
+        }
+
+        public override void Exit(bool sameZone)
+        {
+            ShowFirePrompt(false);
+            base.Exit(sameZone);
         }
 
         private void Update()
@@ -116,6 +131,11 @@ namespace TowerTanks.Scripts
             if (fireCooldownTimer > 0)
             {
                 fireCooldownTimer -= Time.deltaTime;
+            }
+            else if(isCooldownActive && !(gunType == GunType.MACHINEGUN))
+            {
+                isCooldownActive = false;
+                ShowFirePrompt(true);
             }
 
             //Gun Specific
@@ -144,7 +164,15 @@ namespace TowerTanks.Scripts
                 }
                 else
                 {
-                    if (overheatTimer <= 0) isOverheating = false;
+                    if (overheatTimer <= 0)
+                    {
+                        isOverheating = false;
+                        if (isCooldownActive)
+                        {
+                            isCooldownActive = false;
+                            ShowFirePrompt(true);
+                        }
+                    }
                 }
 
                 if (isOverheating)
@@ -269,6 +297,8 @@ namespace TowerTanks.Scripts
                     }
 
                     GameManager.Instance.UIManager.AddTaskBar(gameObject, new Vector2(-0.4f, -0.55f), overheatTime / (1 / overheatCooldownMultiplier), true);
+                    ShowFirePrompt(false);
+                    isCooldownActive = true;
                 }
 
                 if (isOverheating) canFire = false;
@@ -333,6 +363,8 @@ namespace TowerTanks.Scripts
                     GameManager.Instance.AudioManager.Play("CannonFire", gameObject);
                     GameManager.Instance.AudioManager.Play("CannonThunk", gameObject); //Play firing audioclips
                     GameManager.Instance.UIManager.AddTaskBar(gameObject, new Vector2(-0.4f, -0.55f), rateOfFire, true);
+                    ShowFirePrompt(false);
+                    isCooldownActive = true;
                 }
 
                 if (gunType == GunType.MACHINEGUN)
@@ -353,11 +385,19 @@ namespace TowerTanks.Scripts
                     GameManager.Instance.AudioManager.Play("CannonThunk", gameObject);
                     GameManager.Instance.AudioManager.Play("ProjectileInAirSFX", gameObject);
                     GameManager.Instance.UIManager.AddTaskBar(gameObject, new Vector2(-0.4f, -0.55f), rateOfFire, true);
+                    ShowFirePrompt(false);
+                    isCooldownActive = true;
                 }
 
                 //Set Cooldown
                 fireCooldownTimer = rateOfFire;
             }
+        }
+
+        private void ShowFirePrompt(bool showPrompt)
+        {
+            if(operatorID != null)
+                operatorID.GetCharacterHUD().SetButtonPrompt(GameAction.Fire, showPrompt);
         }
 
         public void RotateBarrel(float force, bool withSound)

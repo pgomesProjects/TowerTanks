@@ -400,6 +400,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6311746647435508950}
   - component: {fileID: 1277811774015137651}
+  - component: {fileID: 271233859460530938}
   m_Layer: 0
   m_Name: InterCommand_Throttle
   m_TagString: Untagged
@@ -440,6 +441,7 @@ MonoBehaviour:
   tank: {fileID: 0}
   seat: {fileID: 0}
   interactableType: 1
+  thisCollider: {fileID: 0}
   stackName: Basic Throttle
   prefabRef: {fileID: 7281501281902775960}
   uiImage: {fileID: 21300000, guid: bb410dafb4f5c3c43a114a2d7b78ba4c, type: 2}
@@ -458,6 +460,19 @@ MonoBehaviour:
   currentSpeed: 0
   shiftRight: 0
   shiftLeft: 0
+--- !u!114 &271233859460530938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7281501281902775960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b96a9809c1f0aff46b9f51c27403006e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  switchedOn: 0
 --- !u!1 &7431721311491376393
 GameObject:
   m_ObjectHideFlags: 0

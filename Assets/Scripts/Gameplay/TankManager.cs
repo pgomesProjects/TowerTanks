@@ -43,6 +43,7 @@ namespace TowerTanks.Scripts
                 {
                     newtank.buildOnStart = true;
                 }
+                newtank.gameObject.GetComponent<TankAI>().enabled = true;
             }
 
             if (typeToSpawn == TankId.TankType.NEUTRAL)
@@ -81,7 +82,7 @@ namespace TowerTanks.Scripts
             instance = this; //Singleton-ize this script
             if (tanks.Count > 0)
             {
-                playerTank = tanks.Where(tank => tank.tankType == TankId.TankType.PLAYER).FirstOrDefault()?.tankScript;
+                playerTank = tanks.FirstOrDefault(tank => tank.tankType == TankId.TankType.PLAYER)?.tankScript;
             }
         }
 
