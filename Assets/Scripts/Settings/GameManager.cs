@@ -28,6 +28,8 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("The list of possible special rooms for use in the game.")] public RoomInfo[] specialRoomList;
         [SerializeField, Tooltip("The list of possible interactables for the players to pick. NOTE: Remember to update the enum list when updating this list.")] public TankInteractable[] interactableList;
 
+        internal SessionStats currentSessionStats;
+
         internal int TotalInteractables = Enum.GetNames(typeof(INTERACTABLE)).Length;
 
         [SerializeField, Tooltip("The time for levels to fade in.")] private float fadeInTime = 1f;
@@ -88,6 +90,7 @@ namespace TowerTanks.Scripts
             SystemEffects = GetComponentInChildren<SystemEffects>();
             CargoManager = GetComponentInChildren<CargoManager>();
             UIManager = GetComponentInChildren<GameUIManager>();
+            currentSessionStats = new SessionStats();
             gameFixedDeltaTimeStep = Time.fixedDeltaTime;
 
             //LoadBearingCheck();

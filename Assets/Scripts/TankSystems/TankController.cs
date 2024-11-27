@@ -741,6 +741,9 @@ namespace TowerTanks.Scripts
                 TankInteractable interactable = Instantiate(Resources.Load<RoomData>("RoomData").interactableList.FirstOrDefault(item => item.name == cellInter.interRef)).GetComponent<TankInteractable>(); //Get reference to and spawn in designated interactable
                 interactable.InstallInCell(target);                                                                                                                                                          //Install interactable in target cell
                 if (cellInter.flipped) interactable.Flip();                                                                                                                                                  //Flip interactable if ordered
+                
+                if (!CampaignManager.Instance.HasCampaignStarted) //Add the interactable to the stats if joining the combat scene first
+                    AddInteractableToStats(interactable);
             }
 
             //Build rooms:
@@ -788,6 +791,9 @@ namespace TowerTanks.Scripts
                 roomScript.Mount();
                 roomScript.ProcessManifest(tankDesign.buildingSteps[i].cellManifest);
 
+                if (!CampaignManager.Instance.HasCampaignStarted && tankType == TankId.TankType.PLAYER) //Add the room to the stats if joining the combat scene first
+                    AddRoomToStats(roomScript);
+
                 //Install interactables
                 foreach (BuildStep.CellInterAssignment cellInter in tankDesign.buildingSteps[i].cellInteractables) //Iterate through each cell interactable assignment
                 {
@@ -795,6 +801,9 @@ namespace TowerTanks.Scripts
                     TankInteractable interactable = Instantiate(Resources.Load<RoomData>("RoomData").interactableList.FirstOrDefault(item => item.name == cellInter.interRef)).GetComponent<TankInteractable>(); //Get reference to and spawn in designated interactable
                     interactable.InstallInCell(target);                                                                                                                                                          //Install interactable in target cell
                     if (cellInter.flipped) interactable.Flip();                                                                                                                                                  //Flip interactable if ordered
+
+                    if (!CampaignManager.Instance.HasCampaignStarted) //Add the interactable to the stats if joining the combat scene first
+                        AddInteractableToStats(interactable);
                 }
             }
 
@@ -976,7 +985,14 @@ namespace TowerTanks.Scripts
 
             //If this is the player tank, call the Action
             if (tankType == TankId.TankType.PLAYER)
+            {
                 OnPlayerTankSizeAdjusted?.Invoke();
+
+                //Add the highest point value to the tank stats
+                if (GetHighestPoint() > GameManager.Instance.currentSessionStats.maxHeight)
+                    GameManager.Instance.currentSessionStats.maxHeight = GetHighestPoint();
+            }
+
         }
 
         public void AddInteractable(GameObject interactable)
@@ -988,6 +1004,53 @@ namespace TowerTanks.Scripts
             newId.stackName = newId.script.stackName;
             interactableList.Add(newId);
             if (tankType == TankId.TankType.ENEMY) interactablePool.Add(newId);
+        }
+
+        public void AddRoomToStats(Room currentRoom)
+        {
+            GameManager.Instance.currentSessionStats.roomsBuilt++;
+            GameManager.Instance.currentSessionStats.totalCells += currentRoom.cells.Count;
+        }
+
+        public void RemoveRoomFromStats(Room currentRoom)
+        {
+            GameManager.Instance.currentSessionStats.roomsBuilt--;
+            GameManager.Instance.currentSessionStats.totalCells -= currentRoom.cells.Count;
+        }
+
+        public void AddInteractableToStats(TankInteractable tankInteractable)
+        {
+            //If the tank is the player tank, add to the stats
+            if (tankType == TankId.TankType.PLAYER)
+            {
+                //Check what interactable is being installed and update the stats accordingly
+                switch (tankInteractable)
+                {
+                    //Guns
+                    case GunController gun:
+                        switch (gun.gunType)
+                        {
+                            case GunController.GunType.CANNON:
+                                GameManager.Instance.currentSessionStats.cannonsBuilt++;
+                                break;
+                            case GunController.GunType.MACHINEGUN:
+                                GameManager.Instance.currentSessionStats.machineGunsBuilt++;
+                                break;
+                            case GunController.GunType.MORTAR:
+                                GameManager.Instance.currentSessionStats.mortarsBuilt++;
+                                break;
+                        }
+                        break;
+                    //Boiler
+                    case EngineController engine:
+                        GameManager.Instance.currentSessionStats.boilersBuilt++;
+                        break;
+                    //Throttle
+                    case ThrottleController throttle:
+                        GameManager.Instance.currentSessionStats.throttlesBuilt++;
+                        break;
+                }
+            }
         }
 
         public static List<Character> GetCharactersAssignedToTank(TankController tank)

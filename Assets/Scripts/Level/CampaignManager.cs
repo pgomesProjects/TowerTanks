@@ -18,8 +18,6 @@ namespace TowerTanks.Scripts
 
         public static Action OnCampaignStarted;
 
-        internal SessionStats currentSessionStats;
-
         private void Awake()
         {
             if (Instance != null && Instance != this)
@@ -65,7 +63,6 @@ namespace TowerTanks.Scripts
         public void SetupCampaign()
         {
             Debug.Log("Setting Up Campaign...");
-            currentSessionStats = new SessionStats();
             CurrentRound = 1;
 
             StackManager.ClearStack();
