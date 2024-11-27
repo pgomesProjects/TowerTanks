@@ -25,7 +25,7 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("The parent that holds all of the player HUD objects.")] private RectTransform playerHUDParentTransform;
         [SerializeField, Tooltip("The value of a singular scrap piece.")] private int scrapValue;
         [SerializeField, Tooltip("The component that tracks the objective information.")] private ObjectiveTracker objectiveTracker;
-        [SerializeField, Tooltip("The component that tracks encounter & event information.")] private EventSpawnerManager eventManager;
+        [SerializeField, Tooltip("The component that tracks encounter & event information.")] public EventSpawnerManager eventManager;
         [SerializeField, Tooltip("The component that tracks tank information.")] public TankManager tankManager;
         [SerializeField] public float enemiesDestroyed;
         public static float totalEnemiesDestroyed;
@@ -578,6 +578,7 @@ namespace TowerTanks.Scripts
             GameManager.Instance.tankDesign = currentTankDesign;
             GameManager.Instance.cargoManifest = manifest;
             GameManager.Instance.LoadScene("BuildTankScene", LevelTransition.LevelTransitionType.GATE, true, true, false);
+            GameManager.shopChance = eventManager.shopChance;
         }
 
         public int GetScrapValue() => scrapValue;
