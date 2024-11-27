@@ -21,6 +21,8 @@ namespace TowerTanks.Scripts
         private EngineController engineScript;
         private ThrottleController throttleScript;
         private TankConsumable consumableScript;
+        [HideInInspector]
+        public Collider2D thisCollider;
 
         //Settings:
         [Header("Stack Properties:")]
@@ -62,6 +64,7 @@ namespace TowerTanks.Scripts
         protected virtual void Awake()
         {
             //Get objects & components:
+            thisCollider = GetComponentInChildren<Collider2D>();
             renderers = GetComponentsInChildren<SpriteRenderer>(); //Get all spriterenderers for interactable visual
             interactZone = GetComponentInChildren<InteractableZone>();
             seat = transform.Find("Seat");
