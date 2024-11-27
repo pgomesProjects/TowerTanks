@@ -178,10 +178,13 @@ namespace TowerTanks.Scripts
                 timeBuilding += Time.deltaTime; //Increment build time tracker
                 if (timeBuilding >= characterSettings.buildTime) //Player has finished build
                 {
-                    StackManager.BuildTopStackItem()
-                        .InstallInCell(buildCell); //Install interactable from top of stack into designated build cell
+                    TankInteractable currentInteractable = StackManager.BuildTopStackItem();                 
+                    currentInteractable.InstallInCell(buildCell); //Install interactable from top of stack into designated build cell
                     StopBuilding(); //Indicate that build has stopped
                     CancelInteraction();
+
+                    //Add the interactable built to the stats
+                    GetComponentInParent<TankController>()?.AddInteractableToStats(currentInteractable);
                 }
             }
 
@@ -294,7 +297,7 @@ namespace TowerTanks.Scripts
 
             //If the status has changed, update the button prompts
             if(jetpackStatus != jetpackCanBeUsed)
-                characterHUD.SetButtonPrompt(GameAction.Jetpack, jetpackCanBeUsed);
+                characterHUD?.SetButtonPrompt(GameAction.Jetpack, jetpackCanBeUsed);
         }
 
         protected override void OnDrawGizmos()
@@ -951,7 +954,7 @@ namespace TowerTanks.Scripts
         {
             StartCoroutine(base.ResetAtEndOfFrame());
             yield return new WaitForEndOfFrame();
-            characterHUD.SetButtonPrompt(GameAction.Jetpack, true);
+            characterHUD?.SetButtonPrompt(GameAction.Jetpack, true);
             jetpackCanBeUsed = true;
         }
 

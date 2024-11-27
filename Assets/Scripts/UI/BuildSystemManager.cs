@@ -236,8 +236,6 @@ namespace TowerTanks.Scripts
             if (CurrentSubPhase == BuildingSubphase.Naming || CurrentSubPhase == BuildingSubphase.PickRooms)
                 return false;
 
-            Debug.Log("Mount Attempted.");
-
             //Get the room from the player and mount it
             WorldRoom playerRoom = GetPlayerRoom(playerInput);
             Room mountedRoom = playerRoom.Mount();
@@ -246,7 +244,8 @@ namespace TowerTanks.Scripts
             if (mountedRoom == null)
                 return false;
 
-            Debug.Log("There is a room.");
+            //Add the room to the stats
+            defaultPlayerTank.AddRoomToStats(mountedRoom);
 
             //Add the room mounting to the player action history
             AddToPlayerActionHistory(playerInput, playerRoom.playerSelector.GetRoomAt(playerRoom.playerSelector.GetNumberOfRoomsPlaced() - 1), mountedRoom);
@@ -314,6 +313,9 @@ namespace TowerTanks.Scripts
                 tankBuildHistory.Pop();
                 currentAction.room.Dismount();
                 Destroy(currentAction.room.gameObject);
+
+                //Remove the room from the stats
+                defaultPlayerTank.RemoveRoomFromStats(currentAction.room);
 
                 //Update the UI
                 OnPlayerUndo?.Invoke();

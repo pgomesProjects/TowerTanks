@@ -211,7 +211,6 @@ namespace TowerTanks.Scripts
         /// Installs interactable into target cell.
         /// </summary>
         /// <param name="target">The cell interactable will be installed in.</param>
-        /// <param name="installAsGhost">Pass true to install interactable as a ghost.</param>
         public bool InstallInCell(Cell target)
         {
             //Universal installation:

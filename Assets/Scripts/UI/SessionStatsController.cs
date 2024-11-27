@@ -61,7 +61,7 @@ namespace TowerTanks.Scripts
             downArrow.SetActive(true);
             statsContainer.anchoredPosition = new Vector2(0f, 0f);
 
-            SessionStats sessionStats = CampaignManager.Instance.currentSessionStats;
+            SessionStats sessionStats = GameManager.Instance.currentSessionStats;
 
             if (sessionStats == null)
                 sessionStats = new SessionStats();
