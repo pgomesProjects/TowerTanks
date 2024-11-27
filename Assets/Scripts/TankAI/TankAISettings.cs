@@ -21,8 +21,8 @@ namespace TowerTanks.Scripts
                  "goes into engage mode, real fight begins, hell breaks loose")]
         public float maxEngagementRange;
 
-        [Tooltip("Once in engagement state, the tank will try and maintain this much minimum distance from the player while in battle.")]
-        public float minEngagementRange;
+        [Tooltip("Once in engagement state, the tank will try and maintain this much distance from the player while in battle.")]
+        public float preferredFightDistance;
 
         [Tooltip("The max amount of tokens that this tank can have, and the amount of tokens that this tank starts with")]
         public int tankEconomy;

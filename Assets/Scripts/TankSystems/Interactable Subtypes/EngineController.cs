@@ -33,13 +33,13 @@ namespace TowerTanks.Scripts
 
         [Header("Charge Settings:")]
         public float maxChargeTime;
-        private float minChargeTime = 0f;
+        public float minChargeTime = 0f;
         public float chargeTimer = 0;
         private float targetChargeOffset = 0.2f;
         public float targetCharge;
         private float minTargetCharge = 0;
         private float maxTargetCharge = 0;
-        private bool chargeStarted;
+        public bool chargeStarted { get; private set; }
 
         TimingGauge currentGauge;
 
