@@ -21,14 +21,15 @@ namespace TowerTanks.Scripts
             var dir = _tankAI.TankIsRightOfTarget() ? -1 : 1;
             if (_tankAI.HasActiveThrottle())
             {
+                if (!_tankAI.TargetAtFightingDistance()) dir *= 2; //if we are at our fighting distance, it just use a speed setting of 1 instead of 2
                 if (_tankAI.TargetTooClose())
                 {
-                    _tank.SetTankGear(2 * -dir, .15f);
+                    _tank.SetTankGear(-dir, .15f);
                     Debug.Log("Target is too close!");
                 }
                 else
                 {
-                    _tankAI.MoveRandom(2);
+                    _tank.SetTankGear(dir, .15f);
                 }
             }
             yield return new WaitForSeconds(heartbeatTimer);

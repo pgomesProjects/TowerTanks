@@ -12,8 +12,6 @@ namespace TowerTanks.Scripts
         
         public float fireCooldown;
         internal float fireTimer;
-        public float aimCooldown;
-        internal float aimTimer;
         public float cooldownOffset;
         
         public bool isRotating;
@@ -29,7 +27,6 @@ namespace TowerTanks.Scripts
         protected void Start()
         {
             fireTimer = 0;
-            aimTimer = 0;
         }
 
         // Update is called once per frame
@@ -42,16 +39,7 @@ namespace TowerTanks.Scripts
                 float randomOffset = Random.Range(-cooldownOffset, cooldownOffset);
                 fireTimer = 0 + randomOffset;
             }
-
-            if (aimTimer < aimCooldown) aimTimer += Time.deltaTime;
-            else
-            {
-                float randomForce = Random.Range(-1.2f, 1.2f);
-                //StartCoroutine(AimCannon(randomForce));
-
-                float randomOffset = Random.Range(-2f, 2f);
-                aimTimer = 0 + randomOffset;
-            }
+            
             AimAtTarget();
             gunScript.RotateBarrel(currentForce, false);
             
@@ -73,7 +61,7 @@ namespace TowerTanks.Scripts
             
             bool hitPointIsRightOfTarget = hitPoint.x > targetPosition.x;
 
-            // if our projected hitpoint is past the tank we're fighting, the hitpoint is set right in front of the barrel, because in that scenario we want to aim based on our gun's general direction and not our hitpoint
+            // if our projected hitpoint is past the tank we're fighting, the hitpoint is set right in front of the barrel, because in that scenario we want to aim based on our gun's general direction and not our hitpoint (this doesnt apply to mortars)
             if ((!myTankAI.TankIsRightOfTarget() && hitPointIsRightOfTarget) || (myTankAI.TankIsRightOfTarget() && !hitPointIsRightOfTarget) || hit.collider == null)
             {
                 hitPoint = trajectoryPoints[2];
