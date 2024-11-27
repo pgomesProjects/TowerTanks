@@ -77,7 +77,7 @@ MonoBehaviour:
       Data: 0
     - Name: $v
       Entry: 4
-      Data: 25
+      Data: 15
     - Name: 
       Entry: 8
       Data: 
@@ -89,7 +89,7 @@ MonoBehaviour:
       Data: 2
     - Name: $v
       Entry: 4
-      Data: 75
+      Data: 85
     - Name: 
       Entry: 8
       Data: 
@@ -166,4 +166,4 @@ MonoBehaviour:
   viewRange: 150.1
   maxEngagementRange: 50.6
   preferredFightDistance: 30.93
-  tankEconomy: 4
+  tankEconomy: 5
