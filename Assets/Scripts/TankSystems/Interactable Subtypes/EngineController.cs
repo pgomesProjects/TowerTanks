@@ -217,6 +217,14 @@ namespace TowerTanks.Scripts
                 StartCharge();
         }
 
+        public override void LockIn(GameObject playerID)
+        {
+            base.LockIn(playerID);
+
+            operatorID.GetCharacterHUD().SetButtonPrompt(GameAction.AddFuel, true);
+            operatorID.GetCharacterHUD().SetButtonPrompt(GameAction.ReleaseSteam, true);
+        }
+
         public override void CancelUse()
         {
             base.CancelUse();
@@ -226,13 +234,21 @@ namespace TowerTanks.Scripts
 
         public override void Exit(bool sameZone)
         {
-            base.Exit(sameZone);
-
             RemoveTimingGauge();
+            operatorID.GetCharacterHUD().SetButtonPrompt(GameAction.AddFuel, false);
+            operatorID.GetCharacterHUD().SetButtonPrompt(GameAction.ReleaseSteam, false);
+            base.Exit(sameZone);
         }
 
         public void StartCharge()
         {
+            //If there is no operator, just add pressure
+            if(operatorID == null)
+            {
+                AddPressure(25, false, false);
+                return;
+            }
+
             float random = Random.Range(minTargetCharge, maxTargetCharge);
             targetCharge = random;
 
@@ -243,6 +259,7 @@ namespace TowerTanks.Scripts
             float max = ((targetCharge + targetChargeOffset)) / maxChargeTime;
 
             currentGauge = GameManager.Instance.UIManager.AddTimingGauge(gameObject, new Vector2(0f, -0.56f), maxChargeTime, min, max, true);
+            operatorID?.GetCharacterHUD()?.SetButtonPrompt(GameAction.ReleaseSteam, false);
         }
 
         public void CheckCharge()
@@ -274,6 +291,7 @@ namespace TowerTanks.Scripts
                 //Ends the timing gauge and destroys it
                 currentGauge.EndTimingGauge();
                 currentGauge = null;
+                operatorID?.GetCharacterHUD()?.SetButtonPrompt(GameAction.ReleaseSteam, true);
             }
         }
 
@@ -281,11 +299,11 @@ namespace TowerTanks.Scripts
         {
             if (isPowered)
             {
-                power = 0.5f;
-                if (pressure >= 50) power = 1f;
-                if (pressure >= dangerZoneThreshold) power = 1.5f;
+                power = 100f;
+                if (pressure >= 50) power = 150f;
+                if (pressure >= dangerZoneThreshold) power = 300f;
 
-                //if (isSurging) power *= boostMultiplier;
+                if (isSurging) power *= boostMultiplier;
             }
             else power = 0;
         }
@@ -373,7 +391,7 @@ namespace TowerTanks.Scripts
         public override void OnDestroy()
         {
             base.OnDestroy();
-            //if (isPowered) tank.treadSystem.horsePower -= power;
+            if (isPowered) tank.treadSystem.horsePower -= power;
         }
     }
 }
