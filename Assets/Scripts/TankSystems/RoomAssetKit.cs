@@ -91,6 +91,9 @@ namespace TowerTanks.Scripts
                 room.backWallSprite.tileMode = SpriteTileMode.Continuous;                      //Use continuous mode for tiling (adaptive messes with scaling calculation
                 room.backWallSprite.maskInteraction = SpriteMaskInteraction.VisibleInsideMask; //Make wall sprite only visible inside masks (will be back walls of cells and connectors)
 
+                //Modify sorting group:
+                room.backWallSprite.GetComponent<SortingGroup>().sortingOrder = 1; //Adjust sorting order of back wall so it can appear in front of some elements
+
                 //Set wall dimensions:
                 room.backWallSprite.transform.position = bounds.center;                                  //Center wall sprite to bounds of room
                 room.backWallSprite.transform.localEulerAngles = Vector3.zero;                           //Make sure wall rotation matches room rotation

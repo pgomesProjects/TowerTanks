@@ -965,10 +965,10 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 8552776
-  particleScale: 0.4
   damage: 100
-  knockbackForce: 10
-  stunTime: 1
+  hitProperties: {fileID: 11400000, guid: a661a05354fa1ab468166ef85ce4043d, type: 2}
+  impactProperties: {fileID: 11400000, guid: abc0660666cc2b943920b3c444201ba6, type: 2}
+  knockbackProperties: {fileID: 0}
   hasSplashDamage: 1
   splashData:
   - splashDamage: 75
@@ -981,6 +981,7 @@ MonoBehaviour:
   radius: 0.18
   drag: 0
   gravity: 30
+  particleScale: 0.4
   factionId: 0
 --- !u!70 &3845794719516787924
 CapsuleCollider2D:

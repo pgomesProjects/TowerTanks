@@ -7,39 +7,42 @@ namespace TowerTanks.Scripts
 {
     public class Projectile : MonoBehaviour
     {
-        //Objects & Components:
+        //Classes, Enums & Structs:
         public enum ProjectileType { BULLET, SHELL, OTHER };
-        public ProjectileType type;
 
-        public LayerMask layerMask;
+        //Objects & Components:
         private Transform smokeTrail;
-        public float particleScale;
 
         //Settings:
-        [SerializeField, Tooltip("Damage dealt on direct hit")] public float damage;  //Damage projectile will deal upon hitting a valid target
-        [SerializeField, Tooltip("Directional force to apply to the target when hit")] public float knockbackForce;
-        [SerializeField, Tooltip("Amount of time to apply tread system stun effect when applying knockback")] public float stunTime;
-        [SerializeField, Tooltip("If true, this projectile utilizes splash damage")] public bool hasSplashDamage; //Whether or not this projectile deals splash damage
-        [SerializeField, Tooltip("Contains values related to splash damage zones")] public SplashData[] splashData; //Contains all values related to different splash damage zones
-        [SerializeField, Tooltip("If true, this projectile uses the 'Tunneling' mechanic")] public bool isTunneling;
-        [SerializeField, Tooltip("Chance this projectile lights things on fire when dealing damage")] public float fireChance;
+        [Tooltip("Defines broad projectile behavior.")]                  public ProjectileType type;
+        [Tooltip("Defines the physics layers this projectile can hit.")] public LayerMask layerMask;
+        [Space()]
+        [Tooltip("Describes damage effect this projectile has on struck targets.")]                                                public ProjectileHitProperties hitProperties;
+        [Tooltip("Describes physics effect this projectile has on an enemy tank which it hits.")]                                  public ImpactProperties impactProperties;
+        [Tooltip("Describes physics effect this projectile has on the tank firing it (if left null, will use impactProperties).")] public ImpactProperties knockbackProperties;
 
-        [SerializeField, Tooltip("Maximum lifetime of this projectile")] public float maxLife; //Maximum amount of time projectile can spend before it auto-destructs
-        [SerializeField, Tooltip("Radius of projectile collider")] public float radius;  //Radius around projectile which is used to check for hits
-        [SerializeField, Tooltip("Causes projectile to lose velocity over time")] public float drag; //how fast this projectile loses velocity over time
-        [SerializeField, Tooltip("How fast this projectile falls")] public float gravity; //how fast this projectile falls
+        [Header("Travel Properties:")]
+        [SerializeField, Tooltip("Maximum lifetime of this projectile.")]          public float maxLife; 
+        [SerializeField, Tooltip("Radius of projectile collider.")]                public float radius;
+        [SerializeField, Tooltip("Causes projectile to lose velocity over time.")] public float drag;
+        [SerializeField, Tooltip("How fast this projectile falls.")]               public float gravity;
+        
+        [Header("Visual Properties:")]
+        [Tooltip("Defines how large projectile trail is.")] public float particleScale;
 
-        [Header("Inheritance")]
+        [Header("Other Properties:")]
         [SerializeField, Tooltip("Which faction this projectile belongs to")] public TankId.TankType factionId;
 
         //Runtime Variables:
-        private Vector2 velocity; //Speed and trajectory of projectile
-        private float timeAlive;
+        internal Vector2 velocity;                                                                                                                           //Speed and trajectory of projectile
+        private float timeAlive;                                                                                                                             //Time this projectile has existed for
+        [Tooltip("Damage projectile has left to deal (projectile is destroyed when this is reduced to zero during a hit).")] internal float remainingDamage; //Actual damage value which may be decreased by tunnelling effects
 
         //RUNTIME METHODS:
         private void Awake()
         {
-            smokeTrail = transform.Find("smokeTrail");
+            smokeTrail = transform.Find("smokeTrail"); //Get reference to smoke trail object
+            remainingDamage = hitProperties.damage;   //Get preset damage value (may be modified later)
         }
 
         private void Update()
@@ -93,9 +96,9 @@ namespace TowerTanks.Scripts
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, radius);
 
-            if (hasSplashDamage)
+            if (hitProperties.hasSplashDamage)
             {
-                foreach (SplashData splash in splashData)
+                foreach (SplashData splash in hitProperties.splashData)
                 {
                     Color tempColor = Color.yellow;
                     Gizmos.color = tempColor;
@@ -124,151 +127,118 @@ namespace TowerTanks.Scripts
             if (hit != null) Hit(hit);
         }
 
-        public void Hit(Collider2D target, bool destroyImmediate = false)
+        public void Hit(Collider2D hitCollider, bool destroyImmediate = false)
         {
-            //Debug.Log("Hit " + target.gameObject.name);
-            List<Collider2D> hitThisFrame = new List<Collider2D>(); //Create Temp List for Colliders Hit
-            hitThisFrame.Add(target); //Add Direct Hit to Collider
-            bool damagedCoreThisFrame = false;
-            bool destroyThis = true;
-            float damageDealt = 0;
+            List<IDamageable> damagedThisHit = new List<IDamageable>(); //Create temporary list of targets that have been damaged by this projectile in this frame (used to prevent double damage due to splash)
 
-            //Handle Projectile Direct Damage
-            if (target != null && target.GetComponentInParent<EnergyShieldController>() != null) //Hit Energy Shield
+            //Handle Direct Damage
+            if (hitCollider != null) //Projectile has actually hit something
             {
-                EnergyShieldController shield = target.GetComponentInParent<EnergyShieldController>();
-                destroyThis = true;
-            }
-
-            else if (target != null && target.GetComponentInParent<Cell>() != null) //Hit Cell
-            {
-                Cell cellHit = target.GetComponentInParent<Cell>();
-                damageDealt = cellHit.Damage(damage);
-                if (cellHit.room.isCore)
-                { //Hit the Core
-                    damageDealt = damage;
-                    destroyThis = true;
-                    damagedCoreThisFrame = true;
-                }
-                else
+                IDamageable target = hitCollider.GetComponent<IDamageable>();                 //Try to get damage receipt component from collider object
+                if (target == null) target = hitCollider.GetComponentInParent<IDamageable>(); //If damage receipt component is not in collider object, look in parent objects
+                if (target != null) //Projectile has hit a target
                 {
-                    if (RollFireChance()) { cellHit.Ignite(); } //Check for Fire
+                    damagedThisHit.Add(target);                                //Indicate that target is being damaged now so it is not hit by splash damage later
+                    remainingDamage = target.Damage(this, transform.position); //Strike the target and determine whether or not this projectile has any damage remaining
+                    if (!hitProperties.tunnels) remainingDamage = 0;           //Make sure non-tunneling projectiles are terminated upon hit
                 }
-
-                //Apply Knockback Force
-                if (knockbackForce > 0)
+                else if (hitCollider.CompareTag("Ground")) //Hit the Ground
                 {
-                    knockbackForce *= Mathf.Sign(velocity.x);
-                    cellHit.room.targetTank.treadSystem.ApplyForce(transform.position, knockbackForce, stunTime);
+                    remainingDamage = 0; //Always destroy projectiles that hit the ground (by reducing their remaining damage to zero)
                 }
-
-                GameManager.Instance.AudioManager.Play("ShellImpact", gameObject);
-            }
-
-            else if (target != null && target.GetComponentInParent<TreadSystem>() != null) //Hit Treads
-            {
-                TreadSystem treads = target.GetComponentInParent<TankController>().treadSystem;
-                if (treads != null)
+                else if (hitCollider.CompareTag("Shell")) //Hit another projectile
                 {
-                    //Damage Treads
-                    treads.Damage(damage);
-
-                    //Apply Knockback Force
-                    if (knockbackForce > 0)
+                    Projectile other = hitCollider.GetComponent<Projectile>();
+                    if (other?.factionId != factionId) //Only process collisions between unfriendly projectiles
                     {
-                        float knockBackTime = knockbackForce * 0.05f;
+                        remainingDamage = 0; //Always destroy projectiles that hit the ground (by reducing their remaining damage to zero)
+                        other.remainingDamage = 0;
+                        //other.Hit(gameObject.GetComponent<Collider2D>());
+                    }
+                }
+                /*
+                if (hitCollider.GetComponentInParent<EnergyShieldController>() != null) //Hit Energy Shield
+                {
+                    EnergyShieldController shield = hitCollider.GetComponentInParent<EnergyShieldController>();
+                    destroyThis = true;
+                }*/
+                /*
+                else if (hitCollider.GetComponentInParent<IDamageable>() != null) //Hit damageable object
+                {
+                    IDamageable damageTarget = hitCollider.GetComponentInParent<IDamageable>();
 
-                        if (target.transform.position.x < transform.position.x) { knockbackForce *= -1f; }
-                        treads.ApplyForce(transform.position, knockbackForce, knockBackTime);
+                    //damageDealt = cellHit.Damage(remainingDamage);
+                    if (cellHit.room.isCore)
+                    { //Hit the Core
+                        damageDealt = remainingDamage;
+                        destroyThis = true;
+                        damagedCoreThisFrame = true;
+                    }
+                    else
+                    {
+                        //if (RollFireChance()) { cellHit.Ignite(); } //Check for Fire
                     }
 
-                    GameManager.Instance.AudioManager.Play("TankImpact", gameObject);
-                }
-            }
-
-            else if (target != null && target.CompareTag("Destructible")) //Hit Destructible Object
-            {
-                damageDealt = target.GetComponent<DestructibleObject>().Damage(damage);
-                GameManager.Instance.AudioManager.Play("ShellImpact", gameObject);
-            }
-
-            else if (target != null && target.GetComponentInParent<Character>() != null) //Hit Character
-            {
-                Character character = target.GetComponentInParent<Character>();
-                damageDealt = character.ModifyHealth(-damage);
-            }
-
-            else if (target != null && target.CompareTag("Ground")) //Hit the Ground
-            {
-                damageDealt = damage;
-                destroyThis = true;
-            }
-
-            else if (target != null && target.CompareTag("Shell")) //Hit another projectile
-            {
-                Projectile other = target.GetComponent<Projectile>();
-                if (other?.factionId != factionId) //If the other projectile doesn't belong to the same faction as this one
-                {
-                    damageDealt = damage;
-                    destroyThis = true;
-                    //other.Hit(gameObject.GetComponent<Collider2D>());
-                }
-                else destroyThis = false;
-            }
-
-            //Check Tunneling
-            if (isTunneling)
-            {
-                damage -= damageDealt;
-                if (damage <= 0)
-                {
-                    damage = 0;
-                    destroyThis = true;
-                }
-                else destroyThis = false;
-            }
-
-            if (destroyThis || destroyImmediate)
-            {
-                //Handle Projectile Splash Damage
-                if (hasSplashDamage)
-                {
-                    foreach (SplashData splash in splashData) //Handle for each individual splash zone
+                    //Apply impact force:
+                    if (impactProperties != null) //Projectile has useable impact properties
                     {
-                        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, splash.splashRadius, layerMask);
+                        cellHit.room.targetTank.treadSystem.HandleImpact(impactProperties, velocity, transform.position); //NOTE: transform.position should be changed to actual point of impact rather than position of projectile
+                    }
+
+                    //GameManager.Instance.AudioManager.Play("ShellImpact", gameObject);
+                }*/
+                /*else if (target == null && hitCollider.GetComponentInParent<TreadSystem>() != null) //Hit Treads
+                {
+                    TreadSystem treads = hitCollider.GetComponentInParent<TankController>().treadSystem;
+                    if (treads != null)
+                    {
+                        //Damage Treads
+                        treads.Damage(remainingDamage);
+
+                        //Apply impact force:
+                        if (impactProperties != null) //Projectile has useable impact properties
+                        {
+                            treads.HandleImpact(impactProperties, velocity, transform.position); //NOTE: transform.position should be changed to actual point of impact rather than position of projectile
+                        }
+
+                        GameManager.Instance.AudioManager.Play("TankImpact", gameObject);
+                    }
+                }*/
+                /*
+                else if (hitCollider.CompareTag("Destructible")) //Hit Destructible Object
+                {
+                    damageDealt = hitCollider.GetComponent<DestructibleObject>().Damage(remainingDamage);
+                    GameManager.Instance.AudioManager.Play("ShellImpact", gameObject);
+                }*/
+                /*
+                else if (hitCollider.GetComponentInParent<Character>() != null) //Hit Character
+                {
+                    Character character = hitCollider.GetComponentInParent<Character>();
+                    damageDealt = character.ModifyHealth(-remainingDamage);
+                }*/
+            }
+
+            //Handle projectile destruction:
+            if (remainingDamage == 0 || destroyImmediate) //Projectiles which run out of damage to deal (or are commanded to) die/explode
+            {
+                //Deal splash damage:
+                if (hitProperties.hasSplashDamage) //Projectile can deal splash damage
+                {
+                    foreach (SplashData splash in hitProperties.splashData) //Handle for each individual splash zone
+                    {
+                        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, splash.splashRadius, layerMask); //Get everything within splash damage radius
                         foreach (Collider2D collider in colliders)
                         {
-                            if (!hitThisFrame.Contains(collider)) //If the Collider has not been damaged by any other damage sources in this event this frame
+                            IDamageable splashTarget = collider.GetComponent<IDamageable>();                       //Try to get damage receipt component from collider object
+                            if (splashTarget == null) splashTarget = collider.GetComponentInParent<IDamageable>(); //If damage receipt component is not in collider object, look in parent objects
+                            if (splashTarget != null && !damagedThisHit.Contains(splashTarget)) //Explosion has hit a (new) target
                             {
-                                hitThisFrame.Add(collider);
-
-                                Cell cellScript = collider.gameObject.GetComponent<Cell>();
-                                if (cellScript != null)
-                                {
-                                    if (!damagedCoreThisFrame)
-                                    {
-                                        cellScript.Damage(splash.splashDamage);
-                                        if (cellScript.room.isCore) { damagedCoreThisFrame = true; }
-                                        else if (RollFireChance()) { cellScript.Ignite(); } //Check for Fire
-                                    }
-                                }
-
-                                if (collider.CompareTag("Destructible"))
-                                {
-                                    collider.gameObject.GetComponent<DestructibleObject>().Damage(splash.splashDamage);
-                                }
-
-                                Character character = collider.gameObject.GetComponent<Character>();
-                                if (character != null)
-                                {
-                                    character.ModifyHealth(-splash.splashDamage);
-                                }
+                                damagedThisHit.Add(splashTarget);         //Add target to list so it cannot be damaged again by same explosion
+                                splashTarget.Damage(splash.splashDamage); //Deal direct damage to each target
                             }
                         }
                     }
                 }
-
-                hitThisFrame.Clear();
 
                 if (destroyImmediate != true) HitEffects();
 
@@ -312,17 +282,6 @@ namespace TowerTanks.Scripts
                 GameManager.Instance.AudioManager.Play("MedExplosionSFX", gameObject);
                 GameManager.Instance.ParticleSpawner.SpawnParticle(Random.Range(0, 2), transform.position, particleScale, null);
             }
-        }
-
-        private bool RollFireChance()
-        {
-            bool canIgnite = false;
-            float randomRoll = Random.Range(0.1f, 100f);
-            if (randomRoll <= fireChance)
-            {
-                canIgnite = true;
-            }
-            return canIgnite;
         }
     }
 }

@@ -4,14 +4,104 @@ using UnityEngine;
 
 namespace TowerTanks.Scripts
 {
-    public class TreadSystem : MonoBehaviour
+    public class TreadSystem : MonoBehaviour, IDamageable
     {
+        //Enums, Classes & Structs:
+        /// <summary>
+        /// Describes an impact which is being processed for the tank over time.
+        /// </summary>
+        public class ImpactEvent
+        {
+            //Values:
+            private TreadSystem target;          //Tread system this event will be impacting
+            private ImpactProperties properties; //Asset describing characteristics of this impact event
+            private Vector2 direction;           //Direction of impact
+            private Vector2 localImpactPoint;    //Point on tank hit by projectile (in treadsystem local space)
+            private float timePassed = 0;        //Amount of time which has passed since the creation of this event
+            public bool complete = false;        //Indicates that this event has reached its end and is ready to be destroyed
+
+            //Extra values:
+            private float speedMod = 0; //Modifier for reflecting variations in incoming projectile speed
+
+            //FUNCTIONALITY METHODS:
+            /// <summary>
+            /// Creates a new impact event on this tread system (automatically adds to event list).
+            /// </summary>
+            /// <param name="_properties">Settings object defining properties of this impact.</param>
+            /// <param name="_direction">Direction of impact force.</param>
+            /// <param name="_localImpactPoint">Local point of impact (local to treadsystem transform).</param>
+            /// <param name="speedModifier">Additional modifier value used if projectiles are going faster or slower than normal (1 corresponds to 2x normal projectile speed, -1 corresponds to 0x).</param>>
+            public ImpactEvent(TreadSystem _target, ImpactProperties _properties, Vector2 _direction, Vector2 _localImpactPoint, float speedModifier = 0)
+            {
+                //Value assignments:
+                target = _target;                     //Get value for target treadsystem
+                properties = _properties;             //Get value for settings object
+                direction = _direction;               //Get velocity of direction of impact force
+                localImpactPoint = _localImpactPoint; //Get point of impact
+
+                // speedMod = speedModifier * properties.speedFactor; //Use speed factor setting to determine effect of variations in incoming projectile speed
+            }
+            /// <summary>
+            /// Performs prescribed impact calculation for given amount of time on target treadsystem.
+            /// </summary>
+            /// <returns>Amount of pure knockback to be applied through the traction system.</returns>
+            public Vector2 Process(float deltaTime)
+            {
+                //Pre-checks:
+                if (complete) return Vector2.zero; //Don't process anything if event has already been completed
+
+                //Check for resolution:
+                if (properties.phase == 0) //Instant resolution
+                {
+                    //Perform instantaneous acceleration:
+                    target.r.AddForceAtPosition(direction * properties.baseAmplitude, target.transform.TransformPoint(localImpactPoint), ForceMode2D.Force); //Add an instantaneous impulse force to the treadsystem
+
+                    //Cleanup:
+                    complete = true; //Indicate that event has been fully processed
+                    return Vector2.zero; //Finish processing, return nothing because pure knockback needs to occur over the course of a phase
+                }
+                timePassed += deltaTime;                             //Increment time value
+                if (timePassed >= properties.phase) complete = true; //Indicate that event will have been completed this cycle
+
+                //Process impact value:
+                float rawMagnitude = properties.baseAmplitude;                    //Get base amplitude from impact properties (modifiers will be applied later)
+                float pureKnockbackMagnitude = properties.pureKnockbackAmplitude; //Get base pure knockback amplitude from impact properties
+                rawMagnitude *= deltaTime;                                        //Apply timescale to force
+                pureKnockbackMagnitude *= deltaTime;                              //Apply timescale to force
+                    //MODIFIER: SPEED
+
+                    //MODIFIER: FALLOFF CURVE
+                float phasePercent = Mathf.Min(timePassed, properties.phase) / properties.phase; //Get interpolant value describing progression through event phase (clamped to 01 range)
+                float curveModifier = properties.intensityCurve.Evaluate(phasePercent);          //Evaluate magnitude modifier according to given curve setting
+                rawMagnitude *= curveModifier;                                                   //Apply modifier to normal knockback force
+                pureKnockbackMagnitude *= curveModifier;                                         //Apply modifier to pure knockback force
+                    //MODIFIER: OVERTIME
+                if (timePassed > properties.phase) //Overtime modifier needs to be applied (otherwise effect of impact will be inconsistent depending on framerate)
+                {
+                    float overtime = timePassed - properties.phase;              //Get number of seconds into overtime event has gone
+                    float overtimeModifier = (deltaTime - overtime) / deltaTime; //Get modifier by finding actual percentage of this deltaTime phase which is a valid part of the event
+                    rawMagnitude *= overtimeModifier;                            //Apply modifier to normal knockback force
+                    pureKnockbackMagnitude *= overtimeModifier;                  //Apply modifier to pure knockback force
+                }
+                    //MODIFIER: CLAMP AMPLITUDE GAIN
+                rawMagnitude = Mathf.Min(rawMagnitude, properties.baseAmplitude + properties.maxAmplitudeGain); //Make sure outcome magnitude does not exceed specified amount
+
+                //Debugs:
+                Debug.DrawLine(target.transform.TransformPoint(localImpactPoint), (Vector2)target.transform.TransformPoint(localImpactPoint) + (direction * rawMagnitude), Color.yellow, 0.1f);
+
+                //Apply force:
+                target.r.AddForceAtPosition(direction * rawMagnitude, target.transform.TransformPoint(localImpactPoint), ForceMode2D.Force); //Apply force to tank
+                return direction * pureKnockbackMagnitude;                                                                                   //Return knockback amount
+            }
+        }
+
         //Objects & Components:
         [Tooltip("Controller for this tread's parent tank.")]                                                         private TankController tankController;
         [Tooltip("Rigidbody for affecting tank movement.")]                                                           internal Rigidbody2D r;
         [Tooltip("Wheels controlled by this system.")]                                                                internal TreadWheel[] wheels;
         [SerializeField, Tooltip("Prefab which will be used to generate caterpillar treads (should be 1 unit long)")] private GameObject treadPrefab;
         [Tooltip("Array of all tread segments in system (one per wheel).")]                                           private Transform[] treads;
+        [Tooltip("List of impact events currently affecting the tank.")]                                              private List<ImpactEvent> activeImpacts = new List<ImpactEvent>();
 
         //Settings:
         [Header("Center of Gravity Settings:")]
@@ -46,8 +136,6 @@ namespace TowerTanks.Scripts
 
         [Header("Ramming & Collision Settings:")]
         [SerializeField, Tooltip("Minimum Speed for Ramming Effects to Apply")]         public float rammingSpeed;
-        private float stunTimer = 0;
-        [SerializeField, Tooltip("Multiplier on speed when stunned by an impact/force")] public float speedStunMultiplier = 1f;
         public float treadHealth;
         private float treadMaxHealth = 200f;
         public float healthRegenRate;
@@ -105,15 +193,6 @@ namespace TowerTanks.Scripts
                 //tankController.DisableSpeedTrails();
             }
 
-            //Update Stun Timer
-            if (stunTimer > 0)
-            {
-                stunTimer -= Time.fixedDeltaTime;
-                speedStunMultiplier = Mathf.Lerp(0.05f, 1f, (3f / stunTimer) * Time.fixedDeltaTime);
-                speedStunMultiplier = Mathf.Clamp(speedStunMultiplier, 0.05f, 1f);
-            }
-            else speedStunMultiplier = 1f;
-
             //Update Health
             UpdateHealth();
 
@@ -133,6 +212,18 @@ namespace TowerTanks.Scripts
                 jamMultiplier = 0f;
                 JamEffects();
             }
+
+            //Handle impacts:
+            Vector2 totalTreadImpact = Vector2.zero; //Get value to store total pure tread impact in
+            for (int x = 0; x < activeImpacts.Count;) //Iterate through list of active impacts (no increment here bc some may be deleted during iteration)
+            {
+                ImpactEvent impact = activeImpacts[x];                   //Get current impact
+                totalTreadImpact += impact.Process(Time.fixedDeltaTime); //Process event using fixed deltaTime (add tread impact value)
+                if (impact.complete) activeImpacts.Remove(impact);       //Event has been completed and is removed from list (destroyed (garbage collected))
+                else x++;                                                //Iterate past event if it has not been completed
+            }
+            totalTreadImpact = Vector3.Project(totalTreadImpact, transform.right);
+            //r.AddForce(totalTreadImpact, ForceMode2D.Force);
 
             //Apply wheel forces:
             Vector2 targetTankSpeed = transform.right * maxSpeed * throttleValue * jamMultiplier;  //Get target speed based on tank throttle
@@ -154,11 +245,11 @@ namespace TowerTanks.Scripts
                     if (wheel.lastGroundHit.collider != null) //Wheel has valid information about hit ground
                     {
                         //Apply drive torque:
-                        Vector2 wheelAccel = Vector3.Project(baseWheelAccel * speedStunMultiplier, wheelDirection); //Project base acceleration onto vector representing direction wheel is capable of producing force in (depends on ground angle)
+                        Vector2 wheelAccel = Vector3.Project(baseWheelAccel, wheelDirection); //Project base acceleration onto vector representing direction wheel is capable of producing force in (depends on ground angle)
                         wheelAccel /= (wheels.Length - extraWheels);                          //Divide wheel acceleration value by number of main wheels so that tank is most stable when all wheels are on the ground
                         Debug.DrawRay(wheel.lastGroundHit.point, wheelAccel);
-                        r.AddForceAtPosition(wheelAccel * speedStunMultiplier, wheel.lastGroundHit.point, ForceMode2D.Force); //Apply wheel traction to system
-
+                        r.AddForceAtPosition(wheelAccel, wheel.lastGroundHit.point, ForceMode2D.Force); //Apply wheel traction to system
+                        
                         //Apply wheel stickiness:
                         if (!wheel.nonStick && wheel.springSpeed < 0) //Wheel appears to be leaving the ground (negative spring speed indicates that spring is decompressing)
                         {
@@ -246,15 +337,24 @@ namespace TowerTanks.Scripts
             timeInGear = 0;     //Reset time in gear counter
         }
 
+        /// <summary>
+        /// Creates an Impact Event on this tread system which physically affects it based on given preset properties and characteristics of hit.
+        /// </summary>
+        /// <param name="properties">Preset values determining how the hit affects the tank</param>
+        /// <param name="velocity">Speed and direction of incoming projectile.</param>
+        /// <param name="point">Point of impact on this tank (in world space).</param>
+        public void HandleImpact(ImpactProperties properties, Vector2 velocity, Vector2 point)
+        {
+            ImpactEvent newImpact = new ImpactEvent(this, properties, velocity.normalized, transform.InverseTransformPoint(point)); //Create an impact event with information from this hit
+            activeImpacts.Add(newImpact);                                                                                           //Add generated event to handler list
+        }
+        //HANDLEIMPACT will replace APPLYFORCE
         public void ApplyForce(Vector2 position, float force, float stunTime)
         {
             Vector2 _force = Vector2.right * force;
             //r.AddTorque(force, ForceMode2D.Impulse);
             r.AddForce(_force, ForceMode2D.Impulse);
             //r.AddForceAtPosition(position, _force * 0.1f, ForceMode2D.Impulse);
-
-            stunTimer += stunTime;
-            if (stunTimer > 3f) stunTimer = 3f;
         }
 
         private void UpdateHealth()
@@ -274,10 +374,26 @@ namespace TowerTanks.Scripts
                 }
             }
         }
-
-        public void Damage(float amount)
+        public float Damage(Projectile projectile, Vector2 position)
         {
-            treadHealth -= amount;
+            //Handle impact:
+            if (projectile.impactProperties != null) //Projectile has useable impact properties
+            {
+                HandleImpact(projectile.impactProperties, projectile.velocity, position); //Begin impact event based on position of projectile relative to treads
+            }
+
+            //Handle damage:
+            Damage(projectile.remainingDamage); //Assign damage to treads
+
+            //Other effects:
+            GameManager.Instance.AudioManager.Play("TankImpact", gameObject); //Play tread impact sound
+
+            //Cleanup:
+            return 0; //Never allow projectiles to pass through treads
+        }
+        public void Damage(float damage)
+        {
+            treadHealth -= damage;
 
             //Check for Jam
             if (treadHealth <= 0)
@@ -350,8 +466,8 @@ namespace TowerTanks.Scripts
 
             //Calculation:
             totalWeight = cellCount * 100f;
-            avgCellPos /= cellCount;                                                                         //Get average position of cells
-                                                                                                             //r.centerOfMass = new Vector2(Mathf.Clamp(avgCellPos.x, -COGWidth / 2, COGWidth / 2), COGHeight); //Constrain center mass to line segment controlled in settings (for tank handling reliability)
+            avgCellPos /= cellCount;        //Get average position of cells
+            //r.centerOfMass = new Vector2(Mathf.Clamp(avgCellPos.x, -COGWidth / 2, COGWidth / 2), COGHeight); //Constrain center mass to line segment controlled in settings (for tank handling reliability)
         }
         /// <summary>
         /// Evaluates mass and center of gravity for tank depending on position and quantity of cells.

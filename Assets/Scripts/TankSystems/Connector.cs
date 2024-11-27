@@ -4,11 +4,12 @@ using UnityEngine;
 
 namespace TowerTanks.Scripts
 {
-    public class Connector : MonoBehaviour
+    public class Connector : MonoBehaviour, IDamageable
     {
         //Objects & Components:
         private Transform intactElements;  //Elements of connector which are enabled while connector is undamaged
         private Transform damagedElements; //Elements of connector which are enabled once the connector is damaged
+        private Transform scrapElements;   //Elements of connector which stick out of the open side when it is damaged
         internal Room room;                //The room this connector is a part of
         internal GameObject backWall;      //Object containing back wall of connector (will be moved and changed into a sprite mask by room kit)
         
@@ -43,11 +44,25 @@ namespace TowerTanks.Scripts
             initialized = true;      //Indicate that connector has been initialized
 
             //Get objects & components:
-            room = GetComponentInParent<Room>();                 //Get parent room
-            intactElements = transform.Find("IntactElements");   //Get intact elements container
-            damagedElements = transform.Find("DamagedElements"); //Get damaged elements container
-            backWall = transform.Find("BackWall").gameObject;    //Get back wall object
+            room = GetComponentInParent<Room>();                   //Get parent room
+            intactElements = transform.Find("IntactElements");     //Get intact elements container
+            damagedElements = transform.Find("DamagedElements");   //Get damaged elements container
+            scrapElements = damagedElements.Find("ScrapElements"); //Get scrap elements container
+            backWall = transform.Find("BackWall").gameObject;      //Get back wall object
         }
+        public float Damage(Projectile projectile, Vector2 point)
+        {
+            if (!damaged) //Connector is intact
+            {
+                //NOTE: This is a questionable solution
+                return projectile.remainingDamage; //Just let projectiles pass through intact connectors so that they can damage the cells around them
+            }
+            else //Connector is only connected to one cell
+            {
+                return GetOtherCell(null).Damage(projectile, point); //Damage cell connector is attached to as a substitute for damaging connector
+            }
+        }
+        public void Damage(float damage) { } //Connectors cannot be damaged by conventional means
         /// <summary>
         /// Converts connector into its damaged form, done when cell on one side is destroyed.
         /// </summary>
@@ -59,9 +74,10 @@ namespace TowerTanks.Scripts
             if (damaged) { Destroy(gameObject); return; }                                                                                                       //Destroy connector once both of its connected cells have been destroyed
 
             //Visualize damage:
-            damagedElements.gameObject.SetActive(true);                                                             //Enable damaged version of connector
-            intactElements.gameObject.SetActive(false);                                                             //Disable original version of connector
-            Vector2 facingDirection = (destroyedCell.transform.localPosition - transform.localPosition).normalized; //Get direction connector needs to face relative to its remaining intact cell
+            damagedElements.gameObject.SetActive(true);                                                  //Enable damaged version of connector
+            intactElements.gameObject.SetActive(false);                                                  //Disable original version of connector
+            Vector2 facingDirection = (destroyedCell.transform.localPosition - transform.localPosition); //Get direction connector needs to face relative to its remaining intact cell
+            scrapElements.right = facingDirection;                                                       //Rotate scrap elements to point in direction of destroyed cell
 
             //Data cleanup:
             damaged = true;                                //Indicate that connector has been damaged
@@ -75,6 +91,7 @@ namespace TowerTanks.Scripts
         /// <returns></returns>
         public Cell GetOtherCell(Cell thisCell)
         {
+            if (thisCell == null) return cellA != null ? cellA : cellB;  //Return whichever cell is still present if null value is passed
             if (thisCell != cellA && thisCell != cellB) { return null; } //Return nothing if given cell is not attached to this connector
             if (thisCell == cellA) return cellB;                         //Return cell B if cell A is given
             return cellA;                                                //Otherwise return cell A

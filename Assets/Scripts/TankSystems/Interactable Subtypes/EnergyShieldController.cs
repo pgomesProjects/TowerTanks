@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace TowerTanks.Scripts
 {
-    public class EnergyShieldController : TankInteractable
+    public class EnergyShieldController : TankInteractable, IDamageable
     {
         public float shieldHealth;
         private float maxShieldHealth = 200;
@@ -19,10 +19,16 @@ namespace TowerTanks.Scripts
         {
 
         }
-
-        public void Damage(float amount)
+        public float Damage(Projectile projectile, Vector2 position)
         {
-            shieldHealth -= amount;
+            float extraDamage = projectile.remainingDamage;
+            shieldHealth -= extraDamage;
+            extraDamage -= shieldHealth;
+            return Mathf.Max(0, extraDamage);
+        }
+        public void Damage(float damage)
+        {
+            shieldHealth -= damage;
         }
     }
 }

@@ -342,9 +342,10 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 1212424
-  particleScale: 0.5
   damage: 200
-  knockbackForce: 20
+  hitProperties: {fileID: 11400000, guid: 8dffed32e8ddd184da8044cfebb760ae, type: 2}
+  impactProperties: {fileID: 0}
+  knockbackProperties: {fileID: 0}
   hasSplashDamage: 1
   splashData:
   - splashDamage: 200
@@ -357,6 +358,7 @@ MonoBehaviour:
   radius: 0.5
   drag: 0
   gravity: 0
+  particleScale: 0.5
   factionId: 0
 --- !u!114 &1115590235353381515
 MonoBehaviour:
