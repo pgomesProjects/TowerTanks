@@ -292,6 +292,7 @@ namespace TowerTanks.Scripts
             {
                 isInvincible = true;
                 ShopManager shopMan = GetComponent<ShopManager>();
+                shopMan.enabled = true;
                 shopMan.InitializeShop();
             }
 
@@ -515,6 +516,7 @@ namespace TowerTanks.Scripts
                 {
                     EventSpawnerManager spawner = GameObject.Find("LevelManager")?.GetComponent<EventSpawnerManager>();
                     if (tankType == TankId.TankType.ENEMY) spawner.EnemyDestroyed(this);
+                    if (tankType == TankId.TankType.NEUTRAL) spawner.EncounterEnded(EventSpawnerManager.EventType.FRIENDLY);
                     StartCoroutine(DeathSequence(2.5f));
                 }
             }
@@ -673,6 +675,32 @@ namespace TowerTanks.Scripts
                 //GameManager.Instance.SystemEffects.ActivateSlowMotion(0.05f, 0.4f, 1.5f, 0.4f);
                 Destroy(gameObject);
             }
+        }
+
+        public void DespawnTank()
+        {
+            //Unassign Camera
+            CameraManipulator.main?.OnTankDestroyed(this);
+
+            //Ensure EventManager ends current Event related to this Tank
+            EventSpawnerManager spawner = GameObject.Find("LevelManager")?.GetComponent<EventSpawnerManager>();
+            
+            if (tankType == TankId.TankType.ENEMY) spawner.EnemyDestroyed(this);
+            if (tankType == TankId.TankType.NEUTRAL) spawner.EncounterEnded(EventSpawnerManager.EventType.FRIENDLY);
+
+            //Unassign all characters from this tank
+            foreach (Character character in GetCharactersAssignedToTank(this))
+                character.SetAssignedTank(null);
+
+            //Detach the characters that are still in the tank and kill them
+            foreach (Character character in GetCharactersInTank())
+            {
+                character.transform.SetParent(null);
+                character.KillCharacterImmediate();
+            }
+
+            //GameManager.Instance.SystemEffects.ActivateSlowMotion(0.05f, 0.4f, 1.5f, 0.4f);
+            Destroy(gameObject);
         }
 
         public void GetTankInfo()

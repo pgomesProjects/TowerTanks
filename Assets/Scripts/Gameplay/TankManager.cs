@@ -15,17 +15,18 @@ namespace TowerTanks.Scripts
 
         [PropertySpace]
         public List<EnemyTankDesign> enemyTankDesigns = new List<EnemyTankDesign>();
+        public List<EnemyTankDesign> merchantTankDesigns = new List<EnemyTankDesign>();
 
         [PropertySpace]
         public List<TankId> tanks = new List<TankId>();
 
         [TabGroup("Runtime Actions")]
         [Button("Spawn New Tank", ButtonSizes.Small)]
-        public TankController SpawnTank(int tier = 1, bool spawnEnemy = true, bool spawnBuilt = false)
+        public TankController SpawnTank(int tier = 1, TankId.TankType typeToSpawn = TankId.TankType.NEUTRAL, bool spawnBuilt = false)
         {
             TankId newtank = new TankId();
 
-            if (spawnEnemy)
+            if (typeToSpawn == TankId.TankType.ENEMY)
             {
                 //TankNames nameType = Resources.Load<TankNames>("TankNames/PirateNames");
                 //newtank.TankName = new TankNameGenerator().GenerateRandomName(nameType);
@@ -35,6 +36,25 @@ namespace TowerTanks.Scripts
                 //Determine tank design
                 int random = Random.Range(0, 4);
                 newtank.design = enemyTankDesigns[tier - 1].designs[random];
+                newtank.TankName = newtank.design.name;
+                newtank.gameObject.name = newtank.TankName;
+
+                if (spawnBuilt)
+                {
+                    newtank.buildOnStart = true;
+                }
+            }
+
+            if (typeToSpawn == TankId.TankType.NEUTRAL)
+            {
+                //TankNames nameType = Resources.Load<TankNames>("TankNames/PirateNames");
+                //newtank.TankName = new TankNameGenerator().GenerateRandomName(nameType);
+                newtank.gameObject = Instantiate(tankPrefab, tankSpawnPoint, false);
+                newtank.tankType = TankId.TankType.NEUTRAL;
+
+                //Determine tank design
+                //int random = Random.Range(0, 4);
+                newtank.design = merchantTankDesigns[0].designs[0];
                 newtank.TankName = newtank.design.name;
                 newtank.gameObject.name = newtank.TankName;
 

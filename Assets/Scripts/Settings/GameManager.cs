@@ -45,10 +45,14 @@ namespace TowerTanks.Scripts
             get { return isPaused || inBugReportMenu || inDebugMenu; }
         }
 
+        //Global Static Variables
         public static float gameTimeScale = 1.0f;
         private static float gameDeltaTime;
         private static float gameElapsedTime;
         private static float gameFixedDeltaTimeStep;
+
+        public static float shopChance;
+        public float _shopChance;
 
         public static float GameDeltaTime
         {

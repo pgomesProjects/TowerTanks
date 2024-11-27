@@ -34,6 +34,8 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("The time between when events can trigger")] public float eventSpawnCooldown;
         private float eventSpawnTimer = 0;
 
+        [Tooltip("Current chance a Merchant will spawn in place of an enemy")] public float shopChance;
+
         private TankController playerTank;
         private List<TankController> enemies = new List<TankController>();
 
@@ -44,6 +46,9 @@ namespace TowerTanks.Scripts
         {
             levelManager = GetComponent<LevelManager>();
             chunkLoader = GameObject.Find("ChunkLoader").GetComponent<ChunkLoader>();
+
+            //Inherit Shop Chance
+            shopChance = GameManager.shopChance;
         }
 
         // Start is called before the first frame update
@@ -52,13 +57,14 @@ namespace TowerTanks.Scripts
             playerTank = levelManager.playerTank;
             eventSpawnTimer = eventSpawnCooldown;
             triggerDistanceCheck = Random.Range(minTriggerDistance, maxTriggerDistance);
+            //shopChance = 0;
         }
 
         // Update is called once per frame
         void Update()
         {
             UpdateCurrentChunk();
-            CheckForEvents();
+            if (!endFlagExists) CheckForEvents();
         }
 
         public void UpdateCurrentChunk()
@@ -87,7 +93,18 @@ namespace TowerTanks.Scripts
                 //Trigger event
                 if (currentEncounter.Count < maxEvents && chunksTraveled >= triggerDistanceCheck)
                 {
-                    TriggerEvent(EventType.ENEMY);
+                    int random = Random.Range(0, 100);
+
+                    if (random < shopChance) 
+                    { 
+                        TriggerEvent(EventType.FRIENDLY);
+                        shopChance = 0;
+                    }
+                    else 
+                    { 
+                        TriggerEvent(EventType.ENEMY);
+                        shopChance += 20;
+                    }
                 }
 
                 eventSpawnTimer = eventSpawnCooldown;
@@ -108,10 +125,37 @@ namespace TowerTanks.Scripts
 
                 case EventType.OBSTACLE: Debug.Log("Spawning Obstacle!"); break;
                 case EventType.WEATHER: Debug.Log("Spawning Weather!"); break;
-                case EventType.FRIENDLY: Debug.Log("Spawning Friendly!"); break;
+
+                case EventType.FRIENDLY:
+                    {
+                        Debug.Log("Spawning Merchant!");
+                        currentEncounter.Add(newEvent);
+                        SpawnNewMerchant();
+                    }
+                    break;
+
                 case EventType.TUTORIAL: Debug.Log("Spawning Tutorial Event!"); break;
             }
             chunksTraveled = 0;
+        }
+
+        public void SpawnNewMerchant()
+        {
+            //Finding new spawn point
+            float chunkX = (currentChunk + 8) * ChunkData.CHUNK_WIDTH; //Find the chunk that's 8 chunks away from current chunk
+            Vector3 findPos = new Vector3(chunkX, 0, 0);
+            Vector3 newSpawnPoint = chunkLoader.GetChunkAtPosition(findPos).transform.position; //Get it's position
+
+            //Set new spawn point
+            levelManager.tankManager.MoveSpawnPoint(newSpawnPoint);
+            levelManager.tankManager.tankSpawnPoint.position += new Vector3(0, 20, 0);
+
+            //Determine Tier
+            int tier = 1;
+
+            //Spawn new enemy tank
+            TankController newtank = levelManager.tankManager.SpawnTank(tier, TankId.TankType.NEUTRAL, true);
+            //enemies.Add(newtank);
         }
 
         public void SpawnNewEnemy()
@@ -129,7 +173,7 @@ namespace TowerTanks.Scripts
             int tier = levelManager.GetEnemyTier();
 
             //Spawn new enemy tank
-            TankController newtank = levelManager.tankManager.SpawnTank(tier, true, true);
+            TankController newtank = levelManager.tankManager.SpawnTank(tier, TankId.TankType.ENEMY, true);
             enemies.Add(newtank);
         }
 
@@ -144,6 +188,18 @@ namespace TowerTanks.Scripts
             {
                 Vector3 destroyedPos = tank.treadSystem.transform.position;
                 int newMarker = chunkLoader.GetChunkAtPosition(destroyedPos).chunkNumber;
+                if (newMarker != -1) lastChunk = newMarker;
+            }
+        }
+
+        public void EncounterEnded(EventType type)
+        {
+            currentEncounter.Remove(type);
+
+            if (enemies.Count == 0)
+            {
+                Vector3 endPos = playerTank.treadSystem.transform.position;
+                int newMarker = chunkLoader.GetChunkAtPosition(endPos).chunkNumber;
                 if (newMarker != -1) lastChunk = newMarker;
             }
         }

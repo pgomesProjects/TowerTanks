@@ -34,13 +34,14 @@ namespace TowerTanks.Scripts
 
         public void Awake()
         {
-            levelMan = GameObject.Find("LevelManager").GetComponent<LevelManager>();
+            
         }
 
         // Start is called before the first frame update
         void Start()
         {
             //InitializeShop();
+            levelMan = GameObject.Find("LevelManager")?.GetComponent<LevelManager>();
         }
 
         public void InitializeShop()
