@@ -26,13 +26,16 @@ namespace TowerTanks.Scripts
         private IEnumerator Heartbeat()
         {
             Debug.Log("AI Beat");
-            if (_tankAI.TankIsRightOfTarget())
+            if (_tankAI.HasActiveThrottle())
             {
-                _tank.SetTankGear(-2);
-            }
-            else
-            {
-                _tank.SetTankGear(2);
+                if (_tankAI.TankIsRightOfTarget())
+                {
+                    _tank.SetTankGear(-2);
+                }
+                else
+                {
+                    _tank.SetTankGear(2);
+                }
             }
             yield return new WaitForSeconds(heartbeatTimer);
             _tank.StartCoroutine(Heartbeat());
