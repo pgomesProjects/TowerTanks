@@ -1,19 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
-[CreateAssetMenu(fileName = "StatsMenu")]
-public class SessionStats : ScriptableObject
+public class SessionStats
 {
-    public int maxHeight;
+    //Tank
+    public const string tankHeader = "Tank Statistics";
+    public float maxHeight;
+    public int roomsBuilt;
+    public int totalCells;
 
-    public int wavesCleared;
-    public int normalTanksDefeated;
-    public int drillTanksDefeated;
-    public int mortarTanksDefeated;
+    //Resources
+    public const string resourcesHeader = "Resources";
+    public int cargoSold;
 
-    public int numberOfCannons;
-    public int numberOfEngines;
-    public int numberOfDumpsters;
-    public int numberOfThrottles;
+    //Interactables
+    public const string interactablesHeader = "Interactables";
+    public int cannonsBuilt;
+    public int machineGunsBuilt;
+    public int mortarsBuilt;
+    public int boilersBuilt;
+    public int throttlesBuilt;
+
+    //Enemies
+    public const string enemiesHeader = "Enemies";
+    public int enemiesKilled;
 }

@@ -160,7 +160,7 @@ namespace TowerTanks.Scripts.Deprecated
 
         protected override void AddToList()
         {
-            LevelManager.Instance.currentSessionStats.drillTanksDefeated += 1;
+            //LevelManager.Instance.currentSessionStats.drillTanksDefeated += 1;
         }
     }
 }

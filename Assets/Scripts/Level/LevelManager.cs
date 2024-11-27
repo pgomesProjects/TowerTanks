@@ -39,7 +39,6 @@ namespace TowerTanks.Scripts
         private int currentPlayerPaused;
         internal int currentRound;
         internal int totalLayers;
-        internal SessionStats currentSessionStats;
         internal bool isSettingUpOnStart;
 
         private int totalScrapValue;
@@ -85,7 +84,6 @@ namespace TowerTanks.Scripts
             currentRound = 0;
             itemPrice = new Dictionary<string, int>();
             PopulateItemDictionary();
-            currentSessionStats = ScriptableObject.CreateInstance<SessionStats>();
             spawnPoint = playerParent.transform;
             tankManager = GameObject.Find("TankManager").GetComponent<TankManager>();
             playerTank = tankManager.tanks[0].gameObject.GetComponent<TankController>();
@@ -300,9 +298,6 @@ namespace TowerTanks.Scripts
 
             //Adjust the outside of the tank
             //playerTank.AdjustOutsideLayerObjects();
-
-            if (totalLayers > currentSessionStats.maxHeight)
-                currentSessionStats.maxHeight = totalLayers;
         }
 
         /// <summary>
