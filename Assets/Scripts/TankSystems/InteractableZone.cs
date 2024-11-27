@@ -61,7 +61,7 @@ namespace TowerTanks.Scripts
             if (collider.gameObject.layer == LayerMask.NameToLayer("Player"))
             {
                 PlayerMovement player = collider.GetComponent<PlayerMovement>();
-                if (player != null && player.currentZone != this && !players.Contains(player.gameObject))
+                if (player != null && player.currentZone != this && !players.Contains(player.gameObject) && !interactable.hasOperator)
                 {
                     players.Add(player.gameObject);
                     player.currentZone = this;
