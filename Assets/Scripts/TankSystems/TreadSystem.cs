@@ -110,32 +110,46 @@ namespace TowerTanks.Scripts
         [Tooltip("How much weight the tank currently has")]                                public float totalWeight = 0;
 
         [Header("Drive Settings:")]
-        [Tooltip("True = Engines determine tank's overall speed & acceleration, False = Set manual values")]       public bool useEngines;
-        [SerializeField, Tooltip("Current number of active engines in the tank")]                                  internal float horsePower;
-        [SerializeField, Tooltip("Base multiplier that affects how much power each individual engine has on the tank's speed")] internal float speedFactor;
-        [Tooltip("Greatest speed tank can achieve at maximum gear.")]                                              public float maxSpeed = 100;
-        [Tooltip("Current x Velocity of the tank's rigidbody")]                                                    public float actualSpeed;
-        [SerializeField, Tooltip("Rate at which tank accelerates to target speed (in units per second squared).")] private float maxAcceleration;
-        [Range(0, 1), SerializeField, Tooltip("Lerp value used to smooth out end of acceleration phases.")]        private float accelerationDamping = 0.5f;
-        [SerializeField, Tooltip("Rate at which tank adjusts target speed based on current powered engines")]      private float speedShiftRate = 2f;
-        [Min(1), Tooltip("Number of positions throttle can be in (includes neutral and reverse)")]                 public int gearPositions = 5;
+        //[Tooltip("True = Engines determine tank's overall speed & acceleration, False = Set manual values")]                    public bool useEngines;
+        //[SerializeField, Tooltip("Current number of active engines in the tank")]                                               internal float horsePower;
+        //[SerializeField, Tooltip("Base multiplier that affects how much power each individual engine has on the tank's speed")] internal float speedFactor;
+        
+        //[Tooltip("Current x Velocity of the tank's rigidbody")]                                                    public float actualSpeed;
+        //[SerializeField, Tooltip("Rate at which tank accelerates to target speed (in units per second squared).")] private float maxAcceleration;
+        //[Range(0, 1), SerializeField, Tooltip("Lerp value used to smooth out end of acceleration phases.")]        private float accelerationDamping = 0.5f;
+        //[SerializeField, Tooltip("Rate at which tank adjusts target speed based on current powered engines")]      private float speedShiftRate = 2f;
+        [Min(1), Tooltip("Number of positions throttle can be in (includes neutral and reverse)")]                                                                     public int gearPositions = 5;
+        [SerializeField, Tooltip("Amount of torque the engine puts out when at max power.")]                                                                           private float enginePower;
+        [SerializeField, Tooltip("Idling RPM of tank engine.")]                                                                                                        private float minRPM;
+        [SerializeField, Tooltip("Maximum speed engine can turn in rotations per minute.")]                                                                            private float maxRPM;
+        [SerializeField, Tooltip("Rate at which RPM can be changed by throttle."), Range(0, 1)]                                                                        private float RPMAccelFactor;
+        [SerializeField, Tooltip("Determines the torque output of the engine (as a percentage of enginePower) based on the RPM (as a percentage of maxRPM)")]          private AnimationCurve engineTorqueCurve;
         [Space()]
-        [SerializeField, Min(0), Tooltip("Force which tries to keep wheels stuck to the ground.")]                      private float wheelStickiness;
-        [SerializeField, Tooltip("Curve describing how sticky wheel is based on compression value.")]                   private AnimationCurve wheelStickCompressionCurve;
-        [Min(0), SerializeField, Tooltip("Number of seconds to wait while in neutral before activating parking brake")] private float parkingBrakeWait;
-        [SerializeField, Tooltip("Stopping power of parking brake.")]                                                   private float parkingBrakeStrength;
+        [Tooltip("Determines the amount of traction induced by the tread (affected on a wheel-by-wheel basis depending on mass and suspension compression)."), Min(0)] public float frictionCoefficient = 1;
+        [SerializeField, Tooltip("Curve describing falloff of wheel grip efficacy depending on slip ratio (T = 1 corresponds to when slipRatio = maxSlipRatio).")]     private AnimationCurve slipRatioCurve;
+        [SerializeField, Tooltip("Hard clamp on magnitude of slip ratio, used to prevent tanks from launching themselves into orbit."), Min(0)]                        private float maxSlipRatio;
+        [Tooltip("Basically how massive the whole tread system is. Higher inertia means the wheels change speed slower."), Min(0)]                                     public float treadInertia;
+        [Tooltip("Drag which resists rotation of system axles (caps maximum speed wheels can turn at)."), Min(0)]                                                      public float axleDragCoefficient;
+        [Space()]
+        [SerializeField, Tooltip("Amount of drag torque each brake applies to a wheel.")]                                                                              private float brakeDragCoefficient;
+        [SerializeField, Tooltip("Amount of time system has to spend in 0 gear before applying brakes."), Min(0)]                                                      private float brakeDwellTime;
+        [SerializeField, Tooltip("Time it takes for brakes to reach full efficacy."), Min(0)]                                                                          private float brakeSaturationTime;
+        [SerializeField, Tooltip("Curve describing efficacy of breaks as they reach saturation time.")]                                                                private AnimationCurve brakeSaturationCurve;
+        [Space()]
+        [SerializeField, Min(0), Tooltip("Force which tries to keep wheels stuck to the ground.")]    private float wheelStickiness;
+        [SerializeField, Tooltip("Curve describing how sticky wheel is based on compression value.")] private AnimationCurve wheelStickCompressionCurve;
 
         [Header("Traction & Drag Settings:")]
         [SerializeField, Tooltip("Default drag factor applied by air causing tank to lean while in motion (scales based on speed)."), Min(0)] private float baseAirDragForce;
         [SerializeField, Tooltip("Angular drag when all (non-extra) wheels are on the ground."), Min(0)]                                      private float maxAngularDrag;
-        [SerializeField, Tooltip("How many wheels are by default off the ground."), Min(0)]                                                   private int extraWheels;
+        [SerializeField, Tooltip("How many wheels are by default off the ground."), Min(0)]                                                   private int extraWheels; //NOTE: GOTTA get rid of this this is so dumb
         [Space()]
         [Range(0, 90), SerializeField, Tooltip("Maximum angle (left or right) at which tank can be tipped.")]                                             private float maxTipAngle;
         [Min(0), SerializeField, Tooltip("Radial area (inside max tip angle) where torque will be applied to prevent tank from reaching max tip angle.")] private float tipAngleBufferZone;
         [Min(0), SerializeField, Tooltip("Scale of force applied to prevent tippage.")]                                                                   private float tipPreventionForce;
 
         [Header("Ramming & Collision Settings:")]
-        [SerializeField, Tooltip("Minimum Speed for Ramming Effects to Apply")]         public float rammingSpeed;
+        [SerializeField, Tooltip("Minimum Speed for Ramming Effects to Apply")] public float rammingSpeed;
         public float treadHealth;
         private float treadMaxHealth = 200f;
         public float healthRegenRate;
@@ -144,10 +158,12 @@ namespace TowerTanks.Scripts
         private float jamEffectTimer = 0f;
 
         //Runtime Variables:
-        private bool initialized;    //True if tread system has already been set up
-        internal int gear;           //Basic designator for current direction and speed the tank is set to move in (0 = Neutral)
-        private float throttleValue; //Current value of the throttle, adjusted over time based on acceleration and gear for smooth movement
-        private float timeInGear;    //Time (in seconds) treads have spent in current gear
+        private bool initialized; //True if tread system has already been set up
+
+        private float engineRPM;       //Speed (in rotations per minute) at which engine is currently turning
+        internal int gear;             //Basic designator for current direction and speed the tank is set to move in (0 = Neutral)
+        private float brakeSaturation; //Time tank has spent braking (ticks up when brakes are active, ticks down when brakes are inactive)
+        [Tooltip("Value between -1 and 1 representing current real normalized position of throttle.")] private float throttleValue; //Current value of the throttle, adjusted over time based on acceleration and gear for smooth movement
 
         //RUNTIME METHODS:
         private void Awake()
@@ -157,7 +173,8 @@ namespace TowerTanks.Scripts
         private void Update()
         {
             //Update timers:
-            timeInGear += Time.deltaTime; //Update time in gear tracker
+            brakeSaturation += Time.deltaTime * (gear == 0 ? 1 : -1);               //Increment or decrement value tracking brake saturation time (this is done so feathering the brake doesn't reset its saturation value and cause a jolt)
+            brakeSaturation = Mathf.Clamp(brakeSaturation, 0, brakeSaturationTime); //Clamp saturation value so it can't go negative (upper end isn't really necessary)
 
             //Update treads:
             for (int wheelIndex = 0; wheelIndex < wheels.Length; wheelIndex++) //Iterate once for each wheel
@@ -178,6 +195,7 @@ namespace TowerTanks.Scripts
         }
         private void FixedUpdate()
         {
+            /*
             //Calculate Speed
             if (useEngines) CalculateSpeed();
 
@@ -192,14 +210,18 @@ namespace TowerTanks.Scripts
             {
                 //tankController.DisableSpeedTrails();
             }
+            */
 
             //Update Health
             UpdateHealth();
 
             //Update throttle:
+            throttleValue = gear / (float)((gearPositions - 1) / 2); //Get throttle value between -1 and 1 based on current gear setting and number of available gears
+            /*
             float throttleTarget = gear / (float)((gearPositions - 1) / 2);                                          //Get target throttle value between -1 and 1 based on current gear setting
             throttleTarget = Mathf.Lerp(throttleValue, throttleTarget, accelerationDamping);                         //Use lerp to soften throttle target, making accelerations less abrupt
             throttleValue = Mathf.MoveTowards(throttleValue, throttleTarget, maxAcceleration * Time.fixedDeltaTime); //Move throttle value to designated target without exceeding given max acceleration
+            */
 
             //Count grounded wheels
             int groundedWheels = 0;                                                         //Initialize variable to track how many wheels are grounded
@@ -223,9 +245,83 @@ namespace TowerTanks.Scripts
                 else x++;                                                //Iterate past event if it has not been completed
             }
             totalTreadImpact = Vector3.Project(totalTreadImpact, transform.right);
-            //r.AddForce(totalTreadImpact, ForceMode2D.Force);
+
+            //Update engine RPM:
+            float targetRPM = Mathf.Lerp(-maxRPM, maxRPM, Mathf.InverseLerp(-1, 1, throttleValue));                              //Get target RPM based on value of throttle
+            engineRPM = Mathf.Lerp(engineRPM, targetRPM, RPMAccelFactor);                                                        //Adjust RPM based on RPM acceleration factor (physics approximation, I dunno how to actually relate this accurately to throttle)
+            float driveTorque = engineTorqueCurve.Evaluate(Mathf.Abs(engineRPM) / maxRPM) * Mathf.Sign(engineRPM) * enginePower; //Get amount of torque exerted by engine based on current RPM, maximum engine power, and engine torque curve
+            print("Drive Torque = " + driveTorque);
 
             //Apply wheel forces:
+            Vector2 alignedVelocity = Vector3.Project(r.velocity, transform.right);         //Get velocity of tank aligned to tank's horizontal axis
+            float longVelocity = alignedVelocity.magnitude * Mathf.Sign(alignedVelocity.x); //Get float velocity of tank along its forward axis (longitudinal velocity) NOTE: Might need to be modified to check on a wheel-by-wheel basis later
+            print("Longitudinal Velocity = " + longVelocity);
+            float totalTractionTorque = 0; //Create container to add up sum of traction torque on all wheels (this is done as one operation because the wheels are all connected rotationally by the treads)
+            foreach (TreadWheel wheel in wheels) //Iterate through wheel list
+            {
+                if (wheel.grounded) //Only apply force from grounded wheels
+                {
+                    //Get suspension force:
+                    float suspensionMagnitude = wheel.stiffnessCurve.Evaluate(wheel.compressionValue) * wheel.stiffness; //Use wheel compression value and stiffness to determine magnitude of exerted force
+                    float dragMagnitude = wheel.damper * wheel.springSpeed;                                              //Get magnitude of force applied by spring damper (drag and inefficiency of suspension)
+                    Vector2 suspensionForce = transform.up * (suspensionMagnitude + dragMagnitude);                      //Get directional force to apply to rigidbody
+                    r.AddForceAtPosition(suspensionForce, wheel.transform.position, ForceMode2D.Force);                  //Apply total spring forces to rigidbody at position of wheel
+
+                    //Apply wheel stickiness:
+                    if (!wheel.nonStick && wheel.springSpeed < 0) //Wheel appears to be leaving the ground (negative spring speed indicates that spring is decompressing)
+                    {
+                        float stickForce = wheelStickiness * -wheel.springSpeed * (1 - wheel.compressionValue);                       //Determine stick force based on setting and velocity of wheel decompression
+                        stickForce *= wheelStickCompressionCurve.Evaluate(wheel.compressionValue);                                    //Modify stick force based on how compressed wheel is (prevents nasty behavior which artificially compresses tank)
+                        r.AddForceAtPosition(-wheel.lastGroundHit.normal * stickForce, wheel.lastGroundHit.point, ForceMode2D.Force); //Apply downward stick force on tank at position of wheel (based on direction of wheel contact with ground)
+                        Debug.DrawRay(wheel.lastGroundHit.point, -transform.up * stickForce, Color.yellow);
+                    }
+                }
+            }
+            foreach (TreadWheel wheel in wheels) //This needs to be done after other tank forces are applied
+            {
+                if (wheel.grounded)
+                {
+                    //Terrain interaction behaviors:
+                    Vector2 wheelDirection = Vector2.Perpendicular(wheel.lastGroundHit.normal); //Get direction wheel is applying force in
+                    if (wheel.lastGroundHit.collider != null) //Wheel has valid information about hit ground
+                    {
+                        //Get traction:
+                        float frictionLimit = frictionCoefficient * r.mass * -Physics2D.gravity.y;                                 //Determine the maximum amount of friction force which can be exerted by this wheel based on how much weight is on it (how much force it is supplying to keeping the tank suspended)
+                        float slipDelta = (((Mathf.Deg2Rad * -wheel.angularVelocity) * wheel.radius) - longVelocity);              //Get difference in speed between tank ground velocity and linear desired motion of wheel
+                        slipDelta = Mathf.Clamp(slipDelta, -maxSlipRatio, maxSlipRatio);                                           //Clamp output slip ratio to prevent HUGE values from propogating and annihilating the tank
+                        slipDelta = slipRatioCurve.Evaluate(Mathf.InverseLerp(0, maxSlipRatio, Mathf.Abs(slipDelta))) * slipDelta; //Apply slip ratio curve so that wheel traction is highest at certain slip ratios (usually <10%) and then falls off at higher speeds (burnouts)
+                        float tractionForce = -slipDelta * frictionLimit;                                                          //Get traction force as a product of the slip ratio between the ground and the wheel, and the maximum amount of friction allowed to be produced by the wheel based on load
+
+                        if (wheel == wheels[1])
+                        {
+                            //print("Friction Limit = " + frictionLimit);
+                            print("Slip Ratio = " + slipDelta);
+                            print("Traction Force = " + tractionForce);
+                        }
+
+                        //Apply traction forces:
+                        r.AddForceAtPosition(wheelDirection * tractionForce * Time.fixedDeltaTime, wheel.lastGroundHit.point, ForceMode2D.Force); //Apply traction force induced by friction between wheel and ground
+                        totalTractionTorque -= tractionForce * wheel.radius;                                                                      //Get wheel torque induced by traction
+                    }
+                }
+            }
+            //Apply wheel torques:
+            float totalDriveTorque = totalTractionTorque - driveTorque; //Add up torques affecting wheels NOTE: Add torque for brakes here
+            //float wheelAngAccel = totalDriveTorque / treadInertia;      //Get amount by which to angularly accelerate each wheel
+            float wheelAngAccel = totalDriveTorque;
+            foreach (TreadWheel wheel in wheels) //Iterate through wheel list AGAIN now that traction torques have been calculated
+            {
+                wheel.angularVelocity += wheelAngAccel * Mathf.Rad2Deg * Time.fixedDeltaTime;                                                                  //Accelerate all wheels together by the same amount
+                wheel.angularVelocity += axleDragCoefficient * Mathf.Pow(wheel.angularVelocity, 2) * Time.fixedDeltaTime * -Mathf.Sign(wheel.angularVelocity); //Apply axle drag coefficient to angular velocity of wheel (always opposing wheel rotation direction)
+                if (gear == 0 && brakeSaturation >= brakeDwellTime) //Brakes are active
+                {
+                    float brakeValue = Mathf.InverseLerp(brakeDwellTime, brakeSaturationTime, brakeSaturation);                                           //Get value representing how far along brake is in phase
+                    brakeValue = brakeSaturationCurve.Evaluate(brakeValue) * brakeDragCoefficient;                                                        //Evaluate efficacy of brakes based on 
+                    wheel.angularVelocity += brakeValue * Mathf.Pow(wheel.angularVelocity, 2) * Time.fixedDeltaTime * -Mathf.Sign(wheel.angularVelocity); //Apply brake drag coefficient to angular velocity of wheel (always opposing wheel rotation direction)
+                }
+            }
+
+            /*
             Vector2 targetTankSpeed = transform.right * maxSpeed * throttleValue * jamMultiplier;  //Get target speed based on tank throttle
             Vector2 deltaSpeed = targetTankSpeed - r.velocity;                                     //Get value which would change current speed to target speed
             Vector2 baseWheelAccel = deltaSpeed / Time.fixedDeltaTime;                             //Get ideal acceleration value which each wheel will use to compute actual force (apply actual acceleration to smooth out speed changes)
@@ -261,6 +357,7 @@ namespace TowerTanks.Scripts
                     }
                 }
             }
+            */
 
             //Add air drag:
             float actualAirDrag = baseAirDragForce * Time.fixedDeltaTime * r.velocity.x; //Calculate air drag based on given value and horizontal speed of tank
@@ -334,7 +431,7 @@ namespace TowerTanks.Scripts
         public void ChangeGear(int targetGear)
         {
             gear = -targetGear; //Update gear setting
-            timeInGear = 0;     //Reset time in gear counter
+            brakeSaturation = 0;     //Reset gear time tracker
         }
 
         /// <summary>
@@ -469,9 +566,7 @@ namespace TowerTanks.Scripts
             avgCellPos /= cellCount;        //Get average position of cells
             //r.centerOfMass = new Vector2(Mathf.Clamp(avgCellPos.x, -COGWidth / 2, COGWidth / 2), COGHeight); //Constrain center mass to line segment controlled in settings (for tank handling reliability)
         }
-        /// <summary>
-        /// Evaluates mass and center of gravity for tank depending on position and quantity of cells.
-        /// </summary>
+        /*
         public void CalculateSpeed()
         {
             //Horsepower & Boost Accel
@@ -501,5 +596,6 @@ namespace TowerTanks.Scripts
         }
 
         public float GetTreadSpeed() => actualSpeed;
+        */
     }
 }
