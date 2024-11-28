@@ -12,21 +12,22 @@ namespace TowerTanks.Scripts
 
         //Settings:
         [Header("Properties:")]
-        [Tooltip("Maximum upward distance wheel can travel before it hits a hard stop."), Min(0)] public float maxSuspensionDepth;
-        [Tooltip("Maximum speed at which wheels can spring to target position when uncompressed."), Min(0)] public float maxSpringSpeed;
-        [Tooltip("Maximum speed at which wheels can spring to target position when compressed."), Min(0)] public float maxSqueezeSpeed;
+        [Tooltip("Maximum upward distance wheel can travel before it hits a hard stop."), Min(0)]                  public float maxSuspensionDepth;
+        [Tooltip("Maximum speed at which wheels can spring to target position when uncompressed."), Min(0)]        public float maxSpringSpeed;
+        [Tooltip("Maximum speed at which wheels can spring to target position when compressed."), Min(0)]          public float maxSqueezeSpeed;
         [Tooltip("Extra radius around wheel used to maintain ground status when wheel is decompressing."), Min(0)] public float groundDetectBuffer;
         [Space()]
-        [Tooltip("How much force wheel suspension exerts to support tank."), Min(0)] public float stiffness;
-        [Tooltip("Curve representing suspension stiffness based on wheel compression amount.")] public AnimationCurve stiffnessCurve;
-        [Tooltip("Force which opposes suspension motion and allows tank to come to a rest.")] public float damper;
+        [Tooltip("How much force wheel suspension exerts to support tank."), Min(0)]               public float stiffness;
+        [Tooltip("Curve representing suspension stiffness based on wheel compression amount.")]    public AnimationCurve stiffnessCurve;
+        [Tooltip("Force which opposes suspension motion and allows tank to come to a rest.")]      public float damper;
         [Tooltip("Prevents wheel from applying stick force to surfaces (good for extra wheels).")] public bool nonStick;
         [Header("Other Settings:")]
         [Tooltip("Causes wheel to generate a collider which prevents tank from squishing it into the ground once it's reached its compression limit.")] public bool generateWheelGuard = true;
         [Tooltip("Hides debug visualization meshes on wheels.")] public bool hideDebugs;
 
         //Runtime Variables:
-        internal Vector2 basePosition;        //Natural position of wheel (set at start)
+        [SerializeField] internal float angularVelocity;      //Clockwise degrees per second at which wheel is turning
+        internal Vector2 basePosition;       //Natural position of wheel (set at start)
         internal float radius;               //Radius of wheel, recorded at start
         internal bool grounded;              //True if wheel is touching a surface, false if not
         internal RaycastHit2D lastGroundHit; //Information about last surface hit by wheel
@@ -85,6 +86,10 @@ namespace TowerTanks.Scripts
                     transform.position = targetPosition; //Move wheel toward fully extended position
                 }
             }
+
+            //Update wheel rotation:
+            float newRotation = transform.localEulerAngles.z + (angularVelocity * Time.deltaTime); //Get new rotation value for wheel based on angular velocity
+            transform.localEulerAngles = Vector3.forward * newRotation;                            //Update rotation of wheels
 
             //Get compression value:
             prevCompressionValue = compressionValue;                                                              //Store previous compression value

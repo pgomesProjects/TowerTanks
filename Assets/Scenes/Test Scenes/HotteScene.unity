@@ -5375,28 +5375,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1677695872800944111, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: engineRPM
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1677695872800944111, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
       propertyPath: useEngines
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1677695872800944111, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
-      propertyPath: wheelStickCompressionCurve.m_Curve.Array.data[0].inSlope
-      value: -5.4604344
-      objectReference: {fileID: 0}
-    - target: {fileID: 1677695872800944111, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
-      propertyPath: wheelStickCompressionCurve.m_Curve.Array.data[1].inSlope
-      value: -0.0016688957
-      objectReference: {fileID: 0}
-    - target: {fileID: 1677695872800944111, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
-      propertyPath: wheelStickCompressionCurve.m_Curve.Array.data[0].outSlope
-      value: -5.4604344
-      objectReference: {fileID: 0}
-    - target: {fileID: 1677695872800944111, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
-      propertyPath: wheelStickCompressionCurve.m_Curve.Array.data[1].inWeight
-      value: 0.3251015
-      objectReference: {fileID: 0}
-    - target: {fileID: 1677695872800944111, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
-      propertyPath: wheelStickCompressionCurve.m_Curve.Array.data[0].outWeight
-      value: 0.15933694
       objectReference: {fileID: 0}
     - target: {fileID: 1677695873077091904, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
       propertyPath: damper

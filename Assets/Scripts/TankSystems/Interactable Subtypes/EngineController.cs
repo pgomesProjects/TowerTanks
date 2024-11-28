@@ -373,7 +373,7 @@ namespace TowerTanks.Scripts
         public override void OnDestroy()
         {
             base.OnDestroy();
-            if (isPowered) tank.treadSystem.horsePower -= power;
+            //if (isPowered) tank.treadSystem.horsePower -= power;
         }
     }
 }
