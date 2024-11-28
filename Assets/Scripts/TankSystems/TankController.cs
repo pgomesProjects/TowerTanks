@@ -27,7 +27,8 @@ namespace TowerTanks.Scripts
         [Tooltip("This tank's traction system.")] internal TreadSystem treadSystem;
         [Tooltip("Transform containing all tank rooms, point around which tower tilts.")] private Transform towerJoint;
         [SerializeField, Tooltip("Target transform in tread system which tower joint locks onto.")] private Transform towerJointTarget;
-        public bool isInvincible;
+        [SerializeField, Tooltip("When true, the tank cannot take damage.")] public bool isInvincible;
+        [SerializeField, Tooltip("When true, the tank transfers all damage it takes to its core.")] public bool isFragile;
 
         private TextMeshProUGUI nameText;
         private float currentCoreHealth;
@@ -327,7 +328,7 @@ namespace TowerTanks.Scripts
             //Shop Logic
             if (tankType == TankId.TankType.NEUTRAL)
             {
-                isInvincible = true;
+                //isInvincible = true;
                 ShopManager shopMan = GetComponent<ShopManager>();
                 shopMan.enabled = true;
                 shopMan.InitializeShop();
@@ -537,6 +538,12 @@ namespace TowerTanks.Scripts
                     throttles[i].ChangeGear(direction);
                 }
             }
+        }
+
+        public void MakeFragile()
+        {
+            isFragile = true;
+            currentCoreHealth = 10;
         }
 
         public void Damage(float amount)
