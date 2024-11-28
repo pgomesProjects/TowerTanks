@@ -19,6 +19,7 @@ namespace TowerTanks.Scripts
         {
             _tank.SetTankGear(0, .15f); //stop moving
             _tank.flag.SetActive(true);
+            _tank.MakeFragile();
         }
 
         public void FrameUpdate() { }

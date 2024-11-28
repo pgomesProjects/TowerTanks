@@ -63,6 +63,7 @@ namespace TowerTanks.Scripts
                 {
                     newtank.buildOnStart = true;
                 }
+                newtank.gameObject.GetComponent<TankAI>().enabled = true;
             }
 
             //Assign Values
