@@ -1,5 +1,4 @@
 
-[System.Serializable]
 public class SessionStats
 {
     //Tank

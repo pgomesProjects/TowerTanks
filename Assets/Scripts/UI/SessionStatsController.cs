@@ -37,7 +37,6 @@ namespace TowerTanks.Scripts
         private void OnEnable()
         {
             playerControlSystem.Enable();
-            CampaignManager.Instance.EndCampaign();
             CreateSessionsData();
         }
 
