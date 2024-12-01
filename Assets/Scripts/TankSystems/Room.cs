@@ -262,7 +262,7 @@ namespace TowerTanks.Scripts
                             //Inverse check:
                             Room otherRoom = hitCell1 == null ? hitCell2.room : hitCell1.room; //Get other room hit by either raycast (works even if only one raycast hit a room)
                             if (otherRoom == this) { continue; }  //Ignore if hit block is part of this room (happens before potential inverse check)
-                            if (!otherRoom.mounted) { continue; }  //Ignore if hit block is part of a room that is not mounted
+                            if (!otherRoom.mounted && !targetTank.isPrebuilding) { continue; }  //Ignore if hit block is part of a room that is not mounted and the tank is not prebuilding
                             if (hitCell1 == null || hitCell2 == null) //Only one hit made contact with a cell
                             {
                                 cellPos = (hitCell1 == null ? hitCell2 : hitCell1).transform.position; //Get position of partially-hit cell
