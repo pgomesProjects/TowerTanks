@@ -243,9 +243,9 @@ namespace TowerTanks.Scripts
             damageSprite = towerJoint.transform.Find("DiageticUI")?.GetComponent<SpriteRenderer>();
 
             isPrebuilding = true;
+
             //Room setup:
             rooms = new List<Room>(GetComponentsInChildren<Room>()); //Get list of all rooms which spawn as children of tank (for prefab tanks)
-
             foreach (Room room in rooms) //Scrub through childed room list (should be in order of appearance under towerjoint)
             {
                 room.targetTank = this; //Make this the target tank for all childed rooms
