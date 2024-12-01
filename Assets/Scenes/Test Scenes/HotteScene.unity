@@ -1137,9 +1137,9 @@ MonoBehaviour:
   - tier: 1
     designs:
     - {fileID: 4900000, guid: e4a4b2cff2a8ed84caf6d14275621189, type: 3}
-    - {fileID: 4900000, guid: 37c74f6a94aeb6f4cac8f33184d25f6a, type: 3}
     - {fileID: 4900000, guid: aecb783de59916340b00ac621243d679, type: 3}
     - {fileID: 4900000, guid: 46c406a077c4d2c46ab3265201c1c9cb, type: 3}
+    - {fileID: 4900000, guid: 37c74f6a94aeb6f4cac8f33184d25f6a, type: 3}
   - tier: 2
     designs:
     - {fileID: 4900000, guid: 7995271edfdf1d647baebb2fde1f9804, type: 3}
