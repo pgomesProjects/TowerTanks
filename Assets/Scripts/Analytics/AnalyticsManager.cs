@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace TowerTanks.Scripts
@@ -8,26 +6,33 @@ namespace TowerTanks.Scripts
     public class GameAnalytics
     {
         public float timePlayed { get; private set; }
+        public string gameStartTime { get; private set; }
 
         public GameAnalytics()
         {
-            this.timePlayed = 0f;
+            timePlayed = 0f;
+            gameStartTime = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
         }
 
         public void AddToTimePlayed(float timeElapsed) => timePlayed += timeElapsed;
 
-        public override string ToString()
+        public string PrintTimePlayed()
         {
-            string data = "";
-
             int hours = Mathf.FloorToInt(timePlayed / 3600);
             int minutes = Mathf.FloorToInt(timePlayed % 3600 / 60);
             int seconds = Mathf.FloorToInt(timePlayed % 60);
 
             if (hours > 0)
-                data += string.Format("Time Played: {0:0}:{1:00}:{2:00}", hours, minutes, seconds);
+                return string.Format("Time Played: {0:0}:{1:00}:{2:00}", hours, minutes, seconds);
             else
-                data += string.Format("Time Played: {0:0}:{1:00}", minutes, seconds);
+                return string.Format("Time Played: {0:0}:{1:00}", minutes, seconds);
+        }
+
+        public override string ToString()
+        {
+            string data = "";
+
+            data += PrintTimePlayed();
 
             return data;
         }
@@ -36,7 +41,8 @@ namespace TowerTanks.Scripts
 
     public class AnalyticsManager : MonoBehaviour
     {
-        private GameAnalytics currentGameAnalytics;
+        public static GameAnalytics currentGameAnalytics { get; private set; }
+
         private void Awake()
         {
             currentGameAnalytics = new GameAnalytics();
@@ -49,7 +55,7 @@ namespace TowerTanks.Scripts
 
         private void OnApplicationQuit()
         {
-            Debug.Log(currentGameAnalytics.ToString());
+            CampaignManager.Instance.EndCampaign();
         }
     }
 }
