@@ -347,6 +347,7 @@ namespace TowerTanks.Scripts
 
         public void UpdateUI()
         {
+            /*
             for (int i = 0; i < boilerSprites.Length; i++) {
                 boilerSprites[i].color = Color.Lerp(temperatureLowColor, temperatureHighColor, pressure / 100f);
             }
@@ -381,6 +382,7 @@ namespace TowerTanks.Scripts
                 }
                 danger.localScale = new Vector3(1f, 1f, 1f);
             }
+            */
 
             if (pressureBar != null)
             {
