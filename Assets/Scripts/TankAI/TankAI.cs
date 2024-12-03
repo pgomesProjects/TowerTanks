@@ -285,6 +285,7 @@ namespace TowerTanks.Scripts
         #endregion
 
 
+#if UNITY_EDITOR
         private void OnDrawGizmos()
         {
             //draw circle for view range
@@ -304,22 +305,23 @@ namespace TowerTanks.Scripts
                 style.fontSize = 20; // Set the desired font size
                 style.fontStyle = FontStyle.Bold;
                 style.normal.textColor = Color.green;
-                Handles.Label(interactable.script.transform.position + Vector3.up * 2, $"{i}", style:style);
+                Handles.Label(interactable.script.transform.position + Vector3.up * 2, $"{i}", style: style);
                 style.normal.textColor = Color.cyan;
-                Handles.Label(tank.treadSystem.transform.position + Vector3.up * 25, $"AI STATE: {fsm._currentState.GetType().Name}", style:style);
+                Handles.Label(tank.treadSystem.transform.position + Vector3.up * 25, $"AI STATE: {fsm._currentState.GetType().Name}", style: style);
                 style.normal.textColor = Color.yellow;
-                Handles.Label(tank.treadSystem.transform.position + Vector3.up * 22, $"Available Tokens: {currentTokenCount}", style:style);
+                Handles.Label(tank.treadSystem.transform.position + Vector3.up * 22, $"Available Tokens: {currentTokenCount}", style: style);
                 style.normal.textColor = Color.red;
-                Handles.Label(tank.treadSystem.transform.position + Vector3.up * 19, $"Total Tokens: {aiSettings.tankEconomy}", style:style);
+                Handles.Label(tank.treadSystem.transform.position + Vector3.up * 19, $"Total Tokens: {aiSettings.tankEconomy}", style: style);
                 i++;
             }
-            
+
             //draw circle for engagement range
             Gizmos.color = Color.yellow;
             if (fsm._currentState.GetType() != typeof(TankEngageState)) Gizmos.DrawWireSphere(tankPos, aiSettings.maxEngagementRange);
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(tankPos, aiSettings.preferredFightDistance);
         }
+#endif
 
         private void OnDestroy()
         {
