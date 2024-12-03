@@ -232,6 +232,7 @@ MonoBehaviour:
   tankCamSideBuffer: 1.5
   engagementCamSeparation: 25
   horizontalOffsetSmoothing: 6
+  tankCameraColor: {r: 0.26666668, g: 0.6156863, b: 0.86666673, a: 1}
   engagementDistance: 100
   shareCamDistance: 15
   radarEdgeBuffer: {x: 7.23, y: 12.3}
