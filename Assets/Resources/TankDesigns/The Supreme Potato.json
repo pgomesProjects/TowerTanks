@@ -2,6 +2,11 @@
     "TankName": "The Supreme Potato",
     "coreInteractables": [
         {
+            "cellName": "Cell_2",
+            "interRef": "InterLogistics_Refuel",
+            "flipped": false
+        },
+        {
             "cellName": "Cell_4",
             "interRef": "InterCommand_Throttle",
             "flipped": false

@@ -73,7 +73,13 @@
                 "z": 0.0
             },
             "rotate": 0,
-            "cellInteractables": []
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_0",
+                    "interRef": "InterLogistics_Refuel",
+                    "flipped": false
+                }
+            ]
         },
         {
             "roomID": "Room_Tee4B",
@@ -123,7 +129,13 @@
                 "z": 0.0
             },
             "rotate": 0,
-            "cellInteractables": []
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_1",
+                    "interRef": "InterLogistics_Refuel",
+                    "flipped": false
+                }
+            ]
         },
         {
             "roomID": "Room_Tee4B",
