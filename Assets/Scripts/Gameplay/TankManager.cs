@@ -32,6 +32,7 @@ namespace TowerTanks.Scripts
                 //newtank.TankName = new TankNameGenerator().GenerateRandomName(nameType);
                 newtank.gameObject = Instantiate(tankPrefab, tankSpawnPoint, false);
                 newtank.tankType = TankId.TankType.ENEMY;
+                newtank.tankBrain = newtank.gameObject.GetComponent<TankAI>();
 
                 //Determine tank design
                 int random = Random.Range(0, 4);
@@ -43,7 +44,7 @@ namespace TowerTanks.Scripts
                 {
                     newtank.buildOnStart = true;
                 }
-                newtank.gameObject.GetComponent<TankAI>().enabled = true;
+                newtank.tankBrain.enabled = true;
             }
 
             if (typeToSpawn == TankId.TankType.NEUTRAL)
@@ -63,7 +64,6 @@ namespace TowerTanks.Scripts
                 {
                     newtank.buildOnStart = true;
                 }
-                newtank.gameObject.GetComponent<TankAI>().enabled = true;
             }
 
             //Assign Values

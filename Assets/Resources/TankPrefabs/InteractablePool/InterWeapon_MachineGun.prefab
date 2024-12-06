@@ -1135,7 +1135,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  fireCooldownTimer: 0
   spread: 3
+  chargeTimer: 0
   fire: 0
   moveGimbal: 0.5
 --- !u!114 &-730474835192604699
@@ -1145,14 +1147,22 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1789302742507130491}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9e3099b1da81a4743b04e06f6092dec5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   myTankAI: {fileID: 0}
+  myInteractableID:
+    stackName: 
+    interactable: {fileID: 0}
+    script: {fileID: 0}
+    brain: {fileID: 0}
+    type: 0
+  myInteractableType: 0
+  interactableController: {fileID: 0}
+  tokenActivated: 0
   fireCooldown: 0.1
-  aimCooldown: 5
   cooldownOffset: 0
   isRotating: 0
 --- !u!1 &1789302742572182765

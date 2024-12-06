@@ -6,8 +6,24 @@
   <component name="ChangeListManager">
     <list default="true" id="5398b79a-e478-4a7d-b865-f9c27d850513" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TowerTanks/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TowerTanks/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TankAI/AI Settings Assets/Default AI Settings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TankAI/AI Settings Assets/Default AI Settings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TankAI/TankStates/TankPursueState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TankAI/TankStates/TankPursueState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/TankPrefabs/InteractablePool/InterEngineer_Boiler.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/TankPrefabs/InteractablePool/InterEngineer_Boiler.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/TankPrefabs/InteractablePool/InterWeapon_Cannon.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/TankPrefabs/InteractablePool/InterWeapon_Cannon.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/TankPrefabs/InteractablePool/InterWeapon_MachineGun.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/TankPrefabs/InteractablePool/InterWeapon_MachineGun.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/TankPrefabs/InteractablePool/InterWeapon_Mortar.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/TankPrefabs/InteractablePool/InterWeapon_Mortar.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/BuildTankScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/BuildTankScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/EnemyScripts/BoilerBrain.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/EnemyScripts/BoilerBrain.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/EnemyScripts/InteractableBrain.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/EnemyScripts/InteractableBrain.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Gameplay/TankManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Gameplay/TankManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TankAI/AI Settings Assets.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TankAI/AI Settings Assets/Default AI Settings.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TankAI/AI Settings Assets/Default AI Settings.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TankAI/TankAI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TankAI/TankAI.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TankSystems/Interactable Subtypes/InteractableId.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TankSystems/Interactable Subtypes/InteractableId.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TankSystems/TankId.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TankSystems/TankId.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Wwise/Editor/ProjectData/AkWwiseProjectData.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Wwise/Editor/ProjectData/AkWwiseProjectData.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,17 +47,21 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Player/MoveWithTank.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/TankSystems/LadderCollGenerator.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/TankSystems/PlatformCollisionSwitcher.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.2d.animation@7.0.12/Editor/SpritePostProcess.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.2d.animation@7.0.12/IK/Runtime/CCDSolver2D.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.2d.tilemap@1.0.0/Editor/GridEditorUtility.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.burst@1.7.3/Editor/BurstDisassembler.Core.Wasm.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.burst@1.7.3/Runtime/Intrinsics/x86/Sse2.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.burst@1.7.3/Runtime/bee~/Burst.bee.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.burst@1.7.3/Tests/Editor/LongTextAreaTests.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.burst@1.7.3/Unity.Burst.CodeGen/FunctionPointerInvokeTransform.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.cinemachine@2.8.6/Editor/Editors/CinemachineComposerEditor.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.cinemachine@2.8.6/Editor/Editors/CinemachineVirtualCameraEditor.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.cinemachine@2.8.6/Editor/Utility/CinemachineEditorAnalytics.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.cinemachine@2.8.6/Runtime/Core/Predictor.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.cinemachine@2.8.6/Runtime/Core/TargetPositionCache.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.collab-proxy@1.17.1/Editor/PlasticSCM/Views/Changesets/LaunchDiffOperations.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.inputsystem@1.3.0/InputSystem/Actions/IInputInteraction.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.inputsystem@1.3.0/InputSystem/InputManager.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.inputsystem@1.3.0/InputSystem/Utilities/DelegateHelpers.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.core@12.1.7/Editor/Gizmo/GizmoUtility.cs" root0="SKIP_HIGHLIGHTING" />
@@ -60,6 +80,7 @@
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Editor/UI/AspectRatioFitterEditor.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/UI/Core/DefaultControls.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/UI/Core/FontUpdateTracker.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/UI/Core/Utility/VertexHelper.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Tests/Editor/UnityEvent/UnityEventInvoke.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -121,10 +142,10 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="14716">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="14716" />
+      <option name="pid" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -171,6 +192,10 @@
       <workItem from="1732573790003" duration="15735000" />
       <workItem from="1732654014293" duration="2593000" />
       <workItem from="1732657261154" duration="12503000" />
+      <workItem from="1732773130100" duration="1438000" />
+      <workItem from="1732848980195" duration="5385000" />
+      <workItem from="1733438661424" duration="895000" />
+      <workItem from="1733440874186" duration="1474000" />
     </task>
     <servers />
   </component>

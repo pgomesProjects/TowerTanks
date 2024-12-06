@@ -16,18 +16,21 @@ namespace TowerTanks.Scripts
     public class TankAI : MonoBehaviour
     {
         #region Transition Conditions
+        
+        private float GetDistanceToTarget() => Vector2.Distance(tank.treadSystem.transform.position, targetTank.treadSystem.transform.position);
+        
         public bool TargetInViewRange() =>      targetTank.treadSystem != null &&
-                                                Vector2.Distance(tank.treadSystem.transform.position, targetTank.treadSystem.transform.position) < aiSettings.viewRange;
+                                                GetDistanceToTarget() < aiSettings.viewRange;
         public bool TargetOutOfView() =>        targetTank.treadSystem == null ||
-                                                Vector2.Distance(tank.treadSystem.transform.position, targetTank.treadSystem.transform.position) > aiSettings.viewRange;
+                                                GetDistanceToTarget() > aiSettings.viewRange;
         public bool TargetInEngageRange() =>    targetTank.treadSystem != null &&
-                                                Vector2.Distance(tank.treadSystem.transform.position, targetTank.treadSystem.transform.position) < aiSettings.maxEngagementRange;
+                                                GetDistanceToTarget() < aiSettings.maxEngagementRange;
         public bool TargetOutOfEngageRange() => targetTank.treadSystem == null ||
-                                                Vector2.Distance(tank.treadSystem.transform.position, targetTank.treadSystem.transform.position) > aiSettings.maxEngagementRange;
+                                                GetDistanceToTarget() > aiSettings.maxEngagementRange;
         public bool TargetTooClose() =>         targetTank.treadSystem != null &&
-                                                Vector2.Distance(tank.treadSystem.transform.position, targetTank.treadSystem.transform.position) < aiSettings.preferredFightDistance;
+                                                GetDistanceToTarget() < aiSettings.preferredFightDistance;
         public bool TargetAtFightingDistance() => targetTank.treadSystem != null &&
-                                                    Mathf.Abs(Vector2.Distance(tank.treadSystem.transform.position, targetTank.treadSystem.transform.position) - aiSettings.preferredFightDistance) <= 3; //we are within 3 units of our preferred fighting distance (we are at our preferred distance)
+                                                    Mathf.Abs(GetDistanceToTarget() - aiSettings.preferredFightDistance) <= 25; //we are within 3 units of our preferred fighting distance (we are at our preferred distance)
         bool NoGuns() => !tank.interactableList.Any(i => i.script is GunController);
         #endregion
         
@@ -137,7 +140,8 @@ namespace TowerTanks.Scripts
             if (interactable != null)
             {
                 tokenActivatedInteractables.Add(interactable);
-                interactable.ReceiveToken(this);
+                interactable.brain.enabled = true;
+                interactable.brain.ReceiveToken();
                 interactable.brain.myInteractableType = toInteractable; //nice way to tell the brain what it is automatically
                 currentTokenCount--;
             }
@@ -153,7 +157,7 @@ namespace TowerTanks.Scripts
             if (tokenActivatedInteractables.Contains(interactableToTakeFrom))
             {
                 tokenActivatedInteractables.Remove(interactableToTakeFrom);
-                interactableToTakeFrom.ReturnToken();
+                interactableToTakeFrom.brain.ReturnToken();
                 currentTokenCount++;
             }
             

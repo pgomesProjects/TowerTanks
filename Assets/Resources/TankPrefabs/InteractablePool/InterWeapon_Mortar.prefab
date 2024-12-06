@@ -2022,7 +2022,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  fireCooldownTimer: 0
   spread: 2
+  chargeTimer: 0
   fire: 0
   moveGimbal: 0.5
 --- !u!114 &-7033447428060440738
@@ -2032,7 +2034,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5015744295796166023}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f0d402e685f59b445aef7be2f38b4b16, type: 3}
   m_Name: 
@@ -2044,11 +2046,10 @@ MonoBehaviour:
     script: {fileID: 0}
     brain: {fileID: 0}
     type: 0
-    thisInteractableEnum: 0
-    tokenActivated: 0
   myInteractableType: 0
+  interactableController: {fileID: 0}
+  tokenActivated: 0
   fireCooldown: 5
-  aimCooldown: 5
   cooldownOffset: 1
   isRotating: 0
 --- !u!1 &5015744295915063545

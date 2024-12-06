@@ -17,8 +17,8 @@ namespace TowerTanks.Scripts
         
         private IEnumerator Heartbeat()
         {
-            var randTime = Random.Range(engineController.minChargeTime, engineController.maxChargeTime); //we charge for a rand amt of time. this should give a good ratio of the AI fucking up and not
-            yield return new WaitUntil(() => engineController.pressure < 50); //dont run our next charge until we are below 50 pressure
+            var randTime = Random.Range(engineController.minChargeTime, engineController.maxChargeTime); //we charge for a rand amt of time for now
+            yield return new WaitUntil(() => engineController.pressure <= 75); //dont run our next charge until we are below 65 pressure (avoids explosion)
             engineController.StartCharge();
             while (engineController.chargeStarted && engineController.chargeTimer < randTime)
             {

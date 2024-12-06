@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9e90a7e6e0adf4444abf9b82d5cfdaba, type: 3}
-  m_Name: Default AI Settings
+  m_Name: Medium AI Settings
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -89,7 +89,7 @@ MonoBehaviour:
       Data: 2
     - Name: $v
       Entry: 4
-      Data: 85
+      Data: 32
     - Name: 
       Entry: 8
       Data: 
@@ -117,7 +117,7 @@ MonoBehaviour:
       Data: 0
     - Name: $v
       Entry: 4
-      Data: 25
+      Data: 15
     - Name: 
       Entry: 8
       Data: 
@@ -129,7 +129,7 @@ MonoBehaviour:
       Data: 4
     - Name: $v
       Entry: 4
-      Data: 25
+      Data: 28.3
     - Name: 
       Entry: 8
       Data: 
@@ -141,7 +141,7 @@ MonoBehaviour:
       Data: 5
     - Name: $v
       Entry: 4
-      Data: 25
+      Data: 28.3
     - Name: 
       Entry: 8
       Data: 
@@ -153,7 +153,7 @@ MonoBehaviour:
       Data: 6
     - Name: $v
       Entry: 4
-      Data: 25
+      Data: 28.3
     - Name: 
       Entry: 8
       Data: 
