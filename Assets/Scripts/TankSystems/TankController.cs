@@ -34,7 +34,8 @@ namespace TowerTanks.Scripts
         private float currentCoreHealth;
         private TankManager tankManager;
         private TankAI _thisTankAI;
-        public GameObject flag;
+        public GameObject tankFlag;
+        public GameObject surrenderFlag;
 
         [Header("Cargo")]
         public GameObject[] cargoHold;
@@ -762,6 +763,15 @@ namespace TowerTanks.Scripts
                     {
                         tankType = tank.tankType;
                         tank.TankName = TankName;
+
+                        //Change my flag if I'm an enemy
+                        if (tankType == TankId.TankType.ENEMY)
+                        {
+                            FlagSettings flag = tankFlag.GetComponent<FlagSettings>();
+                            flag.flagSprite = tankManager.tankFlagSprites[1];
+
+                            tankFlag.transform.Rotate(0, 180, 0);
+                        }
                     }
                 }
             }
@@ -1025,6 +1035,9 @@ namespace TowerTanks.Scripts
                 }
             }
 
+            //Update Flag
+            UpdateFlagPosition(upMostCell);
+
             //Calculate tank metrics:
             float highestCellHeight = treadSystem.transform.InverseTransformPoint(upMostCell.transform.position).y + 0.5f;                 //Get height from treadbase to top of highest cell
             float tankLeftSideLength = Mathf.Abs(treadSystem.transform.InverseTransformPoint(leftMostCell.transform.position).x) + 0.5f;   //Get length of tank from center of treadbase to outer edge of leftmost cell
@@ -1135,5 +1148,12 @@ namespace TowerTanks.Scripts
         }
         public Character[] GetCharactersInTank() => GetComponentsInChildren<Character>();
         public float GetHighestPoint() => tankSizeValues.x;
+
+        public void UpdateFlagPosition(Transform target)
+        {
+            Vector2 newPos = target.position;
+            tankFlag.transform.position = newPos;
+            surrenderFlag.transform.position = newPos;
+        }
     }
 }

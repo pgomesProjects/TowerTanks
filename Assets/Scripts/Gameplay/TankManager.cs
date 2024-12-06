@@ -17,6 +17,8 @@ namespace TowerTanks.Scripts
         public List<EnemyTankDesign> enemyTankDesigns = new List<EnemyTankDesign>();
         public List<EnemyTankDesign> merchantTankDesigns = new List<EnemyTankDesign>();
 
+        public List<Sprite> tankFlagSprites = new List<Sprite>();
+
         [PropertySpace]
         public List<TankId> tanks = new List<TankId>();
 
