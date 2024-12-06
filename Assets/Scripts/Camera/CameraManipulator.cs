@@ -40,8 +40,9 @@ namespace TowerTanks.Scripts
             /// Ganerates a camera setup to track given tank.
             /// </summary>
             /// <param name="tank">The primary tank which this system will be associated with.</param>
+            /// <param name="tankCamBackgroundColor">The background color of the tank camera.</param>
             /// <param name="isRadar">Will initialize this system as the radar. There can only be one radar and it behaves differently than normal tankCamSystems. Only initialize with the player tank.</param>
-            public TankCamSystem(TankController tank, bool isRadar = false)
+            public TankCamSystem(TankController tank, Color tankCamBackgroundColor, bool isRadar = false)
             {
                 //Validity checks:
                 if (tank == null) { Debug.LogError("Tried to spawn tank camera system using null script!"); return; }
@@ -50,6 +51,7 @@ namespace TowerTanks.Scripts
                 cam = new GameObject("CAM_" + (isRadar ? "Radar" : tank.TankName.Replace(" ", "")), typeof(Camera), typeof(UniversalAdditionalCameraData), typeof(CinemachineBrain)).GetComponent<Camera>(); //Generate main camera object with full suite of components
                 cam.transform.parent = main.transform; //Child camera to camera manipulator object (used as a bucket for camera stuff)
                 cam.orthographic = true;               //Make cam orthographic
+                cam.backgroundColor = tankCamBackgroundColor;   //Change the background color of the camera
                 if (main.camSystems.Count == 0) camNum = 0; //Assign first cam number designator if no other cameras are present
                 else //Camera needs to find lowest un-taken number
                 {
@@ -367,6 +369,7 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("Camera space to leave beside each side of tank (in world units)."), Min(0)] private float tankCamSideBuffer;
         [SerializeField, Tooltip("Distance (in canvas space units) between engagement camera frames when multiple are on screen."), Min(0)] private float engagementCamSeparation;
         [SerializeField, Tooltip("Lerp factor to apply to changes in horizontal offset for reducing jitter."), Min(0.001f)] private float horizontalOffsetSmoothing;
+        [SerializeField, Tooltip("The background color of the tank cameras.")] private Color tankCameraColor;
         [Space]
         [SerializeField, Tooltip("Range (from player tank) at which an enemy tank's camera will become active."), Min(0)] private float engagementDistance;
         [SerializeField, Tooltip("Range (from player tank) at which enemy tank camera will merge with player camera."), Min(0)] private float shareCamDistance;
@@ -400,7 +403,7 @@ namespace TowerTanks.Scripts
         private void Start()
         {
             //Late generation:
-            if (useRadar) radarSystem = new TankCamSystem(TankManager.instance.playerTank, true); //Initialize radar system
+            if (useRadar) radarSystem = new TankCamSystem(TankManager.instance.playerTank, tankCameraColor, true); //Initialize radar system
 
             //Setup:
             normalizedEngagementArea = GetNormalizedRect(engagementZoneTargeter, zoneVisCanvas); //Get area for engagement cameras to occupy
@@ -459,7 +462,7 @@ namespace TowerTanks.Scripts
         }
         private void GenerateCamSystem(TankController targetTank)
         {
-            TankCamSystem newSystem = new TankCamSystem(targetTank); //Generate new system using constructor
+            TankCamSystem newSystem = new TankCamSystem(targetTank, tankCameraColor); //Generate new system using constructor
             main.camSystems.Add(newSystem);                          //Add this to master list of tank camera systems
         }
 

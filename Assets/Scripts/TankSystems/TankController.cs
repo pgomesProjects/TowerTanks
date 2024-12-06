@@ -221,6 +221,7 @@ namespace TowerTanks.Scripts
         private float transitionSequenceTimer = 0;
         private float transitionSequenceInterval = 0;
         [Tooltip("Describes the size of the tank in each cardinal direction (relative to treadbase). X = height, Y = left width, Z = depth, W = right width.")] internal Vector4 tankSizeValues;
+        [Tooltip("Describes whether the tank is currently in the pre-build stage or not.")] internal bool isPrebuilding;
 
         //UI
         private SpriteRenderer damageSprite;
@@ -241,8 +242,10 @@ namespace TowerTanks.Scripts
             nameText = GetComponentInChildren<TextMeshProUGUI>();
             damageSprite = towerJoint.transform.Find("DiageticUI")?.GetComponent<SpriteRenderer>();
 
+            isPrebuilding = true;
             //Room setup:
             rooms = new List<Room>(GetComponentsInChildren<Room>()); //Get list of all rooms which spawn as children of tank (for prefab tanks)
+
             foreach (Room room in rooms) //Scrub through childed room list (should be in order of appearance under towerjoint)
             {
                 room.targetTank = this; //Make this the target tank for all childed rooms
@@ -852,6 +855,7 @@ namespace TowerTanks.Scripts
             }
 
             SetTankName(tankDesign.TankName);
+            isPrebuilding = false;
         }
 
         public TankDesign GetCurrentDesign()

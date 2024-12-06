@@ -262,7 +262,7 @@ namespace TowerTanks.Scripts
                             //Inverse check:
                             Room otherRoom = hitCell1 == null ? hitCell2.room : hitCell1.room; //Get other room hit by either raycast (works even if only one raycast hit a room)
                             if (otherRoom == this) { continue; }  //Ignore if hit block is part of this room (happens before potential inverse check)
-                            if (!otherRoom.mounted) { continue; }  //Ignore if hit block is part of a room that is not mounted
+                            if (!otherRoom.mounted && !targetTank.isPrebuilding) { continue; }  //Ignore if hit block is part of a room that is not mounted and the tank is not prebuilding
                             if (hitCell1 == null || hitCell2 == null) //Only one hit made contact with a cell
                             {
                                 cellPos = (hitCell1 == null ? hitCell2 : hitCell1).transform.position; //Get position of partially-hit cell
@@ -304,8 +304,14 @@ namespace TowerTanks.Scripts
                             ghostCouplers.Add(newCoupler); //Add new coupler to ghost list
                             newCoupler.roomA = this;      //Give coupler information about this room
                             newCoupler.roomB = otherRoom; //Give coupler information about opposing room
-                            newCoupler.cellA = Physics2D.Raycast(newCoupler.transform.position, -Cell.cardinals[x], 0.25f, LayerMask.GetMask("Cell")).collider.GetComponent<Cell>(); //Get cell in roomA closest to coupler
-                            newCoupler.cellB = Physics2D.Raycast(newCoupler.transform.position, Cell.cardinals[x], 0.25f, LayerMask.GetMask("Cell")).collider.GetComponent<Cell>();  //Get cell in roomB closest to coupler
+
+                            RaycastHit2D cellAHit = Physics2D.Raycast(newCoupler.transform.position, -Cell.cardinals[x], 0.25f, LayerMask.GetMask("Cell"));
+                            if (cellAHit.collider != null)
+                                newCoupler.cellA = cellAHit.collider.GetComponent<Cell>();
+  
+                            RaycastHit2D cellBHit = Physics2D.Raycast(newCoupler.transform.position, Cell.cardinals[x], 0.25f, LayerMask.GetMask("Cell"));
+                            if (cellBHit.collider != null)
+                                newCoupler.cellB = cellBHit.collider.GetComponent<Cell>();
                         }
                     }
                 }
