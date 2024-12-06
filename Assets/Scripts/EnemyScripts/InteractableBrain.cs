@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace TowerTanks.Scripts
 {
-    public class InteractableBrain : MonoBehaviour //should be disabled in scene view on scene load, or won't work
+    public class InteractableBrain : MonoBehaviour //inheritors should be disabled in scene view on scene load, or won't work
     {
         [HideInInspector] public TankAI myTankAI;
 
@@ -21,6 +21,17 @@ namespace TowerTanks.Scripts
         private void Awake()
         {
             interactableController = GetComponent<TankInteractable>();
+        }
+        
+        public void ReceiveToken() 
+        {
+            tokenActivated = true;
+        }
+        
+        public void ReturnToken()
+        {
+            myTankAI.RetrieveToken(myInteractableID);
+            enabled = false;
         }
 
         private void OnDestroy()
