@@ -52,11 +52,6 @@
             "rotate": 0,
             "cellInteractables": [
                 {
-                    "cellName": "Cell_1",
-                    "interRef": "InterLogistics_Refuel",
-                    "flipped": false
-                },
-                {
                     "cellName": "Cell_2",
                     "interRef": "InterEngineer_Boiler",
                     "flipped": false
@@ -73,11 +68,6 @@
             },
             "rotate": 0,
             "cellInteractables": [
-                {
-                    "cellName": "Cell_1",
-                    "interRef": "InterLogistics_Refuel",
-                    "flipped": false
-                },
                 {
                     "cellName": "Cell_2",
                     "interRef": "InterEngineer_Boiler",
@@ -178,13 +168,7 @@
                 "z": 0.0
             },
             "rotate": 3,
-            "cellInteractables": [
-                {
-                    "cellName": "Cell_2",
-                    "interRef": "InterLogistics_Refuel",
-                    "flipped": false
-                }
-            ]
+            "cellInteractables": []
         }
     ]
 }

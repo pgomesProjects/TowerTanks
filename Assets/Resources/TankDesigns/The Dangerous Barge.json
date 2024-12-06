@@ -62,13 +62,7 @@
                 "z": 0.0
             },
             "rotate": 3,
-            "cellInteractables": [
-                {
-                    "cellName": "Cell_2",
-                    "interRef": "InterLogistics_Refuel",
-                    "flipped": false
-                }
-            ]
+            "cellInteractables": []
         },
         {
             "roomID": "Room_Elbow4A",

@@ -167,13 +167,7 @@
                 "z": 0.0
             },
             "rotate": 0,
-            "cellInteractables": [
-                {
-                    "cellName": "Cell_2",
-                    "interRef": "InterLogistics_Refuel",
-                    "flipped": false
-                }
-            ]
+            "cellInteractables": []
         },
         {
             "roomID": "Room_Elbow3A_Flipped",
@@ -262,13 +256,7 @@
                 "z": 0.0
             },
             "rotate": 2,
-            "cellInteractables": [
-                {
-                    "cellName": "Cell_1",
-                    "interRef": "InterLogistics_Refuel",
-                    "flipped": false
-                }
-            ]
+            "cellInteractables": []
         },
         {
             "roomID": "Room_Elbow4B_Flipped",
@@ -357,13 +345,7 @@
                 "z": 0.0
             },
             "rotate": 0,
-            "cellInteractables": [
-                {
-                    "cellName": "Cell_1",
-                    "interRef": "InterLogistics_Refuel",
-                    "flipped": false
-                }
-            ]
+            "cellInteractables": []
         },
         {
             "roomID": "Room_Line2A",

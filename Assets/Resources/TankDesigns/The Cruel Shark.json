@@ -162,13 +162,7 @@
                 "z": 0.0
             },
             "rotate": 1,
-            "cellInteractables": [
-                {
-                    "cellName": "Cell_0",
-                    "interRef": "InterLogistics_Refuel",
-                    "flipped": false
-                }
-            ]
+            "cellInteractables": []
         },
         {
             "roomID": "Room_Line4B",
@@ -180,11 +174,6 @@
             },
             "rotate": 0,
             "cellInteractables": [
-                {
-                    "cellName": "Cell_0",
-                    "interRef": "InterLogistics_Refuel",
-                    "flipped": false
-                },
                 {
                     "cellName": "Cell_3",
                     "interRef": "InterWeapon_Mortar",
