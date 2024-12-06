@@ -33,6 +33,7 @@ namespace TowerTanks.Scripts
         private TextMeshProUGUI nameText;
         private float currentCoreHealth;
         private TankManager tankManager;
+        [HideInInspector] public TankId myTankID;
         private TankAI _thisTankAI;
         public GameObject tankFlag;
         public GameObject surrenderFlag;
@@ -131,7 +132,7 @@ namespace TowerTanks.Scripts
                 {
                     foreach (InteractableId interactable in interactableList)
                     {
-                        if (interactable.type == TankInteractable.InteractableType.WEAPONS)
+                        if (interactable.groupType == TankInteractable.InteractableType.WEAPONS)
                         {
                             newList.Add(interactable);
                         }
@@ -142,7 +143,7 @@ namespace TowerTanks.Scripts
                 {
                     foreach (InteractableId interactable in interactableList)
                     {
-                        if (interactable.type == TankInteractable.InteractableType.ENGINEERING)
+                        if (interactable.groupType == TankInteractable.InteractableType.ENGINEERING)
                         {
                             newList.Add(interactable);
                         }
@@ -153,7 +154,7 @@ namespace TowerTanks.Scripts
                 {
                     foreach (InteractableId interactable in interactableList)
                     {
-                        if (interactable.type == TankInteractable.InteractableType.DEFENSE)
+                        if (interactable.groupType == TankInteractable.InteractableType.DEFENSE)
                         {
                             newList.Add(interactable);
                         }
@@ -164,7 +165,7 @@ namespace TowerTanks.Scripts
                 {
                     foreach (InteractableId interactable in interactableList)
                     {
-                        if (interactable.type == TankInteractable.InteractableType.LOGISTICS)
+                        if (interactable.groupType == TankInteractable.InteractableType.LOGISTICS)
                         {
                             newList.Add(interactable);
                         }
@@ -175,7 +176,7 @@ namespace TowerTanks.Scripts
                 {
                     foreach (InteractableId interactable in interactableList)
                     {
-                        if (interactable.type == TankInteractable.InteractableType.CONSUMABLE)
+                        if (interactable.groupType == TankInteractable.InteractableType.CONSUMABLE)
                         {
                             newList.Add(interactable);
                         }
@@ -186,7 +187,7 @@ namespace TowerTanks.Scripts
                 {
                     foreach (InteractableId interactable in interactableList)
                     {
-                        if (interactable.type == TankInteractable.InteractableType.SHOP)
+                        if (interactable.groupType == TankInteractable.InteractableType.SHOP)
                         {
                             newList.Add(interactable);
                         }
@@ -303,7 +304,7 @@ namespace TowerTanks.Scripts
                     newId.interactable = interactable;
                     newId.script = interactable.GetComponent<TankInteractable>();
                     //newId.brain = interactable.GetComponent<InteractableBrain>();
-                    newId.type = newId.script.interactableType;
+                    newId.groupType = newId.script.interactableType;
                     newId.stackName = newId.script.stackName;
                     interactableList.Add(newId);
                     if (tankType == TankId.TankType.ENEMY) interactablePool.Add(newId);
@@ -657,6 +658,7 @@ namespace TowerTanks.Scripts
         public void BlowUp(bool immediate)
         {
             CameraManipulator.main?.OnTankDestroyed(this);
+            tankManager.tanks.Remove(myTankID);
             if (immediate) DestroyImmediate(gameObject);
             else
             {
@@ -1069,7 +1071,7 @@ namespace TowerTanks.Scripts
                 newId.brain.myInteractableID = newId;
                 newId.brain.enabled = false;
             }
-            newId.type = newId.script.interactableType;
+            newId.groupType = newId.script.interactableType;
             
             newId.stackName = newId.script.stackName;
             interactableList.Add(newId);

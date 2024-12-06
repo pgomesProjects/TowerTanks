@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace TowerTanks.Scripts
 {
@@ -11,7 +12,7 @@ namespace TowerTanks.Scripts
 
         [HideInInspector] public InteractableId myInteractableID;
 
-        [HideInInspector] public INTERACTABLE myInteractableType;
+        public INTERACTABLE mySpecificType;
 
         [HideInInspector] public TankInteractable interactableController;
 
@@ -38,7 +39,7 @@ namespace TowerTanks.Scripts
         {
             if (!myTankAI.tokenActivatedInteractables.Contains(myInteractableID)) return;
             myTankAI.RetrieveToken(myInteractableID);
-            myTankAI.DistributeToken(myInteractableType);
+            myTankAI.DistributeToken(mySpecificType);
         }
     }
 }

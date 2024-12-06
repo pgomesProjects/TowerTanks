@@ -35,11 +35,20 @@ namespace TowerTanks.Scripts
             yield return new WaitForSeconds(heartbeatTimer);
             _tank.StartCoroutine(Heartbeat());
         }
+        
+        private IEnumerator RedistributeTokens()
+        {
+            yield return new WaitForSeconds(_tankAI.aiSettings.redistributeTokensCooldown);
+            _tankAI.RetrieveAllTokens();
+            _tankAI.DistributeAllWeightedTokens(_tankAI.aiSettings.engageStateInteractableWeights);
+            _tank.StartCoroutine(RedistributeTokens());
+        }
 
         public void OnEnter()
         {
             _tankAI.DistributeAllWeightedTokens(_tankAI.aiSettings.engageStateInteractableWeights);
             _tank.StartCoroutine(Heartbeat());
+            _tank.StartCoroutine(RedistributeTokens());
         }
 
         public void FrameUpdate() { }

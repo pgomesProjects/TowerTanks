@@ -1,40 +1,64 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
 using Sirenix.OdinInspector;
+using UnityEngine;
+using System.Collections.Generic;
+#if UNITY_EDITOR 
+using UnityEditor; 
+using Sirenix.OdinInspector.Editor;
+#endif
 
 namespace TowerTanks.Scripts
 {
     [CreateAssetMenu(fileName = "TankAISettings", menuName = "ScriptableObjects/TankAISettings", order = 1)]
     public class TankAISettings : SerializedScriptableObject
     {
-        //dictionary to map interactable type enum to their respective brain
-        
-        
-        
-        [Tooltip("The distance at which this tank can see other tanks. Once an opposing tank is closer than this value " +
-                 "in units, this tank goes into pursuit mode, latching that tank as it's target.")]
         public float viewRange;
-        [Tooltip("Should be less than view range. Once an opposing tank is closer than this value in units, this tank " +
-                 "goes into engage mode, real fight begins, hell breaks loose")]
         public float maxEngagementRange;
-
-        [Tooltip("Once in engagement state, the tank will try and maintain this much distance from the player while in battle.")]
         public float preferredFightDistance;
-
-        [Tooltip("The max amount of tokens that this tank can have, and the amount of tokens that this tank starts with")]
         public int tankEconomy;
-        
+
         [Title("Interactable Weights")]
         [InfoBox("Key: Interactable type to populate with tokens, \nValue: percentage of our tokens to give to this interactable type.")]
+
         [DictionaryDrawerSettings(KeyLabel = "Interactable", ValueLabel = "Weight (0-100)")]
         public Dictionary<INTERACTABLE, float> patrolStateInteractableWeights = new();
+        
         [DictionaryDrawerSettings(KeyLabel = "Interactable", ValueLabel = "Weight (0-100)")]
         public Dictionary<INTERACTABLE, float> pursueStateInteractableWeights = new();
+        
         [DictionaryDrawerSettings(KeyLabel = "Interactable", ValueLabel = "Weight (0-100)")]
         public Dictionary<INTERACTABLE, float> engageStateInteractableWeights = new();
 
+        
+
+        #if UNITY_EDITOR
+        [OnInspectorGUI]
+        private void DisplayTokenDistribution()
+        {
+            DisplayTokenDistributionForDictionary(patrolStateInteractableWeights, "Patrol State");
+            DisplayTokenDistributionForDictionary(pursueStateInteractableWeights, "Pursue State");
+            DisplayTokenDistributionForDictionary(engageStateInteractableWeights, "Engage State");
+        }
+
+        private void DisplayTokenDistributionForDictionary(Dictionary<INTERACTABLE, float> dictionary, string stateName)
+        {
+            if (dictionary == null || dictionary.Count == 0) return;
+
+            GUILayout.Space(10);
+            GUILayout.Label($"{stateName} Token Distribution", EditorStyles.boldLabel);
+
+            foreach (var kvp in dictionary)
+            {
+                float percentage = kvp.Value / 100f;
+                int tokens = Mathf.RoundToInt(tankEconomy * percentage);
+                GUILayout.Label($"{kvp.Key}: {tokens} tokens");
+            }
+        }
+        #endif
+        [PropertyOrder(1)]
+        [Title("Engage State Settings")]
+        [MinValue(5)]
+        public float redistributeTokensCooldown;
+        
     }
 }

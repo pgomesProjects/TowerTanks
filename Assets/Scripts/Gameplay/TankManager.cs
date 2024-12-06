@@ -35,6 +35,12 @@ namespace TowerTanks.Scripts
                 newtank.gameObject = Instantiate(tankPrefab, tankSpawnPoint, false);
                 newtank.tankType = TankId.TankType.ENEMY;
                 newtank.tankBrain = newtank.gameObject.GetComponent<TankAI>();
+                
+                var aiSettings = LoadTankAISettings(tier);
+                if (aiSettings != null)
+                {
+                    newtank.tankBrain.aiSettings = aiSettings;
+                }
 
                 //Determine tank design
                 int random = Random.Range(0, 4);
@@ -71,11 +77,17 @@ namespace TowerTanks.Scripts
             //Assign Values
             newtank.tankScript = newtank.gameObject.GetComponent<TankController>();
             newtank.tankScript.TankName = newtank.TankName;
+            newtank.tankScript.myTankID = newtank;
             newtank.tankScript.tankType = newtank.tankType;
             newtank.gameObject.transform.parent = null;
 
             tanks.Add(newtank);
             return newtank.tankScript;
+        }
+        
+        private TankAISettings LoadTankAISettings(int tier)
+        {
+            return Resources.Load<TankAISettings>($"TankAISettings/Tier {tier} AI Settings");
         }
 
         //UNITY METHODS:

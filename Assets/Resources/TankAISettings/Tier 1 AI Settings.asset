@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9e90a7e6e0adf4444abf9b82d5cfdaba, type: 3}
-  m_Name: Easy AI Settings
+  m_Name: Tier 1 AI Settings
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -164,6 +164,7 @@ MonoBehaviour:
       Entry: 8
       Data: 
   viewRange: 150.1
-  maxEngagementRange: 50.6
+  maxEngagementRange: 75.22
   preferredFightDistance: 30.93
   tankEconomy: 4
+  redistributeTokensCooldown: 15
