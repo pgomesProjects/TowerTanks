@@ -18,7 +18,7 @@ namespace TowerTanks.Scripts
         private IEnumerator Heartbeat()
         {
             var randTime = Random.Range(engineController.minChargeTime, engineController.maxChargeTime); //we charge for a rand amt of time for now
-            yield return new WaitUntil(() => engineController.pressure <= 75); //dont run our next charge until we are below 65 pressure (avoids explosion)
+            yield return new WaitUntil(() => engineController.pressure <= 65); //dont run our next charge until we are below 65 pressure (avoids explosion)
             engineController.StartCharge();
             while (engineController.chargeStarted && engineController.chargeTimer < randTime)
             {
@@ -27,6 +27,10 @@ namespace TowerTanks.Scripts
             }
             engineController.CheckCharge(); //this is what actually applies the charge
             yield return new WaitForSeconds(5);
+            var rand = Random.Range(0f, 1.0f);
+            Debug.Log($"Waiting for {rand} seconds.");
+            yield return new WaitForSeconds(rand);
+            
             StartCoroutine(Heartbeat());
         }
 

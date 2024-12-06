@@ -1981,8 +1981,8 @@ MonoBehaviour:
     interactable: {fileID: 0}
     script: {fileID: 0}
     brain: {fileID: 0}
-    type: 0
-  myInteractableType: 0
+    groupType: 0
+  mySpecificType: 2
   interactableController: {fileID: 0}
   tokenActivated: 0
 --- !u!1 &8529339176062166826

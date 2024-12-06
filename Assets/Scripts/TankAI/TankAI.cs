@@ -34,17 +34,8 @@ namespace TowerTanks.Scripts
         bool NoGuns() => !tank.interactableList.Any(i => i.script is GunController);
         #endregion
         
-        public static Dictionary<INTERACTABLE, Type> interactableEnumToBrainMap = new()
-        {
-            {INTERACTABLE.Cannon, typeof(SimpleCannonBrain)},
-            {INTERACTABLE.Mortar, typeof(SimpleMortarBrain)},
-            {INTERACTABLE.MachineGun, typeof(SimpleMachineGunBrain)},
-            {INTERACTABLE.Throttle, typeof(InteractableBrain)},
-            {INTERACTABLE.Boiler, typeof(BoilerBrain)}
-        };
-        
         public StateMachine fsm;
-        [FormerlySerializedAs("_tank")] [HideInInspector] public TankController tank;
+        [HideInInspector] public TankController tank;
         [HideInInspector] public TankController targetTank;
         private TankManager _tankManager;
         private GunController[] _guns;
@@ -89,13 +80,13 @@ namespace TowerTanks.Scripts
         public bool HasActiveThrottle()
         {
             //see if token activated interactables has a throttle interactable in it
-            return tokenActivatedInteractables.Any(i => i.brain.GetType() == interactableEnumToBrainMap[INTERACTABLE.Throttle]);
+            return tokenActivatedInteractables.Any(i => i.brain.GetType() == InteractableLookups.enumToBrainMap[INTERACTABLE.Throttle]);
         }
         
         public void SetClosestTarget()
         {
             targetTank = _tankManager.tanks
-                .Where(tankId => tankId.tankScript != tank)
+                .Where(tankId => tankId.tankScript != tank && tankId.tankType != TankId.TankType.NEUTRAL)
                 .OrderBy(tankId => Vector2.Distance(tank.treadSystem.transform.position, tankId.tankScript.treadSystem.transform.position))
                 .FirstOrDefault()?.tankScript;
             
@@ -111,6 +102,7 @@ namespace TowerTanks.Scripts
         private void Update()
         {
             if (fsm == null) return;
+            if (targetTank == null) SetClosestTarget();
             fsm.FrameUpdate();
             //var tanks = Physics2D.OverlapCircleAll(transform.position, aiSettings.viewRange, 1 << LayerMask.NameToLayer("Treads"));
         }
@@ -125,31 +117,38 @@ namespace TowerTanks.Scripts
         
         public void DistributeToken(INTERACTABLE toInteractable)
         {
-            if (currentTokenCount <= 0) return;
-            
-            List<InteractableId> commonInteractables = tank.interactableList
-                .Where(i => i.brain != null && i.brain.GetType() == interactableEnumToBrainMap[toInteractable]
-                && !tokenActivatedInteractables.Contains(i))
-                .ToList();
-            //list of all interactables which have an AI, as long as the AI is registered to an enum type in the dict,
-            //and the interactable isn't already active
+            if (currentTokenCount <= 0)
+            {
+                Debug.LogError("No tokens left to distribute");
+                return;
+            }
 
-            if (!commonInteractables.Any()) return; //if there are no interactables of this type, return
+            List<InteractableId> commonInteractables = tank.interactableList
+                .Where(i => i.brain != null && i.brain.GetType() == InteractableLookups.enumToBrainMap[toInteractable]
+                                            && !tokenActivatedInteractables.Contains(i))
+                .ToList();
+
+            if (!commonInteractables.Any())
+            {
+                Debug.LogError($"No interactables of type {toInteractable} found");
+                return;
+            }
+
             InteractableId interactable = commonInteractables[Random.Range(0, commonInteractables.Count)];
-            
+
             if (interactable != null)
             {
                 tokenActivatedInteractables.Add(interactable);
                 interactable.brain.enabled = true;
                 interactable.brain.ReceiveToken();
-                interactable.brain.myInteractableType = toInteractable; //nice way to tell the brain what it is automatically
+                interactable.brain.mySpecificType = toInteractable;
                 currentTokenCount--;
+                Debug.Log($"Token distributed to {interactable.brain.mySpecificType}");
             }
             else
             {
                 Debug.LogError("Could not distribute token: Interactable already in use, or not found");
             }
-            
         }
 
         public void RetrieveToken(InteractableId interactableToTakeFrom)
@@ -218,10 +217,38 @@ namespace TowerTanks.Scripts
 
             foreach (var tokenDistribution in tokensToDistribute)
             {
-                for (int i = 0; i < tokenDistribution.Value; i++)
+                // Check if the interactable type is present on the tank
+                bool interactablePresent = tank.interactableList.Any(i => i.brain != null &&
+                                                                                 i.brain.mySpecificType == tokenDistribution.Key &&
+                                                                                 !tokenActivatedInteractables.Contains(i));
+
+                if (interactablePresent)
                 {
-                    DistributeToken(tokenDistribution.Key);
+                    Debug.Log($"Interactable present: {tokenDistribution.Key}");
+                    for (int i = 0; i < tokenDistribution.Value; i++)
+                    {
+                        DistributeToken(tokenDistribution.Key);
+                    }
                 }
+                else //distribute the token to a different interactable of the same classification
+                {
+                    // Get the group of the current interactable type
+                    var group = InteractableLookups.typeToGroupMap[tokenDistribution.Key];
+
+                    // Get the list of interactables in the same group
+                    var groupInteractables = InteractableLookups.typesInGroup[group];
+
+                    // Find a suitable interactable in the same group that is present on the tank
+                    for (int i = 0; i < tokenDistribution.Value; i++)
+                    {
+                        var suitableInteractable = groupInteractables
+                            .FirstOrDefault(interactable => tank.interactableList.Any(i => i.brain != null && i.brain.mySpecificType == interactable && !tokenActivatedInteractables.Contains(i))); //any open interactable in the same group
+                        if (suitableInteractable != default) DistributeToken(suitableInteractable);
+                    }
+                    
+                }
+
+                
             }
             
         }

@@ -93,7 +93,7 @@ namespace TowerTanks.Scripts
             {
                 Gizmos.color = myTankAI.TankIsRightOfTarget() ? Color.red : Color.blue;
                 Gizmos.DrawLine(trajectoryPoints[i], trajectoryPoints[i + 1]);
-                if (trajectoryPoints[i] == hitPoint) break; // stops projecting line at target
+                if (Vector3.Distance(trajectoryPoints[i], hitPoint) < 0.1f) break; // stops projecting line at target
             }
             Gizmos.color = Color.green;
             Gizmos.DrawWireSphere(hitPoint, 0.5f);

@@ -478,7 +478,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1789302742507130491}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9e3099b1da81a4743b04e06f6092dec5, type: 3}
   m_Name: 
@@ -489,9 +489,8 @@ MonoBehaviour:
     interactable: {fileID: 0}
     script: {fileID: 0}
     brain: {fileID: 0}
-    type: 0
-    thisInteractableEnum: 0
-  myInteractableType: 0
+    groupType: 0
+  mySpecificType: 5
   interactableController: {fileID: 0}
   tokenActivated: 0
   fireCooldown: 0.1
