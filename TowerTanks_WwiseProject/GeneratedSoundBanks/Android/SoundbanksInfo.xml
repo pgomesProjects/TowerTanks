@@ -34,7 +34,7 @@
 				<GameParameter Id="4287925136" Name="CombatLayer2Volume"/>
 			</GameParameters>
 		</SoundBank>
-		<SoundBank Id="2880737896" Type="User" Language="SFX" Hash="{BB55BD8A-3A6A-DED4-CA35-821D1573C3E2}">
+		<SoundBank Id="2880737896" Type="User" Language="SFX" Hash="{3541535E-4D99-28D3-EF5C-D9C2545F1F1E}">
 			<ShortName>mainbank</ShortName>
 			<Path>mainbank.bnk</Path>
 			<Media>
@@ -82,6 +82,10 @@
 					<ShortName>TT_SFX_tank-impact.wav</ShortName>
 					<CachePath>SFX/TT_SFX_tank-impact_3CADDE39.wem</CachePath>
 				</File>
+				<File Id="264891926" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>GUN-BULLET_GEN-HDF-13225.wav</ShortName>
+					<CachePath>SFX/GUN-BULLET_GEN-HDF-13225_4FAE8C7D.wem</CachePath>
+				</File>
 				<File Id="285073727" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_cannon_fire[02-25].wav</ShortName>
 					<CachePath>SFX/TT_SFX_cannon_fire[02-25]_3CADDE39.wem</CachePath>
@@ -93,6 +97,10 @@
 				<File Id="320129091" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_rotate-room.wav</ShortName>
 					<CachePath>SFX/TT_SFX_rotate-room_3CADDE39.wem</CachePath>
+				</File>
+				<File Id="341912688" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>GUN-RICOCHET_GEN-HDF-13674.wav</ShortName>
+					<CachePath>SFX/GUN-RICOCHET_GEN-HDF-13674_0BBEBB23.wem</CachePath>
 				</File>
 				<File Id="354630741" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TTTT_DeathStinger_Mix_Final_2.13.22.wav</ShortName>
@@ -106,6 +114,10 @@
 					<ShortName>TT_SFX_character-use.wav</ShortName>
 					<CachePath>SFX/TT_SFX_character-use_3CADDE39.wem</CachePath>
 				</File>
+				<File Id="421337450" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>GUN-RICOCHET_GEN-HDF-13674.wav</ShortName>
+					<CachePath>SFX/GUN-RICOCHET_GEN-HDF-13674_B02381F7.wem</CachePath>
+				</File>
 				<File Id="428826036" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_jetpack-startup_v1.wav</ShortName>
 					<CachePath>SFX/TT_SFX_jetpack-startup_v1_3CADDE39.wem</CachePath>
@@ -113,6 +125,14 @@
 				<File Id="442190223" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_steam_exhaust_loop.wav</ShortName>
 					<CachePath>SFX/TT_SFX_steam_exhaust_loop_696A9007.wem</CachePath>
+				</File>
+				<File Id="466320299" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>GUN-BULLET_GEN-HDF-13225.wav</ShortName>
+					<CachePath>SFX/GUN-BULLET_GEN-HDF-13225_003BD24B.wem</CachePath>
+				</File>
+				<File Id="476931074" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>GUN-BULLET_GEN-HDF-13225.wav</ShortName>
+					<CachePath>SFX/GUN-BULLET_GEN-HDF-13225_5FD24B48.wem</CachePath>
 				</File>
 				<File Id="476975229" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_outside-ambience.wav</ShortName>
@@ -122,9 +142,17 @@
 					<ShortName>TT_SFX_coal-load_Engine.wav</ShortName>
 					<CachePath>SFX/TT_SFX_coal-load_Engine_3CADDE39.wem</CachePath>
 				</File>
+				<File Id="508593160" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>GUN-BULLET_GEN-HDF-13225.wav</ShortName>
+					<CachePath>SFX/GUN-BULLET_GEN-HDF-13225_C39DFDA4.wem</CachePath>
+				</File>
 				<File Id="537941924" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_cannon_fire_v3.wav</ShortName>
 					<CachePath>SFX/TT_SFX_cannon_fire_v3_3CADDE39.wem</CachePath>
+				</File>
+				<File Id="542757787" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>GUN-RICOCHET_GEN-HDF-13674.wav</ShortName>
+					<CachePath>SFX/GUN-RICOCHET_GEN-HDF-13674_C87D0BE0.wem</CachePath>
 				</File>
 				<File Id="544191574" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_projectile-in-air.wav</ShortName>
@@ -242,6 +270,10 @@
 					<ShortName>TT_SFX_text-scroll.wav</ShortName>
 					<CachePath>SFX/TT_SFX_text-scroll_3CADDE39.wem</CachePath>
 				</File>
+				<File Id="841978207" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>GUN-BULLET_GEN-HDF-13225.wav</ShortName>
+					<CachePath>SFX/GUN-BULLET_GEN-HDF-13225_896FD32D.wem</CachePath>
+				</File>
 				<File Id="863978555" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_invalidAlert.wav</ShortName>
 					<CachePath>SFX/TT_SFX_invalidAlert_3CADDE39.wem</CachePath>
@@ -278,6 +310,10 @@
 					<ShortName>TT_SFX_steam_exhaust_v2.wav</ShortName>
 					<CachePath>SFX/TT_SFX_steam_exhaust_v2_3CADDE39.wem</CachePath>
 				</File>
+				<File Id="920263717" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>MachineGun GUNS01_89_2.wav</ShortName>
+					<CachePath>SFX/MachineGun GUNS01_89_2_07F5EAAB.wem</CachePath>
+				</File>
 				<File Id="963356657" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_blaring-alarm.wav</ShortName>
 					<CachePath>SFX/TT_SFX_blaring-alarm_3CADDE39.wem</CachePath>
@@ -306,6 +342,10 @@
 					<ShortName>TT_SFX_medium-explosion.wav</ShortName>
 					<CachePath>SFX/TT_SFX_medium-explosion_3CADDE39.wem</CachePath>
 				</File>
+				<File Id="1067390579" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>GUN-RICOCHET_GEN-HDF-13674.wav</ShortName>
+					<CachePath>SFX/GUN-RICOCHET_GEN-HDF-13674_D6364048.wem</CachePath>
+				</File>
 			</Media>
 			<Events>
 				<Event Id="3949782988" Name="blaring_alarm" DurationType="OneShot" DurationMin="8.25" DurationMax="8.25">
@@ -322,6 +362,23 @@
 				<Event Id="185536228" Name="build_undo" DurationType="OneShot" DurationMin="0.5627292" DurationMax="0.5627292">
 					<MediaRefs>
 						<MediaRef Id="2061770"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3921814510" Name="bullet_impact" DurationType="OneShot" DurationMin="0.14125258" DurationMax="0.38316792">
+					<MediaRefs>
+						<MediaRef Id="264891926"/>
+						<MediaRef Id="466320299"/>
+						<MediaRef Id="476931074"/>
+						<MediaRef Id="508593160"/>
+						<MediaRef Id="841978207"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="3326819226" Name="bullet_impact_dirt" DurationType="OneShot" DurationMin="0.24214727" DurationMax="0.66758657">
+					<MediaRefs>
+						<MediaRef Id="341912688"/>
+						<MediaRef Id="421337450"/>
+						<MediaRef Id="542757787"/>
+						<MediaRef Id="1067390579"/>
 					</MediaRefs>
 				</Event>
 				<Event Id="3130542990" Name="button_cancel" DurationType="OneShot" DurationMin="0.311625" DurationMax="0.311625">
@@ -464,6 +521,11 @@
 						<MediaRef Id="575432004"/>
 					</MediaRefs>
 				</Event>
+				<Event Id="2515943394" Name="machine_gun_fire" DurationType="OneShot" DurationMin="3.4258068" DurationMax="3.4258068">
+					<MediaRefs>
+						<MediaRef Id="920263717"/>
+					</MediaRefs>
+				</Event>
 				<Event Id="1707782163" Name="main_menu_ambience" DurationType="OneShot" DurationMin="108" DurationMax="108">
 					<MediaRefs>
 						<MediaRef Id="595583574"/>
@@ -580,5 +642,5 @@
 			</GameParameters>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{A2E48A4B-7B8E-1595-FD5A-A18F6F65660B}</FileHash>
+	<FileHash>{E9AFA576-0907-0F24-A39C-CEBE6B1B9F52}</FileHash>
 </SoundBanksInfo>

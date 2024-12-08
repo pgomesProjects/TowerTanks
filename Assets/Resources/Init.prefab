@@ -877,6 +877,21 @@ MonoBehaviour:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: d1553fe52fc287a4d9fd2b2911dd074d, type: 2}
+  - name: MachineGunFire
+    audioEvent:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: 0f080d710dd3d7343a4739ee9f0c397c, type: 2}
+  - name: BulletImpact
+    audioEvent:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: 15c49a5307bd95c48995d9ddd9a62d2f, type: 2}
+  - name: BulletImpactDirt
+    audioEvent:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: ebb269c1c8458f74f9a345267cc055dd, type: 2}
 --- !u!1 &5338811766095787865
 GameObject:
   m_ObjectHideFlags: 0
