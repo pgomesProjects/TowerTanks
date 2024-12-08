@@ -263,7 +263,7 @@ namespace TowerTanks.Scripts
 
             if (type == ProjectileType.BULLET)
             {
-                GameManager.Instance.AudioManager.Play("ExplosionSFX", gameObject);
+                GameManager.Instance.AudioManager.Play("BulletImpactDirt", gameObject);
 
                 GameObject particle = GameManager.Instance.ParticleSpawner.SpawnParticle(13, transform.position, particleScale, null);
                 particle.transform.rotation = transform.rotation;
