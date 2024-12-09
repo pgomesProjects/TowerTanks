@@ -64,6 +64,7 @@ namespace TowerTanks.Scripts
         private void Awake()
         {
             //Get objects & components:
+            tank = GetComponentInParent<TankController>();
             thisCollider = GetComponentInChildren<Collider2D>();
             renderers = GetComponentsInChildren<SpriteRenderer>(); //Get all spriterenderers for interactable visual
             interactZone = GetComponentInChildren<InteractableZone>();

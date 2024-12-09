@@ -19,17 +19,17 @@ namespace TowerTanks.Scripts
         
         private float GetDistanceToTarget() => Vector2.Distance(tank.treadSystem.transform.position, targetTank.treadSystem.transform.position);
         
-        public bool TargetInViewRange() =>      targetTank.treadSystem != null &&
+        public bool TargetInViewRange() =>      targetTank != null &&
                                                 GetDistanceToTarget() < aiSettings.viewRange;
-        public bool TargetOutOfView() =>        targetTank.treadSystem == null ||
+        public bool TargetOutOfView() =>        targetTank == null ||
                                                 GetDistanceToTarget() > aiSettings.viewRange;
-        public bool TargetInEngageRange() =>    targetTank.treadSystem != null &&
+        public bool TargetInEngageRange() =>    targetTank != null &&
                                                 GetDistanceToTarget() < aiSettings.maxEngagementRange;
-        public bool TargetOutOfEngageRange() => targetTank.treadSystem == null ||
+        public bool TargetOutOfEngageRange() => targetTank == null ||
                                                 GetDistanceToTarget() > aiSettings.maxEngagementRange;
-        public bool TargetTooClose() =>         targetTank.treadSystem != null &&
+        public bool TargetTooClose() =>         targetTank != null &&
                                                 GetDistanceToTarget() < aiSettings.preferredFightDistance;
-        public bool TargetAtFightingDistance() => targetTank.treadSystem != null &&
+        public bool TargetAtFightingDistance() => targetTank != null &&
                                                     Mathf.Abs(GetDistanceToTarget() - aiSettings.preferredFightDistance) <= 25; //we are within 3 units of our preferred fighting distance (we are at our preferred distance)
         bool NoGuns() => !tank.interactableList.Any(i => i.script is GunController);
         #endregion
@@ -37,7 +37,6 @@ namespace TowerTanks.Scripts
         public StateMachine fsm;
         [HideInInspector] public TankController tank;
         [HideInInspector] public TankController targetTank;
-        private TankManager _tankManager;
         private GunController[] _guns;
         private int currentTokenCount;
         [HideInInspector] public List<InteractableId> tokenActivatedInteractables = new List<InteractableId>();
@@ -51,7 +50,7 @@ namespace TowerTanks.Scripts
             tank = GetComponent<TankController>();
             
             currentTokenCount = aiSettings.tankEconomy;
-            _tankManager = TankManager.instance;
+
         }
         
         private IEnumerator Start()
@@ -85,7 +84,7 @@ namespace TowerTanks.Scripts
         
         public void SetClosestTarget()
         {
-            targetTank = _tankManager.tanks
+            targetTank = TankManager.instance.tanks
                 .Where(tankId => tankId.tankScript != tank && tankId.tankType != TankId.TankType.NEUTRAL)
                 .OrderBy(tankId => Vector2.Distance(tank.treadSystem.transform.position, tankId.tankScript.treadSystem.transform.position))
                 .FirstOrDefault()?.tankScript;

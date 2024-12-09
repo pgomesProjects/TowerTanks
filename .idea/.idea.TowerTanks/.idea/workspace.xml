@@ -6,29 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="5398b79a-e478-4a7d-b865-f9c27d850513" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TowerTanks/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TowerTanks/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/TankAISettings/Easy AI Settings.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/TankAISettings/Easy AI Settings.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/TankAISettings/Medium AI Settings.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/TankAISettings/Medium AI Settings.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/TankAISettings/Scary AI Settings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/TankAISettings/Scary AI Settings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/TankPrefabs/InteractablePool/InterEngineer_Boiler.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/TankPrefabs/InteractablePool/InterEngineer_Boiler.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/TankPrefabs/InteractablePool/InterWeapon_Cannon.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/TankPrefabs/InteractablePool/InterWeapon_Cannon.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/TankPrefabs/InteractablePool/InterWeapon_MachineGun.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/TankPrefabs/InteractablePool/InterWeapon_MachineGun.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/TankPrefabs/InteractablePool/InterWeapon_Mortar.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/TankPrefabs/InteractablePool/InterWeapon_Mortar.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/TankPrefabs/Ladder_Full.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/TankPrefabs/Ladder_Full.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Test Scenes/HotteScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Test Scenes/HotteScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/EnemyScripts/BoilerBrain.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/EnemyScripts/BoilerBrain.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/EnemyScripts/InteractableBrain.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/EnemyScripts/InteractableBrain.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/EnemyScripts/SimpleMortarBrain.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/EnemyScripts/SimpleMortarBrain.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/EnemyScripts/WeaponBrain.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/EnemyScripts/WeaponBrain.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Gameplay/TankManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Gameplay/TankManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/TankAI/TankAI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TankAI/TankAI.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TankAI/TankAISettings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TankAI/TankAISettings.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TankAI/TankStates/TankEngageState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TankAI/TankStates/TankEngageState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TankSystems/Interactable Subtypes/InteractableId.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TankSystems/Interactable Subtypes/InteractableId.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/TankSystems/TankController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TankSystems/TankController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Wwise/Editor/ProjectData/AkWwiseProjectData.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Wwise/Editor/ProjectData/AkWwiseProjectData.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TankSystems/TankInteractable.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TankSystems/TankInteractable.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TankSystems/Trajectory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TankSystems/Trajectory.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/EditorUserSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -152,10 +137,10 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="28148">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="21664">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="28148" />
+      <option name="pid" value="21664" />
       <option name="projectPathOnTarget" />
       <option name="selectedOptions">
         <list />
@@ -206,7 +191,9 @@
       <workItem from="1732848980195" duration="5385000" />
       <workItem from="1733438661424" duration="895000" />
       <workItem from="1733440874186" duration="7526000" />
-      <workItem from="1733450364269" duration="14154000" />
+      <workItem from="1733450364269" duration="14220000" />
+      <workItem from="1733513189410" duration="2366000" />
+      <workItem from="1733777776251" duration="7602000" />
     </task>
     <servers />
   </component>
