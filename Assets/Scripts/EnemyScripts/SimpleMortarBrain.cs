@@ -13,14 +13,16 @@ namespace TowerTanks.Scripts
             var proj = gunScript.projectilePrefab.GetComponent<Projectile>();
 
             trajectoryPoints = Trajectory.GetTrajectory(gunScript.barrel.position, gunScript.barrel.up * gunScript.muzzleVelocity, proj.gravity, 100);
-            hitPoint = Trajectory.GetHitPoint(trajectoryPoints).point;
+            aimHit = Trajectory.GetHitPoint(trajectoryPoints);
             
-            if (hitPoint == Vector3.zero) return;
+            Vector3 aimHitPoint = aimHit.point;
+            if (aimHitPoint == Vector3.zero) return;
             
             //Adding Vector3.up * 2.5f because the tread system's transform is a bit low, we want to aim a little above that
             Vector3 target = myTankAI.targetTank.treadSystem.transform.position;
             
-            Vector3 diff = hitPoint - target;
+            
+            Vector3 diff = aimHitPoint - target;
             
             bool tankIsRightOfTarget = myTankAI.TankIsRightOfTarget();
             bool diffIsPositive = diff.x >= 0;

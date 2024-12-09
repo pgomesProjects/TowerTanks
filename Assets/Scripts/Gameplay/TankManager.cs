@@ -75,7 +75,6 @@ namespace TowerTanks.Scripts
             //Assign Values
             newtank.tankScript = newtank.gameObject.GetComponent<TankController>();
             newtank.tankScript.TankName = newtank.TankName;
-            newtank.tankScript.myTankID = newtank;
             newtank.tankScript.tankType = newtank.tankType;
             newtank.gameObject.transform.parent = null;
 

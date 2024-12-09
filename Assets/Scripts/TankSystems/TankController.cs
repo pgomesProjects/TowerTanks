@@ -236,6 +236,7 @@ namespace TowerTanks.Scripts
         {
             //Get objects & components:
             _thisTankAI = GetComponent<TankAI>();
+            
             treadSystem = GetComponentInChildren<TreadSystem>(); //Get tread system from children
             towerJoint = transform.Find("TowerJoint");           //Get tower joint from children
             treadSystem.Initialize();                            //Make sure treads are initialized
@@ -270,7 +271,9 @@ namespace TowerTanks.Scripts
         private void Start()
         {
             tankManager = GameObject.Find("TankManager")?.GetComponent<TankManager>();
-
+            
+            myTankID = TankManager.instance.tanks.FirstOrDefault(tank => tank.tankScript == this);
+            
             if (tankManager != null)
             {
                 if (tankType == TankId.TankType.PLAYER) tankManager.playerTank = this;
@@ -657,7 +660,7 @@ namespace TowerTanks.Scripts
         public void BlowUp(bool immediate)
         {
             CameraManipulator.main?.OnTankDestroyed(this);
-            tankManager.tanks.Remove(myTankID);
+            TankManager.instance.tanks.Remove(myTankID);
             if (immediate) DestroyImmediate(gameObject);
             else
             {
