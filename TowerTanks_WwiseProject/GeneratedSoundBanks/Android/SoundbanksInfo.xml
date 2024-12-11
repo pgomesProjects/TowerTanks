@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{55C7514E-1382-0F3E-6994-B6DD18CAE2C2}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{738B4DC9-CAB5-8DEB-8289-52BB3B94C64A}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -34,7 +34,7 @@
 				<GameParameter Id="4287925136" Name="CombatLayer2Volume"/>
 			</GameParameters>
 		</SoundBank>
-		<SoundBank Id="2880737896" Type="User" Language="SFX" Hash="{3541535E-4D99-28D3-EF5C-D9C2545F1F1E}">
+		<SoundBank Id="2880737896" Type="User" Language="SFX" Hash="{E988B520-FCCE-1F5E-428A-5C305280C6FF}">
 			<ShortName>mainbank</ShortName>
 			<Path>mainbank.bnk</Path>
 			<Media>
@@ -84,7 +84,7 @@
 				</File>
 				<File Id="264891926" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>GUN-BULLET_GEN-HDF-13225.wav</ShortName>
-					<CachePath>SFX/GUN-BULLET_GEN-HDF-13225_4FAE8C7D.wem</CachePath>
+					<CachePath>SFX/GUN-BULLET_GEN-HDF-13225_B6B766E4.wem</CachePath>
 				</File>
 				<File Id="285073727" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_cannon_fire[02-25].wav</ShortName>
@@ -100,7 +100,7 @@
 				</File>
 				<File Id="341912688" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>GUN-RICOCHET_GEN-HDF-13674.wav</ShortName>
-					<CachePath>SFX/GUN-RICOCHET_GEN-HDF-13674_0BBEBB23.wem</CachePath>
+					<CachePath>SFX/GUN-RICOCHET_GEN-HDF-13674_EA69F621.wem</CachePath>
 				</File>
 				<File Id="354630741" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TTTT_DeathStinger_Mix_Final_2.13.22.wav</ShortName>
@@ -116,7 +116,7 @@
 				</File>
 				<File Id="421337450" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>GUN-RICOCHET_GEN-HDF-13674.wav</ShortName>
-					<CachePath>SFX/GUN-RICOCHET_GEN-HDF-13674_B02381F7.wem</CachePath>
+					<CachePath>SFX/GUN-RICOCHET_GEN-HDF-13674_F5BB2EE3.wem</CachePath>
 				</File>
 				<File Id="428826036" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_jetpack-startup_v1.wav</ShortName>
@@ -128,11 +128,11 @@
 				</File>
 				<File Id="466320299" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>GUN-BULLET_GEN-HDF-13225.wav</ShortName>
-					<CachePath>SFX/GUN-BULLET_GEN-HDF-13225_003BD24B.wem</CachePath>
+					<CachePath>SFX/GUN-BULLET_GEN-HDF-13225_8BE7F3EF.wem</CachePath>
 				</File>
 				<File Id="476931074" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>GUN-BULLET_GEN-HDF-13225.wav</ShortName>
-					<CachePath>SFX/GUN-BULLET_GEN-HDF-13225_5FD24B48.wem</CachePath>
+					<CachePath>SFX/GUN-BULLET_GEN-HDF-13225_8E9F64AA.wem</CachePath>
 				</File>
 				<File Id="476975229" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_outside-ambience.wav</ShortName>
@@ -144,7 +144,7 @@
 				</File>
 				<File Id="508593160" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>GUN-BULLET_GEN-HDF-13225.wav</ShortName>
-					<CachePath>SFX/GUN-BULLET_GEN-HDF-13225_C39DFDA4.wem</CachePath>
+					<CachePath>SFX/GUN-BULLET_GEN-HDF-13225_620FEF8C.wem</CachePath>
 				</File>
 				<File Id="537941924" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_cannon_fire_v3.wav</ShortName>
@@ -152,7 +152,7 @@
 				</File>
 				<File Id="542757787" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>GUN-RICOCHET_GEN-HDF-13674.wav</ShortName>
-					<CachePath>SFX/GUN-RICOCHET_GEN-HDF-13674_C87D0BE0.wem</CachePath>
+					<CachePath>SFX/GUN-RICOCHET_GEN-HDF-13674_BA7537E5.wem</CachePath>
 				</File>
 				<File Id="544191574" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_projectile-in-air.wav</ShortName>
@@ -272,7 +272,7 @@
 				</File>
 				<File Id="841978207" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>GUN-BULLET_GEN-HDF-13225.wav</ShortName>
-					<CachePath>SFX/GUN-BULLET_GEN-HDF-13225_896FD32D.wem</CachePath>
+					<CachePath>SFX/GUN-BULLET_GEN-HDF-13225_B7199B5E.wem</CachePath>
 				</File>
 				<File Id="863978555" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_invalidAlert.wav</ShortName>
@@ -312,7 +312,7 @@
 				</File>
 				<File Id="920263717" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>MachineGun GUNS01_89_2.wav</ShortName>
-					<CachePath>SFX/MachineGun GUNS01_89_2_07F5EAAB.wem</CachePath>
+					<CachePath>SFX/MachineGun GUNS01_89_2_15FD56BF.wem</CachePath>
 				</File>
 				<File Id="963356657" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_blaring-alarm.wav</ShortName>
@@ -344,7 +344,7 @@
 				</File>
 				<File Id="1067390579" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>GUN-RICOCHET_GEN-HDF-13674.wav</ShortName>
-					<CachePath>SFX/GUN-RICOCHET_GEN-HDF-13674_D6364048.wem</CachePath>
+					<CachePath>SFX/GUN-RICOCHET_GEN-HDF-13674_BA339A5C.wem</CachePath>
 				</File>
 			</Media>
 			<Events>
@@ -637,10 +637,11 @@
 				<GameParameter Id="2431286926" Name="CombatLayer0Volume"/>
 				<GameParameter Id="2831834313" Name="CombatLayer3Volume"/>
 				<GameParameter Id="2834886298" Name="GlobalCombatVolume"/>
+				<GameParameter Id="2857378200" Name="SFXPitch"/>
 				<GameParameter Id="3720003847" Name="CombatLayer1Volume"/>
 				<GameParameter Id="4287925136" Name="CombatLayer2Volume"/>
 			</GameParameters>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{E9AFA576-0907-0F24-A39C-CEBE6B1B9F52}</FileHash>
+	<FileHash>{5AB7A7EB-96E3-F817-ED5B-FD6569DCE0ED}</FileHash>
 </SoundBanksInfo>
