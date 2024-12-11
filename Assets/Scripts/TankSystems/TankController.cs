@@ -13,6 +13,12 @@ namespace TowerTanks.Scripts
     [System.Serializable]
     public class TankController : SerializedMonoBehaviour
     {
+        //Static Stuff:
+        /// <summary>
+        /// List of all tanks currently alive in scene.
+        /// </summary>
+        public static List<TankController> activeTanks = new List<TankController>();
+
         //Important Variables
         public string TankName;
         [SerializeField] public TankId.TankType tankType;
@@ -268,6 +274,14 @@ namespace TowerTanks.Scripts
                 }
             }
             treadSystem.ReCalculateMass(); //Get center of mass based on room setup
+
+            //Other setup:
+            activeTanks.Add(this); //Add this script to list of active tanks in scene
+        }
+        private void OnDestroy()
+        {
+            //Cleanup:
+            activeTanks.Remove(this); //Upon destruction, remove a tank from activeTanks list (should make system consistent between scenes)
         }
         private void Start()
         {

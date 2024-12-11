@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using System.Linq;
 
 namespace TowerTanks.Scripts
 {
@@ -16,9 +17,10 @@ namespace TowerTanks.Scripts
 
         //Settings:
         [Header("Center of Gravity Settings:")]
-        [Tooltip("Height at which center of gravity is locked relative to tread system.")] public float COGHeight;
-        [Tooltip("Extents of center of gravity (affects how far tank can lean).")]         public float COGWidth;
-        [Tooltip("How much weight the tank currently has")]                                public float totalWeight = 0;
+        [Tooltip("Height at which center of gravity is locked relative to tread system.")]                                                                                  public float COGHeight;
+        [Tooltip("Extents of center of gravity (affects how far tank can lean).")]                                                                                          public float COGWidth;
+        [Tooltip("How much weight the tank currently has")]                                                                                                                 public float totalWeight = 0;
+        [Tooltip("Maximum height above centerpoint of treadsystem at which impact points will be processed, prevents tank from being jerked around by high hits."), Min(0)] public float maximumRelativeImpactHeight;
         [Header("Engine Properties:")]
         [Min(1), Tooltip("Number of positions throttle can be in (includes neutral and reverse)")]      public int gearPositions = 5;
         [SerializeField, Tooltip("Constant maximum torque tank's engine can produce with no boilers.")] private float baseEnginePower;
@@ -53,7 +55,8 @@ namespace TowerTanks.Scripts
         [Min(0), SerializeField, Tooltip("Scale of force applied to prevent tippage.")]                                                                   private float tipPreventionForce;
 
         [Header("Ramming & Collision Settings:")]
-        [SerializeField, Tooltip("Minimum Speed for Ramming Effects to Apply")] public float rammingSpeed;
+        [SerializeField, Tooltip("Default amount of force applied to tanks when colliding.")] private float defaultCollisionImpact;
+        [SerializeField, Tooltip("Minimum Speed for Ramming Effects to Apply")]               public float rammingSpeed;
 
         [Header("Jamming Settings:")]
         [SerializeField, Tooltip("Amount of damage treads can take.")]                                            private float treadMaxHealth = 200f;
@@ -256,6 +259,49 @@ namespace TowerTanks.Scripts
                 r.AddTorque(correctiveForce, ForceMode2D.Force);                                                                 //Apply corrective force to prevent tippage
             }
 
+            //Look for collision:
+            //NOTE: This is quick and dirty, should definitely be optimized for performance later
+            foreach (TankController otherTank in TankController.activeTanks) //Iterate through list of active tanks in scene
+            {
+                if (otherTank == tankController) continue; //Skip if selected tank belongs to this treadsystem
+                if (otherTank.treadSystem.GetTankBounds().Intersects(GetTankBounds())) //This tank is awfully close to selected tank (may be colliding but also might not be)
+                {
+                    //Look for room intersection:
+                    foreach (Room room in tankController.rooms) //We will need to specifically find which room in this tank is overlapping with which room in the opposing tank (if any)
+                    {
+                        Bounds roomBounds = room.GetRoomBounds(); //Get room bounds once here so we don't need to calculate it over and over
+                        foreach (Room otherRoom in otherTank.rooms) //Iterate through list of rooms in opposing tank once for each room in this tank
+                        {
+                            if (roomBounds.Intersects(otherRoom.GetRoomBounds())) //This room in opposing tank overlaps with this room in our tank
+                            {
+                                //Look for cell intersection:
+                                ContactFilter2D filter = new ContactFilter2D(); //Create a contact filter to apply to cell collision checks
+                                filter.layerMask = LayerMask.GetMask("Cell");   //Create a mask for filter so that only cell colliders are considered
+                                foreach (Cell cell in room.cells) //Go through the same process as room intersection, except with the cells in two rooms we know are intersecting
+                                {
+                                    Collider2D[] hits = new Collider2D[5];                                                                                                                    //Create container list to store hits when checking cell overlaps (because the size of this array determines number of hits that can be received, set length to 5 because any greater number of simultaneous cell collisions would be wild)
+                                    cell.GetComponent<BoxCollider2D>().OverlapCollider(filter, hits);                                                                                         //Check for overlaps between this cell and others
+                                    hits = hits.Where(hit => hit.gameObject.GetComponent<Cell>() != null && hit.gameObject.GetComponent<Cell>().room.targetTank != tankController).ToArray(); //Filter list of overlaps to exclude cells which are part of the same tank
+                                    foreach (Cell otherCell in otherRoom.cells) //Iterate through list of cells in opposing room once for each cell in our intersected room
+                                    {
+                                        //Collision event:
+                                        if (hits.Select(hit => hit.gameObject.GetComponent<Cell>()).Contains(otherCell)) //This cell is overlapping with previously-selected cell
+                                        {
+                                            Vector2 impactForce = (cell.transform.position - otherCell.transform.position).normalized * defaultCollisionImpact; //Get direction and magnitude of artificial impact force to "ding" tanks away from each other
+                                            Vector2 impactPoint = (cell.transform.position + otherCell.transform.position) / 2;                                 //Get point of impact as the average position of the two colliding cells
+
+                                            HandleImpact(impactForce, impactPoint);                                        //Handle impact on this treadbase
+                                            otherCell.room.targetTank.treadSystem.HandleImpact(-impactForce, impactPoint); //Handle impact on opposing treadbase
+                                            cell.Damage(50);
+                                            otherCell.Damage(50);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
         private void OnDrawGizmos()
         {
@@ -265,7 +311,7 @@ namespace TowerTanks.Scripts
             Gizmos.color = Color.green;
             Gizmos.DrawSphere(GetComponent<Rigidbody2D>().worldCenterOfMass, 0.2f);
 
-            //Draw tip prevetion diagram:
+            //Draw tip prevention diagram:
             Gizmos.DrawRay(transform.position, transform.up * 3);
             Gizmos.color = Color.red;
             Gizmos.DrawRay(transform.position, Quaternion.AngleAxis(maxTipAngle, Vector3.forward) * Vector3.up * 3);
@@ -273,6 +319,19 @@ namespace TowerTanks.Scripts
             Gizmos.color = Color.yellow;
             Gizmos.DrawRay(transform.position, Quaternion.AngleAxis(maxTipAngle - tipAngleBufferZone, Vector3.forward) * Vector3.up * 3);
             Gizmos.DrawRay(transform.position, Quaternion.AngleAxis(-(maxTipAngle - tipAngleBufferZone), Vector3.forward) * Vector3.up * 3);
+
+            //Draw impact height limit:
+            Gizmos.color = Color.magenta;
+            Vector2 heightLimitPoint = transform.position + (transform.up * maximumRelativeImpactHeight);
+            Gizmos.DrawLine(heightLimitPoint - (Vector2)(transform.right * 3), heightLimitPoint + (Vector2)(transform.right * 3));
+
+            //Draw bounds:
+            if (Application.isPlaying)
+            {
+                Gizmos.color = Color.green;
+                Bounds treadBounds = GetTreadBounds();
+                Gizmos.DrawWireCube(treadBounds.center, treadBounds.size);
+            }
         }
 
         //FUNCTIONALITY METHODS:
@@ -363,7 +422,13 @@ namespace TowerTanks.Scripts
         /// <param name="point">Point (in world space) on tank at which force is being applied.</param>
         public void HandleImpact(Vector2 force, Vector2 point)
         {
+            //Limit height of impact point:
+            float deltaHeight = Vector3.Project((Vector3)point - transform.position, transform.up).magnitude;                              //Get difference in height between impact point and center of tank (linear difference is aligned with tank up value)
+            if (deltaHeight > maximumRelativeImpactHeight) point -= (Vector2)(transform.up * (deltaHeight - maximumRelativeImpactHeight)); //Adjust impact point downward if it is higher than allowed level on tank
+
+            //Cleanup:
             r.AddForceAtPosition(force, point, ForceMode2D.Force); //Apply force to rigidbody
+            Debug.DrawLine(point, point + force, Color.red, 1.5f);
         }
 
         public void Jam()
@@ -415,36 +480,33 @@ namespace TowerTanks.Scripts
             }
             return totalEnginePower; //Return calculated engine power
         }
-        /*
-        public void CalculateSpeed()
+        /// <summary>
+        /// Returns bounding box which encapsulates entire tank.
+        /// </summary>
+        public Bounds GetTankBounds()
         {
-            //Horsepower & Boost Accel
-            float c_totalHorsepower = 0;
-            float c_totalBonusAccel = 0;
-            EngineController[] engines = tankController.GetComponentsInChildren<EngineController>();
-            foreach(EngineController engine in engines)
-            {
-                c_totalHorsepower += engine.power;
-                //if (engine.isSurging) c_totalBonusAccel += 0.4f;
-            }
-            horsePower = c_totalHorsepower;
-
-            //Speed
-            float c_maxSpeed = speedFactor * ((horsePower) / totalWeight);
-
-            if (c_maxSpeed < 1f) c_maxSpeed = 1f; //minimum speed
-            if (c_maxSpeed > 50f) c_maxSpeed = 50f; //maximum speed
-
-            maxSpeed = Mathf.MoveTowards(maxSpeed, c_maxSpeed, speedShiftRate * Time.fixedDeltaTime);
-            if (isJammed) maxSpeed = 0;
-
-            //Acceleration
-            float c_maxAcceleration = 0.4f + c_totalBonusAccel;
-
-            maxAcceleration = c_maxAcceleration;
+            Bounds tankBounds = new Bounds(transform.position, Vector3.zero);                         //Start with zeroed-out bounds at center point of the tank
+            foreach (Room room in tankController.rooms) tankBounds.Encapsulate(room.GetRoomBounds()); //Encapsulate bounds of each room in tank
+            tankBounds.Encapsulate(GetTreadBounds());                                                 //Encapsulate treadbase bounds (including wheels)
+            return tankBounds;                                                                        //Return fully-encapsulated bounds
         }
-
-        public float GetTreadSpeed() => actualSpeed;
-        */
+        /// <summary>
+        /// Returns bounding box which encapsulates tank treads (including wheels and treadbase).
+        /// </summary>
+        /// <returns></returns>
+        private Bounds GetTreadBounds()
+        {
+            Bounds treadBounds = new Bounds(transform.position, Vector3.zero); //Start with zeroed-out bounds at center point of the tank
+            foreach (TreadWheel wheel in wheels) //Iterate through wheels in treadsystem
+            {
+                Bounds wheelBounds = new Bounds(wheel.transform.position, wheel.radius * 2 * Vector2.one); //Get square bounds which encapsulate wheel
+                treadBounds.Encapsulate(wheelBounds);                                                      //Encapsulate wheel bounds
+            }
+            foreach (BoxCollider2D treadBaseColl in transform.GetComponentsInChildren<BoxCollider2D>()) //Iterate through colliders in treadbase
+            {
+                treadBounds.Encapsulate(treadBaseColl.bounds); //Encapsulate collider of each object in treadbase (might need some massaging later)
+            }
+            return treadBounds; //Return fully-encapsulated bounds
+        }
     }
 }
