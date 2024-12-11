@@ -381,7 +381,7 @@ namespace TowerTanks.Scripts
                     {
                         GameManager.Instance.AudioManager.Stop("MachineGunFire", gameObject);
                     }
-                    GameManager.Instance.AudioManager.Play("MachineGunFire", gameObject);
+                    GameManager.Instance.AudioManager.PlayRandomPitch("MachineGunFire", 0.9f, 1.5f, gameObject);
                 }
 
                 if (gunType == GunType.MORTAR)

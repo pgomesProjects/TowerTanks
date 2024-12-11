@@ -106,6 +106,9 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
+  tutorialPopup: {fileID: 7246176982549920993, guid: 5c09bd25fe367e947a9b55a4a014671e, type: 3}
+  tutorialsList:
+  - {fileID: 11400000, guid: 3b0484ad929fefc4c96fd957efa8336a, type: 2}
   roomList:
   - {fileID: 11400000, guid: 37660a02e89b587409727183421aa180, type: 2}
   - {fileID: 11400000, guid: f9b63bf0f3fc1484eb5d45047c937a78, type: 2}
@@ -146,6 +149,7 @@ MonoBehaviour:
   loaderCanvas: {fileID: 6961505860615057902}
   progressBar: {fileID: 3983473102911642745}
   buttonPromptSettings: {fileID: 11400000, guid: d9592cc9952e7b4449964cc3e6a40d1b, type: 2}
+  tutorialWindowActive: 0
   isPaused: 0
   inBugReportMenu: 0
   inDebugMenu: 0
