@@ -24,12 +24,12 @@ namespace TowerTanks.Scripts
                 if (!_tankAI.TargetAtFightingDistance()) dir *= 2; //if we are at our fighting distance, it just use a speed setting of 1 instead of 2
                 if (_tankAI.TargetTooClose())
                 {
-                    _tank.SetTankGear(-dir, .15f);
+                    _tank.SetTankGearOverTime(-dir, .15f);
                     Debug.Log("Target is too close!");
                 }
                 else
                 {
-                    _tank.SetTankGear(dir, .15f);
+                    _tank.SetTankGearOverTime(dir, .15f);
                 }
             }
             yield return new WaitForSeconds(heartbeatTimer);
