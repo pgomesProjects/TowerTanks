@@ -2,12 +2,9 @@ using System;
 using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
-using System.Drawing;
 using Sirenix.OdinInspector;
 using UnityEditor;
-using System.Diagnostics;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Color = UnityEngine.Color;
 using Random = UnityEngine.Random;
 
@@ -103,7 +100,6 @@ namespace TowerTanks.Scripts
             if (fsm == null) return;
             if (targetTank == null) SetClosestTarget();
             fsm.FrameUpdate();
-            //var tanks = Physics2D.OverlapCircleAll(transform.position, aiSettings.viewRange, 1 << LayerMask.NameToLayer("Treads"));
         }
 
         private void FixedUpdate()
@@ -258,23 +254,6 @@ namespace TowerTanks.Scripts
         
         #region Tank AI Functionality Methods
         
-        /// <summary>
-        /// Will set the tank's throttle towards it's set movepoint value.
-        /// </summary>
-        /// <param name="speedSetting">
-        /// The speed setting to set the throttle to.
-        /// </param>
-        public void ChangeThrottleTowardsMovepoint(int speedSetting)
-        {
-            int dir = tank.transform.position.x < movePoint.x ? 1 : -1;
-            tank.SetTankGear(speedSetting, .1f);
-        }
-        
-        public void SetMovePoint(Vector3 point)
-        {
-            movePoint = point;
-        }
-        
         public List<InteractableId> GetUnusedInteractables()
         {
             return tank.interactableList
@@ -284,7 +263,7 @@ namespace TowerTanks.Scripts
         
         public bool TankIsRightOfTarget()
         {
-            return tank.treadSystem.transform.position.x > targetTank.treadSystem.transform.position.x;
+            return tank != null && tank.treadSystem.transform.position.x > targetTank.treadSystem.transform.position.x;
         }
 
         /// <summary>
@@ -304,11 +283,11 @@ namespace TowerTanks.Scripts
             
             if (Random.Range(0, 2) == 1)
             {
-                tank.SetTankGear(s, .15f);
+                tank.SetTankGearOverTime(s, .15f);
             }
             else
             {
-                tank.SetTankGear(-s, .15f);
+                tank.SetTankGearOverTime(-s, .15f);
             }
         }
 
@@ -332,7 +311,7 @@ namespace TowerTanks.Scripts
                 Bounds bnds = interactable.script.thisCollider.bounds;
                 Gizmos.DrawWireCube(interactable.script.transform.position, bnds.size);
                 GUIStyle style = new GUIStyle();
-                style.fontSize = 20; // Set the desired font size
+                style.fontSize = 20; 
                 style.fontStyle = FontStyle.Bold;
                 style.normal.textColor = Color.green;
                 Handles.Label(interactable.script.transform.position + Vector3.up * 2, $"{i}", style: style);
@@ -352,11 +331,5 @@ namespace TowerTanks.Scripts
             Gizmos.DrawWireSphere(tankPos, aiSettings.preferredFightDistance);
         }
 #endif
-
-        private void OnDestroy()
-        {
-            StackTrace stackTrace = new StackTrace(true);
-            UnityEngine.Debug.Log($"Component {GetType().Name} on GameObject {gameObject.name} is being destroyed. Stack trace:\n{stackTrace}", this);
-        }
     }
 }

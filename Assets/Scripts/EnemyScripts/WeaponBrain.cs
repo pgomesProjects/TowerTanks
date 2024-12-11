@@ -46,18 +46,14 @@ namespace TowerTanks.Scripts
             }
             else
             {
-                
+                fireTimer = 0; // resets the timer, so a shot doesnt immediately fire after aiming at self for a while
             }
             
         }
 
         private bool AimingAtMyself()
         {
-            if (aimHit.collider != null && aimHit.collider.transform.IsChildOf(gunScript.tank.transform))
-            {
-                return true;
-            }
-            return false;
+            return aimHit.collider != null && aimHit.collider.transform.IsChildOf(gunScript.tank.transform);
         }
 
         [Button]
@@ -112,9 +108,10 @@ namespace TowerTanks.Scripts
             if (!tokenActivated) return;
             for (int i = 0; i < trajectoryPoints.Count - 1; i++)
             {
+                if (Vector3.Distance(trajectoryPoints[i], aimHit.point) < 0.25f) break; // stops projecting line at target
                 Gizmos.color = myTankAI.TankIsRightOfTarget() ? Color.red : Color.blue;
                 Gizmos.DrawLine(trajectoryPoints[i], trajectoryPoints[i + 1]);
-                if (Vector3.Distance(trajectoryPoints[i], aimHit.point) < 0.1f) break; // stops projecting line at target
+                
             }
             Gizmos.color = Color.green;
             Gizmos.DrawWireSphere(aimHit.point, 0.5f);

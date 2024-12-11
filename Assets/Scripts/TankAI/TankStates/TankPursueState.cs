@@ -30,11 +30,11 @@ namespace TowerTanks.Scripts
             {
                 if (_tankAI.TankIsRightOfTarget())
                 {
-                    _tank.SetTankGear(-2);
+                    _tank.SetTankGearOverTime(-2);
                 }
                 else
                 {
-                    _tank.SetTankGear(2);
+                    _tank.SetTankGearOverTime(2);
                 }
             }
             yield return new WaitForSeconds(heartbeatTimer);

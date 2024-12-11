@@ -57,7 +57,8 @@ namespace TowerTanks.Scripts
         #endif
         [PropertyOrder(1)]
         [Title("Engage State Settings")]
-        [MinValue(5)]
+        [MinValue(1)]
+        [Tooltip("While in engage state, the tank re-distributes it's tokens intermittently to it's distribution list every X seconds.")]
         public float redistributeTokensCooldown;
         
     }

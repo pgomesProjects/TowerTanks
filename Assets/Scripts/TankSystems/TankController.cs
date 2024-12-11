@@ -66,7 +66,7 @@ namespace TowerTanks.Scripts
         /// <param name="newGear">
         /// int to set the tank's gear to. Must be between -throttle.speedSettings and throttle.speedSettings.
         /// </param>
-        public async void SetTankGear(int newGear, float secondsBetweenThrottleShifts = 0)
+        public async void SetTankGearOverTime(int newGear, float secondsBetweenThrottleShifts = 0)
         {
             if (Mathf.Abs(newGear) > 2)
             {
