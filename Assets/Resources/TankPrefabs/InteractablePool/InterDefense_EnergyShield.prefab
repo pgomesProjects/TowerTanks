@@ -575,6 +575,7 @@ GameObject:
   - component: {fileID: 5896225900632353599}
   - component: {fileID: 7343126615329269203}
   - component: {fileID: 8909312769848086869}
+  - component: {fileID: 1192560237984847222}
   m_Layer: 0
   m_Name: ShieldVisual
   m_TagString: Untagged
@@ -683,7 +684,7 @@ LineRenderer:
       atime5: 0
       atime6: 0
       atime7: 0
-      m_Mode: 1
+      m_Mode: 0
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 0
@@ -707,6 +708,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   circleRenderer: {fileID: 7343126615329269203}
+--- !u!95 &1192560237984847222
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2172804363814978041}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 15861f2013217ca46b29ff9b3973a1bf, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &2519766933113655603
 GameObject:
   m_ObjectHideFlags: 0
@@ -2482,6 +2503,7 @@ MonoBehaviour:
   shieldRechargeRate: 10
   shieldRenderer: {fileID: 8909312769848086869}
   shieldCollider: {fileID: 3411619206484692682}
+  shieldAnimator: {fileID: 1192560237984847222}
   shieldRadius: 0.92
 --- !u!1 &7942794571031921534
 GameObject:

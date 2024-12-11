@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations;
 
 namespace TowerTanks.Scripts
 {
@@ -19,6 +20,7 @@ namespace TowerTanks.Scripts
 
         public AOERenderer shieldRenderer;
         public CircleCollider2D shieldCollider;
+        public Animator shieldAnimator;
         [Tooltip("Actual radius of the shield's AOE")] public float shieldRadius;
         private float shieldMaxRadius = 3;
 
@@ -87,6 +89,7 @@ namespace TowerTanks.Scripts
 
             shieldHealth -= extraDamage;
             shieldStunTimer = shieldStunTime;
+            HitEffects();
             if (shieldHealth < shieldDisableThreshold)
             {
                 shieldHealth = shieldDisableThreshold;
@@ -101,6 +104,7 @@ namespace TowerTanks.Scripts
         {
             shieldHealth -= damage;
             shieldStunTimer = shieldStunTime;
+            HitEffects();
             if (shieldHealth < 0)
             {
                 shieldHealth = 0;
@@ -122,6 +126,11 @@ namespace TowerTanks.Scripts
         {
             shieldHealth += amount;
             if (shieldHealth > shieldMaxHealth) shieldHealth = shieldMaxHealth;
+        }
+
+        public void HitEffects()
+        {
+            shieldAnimator.Play("Flash", 0, 0);
         }
     }
 }
