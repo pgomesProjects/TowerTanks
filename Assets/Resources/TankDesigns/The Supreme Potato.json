@@ -15,7 +15,7 @@
     "buildingSteps": [
         {
             "roomID": "Room_Elbow4A",
-            "roomType": 4,
+            "roomType": 1,
             "localSpawnVector": {
                 "x": 3.5,
                 "y": 1.25,
@@ -28,6 +28,12 @@
                     "interRef": "InterWeapon_Cannon",
                     "flipped": false
                 }
+            ],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
             ]
         },
         {
@@ -55,11 +61,17 @@
                     "interRef": "InterEngineer_Boiler",
                     "flipped": false
                 }
+            ],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
             ]
         },
         {
             "roomID": "Room_Tee4C_Flipped",
-            "roomType": 3,
+            "roomType": 0,
             "localSpawnVector": {
                 "x": 0.0,
                 "y": 2.5,
@@ -72,11 +84,17 @@
                     "interRef": "InterWeapon_Cannon",
                     "flipped": false
                 }
+            ],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
             ]
         },
         {
             "roomID": "Room_Line2A",
-            "roomType": 3,
+            "roomType": 0,
             "localSpawnVector": {
                 "x": 3.5,
                 "y": 2.5,
@@ -85,10 +103,19 @@
             "rotate": 3,
             "cellInteractables": [
                 {
+                    "cellName": "Cell_0",
+                    "interRef": "InterDefense_EnergyShield",
+                    "flipped": false
+                },
+                {
                     "cellName": "Cell_1",
                     "interRef": "InterWeapon_MachineGun",
                     "flipped": false
                 }
+            ],
+            "cellManifest": [
+                true,
+                true
             ]
         },
         {
@@ -106,6 +133,40 @@
                     "interRef": "InterWeapon_Mortar",
                     "flipped": false
                 }
+            ],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
+            ]
+        },
+        {
+            "roomID": "Room_Tee4B",
+            "roomType": 0,
+            "localSpawnVector": {
+                "x": -2.25,
+                "y": 5.0,
+                "z": 0.0
+            },
+            "rotate": 1,
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_0",
+                    "interRef": "InterWeapon_MachineGun",
+                    "flipped": false
+                },
+                {
+                    "cellName": "Cell_3",
+                    "interRef": "InterWeapon_Cannon",
+                    "flipped": false
+                }
+            ],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
             ]
         }
     ]
