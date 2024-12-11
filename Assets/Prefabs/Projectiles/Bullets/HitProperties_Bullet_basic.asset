@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: HitProperties_Bullet_basic
   m_EditorClassIdentifier: 
   damage: 5
+  mass: 0.1
   hasSplashDamage: 0
   splashData: []
   tunnels: 0
   fireChance: 0
-  copyTarget: {fileID: 2367129227070595597, guid: ad2c16d34a64efd4ab5a6515dab7366a, type: 3}
+  ignoresArmor: 0
+  slamForce: 0

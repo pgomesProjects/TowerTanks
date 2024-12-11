@@ -227,10 +227,7 @@ namespace TowerTanks.Scripts
         public float Damage(Projectile projectile, Vector2 position)
         {
             //Do projectile impact:
-            if (projectile.impactProperties != null) //Projectile causes a tank impact event
-            {
-                room.targetTank.treadSystem.HandleImpact(projectile.impactProperties, projectile.velocity, position); //Create event based off of projectile's impact properties and velocity
-            }
+            room.targetTank.treadSystem.HandleImpact(projectile, position); //Use treadsystem impact handler to calculate impact force from projectile
 
             //Do hit effects:
             GameManager.Instance.AudioManager.Play("ShellImpact", gameObject); //Play impact sound

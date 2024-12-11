@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c0d60faee87b314e83394d6c1fe737f, type: 3}
   m_Name: Impact_Test
   m_EditorClassIdentifier: 
-  phase: 0.3
+  phase: 0
   baseAmplitude: 200
   maxAmplitudeGain: 0
   intensityCurve:
@@ -21,29 +21,20 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 1
-      inSlope: -0.020592267
-      outSlope: -0.020592267
-      tangentMode: 0
-      weightedMode: 2
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
       inWeight: 0
-      outWeight: 0.5053184
-    - serializedVersion: 3
-      time: 0.6285834
-      value: 0.8935622
-      inSlope: -0.2772005
-      outSlope: -0.2772005
-      tangentMode: 0
-      weightedMode: 3
-      inWeight: 0.2948022
-      outWeight: 0.3954399
+      outWeight: 0
     - serializedVersion: 3
       time: 1
-      value: 0
-      inSlope: -2.4058218
-      outSlope: -2.4058218
+      value: 1
+      inSlope: 0
+      outSlope: 0
       tangentMode: 34
-      weightedMode: 1
-      inWeight: 0.33333334
+      weightedMode: 0
+      inWeight: 0
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2

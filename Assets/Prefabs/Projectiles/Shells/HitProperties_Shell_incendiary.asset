@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: HitProperties_Shell_incendiary
   m_EditorClassIdentifier: 
   damage: 30
+  mass: 1
   hasSplashDamage: 1
   splashData:
   - splashDamage: 15
     splashRadius: 1.5
   tunnels: 0
   fireChance: 1
-  copyTarget: {fileID: 3640374074342539547, guid: 1e93586965860dd45b48c21673aea549, type: 3}
+  ignoresArmor: 0
