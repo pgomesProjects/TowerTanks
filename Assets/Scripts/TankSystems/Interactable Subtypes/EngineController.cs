@@ -281,11 +281,11 @@ namespace TowerTanks.Scripts
         {
             if (isPowered)
             {
-                power = 100f;
-                if (pressure >= 50) power = 150f;
-                if (pressure >= dangerZoneThreshold) power = 300f;
+                power = 0.5f;
+                if (pressure >= 50) power = 1f;
+                if (pressure >= dangerZoneThreshold) power = 1.5f;
 
-                if (isSurging) power *= boostMultiplier;
+                //if (isSurging) power *= boostMultiplier;
             }
             else power = 0;
         }

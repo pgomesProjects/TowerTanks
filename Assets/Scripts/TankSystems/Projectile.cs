@@ -14,12 +14,9 @@ namespace TowerTanks.Scripts
         private Transform smokeTrail;
 
         //Settings:
-        [Tooltip("Defines broad projectile behavior.")]                  public ProjectileType type;
-        [Tooltip("Defines the physics layers this projectile can hit.")] public LayerMask layerMask;
-        [Space()]
-        [Tooltip("Describes damage effect this projectile has on struck targets.")]                                                public ProjectileHitProperties hitProperties;
-        [Tooltip("Describes physics effect this projectile has on an enemy tank which it hits.")]                                  public ImpactProperties impactProperties;
-        [Tooltip("Describes physics effect this projectile has on the tank firing it (if left null, will use impactProperties).")] public ImpactProperties knockbackProperties;
+        [Tooltip("Defines broad projectile behavior.")]                             public ProjectileType type;
+        [Tooltip("Defines the physics layers this projectile can hit.")]            public LayerMask layerMask;
+        [Tooltip("Describes damage effect this projectile has on struck targets.")] public ProjectileHitProperties hitProperties;
 
         [Header("Travel Properties:")]
         [SerializeField, Tooltip("Maximum lifetime of this projectile.")]          public float maxLife; 

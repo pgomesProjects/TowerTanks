@@ -289,12 +289,8 @@ namespace TowerTanks.Scripts
                 newProjectile.factionId = inheritance;
 
                 //Handle knockback:
-                ImpactProperties knockbackProperties = newProjectile.knockbackProperties;              //Get knockback properties from projectile
-                if (knockbackProperties == null) knockbackProperties = newProjectile.impactProperties; //Use impact properties if none are given
-                if (knockbackProperties != null) //Projectile has useable knockback properties
-                {
-                    parentCell.room.targetTank.treadSystem.HandleImpact(knockbackProperties, -barrel.right * muzzleVelocity, barrel.position); //Apply knockback at barrel position in reverse direction of projectile
-                }
+                Vector2 knockbackForce = newProjectile.hitProperties.mass * muzzleVelocity * -barrel.right; //Calculate knockback force based on mass and muzzle velocity of projectile
+                parentCell.room.targetTank.treadSystem.HandleImpact(knockbackForce, barrel.position);       //Apply knockback to own treadsystem at barrel position in reverse direction of projectile
 
                 //If Special, Remove from List
                 if (projectile != projectilePrefab) { specialAmmo.RemoveAt(0); }

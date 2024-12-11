@@ -79,7 +79,7 @@ namespace TowerTanks.Scripts
                     float knockBackTime = knockbackForce * 0.05f;
 
                     //knockbackForce *= Mathf.Sign(velocity.x);
-                    tank.treadSystem.ApplyForce(transform.position, knockbackForce * _direction, knockBackTime);
+                    //tank.treadSystem.ApplyForce(transform.position, knockbackForce * _direction, knockBackTime);
                 }
 
                 //Effects

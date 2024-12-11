@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: HitProperties_Shell_basic
   m_EditorClassIdentifier: 
   damage: 100
+  mass: 1
   hasSplashDamage: 1
   splashData:
   - splashDamage: 50
@@ -20,3 +21,4 @@ MonoBehaviour:
   tunnels: 0
   fireChance: 0.02
   ignoresArmor: 0
+  slamForce: 2

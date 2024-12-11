@@ -5382,6 +5382,26 @@ PrefabInstance:
       propertyPath: useEngines
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1677695872800944111, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: treadHealth
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1677695872800944111, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: boilerPowerAdd
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1677695872800944111, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: baseEnginePower
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1677695872800944111, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: boilerSurgePower
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1677695872800944111, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 1677695872800944111, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
     - target: {fileID: 1677695873077091904, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
       propertyPath: damper
       value: 0.78

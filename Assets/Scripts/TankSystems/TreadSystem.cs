@@ -1,148 +1,52 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 namespace TowerTanks.Scripts
 {
     public class TreadSystem : MonoBehaviour, IDamageable
     {
-        //Enums, Classes & Structs:
-        /// <summary>
-        /// Describes an impact which is being processed for the tank over time.
-        /// </summary>
-        public class ImpactEvent
-        {
-            //Values:
-            private TreadSystem target;          //Tread system this event will be impacting
-            private ImpactProperties properties; //Asset describing characteristics of this impact event
-            private Vector2 direction;           //Direction of impact
-            private Vector2 localImpactPoint;    //Point on tank hit by projectile (in treadsystem local space)
-            private float timePassed = 0;        //Amount of time which has passed since the creation of this event
-            public bool complete = false;        //Indicates that this event has reached its end and is ready to be destroyed
-
-            //Extra values:
-            private float speedMod = 0; //Modifier for reflecting variations in incoming projectile speed
-
-            //FUNCTIONALITY METHODS:
-            /// <summary>
-            /// Creates a new impact event on this tread system (automatically adds to event list).
-            /// </summary>
-            /// <param name="_properties">Settings object defining properties of this impact.</param>
-            /// <param name="_direction">Direction of impact force.</param>
-            /// <param name="_localImpactPoint">Local point of impact (local to treadsystem transform).</param>
-            /// <param name="speedModifier">Additional modifier value used if projectiles are going faster or slower than normal (1 corresponds to 2x normal projectile speed, -1 corresponds to 0x).</param>>
-            public ImpactEvent(TreadSystem _target, ImpactProperties _properties, Vector2 _direction, Vector2 _localImpactPoint, float speedModifier = 0)
-            {
-                //Value assignments:
-                target = _target;                     //Get value for target treadsystem
-                properties = _properties;             //Get value for settings object
-                direction = _direction;               //Get velocity of direction of impact force
-                localImpactPoint = _localImpactPoint; //Get point of impact
-
-                // speedMod = speedModifier * properties.speedFactor; //Use speed factor setting to determine effect of variations in incoming projectile speed
-            }
-            /// <summary>
-            /// Performs prescribed impact calculation for given amount of time on target treadsystem.
-            /// </summary>
-            /// <returns>Amount of pure knockback to be applied through the traction system.</returns>
-            public Vector2 Process(float deltaTime)
-            {
-                //Pre-checks:
-                if (complete) return Vector2.zero; //Don't process anything if event has already been completed
-
-                //Check for resolution:
-                if (properties.phase == 0) //Instant resolution
-                {
-                    //Perform instantaneous acceleration:
-                    target.r.AddForceAtPosition(direction * properties.baseAmplitude, target.transform.TransformPoint(localImpactPoint), ForceMode2D.Force); //Add an instantaneous impulse force to the treadsystem
-
-                    //Cleanup:
-                    complete = true; //Indicate that event has been fully processed
-                    return Vector2.zero; //Finish processing, return nothing because pure knockback needs to occur over the course of a phase
-                }
-                timePassed += deltaTime;                             //Increment time value
-                if (timePassed >= properties.phase) complete = true; //Indicate that event will have been completed this cycle
-
-                //Process impact value:
-                float rawMagnitude = properties.baseAmplitude;                    //Get base amplitude from impact properties (modifiers will be applied later)
-                float pureKnockbackMagnitude = properties.pureKnockbackAmplitude; //Get base pure knockback amplitude from impact properties
-                rawMagnitude *= deltaTime;                                        //Apply timescale to force
-                pureKnockbackMagnitude *= deltaTime;                              //Apply timescale to force
-                    //MODIFIER: SPEED
-
-                    //MODIFIER: FALLOFF CURVE
-                float phasePercent = Mathf.Min(timePassed, properties.phase) / properties.phase; //Get interpolant value describing progression through event phase (clamped to 01 range)
-                float curveModifier = properties.intensityCurve.Evaluate(phasePercent);          //Evaluate magnitude modifier according to given curve setting
-                rawMagnitude *= curveModifier;                                                   //Apply modifier to normal knockback force
-                pureKnockbackMagnitude *= curveModifier;                                         //Apply modifier to pure knockback force
-                    //MODIFIER: OVERTIME
-                if (timePassed > properties.phase) //Overtime modifier needs to be applied (otherwise effect of impact will be inconsistent depending on framerate)
-                {
-                    float overtime = timePassed - properties.phase;              //Get number of seconds into overtime event has gone
-                    float overtimeModifier = (deltaTime - overtime) / deltaTime; //Get modifier by finding actual percentage of this deltaTime phase which is a valid part of the event
-                    rawMagnitude *= overtimeModifier;                            //Apply modifier to normal knockback force
-                    pureKnockbackMagnitude *= overtimeModifier;                  //Apply modifier to pure knockback force
-                }
-                    //MODIFIER: CLAMP AMPLITUDE GAIN
-                rawMagnitude = Mathf.Min(rawMagnitude, properties.baseAmplitude + properties.maxAmplitudeGain); //Make sure outcome magnitude does not exceed specified amount
-
-                //Debugs:
-                Debug.DrawLine(target.transform.TransformPoint(localImpactPoint), (Vector2)target.transform.TransformPoint(localImpactPoint) + (direction * rawMagnitude), Color.yellow, 0.1f);
-
-                //Apply force:
-                target.r.AddForceAtPosition(direction * rawMagnitude, target.transform.TransformPoint(localImpactPoint), ForceMode2D.Force); //Apply force to tank
-                return direction * pureKnockbackMagnitude;                                                                                   //Return knockback amount
-            }
-        }
-
         //Objects & Components:
         [Tooltip("Controller for this tread's parent tank.")]                                                         private TankController tankController;
         [Tooltip("Rigidbody for affecting tank movement.")]                                                           internal Rigidbody2D r;
         [Tooltip("Wheels controlled by this system.")]                                                                internal TreadWheel[] wheels;
         [SerializeField, Tooltip("Prefab which will be used to generate caterpillar treads (should be 1 unit long)")] private GameObject treadPrefab;
         [Tooltip("Array of all tread segments in system (one per wheel).")]                                           private Transform[] treads;
-        [Tooltip("List of impact events currently affecting the tank.")]                                              private List<ImpactEvent> activeImpacts = new List<ImpactEvent>();
 
         //Settings:
         [Header("Center of Gravity Settings:")]
         [Tooltip("Height at which center of gravity is locked relative to tread system.")] public float COGHeight;
         [Tooltip("Extents of center of gravity (affects how far tank can lean).")]         public float COGWidth;
         [Tooltip("How much weight the tank currently has")]                                public float totalWeight = 0;
-
-        [Header("Drive Settings:")]
-        //[Tooltip("True = Engines determine tank's overall speed & acceleration, False = Set manual values")]                    public bool useEngines;
-        //[SerializeField, Tooltip("Current number of active engines in the tank")]                                               internal float horsePower;
-        //[SerializeField, Tooltip("Base multiplier that affects how much power each individual engine has on the tank's speed")] internal float speedFactor;
-        
-        //[Tooltip("Current x Velocity of the tank's rigidbody")]                                                    public float actualSpeed;
-        //[SerializeField, Tooltip("Rate at which tank accelerates to target speed (in units per second squared).")] private float maxAcceleration;
-        //[Range(0, 1), SerializeField, Tooltip("Lerp value used to smooth out end of acceleration phases.")]        private float accelerationDamping = 0.5f;
-        //[SerializeField, Tooltip("Rate at which tank adjusts target speed based on current powered engines")]      private float speedShiftRate = 2f;
-        [Min(1), Tooltip("Number of positions throttle can be in (includes neutral and reverse)")]                                                                     public int gearPositions = 5;
-        [SerializeField, Tooltip("Amount of torque the engine puts out when at max power.")]                                                                           private float enginePower;
-        [SerializeField, Tooltip("Idling RPM of tank engine.")]                                                                                                        private float minRPM;
-        [SerializeField, Tooltip("Maximum speed engine can turn in rotations per minute.")]                                                                            private float maxRPM;
-        [SerializeField, Tooltip("Rate at which RPM can be changed by throttle."), Range(0, 1)]                                                                        private float RPMAccelFactor;
-        [SerializeField, Tooltip("Determines the torque output of the engine (as a percentage of enginePower) based on the RPM (as a percentage of maxRPM)")]          private AnimationCurve engineTorqueCurve;
+        [Header("Engine Properties:")]
+        [Min(1), Tooltip("Number of positions throttle can be in (includes neutral and reverse)")]      public int gearPositions = 5;
+        [SerializeField, Tooltip("Constant maximum torque tank's engine can produce with no boilers.")] private float baseEnginePower;
+        [SerializeField, Tooltip("Amount of engine torque added by a fully-stoked boiler.")]            private float boilerPowerAdd;
+        [SerializeField, Tooltip("Additional torque added by a boiler when it is surging.")]            private float boilerSurgePower;
         [Space()]
+        [SerializeField, Tooltip("Idling RPM of tank engine.")]                                                                                               private float minRPM;
+        [SerializeField, Tooltip("Maximum speed engine can turn in rotations per minute.")]                                                                   private float maxRPM;
+        [SerializeField, Tooltip("Rate at which RPM can be changed by throttle."), Range(0, 1)]                                                               private float RPMAccelFactor;
+        [SerializeField, Tooltip("Determines the torque output of the engine (as a percentage of enginePower) based on the RPM (as a percentage of maxRPM)")] private AnimationCurve engineTorqueCurve;
+        [Header("Tread Properties:")]
         [Tooltip("Determines the amount of traction induced by the tread (affected on a wheel-by-wheel basis depending on mass and suspension compression)."), Min(0)] public float frictionCoefficient = 1;
         [SerializeField, Tooltip("Curve describing falloff of wheel grip efficacy depending on slip ratio (T = 1 corresponds to when slipRatio = maxSlipRatio).")]     private AnimationCurve slipRatioCurve;
         [SerializeField, Tooltip("Hard clamp on magnitude of slip ratio, used to prevent tanks from launching themselves into orbit."), Min(0)]                        private float maxSlipRatio;
-        [Tooltip("Basically how massive the whole tread system is. Higher inertia means the wheels change speed slower."), Min(0)]                                     public float treadInertia;
+        [Tooltip("Basically how massive the moving components of the tread system are. Higher inertia means the wheels change speed slower."), Min(0)]                 public float treadInertia;
         [Tooltip("Drag which resists rotation of system axles (caps maximum speed wheels can turn at)."), Min(0)]                                                      public float axleDragCoefficient;
-        [Space()]
-        [SerializeField, Tooltip("Amount of drag torque each brake applies to a wheel.")]                                                                              private float brakeDragCoefficient;
-        [SerializeField, Tooltip("Amount of time system has to spend in 0 gear before applying brakes."), Min(0)]                                                      private float brakeDwellTime;
-        [SerializeField, Tooltip("Time it takes for brakes to reach full efficacy."), Min(0)]                                                                          private float brakeSaturationTime;
-        [SerializeField, Tooltip("Curve describing efficacy of breaks as they reach saturation time.")]                                                                private AnimationCurve brakeSaturationCurve;
         [Space()]
         [SerializeField, Min(0), Tooltip("Force which tries to keep wheels stuck to the ground.")]    private float wheelStickiness;
         [SerializeField, Tooltip("Curve describing how sticky wheel is based on compression value.")] private AnimationCurve wheelStickCompressionCurve;
+        [Header("Brake Properties:")]
+        [SerializeField, Tooltip("Amount of drag torque each brake applies to a wheel.")]                         private float brakeDragCoefficient;
+        [SerializeField, Tooltip("Amount of time system has to spend in 0 gear before applying brakes."), Min(0)] private float brakeDwellTime;
+        [SerializeField, Tooltip("Time it takes for brakes to reach full efficacy."), Min(0)]                     private float brakeSaturationTime;
+        [SerializeField, Tooltip("Curve describing efficacy of breaks as they reach saturation time.")]           private AnimationCurve brakeSaturationCurve;
 
         [Header("Traction & Drag Settings:")]
         [SerializeField, Tooltip("Default drag factor applied by air causing tank to lean while in motion (scales based on speed)."), Min(0)] private float baseAirDragForce;
         [SerializeField, Tooltip("Angular drag when all (non-extra) wheels are on the ground."), Min(0)]                                      private float maxAngularDrag;
-        [SerializeField, Tooltip("How many wheels are by default off the ground."), Min(0)]                                                   private int extraWheels; //NOTE: GOTTA get rid of this this is so dumb
         [Space()]
         [Range(0, 90), SerializeField, Tooltip("Maximum angle (left or right) at which tank can be tipped.")]                                             private float maxTipAngle;
         [Min(0), SerializeField, Tooltip("Radial area (inside max tip angle) where torque will be applied to prevent tank from reaching max tip angle.")] private float tipAngleBufferZone;
@@ -150,12 +54,14 @@ namespace TowerTanks.Scripts
 
         [Header("Ramming & Collision Settings:")]
         [SerializeField, Tooltip("Minimum Speed for Ramming Effects to Apply")] public float rammingSpeed;
-        public float treadHealth;
-        private float treadMaxHealth = 200f;
-        public float healthRegenRate;
-        private float unjamHealthThreshold = 60f;
-        public bool isJammed;
-        private float jamEffectTimer = 0f;
+
+        [Header("Jamming Settings:")]
+        [SerializeField, Tooltip("Amount of damage treads can take.")]                                            private float treadMaxHealth = 200f;
+        [SerializeField, Tooltip("Tread health regeneration factor (in points per second).")]                     private float healthRegenRate;
+        [SerializeField, Tooltip("Health value below which treads will jam, and above which treads will unjam.")] private float unjamHealthThreshold = 60f;
+        
+        [Button("JamTreads", Icon = SdfIconType.Wrench)]
+        private void JamTreads() { Damage(treadHealth); }
 
         //Runtime Variables:
         private bool initialized; //True if tread system has already been set up
@@ -164,6 +70,10 @@ namespace TowerTanks.Scripts
         internal int gear;             //Basic designator for current direction and speed the tank is set to move in (0 = Neutral)
         private float brakeSaturation; //Time tank has spent braking (ticks up when brakes are active, ticks down when brakes are inactive)
         [Tooltip("Value between -1 and 1 representing current real normalized position of throttle.")] private float throttleValue; //Current value of the throttle, adjusted over time based on acceleration and gear for smooth movement
+        
+        private float treadHealth;         //Current tread health value
+        private float jamEffectTimer = 0f; //Timer used to space out jam particle effect spawns
+        private bool isJammed = false;     //Whether or not treads are currently jammed 
 
         //RUNTIME METHODS:
         private void Awake()
@@ -173,7 +83,7 @@ namespace TowerTanks.Scripts
         private void Update()
         {
             //Update timers:
-            brakeSaturation += Time.deltaTime * (gear == 0 ? 1 : -1);               //Increment or decrement value tracking brake saturation time (this is done so feathering the brake doesn't reset its saturation value and cause a jolt)
+            brakeSaturation += Time.deltaTime * (gear == 0 && !isJammed ? 1 : -1);  //Increment or decrement value tracking brake saturation time (this is done so feathering the brake doesn't reset its saturation value and cause a jolt) (break saturation only decreases when treads are jammed)
             brakeSaturation = Mathf.Clamp(brakeSaturation, 0, brakeSaturationTime); //Clamp saturation value so it can't go negative (upper end isn't really necessary)
 
             //Update treads:
@@ -212,51 +122,59 @@ namespace TowerTanks.Scripts
             }
             */
 
-            //Update Health
-            UpdateHealth();
+            //Update Tread Health:
+            if (treadHealth < treadMaxHealth) //Treads are damaged
+            {
+                treadHealth = Mathf.Min(treadHealth + (healthRegenRate * Time.fixedDeltaTime), treadMaxHealth); //Regen health according to regen rate (capping at max health)
+                if (treadHealth >= unjamHealthThreshold) if (isJammed) isJammed = false;                        //Unjam treads if above health threshold
+            }
+
+            //Jam effects:
+            if (isJammed) //Treads are currently jammed
+            {
+                jamEffectTimer -= Time.fixedDeltaTime; //Decrement jam effect timer
+
+                if (jamEffectTimer <= 0) //Jam effect timer has run out
+                {
+                    //Randomize Position
+                    float randomX = Random.Range(-3f, 3f);
+                    float randomY = Random.Range(-0.7f, 0f);
+
+                    Vector2 randomPos = new Vector2(transform.position.x + randomX, transform.position.y + randomY);
+
+                    //Spark Particle
+                    float particleScale = Random.Range(0.05f, 0.1f);
+                    GameObject particle = GameManager.Instance.ParticleSpawner.SpawnParticle(14, randomPos, particleScale, transform);
+
+                    //Smoke Particle
+                    GameManager.Instance.ParticleSpawner.SpawnParticle(3, randomPos, particleScale, null);
+
+                    //Randomize Rotation
+                    float randomRot = Random.Range(0f, 360f);
+                    Quaternion newRot = Quaternion.Euler(0, 0, randomRot);
+                    particle.transform.rotation = newRot;
+
+                    //Randomize Interval between Sparks
+                    float randomTimer = Random.Range(0.1f, 0.5f);
+                    jamEffectTimer = randomTimer;
+
+                    //TODO: Sparking Sound Effect here
+                }
+            }
 
             //Update throttle:
             throttleValue = gear / (float)((gearPositions - 1) / 2); //Get throttle value between -1 and 1 based on current gear setting and number of available gears
-            /*
-            float throttleTarget = gear / (float)((gearPositions - 1) / 2);                                          //Get target throttle value between -1 and 1 based on current gear setting
-            throttleTarget = Mathf.Lerp(throttleValue, throttleTarget, accelerationDamping);                         //Use lerp to soften throttle target, making accelerations less abrupt
-            throttleValue = Mathf.MoveTowards(throttleValue, throttleTarget, maxAcceleration * Time.fixedDeltaTime); //Move throttle value to designated target without exceeding given max acceleration
-            */
-
-            //Count grounded wheels
-            int groundedWheels = 0;                                                         //Initialize variable to track how many wheels are grounded
-            foreach (TreadWheel wheel in wheels) { if (wheel.grounded) groundedWheels++; }; //Pre-calculate number of grounded wheels
-
-            //Check for Jam
-            float jamMultiplier = 1f;
-            if (isJammed)
-            {
-                jamMultiplier = 0f;
-                JamEffects();
-            }
-
-            //Handle impacts:
-            Vector2 totalTreadImpact = Vector2.zero; //Get value to store total pure tread impact in
-            for (int x = 0; x < activeImpacts.Count;) //Iterate through list of active impacts (no increment here bc some may be deleted during iteration)
-            {
-                ImpactEvent impact = activeImpacts[x];                   //Get current impact
-                totalTreadImpact += impact.Process(Time.fixedDeltaTime); //Process event using fixed deltaTime (add tread impact value)
-                if (impact.complete) activeImpacts.Remove(impact);       //Event has been completed and is removed from list (destroyed (garbage collected))
-                else x++;                                                //Iterate past event if it has not been completed
-            }
-            totalTreadImpact = Vector3.Project(totalTreadImpact, transform.right);
 
             //Update engine RPM:
-            float targetRPM = Mathf.Lerp(-maxRPM, maxRPM, Mathf.InverseLerp(-1, 1, throttleValue));                              //Get target RPM based on value of throttle
-            engineRPM = Mathf.Lerp(engineRPM, targetRPM, RPMAccelFactor);                                                        //Adjust RPM based on RPM acceleration factor (physics approximation, I dunno how to actually relate this accurately to throttle)
-            float driveTorque = engineTorqueCurve.Evaluate(Mathf.Abs(engineRPM) / maxRPM) * Mathf.Sign(engineRPM) * enginePower; //Get amount of torque exerted by engine based on current RPM, maximum engine power, and engine torque curve
-            print("Drive Torque = " + driveTorque);
+            float targetRPM = Mathf.Lerp(-maxRPM, maxRPM, Mathf.InverseLerp(-1, 1, throttleValue));                                   //Get target RPM based on value of throttle
+            engineRPM = Mathf.Lerp(engineRPM, targetRPM, RPMAccelFactor);                                                             //Adjust RPM based on RPM acceleration factor (physics approximation, I dunno how to actually relate this accurately to throttle)
+            float driveTorque = engineTorqueCurve.Evaluate(Mathf.Abs(engineRPM) / maxRPM) * Mathf.Sign(engineRPM) * GetEnginePower(); //Get amount of torque exerted by engine based on current RPM, maximum engine power, and engine torque curve
+            if (isJammed) driveTorque = 0;                                                                                            //Cancel ALL drive torque if treads are jammed
 
             //Apply wheel forces:
             Vector2 alignedVelocity = Vector3.Project(r.velocity, transform.right);         //Get velocity of tank aligned to tank's horizontal axis
             float longVelocity = alignedVelocity.magnitude * Mathf.Sign(alignedVelocity.x); //Get float velocity of tank along its forward axis (longitudinal velocity) NOTE: Might need to be modified to check on a wheel-by-wheel basis later
-            print("Longitudinal Velocity = " + longVelocity);
-            float totalTractionTorque = 0; //Create container to add up sum of traction torque on all wheels (this is done as one operation because the wheels are all connected rotationally by the treads)
+            float totalTractionTorque = 0;                                                  //Create container to add up sum of traction torque on all wheels (this is done as one operation because the wheels are all connected rotationally by the treads)
             foreach (TreadWheel wheel in wheels) //Iterate through wheel list
             {
                 if (wheel.grounded) //Only apply force from grounded wheels
@@ -279,7 +197,7 @@ namespace TowerTanks.Scripts
             }
             foreach (TreadWheel wheel in wheels) //This needs to be done after other tank forces are applied
             {
-                if (wheel.grounded)
+                if (wheel.grounded) //Only apply force from grounded wheels
                 {
                     //Terrain interaction behaviors:
                     Vector2 wheelDirection = Vector2.Perpendicular(wheel.lastGroundHit.normal); //Get direction wheel is applying force in
@@ -292,23 +210,16 @@ namespace TowerTanks.Scripts
                         slipDelta = slipRatioCurve.Evaluate(Mathf.InverseLerp(0, maxSlipRatio, Mathf.Abs(slipDelta))) * slipDelta; //Apply slip ratio curve so that wheel traction is highest at certain slip ratios (usually <10%) and then falls off at higher speeds (burnouts)
                         float tractionForce = -slipDelta * frictionLimit;                                                          //Get traction force as a product of the slip ratio between the ground and the wheel, and the maximum amount of friction allowed to be produced by the wheel based on load
 
-                        if (wheel == wheels[1])
-                        {
-                            //print("Friction Limit = " + frictionLimit);
-                            print("Slip Ratio = " + slipDelta);
-                            print("Traction Force = " + tractionForce);
-                        }
-
                         //Apply traction forces:
                         r.AddForceAtPosition(wheelDirection * tractionForce * Time.fixedDeltaTime, wheel.lastGroundHit.point, ForceMode2D.Force); //Apply traction force induced by friction between wheel and ground
                         totalTractionTorque -= tractionForce * wheel.radius;                                                                      //Get wheel torque induced by traction
                     }
                 }
             }
+
             //Apply wheel torques:
-            float totalDriveTorque = totalTractionTorque - driveTorque; //Add up torques affecting wheels NOTE: Add torque for brakes here
-            //float wheelAngAccel = totalDriveTorque / treadInertia;      //Get amount by which to angularly accelerate each wheel
-            float wheelAngAccel = totalDriveTorque;
+            float totalWheelTorque = totalTractionTorque - driveTorque; //Add up torques affecting wheels NOTE: Add torque for brakes here
+            float wheelAngAccel = totalWheelTorque / treadInertia;      //Get amount by which to angularly accelerate each wheel (based on inertia (cumulative system mass) of moving parts in tread system)
             foreach (TreadWheel wheel in wheels) //Iterate through wheel list AGAIN now that traction torques have been calculated
             {
                 wheel.angularVelocity += wheelAngAccel * Mathf.Rad2Deg * Time.fixedDeltaTime;                                                                  //Accelerate all wheels together by the same amount
@@ -316,56 +227,21 @@ namespace TowerTanks.Scripts
                 if (gear == 0 && brakeSaturation >= brakeDwellTime) //Brakes are active
                 {
                     float brakeValue = Mathf.InverseLerp(brakeDwellTime, brakeSaturationTime, brakeSaturation);                                           //Get value representing how far along brake is in phase
-                    brakeValue = brakeSaturationCurve.Evaluate(brakeValue) * brakeDragCoefficient;                                                        //Evaluate efficacy of brakes based on 
+                    brakeValue = brakeSaturationCurve.Evaluate(brakeValue) * brakeDragCoefficient;                                                        //Evaluate efficacy of brakes based on
                     wheel.angularVelocity += brakeValue * Mathf.Pow(wheel.angularVelocity, 2) * Time.fixedDeltaTime * -Mathf.Sign(wheel.angularVelocity); //Apply brake drag coefficient to angular velocity of wheel (always opposing wheel rotation direction)
                 }
             }
 
-            /*
-            Vector2 targetTankSpeed = transform.right * maxSpeed * throttleValue * jamMultiplier;  //Get target speed based on tank throttle
-            Vector2 deltaSpeed = targetTankSpeed - r.velocity;                                     //Get value which would change current speed to target speed
-            Vector2 baseWheelAccel = deltaSpeed / Time.fixedDeltaTime;                             //Get ideal acceleration value which each wheel will use to compute actual force (apply actual acceleration to smooth out speed changes)
-            baseWheelAccel *= Mathf.Min((float)groundedWheels / (wheels.Length - extraWheels), 1); //Handicap acceleration when wheels are off ground (prevents tank from doing extended wheelies)
-            foreach (TreadWheel wheel in wheels) //Iterate through wheel list
-            {
-                if (wheel.grounded) //Only apply force from grounded wheels
-                {
-                    //Get suspension force:
-                    float suspensionMagnitude = wheel.stiffnessCurve.Evaluate(wheel.compressionValue) * wheel.stiffness; //Use wheel compression value and stiffness to determine magnitude of exerted force
-                    float dragMagnitude = wheel.damper * wheel.springSpeed;                                              //Get magnitude of force applied by spring damper (drag and inefficiency of suspension)
-                    Vector2 suspensionForce = transform.up * (suspensionMagnitude + dragMagnitude);                      //Get directional force to apply to rigidbody
-                    r.AddForceAtPosition(suspensionForce, wheel.transform.position, ForceMode2D.Force);                  //Apply total spring forces to rigidbody at position of wheel
-
-                    //Terrain interaction behaviors:
-                    Vector2 wheelDirection = Vector2.Perpendicular(wheel.lastGroundHit.normal); //Get direction wheel is applying force in
-                    if (wheel.lastGroundHit.collider != null) //Wheel has valid information about hit ground
-                    {
-                        //Apply drive torque:
-                        Vector2 wheelAccel = Vector3.Project(baseWheelAccel, wheelDirection); //Project base acceleration onto vector representing direction wheel is capable of producing force in (depends on ground angle)
-                        wheelAccel /= (wheels.Length - extraWheels);                          //Divide wheel acceleration value by number of main wheels so that tank is most stable when all wheels are on the ground
-                        Debug.DrawRay(wheel.lastGroundHit.point, wheelAccel);
-                        r.AddForceAtPosition(wheelAccel, wheel.lastGroundHit.point, ForceMode2D.Force); //Apply wheel traction to system
-                        
-                        //Apply wheel stickiness:
-                        if (!wheel.nonStick && wheel.springSpeed < 0) //Wheel appears to be leaving the ground (negative spring speed indicates that spring is decompressing)
-                        {
-                            float stickForce = wheelStickiness * -wheel.springSpeed * (1 - wheel.compressionValue);                       //Determine stick force based on setting and velocity of wheel decompression
-                            stickForce *= wheelStickCompressionCurve.Evaluate(wheel.compressionValue);                                    //Modify stick force based on how compressed wheel is (prevents nasty behavior which artificially compresses tank)
-                            r.AddForceAtPosition(-wheel.lastGroundHit.normal * stickForce, wheel.lastGroundHit.point, ForceMode2D.Force); //Apply downward stick force on tank at position of wheel (based on direction of wheel contact with ground)
-                            Debug.DrawRay(wheel.lastGroundHit.point, -transform.up * stickForce, Color.yellow);
-                        }
-                    }
-                }
-            }
-            */
+            //NOTE: EVERYTHING below needs a revision pass
 
             //Add air drag:
             float actualAirDrag = baseAirDragForce * Time.fixedDeltaTime * r.velocity.x; //Calculate air drag based on given value and horizontal speed of tank
             r.AddTorque(actualAirDrag, ForceMode2D.Force);                               //Apply force as torque to tread system rigidbody (tilting it away from direction of motion)
 
             //Add angular drag:
-            groundedWheels = Mathf.Min(groundedWheels, wheels.Length - extraWheels);              //Cap grounded wheels in case extras would push number over calculated maximum
-            r.angularDrag = maxAngularDrag * Mathf.Min((float)groundedWheels / wheels.Length, 1); //Make angular drag proportional to number of grounded (non-extra) wheels
+            //NOTE: REWORK THIS
+            //groundedWheels = Mathf.Min(groundedWheels, wheels.Length);                            //Cap grounded wheels in case extras would push number over calculated maximum
+            //r.angularDrag = maxAngularDrag * Mathf.Min((float)groundedWheels / wheels.Length, 1); //Make angular drag proportional to number of grounded (non-extra) wheels
 
             //Prevent tipping:
             if (r.rotation > maxTipAngle - tipAngleBufferZone || r.rotation < (maxTipAngle - tipAngleBufferZone)) //Tank is getting close to tipping over
@@ -420,8 +296,8 @@ namespace TowerTanks.Scripts
             }
             treads = newTreads.ToArray(); //Commit generated list to array
 
-            //Set health
-            treadHealth = treadMaxHealth;
+            //Get starting variables:
+            treadHealth = treadMaxHealth; //Set up tread health
         }
 
         /// <summary>
@@ -435,51 +311,15 @@ namespace TowerTanks.Scripts
         }
 
         /// <summary>
-        /// Creates an Impact Event on this tread system which physically affects it based on given preset properties and characteristics of hit.
+        /// Damages treads with given projectile and assigns impact value.
         /// </summary>
-        /// <param name="properties">Preset values determining how the hit affects the tank</param>
-        /// <param name="velocity">Speed and direction of incoming projectile.</param>
-        /// <param name="point">Point of impact on this tank (in world space).</param>
-        public void HandleImpact(ImpactProperties properties, Vector2 velocity, Vector2 point)
-        {
-            ImpactEvent newImpact = new ImpactEvent(this, properties, velocity.normalized, transform.InverseTransformPoint(point)); //Create an impact event with information from this hit
-            activeImpacts.Add(newImpact);                                                                                           //Add generated event to handler list
-        }
-        //HANDLEIMPACT will replace APPLYFORCE
-        public void ApplyForce(Vector2 position, float force, float stunTime)
-        {
-            Vector2 _force = Vector2.right * force;
-            //r.AddTorque(force, ForceMode2D.Impulse);
-            r.AddForce(_force, ForceMode2D.Impulse);
-            //r.AddForceAtPosition(position, _force * 0.1f, ForceMode2D.Impulse);
-        }
-
-        private void UpdateHealth()
-        {
-            if (treadHealth < treadMaxHealth)
-            {
-                treadHealth += healthRegenRate * Time.fixedDeltaTime;
-
-                if (treadHealth >= unjamHealthThreshold)
-                {
-                    if (isJammed) isJammed = false;
-                }
-
-                if (treadHealth >= treadMaxHealth)
-                {
-                    treadHealth = treadMaxHealth;
-                }
-            }
-        }
+        /// <param name="projectile">Projectile damaging the treadsystem.</param>
+        /// <param name="position">Position on treadsystem which projectile is striking.</param>
+        /// <returns>Remaining damage after projectile damage is assigned (used for tunneling)</returns>
         public float Damage(Projectile projectile, Vector2 position)
         {
-            //Handle impact:
-            if (projectile.impactProperties != null) //Projectile has useable impact properties
-            {
-                HandleImpact(projectile.impactProperties, projectile.velocity, position); //Begin impact event based on position of projectile relative to treads
-            }
-
-            //Handle damage:
+            //Handle projectile effects:
+            HandleImpact(projectile, position); //Handle impact from projectile
             Damage(projectile.remainingDamage); //Assign damage to treads
 
             //Other effects:
@@ -490,14 +330,40 @@ namespace TowerTanks.Scripts
         }
         public void Damage(float damage)
         {
-            treadHealth -= damage;
+            treadHealth -= damage; //Reduce tread health
 
-            //Check for Jam
-            if (treadHealth <= 0)
+            //Check jam:
+            if (treadHealth <= 0) //Tread health has fallen below zero
             {
-                treadHealth = 0;
-                Jam();
+                treadHealth = 0; //Clamp tread health to zero
+                Jam();           //Jam treads
             }
+        }
+
+        /// <summary>
+        /// Processes physical impact force from given projectile.
+        /// </summary>
+        /// <param name="projectile">Projectile doing the impact.</param>
+        /// <param name="point">Point of impact.</param>
+        public void HandleImpact(Projectile projectile, Vector2 point)
+        {
+            //Handle initial impact:
+            Vector2 relativeVelocity = projectile.velocity - r.GetPointVelocity(point); //Get difference in velocity between projectile and tread system at point of impact
+            Vector2 impactForce = projectile.hitProperties.mass * relativeVelocity;     //Get impact force as result of mass times (relative) velocity
+            HandleImpact(impactForce, point);                                           //Pass to basic impact handler
+
+            //Handle extra slam force:
+            Vector2 slamImpactForce = relativeVelocity * projectile.hitProperties.slamForce; //Get additional impact force used to push tanks around (for gameplay reasons)
+            r.AddForce(slamImpactForce, ForceMode2D.Force);                                  //Add force to rigidbody without inducing torque
+        }
+        /// <summary>
+        /// Processes physical impact force from a generic source.
+        /// </summary>
+        /// <param name="force">Direction and magnitude of force.</param>
+        /// <param name="point">Point (in world space) on tank at which force is being applied.</param>
+        public void HandleImpact(Vector2 force, Vector2 point)
+        {
+            r.AddForceAtPosition(force, point, ForceMode2D.Force); //Apply force to rigidbody
         }
 
         public void Jam()
@@ -506,38 +372,6 @@ namespace TowerTanks.Scripts
             {
                 isJammed = true;
                 GameManager.Instance.AudioManager.Play("EngineDyingSFX", this.gameObject);
-            }
-        }
-
-        private void JamEffects()
-        {
-            jamEffectTimer -= Time.fixedDeltaTime;
-
-            if (jamEffectTimer <= 0)
-            {
-                //Randomize Position
-                float randomX = Random.Range(-3f, 3f);
-                float randomY = Random.Range(-0.7f, 0f);
-
-                Vector2 randomPos = new Vector2(transform.position.x + randomX, transform.position.y + randomY);
-
-                //Spark Particle
-                float particleScale = Random.Range(0.05f, 0.1f);
-                GameObject particle = GameManager.Instance.ParticleSpawner.SpawnParticle(14, randomPos, particleScale, transform);
-
-                //Smoke Particle
-                GameManager.Instance.ParticleSpawner.SpawnParticle(3, randomPos, particleScale, null);
-
-                //Randomize Rotation
-                float randomRot = Random.Range(0f, 360f);
-                Quaternion newRot = Quaternion.Euler(0, 0, randomRot);
-                particle.transform.rotation = newRot;
-
-                //Randomize Interval between Sparks
-                float randomTimer = Random.Range(0.1f, 0.5f);
-                jamEffectTimer = randomTimer;
-
-                //TODO: Sparking Sound Effect here
             }
         }
 
@@ -565,6 +399,21 @@ namespace TowerTanks.Scripts
             totalWeight = cellCount * 100f;
             avgCellPos /= cellCount;        //Get average position of cells
             //r.centerOfMass = new Vector2(Mathf.Clamp(avgCellPos.x, -COGWidth / 2, COGWidth / 2), COGHeight); //Constrain center mass to line segment controlled in settings (for tank handling reliability)
+        }
+        /// <summary>
+        /// Calculates cumulative torque of base engine plus additional torque from each boiler.
+        /// </summary>
+        /// <returns></returns>
+        private float GetEnginePower()
+        {
+            float totalEnginePower = baseEnginePower;                                                //Start value with base power of tread engine
+            EngineController[] engines = tankController.GetComponentsInChildren<EngineController>(); //Get array of all engines in tank
+            foreach(EngineController engine in engines) //Iterate through engine array
+            {
+                totalEnginePower += engine.power * boilerPowerAdd;          //Add power proportional to how stoked boiler is
+                if (engine.isSurging) totalEnginePower += boilerSurgePower; //Add more power if boiler is surging
+            }
+            return totalEnginePower; //Return calculated engine power
         }
         /*
         public void CalculateSpeed()

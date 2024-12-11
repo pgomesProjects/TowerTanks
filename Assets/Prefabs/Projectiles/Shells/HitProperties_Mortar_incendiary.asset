@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: HitProperties_Mortar_incendiary
   m_EditorClassIdentifier: 
   damage: 50
+  mass: 1
   hasSplashDamage: 1
   splashData:
   - splashDamage: 25
     splashRadius: 2.5
   tunnels: 0
   fireChance: 1
-  copyTarget: {fileID: 2446699370988271855, guid: b442068e42cdd1248879a0fdf7930b2e, type: 3}
+  ignoresArmor: 0

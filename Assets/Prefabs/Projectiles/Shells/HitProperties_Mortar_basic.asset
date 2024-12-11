@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: HitProperties_Mortar_basic
   m_EditorClassIdentifier: 
   damage: 100
+  mass: 1
   hasSplashDamage: 1
   splashData:
   - splashDamage: 75
@@ -21,4 +22,4 @@ MonoBehaviour:
     splashRadius: 2
   tunnels: 0
   fireChance: 0.02
-  copyTarget: {fileID: 8367798314348147069, guid: d44124302ce9eb347aab35655450f0ab, type: 3}
+  ignoresArmor: 0

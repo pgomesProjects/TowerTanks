@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: HitProperties_Mine_basic
   m_EditorClassIdentifier: 
   damage: 200
+  mass: 1
   hasSplashDamage: 1
   splashData:
   - splashDamage: 200
@@ -21,4 +22,4 @@ MonoBehaviour:
     splashRadius: 2.5
   tunnels: 0
   fireChance: 0.05
-  copyTarget: {fileID: 2880273055600732949, guid: 38c534f27b881694b81cbcead9c56314, type: 3}
+  ignoresArmor: 0
