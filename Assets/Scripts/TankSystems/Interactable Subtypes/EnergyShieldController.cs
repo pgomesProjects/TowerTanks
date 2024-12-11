@@ -100,11 +100,11 @@ namespace TowerTanks.Scripts
         public void Damage(float damage)
         {
             shieldHealth -= damage;
-
+            shieldStunTimer = shieldStunTime;
             if (shieldHealth < 0)
             {
                 shieldHealth = 0;
-                if (!shieldDisabled) DisableShield(4f);
+                if (!shieldDisabled) DisableShield(6f);
             }
         }
 
