@@ -1803,6 +1803,7 @@ MonoBehaviour:
   COGHeight: -0.31
   COGWidth: 3.5
   totalWeight: 2200
+  maximumRelativeImpactHeight: 7
   gearPositions: 5
   baseEnginePower: 0
   boilerPowerAdd: 0
@@ -1919,6 +1920,7 @@ MonoBehaviour:
   maxTipAngle: 45
   tipAngleBufferZone: 10
   tipPreventionForce: 50
+  defaultCollisionImpact: 10
   rammingSpeed: 10
   treadMaxHealth: 200
   healthRegenRate: 10
