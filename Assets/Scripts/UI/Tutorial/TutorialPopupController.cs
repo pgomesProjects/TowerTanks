@@ -37,6 +37,10 @@ namespace TowerTanks.Scripts
             playerControls?.Disable();
         }
 
+        /// <summary>
+        /// Starts a tutorial using information provided.
+        /// </summary>
+        /// <param name="newTutorial">The tutorial information.</param>
         public void StartTutorial(TutorialPopupSettings newTutorial)
         {
             currentTutorial = newTutorial;
@@ -45,9 +49,11 @@ namespace TowerTanks.Scripts
 
         private void ActivateTutorial()
         {
+            //If there is no tutorial, return
             if (currentTutorial == null)
                 return;
 
+            //If there are no pages in the tutorial, also return
             isTutorialActive = currentTutorial.tutorialPages.Length > 0;
             GameManager.Instance.tutorialWindowActive = isTutorialActive;
             if (!isTutorialActive)
@@ -58,6 +64,8 @@ namespace TowerTanks.Scripts
 
             if(!GameManager.Instance.InGameMenu)
                 Time.timeScale = 0f;
+
+            //Set active and show the first page
             gameObject.SetActive(true);
             ShowTutorialPage(0);
         }
@@ -70,17 +78,21 @@ namespace TowerTanks.Scripts
             Destroy(gameObject);
         }
 
+        /// <summary>
+        /// Show one of the pages of the stored tutorial.
+        /// </summary>
+        /// <param name="pageNumber">The page number to show from the stored tutorial.</param>
         private void ShowTutorialPage(int pageNumber)
         {
+            //Clamp the page number to ensure that it does not go out of bounds
             currentPageNumber = Mathf.Clamp(pageNumber, 0, currentTutorial.tutorialPages.Length - 1);
-
-            Debug.Log("Showing Page " + currentPageNumber);
 
             bool isLastPage = currentPageNumber >= currentTutorial.tutorialPages.Length - 1;
             bool isFirstPage = currentPageNumber <= 0 && !isLastPage;
 
             Sprite tutorialSprite = currentTutorial.tutorialPages[currentPageNumber].tutorialImage;
 
+            //If there is no tutorial sprite, hide the image
             if(tutorialSprite == null)
                 tutorialImage.color = new Color(1, 1, 1, 0);
             else
@@ -89,16 +101,21 @@ namespace TowerTanks.Scripts
                 tutorialImage.sprite = tutorialSprite;
             }
 
+            //Display the stored tutorial text
             tutorialText.text = currentTutorial.tutorialPages[currentPageNumber].tutorialText;
 
+            //Show "Close" or "Continue" based on whether the current page is the last one or not
             advanceTutorialText.text = isLastPage ? "Close" : "Continue";
             canEndTutorial = isLastPage;
         }
 
         private void AdvanceTutorial()
         {
+            //If the tutorial can be ended, end it
             if (canEndTutorial)
                 DeactivateTutorial();
+
+            //If not, go to the next page
             else
                 ShowTutorialPage(currentPageNumber + 1);
         }
