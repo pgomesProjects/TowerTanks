@@ -10,19 +10,25 @@ namespace TowerTanks.Scripts
     {
         [SerializeField, Tooltip("The tutorial image component.")] private Image tutorialImage;
         [SerializeField, Tooltip("The tutorial text component.")] private TextMeshProUGUI tutorialText;
-        [SerializeField, Tooltip("The tutorial text component.")] private TextMeshProUGUI advanceTutorialText;
+        [SerializeField, Tooltip("The advance tutorial component.")] private TextMeshProUGUI advanceTutorialText;
+        [SerializeField, Tooltip("The advance tutorial task bar.")] private TaskProgressBar advanceTaskBar;
+        [SerializeField, Tooltip("The duration to hold the advance button for.")] private float advanceTutorialDuration;
         [SerializeField, Tooltip("The current tutorial settings to display.")] private TutorialPopupSettings currentTutorial;
 
         private bool isTutorialActive;
         private bool canEndTutorial;
         private int currentPageNumber;
 
+        private bool isTutorialAdvanceStarted;
+        private float currentAdvanceTimer;
+
         private PlayerControlSystem playerControls;
 
         private void Awake()
         {
             playerControls = new PlayerControlSystem();
-            playerControls.Player.AdvanceTutorialText.performed += _ => AdvanceTutorial();
+            playerControls.Player.AdvanceTutorialText.started += _ => StartAdvance();
+            playerControls.Player.AdvanceTutorialText.canceled += _ => CancelAdvance();
 
             ActivateTutorial();
         }
@@ -55,25 +61,26 @@ namespace TowerTanks.Scripts
 
             //If there are no pages in the tutorial, also return
             isTutorialActive = currentTutorial.tutorialPages.Length > 0;
+
+            if (!GameManager.Instance.InGameMenu && isTutorialActive)
+                Time.timeScale = 0f;
             GameManager.Instance.tutorialWindowActive = isTutorialActive;
+
             if (!isTutorialActive)
             {
                 gameObject.SetActive(false);
                 return;
             }
 
-            if(!GameManager.Instance.InGameMenu)
-                Time.timeScale = 0f;
-
             //Set active and show the first page
             gameObject.SetActive(true);
+            advanceTaskBar.gameObject.SetActive(false);
             ShowTutorialPage(0);
         }
 
         private void DeactivateTutorial()
         {
-            if (!GameManager.Instance.InGameMenu)
-                Time.timeScale = 1f;
+            Time.timeScale = 1f;
             GameManager.Instance.tutorialWindowActive = false;
             Destroy(gameObject);
         }
@@ -109,6 +116,16 @@ namespace TowerTanks.Scripts
             canEndTutorial = isLastPage;
         }
 
+        private void StartAdvance()
+        {
+            if (isTutorialAdvanceStarted)
+                return;
+
+            isTutorialAdvanceStarted = true;
+            currentAdvanceTimer = 0f;
+            advanceTaskBar.gameObject.SetActive(true);
+        }
+
         private void AdvanceTutorial()
         {
             //If the tutorial can be ended, end it
@@ -118,6 +135,36 @@ namespace TowerTanks.Scripts
             //If not, go to the next page
             else
                 ShowTutorialPage(currentPageNumber + 1);
+
+            isTutorialAdvanceStarted = false;
+            currentAdvanceTimer = 0f;
+            advanceTaskBar.gameObject.SetActive(false);
+        }
+
+        private void CancelAdvance()
+        {
+            if (!isTutorialAdvanceStarted)
+                return;
+
+            isTutorialAdvanceStarted = false;
+            currentAdvanceTimer = 0f;
+            advanceTaskBar.gameObject.SetActive(false);
+        }
+
+        private void Update()
+        {
+            if (isTutorialAdvanceStarted)
+            {
+                currentAdvanceTimer += Time.unscaledDeltaTime;
+
+                //If the timer has been hit, advance to the next tutorial
+                if (currentAdvanceTimer >= advanceTutorialDuration)
+                    AdvanceTutorial();
+
+                //Otherwise, show the task bar updating
+                else
+                    advanceTaskBar.UpdateProgressValue(currentAdvanceTimer / advanceTutorialDuration);
+            }
         }
     }
 }

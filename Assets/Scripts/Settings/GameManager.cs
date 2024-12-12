@@ -49,7 +49,7 @@ namespace TowerTanks.Scripts
         public bool inDebugMenu;
         public bool InGameMenu
         {
-            get { return isPaused || inBugReportMenu || inDebugMenu; }
+            get { return isPaused || inBugReportMenu || inDebugMenu || tutorialWindowActive; }
         }
 
         //Global Static Variables
