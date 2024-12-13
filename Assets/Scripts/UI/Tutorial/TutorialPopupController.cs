@@ -8,6 +8,7 @@ namespace TowerTanks.Scripts
 {
     public class TutorialPopupController : MonoBehaviour
     {
+        [SerializeField, Tooltip("The tutorial header component.")] private TextMeshProUGUI tutorialHeader;
         [SerializeField, Tooltip("The tutorial image component.")] private Image tutorialImage;
         [SerializeField, Tooltip("The tutorial text component.")] private TextMeshProUGUI tutorialText;
         [SerializeField, Tooltip("The advance tutorial component.")] private TextMeshProUGUI advanceTutorialText;
@@ -75,6 +76,7 @@ namespace TowerTanks.Scripts
             //Set active and show the first page
             gameObject.SetActive(true);
             advanceTaskBar.gameObject.SetActive(false);
+            tutorialHeader.text = currentTutorial.header;
             ShowTutorialPage(0);
         }
 

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbf9a243000ae4742a753411665e3bc0, type: 3}
   m_Name: TestTutorial
   m_EditorClassIdentifier: 
+  header: Testing The Tutorial
   tutorialPages:
   - tutorialImage: {fileID: 0}
     tutorialText: This is an example tutorial!
