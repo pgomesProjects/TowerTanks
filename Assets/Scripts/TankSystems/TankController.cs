@@ -108,12 +108,12 @@ namespace TowerTanks.Scripts
 
         private void AddEngine()
         {
-            treadSystem.horsePower += 100;
+            
 
         }
         private void LoseEngine()
         {
-            treadSystem.horsePower -= 100;
+
         }
 
         [PropertySpace]
@@ -376,7 +376,6 @@ namespace TowerTanks.Scripts
 
             //Debug 
             gear = treadSystem.gear;
-            horsePower = treadSystem.horsePower;
         }
 
         private void FixedUpdate()
