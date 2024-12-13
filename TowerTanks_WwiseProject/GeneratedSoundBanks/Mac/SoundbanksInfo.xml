@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{7A24687E-57A7-5E16-CB82-E5A3F0D8CF87}">
+		<SoundBank Id="1355168291" Type="User" Language="SFX" Hash="{8D27EF92-B903-B5B8-5F6B-4ECE7AB9E60B}">
 			<ShortName>Init</ShortName>
 			<Path>Init.bnk</Path>
 			<Plugins>
@@ -34,7 +34,7 @@
 				<GameParameter Id="4287925136" Name="CombatLayer2Volume"/>
 			</GameParameters>
 		</SoundBank>
-		<SoundBank Id="2880737896" Type="User" Language="SFX" Hash="{A93582E8-8957-7D35-6764-4337BC66BDFD}">
+		<SoundBank Id="2880737896" Type="User" Language="SFX" Hash="{EA926C83-E785-B595-1900-6726A93B452B}">
 			<ShortName>mainbank</ShortName>
 			<Path>mainbank.bnk</Path>
 			<Media>
@@ -643,5 +643,5 @@
 			</GameParameters>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{7538825A-0691-5A26-FB61-BE71A8D8321C}</FileHash>
+	<FileHash>{F28DDAE4-D5C2-CC45-B801-A9B27327B8A1}</FileHash>
 </SoundBanksInfo>
