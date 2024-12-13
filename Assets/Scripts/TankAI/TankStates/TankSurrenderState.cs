@@ -17,7 +17,7 @@ namespace TowerTanks.Scripts
 
         public void OnEnter()
         {
-            _tank.SetTankGear(0, .15f); //stop moving
+            _tank.SetTankGearOverTime(0, .15f); //stop moving
             _tank.surrenderFlag.SetActive(true);
             _tank.tankFlag.SetActive(false);
             _tank.MakeFragile();
