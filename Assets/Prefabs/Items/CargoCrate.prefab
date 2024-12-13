@@ -322,7 +322,8 @@ MonoBehaviour:
   cargoID: Scrap Crate
   type: 0
   contents: []
-  amount: 0
+  amount: 25
+  ignoreInit: 0
   isOnTank: 0
   onTankMask:
     serializedVersion: 2

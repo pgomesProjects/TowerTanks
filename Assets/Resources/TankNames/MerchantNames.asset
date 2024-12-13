@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed3fed9d4c8accc41a6d5925e69ee2b6, type: 3}
+  m_Name: MerchantNames
+  m_EditorClassIdentifier: 
+  articles:
+  - The
+  - El
+  - SS
+  adjectives:
+  - Silver
+  - Golden
+  - Double-Decker
+  - Traveling
+  - Dodgy
+  - Clever
+  - Honest
+  - Poor-Man's
+  - Rich-Man's
+  - Average-Man's
+  - Frugal
+  - Thrifty
+  - General
+  - Grubby
+  - Painted
+  - Wartime
+  - Risky
+  - Stingy
+  - Lost
+  - Battlefield
+  nouns:
+  - Trader
+  - Merchant
+  - Dealer
+  - Swindler
+  - Bargain
+  - Broker
+  - Supplier
+  - Hoarder
+  - Peddler
+  - Trolley
+  - Carrier
+  - Freighter
+  - Ferry
+  - Manifest
+  - Mule
+  - Trucker
+  - Scrounger
+  - Porter
+  - Vendor
+  - Hustler

@@ -415,7 +415,7 @@ namespace TowerTanks.Scripts.Deprecated
 
         protected virtual void AddToList()
         {
-            LevelManager.Instance.currentSessionStats.normalTanksDefeated += 1;
+            //LevelManager.Instance.currentSessionStats.normalTanksDefeated += 1;
         }
 
         IEnumerator CollideWithPlayerAni(float collideVelocity, float seconds)
@@ -479,7 +479,7 @@ namespace TowerTanks.Scripts.Deprecated
         {
             //Debug.Log("Enemy Tank Is Destroyed!");
             LevelManager.Instance.UpdateResources(onDestroyResources);
-            LevelManager.Instance.currentSessionStats.wavesCleared += 1;
+            //LevelManager.Instance.currentSessionStats.wavesCleared += 1;
 
             CameraEventController.Instance.ResetCameraShake();
             LevelManager.Instance.ResetPlayerCamera();

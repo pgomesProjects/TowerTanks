@@ -1807,6 +1807,401 @@
 								</Sound>
 							</ChildrenList>
 						</RandomSequenceContainer>
+						<RandomSequenceContainer Name="TT_SFX_machine_gun_fire" ID="{151F9BD6-5C40-4836-AC2E-2F9847D2C5A8}" ShortID="14474389">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="TT_SFX_machine_gun_fire_1" ID="{50EC8B33-249E-4D08-A756-D975A099EA09}" ShortID="359596286">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="MachineGun GUNS01_89_2" ID="{E8C82E7E-0918-446F-812E-3EAF8364DF37}">
+											<PropertyList>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="0.138456388844846"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>MachineGun GUNS01_89_2.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="920263717"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="MachineGun GUNS01_89_2" ID="{E8C82E7E-0918-446F-812E-3EAF8364DF37}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{92C0C15F-DAB2-4C36-9AA5-C757DE34E142}" ShortID="110106355">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Pitch"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="SFXPitch" ID="{98C5051B-342F-4E28-AF5E-ABE51B369CA2}" WorkUnitID="{176DD27F-5704-4BF6-9C40-75E46D49E907}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{2CFEB62F-4C3E-4DB7-82D5-1AF81513B920}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="65537"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-1000</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>2</XPos>
+																		<YPos>1000</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+						</RandomSequenceContainer>
+						<RandomSequenceContainer Name="TT_SFX_bullet_impact_dirt" ID="{FFE82E7D-2D18-4472-A8A0-4A5A222B4245}" ShortID="246192117">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="TT_SFX_bullet_impact_dirt" ID="{861B9ECD-AA2E-420E-9F33-690897CCDAB0}" ShortID="877701559">
+									<PropertyList>
+										<Property Name="Weight" Type="Real64">
+											<ValueList>
+												<Value>60</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="GUN-RICOCHET_GEN-HDF-13674" ID="{F2511782-991D-4E78-A771-91E57B1B000C}">
+											<PropertyList>
+												<Property Name="FadeOutDuration" Type="Real64" Value="0.240465695712247"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="0.0857604928763958"/>
+												<Property Name="TrimEnd" Type="Real64" Value="0.380036693922852"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>GUN-RICOCHET_GEN-HDF-13674.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="421337450"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="GUN-RICOCHET_GEN-HDF-13674" ID="{F2511782-991D-4E78-A771-91E57B1B000C}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="TT_SFX_bullet_impact_dirt_01" ID="{AA8B7B62-DDD0-4668-A65B-A9DDA420669B}" ShortID="997824133">
+									<PropertyList>
+										<Property Name="Weight" Type="Real64">
+											<ValueList>
+												<Value>30</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="GUN-RICOCHET_GEN-HDF-13674" ID="{078CB681-CEE7-4B7F-99CC-239EA93F8ECA}">
+											<PropertyList>
+												<Property Name="FadeOutDuration" Type="Real64" Value="0.240465695712247"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="0.339678814922194"/>
+												<Property Name="TrimEnd" Type="Real64" Value="0.588552402092912"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>GUN-RICOCHET_GEN-HDF-13674.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="1067390579"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="GUN-RICOCHET_GEN-HDF-13674" ID="{078CB681-CEE7-4B7F-99CC-239EA93F8ECA}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="TT_SFX_bullet_impact_dirt_02" ID="{6A199478-6E68-458E-92CB-B098D0DF38D4}" ShortID="578737991">
+									<PropertyList>
+										<Property Name="Weight" Type="Real64">
+											<ValueList>
+												<Value>40</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="GUN-RICOCHET_GEN-HDF-13674" ID="{742C950A-2653-474C-886C-ED8107C81944}">
+											<PropertyList>
+												<Property Name="FadeOutDuration" Type="Real64" Value="0.238784117420553"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="0.528015583591927"/>
+												<Property Name="TrimEnd" Type="Real64" Value="0.770162857595868"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>GUN-RICOCHET_GEN-HDF-13674.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="542757787"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="GUN-RICOCHET_GEN-HDF-13674" ID="{742C950A-2653-474C-886C-ED8107C81944}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="TT_SFX_bullet_impact_dirt_03" ID="{BC74261C-66ED-4BB4-97F7-1B058EA50F9F}" ShortID="1034240328">
+									<PropertyList>
+										<Property Name="Weight" Type="Real64">
+											<ValueList>
+												<Value>30</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="GUN-RICOCHET_GEN-HDF-13674" ID="{F6B0CF15-9B64-4DB8-80FA-AAAE5892F291}">
+											<PropertyList>
+												<Property Name="FadeOutDuration" Type="Real64" Value="0.238784117420553"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="0.719715508845047"/>
+												<Property Name="TrimEnd" Type="Real64" Value="1.38730209064758"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>GUN-RICOCHET_GEN-HDF-13674.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="341912688"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="GUN-RICOCHET_GEN-HDF-13674" ID="{F6B0CF15-9B64-4DB8-80FA-AAAE5892F291}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+						<RandomSequenceContainer Name="TT_SFX_bullet_impact" ID="{AFFE189C-C83B-4613-B8CF-72F058DDEDC5}" ShortID="456873651">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="TT_SFX_bullet_impact" ID="{DF5FE84C-B39A-4AFB-8D25-DBB3D8A64C83}" ShortID="224470534">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="GUN-BULLET_GEN-HDF-13225" ID="{4446A423-3426-4CFF-B4F9-0A11977A22F1}">
+											<PropertyList>
+												<Property Name="FadeOutDuration" Type="Real64" Value="0.0324718566671952"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="0.0633201205010306"/>
+												<Property Name="TrimEnd" Type="Real64" Value="0.259774853337561"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>GUN-BULLET_GEN-HDF-13225.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="264891926"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="GUN-BULLET_GEN-HDF-13225" ID="{4446A423-3426-4CFF-B4F9-0A11977A22F1}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="TT_SFX_bullet_impact_01" ID="{ABB1CB0A-EACC-4DF7-BD4F-FEDEFADB552D}" ShortID="297150097">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="GUN-BULLET_GEN-HDF-13225" ID="{A743E13C-450F-498C-B67E-548D3F93BE26}">
+											<PropertyList>
+												<Property Name="FadeOutDuration" Type="Real64" Value="0.0324718566671952"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="0.256527667670842"/>
+												<Property Name="TrimEnd" Type="Real64" Value="0.431875693673697"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>GUN-BULLET_GEN-HDF-13225.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="466320299"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="GUN-BULLET_GEN-HDF-13225" ID="{A743E13C-450F-498C-B67E-548D3F93BE26}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="TT_SFX_bullet_impact_02" ID="{CB41AA0E-A165-497C-A411-EAAD35C04B7A}" ShortID="528902176">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="GUN-BULLET_GEN-HDF-13225" ID="{B59D30A3-2673-4A36-9C46-01A9A8811303}">
+											<PropertyList>
+												<Property Name="FadeOutDuration" Type="Real64" Value="0.0324718566671952"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="0.401027429839861"/>
+												<Property Name="TrimEnd" Type="Real64" Value="0.54228000634216"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>GUN-BULLET_GEN-HDF-13225.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="476931074"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="GUN-BULLET_GEN-HDF-13225" ID="{B59D30A3-2673-4A36-9C46-01A9A8811303}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="TT_SFX_bullet_impact_03" ID="{6B2413D0-791F-4F54-8E3C-597AC4DE2E17}" ShortID="255781024">
+									<PropertyList>
+										<Property Name="Weight" Type="Real64">
+											<ValueList>
+												<Value>30</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="GUN-BULLET_GEN-HDF-13225" ID="{0814190F-781F-4AA4-AACC-DCD03FE0D1B2}">
+											<PropertyList>
+												<Property Name="FadeOutDuration" Type="Real64" Value="0.0324718566671952"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="0.511431742508324"/>
+												<Property Name="TrimEnd" Type="Real64" Value="0.8069256381798"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>GUN-BULLET_GEN-HDF-13225.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="508593160"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="GUN-BULLET_GEN-HDF-13225" ID="{0814190F-781F-4AA4-AACC-DCD03FE0D1B2}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="TT_SFX_bullet_impact_04" ID="{6D96A32E-0664-4B9B-A52F-3A312E8EFA4E}" ShortID="936312498">
+									<PropertyList>
+										<Property Name="Weight" Type="Real64">
+											<ValueList>
+												<Value>30</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="GUN-BULLET_GEN-HDF-13225" ID="{1D979CCD-166D-4DCC-AFA5-C35554BBB4E2}">
+											<PropertyList>
+												<Property Name="FadeOutDuration" Type="Real64" Value="0.126640241002061"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="0.766335817345806"/>
+												<Property Name="TrimEnd" Type="Real64" Value="1.14950372601871"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>GUN-BULLET_GEN-HDF-13225.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="841978207"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="GUN-BULLET_GEN-HDF-13225" ID="{1D979CCD-166D-4DCC-AFA5-C35554BBB4E2}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
 					</ChildrenList>
 				</Folder>
 				<Folder Name="BGM" ID="{2BE824B0-8D3F-4950-B4EF-7D37BEF8A834}" ShortID="185395347">

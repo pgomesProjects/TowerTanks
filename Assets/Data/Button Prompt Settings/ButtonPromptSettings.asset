@@ -17,114 +17,103 @@ MonoBehaviour:
     actionType: 0
     prompts:
     - platform: 0
-      spriteID: 0
-      promptSprite: {fileID: 0}
-      promptText: E
+      promptInfo: {fileID: 0}
     - platform: 1
-      spriteID: 2
-      promptSprite: {fileID: 2252440520486434370, guid: 3be263eccd052b043b80aac2816cea0a, type: 3}
-      promptText: 
+      promptInfo: {fileID: 11400000, guid: 51c6d8e3f9a858049b54ea6b7189ed02, type: 2}
     - platform: 2
-      spriteID: 29
-      promptSprite: {fileID: -3818525143661884025, guid: 3be263eccd052b043b80aac2816cea0a, type: 3}
-      promptText: 
+      promptInfo: {fileID: 11400000, guid: 83524a41dc5588547a56ae5090a7f8a1, type: 2}
     - platform: 3
-      spriteID: 58
-      promptSprite: {fileID: -6522860731689403654, guid: 3be263eccd052b043b80aac2816cea0a, type: 3}
-      promptText: 
+      promptInfo: {fileID: 0}
     - platform: 4
-      spriteID: 2
-      promptSprite: {fileID: 2252440520486434370, guid: 3be263eccd052b043b80aac2816cea0a, type: 3}
-      promptText: 
+      promptInfo: {fileID: 11400000, guid: 51c6d8e3f9a858049b54ea6b7189ed02, type: 2}
   - action: 1
     actionType: 1
     prompts:
     - platform: 0
-      spriteID: 0
-      promptSprite: {fileID: 0}
-      promptText: E
+      promptInfo: {fileID: 0}
     - platform: 1
-      spriteID: 2
-      promptSprite: {fileID: 2252440520486434370, guid: 3be263eccd052b043b80aac2816cea0a, type: 3}
-      promptText: 
+      promptInfo: {fileID: 11400000, guid: 0dd2d2f9f9f768f499a2a700bd3b6e93, type: 2}
     - platform: 2
-      spriteID: 29
-      promptSprite: {fileID: -3818525143661884025, guid: 3be263eccd052b043b80aac2816cea0a, type: 3}
-      promptText: 
+      promptInfo: {fileID: 11400000, guid: b765af2297be51e4d9168beaaba87ac7, type: 2}
     - platform: 3
-      spriteID: 58
-      promptSprite: {fileID: -6522860731689403654, guid: 3be263eccd052b043b80aac2816cea0a, type: 3}
-      promptText: 
+      promptInfo: {fileID: 0}
     - platform: 4
-      spriteID: 2
-      promptSprite: {fileID: 2252440520486434370, guid: 3be263eccd052b043b80aac2816cea0a, type: 3}
-      promptText: 
+      promptInfo: {fileID: 11400000, guid: 0dd2d2f9f9f768f499a2a700bd3b6e93, type: 2}
   - action: 2
     actionType: 0
     prompts:
     - platform: 0
-      spriteID: 0
-      promptSprite: {fileID: 0}
-      promptText: Q
+      promptInfo: {fileID: 0}
     - platform: 1
-      spriteID: 1
-      promptSprite: {fileID: -208170771454307529, guid: 3be263eccd052b043b80aac2816cea0a, type: 3}
-      promptText: 
+      promptInfo: {fileID: 11400000, guid: d699ad21a4d0ed343a2c33f44230645e, type: 2}
     - platform: 2
-      spriteID: 28
-      promptSprite: {fileID: 3767115126033403838, guid: 3be263eccd052b043b80aac2816cea0a, type: 3}
-      promptText: 
+      promptInfo: {fileID: 11400000, guid: 40b85dd048e72de448606913c508eefc, type: 2}
     - platform: 3
-      spriteID: 57
-      promptSprite: {fileID: 5359229241026341541, guid: 3be263eccd052b043b80aac2816cea0a, type: 3}
-      promptText: 
+      promptInfo: {fileID: 0}
     - platform: 4
-      spriteID: 1
-      promptSprite: {fileID: -208170771454307529, guid: 3be263eccd052b043b80aac2816cea0a, type: 3}
-      promptText: 
+      promptInfo: {fileID: 11400000, guid: d699ad21a4d0ed343a2c33f44230645e, type: 2}
   - action: 3
     actionType: 0
     prompts:
     - platform: 0
-      spriteID: 0
-      promptSprite: {fileID: 0}
-      promptText: Esc
+      promptInfo: {fileID: 0}
     - platform: 1
-      spriteID: 25
-      promptSprite: {fileID: -3359030758642227172, guid: 3be263eccd052b043b80aac2816cea0a, type: 3}
-      promptText: 
+      promptInfo: {fileID: 0}
     - platform: 2
-      spriteID: 52
-      promptSprite: {fileID: 5049171172273250765, guid: 3be263eccd052b043b80aac2816cea0a, type: 3}
-      promptText: 
+      promptInfo: {fileID: 0}
     - platform: 3
-      spriteID: 81
-      promptSprite: {fileID: 4503696486701536580, guid: 3be263eccd052b043b80aac2816cea0a, type: 3}
-      promptText: 
+      promptInfo: {fileID: 0}
     - platform: 4
-      spriteID: 25
-      promptSprite: {fileID: -3359030758642227172, guid: 3be263eccd052b043b80aac2816cea0a, type: 3}
-      promptText: 
+      promptInfo: {fileID: 0}
   - action: 4
     actionType: 1
     prompts:
     - platform: 0
-      spriteID: 0
-      promptSprite: {fileID: 0}
-      promptText: Space
+      promptInfo: {fileID: 0}
     - platform: 1
-      spriteID: 0
-      promptSprite: {fileID: -7783586629661608857, guid: 3be263eccd052b043b80aac2816cea0a, type: 3}
-      promptText: 
+      promptInfo: {fileID: 11400000, guid: 43ea819d0d3600f4fabb87135e8b2e4e, type: 2}
     - platform: 2
-      spriteID: 27
-      promptSprite: {fileID: -3741176193527025907, guid: 3be263eccd052b043b80aac2816cea0a, type: 3}
-      promptText: 
+      promptInfo: {fileID: 11400000, guid: 56288b07223172d4fafaae8f02aa8b7c, type: 2}
     - platform: 3
-      spriteID: 56
-      promptSprite: {fileID: 1173877334084943261, guid: 3be263eccd052b043b80aac2816cea0a, type: 3}
-      promptText: 
+      promptInfo: {fileID: 0}
     - platform: 4
-      spriteID: 0
-      promptSprite: {fileID: -7783586629661608857, guid: 3be263eccd052b043b80aac2816cea0a, type: 3}
-      promptText: 
+      promptInfo: {fileID: 11400000, guid: 43ea819d0d3600f4fabb87135e8b2e4e, type: 2}
+  - action: 6
+    actionType: 0
+    prompts:
+    - platform: 0
+      promptInfo: {fileID: 0}
+    - platform: 1
+      promptInfo: {fileID: 11400000, guid: 51c6d8e3f9a858049b54ea6b7189ed02, type: 2}
+    - platform: 2
+      promptInfo: {fileID: 11400000, guid: 83524a41dc5588547a56ae5090a7f8a1, type: 2}
+    - platform: 3
+      promptInfo: {fileID: 0}
+    - platform: 4
+      promptInfo: {fileID: 11400000, guid: 51c6d8e3f9a858049b54ea6b7189ed02, type: 2}
+  - action: 8
+    actionType: 0
+    prompts:
+    - platform: 0
+      promptInfo: {fileID: 0}
+    - platform: 1
+      promptInfo: {fileID: 11400000, guid: 51c6d8e3f9a858049b54ea6b7189ed02, type: 2}
+    - platform: 2
+      promptInfo: {fileID: 11400000, guid: 83524a41dc5588547a56ae5090a7f8a1, type: 2}
+    - platform: 3
+      promptInfo: {fileID: 0}
+    - platform: 4
+      promptInfo: {fileID: 11400000, guid: 51c6d8e3f9a858049b54ea6b7189ed02, type: 2}
+  - action: 9
+    actionType: 0
+    prompts:
+    - platform: 0
+      promptInfo: {fileID: 0}
+    - platform: 1
+      promptInfo: {fileID: 11400000, guid: 0dd2d2f9f9f768f499a2a700bd3b6e93, type: 2}
+    - platform: 2
+      promptInfo: {fileID: 11400000, guid: b765af2297be51e4d9168beaaba87ac7, type: 2}
+    - platform: 3
+      promptInfo: {fileID: 0}
+    - platform: 4
+      promptInfo: {fileID: 11400000, guid: 0dd2d2f9f9f768f499a2a700bd3b6e93, type: 2}

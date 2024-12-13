@@ -33,13 +33,13 @@ namespace TowerTanks.Scripts
 
         [Header("Charge Settings:")]
         public float maxChargeTime;
-        private float minChargeTime = 0f;
+        public float minChargeTime = 0f;
         public float chargeTimer = 0;
         private float targetChargeOffset = 0.2f;
         public float targetCharge;
         private float minTargetCharge = 0;
         private float maxTargetCharge = 0;
-        private bool chargeStarted;
+        public bool chargeStarted { get; private set; }
 
         TimingGauge currentGauge;
 
@@ -217,6 +217,14 @@ namespace TowerTanks.Scripts
                 StartCharge();
         }
 
+        public override void LockIn(GameObject playerID)
+        {
+            base.LockIn(playerID);
+
+            operatorID.GetCharacterHUD().SetButtonPrompt(GameAction.AddFuel, true);
+            operatorID.GetCharacterHUD().SetButtonPrompt(GameAction.ReleaseSteam, true);
+        }
+
         public override void CancelUse()
         {
             base.CancelUse();
@@ -226,13 +234,21 @@ namespace TowerTanks.Scripts
 
         public override void Exit(bool sameZone)
         {
-            base.Exit(sameZone);
-
             RemoveTimingGauge();
+            operatorID.GetCharacterHUD().SetButtonPrompt(GameAction.AddFuel, false);
+            operatorID.GetCharacterHUD().SetButtonPrompt(GameAction.ReleaseSteam, false);
+            base.Exit(sameZone);
         }
 
         public void StartCharge()
         {
+            //If there is no operator, just add pressure
+            if(operatorID == null)
+            {
+                AddPressure(25, false, false);
+                return;
+            }
+
             float random = Random.Range(minTargetCharge, maxTargetCharge);
             targetCharge = random;
 
@@ -243,6 +259,7 @@ namespace TowerTanks.Scripts
             float max = ((targetCharge + targetChargeOffset)) / maxChargeTime;
 
             currentGauge = GameManager.Instance.UIManager.AddTimingGauge(gameObject, new Vector2(0f, -0.56f), maxChargeTime, min, max, true);
+            operatorID?.GetCharacterHUD()?.SetButtonPrompt(GameAction.ReleaseSteam, false);
         }
 
         public void CheckCharge()
@@ -274,6 +291,7 @@ namespace TowerTanks.Scripts
                 //Ends the timing gauge and destroys it
                 currentGauge.EndTimingGauge();
                 currentGauge = null;
+                operatorID?.GetCharacterHUD()?.SetButtonPrompt(GameAction.ReleaseSteam, true);
             }
         }
 
@@ -329,6 +347,7 @@ namespace TowerTanks.Scripts
 
         public void UpdateUI()
         {
+            /*
             for (int i = 0; i < boilerSprites.Length; i++) {
                 boilerSprites[i].color = Color.Lerp(temperatureLowColor, temperatureHighColor, pressure / 100f);
             }
@@ -363,6 +382,7 @@ namespace TowerTanks.Scripts
                 }
                 danger.localScale = new Vector3(1f, 1f, 1f);
             }
+            */
 
             if (pressureBar != null)
             {

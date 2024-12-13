@@ -15,26 +15,56 @@ namespace TowerTanks.Scripts
 
         [PropertySpace]
         public List<EnemyTankDesign> enemyTankDesigns = new List<EnemyTankDesign>();
+        public List<EnemyTankDesign> merchantTankDesigns = new List<EnemyTankDesign>();
+
+        public List<Sprite> tankFlagSprites = new List<Sprite>();
 
         [PropertySpace]
         public List<TankId> tanks = new List<TankId>();
 
         [TabGroup("Runtime Actions")]
         [Button("Spawn New Tank", ButtonSizes.Small)]
-        public TankController SpawnTank(int tier = 1, bool spawnEnemy = true, bool spawnBuilt = false)
+        public TankController SpawnTank(int tier = 1, TankId.TankType typeToSpawn = TankId.TankType.NEUTRAL, bool spawnBuilt = false)
         {
             TankId newtank = new TankId();
 
-            if (spawnEnemy)
+            if (typeToSpawn == TankId.TankType.ENEMY)
             {
                 //TankNames nameType = Resources.Load<TankNames>("TankNames/PirateNames");
                 //newtank.TankName = new TankNameGenerator().GenerateRandomName(nameType);
                 newtank.gameObject = Instantiate(tankPrefab, tankSpawnPoint, false);
                 newtank.tankType = TankId.TankType.ENEMY;
+                newtank.tankBrain = newtank.gameObject.GetComponent<TankAI>();
+                
+                var aiSettings = LoadTankAISettings(tier);
+                if (aiSettings != null)
+                {
+                    newtank.tankBrain.aiSettings = aiSettings;
+                }
 
                 //Determine tank design
                 int random = Random.Range(0, 4);
                 newtank.design = enemyTankDesigns[tier - 1].designs[random];
+                newtank.TankName = newtank.design.name;
+                newtank.gameObject.name = newtank.TankName;
+
+                if (spawnBuilt)
+                {
+                    newtank.buildOnStart = true;
+                }
+                newtank.tankBrain.enabled = true;
+            }
+
+            if (typeToSpawn == TankId.TankType.NEUTRAL)
+            {
+                //TankNames nameType = Resources.Load<TankNames>("TankNames/PirateNames");
+                //newtank.TankName = new TankNameGenerator().GenerateRandomName(nameType);
+                newtank.gameObject = Instantiate(tankPrefab, tankSpawnPoint, false);
+                newtank.tankType = TankId.TankType.NEUTRAL;
+
+                //Determine tank design
+                //int random = Random.Range(0, 4);
+                newtank.design = merchantTankDesigns[0].designs[0];
                 newtank.TankName = newtank.design.name;
                 newtank.gameObject.name = newtank.TankName;
 
@@ -53,6 +83,11 @@ namespace TowerTanks.Scripts
             tanks.Add(newtank);
             return newtank.tankScript;
         }
+        
+        private TankAISettings LoadTankAISettings(int tier)
+        {
+            return Resources.Load<TankAISettings>($"TankAISettings/Tier {tier} AI Settings");
+        }
 
         //UNITY METHODS:
         private void Awake()
@@ -61,7 +96,7 @@ namespace TowerTanks.Scripts
             instance = this; //Singleton-ize this script
             if (tanks.Count > 0)
             {
-                playerTank = tanks.Where(tank => tank.tankType == TankId.TankType.PLAYER).FirstOrDefault()?.tankScript;
+                playerTank = tanks.FirstOrDefault(tank => tank.tankType == TankId.TankType.PLAYER)?.tankScript;
             }
         }
 

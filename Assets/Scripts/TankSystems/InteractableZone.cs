@@ -32,7 +32,9 @@ namespace TowerTanks.Scripts
                 {
                     interactable.LockIn(playerID);
                     players.Remove(playerID);
-                    playerID.GetComponent<PlayerMovement>().currentZone = null;
+                    PlayerMovement currentPlayer = playerID.GetComponent<PlayerMovement>();
+                    currentPlayer.currentZone = null;
+                    currentPlayer.GetCharacterHUD().SetButtonPrompt(GameAction.Interact, false);
                 }
                 else GameManager.Instance.AudioManager.Play("InvalidAlert");
             }
@@ -48,6 +50,23 @@ namespace TowerTanks.Scripts
                     //Debug.Log("Found " + player);
                     players.Add(player.gameObject);
                     player.currentZone = this;
+                    if (player.GetCharacterHUD() != null)
+                        player.GetCharacterHUD().SetButtonPrompt(GameAction.Interact, true);
+                }
+            }
+        }
+
+        private void OnTriggerStay2D(Collider2D collider)
+        {
+            if (collider.gameObject.layer == LayerMask.NameToLayer("Player"))
+            {
+                PlayerMovement player = collider.GetComponent<PlayerMovement>();
+                if (player != null && player.currentZone != this && !players.Contains(player.gameObject) && !interactable.hasOperator)
+                {
+                    players.Add(player.gameObject);
+                    player.currentZone = this;
+                    if (player.GetCharacterHUD() != null)
+                        player.GetCharacterHUD().SetButtonPrompt(GameAction.Interact, true);
                 }
             }
         }
@@ -64,6 +83,8 @@ namespace TowerTanks.Scripts
                     {
                         players.Remove(player.gameObject);
                         if (player.currentZone == this) player.currentZone = null;
+                        if(player.GetCharacterHUD() != null)
+                            player.GetCharacterHUD().SetButtonPrompt(GameAction.Interact, false);
                     }
                 }
             }

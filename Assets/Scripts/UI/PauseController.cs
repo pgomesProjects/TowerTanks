@@ -39,11 +39,13 @@ namespace TowerTanks.Scripts
             playerControlSystem.Enable();
             currentMenuState = pauseMenu;
             SwitchMenu(MenuState.REFRESH);
+            GameManager.Instance.isPaused = true;
         }
 
         private void OnDisable()
         {
             playerControlSystem.Disable();
+            GameManager.Instance.isPaused = false;
         }
 
         public void UpdatePausedPlayer(int playerIndex)
