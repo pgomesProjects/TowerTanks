@@ -318,6 +318,8 @@ namespace TowerTanks.Scripts
             //Generate collider system:
             colliderSystem = new GameObject("ColliderSystem").transform; //Generate empty gameobject
             colliderSystem.transform.parent = transform;                 //Child system to treadSystem
+            colliderSystem.transform.localPosition = Vector3.zero;       //Zero out position for neatness
+            colliderSystem.transform.localEulerAngles = Vector3.zero;    //Zero out rotation for neatness
         }
 
         /// <summary>
