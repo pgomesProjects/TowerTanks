@@ -115,12 +115,12 @@
 																<PointList>
 																	<Point>
 																		<XPos>0</XPos>
-																		<YPos>-4800</YPos>
+																		<YPos>-1000</YPos>
 																		<Flags>5</Flags>
 																	</Point>
 																	<Point>
-																		<XPos>1</XPos>
-																		<YPos>0</YPos>
+																		<XPos>2</XPos>
+																		<YPos>1000</YPos>
 																		<Flags>37</Flags>
 																	</Point>
 																</PointList>

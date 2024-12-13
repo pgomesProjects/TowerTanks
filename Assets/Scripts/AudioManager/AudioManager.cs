@@ -45,6 +45,20 @@ namespace TowerTanks.Scripts
         }
 
         /// <summary>
+        /// Plays a sound using the Wwise Post event system.
+        /// </summary>
+        /// <param name="name">The name of the sound.</param>
+        /// <param name="min">The minimum value of the pitch.</param>
+        /// <param name="max">The maximum value of the pitch.</param>
+        /// <param name="audioLocation">The game object that the event will be played on.</param>
+        public void PlayRandomPitch(string name, float min, float max, GameObject audioLocation = null)
+        {
+            float randPitch = UnityEngine.Random.Range(min, max);
+            AkSoundEngine.SetRTPCValue("SFXPitch", randPitch, audioLocation);
+            Play(name, audioLocation);
+        }
+
+        /// <summary>
         /// Plays the section of a sound.
         /// </summary>
         /// <param name="name">The name of the sound.</param>

@@ -24,6 +24,9 @@ namespace TowerTanks.Scripts
         public GameUIManager UIManager { get; private set; }
         public CargoManager CargoManager { get; private set; }
 
+        [SerializeField, Tooltip("The prefab for the tutorial popup.")] private TutorialPopupController tutorialPopup;
+        [SerializeField, Tooltip("The list of all possible tutorials.")] private TutorialPopupSettings[] tutorialsList;
+
         [SerializeField, Tooltip("The list of possible rooms for the players to pick.")] public RoomInfo[] roomList;
         [SerializeField, Tooltip("The list of possible special rooms for use in the game.")] public RoomInfo[] specialRoomList;
         [SerializeField, Tooltip("The list of possible interactables for the players to pick. NOTE: Remember to update the enum list when updating this list.")] public TankInteractable[] interactableList;
@@ -40,12 +43,13 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("The loading progress bar.")] private Image progressBar;
         public ButtonPromptSettings buttonPromptSettings;
 
+        public bool tutorialWindowActive;
         public bool isPaused;
         public bool inBugReportMenu;
         public bool inDebugMenu;
         public bool InGameMenu
         {
-            get { return isPaused || inBugReportMenu || inDebugMenu; }
+            get { return isPaused || inBugReportMenu || inDebugMenu || tutorialWindowActive; }
         }
 
         //Global Static Variables
@@ -226,6 +230,16 @@ namespace TowerTanks.Scripts
             gameDeltaTime = Time.unscaledDeltaTime * gameTimeScale;
             gameElapsedTime += gameDeltaTime;
             Time.fixedDeltaTime = gameTimeScale * gameFixedDeltaTimeStep;
+        }
+
+        /// <summary>
+        /// Displays a tutorial on the screen.
+        /// </summary>
+        /// <param name="tutorialIndex">The index of the tutorial to show.</param>
+        public void DisplayTutorial(int tutorialIndex)
+        {
+            TutorialPopupController currentTutorialPopup = Instantiate(tutorialPopup, GameObject.FindGameObjectWithTag("CursorCanvas").transform);
+            currentTutorialPopup.StartTutorial(tutorialsList[tutorialIndex]);
         }
 
         /// <summary>

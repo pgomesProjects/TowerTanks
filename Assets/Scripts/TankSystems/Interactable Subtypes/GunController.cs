@@ -375,7 +375,13 @@ namespace TowerTanks.Scripts
                     GameObject part = GameManager.Instance.ParticleSpawner.SpawnParticle(random, particleSpots[0].position, randomScale, null); //Flare
                     part.transform.rotation = barrel.rotation;
                     GameManager.Instance.ParticleSpawner.SpawnParticle(12, particleSpots[2].position, 0.1f, null); //Bullet Casing
-                    GameManager.Instance.AudioManager.Play("CannonFire", gameObject);
+                    
+                    //Gunshots
+                    if (GameManager.Instance.AudioManager.IsPlaying("MachineGunFire", gameObject))
+                    {
+                        GameManager.Instance.AudioManager.Stop("MachineGunFire", gameObject);
+                    }
+                    GameManager.Instance.AudioManager.PlayRandomPitch("MachineGunFire", 0.9f, 1.5f, gameObject);
                 }
 
                 if (gunType == GunType.MORTAR)
