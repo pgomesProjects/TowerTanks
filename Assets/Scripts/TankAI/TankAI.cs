@@ -114,7 +114,6 @@ namespace TowerTanks.Scripts
         {
             if (currentTokenCount <= 0)
             {
-                Debug.LogError("No tokens left to distribute");
                 return;
             }
 
@@ -125,7 +124,6 @@ namespace TowerTanks.Scripts
 
             if (!commonInteractables.Any())
             {
-                Debug.LogError($"No interactables of type {toInteractable} found");
                 return;
             }
 
@@ -138,12 +136,8 @@ namespace TowerTanks.Scripts
                 interactable.brain.ReceiveToken();
                 interactable.brain.mySpecificType = toInteractable;
                 currentTokenCount--;
-                Debug.Log($"Token distributed to {interactable.brain.mySpecificType}");
             }
-            else
-            {
-                Debug.LogError("Could not distribute token: Interactable already in use, or not found");
-            }
+
         }
 
         public void RetrieveToken(InteractableId interactableToTakeFrom)
