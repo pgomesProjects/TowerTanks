@@ -282,10 +282,14 @@ namespace TowerTanks.Scripts
                 GameObject projectile = projectilePrefab; //Default projectile
                 if (specialAmmo.Count > 0) { projectile = specialAmmo[0]; } //Special Ammo
 
+                //Adjust velocity:
+                Vector2 fireVelocity = barrel.up * muzzleVelocity;
+                fireVelocity += tank.treadSystem.r.GetPointVelocity(barrel.position);
+
                 //Fire projectile:
                 Projectile newProjectile = Instantiate(projectile).GetComponent<Projectile>();
                 if (gunType != GunType.MORTAR) newProjectile.Fire(barrel.position, barrel.right * muzzleVelocity);
-                else newProjectile.Fire(barrel.position, barrel.up * muzzleVelocity);
+                else newProjectile.Fire(barrel.position, fireVelocity);
                 newProjectile.factionId = inheritance;
 
                 //Handle knockback:
