@@ -164,7 +164,7 @@ MonoBehaviour:
       Entry: 8
       Data: 
   viewRange: 150.1
-  maxEngagementRange: 75.22
+  maxEngagementRange: 71
   preferredFightDistance: 30.93
   tankEconomy: 4
   redistributeTokensCooldown: 15

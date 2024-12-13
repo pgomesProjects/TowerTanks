@@ -24,7 +24,7 @@ MonoBehaviour:
     ParentPath: Virtual Acoustics\Default Work Unit
     guid: 79d6e6cdcbdfcd4d9d052b236bc85600
     GuidInternal: 
-    m_lastTime: -8584796497513176823
+    m_lastTime: -8585013366481573435
     List: []
   AuxBusWwu:
   - PhysicalPath: Master-Mixer Hierarchy\Default Work Unit.wwu
@@ -38,7 +38,7 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy\Default Work Unit
     guid: 358467ebf0a09540b65ba3cce55d6389
     GuidInternal: 
-    m_lastTime: -8584676480975181356
+    m_lastTime: -8584675575100451115
     List:
     - name: Master Audio Bus
       guid: d8a41415a61d2a41a17e75ca0c2149f3
@@ -101,7 +101,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: df5fafb8b92e944290f5318847f0e90d
     GuidInternal: 
-    m_lastTime: -8584679818590908249
+    m_lastTime: -8584675575100451115
     List:
     - name: mainbank
       guid: 3a7f49372b0b1a428cab0adbe8b1c2b4
@@ -129,7 +129,7 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: 83957ce1e688d54e8b6b22beb20598dd
     GuidInternal: 
-    m_lastTime: -8584679819135220703
+    m_lastTime: -8584675575106595015
     List:
     - name: blaring_alarm
       guid: 0557db327da0a0479a6261e902cede4a
@@ -179,40 +179,6 @@ MonoBehaviour:
         ObjectType: 3
         guid: b65951925ef5d7498b2c4a5112659e5b
       Path: Events\Default Work Unit\build_undo
-      maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
-    - name: bullet_impact
-      guid: c58dd9472120ed4d9f6893683fa25cd5
-      id: 3921814510
-      PathAndIcons:
-      - ElementName: Events
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Default Work Unit
-        ObjectType: 12
-        guid: 83957ce1e688d54e8b6b22beb20598dd
-      - ElementName: bullet_impact
-        ObjectType: 3
-        guid: c58dd9472120ed4d9f6893683fa25cd5
-      Path: Events\Default Work Unit\bullet_impact
-      maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
-    - name: bullet_impact_dirt
-      guid: 06354c05b9b4c34e96aaa1ae33050767
-      id: 3326819226
-      PathAndIcons:
-      - ElementName: Events
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Default Work Unit
-        ObjectType: 12
-        guid: 83957ce1e688d54e8b6b22beb20598dd
-      - ElementName: bullet_impact_dirt
-        ObjectType: 3
-        guid: 06354c05b9b4c34e96aaa1ae33050767
-      Path: Events\Default Work Unit\bullet_impact_dirt
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -726,23 +692,6 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
-    - name: machine_gun_fire
-      guid: 96204dc136d6f04db3793acc9792c0ff
-      id: 2515943394
-      PathAndIcons:
-      - ElementName: Events
-        ObjectType: 5
-        guid: 00000000000000000000000000000000
-      - ElementName: Default Work Unit
-        ObjectType: 12
-        guid: 83957ce1e688d54e8b6b22beb20598dd
-      - ElementName: machine_gun_fire
-        ObjectType: 3
-        guid: 96204dc136d6f04db3793acc9792c0ff
-      Path: Events\Default Work Unit\machine_gun_fire
-      maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
     - name: main_menu_ambience
       guid: 6577258e32a5de44939a64179f12aa6d
       id: 1707782163
@@ -1112,7 +1061,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\Default Work Unit
     guid: 7fd26d170457f64b9c4075e46d49e907
     GuidInternal: 
-    m_lastTime: -8584676480976788126
+    m_lastTime: -8584675575106544702
     List:
     - name: CombatLayer0Volume
       guid: 999f4b2c35a11740af640b4d29de9d1c
@@ -1238,7 +1187,7 @@ MonoBehaviour:
     ParentPath: States\Default Work Unit
     guid: a0b7341f178cca44b4803208de1bf889
     GuidInternal: 
-    m_lastTime: -8584796497513253379
+    m_lastTime: -8585013366484643756
     List: []
   SwitchWwu:
   - PhysicalPath: Switches\Default Work Unit.wwu
@@ -1252,7 +1201,7 @@ MonoBehaviour:
     ParentPath: Switches\Default Work Unit
     guid: 6d9d81080ab4cc4e872aa2d178ddb83f
     GuidInternal: 
-    m_lastTime: -8584796497513253379
+    m_lastTime: -8585013366484643756
     List: []
   TriggerWwu:
   - PhysicalPath: Triggers\Default Work Unit.wwu
@@ -1266,7 +1215,7 @@ MonoBehaviour:
     ParentPath: Triggers\Default Work Unit
     guid: 178f1c8b56862740bb45115316763d0e
     GuidInternal: 
-    m_lastTime: -8584796497513176823
+    m_lastTime: -8585013366481583399
     List: []
   ExpandedFileSystemItemIds: 
   ExpandedWaapiItemIds: 
