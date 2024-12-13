@@ -182,7 +182,7 @@
                     "id": "8023a4e2-3693-4e27-afe4-95d2740fa2ce",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Hold(duration=3)",
+                    "interactions": "MultiTap(tapCount=20)",
                     "initialStateCheck": false
                 },
                 {
@@ -2506,9 +2506,27 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "BugReport",
+                    "type": "Button",
+                    "id": "c412543b-77d5-4309-8285-8e94902afc98",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "ToggleUI",
                     "type": "Button",
                     "id": "39e0dc92-2c7b-4bbf-9fda-9bd9906d243d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Tab",
+                    "type": "Button",
+                    "id": "996df2ca-036f-481a-a64c-ec7e9cc8107c",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -3300,21 +3318,10 @@
                 {
                     "name": "",
                     "id": "f70188a6-a431-45ba-a0e1-6621bf53ff0f",
-                    "path": "<Keyboard>/f1",
+                    "path": "<Keyboard>/f2",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard and Mouse",
-                    "action": "Screenshot",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "18cbe034-867f-4c61-a8c2-506597052f5d",
-                    "path": "<Gamepad>/select",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
                     "action": "Screenshot",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -3327,6 +3334,50 @@
                     "processors": "",
                     "groups": "Keyboard and Mouse",
                     "action": "ToggleUI",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bfbd52ca-0f13-45ec-a3b8-9d791d889149",
+                    "path": "<Keyboard>/f1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard and Mouse",
+                    "action": "BugReport",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f10ab405-5cee-4f4b-a492-dfa4b72ca393",
+                    "path": "<Gamepad>/select",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "BugReport",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c757c184-3884-4cf5-ac05-7214e4c7fdd7",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard and Mouse",
+                    "action": "Tab",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f562aa81-be0f-4caf-b2b1-0a59a7a83bce",
+                    "path": "<Gamepad>/dpad/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Tab",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

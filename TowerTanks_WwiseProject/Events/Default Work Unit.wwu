@@ -609,6 +609,39 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="machine_gun_fire" ID="{C14D2096-D636-4DF0-B379-3ACC9792C0FF}">
+					<ChildrenList>
+						<Action Name="" ID="{F375860A-2279-4B9C-95F3-6414F146DD3E}" ShortID="439017325">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_machine_gun_fire" ID="{151F9BD6-5C40-4836-AC2E-2F9847D2C5A8}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="bullet_impact_dirt" ID="{054C3506-B4B9-4EC3-96AA-A1AE33050767}">
+					<ChildrenList>
+						<Action Name="" ID="{A8072DF8-0920-4969-8376-9BE6521A90E7}" ShortID="901897914">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_bullet_impact_dirt" ID="{FFE82E7D-2D18-4472-A8A0-4A5A222B4245}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="bullet_impact" ID="{47D98DC5-2021-4DED-9F68-93683FA25CD5}">
+					<ChildrenList>
+						<Action Name="" ID="{1E971E7D-63A1-4E5A-A1B2-99A2CF24F6AC}" ShortID="616469712">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_bullet_impact" ID="{AFFE189C-C83B-4613-B8CF-72F058DDEDC5}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

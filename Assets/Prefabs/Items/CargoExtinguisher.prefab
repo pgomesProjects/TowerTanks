@@ -5784,7 +5784,8 @@ MonoBehaviour:
   cargoID: Fire Extinguisher
   type: 3
   contents: []
-  amount: 200
+  amount: 50
+  ignoreInit: 0
   isOnTank: 0
   onTankMask:
     serializedVersion: 2

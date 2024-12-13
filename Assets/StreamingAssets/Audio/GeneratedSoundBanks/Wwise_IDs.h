@@ -16,6 +16,8 @@ namespace AK
         static const AkUniqueID BLARING_ALARM = 3949782988U;
         static const AkUniqueID BUILD_ROOM = 2462051799U;
         static const AkUniqueID BUILD_UNDO = 185536228U;
+        static const AkUniqueID BULLET_IMPACT = 3921814510U;
+        static const AkUniqueID BULLET_IMPACT_DIRT = 3326819226U;
         static const AkUniqueID BUTTON_CANCEL = 3130542990U;
         static const AkUniqueID BUTTON_HOVER = 1701177942U;
         static const AkUniqueID CANNON_AIM = 1221570156U;
@@ -43,6 +45,7 @@ namespace AK
         static const AkUniqueID LADDER_CLIMB = 1707141479U;
         static const AkUniqueID LARGE_EXPLOSION = 531217250U;
         static const AkUniqueID LOADING_COAL = 164337995U;
+        static const AkUniqueID MACHINE_GUN_FIRE = 2515943394U;
         static const AkUniqueID MAIN_MENU_AMBIENCE = 1707782163U;
         static const AkUniqueID MEDIUM_EXPLOSION = 2121623384U;
         static const AkUniqueID METAL_FOOTSTEP = 3615561815U;

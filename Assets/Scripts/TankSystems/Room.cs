@@ -441,9 +441,26 @@ namespace TowerTanks.Scripts
             mounted = true;                                                                     //Indicate that room is now mounted
                                                                                                 //GameManager.Instance.AudioManager.Play("BuildRoom");
 
+            //Set up cell collision:
+            foreach (Cell cell in cells) //Each cell needs its own duplicate collider
+            {
+                cell.compositeClone = new GameObject(name + "_" + cell.name + "_Collider").AddComponent<BoxCollider2D>(); //Create clone for cell (size does not need to be modified bc cell size = BoxCollider2D default size)
+                cell.compositeClone.gameObject.layer = LayerMask.NameToLayer("TankCollider");                             //Place clone on cell layer so it doesn't mess with player collision
+                cell.compositeClone.transform.parent = targetTank.treadSystem.colliderSystem;                             //Child collider object to treadSystem container
+                cell.compositeClone.transform.position = cell.transform.position;                                         //Move collider to match position with cell
+                cell.compositeClone.transform.rotation = cell.transform.rotation;                                         //Rotate collider to match rotation with cell
+
+                //Ignore collision with other colliders:
+                foreach (Collider2D otherCollider in GetComponentsInChildren<Collider2D>()) //Iterate through each collider in this cell
+                {
+                    Physics2D.IgnoreCollision(cell.compositeClone, otherCollider); //Each separate collider should ignore all collisions with elements from its parent cell
+                }
+            }
+
             //Update tank info:
             transform.parent = couplers[0].roomB.transform.parent; //Child room to parent of the rest of the rooms (home tank)
             targetTank.UpdateSizeValues();                         //Check to see if any added cells are higher than the known highest cell
+            targetTank.treadSystem.ReCalculateMass();              //Re-calculate tank mass and center of mass
 
             return mounted;
         }
@@ -467,10 +484,17 @@ namespace TowerTanks.Scripts
                 Destroy(ladder);                                                                          //Destroy ladder
             }
 
-
             //Cleanup:
             if (targetTank != null) //Tank system updates
             {
+                //Remove cells from treadsystem:
+                foreach (Cell cell in cells) //Each cell has a collider composite component that needs to be removed
+                {
+                    Destroy(cell.compositeClone.gameObject); //Fully delete composite clone object
+                    cell.compositeClone = null;              //Clear reference to destroyed object
+                }
+
+                //Remove room from tank system:
                 targetTank.rooms.Remove(this);            // Remove room from the tank's list of rooms
                 targetTank.treadSystem.ReCalculateMass(); //Re-calculate mass now that room has been removed
             }

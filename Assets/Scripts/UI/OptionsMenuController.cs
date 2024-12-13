@@ -10,6 +10,7 @@ namespace TowerTanks.Scripts
 
     public class OptionsMenuController : MonoBehaviour
     {
+        [SerializeField] private MenuController masterController;
         [SerializeField] private MenuController bgmController;
         [SerializeField] private MenuController sfxController;
         [SerializeField] private MenuController resController;
@@ -24,6 +25,10 @@ namespace TowerTanks.Scripts
         private void SetupMenu()
         {
             float setVal;
+
+            //Master Settings
+            setVal = GameSettings.currentSettings.masterVolume * 10f;
+            masterController.SetIndex((int)setVal);
 
             //BGM Settings
             setVal = GameSettings.currentSettings.bgmVolume * 10f;
@@ -41,6 +46,14 @@ namespace TowerTanks.Scripts
 
             //Screenshake Settings
             shakeController.SetIndex(GameSettings.currentSettings.screenshakeOn);
+        }
+
+        public void ChangeMaster(int val)
+        {
+            PlayerPrefs.SetFloat("MasterVolume", val * 0.1f);
+            GameSettings.currentSettings.SetMasterVolume(val * 0.1f);
+            GameSettings.CheckBGM();
+            GameManager.Instance.AudioManager.UpdateMusicVolume();
         }
 
         public void ChangeBGM(int val)

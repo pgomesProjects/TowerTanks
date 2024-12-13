@@ -80,8 +80,12 @@ namespace TowerTanks.Scripts
 
         public void EndCampaign()
         {
+            Debug.Log("Ending Campaign...");
+
             GameManager.Instance.tankDesign = null;
             StackManager.ClearStack();
+            FindObjectOfType<AnalyticsSender>()?.SubmitAnalytics();
+
             HasCampaignStarted = false;
         }
 

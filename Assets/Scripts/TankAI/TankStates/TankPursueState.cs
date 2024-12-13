@@ -9,7 +9,6 @@ namespace TowerTanks.Scripts
         private TankAI _tankAI;
         private TankController _tank;
         private float heartbeatTimer = 5f;
-        private Coroutine _heartbeatCoroutine;
 
         public TankPursueState(TankAI tank)
         {
@@ -19,30 +18,27 @@ namespace TowerTanks.Scripts
 
         public void OnEnter()
         {
-            _tankAI.SetTarget(TankManager.instance.playerTank);
-            _heartbeatCoroutine = _tank.StartCoroutine(Heartbeat());
+            _tankAI.DistributeAllWeightedTokens(_tankAI.aiSettings.pursueStateInteractableWeights);
+            _tank.StartCoroutine(Heartbeat());
+            Debug.Log("Pursue state entered.");
         }
 
         private IEnumerator Heartbeat()
         {
-            if (_tankAI.GetTarget().transform.position.x < _tank.transform.position.x)
+            Debug.Log("AI Beat");
+            if (_tankAI.HasActiveThrottle())
             {
-                while (_tank.gear != -2)
+                if (_tankAI.TankIsRightOfTarget())
                 {
-                    _tank.ShiftLeft();
-                    yield return null;
+                    _tank.SetTankGearOverTime(-2);
                 }
-            }
-            else
-            {
-                while (_tank.gear != 2)
+                else
                 {
-                    _tank.ShiftRight();
-                    yield return null;
+                    _tank.SetTankGearOverTime(2);
                 }
             }
             yield return new WaitForSeconds(heartbeatTimer);
-            _heartbeatCoroutine = _tank.StartCoroutine(Heartbeat());
+            _tank.StartCoroutine(Heartbeat());
         }
 
         public void FrameUpdate() { }
@@ -51,7 +47,8 @@ namespace TowerTanks.Scripts
 
         public void OnExit()
         {
-            _tank.StopCoroutine(_heartbeatCoroutine);
+            _tankAI.RetrieveAllTokens();
+            _tank.StopAllCoroutines();
         }
 
     }

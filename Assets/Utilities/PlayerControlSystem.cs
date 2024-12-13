@@ -204,7 +204,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""id"": ""8023a4e2-3693-4e27-afe4-95d2740fa2ce"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Hold(duration=3)"",
+                    ""interactions"": ""MultiTap(tapCount=20)"",
                     ""initialStateCheck"": false
                 },
                 {
@@ -2528,9 +2528,27 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""BugReport"",
+                    ""type"": ""Button"",
+                    ""id"": ""c412543b-77d5-4309-8285-8e94902afc98"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""ToggleUI"",
                     ""type"": ""Button"",
                     ""id"": ""39e0dc92-2c7b-4bbf-9fda-9bd9906d243d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Tab"",
+                    ""type"": ""Button"",
+                    ""id"": ""996df2ca-036f-481a-a64c-ec7e9cc8107c"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -3322,21 +3340,10 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""f70188a6-a431-45ba-a0e1-6621bf53ff0f"",
-                    ""path"": ""<Keyboard>/f1"",
+                    ""path"": ""<Keyboard>/f2"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
-                    ""action"": ""Screenshot"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""18cbe034-867f-4c61-a8c2-506597052f5d"",
-                    ""path"": ""<Gamepad>/select"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
                     ""action"": ""Screenshot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -3349,6 +3356,50 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
                     ""action"": ""ToggleUI"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bfbd52ca-0f13-45ec-a3b8-9d791d889149"",
+                    ""path"": ""<Keyboard>/f1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""BugReport"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f10ab405-5cee-4f4b-a492-dfa4b72ca393"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""BugReport"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c757c184-3884-4cf5-ac05-7214e4c7fdd7"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Tab"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f562aa81-be0f-4caf-b2b1-0a59a7a83bce"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Tab"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -3491,7 +3542,9 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         m_Debug_Cycle = m_Debug.FindAction("Cycle", throwIfNotFound: true);
         m_Debug_Flip = m_Debug.FindAction("Flip", throwIfNotFound: true);
         m_Debug_Screenshot = m_Debug.FindAction("Screenshot", throwIfNotFound: true);
+        m_Debug_BugReport = m_Debug.FindAction("BugReport", throwIfNotFound: true);
         m_Debug_ToggleUI = m_Debug.FindAction("ToggleUI", throwIfNotFound: true);
+        m_Debug_Tab = m_Debug.FindAction("Tab", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -3952,7 +4005,9 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
     private readonly InputAction m_Debug_Cycle;
     private readonly InputAction m_Debug_Flip;
     private readonly InputAction m_Debug_Screenshot;
+    private readonly InputAction m_Debug_BugReport;
     private readonly InputAction m_Debug_ToggleUI;
+    private readonly InputAction m_Debug_Tab;
     public struct DebugActions
     {
         private @PlayerControlSystem m_Wrapper;
@@ -3979,7 +4034,9 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         public InputAction @Cycle => m_Wrapper.m_Debug_Cycle;
         public InputAction @Flip => m_Wrapper.m_Debug_Flip;
         public InputAction @Screenshot => m_Wrapper.m_Debug_Screenshot;
+        public InputAction @BugReport => m_Wrapper.m_Debug_BugReport;
         public InputAction @ToggleUI => m_Wrapper.m_Debug_ToggleUI;
+        public InputAction @Tab => m_Wrapper.m_Debug_Tab;
         public InputActionMap Get() { return m_Wrapper.m_Debug; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -4055,9 +4112,15 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @Screenshot.started -= m_Wrapper.m_DebugActionsCallbackInterface.OnScreenshot;
                 @Screenshot.performed -= m_Wrapper.m_DebugActionsCallbackInterface.OnScreenshot;
                 @Screenshot.canceled -= m_Wrapper.m_DebugActionsCallbackInterface.OnScreenshot;
+                @BugReport.started -= m_Wrapper.m_DebugActionsCallbackInterface.OnBugReport;
+                @BugReport.performed -= m_Wrapper.m_DebugActionsCallbackInterface.OnBugReport;
+                @BugReport.canceled -= m_Wrapper.m_DebugActionsCallbackInterface.OnBugReport;
                 @ToggleUI.started -= m_Wrapper.m_DebugActionsCallbackInterface.OnToggleUI;
                 @ToggleUI.performed -= m_Wrapper.m_DebugActionsCallbackInterface.OnToggleUI;
                 @ToggleUI.canceled -= m_Wrapper.m_DebugActionsCallbackInterface.OnToggleUI;
+                @Tab.started -= m_Wrapper.m_DebugActionsCallbackInterface.OnTab;
+                @Tab.performed -= m_Wrapper.m_DebugActionsCallbackInterface.OnTab;
+                @Tab.canceled -= m_Wrapper.m_DebugActionsCallbackInterface.OnTab;
             }
             m_Wrapper.m_DebugActionsCallbackInterface = instance;
             if (instance != null)
@@ -4128,9 +4191,15 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @Screenshot.started += instance.OnScreenshot;
                 @Screenshot.performed += instance.OnScreenshot;
                 @Screenshot.canceled += instance.OnScreenshot;
+                @BugReport.started += instance.OnBugReport;
+                @BugReport.performed += instance.OnBugReport;
+                @BugReport.canceled += instance.OnBugReport;
                 @ToggleUI.started += instance.OnToggleUI;
                 @ToggleUI.performed += instance.OnToggleUI;
                 @ToggleUI.canceled += instance.OnToggleUI;
+                @Tab.started += instance.OnTab;
+                @Tab.performed += instance.OnTab;
+                @Tab.canceled += instance.OnTab;
             }
         }
     }
@@ -4251,6 +4320,8 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         void OnCycle(InputAction.CallbackContext context);
         void OnFlip(InputAction.CallbackContext context);
         void OnScreenshot(InputAction.CallbackContext context);
+        void OnBugReport(InputAction.CallbackContext context);
         void OnToggleUI(InputAction.CallbackContext context);
+        void OnTab(InputAction.CallbackContext context);
     }
 }
