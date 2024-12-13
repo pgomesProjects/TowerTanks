@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
-using UnityEngine.Serialization;
 
 namespace TowerTanks.Scripts
 {
@@ -13,8 +12,7 @@ namespace TowerTanks.Scripts
         public string stackName;
         public GameObject interactable;
         public TankInteractable script;
-        public InteractableBrain brain;
-        public TankInteractable.InteractableType groupType;
+        public TankInteractable.InteractableType type;
 
         //RUNTIME METHODS:
         [HorizontalGroup("Horizontal Buttons")]
@@ -36,6 +34,6 @@ namespace TowerTanks.Scripts
         {
             script.DebugDestroy();
         }
-        
+
     }
 }

@@ -29,7 +29,6 @@ namespace TowerTanks.Scripts
         /// </summary>
         public void CapturePrefabsFromFolder()
         {
-#if UNITY_EDITOR
             string folderPath = "Assets/" + folderName;
 
             //Get all file paths of type Prefab from the folder
@@ -49,7 +48,6 @@ namespace TowerTanks.Scripts
                 //Cleanup
                 DestroyImmediate(instantiatedObject);
             }
-#endif
         }
 
         /// <summary>

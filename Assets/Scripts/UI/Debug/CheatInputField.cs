@@ -29,7 +29,6 @@ namespace TowerTanks.Scripts.DebugTools
             playerControls?.Enable();
             GameManager.Instance.MultiplayerManager.EnableDebugInput();
             logText.text = debugTools.logHistory;
-            GameManager.Instance.inDebugMenu = true;
         }
 
         private void OnDisable()
@@ -37,7 +36,6 @@ namespace TowerTanks.Scripts.DebugTools
             playerControls?.Disable();
             inputField.text = string.Empty;
             GameManager.Instance.MultiplayerManager.DisableDebugInput();
-            GameManager.Instance.inDebugMenu = false;
         }
 
         public void ClearLog()
@@ -131,8 +129,8 @@ namespace TowerTanks.Scripts.DebugTools
             switch (sceneCommand)
             {
                 case "combat":
-                    if (BuildSystemManager.Instance != null)
-                        BuildSystemManager.Instance?.GetReadyUpManager().StartReadySequence();
+                    if (BuildingManager.Instance != null)
+                        BuildingManager.Instance?.GetReadyUpManager().StartReadySequence();
                     else
                         GameManager.Instance.LoadScene("HotteScene", LevelTransition.LevelTransitionType.GATE, true, true, false);
                     AddToLog("Transitioning to Combat Scene...", MessageType.Log);

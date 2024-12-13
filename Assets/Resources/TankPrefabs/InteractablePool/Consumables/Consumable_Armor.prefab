@@ -410,7 +410,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tank: {fileID: 0}
   seat: {fileID: 0}
-  interactableType: 4
+  interactableType: 2
   stackName: Armor
   prefabRef: {fileID: 5187944172739883115}
   uiImage: {fileID: 21300000, guid: ae8fe729db4f4d141a32b6e6fa0394ef, type: 3}

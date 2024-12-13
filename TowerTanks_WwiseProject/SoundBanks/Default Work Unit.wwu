@@ -50,10 +50,7 @@
 						<ObjectRef Name="fire_burning" ID="{A31D5596-720E-4C94-85A8-42220EB03011}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="build_room" ID="{8A28287C-D8A1-4CC0-934B-2132F9786DF4}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="jetpack_refuel" ID="{FB6F1FAF-4C04-4D7F-9632-9943CC9FA0B2}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
-						<ObjectRef Name="bullet_impact" ID="{47D98DC5-2021-4DED-9F68-93683FA25CD5}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
-						<ObjectRef Name="machine_gun_fire" ID="{C14D2096-D636-4DF0-B379-3ACC9792C0FF}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="steam_exhaust" ID="{A6951C9E-8870-4DF5-8644-705652A6AAF0}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
-						<ObjectRef Name="bullet_impact_dirt" ID="{054C3506-B4B9-4EC3-96AA-A1AE33050767}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="cannon_fire" ID="{D2DE6CE8-E7A4-4F5B-BE10-F2F5D8E3A2E2}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="coal_pickup" ID="{AB01405B-8643-4F64-A588-689F15E18622}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="wind_ambience" ID="{C8F86EE0-B3B8-4F6E-914E-A708AED3AE7D}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>

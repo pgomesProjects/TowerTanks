@@ -234,7 +234,7 @@ namespace TowerTanks.Scripts
             GameManager.Instance.AudioManager.Play("ShellImpact", gameObject); //Play impact sound
 
             //Deal damage:
-            if (room.isCore || room.targetTank.isFragile) //Projectile has struck a core cell, or the tank is fragile
+            if (room.isCore) //Projectile has struck a core cell
             {
                 Damage(projectile.remainingDamage); //Simply do normal projectile damage to the core
                 return 0;                           //Projectiles cannot tunnel through the core
@@ -263,7 +263,7 @@ namespace TowerTanks.Scripts
         /// </summary>
         public void Damage(float damage)
         {
-            if (room.isCore || room.targetTank.isFragile) //Damage is being dealt to core cell
+            if (room.isCore) //Damage is being dealt to core cell
             {
                 if (!room.targetTank.isInvincible) room.targetTank.Damage(damage); //Deal all core cell damage directly to tank instead of destroying cells (unless tank is invincible)
             }

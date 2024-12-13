@@ -118,9 +118,8 @@ namespace TowerTanks.Scripts
             base.Start();
         }
 
-        protected override void OnEnable()
+        private void OnEnable()
         {
-            base.OnEnable();
             GetComponentInChildren<CanvasGroup>().alpha = GameManager.Instance.UIManager.isVisible ? 1 : 0;
         }
 
@@ -178,13 +177,10 @@ namespace TowerTanks.Scripts
                 timeBuilding += Time.deltaTime; //Increment build time tracker
                 if (timeBuilding >= characterSettings.buildTime) //Player has finished build
                 {
-                    TankInteractable currentInteractable = StackManager.BuildTopStackItem();                 
-                    currentInteractable.InstallInCell(buildCell); //Install interactable from top of stack into designated build cell
+                    StackManager.BuildTopStackItem()
+                        .InstallInCell(buildCell); //Install interactable from top of stack into designated build cell
                     StopBuilding(); //Indicate that build has stopped
                     CancelInteraction();
-
-                    //Add the interactable built to the stats
-                    GetComponentInParent<TankController>()?.AddInteractableToStats(currentInteractable);
                 }
             }
 
@@ -282,24 +278,6 @@ namespace TowerTanks.Scripts
             base.FixedUpdate();
         }
 
-        private void LateUpdate()
-        {
-            if (!isCharacterLoaded || !isAlive)
-                return;
-
-            bool jetpackStatus = jetpackCanBeUsed;
-
-            //If the jetpack is held and there's fuel and the player isn't operating anything, the jetpack is active
-            if (jetpackInputHeld && currentFuel > 0 || isOperator)
-                jetpackCanBeUsed = false;
-            else
-                jetpackCanBeUsed = true;
-
-            //If the status has changed, update the button prompts
-            if(jetpackStatus != jetpackCanBeUsed)
-                characterHUD?.SetButtonPrompt(GameAction.Jetpack, jetpackCanBeUsed);
-        }
-
         protected override void OnDrawGizmos()
         {
             base.OnDrawGizmos();
@@ -322,9 +300,6 @@ namespace TowerTanks.Scripts
 
         protected override void MoveCharacter()
         {
-            if (!isAlive)
-                return;
-
             var slope = transform.eulerAngles.z < 180 ? transform.eulerAngles.z : transform.eulerAngles.z - 360;
             //^ im gonna change this to use a raycast and a normal, but for now this is fine and works for checking in-tank slopes
 
@@ -382,16 +357,6 @@ namespace TowerTanks.Scripts
             if (jetpackInputHeld && currentFuel > 0)
             {
                 PropelJetpack();
-                if (jetpackCanBeUsed)
-                {
-                    jetpackCanBeUsed = false;
-                    characterHUD.SetButtonPrompt(GameAction.Jetpack, jetpackCanBeUsed);
-                }
-            }
-            else if (!jetpackCanBeUsed)
-            {
-                jetpackCanBeUsed = true;
-                characterHUD.SetButtonPrompt(GameAction.Jetpack, jetpackCanBeUsed);
             }
         }
 
@@ -481,10 +446,6 @@ namespace TowerTanks.Scripts
 
         private void OnPlayerInput(InputAction.CallbackContext ctx)
         {
-            //If the player is in a menu, ignore input
-            if (GameManager.Instance.InGameMenu)
-                return;
-
             //Gets the name of the action and calls the appropriate events
             switch (ctx.action.name)
             {
@@ -520,10 +481,6 @@ namespace TowerTanks.Scripts
 
         private void OnDebugInput(InputAction.CallbackContext ctx)
         {
-            //If the player is in a menu, ignore input
-            if (GameManager.Instance.InGameMenu)
-                return;
-
             //Gets the name of the action and calls the appropriate events
             switch (ctx.action.name)
             {
@@ -586,9 +543,13 @@ namespace TowerTanks.Scripts
             //If the player presses the pause button
             if (ctx.started)
             {
-                //Pause the game
-                Debug.Log("Player " + characterIndex + " Paused.");
-                LevelManager.Instance?.PauseToggle(characterIndex);
+
+                if (!LevelManager.Instance.isPaused)
+                {
+                    //Pause the game
+                    Debug.Log("Player " + characterIndex + " Paused.");
+                    LevelManager.Instance?.PauseToggle(characterIndex);
+                }
             }
         }
 
@@ -767,7 +728,7 @@ namespace TowerTanks.Scripts
 
         public void OnSelfDestruct(InputAction.CallbackContext ctx)
         {
-            if (!isAlive) return;
+            if (!isAlive || LevelManager.Instance == null) return;
 
             if (ctx.started)
             {
@@ -940,22 +901,11 @@ namespace TowerTanks.Scripts
         {
             base.ResetPlayer();
 
-            interactInputHeld = false;
-            jetpackInputHeld = false;
-
             if (currentObject != null)
                 currentObject.Drop(this, true, moveInput);
 
             if (TankManager.instance != null)
                 SetAssignedTank(TankManager.instance.playerTank);
-        }
-
-        protected override IEnumerator ResetAtEndOfFrame()
-        {
-            StartCoroutine(base.ResetAtEndOfFrame());
-            yield return new WaitForEndOfFrame();
-            characterHUD?.SetButtonPrompt(GameAction.Jetpack, true);
-            jetpackCanBeUsed = true;
         }
 
         #endregion

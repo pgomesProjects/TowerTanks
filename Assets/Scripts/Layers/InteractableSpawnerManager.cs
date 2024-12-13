@@ -33,21 +33,21 @@ namespace TowerTanks.Scripts.Deprecated
                         cannonObject.GetComponent<PlayerCannonDirectionUpdater>().FlipCannonX();
 
                     TutorialController.Instance.CheckForTutorialCompletion(TUTORIALSTATE.BUILDCANNON);
-                    //LevelManager.Instance.currentSessionStats.numberOfCannons += 1;
+                    LevelManager.Instance.currentSessionStats.numberOfCannons += 1;
                     break;
                 case DEPRECATEDINTERACTABLETYPE.ENGINE:
                     currentSpawner.SpawnInteractable(engine);
                     //TutorialController.Instance.CheckForTutorialCompletion(TUTORIALSTATE.BUILDENGINE);
-                    //LevelManager.Instance.currentSessionStats.numberOfEngines += 1;
+                    LevelManager.Instance.currentSessionStats.numberOfEngines += 1;
                     break;
                 case DEPRECATEDINTERACTABLETYPE.DUMPSTER:
                     currentSpawner.SpawnInteractable(dumpster);
-                    //LevelManager.Instance.currentSessionStats.numberOfDumpsters += 1;
+                    LevelManager.Instance.currentSessionStats.numberOfDumpsters += 1;
                     break;
                 case DEPRECATEDINTERACTABLETYPE.THROTTLE:
                     currentSpawner.SpawnInteractable(throttle);
                     //TutorialController.Instance.CheckForTutorialCompletion(TUTORIALSTATE.BUILDTHROTTLE);
-                    //LevelManager.Instance.currentSessionStats.numberOfThrottles += 1;
+                    LevelManager.Instance.currentSessionStats.numberOfThrottles += 1;
                     break;
                 case DEPRECATEDINTERACTABLETYPE.DRILL:
                     currentSpawner.SpawnInteractable(drill);

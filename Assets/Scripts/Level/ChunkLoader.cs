@@ -454,7 +454,6 @@ namespace TowerTanks.Scripts
         public void SpawnEndFlag(int chunkIndex)
         {
             groundPool[chunkIndex].SpawnFlag(Color.red);
-            LevelManager.Instance.eventManager.endFlagExists = true;
         }
 
         public bool CheckEndFlag()

@@ -7,9 +7,9 @@ namespace TowerTanks.Scripts
     public class GunController : TankInteractable
     {
         //Objects & Components:
-        [Tooltip("Default projectile which will be fired by this weapon")]                                      public GameObject projectilePrefab;
+        [Tooltip("Default projectile which will be fired by this weapon"), SerializeField]                      private GameObject projectilePrefab;
         [Tooltip("List containing special Ammo loaded into this weapon"), SerializeField]                       private List<GameObject> specialAmmo = new List<GameObject>();
-        [Tooltip("Transform indicating direction and position in which projectiles are fired"), SerializeField] internal Transform barrel;
+        [Tooltip("Transform indicating direction and position in which projectiles are fired"), SerializeField] private Transform barrel;
         [Tooltip("Joint around which moving cannon assembly rotates."), SerializeField]                         private Transform pivot;
         [Tooltip("Transforms to spawn particles from when used."), SerializeField]                              private Transform[] particleSpots;
         [Tooltip("Scale particles are multiplied by when used by this weapon"), SerializeField]                 private float particleScale;
@@ -21,7 +21,7 @@ namespace TowerTanks.Scripts
 
         [Header("Gun Settings:")]
         [Tooltip("What type of weapon this is"), SerializeField] public GunType gunType;
-        [Tooltip("Velocity of projectile upon exiting the barrel."), SerializeField, Min(0)]  internal float muzzleVelocity;
+        [Tooltip("Velocity of projectile upon exiting the barrel."), SerializeField, Min(0)]  private float muzzleVelocity;
         [Tooltip("Force exerted on tank each time weapon is fired."), SerializeField, Min(0)] private float recoil;
         [Tooltip("Speed at which the cannon barrel rotates"), SerializeField]                 private float rotateSpeed;
         [Tooltip("Max angle (up or down) weapon joint can be rotated to."), SerializeField]   private float gimbalRange;
@@ -30,9 +30,8 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("How far the barrel reciprocates when firing."), Min(0)]          private float reciprocationDistance;
         [SerializeField, Tooltip("How long barrel reciprocation phase is."), Min(0)]               private float reciprocationTime;
         [SerializeField, Tooltip("Curve describing motion of barrel during reciprocation phase.")] private AnimationCurve reciprocationCurve;
-        [Space(), HideInInspector]
-        public float fireCooldownTimer;
-        private bool isCooldownActive;
+        [Space()]
+        private float fireCooldownTimer;
         [Tooltip("Radius of Degrees of the Cone of Fire for this weapon's projectiles"), SerializeField, Min(0)] private float spread;
 
         //Gun Specific Settings
@@ -59,7 +58,7 @@ namespace TowerTanks.Scripts
         private float minVelocity = 20f;
         private float maxChargeTime = 2.4f; //maximum duration weapon can be charged before firing
         private float minChargeTime = 0.4f; //minimum duration the weapon needs to be charged before it can fire
-        [HideInInspector]public float chargeTimer = 0;
+        private float chargeTimer = 0;
 
 
         [Header("Debug Controls:")]
@@ -77,23 +76,13 @@ namespace TowerTanks.Scripts
         {
             if (gunType == GunType.MACHINEGUN) { heatRenderer = transform.Find("Visuals/JointParent/MachineGun_Heat").GetComponent<SpriteRenderer>(); }
             if (gunType == GunType.MORTAR) {
-                trajectoryLine = GetComponentInChildren<LineRenderer>();
                 trajectoryLine.positionCount = 100;
-                
-                trajectoryLine.enabled = false;
+                //trajectoryLine.enabled = false;
                 maxVelocity = muzzleVelocity; 
             }
 
             //Initialize runtime variables:
             if (reciprocatingBarrel != null) barrelBasePos = reciprocatingBarrel.localPosition;
-            isCooldownActive = false;
-        }
-
-        public override void LockIn(GameObject playerID)
-        {
-            base.LockIn(playerID);
-
-            ShowFirePrompt(true);
         }
 
         public override void Use(bool overrideConditions = false)
@@ -102,12 +91,6 @@ namespace TowerTanks.Scripts
 
             if (cooldown <= 0)
                 Fire(overrideConditions, tank.tankType);
-        }
-
-        public override void Exit(bool sameZone)
-        {
-            ShowFirePrompt(false);
-            base.Exit(sameZone);
         }
 
         private void Update()
@@ -131,11 +114,6 @@ namespace TowerTanks.Scripts
             if (fireCooldownTimer > 0)
             {
                 fireCooldownTimer -= Time.deltaTime;
-            }
-            else if(isCooldownActive && !(gunType == GunType.MACHINEGUN))
-            {
-                isCooldownActive = false;
-                ShowFirePrompt(true);
             }
 
             //Gun Specific
@@ -164,15 +142,7 @@ namespace TowerTanks.Scripts
                 }
                 else
                 {
-                    if (overheatTimer <= 0)
-                    {
-                        isOverheating = false;
-                        if (isCooldownActive)
-                        {
-                            isCooldownActive = false;
-                            ShowFirePrompt(true);
-                        }
-                    }
+                    if (overheatTimer <= 0) isOverheating = false;
                 }
 
                 if (isOverheating)
@@ -199,60 +169,41 @@ namespace TowerTanks.Scripts
             {
                 if (operatorID != null && operatorID.interactInputHeld && fireCooldownTimer <= 0)
                 {
-                    ChargeMortar();
-                }
-                else if (tank.tankType != TankId.TankType.ENEMY) 
-                {
-                    ChargeMortar(false);
-                }
-                
-            }
-        }
-
-        /// <summary>
-        /// Should be called in update, will charge or discharge the mortar based on the parameter.
-        /// </summary>
-        /// <param name="charging">
-        /// "False" will cooldown it's charge, "True" will increment it.
-        /// </param>
-        public void ChargeMortar(bool charging = true)
-        {
-            if (charging)
-            {
-                if (chargeTimer < maxChargeTime)
-                {
-                    chargeTimer += Time.deltaTime;
-                }
-
-                if (chargeTimer >= minChargeTime)
-                {
-                    List<Vector3> trajectoryPoints = Trajectory.GetTrajectory(barrel.position, barrel.up * muzzleVelocity, 30, 100);
-
-                    if (operatorID)
+                    //Increase Charge Time
+                    if (chargeTimer < maxChargeTime)
                     {
+                        chargeTimer += Time.deltaTime;
+                    }
+
+                    if (chargeTimer >= minChargeTime)
+                    {
+                        //Show trajectory based on velocity
                         Color playerColor = operatorID.GetCharacterColor();
                         trajectoryLine.startColor = playerColor;
                         trajectoryLine.endColor = playerColor;
 
                         trajectoryLine.enabled = true;
+                        List<Vector3> trajectoryPoints = Trajectory.GetTrajectory(barrel.position, barrel.up * muzzleVelocity, 30, 100);
                         for (int i = 0; i < trajectoryPoints.Count; i++)
                         {
                             trajectoryLine.SetPosition(i, trajectoryPoints[i]);
                         }
                     }
+
                 }
-            } else
-            {
-                trajectoryLine.enabled = false;
-                if (chargeTimer > 0)
+                else
                 {
-                    chargeTimer -= Time.deltaTime;
+                    trajectoryLine.enabled = false;
+                    if (chargeTimer > 0)
+                    {
+                        chargeTimer -= Time.deltaTime;
+                    }
                 }
-            }
-            
-            
-            float newVelocity = Mathf.Lerp(minVelocity, maxVelocity, (chargeTimer / maxChargeTime));
-            muzzleVelocity = newVelocity;
+
+                //Adjust velocity based on charge
+                float newVelocity = Mathf.Lerp(minVelocity, maxVelocity, (chargeTimer / maxChargeTime));
+                muzzleVelocity = newVelocity;
+            };
         }
 
         //FUNCTIONALITY METHODS:
@@ -297,8 +248,6 @@ namespace TowerTanks.Scripts
                     }
 
                     GameManager.Instance.UIManager.AddTaskBar(gameObject, new Vector2(-0.4f, -0.55f), overheatTime / (1 / overheatCooldownMultiplier), true);
-                    ShowFirePrompt(false);
-                    isCooldownActive = true;
                 }
 
                 if (isOverheating) canFire = false;
@@ -312,6 +261,12 @@ namespace TowerTanks.Scripts
                 {
                     canFire = true;
                     chargeTimer = 0;
+                }
+
+                if (overrideConditions)
+                {
+                    float newVelocity = Random.Range((minVelocity + 15f), maxVelocity);
+                    muzzleVelocity = newVelocity;
                 }
             };
 
@@ -363,8 +318,6 @@ namespace TowerTanks.Scripts
                     GameManager.Instance.AudioManager.Play("CannonFire", gameObject);
                     GameManager.Instance.AudioManager.Play("CannonThunk", gameObject); //Play firing audioclips
                     GameManager.Instance.UIManager.AddTaskBar(gameObject, new Vector2(-0.4f, -0.55f), rateOfFire, true);
-                    ShowFirePrompt(false);
-                    isCooldownActive = true;
                 }
 
                 if (gunType == GunType.MACHINEGUN)
@@ -375,13 +328,7 @@ namespace TowerTanks.Scripts
                     GameObject part = GameManager.Instance.ParticleSpawner.SpawnParticle(random, particleSpots[0].position, randomScale, null); //Flare
                     part.transform.rotation = barrel.rotation;
                     GameManager.Instance.ParticleSpawner.SpawnParticle(12, particleSpots[2].position, 0.1f, null); //Bullet Casing
-                    
-                    //Gunshots
-                    if (GameManager.Instance.AudioManager.IsPlaying("MachineGunFire", gameObject))
-                    {
-                        GameManager.Instance.AudioManager.Stop("MachineGunFire", gameObject);
-                    }
-                    GameManager.Instance.AudioManager.PlayRandomPitch("MachineGunFire", 0.9f, 1.5f, gameObject);
+                    GameManager.Instance.AudioManager.Play("CannonFire", gameObject);
                 }
 
                 if (gunType == GunType.MORTAR)
@@ -391,19 +338,11 @@ namespace TowerTanks.Scripts
                     GameManager.Instance.AudioManager.Play("CannonThunk", gameObject);
                     GameManager.Instance.AudioManager.Play("ProjectileInAirSFX", gameObject);
                     GameManager.Instance.UIManager.AddTaskBar(gameObject, new Vector2(-0.4f, -0.55f), rateOfFire, true);
-                    ShowFirePrompt(false);
-                    isCooldownActive = true;
                 }
 
                 //Set Cooldown
                 fireCooldownTimer = rateOfFire;
             }
-        }
-
-        private void ShowFirePrompt(bool showPrompt)
-        {
-            if(operatorID != null)
-                operatorID.GetCharacterHUD().SetButtonPrompt(GameAction.Fire, showPrompt);
         }
 
         public void RotateBarrel(float force, bool withSound)

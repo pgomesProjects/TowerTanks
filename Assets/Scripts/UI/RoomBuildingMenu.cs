@@ -38,7 +38,6 @@ namespace TowerTanks.Scripts
 
         public void MountRoom() => roomsPlaced++;
 
-        public PlayerData GetCurrentPlayerData() => currentPlayer;
         public PlayerInput GetCurrentPlayerInput() => currentPlayer.playerInput;
         public RoomInfo GetRoomAt(int index) => currentRooms[index];
         public int GetMaxRoomsToPlace() => maxRoomsToPlace;
@@ -65,21 +64,6 @@ namespace TowerTanks.Scripts
         public override string ToString()
         {
             return "Player " + (this.currentPlayer.playerInput.playerIndex + 1).ToString() + " | " + this.roomsPlaced + " Rooms Placed Out Of " + this.maxRoomsToPlace;
-        }
-
-        public void DebugPrintRooms()
-        {
-            string message = "Rooms: ";
-
-            for(int i = 0; i < currentRooms.Count; i++)
-            {
-                message += currentRooms[i].roomObject.name;
-
-                if (i < currentRooms.Count - 1)
-                    message += ", ";
-            }
-
-            Debug.Log(message);
         }
     }
 
@@ -130,8 +114,7 @@ namespace TowerTanks.Scripts
 
         public void AddPlayerToSelection(PlayerInput playerInput)
         {
-            if(BuildSystemManager.Instance.CurrentSubPhase == BuildSystemManager.BuildingSubphase.PickRooms)
-                StartCoroutine(WaitForAddPlayerToSelection(playerInput));
+            StartCoroutine(WaitForAddPlayerToSelection(playerInput));
         }
 
         private IEnumerator WaitForAddPlayerToSelection(PlayerInput playerInput)
@@ -236,7 +219,7 @@ namespace TowerTanks.Scripts
                 PlayerData currentPlayerData = PlayerData.ToPlayerData(playerSelected);
                 currentPlayerData.SetPlayerState(PlayerData.PlayerState.PickedRooms);
 
-                //Debug.Log("Player " + (currentPlayerData.playerInput.playerIndex + 1).ToString() + " Has Stopped Selecting.");
+                Debug.Log("Player " + (currentPlayerData.playerInput.playerIndex + 1).ToString() + " Has Stopped Selecting.");
                 playerSelected.GetComponent<GamepadCursor>().SetCursorMove(false);
             }
 
@@ -245,7 +228,6 @@ namespace TowerTanks.Scripts
             {
                 CloseMenu();
                 GivePlayersRooms();
-                BuildSystemManager.Instance.UpdateBuildPhase(BuildSystemManager.BuildingSubphase.BuildTank);
             }
         }
 
@@ -264,7 +246,9 @@ namespace TowerTanks.Scripts
         private void GivePlayersRooms()
         {
             foreach (var room in roomSelections)
-                BuildSystemManager.Instance.SpawnRoom(room.GetRoomAt(0), room);
+                BuildingManager.Instance.SpawnRoom(room.GetRoomAt(0), room);
+
+            //GameManager.Instance.SetGamepadCursorsActive(true);
         }
 
         /// <summary>

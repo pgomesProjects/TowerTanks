@@ -315,7 +315,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debugCanvasGroup: {fileID: 6117274316650421598}
-  bugReportScreenPrefab: {fileID: 5603442821264182218, guid: c44876920dd8b7e4f982ebf667f4e276, type: 3}
   commandMenuPrefab: {fileID: 6392016781606806869, guid: 4b4a0d0faaada4740ad702d31be53d00, type: 3}
 --- !u!1 &2095655234033860895
 GameObject:

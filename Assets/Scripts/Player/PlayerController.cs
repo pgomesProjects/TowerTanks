@@ -208,7 +208,7 @@ namespace TowerTanks.Scripts.Deprecated
         // For dealing with physics or movement related functionality
         void FixedUpdate()
         {
-            if (LevelManager.Instance != null && !GameManager.Instance.isPaused)
+            if (LevelManager.Instance != null && !LevelManager.Instance.isPaused)
             {
                 //Move the player horizontally
                 if (canMove)
@@ -513,7 +513,7 @@ namespace TowerTanks.Scripts.Deprecated
 
         public void OnLadderEnter(InputAction.CallbackContext ctx)
         {
-            if (LevelManager.Instance != null && !GameManager.Instance.isPaused)
+            if (LevelManager.Instance != null && !LevelManager.Instance.isPaused)
             {
                 //If the player presses the ladder climb button
                 if (ctx.performed)
@@ -539,7 +539,7 @@ namespace TowerTanks.Scripts.Deprecated
 
         public void OnLadderExit(InputAction.CallbackContext ctx)
         {
-            if (LevelManager.Instance != null && !GameManager.Instance.isPaused)
+            if (LevelManager.Instance != null && !LevelManager.Instance.isPaused)
             {
                 //If the player presses the ladder climb button
                 if (ctx.performed)
@@ -564,7 +564,7 @@ namespace TowerTanks.Scripts.Deprecated
             //If the player presses the pause button
             if (ctx.started)
             {
-                if (LevelManager.Instance != null && !GameManager.Instance.isPaused)
+                if (LevelManager.Instance != null && !LevelManager.Instance.isPaused)
                 {
                     //Pause the game
                     Debug.Log("Player " + playerIndex + " Paused.");
@@ -1218,7 +1218,7 @@ namespace TowerTanks.Scripts.Deprecated
         public bool PlayerCanInteract()
         {
             if (LevelManager.Instance != null)
-                return !GameManager.Instance.isPaused && !LevelManager.Instance.readingTutorial;
+                return !LevelManager.Instance.isPaused && !LevelManager.Instance.readingTutorial;
 
             return false;
         }

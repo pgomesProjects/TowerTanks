@@ -10,6 +10,7 @@ namespace TowerTanks.Scripts
         private TankAI _tankAI;
         private TankController _tank;
         private Vector2 _timeBetweenMovesRange = new Vector2(4.00f, 8.00f);
+        private Coroutine _movementCoroutine;
 
         public TankPatrolState(TankAI tank)
         {
@@ -18,29 +19,32 @@ namespace TowerTanks.Scripts
         }
         private IEnumerator SetTankMovement()
         {
-            if (_tankAI.HasActiveThrottle())
+            if (Random.Range(0, 2) == 1)
             {
-                _tankAI.MoveRandom(1);
+                while (_tank.gear != 1)
+                {
+                    _tank.ShiftRight();
+                    yield return null;
+                }
+            }
+            else
+            {
+                while (_tank.gear != -1)
+                {
+                    _tank.ShiftLeft();
+                    yield return null;
+                }
             }
 
             yield return new WaitForSeconds(Random.Range(_timeBetweenMovesRange.x, _timeBetweenMovesRange.y));
-            _tank.StartCoroutine(SetTankMovement());
-            
-        }
-        
-        private IEnumerator RefreshTarget()
-        {
-            _tankAI.SetClosestTarget();
-            yield return new WaitForSeconds(5);
-            _tank.StartCoroutine(RefreshTarget());
+            _movementCoroutine = _tank.StartCoroutine(SetTankMovement());
+
         }
 
         public void OnEnter()
         {
             Debug.Log($"OnEnter called. _tank: {_tank}");
-            _tankAI.DistributeAllWeightedTokens(_tankAI.aiSettings.patrolStateInteractableWeights);
-            _tank.StartCoroutine(SetTankMovement());
-            _tank.StartCoroutine(RefreshTarget());
+            if (_movementCoroutine == null) _movementCoroutine = _tank.StartCoroutine(SetTankMovement());
         }
 
         public void FrameUpdate() { }
@@ -49,9 +53,7 @@ namespace TowerTanks.Scripts
 
         public void OnExit()
         {
-            _tank.StopAllCoroutines();
-            _tankAI.RetrieveAllTokens();
-            Debug.Log("OnExit patrol called.");
+            _tank.StopCoroutine(_movementCoroutine);
         }
 
 

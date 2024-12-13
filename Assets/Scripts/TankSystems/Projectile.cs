@@ -34,8 +34,6 @@ namespace TowerTanks.Scripts
         internal Vector2 velocity;                                                                                                                           //Speed and trajectory of projectile
         private float timeAlive;                                                                                                                             //Time this projectile has existed for
         [Tooltip("Damage projectile has left to deal (projectile is destroyed when this is reduced to zero during a hit).")] internal float remainingDamage; //Actual damage value which may be decreased by tunnelling effects
-        private List<Collider2D> shieldsIgnored = new List<Collider2D>();
-        private float shieldsIgnoreCooldownTimer = 0;
 
         //RUNTIME METHODS:
         private void Awake()
@@ -57,18 +55,6 @@ namespace TowerTanks.Scripts
 
             timeAlive += Time.deltaTime;
             if (timeAlive >= maxLife) Hit(null, true);
-        }
-
-        private void FixedUpdate()
-        {
-            if (shieldsIgnored.Count > 0)
-            {
-                shieldsIgnoreCooldownTimer -= Time.fixedDeltaTime;
-                if (shieldsIgnoreCooldownTimer <= 0)
-                {
-                    shieldsIgnored.Clear(); //Clear the List - we're probably outside of the Shield(s) we're ignoring
-                }
-            }
         }
 
         public void CheckforCollision()
@@ -135,33 +121,12 @@ namespace TowerTanks.Scripts
             //transform.rotation = Quaternion.AngleAxis(Vector3.Angle(Vector2.right, velocity), Vector3.back);
 
             Collider2D hit = Physics2D.OverlapCircle(position, radius, layerMask);
-            if (hit != null)
-            {
-                if (hit.CompareTag("EnergyShield"))
-                {
-                    shieldsIgnored.Add(hit);
-                    shieldsIgnoreCooldownTimer = 2f;
-                }
-                Hit(hit);
-            }
+            if (hit != null) Hit(hit);
         }
 
         public void Hit(Collider2D hitCollider, bool destroyImmediate = false)
         {
             List<IDamageable> damagedThisHit = new List<IDamageable>(); //Create temporary list of targets that have been damaged by this projectile in this frame (used to prevent double damage due to splash)
-
-            //Check for Ignored Shields
-            if (shieldsIgnored.Count > 0)
-            {
-                foreach(Collider2D collider in shieldsIgnored)
-                {
-                    if (hitCollider == collider)
-                    {
-                        //Hit a shield we're ignoring
-                        return;
-                    }
-                }
-            }
 
             //Handle Direct Damage
             if (hitCollider != null) //Projectile has actually hit something
@@ -298,7 +263,7 @@ namespace TowerTanks.Scripts
 
             if (type == ProjectileType.BULLET)
             {
-                GameManager.Instance.AudioManager.Play("BulletImpactDirt", gameObject);
+                GameManager.Instance.AudioManager.Play("ExplosionSFX", gameObject);
 
                 GameObject particle = GameManager.Instance.ParticleSpawner.SpawnParticle(13, transform.position, particleScale, null);
                 particle.transform.rotation = transform.rotation;

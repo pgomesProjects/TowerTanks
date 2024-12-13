@@ -13,7 +13,7 @@ namespace TowerTanks.Scripts
         public TankController tank; //Controller script for tank this interactable is attached to
         private InteractableZone interactZone; //Hitbox for player detection
         public Transform seat; //Transform operator snaps to while using this interactable
-        public enum InteractableType { WEAPONS, ENGINEERING, DEFENSE, LOGISTICS, CONSUMABLE, SHOP };
+        public enum InteractableType { WEAPONS, ENGINEERING, DEFENSE, LOGISTICS };
         public InteractableType interactableType;
 
         //Interactable Scripts
@@ -21,8 +21,6 @@ namespace TowerTanks.Scripts
         private EngineController engineScript;
         private ThrottleController throttleScript;
         private TankConsumable consumableScript;
-        [HideInInspector]
-        public Collider2D thisCollider;
 
         //Settings:
         [Header("Stack Properties:")]
@@ -61,11 +59,9 @@ namespace TowerTanks.Scripts
         protected float cooldown;
 
         //RUNTIME METHODS:
-        protected virtual void Awake()
+        private void Awake()
         {
             //Get objects & components:
-            tank = GetComponentInParent<TankController>();
-            thisCollider = GetComponentInChildren<Collider2D>();
             renderers = GetComponentsInChildren<SpriteRenderer>(); //Get all spriterenderers for interactable visual
             interactZone = GetComponentInChildren<InteractableZone>();
             seat = transform.Find("Seat");
@@ -129,7 +125,7 @@ namespace TowerTanks.Scripts
             if (debugMoveRight) { debugMoveRight = false; SnapMoveTick(Vector2.right); }
         }
 
-        public virtual void LockIn(GameObject playerID) //Called from InteractableZone.cs when a user locks in to the interactable
+        public void LockIn(GameObject playerID) //Called from InteractableZone.cs when a user locks in to the interactable
         {
             hasOperator = true;
             operatorID = playerID.GetComponent<PlayerMovement>();
@@ -146,9 +142,6 @@ namespace TowerTanks.Scripts
 
                 if (cooldown <= 0) cooldown = introBuffer;
             }
-
-            //Show that the player can cancel to leave
-            operatorID.GetCharacterHUD().SetButtonPrompt(GameAction.Cancel, true);
         }
 
         public virtual void Exit(bool sameZone) //Called from operator (PlayerMovement.cs) when they press Cancel
@@ -168,9 +161,6 @@ namespace TowerTanks.Scripts
 
                 hasOperator = false;
                 Debug.Log(operatorID + " is out!");
-
-                //Remove the cancel option
-                operatorID.GetCharacterHUD().SetButtonPrompt(GameAction.Cancel, false);
 
                 operatorID = null;
 
@@ -215,6 +205,7 @@ namespace TowerTanks.Scripts
         /// Installs interactable into target cell.
         /// </summary>
         /// <param name="target">The cell interactable will be installed in.</param>
+        /// <param name="installAsGhost">Pass true to install interactable as a ghost.</param>
         public bool InstallInCell(Cell target)
         {
             //Universal installation:

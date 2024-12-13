@@ -14,23 +14,13 @@ namespace TowerTanks.Scripts
             _tankAI = tank;
             _tank = tank.GetComponent<TankController>();
         }
-
-        public void OnEnter()
-        {
-            _tank.SetTankGearOverTime(0, .15f); //stop moving
-            _tank.surrenderFlag.SetActive(true);
-            _tank.tankFlag.SetActive(false);
-            _tank.MakeFragile();
-        }
+        public void OnEnter() { }
 
         public void FrameUpdate() { }
 
         public void PhysicsUpdate() { }
 
-        public void OnExit()
-        {
-            _tankAI.RetrieveAllTokens();
-        }
+        public void OnExit() { }
 
     }
 }

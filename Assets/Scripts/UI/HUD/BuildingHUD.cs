@@ -1,8 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
-using TMPro;
 
 namespace TowerTanks.Scripts
 {
@@ -14,23 +12,17 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("The room building menu.")] private RoomBuildingMenu roomBuildingMenu;
         [SerializeField, Tooltip("The container for the player namepads.")] private Transform playerNamepadContainer;
 
-        [SerializeField, Tooltip("The player action container.")] private RectTransform playerActionContainer;
-        [SerializeField, Tooltip("The player action prefab.")] private GameObject playerActionPrefab;
-        [SerializeField, Tooltip("The color for the most recent action.")] private Color mostRecentActionColor;
+        public enum BuildingSubphase { Naming, PickRooms, BuildTank, ReadyUp }
+        private BuildingSubphase currentSubphase;
 
         private bool allPlayersConnectedAndReady = false;
         private PlayerControlSystem playerControls;
-
-        private RectTransform historyParentTransform;
-        private Color defaultPlayerActionColor;
 
         protected override void Awake()
         {
             base.Awake();
             playerControls = new PlayerControlSystem();
             playerControls.UI.Confirm.performed += _ => ConfirmNames();
-            defaultPlayerActionColor = playerActionPrefab.GetComponentInChildren<Image>().color;
-            historyParentTransform = playerActionContainer.parent.GetComponent<RectTransform>();
         }
 
         protected override void Start()
@@ -47,8 +39,6 @@ namespace TowerTanks.Scripts
             PlayerData.OnPlayerStateChanged += CheckForAllPlayersConnectedAndReady;
             GamePhaseUI.OnCombatPhase += GoToCombatScene;
             SceneManager.sceneLoaded += OnSceneLoaded;
-            BuildSystemManager.OnPlayerAction += AddToPlayerHistoryUI;
-            BuildSystemManager.OnPlayerUndo += RemoveMostRecentPlayerAction;
 
             playerControls?.Enable();
         }
@@ -61,8 +51,6 @@ namespace TowerTanks.Scripts
             PlayerData.OnPlayerStateChanged -= CheckForAllPlayersConnectedAndReady;
             GamePhaseUI.OnCombatPhase -= GoToCombatScene;
             SceneManager.sceneLoaded -= OnSceneLoaded;
-            BuildSystemManager.OnPlayerAction -= AddToPlayerHistoryUI;
-            BuildSystemManager.OnPlayerUndo -= RemoveMostRecentPlayerAction;
 
             playerControls?.Disable();
         }
@@ -73,48 +61,27 @@ namespace TowerTanks.Scripts
             if (!CampaignManager.Instance.HasCampaignStarted)
             {
                 CampaignManager.Instance.SetupCampaign();
-                BuildSystemManager.Instance.UpdateBuildPhase(BuildSystemManager.BuildingSubphase.Naming);
-                RefreshBuildPhaseUI();
+                UpdateBuildPhase(BuildingSubphase.Naming);
             }
             else
             {
-                BuildSystemManager.Instance.UpdateBuildPhase(BuildSystemManager.BuildingSubphase.PickRooms);
-                RefreshBuildPhaseUI();
+                UpdateBuildPhase(BuildingSubphase.PickRooms);
             }
         }
 
-        private void AddToPlayerHistoryUI(string playerName, string roomName)
+        public void UpdateBuildPhase(BuildingSubphase newPhase)
         {
-            if (playerActionContainer.childCount != 0)
-                playerActionContainer.GetChild(playerActionContainer.childCount - 1).GetComponentInChildren<Image>().color = defaultPlayerActionColor;
-
-            GameObject newAction = Instantiate(playerActionPrefab, playerActionContainer);
-            newAction.GetComponentInChildren<TextMeshProUGUI>().text = playerName + " Placed " + roomName;
-            newAction.GetComponentInChildren<Image>().color = mostRecentActionColor;
-            LayoutRebuilder.ForceRebuildLayoutImmediate(historyParentTransform);
-        }
-
-        private void RemoveMostRecentPlayerAction()
-        {
-            if (playerActionContainer.childCount - 2 >= 0)
-                playerActionContainer.GetChild(playerActionContainer.childCount - 2).GetComponentInChildren<Image>().color = mostRecentActionColor;
-
-            if (playerActionContainer.childCount > 0)
-                Destroy(playerActionContainer.GetChild(playerActionContainer.childCount - 1).gameObject);
-        }
-
-        public void RefreshBuildPhaseUI()
-        {
-            switch (BuildSystemManager.Instance.CurrentSubPhase)
+            currentSubphase = newPhase;
+            switch (currentSubphase)
             {
-                case BuildSystemManager.BuildingSubphase.Naming:
+                case BuildingSubphase.Naming:
                     foreach (Transform namepad in playerNamepadContainer)
                         namepad.gameObject.SetActive(false);
                     ShowNameUI();
                     CheckForAllPlayersConnectedAndReady();
                     break;
 
-                case BuildSystemManager.BuildingSubphase.PickRooms:
+                case BuildingSubphase.PickRooms:
                     HideNameUI();
                     roomBuildingMenu.OpenMenu();
                     break;
@@ -133,18 +100,17 @@ namespace TowerTanks.Scripts
 
         private void ConfirmNames()
         {
-            if (BuildSystemManager.Instance.CurrentSubPhase == BuildSystemManager.BuildingSubphase.Naming && allPlayersConnectedAndReady)
+            if (currentSubphase == BuildingSubphase.Naming && allPlayersConnectedAndReady)
             {
                 CampaignManager.Instance.SetPlayerTankName(tankNameController.GetCurrentName());
-                BuildSystemManager.Instance.RefreshPlayerTankName();
-                BuildSystemManager.Instance.UpdateBuildPhase(BuildSystemManager.BuildingSubphase.PickRooms);
-                RefreshBuildPhaseUI();
+                BuildingManager.Instance.RefreshPlayerTankName();
+                UpdateBuildPhase(BuildingSubphase.PickRooms);
             }
         }
 
         private void CheckForAllPlayersConnectedAndReady()
         {
-            if (BuildSystemManager.Instance.CurrentSubPhase == BuildSystemManager.BuildingSubphase.Naming)
+            if (currentSubphase == BuildingSubphase.Naming)
             {
                 allPlayersConnectedAndReady = AreAllPlayersConnectedAndReady();
                 playersConnectedAndReady.SetActive(allPlayersConnectedAndReady);

@@ -22,7 +22,6 @@ namespace TowerTanks.Scripts
         {
             this.action = action;
             this.actionType = actionType;
-            prompts = new List<PlatformPrompt>();
             GeneratePromptList();
         }
 
@@ -43,39 +42,41 @@ namespace TowerTanks.Scripts
     public class PlatformPrompt
     {
         [SerializeField] private PlatformType platform;
-        [SerializeField] private PromptInfo promptInfo;
+
+        [SerializeField] private int spriteID;
+        [SerializeField] private Sprite promptSprite;
+
+        [SerializeField] private string promptText;
 
         public PlatformPrompt(PlatformType platform, int spriteID, Sprite promptSprite)
         {
             this.platform = platform;
-            promptInfo = ScriptableObject.CreateInstance<PromptInfo>();
-            promptInfo.spriteID = spriteID;
-            promptInfo.promptSprite = promptSprite;
+            this.spriteID = spriteID;
+            this.promptSprite = promptSprite;
         }
 
         public PlatformPrompt(PlatformType platform, string promptText)
         {
             this.platform = platform;
-            promptInfo = ScriptableObject.CreateInstance<PromptInfo>();
-            promptInfo.name = promptText;
+            this.promptText = promptText;
         }
 
         public PlatformType Platform => platform;
         public int SpriteID
         {
-            get => promptInfo.spriteID;
-            set => promptInfo.spriteID = value;
+            get => spriteID;
+            set => spriteID = value;
         }
         public Sprite PromptSprite
         {
-            get => promptInfo.promptSprite;
-            set => promptInfo.promptSprite = value;
+            get => promptSprite;
+            set => promptSprite = value;
         }
 
         public string PromptText
         {
-            get => promptInfo.name;
-            set => promptInfo.name = value;
+            get => promptText;
+            set => promptText = value;
         }
     }
 
@@ -86,11 +87,14 @@ namespace TowerTanks.Scripts
         Cancel,
         Pause,
         Jetpack,
-        Mount,
-        Fire,
-        Repair,
-        AddFuel,
-        ReleaseSteam
+        Mount
+    }
+
+    public enum ActionType
+    {
+        Press,
+        Hold,
+        Rotate
     }
 
     public enum PlatformType

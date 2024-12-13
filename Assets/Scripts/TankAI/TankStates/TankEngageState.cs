@@ -9,6 +9,7 @@ namespace TowerTanks.Scripts
         private TankAI _tankAI;
         private TankController _tank;
         private float heartbeatTimer = 1f;
+        private Coroutine _heartbeatCoroutine;
 
         public TankEngageState(TankAI tank)
         {
@@ -18,37 +19,31 @@ namespace TowerTanks.Scripts
 
         private IEnumerator Heartbeat()
         {
-            var dir = _tankAI.TankIsRightOfTarget() ? -1 : 1;
-            if (_tankAI.HasActiveThrottle())
+            bool isPlayerOnLeft = _tankAI.GetTarget().transform.position.x < _tank.transform.position.x;
+            int directionToTarget = isPlayerOnLeft ? -1 : 1;
+            if (_tankAI.GetTarget().transform.position.x + (_tankAI.aiSettings.defaultFightingDistance * directionToTarget) < _tank.transform.position.x)
             {
-                if (!_tankAI.TargetAtFightingDistance()) dir *= 2; //if we are at our fighting distance, it just use a speed setting of 1 instead of 2
-                if (_tankAI.TargetTooClose())
+                while (_tank.gear != -2)
                 {
-                    _tank.SetTankGearOverTime(-dir, .15f);
-                    Debug.Log("Target is too close!");
+                    _tank.ShiftLeft();
+                    yield return null;
                 }
-                else
+            }
+            else
+            {
+                while (_tank.gear != 2)
                 {
-                    _tank.SetTankGearOverTime(dir, .15f);
+                    _tank.ShiftRight();
+                    yield return null;
                 }
             }
             yield return new WaitForSeconds(heartbeatTimer);
-            _tank.StartCoroutine(Heartbeat());
-        }
-        
-        private IEnumerator RedistributeTokens()
-        {
-            yield return new WaitForSeconds(_tankAI.aiSettings.redistributeTokensCooldown);
-            _tankAI.RetrieveAllTokens();
-            _tankAI.DistributeAllWeightedTokens(_tankAI.aiSettings.engageStateInteractableWeights);
-            _tank.StartCoroutine(RedistributeTokens());
+            _heartbeatCoroutine = _tank.StartCoroutine(Heartbeat());
         }
 
         public void OnEnter()
         {
-            _tankAI.DistributeAllWeightedTokens(_tankAI.aiSettings.engageStateInteractableWeights);
-            _tank.StartCoroutine(Heartbeat());
-            _tank.StartCoroutine(RedistributeTokens());
+            _heartbeatCoroutine = _tank.StartCoroutine(Heartbeat());
         }
 
         public void FrameUpdate() { }
@@ -57,8 +52,7 @@ namespace TowerTanks.Scripts
 
         public void OnExit()
         {
-            _tankAI.RetrieveAllTokens();
-            _tank.StopAllCoroutines();
+            _tank.StopCoroutine(_heartbeatCoroutine);
         }
 
     }

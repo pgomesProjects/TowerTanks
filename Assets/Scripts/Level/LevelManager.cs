@@ -25,19 +25,21 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("The parent that holds all of the player HUD objects.")] private RectTransform playerHUDParentTransform;
         [SerializeField, Tooltip("The value of a singular scrap piece.")] private int scrapValue;
         [SerializeField, Tooltip("The component that tracks the objective information.")] private ObjectiveTracker objectiveTracker;
-        [SerializeField, Tooltip("The component that tracks encounter & event information.")] public EventSpawnerManager eventManager;
+        [SerializeField, Tooltip("The component that tracks encounter & event information.")] private EventSpawnerManager eventManager;
         [SerializeField, Tooltip("The component that tracks tank information.")] public TankManager tankManager;
         [SerializeField] public float enemiesDestroyed;
         public static float totalEnemiesDestroyed;
 
         public static LevelManager Instance;
 
+        internal bool isPaused;
         internal bool readingTutorial;
         internal GAMESTATE levelPhase = GAMESTATE.BUILDING;
         internal WeatherConditions currentWeatherConditions;
         private int currentPlayerPaused;
         internal int currentRound;
         internal int totalLayers;
+        internal SessionStats currentSessionStats;
         internal bool isSettingUpOnStart;
 
         private int totalScrapValue;
@@ -58,11 +60,6 @@ namespace TowerTanks.Scripts
         public static Action OnGameOver;
 
         //Debug Tools
-        [Button("Activate Test Tutorial")]
-        private void DebugTestTutorial()
-        {
-            GameManager.Instance.DisplayTutorial(0);
-        }
 
         [Button(ButtonSizes.Medium)]
         private void TestAddResources()
@@ -81,12 +78,14 @@ namespace TowerTanks.Scripts
         private void Awake()
         {
             Instance = this;
+            isPaused = false;
             readingTutorial = false;
             currentPlayerPaused = -1;
             totalLayers = 1;
             currentRound = 0;
             itemPrice = new Dictionary<string, int>();
             PopulateItemDictionary();
+            currentSessionStats = ScriptableObject.CreateInstance<SessionStats>();
             spawnPoint = playerParent.transform;
             tankManager = GameObject.Find("TankManager").GetComponent<TankManager>();
             playerTank = tankManager.tanks[0].gameObject.GetComponent<TankController>();
@@ -301,6 +300,9 @@ namespace TowerTanks.Scripts
 
             //Adjust the outside of the tank
             //playerTank.AdjustOutsideLayerObjects();
+
+            if (totalLayers > currentSessionStats.maxHeight)
+                currentSessionStats.maxHeight = totalLayers;
         }
 
         /// <summary>
@@ -339,18 +341,20 @@ namespace TowerTanks.Scripts
         public void PauseToggle(int playerIndex)
         {
             //If the game is not paused, pause the game
-            if (!GameManager.Instance.isPaused)
+            if (!isPaused)
             {
                 Time.timeScale = 0;
                 GameManager.Instance.AudioManager.PauseAllSounds();
                 currentPlayerPaused = playerIndex;
+                isPaused = true;
                 OnGamePaused?.Invoke(playerIndex);
             }
             //If the game is paused, resume the game if the person that paused the game unpauses
-            else if (GameManager.Instance.isPaused && playerIndex == currentPlayerPaused)
+            else if (isPaused && playerIndex == currentPlayerPaused)
             {
                 Time.timeScale = 1;
                 GameManager.Instance.AudioManager.ResumeAllSounds();
+                isPaused = false;
                 currentPlayerPaused = -1;
                 OnGameResumed?.Invoke();
             }
@@ -583,7 +587,6 @@ namespace TowerTanks.Scripts
             GameManager.Instance.tankDesign = currentTankDesign;
             GameManager.Instance.cargoManifest = manifest;
             GameManager.Instance.LoadScene("BuildTankScene", LevelTransition.LevelTransitionType.GATE, true, true, false);
-            GameManager.shopChance = eventManager.shopChance;
         }
 
         public int GetScrapValue() => scrapValue;

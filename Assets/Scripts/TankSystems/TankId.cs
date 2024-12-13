@@ -14,9 +14,8 @@ namespace TowerTanks.Scripts
         [InlineButton("GenerateName", SdfIconType.Dice6Fill, "")]
         public string TankName = "New Tank";
         [SerializeField] internal TankController tankScript;
-        public TankAI tankBrain;
 
-        public enum TankType { PLAYER, ENEMY, NEUTRAL };
+        public enum TankType { PLAYER, ENEMY };
         public TankType tankType;
 
         //Components

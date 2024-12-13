@@ -895,6 +895,9 @@ MonoBehaviour:
   gamePhaseUI: {fileID: 2081814249}
   roomParentTransform: {fileID: 817163659}
   spawnPoint: {fileID: 1510248977}
+  playerActionContainer: {fileID: 1248153288}
+  playerActionPrefab: {fileID: 498943329815870873, guid: 672521387e4bccd4bb951538f864da01, type: 3}
+  mostRecentActionColor: {r: 0.3584906, g: 0.3584906, b: 0.3584906, a: 1}
   readyUpManager: {fileID: 2088406709}
   roomMoveDelay: 0.25
   roomMoveTickRate: 0.05
@@ -3541,7 +3544,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 399.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &939935976
@@ -7775,9 +7778,6 @@ MonoBehaviour:
   tankNameController: {fileID: 1162848056}
   roomBuildingMenu: {fileID: 496005151}
   playerNamepadContainer: {fileID: 82413976}
-  playerActionContainer: {fileID: 1248153288}
-  playerActionPrefab: {fileID: 498943329815870873, guid: 672521387e4bccd4bb951538f864da01, type: 3}
-  mostRecentActionColor: {r: 0.35686275, g: 0.35686275, b: 0.35686275, a: 1}
 --- !u!114 &2633472996676188968
 MonoBehaviour:
   m_ObjectHideFlags: 0

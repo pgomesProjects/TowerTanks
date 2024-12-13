@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -33,23 +34,5 @@ public class Trajectory : MonoBehaviour
         }
 
         return listOfTrajectoryPoints;
-    }
-    
-    public static RaycastHit2D GetHitPoint(List<Vector3> trajectoryPoints)
-    {
-        var excludeLayer = 1 << LayerMask.NameToLayer("Ground");
-
-        for (int i = 0; i < trajectoryPoints.Count - 2; i++)
-        {
-            Vector3 start = trajectoryPoints[i];
-            Vector3 end = trajectoryPoints[i + 1];
-            RaycastHit2D hit = Physics2D.Raycast(start, end - start, Vector3.Distance(start, end), excludeLayer);
-            if (hit.collider != null)
-            {
-                return hit;
-            }
-        }
-
-        return new RaycastHit2D();
     }
 }

@@ -12,10 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed3fed9d4c8accc41a6d5925e69ee2b6, type: 3}
   m_Name: TestNames
   m_EditorClassIdentifier: 
-  articles:
-  - The
-  - El
-  - SS
   adjectives:
   - Jolly
   - Massive
@@ -37,7 +33,7 @@ MonoBehaviour:
   - Mammoth
   - Greasy
   - Queen's
-  - Stalking
+  - Black
   - Silver
   - Rusty
   - Towering

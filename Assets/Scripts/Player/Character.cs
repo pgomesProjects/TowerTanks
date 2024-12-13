@@ -78,8 +78,6 @@ namespace TowerTanks.Scripts
         protected GameObject flames;
         protected bool isAlive;
         protected bool permaDeath;
-        protected bool jetpackCanBeUsed;
-        protected bool isCharacterLoaded;
 
         //internal movement
         protected Vector2 moveInput;
@@ -131,11 +129,6 @@ namespace TowerTanks.Scripts
             dismountPoint = transform;
         }
 
-        protected virtual void OnEnable()
-        {
-            StartCoroutine(ResetAtEndOfFrame());
-        }
-
         private bool useAirDrag;
         protected virtual void Update()
         {
@@ -149,11 +142,14 @@ namespace TowerTanks.Scripts
             
             currentFuel = Mathf.Clamp(currentFuel, 0, characterSettings.fuelAmount);
 
+            
             Transform newCellJoint = Physics2D.OverlapBox(
                 transform.position,
                 transform.localScale * 1.5f,
                 0f, 
                 1 << cellLayerIndex)?.gameObject.transform;
+            
+            
             
             if (softTankDismount && !fullTankDismount) // if we left the tank, but we're still near the tank
             {
@@ -415,7 +411,6 @@ namespace TowerTanks.Scripts
         {
             currentHealth = 0;
             characterHUD?.DamageAvatar(1f - (currentHealth / characterSettings.maxHealth), 0.01f);
-            characterHUD?.ClearButtonPrompts();
             OnCharacterDeath();
         }
 
@@ -454,7 +449,6 @@ namespace TowerTanks.Scripts
             currentHealth = characterSettings.maxHealth;
             currentFuel = characterSettings.fuelAmount;
             characterHUD?.UpdateFuelBar((currentFuel / characterSettings.fuelAmount) * 100f);
-            characterHUD?.ClearButtonPrompts();
             currentState = CharacterState.NONCLIMBING;
 
             if (currentInteractable != null)
@@ -464,13 +458,6 @@ namespace TowerTanks.Scripts
             }
 
             transform.parent = null;
-        }
-
-        protected virtual IEnumerator ResetAtEndOfFrame()
-        {
-            isCharacterLoaded = false;
-            yield return new WaitForEndOfFrame();
-            isCharacterLoaded = true;
         }
 
         private void RespawnTimer()
@@ -495,7 +482,6 @@ namespace TowerTanks.Scripts
             rb.isKinematic = false;
             characterHitbox.enabled = true;
             characterVisualParent?.gameObject.SetActive(true);
-            StartCoroutine(ResetAtEndOfFrame());
         }
 
         public Color GetCharacterColor() => characterColor;
@@ -552,7 +538,5 @@ namespace TowerTanks.Scripts
         {
             currentOtherColliders.Remove(other.collider);
         }
-
-        public PlayerHUD GetCharacterHUD() => characterHUD;
     }
 }

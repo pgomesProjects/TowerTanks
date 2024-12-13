@@ -12,10 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed3fed9d4c8accc41a6d5925e69ee2b6, type: 3}
   m_Name: RobotNames
   m_EditorClassIdentifier: 
-  articles:
-  - The
-  - El
-  - SS
   adjectives:
   - Bronze
   - Iron

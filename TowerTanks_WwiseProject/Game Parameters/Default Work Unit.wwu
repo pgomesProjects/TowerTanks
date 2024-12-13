@@ -33,7 +33,7 @@
 				<GameParameter Name="SFXPitch" ID="{98C5051B-342F-4E28-AF5E-ABE51B369CA2}">
 					<PropertyList>
 						<Property Name="InitialValue" Type="Real64" Value="1"/>
-						<Property Name="Max" Type="Real64" Value="2"/>
+						<Property Name="Max" Type="Real64" Value="1"/>
 					</PropertyList>
 				</GameParameter>
 			</ChildrenList>

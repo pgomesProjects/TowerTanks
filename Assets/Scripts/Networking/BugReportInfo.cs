@@ -19,14 +19,6 @@ public class BugReportInfo
         this.bugSeverity = BugSeverity.MILD;
     }
 
-    public BugReportInfo(string title, string description, int bugSeverity)
-    {
-        this.title = title;
-        this.gameVersion = "Version: " + Application.version;
-        this.description = description;
-        this.bugSeverity = (BugSeverity)bugSeverity;
-    }
-
     /// <summary>
     /// Prints a description based on the type of severity level provided.
     /// </summary>

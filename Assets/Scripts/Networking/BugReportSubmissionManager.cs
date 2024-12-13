@@ -14,34 +14,16 @@ namespace TowerTanks.Scripts
         //The amount of characters each bug report ID will have
         private const int REPORT_ID_CHAR_COUNT = 6;
 
-        public static System.Action<string> OnBugReportSubmitted;
-        public static System.Action OnBugReportFailed;
-
         private void Awake()
         {
             apiInfoFileName = Application.dataPath + "/bug_report_api_info.dat";
         }
 
-        [Button("Send Test Report")]
+        [Button]
         public void TestSendReport()
         {
-            StartCoroutine(SubmitTestReport());
-        }
-
-        public void SubmitBugReport(BugReportInfo bugReportInfo, Texture2D screenshot)
-        {
             string decryptedJson = DataEncrypter.DecryptFile(apiInfoFileName, decryptionKey);
-            StartCoroutine(SendBugReport(JsonUtility.FromJson<APIInformation>(decryptedJson), bugReportInfo, screenshot));
-        }
-
-        public IEnumerator SubmitTestReport()
-        {
-            //Attempt to get a screenshot of the game
-            yield return new WaitForEndOfFrame();
-            Texture2D screenshot = ScreenCapture.CaptureScreenshotAsTexture();
-
-            string decryptedJson = DataEncrypter.DecryptFile(apiInfoFileName, decryptionKey);
-            StartCoroutine(SendBugReport(JsonUtility.FromJson<APIInformation>(decryptedJson), new BugReportInfo(), screenshot));
+            StartCoroutine(SendBugReport(JsonUtility.FromJson<APIInformation>(decryptedJson), new BugReportInfo()));
         }
 
         /// <summary>
@@ -50,8 +32,12 @@ namespace TowerTanks.Scripts
         /// <param name="apiInfo">The API information for the HTTP request.</param>
         /// <param name="bugReportInfo">The object holding all of the bug report information from the user.</param>
         /// <returns></returns>
-        public IEnumerator SendBugReport(APIInformation apiInfo, BugReportInfo bugReportInfo, Texture2D screenshot)
+        public IEnumerator SendBugReport(APIInformation apiInfo, BugReportInfo bugReportInfo)
         {
+            //Attempt to get a screenshot of the game
+            yield return new WaitForEndOfFrame();
+            Texture2D screenshot = ScreenCapture.CaptureScreenshotAsTexture();
+
             //Generate an ID for the bug report
             string reportID = GenerateID();
 
@@ -98,8 +84,6 @@ namespace TowerTanks.Scripts
             {
                 Debug.LogError("Error creating Trello card: " + www.error);
                 Debug.LogError("Response: " + www.downloadHandler.text);
-
-                OnBugReportFailed?.Invoke();
             }
 
             //Card was created successfully
@@ -120,12 +104,11 @@ namespace TowerTanks.Scripts
 
                 // If a screenshot was successfully taken, attach it to the card
                 if (screenshot != null)
-                {
                     StartCoroutine(AttachFileToCard(apiInfo, cardID, screenshot.EncodeToPNG(), "TowerTanks-Screenshot-" + System.DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss") + ".png", "image/png"));
-                    Destroy(screenshot);
-                }
 
-                OnBugReportSubmitted?.Invoke(reportID);
+                Destroy(screenshot);
+
+                GameSettings.CopyToClipboard(reportID);
             }
         }
 

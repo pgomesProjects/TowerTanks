@@ -6,8 +6,8 @@ using Object = System.Object;
 
 public class StateMachine 
 {  // handles it's own state transitions and updates the current state
-   public IState _currentState { get; private set; }
-
+   private IState _currentState;
+   
    private Dictionary<Type, List<Transition>> _transitions = new Dictionary<Type,List<Transition>>(); //all transitions
    private List<Transition> _currentTransitions = new List<Transition>(); //current state's transitions
    private List<Transition> _anyTransitions = new List<Transition>(); //Transitions that can be made from any state
