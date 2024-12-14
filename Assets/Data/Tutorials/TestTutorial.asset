@@ -17,4 +17,5 @@ MonoBehaviour:
   - tutorialImage: {fileID: 0}
     tutorialText: This is an example tutorial!
   - tutorialImage: {fileID: 21300000, guid: 67d27db3441fab94d8d5f3c2defded90, type: 3}
-    tutorialText: This is to show that the tutorial stuff is working.
+    tutorialText: This is to show that the tutorial stuff is working. Now press [Jetpack]
+      to close it.

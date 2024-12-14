@@ -104,13 +104,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a enim
-    vitae sapien mollis sollicitudin sit amet at justo. Vivamus id pretium tortor.
-    Pellentesque interdum, diam ac molestie commodo, urna augue imperdiet tortor,
-    in dapibus sem ex at urna. Integer justo mauris, vehicula et viverra et, dictum
-    vitae justo. Ut ut mi lectus.
-
-'
+  m_text: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce a enim vitae
+    sapien mollis sollicitudin sit amet at justo. Vivamus id pretium tortor. Pellentesque
+    interdum, diam ac molestie commodo, urna augue imperdiet tortor, in dapibus sem
+    ex at urna. Integer justo mauris, vehicula et viverra et, dictum vitae justo.
+    Ut ut mi lectus. <sprite index=2>
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 13f9961399b5ec04195123b68a4eab93, type: 2}
   m_sharedMaterial: {fileID: 1185002899031012985, guid: 13f9961399b5ec04195123b68a4eab93, type: 2}
@@ -129,7 +127,7 @@ MonoBehaviour:
     bottomLeft: {r: 1, g: 1, b: 1, a: 1}
     bottomRight: {r: 1, g: 1, b: 1, a: 1}
   m_fontColorGradientPreset: {fileID: 0}
-  m_spriteAsset: {fileID: 0}
+  m_spriteAsset: {fileID: 11400000, guid: 36e4c98cbd6bb324aa92ba754da7377b, type: 2}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
   m_TextStyleHashCode: -1183493901

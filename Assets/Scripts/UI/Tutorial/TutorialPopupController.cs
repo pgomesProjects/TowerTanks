@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Text.RegularExpressions;
 
 namespace TowerTanks.Scripts
 {
@@ -110,12 +111,63 @@ namespace TowerTanks.Scripts
                 tutorialImage.sprite = tutorialSprite;
             }
 
-            //Display the stored tutorial text
-            tutorialText.text = currentTutorial.tutorialPages[currentPageNumber].tutorialText;
+            //Display the stored tutorial text with any actions replaced with sprites
+            string tutText = ExtractActions(currentTutorial.tutorialPages[currentPageNumber].tutorialText, bracketFunction => 
+            {
+                return DisplayAction(bracketFunction);
+            });
+            tutorialText.text = tutText;
 
             //Show "Close" or "Continue" based on whether the current page is the last one or not
             advanceTutorialText.text = isLastPage ? "Close" : "Continue";
             canEndTutorial = isLastPage;
+        }
+
+        /// <summary>
+        /// Extracts all of the actions from the string and displays their sprites in the text.
+        /// </summary>
+        /// <param name="input">The tutorial text.</param>
+        /// <param name="bracketFunction">The function which takes the action and converts it into a sprite.</param>
+        /// <returns>Returns the string with the bracketed actions converted into appropriate sprites.</returns>
+        private string ExtractActions(string input, System.Func<string, string> bracketFunction)
+        {
+            // Define the regex pattern to match content inside square brackets
+            string pattern = @"\[(.*?)\]";
+
+            // Replace matches using a callback function
+            string result = Regex.Replace(input, pattern, match =>
+            {
+                //Get the action from the brackets
+                string phrase = match.Groups[1].Value;
+                //Take the func parameter and use it to alter the result 
+                return bracketFunction(phrase);
+            });
+
+
+            //Return the altered string
+            return result;
+        }
+
+        /// <summary>
+        /// Takes an action name and returns the sprite equivalent of it.
+        /// </summary>
+        /// <param name="action">The action to display.</param>
+        /// <returns>Returns the appropriate sprite text if found. Returns an empty string if not found.</returns>
+        private string DisplayAction(string action)
+        {
+            string actionSprite = string.Empty;
+
+            //If the current action exists as a game action, get the action
+            if (System.Enum.TryParse(action, true, out GameAction result))
+            {
+                PlatformPrompt promptInfo = GameManager.Instance.buttonPromptSettings.GetButtonPrompt(result, PlatformType.Gamepad);
+
+                //If the prompt exists in the system, get the sprite id from the prompt and show it in the text
+                if (promptInfo != null)
+                    actionSprite = "<sprite index=" + promptInfo.SpriteID + ">";
+            }
+
+            return actionSprite;
         }
 
         private void StartAdvance()
