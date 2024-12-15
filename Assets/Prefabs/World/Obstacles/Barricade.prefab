@@ -262,6 +262,7 @@ GameObject:
   - component: {fileID: 2916658155948395904}
   - component: {fileID: 8886377289722146239}
   - component: {fileID: 2590234037099629753}
+  - component: {fileID: 7199892300023835595}
   m_Layer: 8
   m_Name: Barricade
   m_TagString: Destructible
@@ -325,6 +326,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 150
   health: 0
+--- !u!114 &7199892300023835595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 951168179812281977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e005a5f17590ef4bba8c45ee5c33d66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &3775743897681570836
 GameObject:
   m_ObjectHideFlags: 0

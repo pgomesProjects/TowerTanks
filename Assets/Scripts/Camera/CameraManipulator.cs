@@ -101,7 +101,7 @@ namespace TowerTanks.Scripts
                 //Audio setup:
                 if (tank.tankType == TankId.TankType.PLAYER) //Set up audio on this camera if it is the player's
                 {
-                    AkSoundEngine.AddDefaultListener(cam.gameObject);
+                    //AkSoundEngine.AddDefaultListener(cam.gameObject);
                 }
 
                 //Parallax setup:
