@@ -14,6 +14,9 @@
 								<Property Name="3DSpatialization" Type="int16" Value="1"/>
 							</PropertyList>
 							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="LoudBlasts" ID="{7968801A-25AF-433D-8631-BC726ABCFEAD}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
@@ -425,7 +428,13 @@
 							</ActiveSourceList>
 						</Sound>
 						<Sound Name="TT_SFX_large-explosion" ID="{45C0989F-AD96-42E8-9FAC-A237C72C4640}" ShortID="716959908">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+							</PropertyList>
 							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="LoudBlasts" ID="{7968801A-25AF-433D-8631-BC726ABCFEAD}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
@@ -476,7 +485,13 @@
 							</ActiveSourceList>
 						</Sound>
 						<Sound Name="TT_SFX_medium-explosion" ID="{E5D35382-484C-4B8F-9BC9-D93AAF86D33A}" ShortID="1049977366">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+							</PropertyList>
 							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="LoudBlasts" ID="{7968801A-25AF-433D-8631-BC726ABCFEAD}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
@@ -527,6 +542,9 @@
 								<Property Name="3DSpatialization" Type="int16" Value="1"/>
 							</PropertyList>
 							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="LoudBlasts" ID="{7968801A-25AF-433D-8631-BC726ABCFEAD}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
@@ -1730,7 +1748,13 @@
 							</ChildrenList>
 						</RandomSequenceContainer>
 						<RandomSequenceContainer Name="TT_SFX_cannon_fire (new)" ID="{61ECB6EC-2227-4A40-8817-837AAF6B74DF}" ShortID="236893774">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+							</PropertyList>
 							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="LoudBlasts" ID="{7968801A-25AF-433D-8631-BC726ABCFEAD}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
@@ -1809,6 +1833,7 @@
 						</RandomSequenceContainer>
 						<RandomSequenceContainer Name="TT_SFX_machine_gun_fire" ID="{151F9BD6-5C40-4836-AC2E-2F9847D2C5A8}" ShortID="14474389">
 							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
 								<Property Name="Volume" Type="Real64">
 									<ValueList>
 										<Value>-15</Value>
@@ -1816,6 +1841,9 @@
 								</Property>
 							</PropertyList>
 							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="LoudBlasts" ID="{7968801A-25AF-433D-8631-BC726ABCFEAD}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
