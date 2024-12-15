@@ -1466,6 +1466,7 @@ MonoBehaviour:
   TankName: 
   tankType: 0
   coreHealth: 500
+  playerSpawnPoint: {fileID: 2558554571462768232}
   towerJointTarget: {fileID: 1677695871312723229}
   isInvincible: 0
   isFragile: 0
@@ -3596,6 +3597,11 @@ PrefabInstance:
 --- !u!4 &2060229120778093204 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 855465098922572527, guid: 41d970ec662df1f4489d206e0ff2298f, type: 3}
+  m_PrefabInstance: {fileID: 1677695872489683067}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2558554571462768232 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3803730043941654035, guid: 41d970ec662df1f4489d206e0ff2298f, type: 3}
   m_PrefabInstance: {fileID: 1677695872489683067}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7762344039219592384

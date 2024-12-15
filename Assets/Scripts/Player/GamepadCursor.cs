@@ -77,12 +77,21 @@ namespace TowerTanks.Scripts
             if (!cursorActive || !cursorCanMove)
                 return;
 
-            InputDevice currentDevice = playerInput.devices[0];
+            InputDevice currentDevice = null;
+
+            foreach(InputDevice device in playerInput.devices)
+            {
+                if (device != null && device != virtualMouse)
+                {
+                    currentDevice = device;
+                    break;
+                }
+            }
 
             if (virtualMouse == null || currentDevice == null || canvas == null)
                 return;
 
-            Vector2 deltaValue = Vector2.zero;
+            Vector2 deltaValue;
 
             if (currentDevice is Keyboard)
             {

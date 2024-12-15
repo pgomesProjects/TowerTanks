@@ -72,11 +72,8 @@ namespace TowerTanks.Scripts
             set => promptInfo.promptSprite = value;
         }
 
-        public string PromptText
-        {
-            get => promptInfo.name;
-            set => promptInfo.name = value;
-        }
+        public string GetPromptText() => promptInfo.name;
+        public void SetPromptText(string newPromptText) => promptInfo.name = newPromptText;
     }
 
     public enum GameAction
@@ -90,7 +87,8 @@ namespace TowerTanks.Scripts
         Fire,
         Repair,
         AddFuel,
-        ReleaseSteam
+        ReleaseSteam,
+        ReadyUp
     }
 
     public enum PlatformType

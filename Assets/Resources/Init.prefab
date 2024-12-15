@@ -100,20 +100,76 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: 5c5f77bae720eee41b0e0f1960fb8506, type: 2}
+    - {fileID: 11400000, guid: 9a4bec359a763bb4892e927047522782, type: 2}
+    - {fileID: 11400000, guid: dd448ac86e02fcf4380ee2e724dfa4ed, type: 2}
+    - {fileID: 11400000, guid: 73b079231657fd7418b5016920249387, type: 2}
+    - {fileID: 11400000, guid: 8270639046558c145b88d0f4710b39f8, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: tutorialsList
+      Entry: 7
+      Data: 0|TowerTanks.Scripts.TutorialItem[], TowerTanks.Scripts
+    - Name: 
+      Entry: 12
+      Data: 5
+    - Name: 
+      Entry: 7
+      Data: TowerTanks.Scripts.TutorialItem, TowerTanks.Scripts
+    - Name: tutorialPopup
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: TowerTanks.Scripts.TutorialItem, TowerTanks.Scripts
+    - Name: tutorialPopup
+      Entry: 10
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: TowerTanks.Scripts.TutorialItem, TowerTanks.Scripts
+    - Name: tutorialPopup
+      Entry: 10
+      Data: 2
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: TowerTanks.Scripts.TutorialItem, TowerTanks.Scripts
+    - Name: tutorialPopup
+      Entry: 10
+      Data: 3
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: TowerTanks.Scripts.TutorialItem, TowerTanks.Scripts
+    - Name: tutorialPopup
+      Entry: 10
+      Data: 4
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  playerHUDPrefab: {fileID: 7233397024689304095, guid: 40576d2ea0d1e834aa0a94b73261c6a6, type: 3}
   tutorialPopup: {fileID: 7246176982549920993, guid: 5c09bd25fe367e947a9b55a4a014671e, type: 3}
-  tutorialsList:
-  - {fileID: 11400000, guid: 3b0484ad929fefc4c96fd957efa8336a, type: 2}
-  - {fileID: 11400000, guid: 5c5f77bae720eee41b0e0f1960fb8506, type: 2}
-  - {fileID: 11400000, guid: dd448ac86e02fcf4380ee2e724dfa4ed, type: 2}
-  - {fileID: 11400000, guid: 9a4bec359a763bb4892e927047522782, type: 2}
-  - {fileID: 11400000, guid: 73b079231657fd7418b5016920249387, type: 2}
-  - {fileID: 11400000, guid: 8270639046558c145b88d0f4710b39f8, type: 2}
   roomList:
   - {fileID: 11400000, guid: 37660a02e89b587409727183421aa180, type: 2}
   - {fileID: 11400000, guid: f9b63bf0f3fc1484eb5d45047c937a78, type: 2}

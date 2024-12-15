@@ -403,7 +403,7 @@ namespace TowerTanks.Scripts
         private void ShowFirePrompt(bool showPrompt)
         {
             if(operatorID != null)
-                operatorID.GetCharacterHUD().SetButtonPrompt(GameAction.Fire, showPrompt);
+                operatorID.GetCharacterHUD()?.SetButtonPrompt(GameAction.Fire, showPrompt);
         }
 
         public void RotateBarrel(float force, bool withSound)

@@ -12,9 +12,10 @@ namespace TowerTanks.Scripts
     public class PauseController : MonoBehaviour
     {
         private GameObject currentMenuState;
-        public enum MenuState { PAUSE, OPTIONS, REFRESH }
+        public enum MenuState { PAUSE, TUTORIALS, OPTIONS, REFRESH }
 
         [SerializeField] private GameObject pauseMenu;
+        [SerializeField] private GameObject tutorialsMenu;
         [SerializeField] private GameObject optionsMenu;
 
         [Header("Menu First Selected Items")]
@@ -82,7 +83,7 @@ namespace TowerTanks.Scripts
 
         private void CancelAction()
         {
-            if (currentMenuState == optionsMenu)
+            if (currentMenuState != pauseMenu)
             {
                 Debug.Log("Back...");
                 Back();
@@ -103,6 +104,9 @@ namespace TowerTanks.Scripts
             {
                 case MenuState.PAUSE:
                     newMenu = pauseMenu;
+                    break;
+                case MenuState.TUTORIALS:
+                    newMenu = tutorialsMenu;
                     break;
                 case MenuState.OPTIONS:
                     newMenu = optionsMenu;
@@ -135,9 +139,13 @@ namespace TowerTanks.Scripts
 
         private void SelectButtonOnPause(GameObject menu)
         {
-            if (menu == optionsMenu)
+            if (menu == tutorialsMenu)
             {
                 pauseMenuButtons[1].Select();
+            }
+            else if (menu == optionsMenu)
+            {
+                pauseMenuButtons[2].Select();
             }
             else
             {
@@ -149,6 +157,11 @@ namespace TowerTanks.Scripts
         {
             EventSystem.current.SetSelectedGameObject(null);
             LevelManager.Instance?.PauseToggle(currentPlayerPaused);
+        }
+
+        public void Tutorials()
+        {
+            SwitchMenu(MenuState.TUTORIALS);
         }
 
         public void Options()
