@@ -223,6 +223,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce03d4337310a1f489148e0232a7c6f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  camSystems: []
   parallaxPrefab: {fileID: 3696405528154087446, guid: 2e6fa989fcf68194b8fc6210a215df86, type: 3}
   maxTankCams: 3
   useRadar: 1

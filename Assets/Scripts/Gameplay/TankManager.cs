@@ -24,7 +24,7 @@ namespace TowerTanks.Scripts
 
         [TabGroup("Runtime Actions")]
         [Button("Spawn New Tank", ButtonSizes.Small)]
-        public TankController SpawnTank(int tier = 1, TankId.TankType typeToSpawn = TankId.TankType.NEUTRAL, bool spawnBuilt = false)
+        public TankController SpawnTank(int tier = 1, TankId.TankType typeToSpawn = TankId.TankType.NEUTRAL, bool spawnBuilt = true)
         {
             TankId newtank = new TankId();
 

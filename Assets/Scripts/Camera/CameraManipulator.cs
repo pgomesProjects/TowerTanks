@@ -16,11 +16,12 @@ namespace TowerTanks.Scripts
         /// <summary>
         /// Describes a camera system which tracks an individual tank in the level scene.
         /// </summary>
+        [System.Serializable]
         public class TankCamSystem
         {
             //Objects & Components:
-            [Tooltip("The tank(s) this system is targeting.")]                                                  internal List<TankController> tanks = new List<TankController>();
-            [Tooltip("Bounds representing tanks which have been destroyed while encapsulated by this system.")] internal List<BoxCollider2D> simulatedTanks = new List<BoxCollider2D>();
+            [Tooltip("The tank(s) this system is targeting.")]                                                  public List<TankController> tanks = new List<TankController>();
+            [Tooltip("Bounds representing tanks which have been destroyed while encapsulated by this system.")] public List<BoxCollider2D> simulatedTanks = new List<BoxCollider2D>();
             [Tooltip("Camera component which renders this specific tank.")]                                     internal Camera cam;
             [Tooltip("Virtual camera pointed at the tank.")]                                                    internal CinemachineVirtualCamera vcam;
             [Tooltip("Collider used to manage offscreen visualization system.")]                                private BoxCollider2D boundCollider;
@@ -151,7 +152,7 @@ namespace TowerTanks.Scripts
             public void UpdateEnabledStatus()
             {
                 if (isPlayerCam) return;                             //Player cam is always enabled
-                if (TankManager.instance.playerTank == null) return; //Do nothing when the player tank is destroyed (prevents errors upon player death)
+                if (TankManager.instance.playerTank == null) return; //Do nothing when the player tank is destroyed (prevents errors upon player death)x
 
                 float distanceFromPlayer = Mathf.Abs(tanks[0].treadSystem.transform.position.x - TankManager.instance.playerTank.treadSystem.transform.position.x); //Get flat horizontal distance from player tank
                 if (distanceFromPlayer > main.engagementDistance) //Tank is outside engagement distance
@@ -240,28 +241,18 @@ namespace TowerTanks.Scripts
                     Bounds rightMostTank = highestTank; //Make container for storing the rightmost tank onscreen and default to system's base tank (container used is bounds because it may be a simulacrum tank)
                     for (int x = 1; x < allTanks.Length; x++) //Iterate through tanks (and simulacrum stanks) in camera system (other than base tank)
                     {
-                        //Vertical extents:
-                        //if (tanks[x].treadSystem.transform.position.y + tanks[x].tankSizeValues.x > highestTank.treadSystem.transform.position.y + highestTank.tankSizeValues.x) highestTank = tanks[x]; //Factor in both physical tank position and tank height when looking for tallest tank
-                        //if (tanks[x].treadSystem.transform.position.y - tanks[x].tankSizeValues.z < lowestTank.treadSystem.transform.position.y - lowestTank.tankSizeValues.z) lowestTank = tanks[x];    //Factor in both physical tank position and tank depth when looking for lowest tank
-                        //if (tanks[x].treadSystem.transform.position.y + tanks[x].tankSizeValues.x > highestTank.center.y + highestTank.extents.y) highestTank = GetTankAsBounds(tanks[x]); //Factor in both physical tank position and tank height when looking for tallest tank
-                        //if (tanks[x].treadSystem.transform.position.y - tanks[x].tankSizeValues.z < lowestTank.center.y - lowestTank.extents.y) lowestTank = GetTankAsBounds(tanks[x]);    //Factor in both physical tank position and tank depth when looking for lowest tank
-                        if (allTanks[x].center.y + allTanks[x].extents.y > highestTank.center.y + highestTank.extents.y) highestTank = allTanks[x]; //Factor in both physical tank position and tank height when looking for tallest tank
-                        if (allTanks[x].center.y - allTanks[x].extents.y < lowestTank.center.y - lowestTank.extents.y) lowestTank = allTanks[x];    //Factor in both physical tank position and tank depth when looking for lowest tank
-
-                        //Horizontal extents:
-                        //if (tanks[x].treadSystem.transform.position.x - tanks[x].tankSizeValues.y < leftMostTank.center.x - leftMostTank.extents.x) leftMostTank = GetTankAsBounds(tanks[x]);    //Factor in both physical tank position and left side length of tank when looking for leftmost tank
-                        //if (tanks[x].treadSystem.transform.position.x + tanks[x].tankSizeValues.w > rightMostTank.center.x + rightMostTank.extents.x) rightMostTank = GetTankAsBounds(tanks[x]); //Factor in both physical tank position and right side length of tank when looking for rightmost tank
+                        if (allTanks[x].center.y + allTanks[x].extents.y > highestTank.center.y + highestTank.extents.y) highestTank = allTanks[x];       //Factor in both physical tank position and tank height when looking for tallest tank
+                        if (allTanks[x].center.y - allTanks[x].extents.y < lowestTank.center.y - lowestTank.extents.y) lowestTank = allTanks[x];          //Factor in both physical tank position and tank depth when looking for lowest tank
                         if (allTanks[x].center.x - allTanks[x].extents.x < leftMostTank.center.x - leftMostTank.extents.x) leftMostTank = allTanks[x];    //Factor in both physical tank position and left side length of tank when looking for leftmost tank
                         if (allTanks[x].center.x + allTanks[x].extents.x > rightMostTank.center.x + rightMostTank.extents.x) rightMostTank = allTanks[x]; //Factor in both physical tank position and right side length of tank when looking for rightmost tank
                     }
 
                     //Update ortho size:
-                    //float heightOrthoSize = highestTank.tankSizeValues.x + lowestTank.tankSizeValues.z + Mathf.Abs(highestTank.treadSystem.transform.position.y - lowestTank.treadSystem.transform.position.y); //Get combined height and depth of tallest and lowest tank, plus the vertical difference in position between the two
                     float heightOrthoSize = highestTank.extents.y + lowestTank.extents.y + Mathf.Abs(highestTank.center.y - lowestTank.center.y); //Get combined height and depth of tallest and lowest tank, plus the vertical difference in position between the two
                     heightOrthoSize = (heightOrthoSize + main.tankCamUpperBuffer + main.tankCamLowerBuffer) / 2; //Get final orthographic size (as defined by tank heights) by adding vertical buffers and dividing by two
 
                     float widthOrthoSize = 0; //Because the value used for width ortho size depends on how many tanks are in system, create an empty container here
-                    if (tanks.Count == 1) //System is tracking a single tank, and because it needs to track the center of that tank, it has to decide which side is longer and base the ortho size off of that
+                    if (tanks.Count == 1 && simulatedTanks.Count == 0) //System is tracking a single tank, and because it needs to track the center of that tank, it has to decide which side is longer and base the ortho size off of that
                     {
                         //NOTE: This is done as such because otherwise, the camera will not lock to the center of given tank as desired
                         float leftWidthOrthoSize = (((tanks[0].tankSizeValues.w * 2) + (2 * main.tankCamSideBuffer)) / 2) / cam.aspect;  //Get ortho size as defined by tank width (measuring from middle to left)
@@ -271,14 +262,14 @@ namespace TowerTanks.Scripts
                     else //With multiple tanks, the system needs to combine the respective extremities of the two outermost tanks to get effective width
                     {
                         //Determine orthographic size:
-                        //widthOrthoSize = tanks[0].tankSizeValues.w + tanks[^1].tankSizeValues.y + Mathf.Abs(tanks[0].treadSystem.transform.position.x - tanks[^1].treadSystem.transform.position.x); //Get leftward width of leftmost tank and rightmost width of rightmost tank, plus the horizontal difference in position between the two
                         widthOrthoSize = leftMostTank.extents.x + rightMostTank.extents.x + Mathf.Abs(leftMostTank.center.x - rightMostTank.center.x); //Get leftward width of leftmost tank and rightmost width of rightmost tank, plus the horizontal difference in position between the two
                         widthOrthoSize = ((widthOrthoSize + (main.tankCamSideBuffer * 2)) / 2) / cam.aspect; //Get final orthographic size (as defined by tank widths) by adding horizontal buffers and dividing by the cam aspect ratio
                     }
                     vcam.m_Lens.OrthographicSize = Mathf.Max(heightOrthoSize, widthOrthoSize); //Use whichever value is larger as the final orthographic size
-                    
+
                     //Get horizontal extents of frame:
-                    Vector2 offset = new Vector2();                   //Create container to apply offsets to
+
+                    /*
                     Cell leftMostCell = tanks[0].rooms[0].cells[0];   //Get baseline leftmost cell in leftmost tank (default to random cell in core room)
                     Cell rightMostCell = tanks[^1].rooms[0].cells[0]; //Get baseline rightmost cell in rightmost tank (default to random cell in core room)
                     foreach (TankController tank in tanks) //Iterate through each tank in system
@@ -299,9 +290,12 @@ namespace TowerTanks.Scripts
                     float rightMostPoint = (rightMostCell.transform.position + (rightMostCell.transform.rotation * new Vector3(0.5f, rightTankLeaningRight ? 0.5f : -0.5f, 0))).x; //Get rightmost point of rightmost cell
                     leftMostPoint = Mathf.Min(leftMostPoint, tanks[0].treadSystem.wheels[0].transform.position.x - tanks[0].treadSystem.wheels[0].radius);                         //Check if leftmost wheel in leftmost tank tread is farther left than leftmost cell
                     rightMostPoint = Mathf.Max(rightMostPoint, tanks[^1].treadSystem.wheels[^1].transform.position.x + tanks[0].treadSystem.wheels[^1].radius);                    //Check if rightmost wheel in rightmost tank tread is farther right than rightmost cell
+                    */
+                    float leftMostPoint = leftMostTank.center.x - leftMostTank.extents.x;    //Get leftmost extent of focused tanks
+                    float rightMostPoint = rightMostTank.center.x + rightMostTank.extents.x; //Get rightmost extent of focused tanks
 
                     //Position camera:
-                    if (tanks.Count == 1) //When tracking a single tank, the camera system uses the tracked pose offset value to position the tank at the center of the screen
+                    if (tanks.Count == 1 && simulatedTanks.Count == 0) //When tracking a single tank, the camera system uses the tracked pose offset value to position the tank at the center of the screen
                     {
                         //Despawn target dummy:
                         if (followDummy != null) //System is switching to single-tank mode
@@ -312,6 +306,7 @@ namespace TowerTanks.Scripts
                         }
 
                         //Get x offset:
+                        Vector2 offset = new Vector2();                                                                                                            //Create container to apply offsets to
                         float offsetWidth = ((leftMostPoint + rightMostPoint) / 2) - tanks[0].treadSystem.transform.position.x;                                    //Get x distance to offset camera by by finding the world center between both extreme horizontal points in tank and getting the difference between that and the tank x position
                         offsetWidth = Mathf.Lerp(prevOffsetWidth, offsetWidth, main.horizontalOffsetSmoothing * Time.deltaTime);                                   //Use a lerp to smooth out erratic changes in found offset width
                         prevOffsetWidth = offsetWidth;                                                                                                             //Store offset width value for later
@@ -322,7 +317,7 @@ namespace TowerTanks.Scripts
                         offset += (Vector2)(Quaternion.AngleAxis(-tanks[0].treadSystem.transform.eulerAngles.z, Vector3.forward) * (Vector3.up * offsetHeight)); //Apply value to offset, compensating for current rotation of tank
                         vcam.GetCinemachineComponent<CinemachineFramingTransposer>().m_TrackedObjectOffset = offset;                                             //Apply final offset to vcam component
                     }
-                    else //When tracking multiple tanks, the camera system uses a generated transform to position the tank at the center of the screen
+                    else //When tracking multiple tanks (simulated or otherwise), the camera system uses a generated transform to position the tank at the center of the screen
                     {
                         //Spawn target dummy:
                         if (followDummy == null) //System is switching to multi-tank mode
@@ -340,10 +335,6 @@ namespace TowerTanks.Scripts
                         newPosition.y = ((lowestTank.center.y - lowestTank.extents.y) - main.tankCamLowerBuffer) + vcam.m_Lens.OrthographicSize; //Get position by finding bottom of lowest followed tank (plus buffer) then moving halfway up the screen from there
                         followDummy.position = newPosition;                                                                                                                     //Move dummy to calculated position
                     }
-
-                    //Debugs:
-                    Debug.DrawCircle((leftMostCell.transform.position + (leftMostCell.transform.rotation * new Vector3(-0.5f, leftTankLeaningRight ? -0.5f : 0.5f, 0))), 0.25f, 10, Color.blue);
-                    Debug.DrawCircle((rightMostCell.transform.position + (rightMostCell.transform.rotation * new Vector3(0.5f, rightTankLeaningRight ? 0.5f : -0.5f, 0))), 0.25f, 10, Color.blue);
                 }
                 else //Updates for the radar
                 {
@@ -385,8 +376,9 @@ namespace TowerTanks.Scripts
                     }
                     Destroy(vcam.m_Follow.gameObject); //Destroy deathMannequin if it exists
                 }
-                if (cam.gameObject != null) Destroy(cam.gameObject);          //Destroy camera object (also destroys bound collider)
-                if (vcam.gameObject != null) Destroy(vcam.gameObject);        //Destroy virtual camera object
+                if (cam.gameObject != null) Destroy(cam.gameObject);                    //Destroy camera object (also destroys bound collider)
+                if (vcam.gameObject != null) Destroy(vcam.gameObject);                  //Destroy virtual camera object
+                if (parallaxController != null) Destroy(parallaxController.gameObject); //Destroy parallax system when destroying camera
                 engaged = false; main.CheckIfStillEngaged();                  //Have camera manipulator check if destroying this cam system ends engagement
             }
             /// <summary>
@@ -397,17 +389,19 @@ namespace TowerTanks.Scripts
                 //Create dummy of destroyed tank:
                 timeUntilDeath = isPlayerCam ? -2 : main.cameraDisappearTime;                      //Begin countdown timer to death
                 Transform tankDummy = new GameObject(tanks[0].name + "_DeathMannequin").transform; //Create new stationary transform for camera to follow
+                tankDummy.parent = main.transform;                                                 //Child mannequin to camera container
                 tankDummy.position = tanks[0].treadSystem.transform.position;                      //Match position to that of tank tread system
-                vcam.m_Follow = tankDummy;                                                         //Have camera follow tank dummy
+                if (vcam.m_Follow == tanks[0].treadSystem.transform) vcam.m_Follow = tankDummy;    //Have camera follow tank dummy (unless it is already following a tank dummy)
 
                 //Set up tank bounds simulation:
                 Bounds tankBounds = tanks[0].treadSystem.GetTankBounds();                         //Get bounds of tank
                 BoxCollider2D boundCollider = tankDummy.gameObject.AddComponent<BoxCollider2D>(); //Add a box collider to store the bounds of the tank dummy
-                boundCollider.enabled = false;                                                    //Collider does not need to be enabled
+                boundCollider.gameObject.layer = LayerMask.NameToLayer("Ghost");                  //Put collider on layer that makes it collide with nothing
                 boundCollider.size = tankBounds.size;                                             //Store bounds size in collider
                 boundCollider.offset = tankBounds.center - boundCollider.transform.position;      //Offset collider so that its center matches that of bounds
 
-                //Cleanup on other camsystems:
+                //Cleanup instances on other camsystems and populate with mannequins:
+                simulatedTanks.Add(boundCollider); //Make sure simulacrum tank is being tracked by this camera
                 foreach (TankCamSystem system in main.camSystems) //Iterate through tankCams in camera manipulator
                 {
                     if (system != this && system.tanks.Contains(tanks[0])) //Other cam system currently encapsulates this tank
@@ -416,6 +410,7 @@ namespace TowerTanks.Scripts
                         system.simulatedTanks.Add(boundCollider); //Add simulation of tank's bounds to cam system's simulated tanks list
                     }
                 }
+                tanks.RemoveAt(0); //Lose reference to destroyed tank
             }
             /// <summary>
             /// Enables or disables this cam system.
@@ -444,10 +439,10 @@ namespace TowerTanks.Scripts
         }
 
         //Objects & Components:
-        [Tooltip("Singleton instance of camera manipulator in scene.")]                       public static CameraManipulator main;
-        [Tooltip("List of camera systems being used to actively render tanks in scene.")]     private List<TankCamSystem> camSystems = new List<TankCamSystem>();
-        [Tooltip("Cam system used to control the radar camera.")]                             private TankCamSystem radarSystem;
-        [SerializeField, Tooltip("Prefab for parallax system instantiated for each camera.")] private GameObject parallaxPrefab;
+        [Tooltip("Singleton instance of camera manipulator in scene.")]                                   public static CameraManipulator main;
+        [SerializeField, Tooltip("List of camera systems being used to actively render tanks in scene.")] private List<TankCamSystem> camSystems = new List<TankCamSystem>();
+        [Tooltip("Cam system used to control the radar camera.")]                                         private TankCamSystem radarSystem;
+        [SerializeField, Tooltip("Prefab for parallax system instantiated for each camera.")]             private GameObject parallaxPrefab;
 
         //Settings:
         [Header("General Settings:")]
