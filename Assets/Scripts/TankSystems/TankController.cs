@@ -43,6 +43,7 @@ namespace TowerTanks.Scripts
         private TankAI _thisTankAI;
         public GameObject tankFlag;
         public GameObject surrenderFlag;
+        private Animator tankAnimator;
 
         [Header("Cargo")]
         public GameObject[] cargoHold;
@@ -250,6 +251,7 @@ namespace TowerTanks.Scripts
 
             nameText = GetComponentInChildren<TextMeshProUGUI>();
             damageSprite = towerJoint.transform.Find("DiageticUI")?.GetComponent<SpriteRenderer>();
+            tankAnimator = GetComponent<Animator>();
 
             isPrebuilding = true;
             //Room setup:
@@ -406,11 +408,12 @@ namespace TowerTanks.Scripts
                 TransitionSequenceEvents();
             }
 
-            //UI
+            /*//UI
             if (damageTimer > 0)
             {
                 UpdateUI();
             }
+            */
         }
 
         private void UpdateUI()
@@ -572,8 +575,13 @@ namespace TowerTanks.Scripts
             currentCoreHealth -= amount;
 
             //UI
-            damageTime += (amount / 50f);
+            /*damageTime += (amount / 50f);
             damageTimer = damageTime;
+            */
+            float speedScale = 1;
+            if (amount > 50) speedScale = 0.5f;
+            if (amount <= 10) speedScale = 4f;
+            if (amount > 0) HitEffects(speedScale);
 
             if (currentCoreHealth <= 0)
             {
@@ -586,6 +594,13 @@ namespace TowerTanks.Scripts
                 }
             }
             OnCoreDamaged?.Invoke(currentCoreHealth / coreHealth);
+        }
+
+        public void HitEffects(float speedScale)
+        {
+            UpdateUI();
+            tankAnimator.SetFloat("SpeedScale", speedScale);
+            tankAnimator.Play("DamageFlashCore", 0, 0);
         }
 
         public void DeathSequenceEvents()

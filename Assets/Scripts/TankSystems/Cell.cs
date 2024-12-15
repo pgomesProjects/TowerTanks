@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations;
 using Sirenix.OdinInspector;
 using System.Linq;
 
@@ -39,6 +40,7 @@ namespace TowerTanks.Scripts
 
         //UI
         internal SpriteRenderer damageSprite;
+        internal Animator cellAnimator;
 
         [Header("Cell Components:")]
         [Tooltip("Back wall of cell, will be turned into sprite mask by room kit.")]                public GameObject backWall;
@@ -93,10 +95,11 @@ namespace TowerTanks.Scripts
 
         private void Update()
         {
-            if (damageTimer > 0)
+            /*if (damageTimer > 0)
             {
                 UpdateUI();
             }
+            */
 
             if (isOnFire)
             {
@@ -111,7 +114,7 @@ namespace TowerTanks.Scripts
         //RUNTIME METHODS:
         private void UpdateUI()
         {
-            //Flash Effect
+            /*//Flash Effect
             Color newColor = damageSprite.color;
             newColor.a = Mathf.Lerp(0, 255f, (damageTimer / damageTime) * Time.deltaTime);
             damageSprite.color = newColor;
@@ -122,6 +125,7 @@ namespace TowerTanks.Scripts
                 damageTimer = 0;
                 damageTime = 0;
             }
+            */
 
             //Diagetic Damage Sprites
             if (health < maxHealth)
@@ -161,6 +165,7 @@ namespace TowerTanks.Scripts
             c = GetComponent<BoxCollider2D>();   //Get local collider
             health = maxHealth;
             damageSprite = transform.Find("DiageticUI")?.GetComponent<SpriteRenderer>();
+            cellAnimator = GetComponent<Animator>();
         }
         /// <summary>
         /// Updates list indicating which sides are open and which are adjacent to other cells.
@@ -229,15 +234,18 @@ namespace TowerTanks.Scripts
         {
             //Do projectile impact:
             room.targetTank.treadSystem.HandleImpact(projectile, position); //Use treadsystem impact handler to calculate impact force from projectile
+            float animSpeed = 1;
 
             //Do hit effects:
             if (projectile.type == Projectile.ProjectileType.SHELL)
             {
                 GameManager.Instance.AudioManager.Play("ShellImpact", gameObject); //Play impact sound
+                animSpeed = 0.5f;
             }
             else if (projectile.type == Projectile.ProjectileType.BULLET)
             {
                 GameManager.Instance.AudioManager.Play("BulletImpact", gameObject); //Play impact sound
+                animSpeed = 4f;
             }
 
             //Deal damage:
@@ -260,6 +268,10 @@ namespace TowerTanks.Scripts
                     if (Random.Range(0f, 1f) <= projectile.hitProperties.fireChance) { Ignite(); } //Light cell on fire if roll is high enough
                 }
 
+                //Effects
+                if (dealtDamage > 0) HitEffects(animSpeed);
+                else HitEffects(8f);
+
                 //Cleanup:
                 Damage(dealtDamage); //Assign dealt damage to cell (this factors in protection from armor)
                 return extraDamage;  //Tell the projectile how much left over damage it has
@@ -276,17 +288,27 @@ namespace TowerTanks.Scripts
             }
             else //Damage is being dealt to normal cell
             {
-                //Visual effect:
+                /*//Visual effect:
                 float damageTimeAdd = (damage / 50f);
                 if (damageTimeAdd < 0.1f) damageTimeAdd = 0.1f;
                 damageTime += damageTimeAdd;
-                damageTimer = damageTime;
+                damageTimer = damageTime;*/
+
+                if (damage > 0) HitEffects(1);
 
                 //Deal damage:
                 health = Mathf.Max(0, health - damage); //Deal damage to cell
                 if (health <= 0) Kill();                //Kill cell if mortal damage has been dealt
             }
         }
+
+        public void HitEffects(float speedScale)
+        {
+            UpdateUI();
+            cellAnimator.SetFloat("SpeedScale", speedScale);
+            cellAnimator.Play("DamageFlash", 0, 0);
+        }
+
         /*
         /// <summary>
         /// Deals given amount of damage to the cell (used for non-projectile damage).

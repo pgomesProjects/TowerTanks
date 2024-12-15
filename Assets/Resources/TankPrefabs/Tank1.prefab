@@ -1414,6 +1414,7 @@ GameObject:
   - component: {fileID: -2433247677247341884}
   - component: {fileID: 7640934136196105169}
   - component: {fileID: 7793904838642235008}
+  - component: {fileID: 816067974370409419}
   m_Layer: 0
   m_Name: Tank1
   m_TagString: Untagged
@@ -1543,6 +1544,26 @@ MonoBehaviour:
     positionOffset: {x: 0, y: 0, z: 0}
   m_posOffsetData: {fileID: 0}
   listenerMask: 1
+--- !u!95 &816067974370409419
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1677695872598849025}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b4931101031d9704b8b019e0766b681c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1677695872621142252
 GameObject:
   m_ObjectHideFlags: 0
