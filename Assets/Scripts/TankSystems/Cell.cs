@@ -231,7 +231,14 @@ namespace TowerTanks.Scripts
             room.targetTank.treadSystem.HandleImpact(projectile, position); //Use treadsystem impact handler to calculate impact force from projectile
 
             //Do hit effects:
-            GameManager.Instance.AudioManager.Play("ShellImpact", gameObject); //Play impact sound
+            if (projectile.type == Projectile.ProjectileType.SHELL)
+            {
+                GameManager.Instance.AudioManager.Play("ShellImpact", gameObject); //Play impact sound
+            }
+            else if (projectile.type == Projectile.ProjectileType.BULLET)
+            {
+                GameManager.Instance.AudioManager.Play("BulletImpact", gameObject); //Play impact sound
+            }
 
             //Deal damage:
             if (room.isCore || room.targetTank.isFragile) //Projectile has struck a core cell, or the tank is fragile

@@ -108,6 +108,9 @@
 								<Property Name="3DSpatialization" Type="int16" Value="1"/>
 							</PropertyList>
 							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
@@ -224,6 +227,9 @@
 								<Property Name="3DSpatialization" Type="int16" Value="1"/>
 							</PropertyList>
 							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
@@ -249,6 +255,9 @@
 								<Property Name="3DSpatialization" Type="int16" Value="1"/>
 							</PropertyList>
 							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
@@ -293,6 +302,9 @@
 						</Sound>
 						<Sound Name="TT_SFX_engine-dying" ID="{176F3DED-AE08-416C-A217-36EACB0E008A}" ShortID="483577368">
 							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
@@ -346,6 +358,9 @@
 								<Property Name="3DSpatialization" Type="int16" Value="1"/>
 							</PropertyList>
 							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
@@ -461,6 +476,9 @@
 								</Property>
 							</PropertyList>
 							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
@@ -508,6 +526,9 @@
 						</Sound>
 						<Sound Name="TT_SFX_projectile-in-air" ID="{4E6173C7-DEEE-47B4-822F-C422CD01F98F}" ShortID="425083717">
 							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="LoudBlasts" ID="{7968801A-25AF-433D-8631-BC726ABCFEAD}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
@@ -558,6 +579,9 @@
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 							</PropertyList>
 							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
@@ -580,6 +604,9 @@
 						</Sound>
 						<Sound Name="TT_SFX_tank-impact" ID="{B4352004-57EE-4107-8E6C-EA6BD09D673D}" ShortID="164088111">
 							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
@@ -605,6 +632,9 @@
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 							</PropertyList>
 							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
@@ -649,6 +679,9 @@
 						</Sound>
 						<Sound Name="TT_SFX_throttle-click" ID="{351884D9-8A9C-46B5-9593-001463376AA1}" ShortID="704511128">
 							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
@@ -671,6 +704,9 @@
 						</Sound>
 						<Sound Name="TT_SFX_throttle-shift" ID="{5384198C-E785-4EAB-AB8A-DD473AD06C94}" ShortID="868593023">
 							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
@@ -693,6 +729,9 @@
 						</Sound>
 						<Sound Name="TT_SFX_wrench" ID="{CA7ED59F-A2C8-43CB-83B7-965EAB01EA47}" ShortID="287660241">
 							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
@@ -715,6 +754,9 @@
 						</Sound>
 						<Sound Name="TT_SFX_ladder_climb" ID="{9C5389D6-2866-4382-8177-8949AA94612C}" ShortID="237014397">
 							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
@@ -949,6 +991,9 @@
 						</RandomSequenceContainer>
 						<Sound Name="TT_SFX_jetpack_rocket_loop" ID="{76567B73-C098-4156-BE95-439287CCD02E}" ShortID="991838783">
 							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
@@ -978,6 +1023,9 @@
 								</Property>
 							</PropertyList>
 							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
@@ -1056,6 +1104,9 @@
 						</RandomSequenceContainer>
 						<Sound Name="TT_SFX_jetpack_refuel_v1" ID="{8CA79DB5-B695-49EF-8C83-07F97EFF229B}" ShortID="131447319">
 							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
@@ -1081,6 +1132,9 @@
 								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
 							</PropertyList>
 							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
@@ -1103,6 +1157,9 @@
 						</Sound>
 						<Sound Name="TT_SFX_cannon_rotate_v2" ID="{BAA18089-E804-4BB0-8F87-ABDA45CC5C5F}" ShortID="103481105">
 							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
@@ -1125,6 +1182,9 @@
 						</Sound>
 						<RandomSequenceContainer Name="TT_SFX_steam-exhaust" ID="{28EA6071-4C6E-4F48-AA9D-CED281B4AD15}" ShortID="801296412">
 							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
@@ -1203,6 +1263,9 @@
 						</RandomSequenceContainer>
 						<RandomSequenceContainer Name="TT_SFX_tank-creaking" ID="{E265F373-D1AC-472F-86AA-EA692E677BD4}" ShortID="415035234">
 							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
@@ -1337,6 +1400,9 @@
 						</RandomSequenceContainer>
 						<RandomSequenceContainer Name="TT_SFX_coal_pickup" ID="{36544B48-5F79-417E-BE85-F2665064F50D}" ShortID="731465637">
 							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
@@ -1393,6 +1459,9 @@
 						</RandomSequenceContainer>
 						<Sound Name="TT_SFX_coal-load_Engine" ID="{0BC92B9F-8B1F-44A6-9373-EAF2586DE534}" ShortID="439937570">
 							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
@@ -1415,6 +1484,9 @@
 						</Sound>
 						<Sound Name="TT_SFX_coal-load_Fire" ID="{581051D8-D36E-453A-A629-F95B89397D4D}" ShortID="871261474">
 							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
@@ -1437,6 +1509,9 @@
 						</Sound>
 						<Sound Name="TT_SFX_engine_running" ID="{AE55B66C-60EE-4714-BCC7-47D1C62E6B78}" ShortID="159975669">
 							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
@@ -1459,6 +1534,9 @@
 						</Sound>
 						<RandomSequenceContainer Name="TT_SFX_foostep_dirt" ID="{51B6321F-DEA7-46BB-80D4-31B305B3F655}" ShortID="677438651">
 							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
@@ -1537,6 +1615,9 @@
 						</RandomSequenceContainer>
 						<RandomSequenceContainer Name="TT_SFX_footstep_metal" ID="{B9EB4E38-8610-4D4A-98AB-E2A78704E76F}" ShortID="892190009">
 							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
@@ -1615,6 +1696,9 @@
 						</RandomSequenceContainer>
 						<RandomSequenceContainer Name="TT_SFX_cannon_fire (recycled)" ID="{1D7405C0-9D78-4BBF-8BEA-FF7B2EA3B068}" ShortID="673806766">
 							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="LoudBlasts" ID="{7968801A-25AF-433D-8631-BC726ABCFEAD}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
@@ -1918,6 +2002,9 @@
 								</Property>
 							</PropertyList>
 							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
@@ -2077,6 +2164,9 @@
 								</Property>
 							</PropertyList>
 							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
