@@ -94,5 +94,10 @@ namespace TowerTanks.Scripts
                 }
             }
         }
+
+        public void AddCameraToParallax(Camera newCamera)
+        {
+            followCamera = newCamera;
+        }
     }
 }

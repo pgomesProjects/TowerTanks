@@ -44,7 +44,7 @@ namespace TowerTanks.Scripts
         //Runtime Variables:
         [Tooltip("The cell this interactable is currently installed within.")]                                      internal Cell parentCell;
         [Tooltip("True if interactable is a ghost and is currently unuseable.")]                                    internal bool ghosted;
-        [Tooltip("True if a user is currently operating this system")]                                              public bool hasOperator;
+        [Tooltip("True if a user is currently operating this system")]                                              internal bool hasOperator;
         [Tooltip("User currently interacting with this system.")]                                                   internal PlayerMovement operatorID;
         [Tooltip("Whether or not interact can be held down to use this interactable continuously"), SerializeField] public bool isContinuous;
         [Tooltip("Whether or not this interactable can be aimed in some way"), SerializeField]                      public bool canAim;
@@ -52,10 +52,10 @@ namespace TowerTanks.Scripts
         [Tooltip("Unique identifier associating this interactable with a stack item")]                              internal int stackId = 0;
 
         //Debug
-        public bool debugMoveUp;
-        public bool debugMoveDown;
-        public bool debugMoveLeft;
-        public bool debugMoveRight;
+        internal bool debugMoveUp;
+        internal bool debugMoveDown;
+        internal bool debugMoveLeft;
+        internal bool debugMoveRight;
         public bool debugFlip = false;
         private float introBuffer = 0.2f; //small window when a new operator enters the interactable where they can't use it
         protected float cooldown;
@@ -200,7 +200,7 @@ namespace TowerTanks.Scripts
             }
         }
 
-        public void Rotate(float force) //Called from operator when they rotate the joystick
+        public virtual void Rotate(float force) //Called from operator when they rotate the joystick
         {
             if (gunScript != null && cooldown <= 0) gunScript.RotateBarrel(force, true);
         }

@@ -223,6 +223,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce03d4337310a1f489148e0232a7c6f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parallaxPrefab: {fileID: 3696405528154087446, guid: 2e6fa989fcf68194b8fc6210a215df86, type: 3}
   maxTankCams: 3
   useRadar: 1
   engagementZoneTargeter: {fileID: 641975958061573031}
@@ -234,7 +235,9 @@ MonoBehaviour:
   horizontalOffsetSmoothing: 6
   tankCameraColor: {r: 0.26666668, g: 0.6156863, b: 0.86666673, a: 1}
   engagementDistance: 100
-  shareCamDistance: 15
+  shareCamDistance: 10
+  shareCamStickDistance: 20
+  cameraDisappearTime: 0
   radarEdgeBuffer: {x: 7.23, y: 12.3}
   radarRange: 150
   boundColliderEdgeRadius: 1

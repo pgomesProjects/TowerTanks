@@ -19,22 +19,24 @@ namespace TowerTanks.Scripts
         public class TankCamSystem
         {
             //Objects & Components:
-            [Tooltip("The tank(s) this system is targeting.")] internal List<TankController> tanks = new List<TankController>();
-            [Tooltip("Camera component which renders this specific tank.")] internal Camera cam;
-            [Tooltip("Virtual camera pointed at the tank.")] internal CinemachineVirtualCamera vcam;
-            [Tooltip("Collider used to manage offscreen visualization system.")] private BoxCollider2D boundCollider;
+            [Tooltip("The tank(s) this system is targeting.")]                                   internal List<TankController> tanks = new List<TankController>();
+            [Tooltip("Camera component which renders this specific tank.")]                      internal Camera cam;
+            [Tooltip("Virtual camera pointed at the tank.")]                                     internal CinemachineVirtualCamera vcam;
+            [Tooltip("Collider used to manage offscreen visualization system.")]                 private BoxCollider2D boundCollider;
             [Tooltip("Generated transform used to point camera when following multiple tanks.")] private Transform followDummy;
+            [Tooltip("Script controlling the parallax background for this cam system.")]         private MultiCameraParallaxController parallaxController;
 
             //Runtime variables:
-            [Tooltip("True if this is the primary camera system for the current player tank.")] public bool isPlayerCam;
-            [Tooltip("Value indicating whether this is Cam A, Cam B, etc.")] public int camNum;
-            [Tooltip("Determines whether or not this system is active and rendering.")] public bool enabled = true;
+            [Tooltip("True if this is the primary camera system for the current player tank.")]       public bool isPlayerCam;
+            [Tooltip("Value indicating whether this is Cam A, Cam B, etc.")]                          public int camNum;
+            [Tooltip("Determines whether or not this system is active and rendering.")]               public bool enabled = true;
             [Tooltip("True if this is an enemy tank which is within engagement distance of player.")] public bool engaged = false;
-            [Tooltip("True if this camera system is for the player tank radar.")] public bool radar = false;
+            [Tooltip("True if this camera system is for the player tank radar.")]                     public bool radar = false;
 
             [Tooltip("Offset width at last camera update, used to smooth out jittering.")] private float prevOffsetWidth;
 
             private bool firstEngagement = true;
+            private float timeUntilDeath = -1; //Used to clean up camera after a certain amount of time, negative while not in use
 
             /// <summary>
             /// Ganerates a camera setup to track given tank.
@@ -100,18 +102,26 @@ namespace TowerTanks.Scripts
                     AkSoundEngine.AddDefaultListener(cam.gameObject);
                 }
 
+                //Parallax setup:
+                parallaxController = Instantiate(main.parallaxPrefab).GetComponent<MultiCameraParallaxController>();                    //Instantiate a parallax background for this camera and get a reference
+                parallaxController.transform.parent = main.transform;                                                                   //Child parallax object to camera container
+                parallaxController.gameObject.name = "Parallax_" + cam.name;                                                            //Rename parallax object for clarity
+                parallaxController.AddCameraToParallax(cam);                                                                            //Add this camera to controller so it is tracked properly
+                parallaxController.transform.position = Vector3.zero;                                                                   //Zero out position of parallax system
+                foreach (Transform child in parallaxController.transform) child.gameObject.layer = LayerMask.NameToLayer(camLayerName); //Put each parallax layer on a layer which can only be seen by this camera
+
                 //Cleanup:
                 tanks.Add(tank);                                                 //Add given tank controller as the first instance in list of tracked tanks
                 if (tank.tankType == TankId.TankType.PLAYER) isPlayerCam = true; //Mark whether or not this is the player tank's camera system
                 radar = isRadar;                                                 //Store value indicating whether or not this is the radar system
-                UpdateEverything();                                              //Immediately initialize all camera stuff
+                UpdateEverything(0);                                             //Immediately initialize all camera stuff
             }
 
             //FUNCTIONALITY METHODS:
             /// <summary>
             /// Performs all updates that are part of the cam system.
             /// </summary>
-            public void UpdateEverything()
+            public void UpdateEverything(float deltaTime)
             {
                 UpdateEnabledStatus(); //Update status
                 if (!enabled) return;  //Do nothing if disabled
@@ -125,7 +135,8 @@ namespace TowerTanks.Scripts
             /// </summary>
             public void UpdateEnabledStatus()
             {
-                if (isPlayerCam) return; //Player cam is always enabled
+                if (isPlayerCam) return;                             //Player cam is always enabled
+                if (TankManager.instance.playerTank == null) return; //Do nothing when the player tank is destroyed (prevents errors upon player death)
 
                 float distanceFromPlayer = Mathf.Abs(tanks[0].treadSystem.transform.position.x - TankManager.instance.playerTank.treadSystem.transform.position.x); //Get flat horizontal distance from player tank
                 if (distanceFromPlayer > main.engagementDistance) //Tank is outside engagement distance
@@ -144,7 +155,11 @@ namespace TowerTanks.Scripts
                 }
                 else if (!enabled) //Tank is within normal engagement distance and is switching from a disabled status
                 {
-                    if (main.PlayerCamSystem().tanks.Contains(tanks[0])) main.PlayerCamSystem().tanks.Remove(tanks[0]); //Stop sharing camera with player tank if necessary
+                    if (main.PlayerCamSystem().tanks.Contains(tanks[0])) //Tank was previously sharing an engagment camera with player
+                    {
+                        if (distanceFromPlayer < main.shareCamStickDistance) return; //Do not disengage from player camera until stick distance has been exceeded
+                        main.PlayerCamSystem().tanks.Remove(tanks[0]); //Stop sharing camera with player tank if stick distance has been exceeded
+                    }
 
                     ToggleEnabled(true); //Enable camera
                     engaged = true;      //Indicate that system is engaged
@@ -152,12 +167,8 @@ namespace TowerTanks.Scripts
 
                     if (firstEngagement) //First time tank has engaged with the camera
                     {
-                        if (!isPlayerCam)
-                        {
-                            FindObjectOfType<CombatHUD>()?.DisplayEnemyTankInformation(tanks[0]); //Display the enemy information in the CombatHUD
-                        }
-
-                        firstEngagement = false;    //Make sure that the system does not call this logic again
+                        FindObjectOfType<CombatHUD>()?.DisplayEnemyTankInformation(tanks[0]); //Display the enemy information in the CombatHUD
+                        firstEngagement = false;                                              //Make sure that the system does not call this logic again
                     }
                 }
             }
@@ -230,13 +241,6 @@ namespace TowerTanks.Scripts
                         widthOrthoSize = ((widthOrthoSize + (main.tankCamSideBuffer * 2)) / 2) / cam.aspect; //Get final orthographic size (as defined by tank widths) by adding horizontal buffers and dividing by the cam aspect ratio
                     }
                     vcam.m_Lens.OrthographicSize = Mathf.Max(heightOrthoSize, widthOrthoSize); //Use whichever value is larger as the final orthographic size
-                                                                                               //print("Using " + (heightOrthoSize > widthOrthoSize ? " height" : "width"));
-
-                    //float heightOrthoSize = (tanks[0].tankSizeValues.x + tanks[0].tankSizeValues.z + main.tankCamLowerBuffer + main.tankCamUpperBuffer) / 2; //Get ortho size as defined by tank height
-                    //float leftWidthOrthoSize = (((tanks[0].tankSizeValues.w * 2) + (2 * main.tankCamSideBuffer)) / 2) / cam.aspect;                          //Get ortho size as defined by tank width (measuring from middle to left)
-                    //float rightWidthOrthoSize = (((tanks[0].tankSizeValues.y * 2) + (2 * main.tankCamSideBuffer)) / 2) / cam.aspect;                         //Get ortho size as defined by tank width (measuring from middle to right)
-                    //float widthOrthoSize = Mathf.Max(leftWidthOrthoSize, rightWidthOrthoSize);                                                               //Get highest width-defined orthographic size
-                    //vcam.m_Lens.OrthographicSize = Mathf.Max(heightOrthoSize, widthOrthoSize);                                                               //Use whichever size is larger (captures full size of tank)
 
                     //Get horizontal extents of frame:
                     Vector2 offset = new Vector2();                   //Create container to apply offsets to
@@ -333,9 +337,17 @@ namespace TowerTanks.Scripts
             /// </summary>
             public void CleanUp()
             {
-                if (cam.gameObject != null) Destroy(cam.gameObject);                     //Destroy camera object (also destroys bound collider)
-                if (vcam.gameObject != null) Destroy(vcam.gameObject);                    //Destroy virtual camera object
-                engaged = false; main.CheckIfStillEngaged(); //Have camera manipulator check if destroying this cam system ends engagement
+                if (cam.gameObject != null) Destroy(cam.gameObject);   //Destroy camera object (also destroys bound collider)
+                if (vcam.gameObject != null) Destroy(vcam.gameObject); //Destroy virtual camera object
+                engaged = false; main.CheckIfStillEngaged();           //Have camera manipulator check if destroying this cam system ends engagement
+
+            }
+            /// <summary>
+            /// Sets camera system to clean itself up in a designated number of seconds.
+            /// </summary>
+            /// <param name="waitTime"></param>
+            public void CleanUpLater(float waitTime)
+            {
 
             }
             /// <summary>
@@ -352,30 +364,34 @@ namespace TowerTanks.Scripts
         }
 
         //Objects & Components:
-        [Tooltip("Singleton instance of camera manipulator in scene.")] public static CameraManipulator main;
-        [Tooltip("List of camera systems being used to actively render tanks in scene.")] private List<TankCamSystem> camSystems = new List<TankCamSystem>();
-        [Tooltip("Cam system used to control the radar camera.")] private TankCamSystem radarSystem;
+        [Tooltip("Singleton instance of camera manipulator in scene.")]                       public static CameraManipulator main;
+        [Tooltip("List of camera systems being used to actively render tanks in scene.")]     private List<TankCamSystem> camSystems = new List<TankCamSystem>();
+        [Tooltip("Cam system used to control the radar camera.")]                             private TankCamSystem radarSystem;
+        [SerializeField, Tooltip("Prefab for parallax system instantiated for each camera.")] private GameObject parallaxPrefab;
 
         //Settings:
         [Header("General Settings:")]
         [SerializeField, Tooltip("Maximum possible number of concurrent tank cam systems (there need to be layers made in layerManager for these. Cam layers need to be in sequential indexes and the first must be named TankCamA)"), Min(1)] private int maxTankCams = 3;
-        [SerializeField, Tooltip("Determines whether or not a radar camera system will be spawned in this scene.")] private bool useRadar = true;
+        [SerializeField, Tooltip("Determines whether or not a radar camera system will be spawned in this scene.")]                                                                                                                            private bool useRadar = true;
         [Header("Camera Zone Positioning:")]
         [SerializeField, Tooltip("UI object used to position engagement zone camera setup in scene.")] private RectTransform engagementZoneTargeter;
-        [SerializeField, Tooltip("UI object used to position radar zone camera in scene.")] private RectTransform radarZoneTargeter;
+        [SerializeField, Tooltip("UI object used to position radar zone camera in scene.")]            private RectTransform radarZoneTargeter;
         [Header("Tank Camera Settings:")]
-        [SerializeField, Tooltip("Camera space to leave above top cell of tank (in world units)."), Min(0)] private float tankCamUpperBuffer;
-        [SerializeField, Tooltip("Camera space to leave below treads of tank (in world units)."), Min(0)] private float tankCamLowerBuffer;
-        [SerializeField, Tooltip("Camera space to leave beside each side of tank (in world units)."), Min(0)] private float tankCamSideBuffer;
+        [SerializeField, Tooltip("Camera space to leave above top cell of tank (in world units)."), Min(0)]                                 private float tankCamUpperBuffer;
+        [SerializeField, Tooltip("Camera space to leave below treads of tank (in world units)."), Min(0)]                                   private float tankCamLowerBuffer;
+        [SerializeField, Tooltip("Camera space to leave beside each side of tank (in world units)."), Min(0)]                               private float tankCamSideBuffer;
         [SerializeField, Tooltip("Distance (in canvas space units) between engagement camera frames when multiple are on screen."), Min(0)] private float engagementCamSeparation;
-        [SerializeField, Tooltip("Lerp factor to apply to changes in horizontal offset for reducing jitter."), Min(0.001f)] private float horizontalOffsetSmoothing;
-        [SerializeField, Tooltip("The background color of the tank cameras.")] private Color tankCameraColor;
+        [SerializeField, Tooltip("Lerp factor to apply to changes in horizontal offset for reducing jitter."), Min(0.001f)]                 private float horizontalOffsetSmoothing;
+        [SerializeField, Tooltip("The background color of the tank cameras.")]                                                              private Color tankCameraColor;
         [Space]
-        [SerializeField, Tooltip("Range (from player tank) at which an enemy tank's camera will become active."), Min(0)] private float engagementDistance;
-        [SerializeField, Tooltip("Range (from player tank) at which enemy tank camera will merge with player camera."), Min(0)] private float shareCamDistance;
+        [SerializeField, Tooltip("Range (from player tank) at which an enemy tank's camera will become active."), Min(0)]                                                                                         private float engagementDistance;
+        [SerializeField, Tooltip("Range (from player tank) at which enemy tank camera will merge with player camera."), Min(0)]                                                                                   private float shareCamDistance;
+        [SerializeField, Tooltip("Once enemy tank camera and player cameras are merged, this is the distance at which they will uncouple (should always be equal to or greater than shareCamDistance)."), Min(0)] private float shareCamStickDistance;
+        [Space()]
+        [SerializeField, Tooltip("Once a tank is killed, its camera will stick around for this number of seconds."), Min(0)] private float cameraDisappearTime;
         [Header("Radar Settings:")]
         [SerializeField, Tooltip("Distance from the lower left corner of the radar field at which tank will be kept.")] private Vector2 radarEdgeBuffer;
-        [SerializeField, Tooltip("How far ahead of the player tank the radar can see."), Min(0)] private float radarRange;
+        [SerializeField, Tooltip("How far ahead of the player tank the radar can see."), Min(0)]                        private float radarRange;
         [Header("Offscreen Visualization Settings:")]
         [SerializeField, Tooltip("Roundness of collider corners around camera plane (smooths out edge UI)."), Min(0)] private float boundColliderEdgeRadius = 1;
 
@@ -412,8 +428,8 @@ namespace TowerTanks.Scripts
         private void Update()
         {
             //Cam system updates:
-            if (useRadar) radarSystem.UpdateEverything();                                                     //Fully update radar system
-            if (camSystems.Count > 0) foreach (TankCamSystem system in camSystems) system.UpdateEverything(); //Fully update all values in each camera system
+            if (useRadar) radarSystem.UpdateEverything(Time.deltaTime);                                                     //Fully update radar system
+            if (camSystems.Count > 0) foreach (TankCamSystem system in camSystems) system.UpdateEverything(Time.deltaTime); //Fully update all values in each camera system
 
             //Debug:
             if (Application.isEditor) //Editor-specific updates
