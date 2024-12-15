@@ -71,13 +71,7 @@ namespace TowerTanks.Scripts
 
                 if (nextSelectable != null)
                 {
-                    canMove = false;
-                    currentMenuCooldown = 0f;
-                    GameManager.Instance.AudioManager.Play("ButtonHover");
-
-                    currentIndexSelected = Mathf.Clamp(currentIndexSelected - 1, 0, tutorialContainer.childCount - 1);
-                    EventSystem.current.SetSelectedGameObject(null);
-                    nextSelectable.Select();
+                    SelectMenuIndex(currentIndexSelected - 1, nextSelectable);
                 }
             }
 
@@ -87,15 +81,26 @@ namespace TowerTanks.Scripts
 
                 if(nextSelectable != null)
                 {
-                    canMove = false;
-                    currentMenuCooldown = 0f;
-                    GameManager.Instance.AudioManager.Play("ButtonHover");
-
-                    currentIndexSelected = Mathf.Clamp(currentIndexSelected + 1, 0, tutorialContainer.childCount - 1);
-                    EventSystem.current.SetSelectedGameObject(null);
-                    nextSelectable.Select();
+                    SelectMenuIndex(currentIndexSelected + 1, nextSelectable);
                 }
             }
+        }
+
+        private void SelectMenuIndex(int menuIndex, Selectable nextSelectable)
+        {
+            canMove = false;
+            currentMenuCooldown = 0f;
+            GameManager.Instance.AudioManager.Play("ButtonHover");
+
+            currentIndexSelected = Mathf.Clamp(menuIndex, 0, tutorialContainer.childCount - 1);
+            EventSystem.current.SetSelectedGameObject(null);
+            nextSelectable.Select();
+            RefreshContainerPosition();
+        }
+
+        private void RefreshContainerPosition()
+        {
+            tutorialContainer.anchoredPosition = new Vector2(tutorialContainer.anchoredPosition.x, Mathf.Max(0, 122.5f * (currentIndexSelected - 8)));
         }
 
         /// <summary>

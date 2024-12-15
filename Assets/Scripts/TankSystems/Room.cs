@@ -496,6 +496,7 @@ namespace TowerTanks.Scripts
 
                 //Remove room from tank system:
                 targetTank.rooms.Remove(this);            // Remove room from the tank's list of rooms
+                targetTank.UpdateSizeValues();            //Check to see if any added cells are higher than the known highest cell
                 targetTank.treadSystem.ReCalculateMass(); //Re-calculate mass now that room has been removed
             }
             mounted = false;                   //Indicate that room is now disconnected

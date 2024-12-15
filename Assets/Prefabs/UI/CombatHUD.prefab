@@ -5954,10 +5954,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1574086609047294570, guid: ecc862f0d2d533b4cbb04d522b6f1fb3, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2330819677763313378, guid: ecc862f0d2d533b4cbb04d522b6f1fb3, type: 3}
       propertyPath: menuMovementCooldown
       value: 0.15

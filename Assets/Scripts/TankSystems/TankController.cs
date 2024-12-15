@@ -31,6 +31,7 @@ namespace TowerTanks.Scripts
         [Tooltip("Rooms currently installed on tank.")] internal List<Room> rooms;
         [Tooltip("Core room of tank (there can only be one.")] internal Room coreRoom;
         [Tooltip("This tank's traction system.")] internal TreadSystem treadSystem;
+        [SerializeField, Tooltip("The spawn point for the players.")] private Transform playerSpawnPoint;
         [Tooltip("Transform containing all tank rooms, point around which tower tilts.")] private Transform towerJoint;
         [SerializeField, Tooltip("Target transform in tread system which tower joint locks onto.")] private Transform towerJointTarget;
         [SerializeField, Tooltip("When true, the tank cannot take damage.")] public bool isInvincible;
@@ -287,10 +288,9 @@ namespace TowerTanks.Scripts
         {
             tankManager = GameObject.Find("TankManager")?.GetComponent<TankManager>();
             
-            myTankID = TankManager.instance.tanks.FirstOrDefault(tank => tank.tankScript == this);
-            
             if (tankManager != null)
             {
+                myTankID = TankManager.instance.tanks.FirstOrDefault(tank => tank.tankScript == this);
                 if (tankType == TankId.TankType.PLAYER) tankManager.playerTank = this;
                 foreach (TankId tank in tankManager.tanks)
                 {
@@ -1164,6 +1164,7 @@ namespace TowerTanks.Scripts
             nameText.text = TankName;
             gameObject.name = "Tank (" + TankName + ")";
         }
+        public Vector3 GetPlayerSpawnPointPosition() => playerSpawnPoint.position;
         public Character[] GetCharactersInTank() => GetComponentsInChildren<Character>();
         public float GetHighestPoint() => tankSizeValues.x;
 

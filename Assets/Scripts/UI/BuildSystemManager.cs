@@ -78,7 +78,6 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("Building canvas.")] private Canvas buildingCanvas;
         [SerializeField, Tooltip("The UI that shows the transition between game phases.")] private GamePhaseUI gamePhaseUI;
         [SerializeField, Tooltip("The transform for all of the room pieces.")] private Transform roomParentTransform;
-        [SerializeField, Tooltip("The Spawn Point for all players in the build scene.")] private Transform spawnPoint;
         [SerializeField, Tooltip("The Ready Up Manager that lets players display that they are ready.")] private ReadyUpManager readyUpManager;
         [SerializeField, Tooltip("The delay between the first input made for room movement and repeated tick movement.")] private float roomMoveDelay = 0.5f;
         [SerializeField, Tooltip("The tick rate for moving a room.")] private float roomMoveTickRate = 0.35f;
@@ -284,9 +283,10 @@ namespace TowerTanks.Scripts
             if (playerRoom.currentRoomState == WorldRoom.RoomState.MOUNTED)
             {
                 //Spawn the player in the tank
-                Vector3 playerPos = spawnPoint.position;
+                TankController defaultTank = FindObjectOfType<TankController>();
+                Vector3 playerPos = defaultTank.GetPlayerSpawnPointPosition();
                 playerPos.x += Random.Range(-0.25f, 0.25f);
-                playerRoom.playerSelector.GetCurrentPlayerData().SpawnPlayerInScene(playerPos);
+                playerRoom.playerSelector.GetCurrentPlayerData().SpawnPlayerInScene(playerPos).SetAssignedTank(defaultTank);
 
                 //If all rooms from all players are mounted, note that all of them are ready and start the ready up manager
                 if (AllRoomsMounted())
@@ -430,10 +430,11 @@ namespace TowerTanks.Scripts
                 //If the rooms have all been picked, immediately spawn them in the tank
                 case BuildingSubphase.BuildTank:
                 case BuildingSubphase.ReadyUp:
-                    Vector3 playerPos = spawnPoint.position;
+                    TankController defaultTank = FindObjectOfType<TankController>();
+                    Vector3 playerPos = defaultTank.GetPlayerSpawnPointPosition();
                     playerPos.x += Random.Range(-0.25f, 0.25f);
                     PlayerData playerData = PlayerData.ToPlayerData(playerInput);
-                    playerData.SpawnPlayerInScene(playerPos);
+                    playerData.SpawnPlayerInScene(playerPos).SetAssignedTank(defaultTank);
                     playerData.SetPlayerState(PlayerData.PlayerState.ReadyForCombat);
                     break;
             }

@@ -435,8 +435,7 @@ namespace TowerTanks.Scripts
             }
             else
             {
-                characterHUD?.KillPlayerHUD();
-                permaDeath = true;
+                PermaKill();
             }
 
             //TODO: (Ryan)
@@ -447,6 +446,12 @@ namespace TowerTanks.Scripts
             characterVisualParent?.gameObject.SetActive(false);
             isAlive = false;
             ResetPlayer();
+        }
+
+        protected virtual void PermaKill()
+        {
+            characterHUD?.KillPlayerHUD();
+            permaDeath = true;
         }
 
         protected virtual void ResetPlayer()
@@ -477,21 +482,23 @@ namespace TowerTanks.Scripts
         {
             currentRespawnTime -= Time.deltaTime;
 
-            characterHUD?.UpdateRespawnBar(1 - (currentRespawnTime / respawnTime), currentRespawnTime);
-
             if (currentRespawnTime <= 0f)
             {
                 RespawnPlayer();
                 isRespawning = false;
                 isAlive = true;
             }
+
+            characterHUD?.UpdateRespawnBar(1 - (currentRespawnTime / respawnTime), currentRespawnTime);
         }
 
         private void RespawnPlayer()
         {
+            if (assignedTank != null)
+                transform.position = assignedTank.GetPlayerSpawnPointPosition();
+
             characterHUD?.DamageAvatar(1f - (currentHealth / characterSettings.maxHealth), 0.01f);
             characterHUD?.ShowRespawnTimer(false);
-            LevelManager.Instance?.MoveCharacterToSpawn(this);
             rb.isKinematic = false;
             characterHitbox.enabled = true;
             characterVisualParent?.gameObject.SetActive(true);
