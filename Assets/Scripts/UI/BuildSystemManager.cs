@@ -99,6 +99,36 @@ namespace TowerTanks.Scripts
             UndoPlayerAction(tankBuildHistory.Peek().playerInput);
         }
 
+        [Button(ButtonSizes.Medium)]
+        private void TestBuildTutorial()
+        {
+            GameManager.Instance.DisplayTutorial(1);
+        }
+
+        [Button(ButtonSizes.Medium)]
+        private void TestStackTutorial()
+        {
+            GameManager.Instance.DisplayTutorial(2);
+        }
+
+        [Button(ButtonSizes.Medium)]
+        private void TestInteractableTutorial()
+        {
+            GameManager.Instance.DisplayTutorial(3);
+        }
+
+        [Button(ButtonSizes.Medium)]
+        private void TestCargoTutorial()
+        {
+            GameManager.Instance.DisplayTutorial(4);
+        }
+
+        [Button(ButtonSizes.Medium)]
+        private void TestDemoTutorial()
+        {
+            GameManager.Instance.DisplayTutorial(5);
+        }
+
         private struct PlayerAction
         {
             public PlayerInput playerInput;
