@@ -34,7 +34,7 @@
 				<GameParameter Id="4287925136" Name="CombatLayer2Volume"/>
 			</GameParameters>
 		</SoundBank>
-		<SoundBank Id="2880737896" Type="User" Language="SFX" Hash="{73D71D20-D341-D0CE-5149-3C0DA812F896}">
+		<SoundBank Id="2880737896" Type="User" Language="SFX" Hash="{B4DD3568-14B7-B1F5-052B-24D8A42FB7FF}">
 			<ShortName>mainbank</ShortName>
 			<Path>mainbank.bnk</Path>
 			<Media>
@@ -396,12 +396,12 @@
 						<MediaRef Id="792905054"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="155513425" Name="cannon_fire" MaxAttenuation="100" DurationType="OneShot" DurationMin="1.6188124" DurationMax="1.6188124">
+				<Event Id="155513425" Name="cannon_fire" MaxAttenuation="200" DurationType="OneShot" DurationMin="1.6188124" DurationMax="1.6188124">
 					<MediaRefs>
 						<MediaRef Id="806435377"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="1779807686" Name="cannon_fire_new" MaxAttenuation="100" DurationType="OneShot" DurationMin="0.68627083" DurationMax="3.25">
+				<Event Id="1779807686" Name="cannon_fire_new" MaxAttenuation="200" DurationType="OneShot" DurationMin="0.68627083" DurationMax="3.25">
 					<MediaRefs>
 						<MediaRef Id="285073727"/>
 						<MediaRef Id="608483258"/>
@@ -511,7 +511,7 @@
 						<MediaRef Id="608155079"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="531217250" Name="large_explosion" MaxAttenuation="100" DurationType="OneShot" DurationMin="8.200666" DurationMax="8.200666">
+				<Event Id="531217250" Name="large_explosion" MaxAttenuation="200" DurationType="OneShot" DurationMin="8.200666" DurationMax="8.200666">
 					<MediaRefs>
 						<MediaRef Id="1046025241"/>
 					</MediaRefs>
@@ -521,7 +521,7 @@
 						<MediaRef Id="575432004"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="2515943394" Name="machine_gun_fire" MaxAttenuation="100" DurationType="OneShot" DurationMin="3.4258068" DurationMax="3.4258068">
+				<Event Id="2515943394" Name="machine_gun_fire" MaxAttenuation="200" DurationType="OneShot" DurationMin="3.4258068" DurationMax="3.4258068">
 					<MediaRefs>
 						<MediaRef Id="920263717"/>
 					</MediaRefs>
@@ -531,7 +531,7 @@
 						<MediaRef Id="595583574"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="2121623384" Name="medium_explosion" MaxAttenuation="100" DurationType="OneShot" DurationMin="5.6" DurationMax="5.6">
+				<Event Id="2121623384" Name="medium_explosion" MaxAttenuation="200" DurationType="OneShot" DurationMin="5.6" DurationMax="5.6">
 					<MediaRefs>
 						<MediaRef Id="1065158661"/>
 					</MediaRefs>
@@ -563,7 +563,7 @@
 						<MediaRef Id="320129091"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="3519998062" Name="small_explosion" MaxAttenuation="100" DurationType="OneShot" DurationMin="1.715625" DurationMax="1.715625">
+				<Event Id="3519998062" Name="small_explosion" MaxAttenuation="200" DurationType="OneShot" DurationMin="1.715625" DurationMax="1.715625">
 					<MediaRefs>
 						<MediaRef Id="563431773"/>
 					</MediaRefs>
@@ -643,5 +643,5 @@
 			</GameParameters>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{370A8155-7A42-42B1-96C9-6E71BD9DA225}</FileHash>
+	<FileHash>{B35E2D4F-86BB-9936-B8A9-C13862E24310}</FileHash>
 </SoundBanksInfo>

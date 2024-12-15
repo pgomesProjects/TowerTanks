@@ -84,6 +84,7 @@ namespace TowerTanks.Scripts
                 }
                 else //Settings for radar cam
                 {
+                    radar = true;
                     CinemachineTransposer transposer = vcam.AddCinemachineComponent<CinemachineTransposer>(); //Use a simpler transposer to track tank in radar screen
                     transposer.m_XDamping = 0; transposer.m_YDamping = 0; transposer.m_ZDamping = 0;          //Turn off all camera damping
                 }
@@ -95,7 +96,7 @@ namespace TowerTanks.Scripts
                 boundCollider.gameObject.layer = LayerMask.NameToLayer("Camera");              //Put collider on camera layer so it doesn't interfere with anything else
 
                 //Audio setup:
-                if (tank.tankType == TankId.TankType.PLAYER) //Set up audio on this camera if it is the player's
+                if (tank.tankType == TankId.TankType.PLAYER && !radar) //Set up audio on this camera if it is the player's
                 {
                     AkSoundEngine.AddDefaultListener(cam.gameObject);
                 }
@@ -103,7 +104,7 @@ namespace TowerTanks.Scripts
                 //Cleanup:
                 tanks.Add(tank);                                                 //Add given tank controller as the first instance in list of tracked tanks
                 if (tank.tankType == TankId.TankType.PLAYER) isPlayerCam = true; //Mark whether or not this is the player tank's camera system
-                radar = isRadar;                                                 //Store value indicating whether or not this is the radar system
+                //radar = isRadar;                                                 //Store value indicating whether or not this is the radar system
                 UpdateEverything();                                              //Immediately initialize all camera stuff
             }
 
