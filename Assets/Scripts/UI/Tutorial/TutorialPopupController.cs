@@ -9,6 +9,7 @@ namespace TowerTanks.Scripts
 {
     public class TutorialPopupController : MonoBehaviour
     {
+        [Header("Tutorial Popup Settings")]
         [SerializeField, Tooltip("The tutorial header component.")] private TextMeshProUGUI tutorialHeader;
         [SerializeField, Tooltip("The tutorial image component.")] private Image tutorialImage;
         [SerializeField, Tooltip("The tutorial text component.")] private TextMeshProUGUI tutorialText;
@@ -16,6 +17,19 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("The advance tutorial task bar.")] private TaskProgressBar advanceTaskBar;
         [SerializeField, Tooltip("The duration to hold the advance button for.")] private float advanceTutorialDuration;
         [SerializeField, Tooltip("The current tutorial settings to display.")] private TutorialPopupSettings currentTutorial;
+        [Space()]
+        [Header("Tutorial Animation Settings")]
+        [SerializeField, Tooltip("The canvas group for the tutorial window.")] private CanvasGroup tutorialWindowCanvasGroup;
+        [Space()]
+        [Header("Open Animation Settings")]
+        [SerializeField, Tooltip("The distance for the window to move into view.")] private float windowXDistanceIn;
+        [SerializeField, Tooltip("The duration of the tutorial open animation.")] private float tutorialWindowInDuration;
+        [SerializeField, Tooltip("The LeanTween ease type of the tutorial window open animation.")] private LeanTweenType tutorialWindowInEaseType;
+        [Space()]
+        [Header("Close Animation Settings")]
+        [SerializeField, Tooltip("The distance for the window to move out of view.")] private float windowXDistanceOut;
+        [SerializeField, Tooltip("The duration of the tutorial close animation.")] private float tutorialWindowOutDuration;
+        [SerializeField, Tooltip("The LeanTween ease type of the tutorial window close animation.")] private LeanTweenType tutorialWindowOutEaseType;
 
         private bool isTutorialActive;
         private bool canEndTutorial;
@@ -25,6 +39,9 @@ namespace TowerTanks.Scripts
         private float currentAdvanceTimer;
 
         private PlayerControlSystem playerControls;
+
+        public static System.Action OnTutorialStarted;
+        public static System.Action OnTutorialEnded;
 
         private void Awake()
         {
@@ -48,10 +65,19 @@ namespace TowerTanks.Scripts
         /// <summary>
         /// Starts a tutorial using information provided.
         /// </summary>
-        /// <param name="newTutorial">The tutorial information.</param>
-        public void StartTutorial(TutorialPopupSettings newTutorial)
+        /// <param name="newTutorial">A reference to the tutorial information.</param>
+        /// <param name="overrideViewedInGame">If true, the tutorial can be viewed even if it has already been viewed.</param>
+        public void StartTutorial(ref TutorialItem newTutorial, bool overrideViewedInGame)
         {
-            currentTutorial = newTutorial;
+            //If the tutorial has been viewed and not overridden, destroy and return
+            if (GameManager.Instance.tutorialWindowActive || (newTutorial.hasBeenViewedInGame && !overrideViewedInGame))
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            newTutorial.hasBeenViewedInGame = true;
+            currentTutorial = newTutorial.tutorialPopup;
             ActivateTutorial();
         }
 
@@ -79,13 +105,39 @@ namespace TowerTanks.Scripts
             advanceTaskBar.gameObject.SetActive(false);
             tutorialHeader.text = currentTutorial.header;
             ShowTutorialPage(0);
+            PlayTutorialOpenAnimation();
+            OnTutorialStarted?.Invoke();
+        }
+
+        private void PlayTutorialOpenAnimation()
+        {
+            tutorialWindowCanvasGroup.alpha = 0f;
+            RectTransform tutorialRectTransform = tutorialWindowCanvasGroup.GetComponent<RectTransform>();
+            Vector2 currentTutorialPos = tutorialRectTransform.anchoredPosition;
+            currentTutorialPos.x = windowXDistanceIn;
+            tutorialRectTransform.anchoredPosition = currentTutorialPos;
+
+            LeanTween.alphaCanvas(tutorialWindowCanvasGroup, 1f, tutorialWindowInDuration).setEase(tutorialWindowInEaseType).setIgnoreTimeScale(true);
+            LeanTween.moveX(tutorialRectTransform, 0f, tutorialWindowInDuration).setEase(tutorialWindowInEaseType).setIgnoreTimeScale(true);
         }
 
         private void DeactivateTutorial()
         {
-            Time.timeScale = 1f;
+            if(!GameManager.Instance.isPaused)
+                Time.timeScale = 1f;
+
             GameManager.Instance.tutorialWindowActive = false;
-            Destroy(gameObject);
+            PlayTutorialCloseAnimation();
+            OnTutorialEnded?.Invoke();
+        }
+
+        private void PlayTutorialCloseAnimation()
+        {
+            tutorialWindowCanvasGroup.alpha = 1f;
+            RectTransform tutorialRectTransform = tutorialWindowCanvasGroup.GetComponent<RectTransform>();
+
+            LeanTween.alphaCanvas(tutorialWindowCanvasGroup, 0f, tutorialWindowOutDuration).setEase(tutorialWindowOutEaseType).setIgnoreTimeScale(true);
+            LeanTween.moveX(tutorialRectTransform, windowXDistanceOut, tutorialWindowOutDuration).setEase(tutorialWindowOutEaseType).setIgnoreTimeScale(true).setOnComplete(() => Destroy(gameObject));
         }
 
         /// <summary>

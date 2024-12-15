@@ -167,11 +167,11 @@ namespace TowerTanks.Scripts
                 }
                 
             }
-            
+
             if (lastCellJoint != newCellJoint) // will only run once every time a new cell is entered
             {
                 EnterNewCell(newCellJoint);
-                if (lastCellJoint != null && lastCellJoint.TryGetComponent<Cell>(out Cell cell)) lastFoundTankRb = cell.room.targetTank.treadSystem.r;
+                if (lastCellJoint != null && lastFoundTankRb != null && lastCellJoint.TryGetComponent<Cell>(out Cell cell)) lastFoundTankRb = cell.room.targetTank.treadSystem.r;
                 lastCellJoint = newCellJoint;
             }
         }
@@ -187,6 +187,12 @@ namespace TowerTanks.Scripts
                 
             transform.SetParent(null);
             fullTankDismount = true;
+
+            //If the character is in the build scene and goes out of the tank, respawn them
+            if (GameManager.Instance.currentSceneState == SCENESTATE.BuildScene)
+            {
+                RespawnPlayer();
+            }
         }
 
         private void EnterNewCell(Transform cellToEnter)
@@ -368,7 +374,7 @@ namespace TowerTanks.Scripts
         public void ShowPromptOnHUD(GameAction gameAction)
         {
             ClearButtonPrompts();
-            currentButtonPrompt = GameManager.Instance.UIManager.AddButtonPrompt(characterHUD.gameObject, new Vector2(-57.59997f, 17.79999f), gameAction, PlatformType.Gamepad, false);
+            currentButtonPrompt = GameManager.Instance.UIManager.AddButtonPrompt(characterHUD.gameObject, new Vector2(-57.59997f, 17.79999f), 105f, gameAction, PlatformType.Gamepad, false);
         }
 
         public void ClearButtonPrompts()
@@ -435,8 +441,7 @@ namespace TowerTanks.Scripts
             }
             else
             {
-                characterHUD?.KillPlayerHUD();
-                permaDeath = true;
+                PermaKill();
             }
 
             //TODO: (Ryan)
@@ -447,6 +452,12 @@ namespace TowerTanks.Scripts
             characterVisualParent?.gameObject.SetActive(false);
             isAlive = false;
             ResetPlayer();
+        }
+
+        protected virtual void PermaKill()
+        {
+            characterHUD?.KillPlayerHUD();
+            permaDeath = true;
         }
 
         protected virtual void ResetPlayer()
@@ -477,21 +488,23 @@ namespace TowerTanks.Scripts
         {
             currentRespawnTime -= Time.deltaTime;
 
-            characterHUD?.UpdateRespawnBar(1 - (currentRespawnTime / respawnTime), currentRespawnTime);
-
             if (currentRespawnTime <= 0f)
             {
                 RespawnPlayer();
                 isRespawning = false;
                 isAlive = true;
             }
+
+            characterHUD?.UpdateRespawnBar(1 - (currentRespawnTime / respawnTime), currentRespawnTime);
         }
 
         private void RespawnPlayer()
         {
+            if (assignedTank != null)
+                transform.position = assignedTank.GetPlayerSpawnPointPosition();
+
             characterHUD?.DamageAvatar(1f - (currentHealth / characterSettings.maxHealth), 0.01f);
             characterHUD?.ShowRespawnTimer(false);
-            LevelManager.Instance?.MoveCharacterToSpawn(this);
             rb.isKinematic = false;
             characterHitbox.enabled = true;
             characterVisualParent?.gameObject.SetActive(true);
@@ -554,5 +567,11 @@ namespace TowerTanks.Scripts
         }
 
         public PlayerHUD GetCharacterHUD() => characterHUD;
+
+        protected virtual void OnDestroy()
+        {
+            if(characterHUD != null)
+                Destroy(characterHUD.gameObject);
+        }
     }
 }

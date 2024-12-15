@@ -292,13 +292,14 @@ namespace TowerTanks.Scripts
         /// <summary>
         /// Adds a button prompt to a GameObject.
         /// </summary>
-        /// <param name="gameObject">The GameObject to add the timing gauge to (must have a canvas).</param>
+        /// <param name="gameObject">The GameObject to add the button prompt to (must have a canvas).</param>
         /// <param name="position">The position of the UI object relative to the GameObject.</param>
+        /// <param name="imageSize">The size of the button image in pixels (applies to both width and height).</param>
         /// <param name="gameAction">The action to display the prompt for.</param>
         /// <param name="platform">The platform the game is being played on.</param>
         /// <param name="inGameWorld">Determines whether the canvas is to be treated as an overlay or in the game world.</param>
         /// <returns>Returns the GameObject created.</returns>
-        public GameObject AddButtonPrompt(GameObject gameObject, Vector2 position, GameAction gameAction, PlatformType platform, bool inGameWorld)
+        public GameObject AddButtonPrompt(GameObject gameObject, Vector2 position, float imageSize, GameAction gameAction, PlatformType platform, bool inGameWorld)
         {
             //If there are no button settings, return null
             if (buttonPromptSettings == null)
@@ -312,6 +313,7 @@ namespace TowerTanks.Scripts
 
             GameObject buttonPrompt = Instantiate(GetPrefabFromList(UIType.ButtonPrompt), canvas.transform);
             Image buttonImage = buttonPrompt.GetComponentInChildren<Image>();
+            buttonPrompt.GetComponent<RectTransform>().sizeDelta = new Vector2(imageSize, imageSize);
             TextMeshProUGUI buttonText = buttonPrompt.GetComponentInChildren<TextMeshProUGUI>();
 
             PlatformPrompt currentPrompt = buttonPromptSettings.GetButtonPrompt(gameAction, platform);
@@ -321,7 +323,7 @@ namespace TowerTanks.Scripts
             else
                 buttonImage.sprite = currentPrompt.PromptSprite;
 
-            buttonText.text = currentPrompt.PromptText;
+            buttonText.text = currentPrompt.GetPromptText();
 
             return buttonPrompt.gameObject;
         }

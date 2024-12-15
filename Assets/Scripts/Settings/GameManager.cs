@@ -13,6 +13,7 @@ using UnityEngine.UI;
 namespace TowerTanks.Scripts
 {
     public enum INTERACTABLE { Throttle, EnergyShield, Boiler, Refuel, Cannon, MachineGun, Mortar, Armor, ShopTerminal };
+    public enum SCENESTATE { Menu, BuildScene, CombatScene };
 
     public class GameManager : SerializedMonoBehaviour
     {
@@ -24,8 +25,9 @@ namespace TowerTanks.Scripts
         public GameUIManager UIManager { get; private set; }
         public CargoManager CargoManager { get; private set; }
 
+        [SerializeField, Tooltip("The prefab for the character HUD.")] private PlayerHUD playerHUDPrefab;
         [SerializeField, Tooltip("The prefab for the tutorial popup.")] private TutorialPopupController tutorialPopup;
-        [SerializeField, Tooltip("The list of all possible tutorials.")] private TutorialPopupSettings[] tutorialsList;
+        [SerializeField, Tooltip("The list of all possible tutorials.")] public TutorialItem[] tutorialsList { get; private set; }
 
         [SerializeField, Tooltip("The list of possible rooms for the players to pick.")] public RoomInfo[] roomList;
         [SerializeField, Tooltip("The list of possible special rooms for use in the game.")] public RoomInfo[] specialRoomList;
@@ -43,6 +45,7 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("The loading progress bar.")] private Image progressBar;
         [Tooltip("The settings for all of the button prompts.")] public ButtonPromptSettings buttonPromptSettings;
 
+        public SCENESTATE currentSceneState { get; private set; }
         public bool tutorialWindowActive;
         public bool isPaused;
         public bool inBugReportMenu;
@@ -138,12 +141,16 @@ namespace TowerTanks.Scripts
                     //End the campaign if it has not ended already
                     if (CampaignManager.Instance.HasCampaignStarted)
                         CampaignManager.Instance.EndCampaign();
+
+                    currentSceneState = SCENESTATE.Menu;
                     break;
                 case GAMESCENE.BUILDING:
                     GameSettings.showGamepadCursors = true;
+                    currentSceneState = SCENESTATE.BuildScene;
                     break;
                 default:
                     GameSettings.showGamepadCursors = false;
+                    currentSceneState = SCENESTATE.CombatScene;
                     break;
             }
         }
@@ -233,13 +240,29 @@ namespace TowerTanks.Scripts
         }
 
         /// <summary>
+        /// Adds a character HUD to the scene.
+        /// </summary>
+        /// <param name="newCharacter">The character to link the HUD to.</param>
+        public void AddCharacterHUD(Character newCharacter)
+        {
+            Transform playerAvatarTransform = GameObject.FindGameObjectWithTag("PlayerAvatars")?.transform;
+
+            if(playerAvatarTransform != null)
+            {
+                PlayerHUD newPlayerHUD = Instantiate(playerHUDPrefab, playerAvatarTransform);
+                newCharacter.LinkPlayerHUD(newPlayerHUD);
+            }
+        }
+
+        /// <summary>
         /// Displays a tutorial on the screen.
         /// </summary>
         /// <param name="tutorialIndex">The index of the tutorial to show.</param>
-        public void DisplayTutorial(int tutorialIndex)
+        /// <param name="overrideViewedInGame">If true, the tutorial can be viewed even if it has already been viewed.</param>
+        public void DisplayTutorial(int tutorialIndex, bool overrideViewedInGame = false)
         {
             TutorialPopupController currentTutorialPopup = Instantiate(tutorialPopup, GameObject.FindGameObjectWithTag("CursorCanvas").transform);
-            currentTutorialPopup.StartTutorial(tutorialsList[tutorialIndex]);
+            currentTutorialPopup.StartTutorial(ref tutorialsList[tutorialIndex], overrideViewedInGame);
         }
 
         /// <summary>

@@ -148,7 +148,7 @@ namespace TowerTanks.Scripts
             }
 
             //Show that the player can cancel to leave
-            operatorID.GetCharacterHUD().SetButtonPrompt(GameAction.Cancel, true);
+            operatorID.GetCharacterHUD()?.SetButtonPrompt(GameAction.Cancel, true);
         }
 
         public virtual void Exit(bool sameZone) //Called from operator (PlayerMovement.cs) when they press Cancel
@@ -159,6 +159,9 @@ namespace TowerTanks.Scripts
                 operatorID.isOperator = false;
                 operatorID.gameObject.GetComponent<Rigidbody2D>().isKinematic = false;
                 operatorID.CancelInteraction();
+                
+                if(GameManager.Instance.currentSceneState == SCENESTATE.BuildScene)
+                    operatorID.GetPlayerData().undoActionAvailable = false;
 
                 if (!interactZone.players.Contains(operatorID.gameObject) && sameZone)
                 {
@@ -170,7 +173,7 @@ namespace TowerTanks.Scripts
                 Debug.Log(operatorID + " is out!");
 
                 //Remove the cancel option
-                operatorID.GetCharacterHUD().SetButtonPrompt(GameAction.Cancel, false);
+                operatorID.GetCharacterHUD()?.SetButtonPrompt(GameAction.Cancel, false);
 
                 operatorID = null;
 

@@ -492,12 +492,19 @@ namespace TowerTanks.Scripts
                 {
                     Destroy(cell.compositeClone.gameObject); //Fully delete composite clone object
                     cell.compositeClone = null;              //Clear reference to destroyed object
+                    cell.AddInteractablesFromCell();         //Remove the interactables and add them to the stacks
                 }
 
                 //Remove room from tank system:
                 targetTank.rooms.Remove(this);            // Remove room from the tank's list of rooms
+                targetTank.UpdateSizeValues();            //Check to see if any added cells are higher than the known highest cell
                 targetTank.treadSystem.ReCalculateMass(); //Re-calculate mass now that room has been removed
             }
+
+            //If the room is an armored room, add it back to the stack
+            if (type == RoomType.Armor)
+                StackManager.AddToStack(INTERACTABLE.Armor);
+
             mounted = false;                   //Indicate that room is now disconnected
             SnapMove(transform.localPosition); //Re-generate ghost couplers and stuff once everything is cleaned up and room is disconnected
         }
@@ -511,10 +518,26 @@ namespace TowerTanks.Scripts
 
             //Change room color:
             Color newColor = roomData.roomTypeColors[(int)newType]; //Get new color for room backwall
-            foreach (Cell cell in cells) //Iterate through each cell in room
+            ChangeRoomColor(newColor);  //Change the room color
+        }
+        /// <summary>
+        /// Changes the color of the room.
+        /// </summary>
+        /// <param name="newColor">The new color for the room.</param>
+        private void ChangeRoomColor(Color newColor)
+        {
+            if (backWallSprite != null)
             {
-                cell.backWall.GetComponent<SpriteRenderer>().color = newColor;                                               //Set cell color to new type
-                //foreach (Connector connector in cell.connectors) if (connector != null) connector.backWall.color = newColor; //Set color of connector back wall
+                backWallSprite.color = newColor;    //Set the back wall sprite color to new type
+            }
+            else
+            {
+                foreach (Cell cell in cells) //Iterate through each cell in room
+                {
+                    if (cell.backWall.TryGetComponent(out SpriteRenderer backWallRenderer))
+                        backWallRenderer.color = newColor;                                //Set cell color to new type
+                    //foreach (Connector connector in cell.connectors) if (connector != null) connector.backWall.color = newColor; //Set color of connector back wall
+                }
             }
         }
         /// <summary>

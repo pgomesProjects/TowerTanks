@@ -97,14 +97,16 @@ namespace TowerTanks.Scripts
 
         private void OnDeviceLost(PlayerInput playerInput)
         {
-            playerInput.gameObject.SetActive(false);
+            Debug.Log("Player " + (playerInput.playerIndex + 1) + " Disconnected.");
             OnPlayerLost?.Invoke(playerInput.playerIndex);
+            //playerInput.gameObject.SetActive(false);
         }
 
         private void OnDeviceRegained(PlayerInput playerInput)
         {
-            playerInput.gameObject.SetActive(true);
+            Debug.Log("Player " + (playerInput.playerIndex + 1) + " Reconnected.");
             OnPlayerRegained?.Invoke(playerInput.playerIndex);
+            //playerInput.gameObject.SetActive(true);
         }
 
         public void EnableDebugInput()

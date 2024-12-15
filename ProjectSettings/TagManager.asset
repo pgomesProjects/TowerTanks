@@ -40,6 +40,7 @@ TagManager:
   - EnergyShield
   - GameUI
   - PlayerName
+  - PlayerAvatars
   layers:
   - Default
   - TransparentFX

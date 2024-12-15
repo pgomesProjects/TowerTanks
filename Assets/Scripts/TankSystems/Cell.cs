@@ -282,6 +282,10 @@ namespace TowerTanks.Scripts
         /// </summary>
         public void Damage(float damage)
         {
+            //If the current scene is the build scene, return
+            if (GameManager.Instance.currentSceneState == SCENESTATE.BuildScene)
+                return;
+
             if (room.isCore || room.targetTank.isFragile) //Damage is being dealt to core cell
             {
                 if (!room.targetTank.isInvincible) room.targetTank.Damage(damage); //Deal all core cell damage directly to tank instead of destroying cells (unless tank is invincible)
@@ -477,10 +481,7 @@ namespace TowerTanks.Scripts
                 }
             }
             Destroy(compositeClone.gameObject); //Destroy collider composite component corresponding to this cell
-
-            //Stack update:
-            if(interactable != null)
-                if (room.targetTank != null && room.targetTank.tankType == TankId.TankType.PLAYER) StackManager.AddToStack(GameManager.Instance.TankInteractableToEnum(interactable)); //Add interactable data to stack upon destruction (if it is in a player tank)
+            AddInteractablesFromCell();
             room.targetTank.UpdateSizeValues(); //Update highest cell tracker
 
             //Update Room Status:
@@ -497,6 +498,19 @@ namespace TowerTanks.Scripts
             GameManager.Instance.AudioManager.Play("MedExplosionSFX", gameObject);
             GameManager.Instance.ParticleSpawner.SpawnParticle(5, transform.position, 0.15f, null);
         }
+        /// <summary>
+        /// Removes the interactables from a player tank's cell and returns them to the stack.
+        /// </summary>
+        public void AddInteractablesFromCell()
+        {
+            //Stack update:
+            if (interactable != null)
+            {
+                if (room.targetTank != null && room.targetTank.tankType == TankId.TankType.PLAYER) StackManager.AddToStack(GameManager.Instance.TankInteractableToEnum(interactable)); //Add interactable data to stack upon destruction (if it is in a player tank)
+                Destroy(interactable.gameObject); //Destroy this interactable
+            }
+        }
+
         /// <summary>
         /// Simply removes cell without going through all the destruction rigamarole. Mainly meant for removing cells from rooms upon automatic construction of tank from build settings.
         /// </summary>
