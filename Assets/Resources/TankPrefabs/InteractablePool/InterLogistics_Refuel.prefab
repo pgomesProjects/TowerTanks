@@ -749,7 +749,8 @@ MonoBehaviour:
   tank: {fileID: 0}
   seat: {fileID: 0}
   interactableType: 3
-  stackName: Pack Fuel Nodule
+  thisCollider: {fileID: 0}
+  stackName: Fuel Node
   prefabRef: {fileID: 7281501281902775960}
   uiImage: {fileID: 21300000, guid: af6398f9c5ae02f459893c668b9879d2, type: 2}
   hasOperator: 0

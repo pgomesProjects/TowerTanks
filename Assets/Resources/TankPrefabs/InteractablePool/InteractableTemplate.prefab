@@ -267,8 +267,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8e0cebe543844b458649258c7c31848, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabRef: {fileID: 7281501281902775960}
+  tank: {fileID: 0}
   seat: {fileID: 0}
+  interactableType: 0
+  thisCollider: {fileID: 0}
+  stackName: MISSING
+  prefabRef: {fileID: 7281501281902775960}
+  uiImage: {fileID: 0}
   hasOperator: 0
+  isContinuous: 0
+  canAim: 0
   direction: 1
+  debugMoveUp: 0
+  debugMoveDown: 0
+  debugMoveLeft: 0
+  debugMoveRight: 0
   debugFlip: 0

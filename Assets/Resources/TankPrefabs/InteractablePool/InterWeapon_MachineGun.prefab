@@ -429,7 +429,7 @@ MonoBehaviour:
   seat: {fileID: 3796886657170791281}
   interactableType: 0
   thisCollider: {fileID: 0}
-  stackName: Chimpanzee Mk I
+  stackName: Machine Gun
   prefabRef: {fileID: 1789302742507130491}
   uiImage: {fileID: 21300000, guid: 5e8b031fc02ec6c47a1785caa19c4751, type: 2}
   hasOperator: 0

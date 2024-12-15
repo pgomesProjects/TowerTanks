@@ -1918,7 +1918,7 @@ MonoBehaviour:
   seat: {fileID: 0}
   interactableType: 1
   thisCollider: {fileID: 0}
-  stackName: Boiler
+  stackName: Engine
   prefabRef: {fileID: 8306713773444683921}
   uiImage: {fileID: 21300000, guid: 3dce60614db2d4e499310fde54e3b229, type: 2}
   hasOperator: 0
