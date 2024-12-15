@@ -1413,6 +1413,7 @@ GameObject:
   - component: {fileID: 1677695872598849027}
   - component: {fileID: -2433247677247341884}
   - component: {fileID: 7640934136196105169}
+  - component: {fileID: 7793904838642235008}
   m_Layer: 0
   m_Name: Tank1
   m_TagString: Untagged
@@ -1520,6 +1521,28 @@ MonoBehaviour:
   - type: 6
     cost: 50
   terminals: []
+--- !u!114 &7793904838642235008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1677695872598849025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e005a5f17590ef4bba8c45ee5c33d66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1677695872621142252
 GameObject:
   m_ObjectHideFlags: 0
@@ -1783,6 +1806,7 @@ GameObject:
   - component: {fileID: 1677695872800944109}
   - component: {fileID: 1677695872800944111}
   - component: {fileID: 1677695872800944110}
+  - component: {fileID: 2960581620927674055}
   m_Layer: 17
   m_Name: TreadSystem
   m_TagString: Untagged
@@ -1978,6 +2002,28 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
+--- !u!114 &2960581620927674055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1677695872800944108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e005a5f17590ef4bba8c45ee5c33d66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1677695872918835676
 GameObject:
   m_ObjectHideFlags: 0

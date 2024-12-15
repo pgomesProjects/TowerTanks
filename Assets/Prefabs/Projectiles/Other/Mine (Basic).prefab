@@ -265,6 +265,7 @@ GameObject:
   - component: {fileID: 5013177347503370364}
   - component: {fileID: 2390950662573649555}
   - component: {fileID: 1115590235353381515}
+  - component: {fileID: -191082729324122837}
   m_Layer: 8
   m_Name: Mine (Basic)
   m_TagString: Destructible
@@ -342,18 +343,7 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 1212424
-  damage: 200
   hitProperties: {fileID: 11400000, guid: 8dffed32e8ddd184da8044cfebb760ae, type: 2}
-  impactProperties: {fileID: 0}
-  knockbackProperties: {fileID: 0}
-  hasSplashDamage: 1
-  splashData:
-  - splashDamage: 200
-    splashRadius: 1.25
-  - splashDamage: 100
-    splashRadius: 2.5
-  isTunneling: 0
-  fireChance: 5
   maxLife: 120
   radius: 0.5
   drag: 0
@@ -374,6 +364,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 5
   health: 0
+--- !u!114 &-191082729324122837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2880273055600732949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e005a5f17590ef4bba8c45ee5c33d66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &3519687059588563201
 GameObject:
   m_ObjectHideFlags: 0

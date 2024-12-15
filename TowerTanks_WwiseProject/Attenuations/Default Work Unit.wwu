@@ -4,6 +4,9 @@
 		<WorkUnit Name="Default Work Unit" ID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}" PersistMode="Standalone">
 			<ChildrenList>
 				<Attenuation Name="LoudBlasts" ID="{7968801A-25AF-433D-8631-BC726ABCFEAD}" ShortID="538220945">
+					<PropertyList>
+						<Property Name="RadiusMax" Type="Real64" Value="200"/>
+					</PropertyList>
 					<CurveUsageInfoList>
 						<VolumeDryUsage>
 							<CurveUsageInfo Platform="Linked" CurveToUse="Custom">
@@ -18,7 +21,12 @@
 											<Flags>5</Flags>
 										</Point>
 										<Point>
-											<XPos>100</XPos>
+											<XPos>70</XPos>
+											<YPos>0</YPos>
+											<Flags>0</Flags>
+										</Point>
+										<Point>
+											<XPos>200</XPos>
 											<YPos>-14.92922</YPos>
 											<Flags>37</Flags>
 										</Point>
@@ -45,8 +53,8 @@
 											<Flags>5</Flags>
 										</Point>
 										<Point>
-											<XPos>100</XPos>
-											<YPos>76</YPos>
+											<XPos>200</XPos>
+											<YPos>71</YPos>
 											<Flags>37</Flags>
 										</Point>
 									</PointList>
@@ -66,7 +74,7 @@
 											<Flags>5</Flags>
 										</Point>
 										<Point>
-											<XPos>100</XPos>
+											<XPos>200</XPos>
 											<YPos>100</YPos>
 											<Flags>37</Flags>
 										</Point>
