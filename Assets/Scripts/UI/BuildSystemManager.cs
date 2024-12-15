@@ -286,14 +286,18 @@ namespace TowerTanks.Scripts
                 TankController defaultTank = FindObjectOfType<TankController>();
                 Vector3 playerPos = defaultTank.GetPlayerSpawnPointPosition();
                 playerPos.x += Random.Range(-0.25f, 0.25f);
-                playerRoom.playerSelector.GetCurrentPlayerData().SpawnPlayerInScene(playerPos).SetAssignedTank(defaultTank);
+
+                PlayerMovement playerObject = playerRoom.playerSelector.GetCurrentPlayerData().SpawnPlayerInScene(playerPos);
+                playerObject.SetAssignedTank(defaultTank);
 
                 //If all rooms from all players are mounted, note that all of them are ready and start the ready up manager
                 if (AllRoomsMounted())
                 {
                     UpdateBuildPhase(BuildingSubphase.ReadyUp);
                     foreach (PlayerData player in GameManager.Instance.MultiplayerManager.GetAllPlayers())
+                    {
                         player.SetPlayerState(PlayerData.PlayerState.ReadyForCombat);
+                    }
                     readyUpManager.Init();
                 }
 
@@ -434,8 +438,11 @@ namespace TowerTanks.Scripts
                     Vector3 playerPos = defaultTank.GetPlayerSpawnPointPosition();
                     playerPos.x += Random.Range(-0.25f, 0.25f);
                     PlayerData playerData = PlayerData.ToPlayerData(playerInput);
-                    playerData.SpawnPlayerInScene(playerPos).SetAssignedTank(defaultTank);
+                    PlayerMovement playerObject = playerData.SpawnPlayerInScene(playerPos);
+                    playerObject.SetAssignedTank(defaultTank);
                     playerData.SetPlayerState(PlayerData.PlayerState.ReadyForCombat);
+                    if (CurrentSubPhase == BuildingSubphase.ReadyUp)
+                        readyUpManager.Init();
                     break;
             }
         }

@@ -4,25 +4,36 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class ReadyComponent : MonoBehaviour
+namespace TowerTanks.Scripts
 {
-    [SerializeField] private TextMeshProUGUI readyComponentText;
-    [SerializeField] private Image readyImage;
-
-    [SerializeField] private Color notReadyColor;
-    [SerializeField] private Color readyColor;
-    private bool isReady;
-
-    public void UpdatePlayerNumber(int playerIndex)
+    public class ReadyComponent : MonoBehaviour
     {
-        readyComponentText.text = "Player " + (playerIndex + 1).ToString() + " Status:";
-    }
+        [SerializeField] private TextMeshProUGUI readyComponentText;
+        [SerializeField] private Image readyImage;
 
-    public void UpdateReadyStatus(bool isPlayerReady)
-    {
-        isReady = isPlayerReady;
-        readyImage.color = isReady ? readyColor : notReadyColor;
-    }
+        [SerializeField] private Color notReadyColor;
+        [SerializeField] private Color readyColor;
+        private bool isReady;
 
-    public bool IsReady() => isReady;
+        private GameObject readyPrompt;
+
+        private void Awake()
+        {
+            readyPrompt = GameManager.Instance.UIManager.AddButtonPrompt(gameObject, new Vector2(50f, 0f), 85f, GameAction.ReadyUp, PlatformType.Gamepad, false);
+        }
+
+        public void UpdatePlayerNumber(int playerIndex)
+        {
+            readyComponentText.text = "Player " + (playerIndex + 1).ToString() + " Status:";
+        }
+
+        public void UpdateReadyStatus(bool isPlayerReady)
+        {
+            isReady = isPlayerReady;
+            readyImage.color = isReady ? readyColor : notReadyColor;
+            readyPrompt.SetActive(!isReady);
+        }
+
+        public bool IsReady() => isReady;
+    }
 }

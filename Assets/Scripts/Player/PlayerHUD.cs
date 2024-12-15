@@ -205,12 +205,13 @@ namespace TowerTanks.Scripts
 
             if (promptInfo == null || playerFaceButtons == null)
                 return;
-            else
+
+            if(promptInfo.GetPromptText() != null)
             {
                 if (promptSet)
-                    playerFaceButtons.AddFaceInput(promptInfo.PromptText);
+                    playerFaceButtons.AddFaceInput(promptInfo.GetPromptText());
                 else
-                    playerFaceButtons.RemoveFaceInput(promptInfo.PromptText);
+                    playerFaceButtons.RemoveFaceInput(promptInfo.GetPromptText());
             }
         }
 

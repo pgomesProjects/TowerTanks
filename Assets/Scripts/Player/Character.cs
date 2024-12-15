@@ -374,7 +374,7 @@ namespace TowerTanks.Scripts
         public void ShowPromptOnHUD(GameAction gameAction)
         {
             ClearButtonPrompts();
-            currentButtonPrompt = GameManager.Instance.UIManager.AddButtonPrompt(characterHUD.gameObject, new Vector2(-57.59997f, 17.79999f), gameAction, PlatformType.Gamepad, false);
+            currentButtonPrompt = GameManager.Instance.UIManager.AddButtonPrompt(characterHUD.gameObject, new Vector2(-57.59997f, 17.79999f), 105f, gameAction, PlatformType.Gamepad, false);
         }
 
         public void ClearButtonPrompts()
@@ -567,5 +567,11 @@ namespace TowerTanks.Scripts
         }
 
         public PlayerHUD GetCharacterHUD() => characterHUD;
+
+        protected virtual void OnDestroy()
+        {
+            if(characterHUD != null)
+                Destroy(characterHUD.gameObject);
+        }
     }
 }

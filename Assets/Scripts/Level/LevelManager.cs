@@ -21,8 +21,6 @@ namespace TowerTanks.Scripts
         [SerializeField] private GameObject layerPrefab;
         [SerializeField] private GameObject ghostLayerPrefab;
         [SerializeField, Tooltip("The list of possible rooms for the players to pick.")] public GameObject[] roomList { get; private set; }
-        [SerializeField, Tooltip("The prefab for the player HUD piece.")] private PlayerHUD playerHUDPrefab;
-        [SerializeField, Tooltip("The parent that holds all of the player HUD objects.")] private RectTransform playerHUDParentTransform;
         [SerializeField, Tooltip("The value of a singular scrap piece.")] private int scrapValue;
         [SerializeField, Tooltip("The component that tracks the objective information.")] private ObjectiveTracker objectiveTracker;
         [SerializeField, Tooltip("The component that tracks encounter & event information.")] public EventSpawnerManager eventManager;
@@ -183,8 +181,7 @@ namespace TowerTanks.Scripts
             MoveCharacterToSpawn(character);
             character.transform.GetComponentInChildren<Renderer>().material.SetColor("_Color", GameManager.Instance.MultiplayerManager.GetPlayerColors()[playerInput.playerIndex]);
             //character.SetPlayerMove(true);
-            PlayerHUD newPlayerHUD = Instantiate(playerHUDPrefab, playerHUDParentTransform);
-            character.LinkPlayerHUD(newPlayerHUD);
+            GameManager.Instance.AddCharacterHUD(character);
         }
 
         public void MoveCharacterToSpawn(Character characterObject)

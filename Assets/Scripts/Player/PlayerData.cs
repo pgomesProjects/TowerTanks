@@ -111,7 +111,8 @@ namespace TowerTanks.Scripts
         {
             if (currentPlayerState == PlayerState.ReadyForCombat && ctx.started)
             {
-                BuildSystemManager.Instance.GetReadyUpManager().ReadyPlayer(playerInput.playerIndex, !BuildSystemManager.Instance.GetReadyUpManager().IsPlayerReady(playerInput.playerIndex));
+                bool isPlayerReady = !BuildSystemManager.Instance.GetReadyUpManager().IsPlayerReady(playerInput.playerIndex);
+                BuildSystemManager.Instance.GetReadyUpManager().ReadyPlayer(playerInput.playerIndex, isPlayerReady);
             }
         }
 
@@ -145,7 +146,7 @@ namespace TowerTanks.Scripts
             currentPlayer.transform.position = playerPos;
             currentPlayer.transform.GetComponentInChildren<Renderer>().material.SetColor("_Color", GameManager.Instance.MultiplayerManager.GetPlayerColors()[playerInput.playerIndex]);
             GameManager.Instance.SetPlayerCursorActive(playerInput.GetComponent<GamepadCursor>(), false);
-
+            GameManager.Instance.AddCharacterHUD(currentPlayer);
             return currentPlayer;
         }
 
@@ -184,6 +185,7 @@ namespace TowerTanks.Scripts
             playerInput.name = playerName;
         }
 
+        public PlayerMovement GetCurrentPlayerObject() => currentPlayer;
         public PlayerState GetCurrentPlayerState() => currentPlayerState;
         public void SetPlayerState(PlayerState currentPlayerState)
         {

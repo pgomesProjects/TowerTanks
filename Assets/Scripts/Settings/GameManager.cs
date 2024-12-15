@@ -25,6 +25,7 @@ namespace TowerTanks.Scripts
         public GameUIManager UIManager { get; private set; }
         public CargoManager CargoManager { get; private set; }
 
+        [SerializeField, Tooltip("The prefab for the character HUD.")] private PlayerHUD playerHUDPrefab;
         [SerializeField, Tooltip("The prefab for the tutorial popup.")] private TutorialPopupController tutorialPopup;
         [SerializeField, Tooltip("The list of all possible tutorials.")] public TutorialItem[] tutorialsList { get; private set; }
 
@@ -236,6 +237,21 @@ namespace TowerTanks.Scripts
             gameDeltaTime = Time.unscaledDeltaTime * gameTimeScale;
             gameElapsedTime += gameDeltaTime;
             Time.fixedDeltaTime = gameTimeScale * gameFixedDeltaTimeStep;
+        }
+
+        /// <summary>
+        /// Adds a character HUD to the scene.
+        /// </summary>
+        /// <param name="newCharacter">The character to link the HUD to.</param>
+        public void AddCharacterHUD(Character newCharacter)
+        {
+            Transform playerAvatarTransform = GameObject.FindGameObjectWithTag("PlayerAvatars")?.transform;
+
+            if(playerAvatarTransform != null)
+            {
+                PlayerHUD newPlayerHUD = Instantiate(playerHUDPrefab, playerAvatarTransform);
+                newCharacter.LinkPlayerHUD(newPlayerHUD);
+            }
         }
 
         /// <summary>
