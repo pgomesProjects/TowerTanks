@@ -194,9 +194,9 @@ namespace TowerTanks.Scripts
 
         public void EncounterEnded(EventType type)
         {
-            currentEncounter.Remove(type);
+            if (currentEncounter.Contains(type)) currentEncounter.Remove(type);
 
-            if (enemies.Count == 0)
+            if (type == EventType.ENEMY && enemies.Count == 0)
             {
                 Vector3 endPos = playerTank.treadSystem.transform.position;
                 int newMarker = chunkLoader.GetChunkAtPosition(endPos).chunkNumber;
