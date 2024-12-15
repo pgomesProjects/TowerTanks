@@ -236,8 +236,8 @@ MonoBehaviour:
   tankCameraColor: {r: 0.26666668, g: 0.6156863, b: 0.86666673, a: 1}
   engagementDistance: 100
   shareCamDistance: 10
-  shareCamStickDistance: 20
-  cameraDisappearTime: 0
+  shareCamStickDistance: 16
+  cameraDisappearTime: 3
   radarEdgeBuffer: {x: 7.23, y: 12.3}
   radarRange: 150
   boundColliderEdgeRadius: 1
