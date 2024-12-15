@@ -388,6 +388,13 @@ MonoBehaviour:
   advanceTaskBar: {fileID: 6785371439053912281}
   advanceTutorialDuration: 1
   currentTutorial: {fileID: 0}
+  tutorialWindowCanvasGroup: {fileID: 8658555446362828866}
+  windowXDistanceIn: 100
+  tutorialWindowInDuration: 0.2
+  tutorialWindowInEaseType: 8
+  windowXDistanceOut: 150
+  tutorialWindowOutDuration: 0.1
+  tutorialWindowOutEaseType: 9
 --- !u!223 &1644692055161268519
 Canvas:
   m_ObjectHideFlags: 0
@@ -629,6 +636,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7246176982966494284}
+  - component: {fileID: 8658555446362828866}
   m_Layer: 5
   m_Name: TutorialWindow
   m_TagString: Untagged
@@ -661,6 +669,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 900, y: 1080}
   m_Pivot: {x: 1, y: 0.5}
+--- !u!225 &8658555446362828866
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7246176982966494285}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &8291088352676850629
 GameObject:
   m_ObjectHideFlags: 0

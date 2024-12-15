@@ -61,7 +61,7 @@ namespace TowerTanks.Scripts
         [Button("Activate Test Tutorial")]
         private void DebugTestTutorial()
         {
-            GameManager.Instance.DisplayTutorial(0);
+            GameManager.Instance.DisplayTutorial(0, true);
         }
 
         [Button(ButtonSizes.Medium)]

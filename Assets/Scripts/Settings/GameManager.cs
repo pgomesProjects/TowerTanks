@@ -25,7 +25,7 @@ namespace TowerTanks.Scripts
         public CargoManager CargoManager { get; private set; }
 
         [SerializeField, Tooltip("The prefab for the tutorial popup.")] private TutorialPopupController tutorialPopup;
-        [SerializeField, Tooltip("The list of all possible tutorials.")] private TutorialPopupSettings[] tutorialsList;
+        [SerializeField, Tooltip("The list of all possible tutorials.")] public TutorialItem[] tutorialsList { get; private set; }
 
         [SerializeField, Tooltip("The list of possible rooms for the players to pick.")] public RoomInfo[] roomList;
         [SerializeField, Tooltip("The list of possible special rooms for use in the game.")] public RoomInfo[] specialRoomList;
@@ -236,10 +236,11 @@ namespace TowerTanks.Scripts
         /// Displays a tutorial on the screen.
         /// </summary>
         /// <param name="tutorialIndex">The index of the tutorial to show.</param>
-        public void DisplayTutorial(int tutorialIndex)
+        /// <param name="overrideViewedInGame">If true, the tutorial can be viewed even if it has already been viewed.</param>
+        public void DisplayTutorial(int tutorialIndex, bool overrideViewedInGame = false)
         {
             TutorialPopupController currentTutorialPopup = Instantiate(tutorialPopup, GameObject.FindGameObjectWithTag("CursorCanvas").transform);
-            currentTutorialPopup.StartTutorial(tutorialsList[tutorialIndex]);
+            currentTutorialPopup.StartTutorial(ref tutorialsList[tutorialIndex], overrideViewedInGame);
         }
 
         /// <summary>

@@ -100,15 +100,62 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: 3b0484ad929fefc4c96fd957efa8336a, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: tutorialsList
+      Entry: 7
+      Data: 0|TowerTanks.Scripts.TutorialItem[], TowerTanks.Scripts
+    - Name: 
+      Entry: 12
+      Data: 4
+    - Name: 
+      Entry: 7
+      Data: TowerTanks.Scripts.TutorialItem, TowerTanks.Scripts
+    - Name: tutorialPopup
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: TowerTanks.Scripts.TutorialItem, TowerTanks.Scripts
+    - Name: tutorialPopup
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: TowerTanks.Scripts.TutorialItem, TowerTanks.Scripts
+    - Name: tutorialPopup
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: TowerTanks.Scripts.TutorialItem, TowerTanks.Scripts
+    - Name: tutorialPopup
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   tutorialPopup: {fileID: 7246176982549920993, guid: 5c09bd25fe367e947a9b55a4a014671e, type: 3}
-  tutorialsList:
-  - {fileID: 11400000, guid: 3b0484ad929fefc4c96fd957efa8336a, type: 2}
   roomList:
   - {fileID: 11400000, guid: 37660a02e89b587409727183421aa180, type: 2}
   - {fileID: 11400000, guid: f9b63bf0f3fc1484eb5d45047c937a78, type: 2}

@@ -5,6 +5,13 @@ using UnityEngine;
 namespace TowerTanks.Scripts
 {
     [System.Serializable]
+    public struct TutorialItem
+    {
+        internal bool hasBeenViewedInGame;
+        public TutorialPopupSettings tutorialPopup;
+    }
+
+    [System.Serializable]
     public class PopupSettings
     {
         public Sprite tutorialImage;
