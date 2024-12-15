@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbf9a243000ae4742a753411665e3bc0, type: 3}
+  m_Name: Manning Stations
+  m_EditorClassIdentifier: 
+  header: Manning Stations
+  tutorialPages:
+  - tutorialImage: {fileID: 0}
+    tutorialText: Time to get rolling!<br><br>You'll need to man your tank's Stations
+      in order for it to function!<br><br>To enter a Station, move up to it and press
+      [Interact] .
+  - tutorialImage: {fileID: 0}
+    tutorialText: Engines:<br><br>Your tank won't move unless you keep the Engines
+      powered!<br><br>While manning an Engine, hold [Interact] and release it to
+      add power to the tank's treads.
+  - tutorialImage: {fileID: 0}
+    tutorialText: Throttle:<br><br>To steer the tank, shift the tank's gear by moving
+      the Throttle left and right.<br><br>To do this, man the Throttle and flick
+      the L-Stick left and right.
+  - tutorialImage: {fileID: 0}
+    tutorialText: Weapons:<br><br>Fight off enemy tanks using your powerful arsenal
+      of Weapons!<br><br>While manning a Weapon, you can aim by rotating the L-Stick
+      in a circular motion.<br><br>Press [Interact] to fire!
+  - tutorialImage: {fileID: 0}
+    tutorialText: To exit a station, press [Cancel].<br><br>Good luck!

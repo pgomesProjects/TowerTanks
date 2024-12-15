@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbf9a243000ae4742a753411665e3bc0, type: 3}
+  m_Name: Placing Stations
+  m_EditorClassIdentifier: 
+  header: Placing Stations
+  tutorialPages:
+  - tutorialImage: {fileID: 0}
+    tutorialText: You need to place Stations in order for your tank to run!<br><br>On
+      the left side of the screen, you'll see an inventory of placeable Stations.
+  - tutorialImage: {fileID: 0}
+    tutorialText: 'To place a Station, move to an empty cell and hold [Build].<br><br>IMPORTANT:
+      You''ll always be placing the Station at the TOP of the Inventory List. '
+  - tutorialImage: {fileID: 0}
+    tutorialText: 'Choose where to place your Stations wisely!<br><br>TIP: Weapon
+      Stations like the Cannon or Mortar need to extend OUTSIDE of the tank. Try
+      placing these on cells where they can be used properly.'
