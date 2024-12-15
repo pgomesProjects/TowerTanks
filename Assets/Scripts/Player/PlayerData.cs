@@ -15,6 +15,7 @@ namespace TowerTanks.Scripts
 
         public enum PlayerState { SettingUp, NameReady, PickingRooms, PickedRooms, IsBuilding, ReadyForCombat };
         private PlayerState currentPlayerState;
+        internal bool undoActionAvailable;
 
         private NamepadController playerNamepad;
         private string playerName;
@@ -95,9 +96,15 @@ namespace TowerTanks.Scripts
         {
             if (ctx.performed)
             {
+                if (!undoActionAvailable)
+                    return;
+
                 if (currentPlayerState == PlayerState.IsBuilding || currentPlayerState == PlayerState.ReadyForCombat)
                     BuildSystemManager.Instance.UndoPlayerAction(playerInput);
             }
+
+            if (ctx.canceled)
+                undoActionAvailable = true;
         }
 
         private void OnReadyUp(InputAction.CallbackContext ctx)

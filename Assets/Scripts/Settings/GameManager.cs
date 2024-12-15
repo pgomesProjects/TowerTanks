@@ -13,6 +13,7 @@ using UnityEngine.UI;
 namespace TowerTanks.Scripts
 {
     public enum INTERACTABLE { Throttle, EnergyShield, Boiler, Refuel, Cannon, MachineGun, Mortar, Armor, ShopTerminal };
+    public enum SCENESTATE { Menu, BuildScene, CombatScene };
 
     public class GameManager : SerializedMonoBehaviour
     {
@@ -43,6 +44,7 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("The loading progress bar.")] private Image progressBar;
         [Tooltip("The settings for all of the button prompts.")] public ButtonPromptSettings buttonPromptSettings;
 
+        public SCENESTATE currentSceneState { get; private set; }
         public bool tutorialWindowActive;
         public bool isPaused;
         public bool inBugReportMenu;
@@ -138,12 +140,16 @@ namespace TowerTanks.Scripts
                     //End the campaign if it has not ended already
                     if (CampaignManager.Instance.HasCampaignStarted)
                         CampaignManager.Instance.EndCampaign();
+
+                    currentSceneState = SCENESTATE.Menu;
                     break;
                 case GAMESCENE.BUILDING:
                     GameSettings.showGamepadCursors = true;
+                    currentSceneState = SCENESTATE.BuildScene;
                     break;
                 default:
                     GameSettings.showGamepadCursors = false;
+                    currentSceneState = SCENESTATE.CombatScene;
                     break;
             }
         }

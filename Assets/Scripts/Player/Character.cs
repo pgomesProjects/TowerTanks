@@ -167,11 +167,11 @@ namespace TowerTanks.Scripts
                 }
                 
             }
-            
+
             if (lastCellJoint != newCellJoint) // will only run once every time a new cell is entered
             {
                 EnterNewCell(newCellJoint);
-                if (lastCellJoint != null && lastCellJoint.TryGetComponent<Cell>(out Cell cell)) lastFoundTankRb = cell.room.targetTank.treadSystem.r;
+                if (lastCellJoint != null && lastFoundTankRb != null && lastCellJoint.TryGetComponent<Cell>(out Cell cell)) lastFoundTankRb = cell.room.targetTank.treadSystem.r;
                 lastCellJoint = newCellJoint;
             }
         }
@@ -187,6 +187,12 @@ namespace TowerTanks.Scripts
                 
             transform.SetParent(null);
             fullTankDismount = true;
+
+            //If the character is in the build scene and goes out of the tank, respawn them
+            if (GameManager.Instance.currentSceneState == SCENESTATE.BuildScene)
+            {
+                RespawnPlayer();
+            }
         }
 
         private void EnterNewCell(Transform cellToEnter)
