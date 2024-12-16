@@ -1480,6 +1480,7 @@ MonoBehaviour:
     buildOnStart: 0
   tankFlag: {fileID: 5685120059937764489}
   surrenderFlag: {fileID: 2687768884453491569}
+  corpsePrefab: {fileID: 1822410957947985641, guid: a0ef6e4884eb9704c9ff17411afc1462, type: 3}
   cargoHold: []
   roomKit: {fileID: 11400000, guid: 530fa040df4a8014d8d7b5abd56e4bdf, type: 2}
   gear: 0

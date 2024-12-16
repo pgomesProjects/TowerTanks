@@ -45,6 +45,7 @@ namespace TowerTanks.Scripts
         public GameObject tankFlag;
         public GameObject surrenderFlag;
         private Animator tankAnimator;
+        public GameObject corpsePrefab;
 
         [Header("Cargo")]
         public GameObject[] cargoHold;
@@ -697,7 +698,7 @@ namespace TowerTanks.Scripts
                 foreach (Cell cell in cells)
                 {
                     //Destroy all cells
-                    cell.Kill();
+                    //cell.Kill();
 
                     //Blow up the core
                     if (cell.room.isCore)
@@ -751,6 +752,23 @@ namespace TowerTanks.Scripts
                 {
                     character.transform.SetParent(null);
                     character.KillCharacterImmediate();
+                }
+
+                //Handle Destruction Logic
+                GameObject corpse = Instantiate(corpsePrefab, null, true); //Generate a new Corpse Parent Object
+                corpse.transform.position = towerJoint.transform.position;
+                corpse.name = TankName + " (Corpse)"; //Name it accordingly
+
+                foreach (Room room in rooms) //Make all current rooms in the tank into DummyRooms, then child them to the Corpse
+                {
+                    if (!room.isCore) //Except the core
+                    {
+                        room.MakeDummy(corpse.transform);
+                        CorpseController.DummyObject _object = new CorpseController.DummyObject();
+                        _object.dummyObject = room.gameObject;
+                        corpse.GetComponent<CorpseController>().objects.Add(_object);
+                        room.enabled = false;
+                    }
                 }
 
                 //GameManager.Instance.SystemEffects.ActivateSlowMotion(0.05f, 0.4f, 1.5f, 0.4f);
