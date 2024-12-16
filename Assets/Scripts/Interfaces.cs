@@ -27,4 +27,8 @@ namespace TowerTanks.Scripts
         void Ignite();
         void BurnTick();
     }
+    public interface IMagnetizable
+    {
+        void ApplyMagnetForce(Vector2 force, Vector2 hitPoint);
+    }
 }

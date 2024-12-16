@@ -350,7 +350,6 @@ namespace TowerTanks.Scripts
                     {
                         if (system.tanks.Count == 0 || system.tanks[0] == null) continue;                                                                   //Early disqualification of tanks/systems which should not be considered as contenders
                         float distanceFromPlayer = Mathf.Abs(system.tanks[0].treadSystem.transform.position.x - tanks[0].treadSystem.transform.position.x); //Get flat horizontal distance between this system's tank and radar tank
-                        print(frameWidth);
                         if (distanceFromPlayer > frameWidth) continue;                                                                                      //Consider tanks within radar range
                         if (lowestTank == null || system != this && system.tanks[0].treadSystem.transform.position.y - system.tanks[0].tankSizeValues.z < lowestTank.treadSystem.transform.position.y - lowestTank.tankSizeValues.z) lowestTank = system.tanks[0]; //If tank is lower than current lowest tank, store it
                     }

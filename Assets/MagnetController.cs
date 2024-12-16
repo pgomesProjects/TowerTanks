@@ -16,7 +16,10 @@ namespace TowerTanks.Scripts
         [Tooltip("Max angle (up or down) weapon joint can be rotated to."), SerializeField, Min(0)] private float gimbalRange;
 
         [Header("Magnet Settings:")]
-        [Tooltip("How far beam extends from barrel."), SerializeField, Min(0)] private float beamLength;
+        [Tooltip("How far beam extends from barrel."), SerializeField, Min(0)]                                                              private float beamLength;
+        [Tooltip("Cross-sectional area of beam."), SerializeField, Min(0)]                                                                  private float beamWidth;
+        [Tooltip("Layers which can be hit by beam."), SerializeField]                                                                       private LayerMask hitLayers;
+        [Tooltip("Force (in units of acceleration per second per second) applied by objects caught in the magnet's beam."), SerializeField] private float magnetPower;
 
         //Runtime Variables:
         private bool active = false;      //True when magnet beam is active
@@ -28,7 +31,18 @@ namespace TowerTanks.Scripts
             //Projectile magnetization:
             if (active) //Beam is active
             {
-
+                RaycastHit2D[] hits = Physics2D.BoxCastAll(beam.position + (beam.right * (beamWidth / 2)), Vector2.one * beamWidth, 0, beam.right, beamLength - beamWidth, hitLayers); //Boxcast for all objects on target layers within beam
+                foreach (RaycastHit2D hit in hits) //Iterate through objects caught in magnet
+                {
+                    print("object magnetized");
+                    IMagnetizable magnetizedObject = null;                                                                             //Create container to store magnetization target script
+                    magnetizedObject = hit.transform.gameObject.GetComponent<IMagnetizable>();                                         //Try to get magnetizable component
+                    if (magnetizedObject == null) magnetizedObject = hit.transform.gameObject.GetComponentInChildren<IMagnetizable>(); //If the last check failed, look in children for magnetizable object
+                    if (magnetizedObject != null) //Hit object is magnetizable
+                    {
+                        magnetizedObject.ApplyMagnetForce((magnetPower * Time.deltaTime) * beam.right, hit.point);
+                    }
+                }
             }
         }
 
@@ -40,6 +54,7 @@ namespace TowerTanks.Scripts
                 active = true;                   //Indicate that beam is now turned on
                 beam.gameObject.SetActive(true); //Activate beam object
                 SetBeamLength(beamLength);       //Set beam length to target value
+                SetBeamWidth(beamWidth);         //Set beam width to target value
             }
         }
         public override void CancelUse()
@@ -71,6 +86,16 @@ namespace TowerTanks.Scripts
         {
             Vector3 newScale = beam.localScale;   //Get scale from beam object
             newScale.x = newLength;               //Set new beam length
+            beam.transform.localScale = newScale; //Apply new scale
+        }
+        /// <summary>
+        /// Changes beam width to given value (in units)
+        /// </summary>
+        /// <param name="newWidth"></param>
+        private void SetBeamWidth(float newWidth)
+        {
+            Vector3 newScale = beam.localScale;   //Get scale from beam object
+            newScale.y = newWidth;                //Set new beam width
             beam.transform.localScale = newScale; //Apply new scale
         }
     }
