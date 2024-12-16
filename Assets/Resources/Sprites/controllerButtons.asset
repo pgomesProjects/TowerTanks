@@ -620,60 +620,60 @@ MonoBehaviour:
     m_Metrics:
       m_Width: 128
       m_Height: 128
-      m_HorizontalBearingX: -55
-      m_HorizontalBearingY: 100
-      m_HorizontalAdvance: 40
+      m_HorizontalBearingX: -64
+      m_HorizontalBearingY: 64
+      m_HorizontalAdvance: 128
     m_GlyphRect:
       m_X: 0
       m_Y: 1152
       m_Width: 128
       m_Height: 128
-    m_Scale: 1.3
+    m_Scale: 1
     m_AtlasIndex: 0
     sprite: {fileID: -7783586629661608857, guid: 3be263eccd052b043b80aac2816cea0a, type: 3}
   - m_Index: 1
     m_Metrics:
       m_Width: 128
       m_Height: 128
-      m_HorizontalBearingX: -55
-      m_HorizontalBearingY: 100
-      m_HorizontalAdvance: 40
+      m_HorizontalBearingX: -64
+      m_HorizontalBearingY: 64
+      m_HorizontalAdvance: 128
     m_GlyphRect:
       m_X: 128
       m_Y: 1152
       m_Width: 128
       m_Height: 128
-    m_Scale: 1.3
+    m_Scale: 1
     m_AtlasIndex: 0
     sprite: {fileID: -208170771454307529, guid: 3be263eccd052b043b80aac2816cea0a, type: 3}
   - m_Index: 2
     m_Metrics:
       m_Width: 128
       m_Height: 128
-      m_HorizontalBearingX: -55
-      m_HorizontalBearingY: 100
-      m_HorizontalAdvance: 40
+      m_HorizontalBearingX: -64
+      m_HorizontalBearingY: 64
+      m_HorizontalAdvance: 128
     m_GlyphRect:
       m_X: 256
       m_Y: 1152
       m_Width: 128
       m_Height: 128
-    m_Scale: 1.3
+    m_Scale: 1
     m_AtlasIndex: 0
     sprite: {fileID: 2252440520486434370, guid: 3be263eccd052b043b80aac2816cea0a, type: 3}
   - m_Index: 3
     m_Metrics:
       m_Width: 128
       m_Height: 128
-      m_HorizontalBearingX: -55
-      m_HorizontalBearingY: 100
-      m_HorizontalAdvance: 40
+      m_HorizontalBearingX: -64
+      m_HorizontalBearingY: 64
+      m_HorizontalAdvance: 128
     m_GlyphRect:
       m_X: 384
       m_Y: 1152
       m_Width: 128
       m_Height: 128
-    m_Scale: 1.3
+    m_Scale: 1
     m_AtlasIndex: 0
     sprite: {fileID: 4005261604901691616, guid: 3be263eccd052b043b80aac2816cea0a, type: 3}
   - m_Index: 4
