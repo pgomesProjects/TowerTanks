@@ -16,29 +16,25 @@ namespace TowerTanks.Scripts
         /// <summary>
         /// Describes a camera system which tracks an individual tank in the level scene.
         /// </summary>
-        [System.Serializable]
         public class TankCamSystem
         {
             //Objects & Components:
-            [Tooltip("The tank(s) this system is targeting.")]                                                  public List<TankController> tanks = new List<TankController>();
-            [Tooltip("Bounds representing tanks which have been destroyed while encapsulated by this system.")] public List<BoxCollider2D> simulatedTanks = new List<BoxCollider2D>();
-            [Tooltip("Camera component which renders this specific tank.")]                                     internal Camera cam;
-            [Tooltip("Virtual camera pointed at the tank.")]                                                    internal CinemachineVirtualCamera vcam;
-            [Tooltip("Collider used to manage offscreen visualization system.")]                                private BoxCollider2D boundCollider;
-            [Tooltip("Generated transform used to point camera when following multiple tanks.")]                private Transform followDummy;
-            [Tooltip("Script controlling the parallax background for this cam system.")]                        private MultiCameraParallaxController parallaxController;
+            [Tooltip("The tank(s) this system is targeting.")] internal List<TankController> tanks = new List<TankController>();
+            [Tooltip("Camera component which renders this specific tank.")] internal Camera cam;
+            [Tooltip("Virtual camera pointed at the tank.")] internal CinemachineVirtualCamera vcam;
+            [Tooltip("Collider used to manage offscreen visualization system.")] private BoxCollider2D boundCollider;
+            [Tooltip("Generated transform used to point camera when following multiple tanks.")] private Transform followDummy;
 
             //Runtime variables:
-            [Tooltip("True if this is the primary camera system for the current player tank.")]       public bool isPlayerCam;
-            [Tooltip("Value indicating whether this is Cam A, Cam B, etc.")]                          public int camNum;
-            [Tooltip("Determines whether or not this system is active and rendering.")]               public bool enabled = true;
+            [Tooltip("True if this is the primary camera system for the current player tank.")] public bool isPlayerCam;
+            [Tooltip("Value indicating whether this is Cam A, Cam B, etc.")] public int camNum;
+            [Tooltip("Determines whether or not this system is active and rendering.")] public bool enabled = true;
             [Tooltip("True if this is an enemy tank which is within engagement distance of player.")] public bool engaged = false;
-            [Tooltip("True if this camera system is for the player tank radar.")]                     public bool radar = false;
+            [Tooltip("True if this camera system is for the player tank radar.")] public bool radar = false;
 
             [Tooltip("Offset width at last camera update, used to smooth out jittering.")] private float prevOffsetWidth;
 
             private bool firstEngagement = true;
-            internal float timeUntilDeath = -1; //Used to clean up camera after a certain amount of time, -1 = not in use, -2 = infinite, 0 = marked for destruction
 
             /// <summary>
             /// Ganerates a camera setup to track given tank.
@@ -88,6 +84,7 @@ namespace TowerTanks.Scripts
                 }
                 else //Settings for radar cam
                 {
+                    radar = true;
                     CinemachineTransposer transposer = vcam.AddCinemachineComponent<CinemachineTransposer>(); //Use a simpler transposer to track tank in radar screen
                     transposer.m_XDamping = 0; transposer.m_YDamping = 0; transposer.m_ZDamping = 0;          //Turn off all camera damping
                 }
@@ -99,49 +96,27 @@ namespace TowerTanks.Scripts
                 boundCollider.gameObject.layer = LayerMask.NameToLayer("Camera");              //Put collider on camera layer so it doesn't interfere with anything else
 
                 //Audio setup:
-                if (tank.tankType == TankId.TankType.PLAYER) //Set up audio on this camera if it is the player's
+                if (tank.tankType == TankId.TankType.PLAYER && !radar) //Set up audio on this camera if it is the player's
                 {
                     //AkSoundEngine.AddDefaultListener(cam.gameObject);
                 }
 
-                //Parallax setup:
-                parallaxController = Instantiate(main.parallaxPrefab).GetComponent<MultiCameraParallaxController>();                    //Instantiate a parallax background for this camera and get a reference
-                parallaxController.transform.parent = main.transform;                                                                   //Child parallax object to camera container
-                parallaxController.gameObject.name = "Parallax_" + cam.name;                                                            //Rename parallax object for clarity
-                parallaxController.AddCameraToParallax(cam);                                                                            //Add this camera to controller so it is tracked properly
-                parallaxController.transform.position = Vector3.zero;                                                                   //Zero out position of parallax system
-                foreach (Transform child in parallaxController.transform) child.gameObject.layer = LayerMask.NameToLayer(camLayerName); //Put each parallax layer on a layer which can only be seen by this camera
-
                 //Cleanup:
                 tanks.Add(tank);                                                 //Add given tank controller as the first instance in list of tracked tanks
                 if (tank.tankType == TankId.TankType.PLAYER) isPlayerCam = true; //Mark whether or not this is the player tank's camera system
-                radar = isRadar;                                                 //Store value indicating whether or not this is the radar system
-                UpdateEverything(0);                                             //Immediately initialize all camera stuff
+                //radar = isRadar;                                                 //Store value indicating whether or not this is the radar system
+                UpdateEverything();                                              //Immediately initialize all camera stuff
             }
 
             //FUNCTIONALITY METHODS:
             /// <summary>
             /// Performs all updates that are part of the cam system.
             /// </summary>
-            public void UpdateEverything(float deltaTime)
+            public void UpdateEverything()
             {
-                //Camera death updates:
-                if (timeUntilDeath == -2) //Time until death is infinite
-                {
-                    return; //Camera is following dead tank but is set to NEVER go away
-                }
-                else if (timeUntilDeath > 0) //Target tank is dead
-                {
-                    timeUntilDeath = Mathf.Max(timeUntilDeath - deltaTime, 0); //Decrement death time tracker
-                    if (timeUntilDeath == 0) CleanUp();                        //Fully clean up system once death time has been reached
-                    return;                                                    //Do not do normal camera updates while waiting for death
-                }
-
-                //Universal camera updates:
                 UpdateEnabledStatus(); //Update status
                 if (!enabled) return;  //Do nothing if disabled
 
-                //Enabled camera updates:
                 UpdateCameraZone();    //Position camera in target zone according to various gameplay settings
                 UpdateCameraValues();  //Update camera properties
                 UpdateBoundCollider(); //Update collider around camera
@@ -151,8 +126,7 @@ namespace TowerTanks.Scripts
             /// </summary>
             public void UpdateEnabledStatus()
             {
-                if (isPlayerCam) return;                             //Player cam is always enabled
-                if (TankManager.instance.playerTank == null) return; //Do nothing when the player tank is destroyed (prevents errors upon player death)x
+                if (isPlayerCam) return; //Player cam is always enabled
 
                 float distanceFromPlayer = Mathf.Abs(tanks[0].treadSystem.transform.position.x - TankManager.instance.playerTank.treadSystem.transform.position.x); //Get flat horizontal distance from player tank
                 if (distanceFromPlayer > main.engagementDistance) //Tank is outside engagement distance
@@ -171,11 +145,7 @@ namespace TowerTanks.Scripts
                 }
                 else if (!enabled) //Tank is within normal engagement distance and is switching from a disabled status
                 {
-                    if (main.PlayerCamSystem().tanks.Contains(tanks[0])) //Tank was previously sharing an engagment camera with player
-                    {
-                        if (distanceFromPlayer < main.shareCamStickDistance) return; //Do not disengage from player camera until stick distance has been exceeded
-                        main.PlayerCamSystem().tanks.Remove(tanks[0]); //Stop sharing camera with player tank if stick distance has been exceeded
-                    }
+                    if (main.PlayerCamSystem().tanks.Contains(tanks[0])) main.PlayerCamSystem().tanks.Remove(tanks[0]); //Stop sharing camera with player tank if necessary
 
                     ToggleEnabled(true); //Enable camera
                     engaged = true;      //Indicate that system is engaged
@@ -183,8 +153,12 @@ namespace TowerTanks.Scripts
 
                     if (firstEngagement) //First time tank has engaged with the camera
                     {
-                        FindObjectOfType<CombatHUD>()?.DisplayEnemyTankInformation(tanks[0]); //Display the enemy information in the CombatHUD
-                        firstEngagement = false;                                              //Make sure that the system does not call this logic again
+                        if (!isPlayerCam)
+                        {
+                            FindObjectOfType<CombatHUD>()?.DisplayEnemyTankInformation(tanks[0]); //Display the enemy information in the CombatHUD
+                        }
+
+                        firstEngagement = false;    //Make sure that the system does not call this logic again
                     }
                 }
             }
@@ -229,48 +203,44 @@ namespace TowerTanks.Scripts
             /// </summary>
             public void UpdateCameraValues()
             {
-                //Pre-flight checks:
                 if (!enabled) return; //Do nothing if disabled
 
                 if (!radar) //Updates for engagement cameras
                 {
-                    //Find tank extremities:
-                    Bounds[] allTanks = tanks.Select(t => GetTankAsBounds(t)).Concat(simulatedTanks.Select(s => s.bounds)).ToArray(); //Get an array of bounds representing all tanks in view (simulated and real)
-                    Bounds highestTank = allTanks[0];   //Make container for storing the uppermost tank onscreen and default to system's base tank (container used is bounds because it may be a simulacrum tank)
-                    Bounds lowestTank = highestTank;    //Make container for storing the lowermost tank onscreen and default to system's base tank (container used is bounds because it may be a simulacrum tank)
-                    Bounds leftMostTank = highestTank;  //Make container for storing the leftmost tank onscreen and default to system's base tank (container used is bounds because it may be a simulacrum tank)
-                    Bounds rightMostTank = highestTank; //Make container for storing the rightmost tank onscreen and default to system's base tank (container used is bounds because it may be a simulacrum tank)
-                    for (int x = 1; x < allTanks.Length; x++) //Iterate through tanks (and simulacrum stanks) in camera system (other than base tank)
-                    {
-                        if (allTanks[x].center.y + allTanks[x].extents.y > highestTank.center.y + highestTank.extents.y) highestTank = allTanks[x];       //Factor in both physical tank position and tank height when looking for tallest tank
-                        if (allTanks[x].center.y - allTanks[x].extents.y < lowestTank.center.y - lowestTank.extents.y) lowestTank = allTanks[x];          //Factor in both physical tank position and tank depth when looking for lowest tank
-                        if (allTanks[x].center.x - allTanks[x].extents.x < leftMostTank.center.x - leftMostTank.extents.x) leftMostTank = allTanks[x];    //Factor in both physical tank position and left side length of tank when looking for leftmost tank
-                        if (allTanks[x].center.x + allTanks[x].extents.x > rightMostTank.center.x + rightMostTank.extents.x) rightMostTank = allTanks[x]; //Factor in both physical tank position and right side length of tank when looking for rightmost tank
-                    }
-
                     //Update ortho size:
-                    float heightOrthoSize = highestTank.extents.y + lowestTank.extents.y + Mathf.Abs(highestTank.center.y - lowestTank.center.y); //Get combined height and depth of tallest and lowest tank, plus the vertical difference in position between the two
+                    TankController highestTank = tanks[0]; //Make container for storing the uppermost tank onscreen and default to system's base tank
+                    TankController lowestTank = tanks[0];  //Make container for storing the lowermost tank onscreen and default to system's base tank
+                    for (int x = 1; x < tanks.Count; x++)
+                    {
+                        if (tanks[x].treadSystem.transform.position.y + tanks[x].tankSizeValues.x > highestTank.treadSystem.transform.position.y + highestTank.tankSizeValues.x) highestTank = tanks[x]; //Factor in both physical tank position and tank height when looking for tallest tank
+                        if (tanks[x].treadSystem.transform.position.y - tanks[x].tankSizeValues.z < lowestTank.treadSystem.transform.position.y - lowestTank.tankSizeValues.z) lowestTank = tanks[x];    //Factor in both physical tank position and tank depth when looking for lowest tank
+                    }
+                    float heightOrthoSize = highestTank.tankSizeValues.x + lowestTank.tankSizeValues.z + Mathf.Abs(highestTank.treadSystem.transform.position.y - lowestTank.treadSystem.transform.position.y); //Get combined height and depth of tallest and lowest tank, plus the vertical difference in position between the two
                     heightOrthoSize = (heightOrthoSize + main.tankCamUpperBuffer + main.tankCamLowerBuffer) / 2; //Get final orthographic size (as defined by tank heights) by adding vertical buffers and dividing by two
 
                     float widthOrthoSize = 0; //Because the value used for width ortho size depends on how many tanks are in system, create an empty container here
-                    if (tanks.Count == 1 && simulatedTanks.Count == 0) //System is tracking a single tank, and because it needs to track the center of that tank, it has to decide which side is longer and base the ortho size off of that
+                    if (tanks.Count == 1) //System is tracking a single tank, and because it needs to track the center of that tank, it has to decide which side is longer and base the ortho size off of that
                     {
-                        //NOTE: This is done as such because otherwise, the camera will not lock to the center of given tank as desired
                         float leftWidthOrthoSize = (((tanks[0].tankSizeValues.w * 2) + (2 * main.tankCamSideBuffer)) / 2) / cam.aspect;  //Get ortho size as defined by tank width (measuring from middle to left)
                         float rightWidthOrthoSize = (((tanks[0].tankSizeValues.y * 2) + (2 * main.tankCamSideBuffer)) / 2) / cam.aspect; //Get ortho size as defined by tank width (measuring from middle to right)
                         widthOrthoSize = Mathf.Max(leftWidthOrthoSize, rightWidthOrthoSize);                                             //Get highest width-defined orthographic size
                     }
                     else //With multiple tanks, the system needs to combine the respective extremities of the two outermost tanks to get effective width
                     {
-                        //Determine orthographic size:
-                        widthOrthoSize = leftMostTank.extents.x + rightMostTank.extents.x + Mathf.Abs(leftMostTank.center.x - rightMostTank.center.x); //Get leftward width of leftmost tank and rightmost width of rightmost tank, plus the horizontal difference in position between the two
+                        widthOrthoSize = tanks[0].tankSizeValues.w + tanks[^1].tankSizeValues.y + Mathf.Abs(tanks[0].treadSystem.transform.position.x - tanks[^1].treadSystem.transform.position.x); //Get leftward width of leftmost tank and rightmost width of rightmost tank, plus the horizontal difference in position between the two
                         widthOrthoSize = ((widthOrthoSize + (main.tankCamSideBuffer * 2)) / 2) / cam.aspect; //Get final orthographic size (as defined by tank widths) by adding horizontal buffers and dividing by the cam aspect ratio
                     }
                     vcam.m_Lens.OrthographicSize = Mathf.Max(heightOrthoSize, widthOrthoSize); //Use whichever value is larger as the final orthographic size
+                                                                                               //print("Using " + (heightOrthoSize > widthOrthoSize ? " height" : "width"));
+
+                    //float heightOrthoSize = (tanks[0].tankSizeValues.x + tanks[0].tankSizeValues.z + main.tankCamLowerBuffer + main.tankCamUpperBuffer) / 2; //Get ortho size as defined by tank height
+                    //float leftWidthOrthoSize = (((tanks[0].tankSizeValues.w * 2) + (2 * main.tankCamSideBuffer)) / 2) / cam.aspect;                          //Get ortho size as defined by tank width (measuring from middle to left)
+                    //float rightWidthOrthoSize = (((tanks[0].tankSizeValues.y * 2) + (2 * main.tankCamSideBuffer)) / 2) / cam.aspect;                         //Get ortho size as defined by tank width (measuring from middle to right)
+                    //float widthOrthoSize = Mathf.Max(leftWidthOrthoSize, rightWidthOrthoSize);                                                               //Get highest width-defined orthographic size
+                    //vcam.m_Lens.OrthographicSize = Mathf.Max(heightOrthoSize, widthOrthoSize);                                                               //Use whichever size is larger (captures full size of tank)
 
                     //Get horizontal extents of frame:
-
-                    /*
+                    Vector2 offset = new Vector2();                   //Create container to apply offsets to
                     Cell leftMostCell = tanks[0].rooms[0].cells[0];   //Get baseline leftmost cell in leftmost tank (default to random cell in core room)
                     Cell rightMostCell = tanks[^1].rooms[0].cells[0]; //Get baseline rightmost cell in rightmost tank (default to random cell in core room)
                     foreach (TankController tank in tanks) //Iterate through each tank in system
@@ -291,12 +261,8 @@ namespace TowerTanks.Scripts
                     float rightMostPoint = (rightMostCell.transform.position + (rightMostCell.transform.rotation * new Vector3(0.5f, rightTankLeaningRight ? 0.5f : -0.5f, 0))).x; //Get rightmost point of rightmost cell
                     leftMostPoint = Mathf.Min(leftMostPoint, tanks[0].treadSystem.wheels[0].transform.position.x - tanks[0].treadSystem.wheels[0].radius);                         //Check if leftmost wheel in leftmost tank tread is farther left than leftmost cell
                     rightMostPoint = Mathf.Max(rightMostPoint, tanks[^1].treadSystem.wheels[^1].transform.position.x + tanks[0].treadSystem.wheels[^1].radius);                    //Check if rightmost wheel in rightmost tank tread is farther right than rightmost cell
-                    */
-                    float leftMostPoint = leftMostTank.center.x - leftMostTank.extents.x;    //Get leftmost extent of focused tanks
-                    float rightMostPoint = rightMostTank.center.x + rightMostTank.extents.x; //Get rightmost extent of focused tanks
 
-                    //Position camera:
-                    if (tanks.Count == 1 && simulatedTanks.Count == 0) //When tracking a single tank, the camera system uses the tracked pose offset value to position the tank at the center of the screen
+                    if (tanks.Count == 1) //When tracking a single tank, the camera system uses the tracked pose offset value to position the tank at the center of the screen
                     {
                         //Despawn target dummy:
                         if (followDummy != null) //System is switching to single-tank mode
@@ -307,7 +273,6 @@ namespace TowerTanks.Scripts
                         }
 
                         //Get x offset:
-                        Vector2 offset = new Vector2();                                                                                                            //Create container to apply offsets to
                         float offsetWidth = ((leftMostPoint + rightMostPoint) / 2) - tanks[0].treadSystem.transform.position.x;                                    //Get x distance to offset camera by by finding the world center between both extreme horizontal points in tank and getting the difference between that and the tank x position
                         offsetWidth = Mathf.Lerp(prevOffsetWidth, offsetWidth, main.horizontalOffsetSmoothing * Time.deltaTime);                                   //Use a lerp to smooth out erratic changes in found offset width
                         prevOffsetWidth = offsetWidth;                                                                                                             //Store offset width value for later
@@ -318,7 +283,7 @@ namespace TowerTanks.Scripts
                         offset += (Vector2)(Quaternion.AngleAxis(-tanks[0].treadSystem.transform.eulerAngles.z, Vector3.forward) * (Vector3.up * offsetHeight)); //Apply value to offset, compensating for current rotation of tank
                         vcam.GetCinemachineComponent<CinemachineFramingTransposer>().m_TrackedObjectOffset = offset;                                             //Apply final offset to vcam component
                     }
-                    else //When tracking multiple tanks (simulated or otherwise), the camera system uses a generated transform to position the tank at the center of the screen
+                    else //When tracking multiple tanks, the camera system uses a generated transform to position the tank at the center of the screen
                     {
                         //Spawn target dummy:
                         if (followDummy == null) //System is switching to multi-tank mode
@@ -332,34 +297,24 @@ namespace TowerTanks.Scripts
                         //Move target:
                         Vector2 newPosition = new Vector2();                                                                                                                    //Create container to store new position for follow dummy
                         newPosition.x = (leftMostPoint + rightMostPoint) / 2;                                                                                                   //Position dummy at exact center between found tank extremities
-                        //newPosition.y = ((lowestTank.treadSystem.transform.position.y - lowestTank.tankSizeValues.z) - main.tankCamLowerBuffer) + vcam.m_Lens.OrthographicSize; //Get position by finding bottom of lowest followed tank (plus buffer) then moving halfway up the screen from there
-                        newPosition.y = ((lowestTank.center.y - lowestTank.extents.y) - main.tankCamLowerBuffer) + vcam.m_Lens.OrthographicSize; //Get position by finding bottom of lowest followed tank (plus buffer) then moving halfway up the screen from there
+                        newPosition.y = ((lowestTank.treadSystem.transform.position.y - lowestTank.tankSizeValues.z) - main.tankCamLowerBuffer) + vcam.m_Lens.OrthographicSize; //Get position by finding bottom of lowest followed tank (plus buffer) then moving halfway up the screen from there
                         followDummy.position = newPosition;                                                                                                                     //Move dummy to calculated position
                     }
+
+                    //Debugs:
+                    Debug.DrawCircle((leftMostCell.transform.position + (leftMostCell.transform.rotation * new Vector3(-0.5f, leftTankLeaningRight ? -0.5f : 0.5f, 0))), 0.25f, 10, Color.blue);
+                    Debug.DrawCircle((rightMostCell.transform.position + (rightMostCell.transform.rotation * new Vector3(0.5f, rightTankLeaningRight ? 0.5f : -0.5f, 0))), 0.25f, 10, Color.blue);
                 }
                 else //Updates for the radar
                 {
                     //Update ortho size:
                     CinemachineTransposer transposer = vcam.GetCinemachineComponent<CinemachineTransposer>(); //Get reference to transposer component
                     vcam.m_Lens.OrthographicSize = (main.radarRange / cam.aspect) / 2;                        //Adjust ortho size of camera so that radar is precisely rendering designated range at all times
-                    float frameWidth = cam.aspect * (cam.orthographicSize * 2);                               //Get width of radar frame
-
-                    //Find tanks in camera:
-                    TankController lowestTank = tanks[0]; //Create container to store lowest found tank in radar, defaulting to player tank
-                    foreach (TankCamSystem system in main.camSystems) //Iterate through active cam systems
-                    {
-                        if (system.tanks.Count == 0 || system.tanks[0] == null) continue;                                                                   //Early disqualification of tanks/systems which should not be considered as contenders
-                        float distanceFromPlayer = Mathf.Abs(system.tanks[0].treadSystem.transform.position.x - tanks[0].treadSystem.transform.position.x); //Get flat horizontal distance between this system's tank and radar tank
-                        if (distanceFromPlayer > frameWidth) continue;                                                                                      //Consider tanks within radar range
-                        if (lowestTank == null || system != this && system.tanks[0].treadSystem.transform.position.y - system.tanks[0].tankSizeValues.z < lowestTank.treadSystem.transform.position.y - lowestTank.tankSizeValues.z) lowestTank = system.tanks[0]; //If tank is lower than current lowest tank, store it
-                    }
 
                     //Update offset:
-                    float leftEdgeBuffer = ((frameWidth / 2) - main.radarEdgeBuffer.x) - tanks[0].tankSizeValues.y; //Get half of frame width so that tank is pinned to edge of screen, then adjust based on edge buffer (also apply tank left side width so that full tank is in frame by default)
-                    float bottomEdgeBuffer = cam.orthographicSize - main.radarEdgeBuffer.y; //Get vertical follow offset so that tank is pinned to bottom of screen (offset by entire ortho size) and apply edge buffer for more control
-                    bottomEdgeBuffer -= Mathf.Abs(tanks[0].treadSystem.transform.position.y - lowestTank.treadSystem.transform.position.y) + lowestTank.tankSizeValues.z; //Offset by difference between lowest tank and player tank and apply tank depth value so that all engaged tanks are visible in radar
-                    transposer.m_FollowOffset.x = leftEdgeBuffer;                           //Set horizontal follow offset so tank is pinned to side of radar screen
-                    transposer.m_FollowOffset.y = bottomEdgeBuffer;                         //Set vertical follow offset so tank is pinned to bottom of radar screen
+                    float frameWidth = cam.aspect * (cam.orthographicSize * 2);                  //Get width of radar frame
+                    transposer.m_FollowOffset.x = (frameWidth / 2) - main.radarEdgeBuffer.x;     //Set horizontal follow offset so tank is pinned to side of radar screen
+                    transposer.m_FollowOffset.y = cam.orthographicSize - main.radarEdgeBuffer.y; //Set vertical follow offset so tank is pinned to bottom of radar screen
                 }
             }
             /// <summary>
@@ -379,52 +334,10 @@ namespace TowerTanks.Scripts
             /// </summary>
             public void CleanUp()
             {
-                if (vcam.m_Follow != null) //Vcam has a follow target which still needs to be destroyed
-                {
-                    foreach (TankCamSystem otherSystem in main.camSystems) //Iterate through camera systems
-                    {
-                        if (otherSystem.simulatedTanks.Select(b => b.transform).ToArray().Contains(vcam.m_Follow)) //System contains a simulacrum of this system's dead tank
-                        {
-                            otherSystem.simulatedTanks.Remove(vcam.m_Follow.GetComponent<BoxCollider2D>()); //Remove simulacrum from tank list
-                        }
-                    }
-                    Destroy(vcam.m_Follow.gameObject); //Destroy deathMannequin if it exists
-                }
-                if (cam.gameObject != null) Destroy(cam.gameObject);                    //Destroy camera object (also destroys bound collider)
-                if (vcam.gameObject != null) Destroy(vcam.gameObject);                  //Destroy virtual camera object
-                if (parallaxController != null) Destroy(parallaxController.gameObject); //Destroy parallax system when destroying camera
-                engaged = false; main.CheckIfStillEngaged();                  //Have camera manipulator check if destroying this cam system ends engagement
-            }
-            /// <summary>
-            /// Sets camera system to clean itself up after a certain amount of time (cameraDisappearTime, or indefinite if camera is for player tank).
-            /// </summary>
-            public void CleanUpLater()
-            {
-                //Create dummy of destroyed tank:
-                timeUntilDeath = isPlayerCam ? -2 : main.cameraDisappearTime;                      //Begin countdown timer to death
-                Transform tankDummy = new GameObject(tanks[0].name + "_DeathMannequin").transform; //Create new stationary transform for camera to follow
-                tankDummy.parent = main.transform;                                                 //Child mannequin to camera container
-                tankDummy.position = tanks[0].treadSystem.transform.position;                      //Match position to that of tank tread system
-                if (vcam.m_Follow == tanks[0].treadSystem.transform) vcam.m_Follow = tankDummy;    //Have camera follow tank dummy (unless it is already following a tank dummy)
+                if (cam.gameObject != null) Destroy(cam.gameObject);                     //Destroy camera object (also destroys bound collider)
+                if (vcam.gameObject != null) Destroy(vcam.gameObject);                    //Destroy virtual camera object
+                engaged = false; main.CheckIfStillEngaged(); //Have camera manipulator check if destroying this cam system ends engagement
 
-                //Set up tank bounds simulation:
-                Bounds tankBounds = tanks[0].treadSystem.GetTankBounds();                         //Get bounds of tank
-                BoxCollider2D boundCollider = tankDummy.gameObject.AddComponent<BoxCollider2D>(); //Add a box collider to store the bounds of the tank dummy
-                boundCollider.gameObject.layer = LayerMask.NameToLayer("Ghost");                  //Put collider on layer that makes it collide with nothing
-                boundCollider.size = tankBounds.size;                                             //Store bounds size in collider
-                boundCollider.offset = tankBounds.center - boundCollider.transform.position;      //Offset collider so that its center matches that of bounds
-
-                //Cleanup instances on other camsystems and populate with mannequins:
-                simulatedTanks.Add(boundCollider); //Make sure simulacrum tank is being tracked by this camera
-                foreach (TankCamSystem system in main.camSystems) //Iterate through tankCams in camera manipulator
-                {
-                    if (system != this && system.tanks.Contains(tanks[0])) //Other cam system currently encapsulates this tank
-                    {
-                        system.tanks.Remove(tanks[0]);            //Remove tank from all other camSystems (because it has been destroyed and will cause nullrefs otherwise)
-                        system.simulatedTanks.Add(boundCollider); //Add simulation of tank's bounds to cam system's simulated tanks list
-                    }
-                }
-                tanks.RemoveAt(0); //Lose reference to destroyed tank
             }
             /// <summary>
             /// Enables or disables this cam system.
@@ -437,50 +350,33 @@ namespace TowerTanks.Scripts
                 vcam.enabled = newStatus;         //Set vcam status
                 cam.enabled = newStatus;          //Set camera status
             }
-
-            //UTILITY METHODS:
-            /// <summary>
-            /// Checks given tank's size values and position and returns a bounds which corresponds to that (NOTE: will give different answer than treadSystem.GetTankBounds()).
-            /// </summary>
-            private Bounds GetTankAsBounds(TankController tank)
-            {
-                Vector2 size = new Vector2(tank.tankSizeValues.y + tank.tankSizeValues.w, tank.tankSizeValues.x + tank.tankSizeValues.z); //Get size of tank (different from current bounds because it doesn't account for rotation) from tank size values chart
-                Vector2 position = tank.treadSystem.transform.position;                                                                   //Initialize bounds position at base position of tank treadsystem
-                position.x = (position.x - tank.tankSizeValues.y) + (size.x / 2);                                                         //Re-position bounds to actually encapsulate tank vertically by getting the leftmost side of tank and then moving half the width of the bounds to the right
-                position.y = (position.y - tank.tankSizeValues.z) + (size.y / 2);                                                         //Re-position bounds to actually encapsulate tank horizontally by getting the lowermost side of tank and then moving half the height of the bounds upward
-                return new Bounds(position, size);                                                                                        //Return bounds of calculated position and size
-            }
         }
 
         //Objects & Components:
-        [Tooltip("Singleton instance of camera manipulator in scene.")]                                   public static CameraManipulator main;
-        [SerializeField, Tooltip("List of camera systems being used to actively render tanks in scene.")] private List<TankCamSystem> camSystems = new List<TankCamSystem>();
-        [Tooltip("Cam system used to control the radar camera.")]                                         private TankCamSystem radarSystem;
-        [SerializeField, Tooltip("Prefab for parallax system instantiated for each camera.")]             private GameObject parallaxPrefab;
+        [Tooltip("Singleton instance of camera manipulator in scene.")] public static CameraManipulator main;
+        [Tooltip("List of camera systems being used to actively render tanks in scene.")] private List<TankCamSystem> camSystems = new List<TankCamSystem>();
+        [Tooltip("Cam system used to control the radar camera.")] private TankCamSystem radarSystem;
 
         //Settings:
         [Header("General Settings:")]
         [SerializeField, Tooltip("Maximum possible number of concurrent tank cam systems (there need to be layers made in layerManager for these. Cam layers need to be in sequential indexes and the first must be named TankCamA)"), Min(1)] private int maxTankCams = 3;
-        [SerializeField, Tooltip("Determines whether or not a radar camera system will be spawned in this scene.")]                                                                                                                            private bool useRadar = true;
+        [SerializeField, Tooltip("Determines whether or not a radar camera system will be spawned in this scene.")] private bool useRadar = true;
         [Header("Camera Zone Positioning:")]
         [SerializeField, Tooltip("UI object used to position engagement zone camera setup in scene.")] private RectTransform engagementZoneTargeter;
-        [SerializeField, Tooltip("UI object used to position radar zone camera in scene.")]            private RectTransform radarZoneTargeter;
+        [SerializeField, Tooltip("UI object used to position radar zone camera in scene.")] private RectTransform radarZoneTargeter;
         [Header("Tank Camera Settings:")]
-        [SerializeField, Tooltip("Camera space to leave above top cell of tank (in world units)."), Min(0)]                                 private float tankCamUpperBuffer;
-        [SerializeField, Tooltip("Camera space to leave below treads of tank (in world units)."), Min(0)]                                   private float tankCamLowerBuffer;
-        [SerializeField, Tooltip("Camera space to leave beside each side of tank (in world units)."), Min(0)]                               private float tankCamSideBuffer;
+        [SerializeField, Tooltip("Camera space to leave above top cell of tank (in world units)."), Min(0)] private float tankCamUpperBuffer;
+        [SerializeField, Tooltip("Camera space to leave below treads of tank (in world units)."), Min(0)] private float tankCamLowerBuffer;
+        [SerializeField, Tooltip("Camera space to leave beside each side of tank (in world units)."), Min(0)] private float tankCamSideBuffer;
         [SerializeField, Tooltip("Distance (in canvas space units) between engagement camera frames when multiple are on screen."), Min(0)] private float engagementCamSeparation;
-        [SerializeField, Tooltip("Lerp factor to apply to changes in horizontal offset for reducing jitter."), Min(0.001f)]                 private float horizontalOffsetSmoothing;
-        [SerializeField, Tooltip("The background color of the tank cameras.")]                                                              private Color tankCameraColor;
+        [SerializeField, Tooltip("Lerp factor to apply to changes in horizontal offset for reducing jitter."), Min(0.001f)] private float horizontalOffsetSmoothing;
+        [SerializeField, Tooltip("The background color of the tank cameras.")] private Color tankCameraColor;
         [Space]
-        [SerializeField, Tooltip("Range (from player tank) at which an enemy tank's camera will become active."), Min(0)]                                                                                         private float engagementDistance;
-        [SerializeField, Tooltip("Range (from player tank) at which enemy tank camera will merge with player camera."), Min(0)]                                                                                   private float shareCamDistance;
-        [SerializeField, Tooltip("Once enemy tank camera and player cameras are merged, this is the distance at which they will uncouple (should always be equal to or greater than shareCamDistance)."), Min(0)] private float shareCamStickDistance;
-        [Space()]
-        [SerializeField, Tooltip("Once a tank is killed, its camera will stick around for this number of seconds."), Min(0)] private float cameraDisappearTime;
+        [SerializeField, Tooltip("Range (from player tank) at which an enemy tank's camera will become active."), Min(0)] private float engagementDistance;
+        [SerializeField, Tooltip("Range (from player tank) at which enemy tank camera will merge with player camera."), Min(0)] private float shareCamDistance;
         [Header("Radar Settings:")]
         [SerializeField, Tooltip("Distance from the lower left corner of the radar field at which tank will be kept.")] private Vector2 radarEdgeBuffer;
-        [SerializeField, Tooltip("How far ahead of the player tank the radar can see."), Min(0)]                        private float radarRange;
+        [SerializeField, Tooltip("How far ahead of the player tank the radar can see."), Min(0)] private float radarRange;
         [Header("Offscreen Visualization Settings:")]
         [SerializeField, Tooltip("Roundness of collider corners around camera plane (smooths out edge UI)."), Min(0)] private float boundColliderEdgeRadius = 1;
 
@@ -517,14 +413,8 @@ namespace TowerTanks.Scripts
         private void Update()
         {
             //Cam system updates:
-            if (useRadar) radarSystem.UpdateEverything(Time.deltaTime); //Fully update radar system
-            if (camSystems.Count > 0) foreach (TankCamSystem system in camSystems) system.UpdateEverything(Time.deltaTime); //Fully update all values in each camera system
-            for (int x = 0; x < camSystems.Count;) //Iterate manually through camsystems list (destruction check)
-            {
-                TankCamSystem currentSystem = camSystems[x]; //Get current system
-                if (currentSystem.timeUntilDeath == 0) camSystems.Remove(currentSystem); //Remove (destroy) a cam system once it is dead and has been cleaned up
-                else x++; //Increment to next system if not dead
-            }
+            if (useRadar) radarSystem.UpdateEverything();                                                     //Fully update radar system
+            if (camSystems.Count > 0) foreach (TankCamSystem system in camSystems) system.UpdateEverything(); //Fully update all values in each camera system
 
             //Debug:
             if (Application.isEditor) //Editor-specific updates
@@ -594,7 +484,23 @@ namespace TowerTanks.Scripts
         public void OnTankDestroyed(TankController tank)
         {
             //Remove tank from camSystems:
-            foreach (TankCamSystem camSystem in camSystems) if (camSystem.tanks[0] == tank) camSystem.CleanUpLater(); //Clean up main cam system for destroyed tank
+            for (int x = 0; x < camSystems.Count;) //Iterate through all cam systems
+            {
+                if (camSystems[x].tanks.Contains(tank)) //Cam system needs to be cleaned up
+                {
+                    if (camSystems[x].tanks.Count == 1) //Entire cam system needs to go
+                    {
+                        camSystems[x].CleanUp(); //Destroy camera elements
+                        camSystems.RemoveAt(x);  //Remove cam system from list, destroying it
+                        continue;                //Skip everything else without incrementing x value (because an entry in list was removed)
+                    }
+                    else //Cam system list needs to be modified
+                    {
+                        camSystems[x].tanks.Remove(tank); //Just remove tank from camSystem list
+                    }
+                }
+                x++; //Iterate if no tank has been removed
+            }
         }
 
         //UTILITY METHODS:

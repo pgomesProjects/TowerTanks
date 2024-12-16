@@ -21,6 +21,7 @@ namespace TowerTanks.Scripts
     [CreateAssetMenu(fileName = "New Tutorial Popup", menuName = "ScriptableObjects/Tutorial Popup")]
     public class TutorialPopupSettings : ScriptableObject
     {
+        public string header;
         public PopupSettings[] tutorialPages;
     }
 }
