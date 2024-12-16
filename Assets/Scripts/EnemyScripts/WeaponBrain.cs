@@ -11,6 +11,7 @@ namespace TowerTanks.Scripts
     public class WeaponBrain : InteractableBrain
     {
         internal GunController gunScript;
+        private Projectile myProjectile;
         
         public float fireCooldown;
         internal float fireTimer;
@@ -18,23 +19,26 @@ namespace TowerTanks.Scripts
         
         public bool isRotating;
         internal float currentForce;
-        internal List<Vector3> trajectoryPoints;
         internal RaycastHit2D aimHit;
+        
+        internal float minTurnSpeed = 00f;
+        internal float maxTurnSpeed = 1f;
 
         private void Awake()
         {
             gunScript = GetComponent<GunController>();
+            myProjectile = gunScript.projectilePrefab.GetComponent<Projectile>();
         }
 
         protected void Start()
         {
             fireTimer = 0;
+            StartCoroutine(AimAtTarget());
         }
 
         // Update is called once per frame
-        protected void Update()
+        protected virtual void Update()
         {
-            AimAtTarget();
             gunScript.RotateBarrel(currentForce, false);
             
             if (fireTimer < fireCooldown) fireTimer += Time.deltaTime;
@@ -55,62 +59,80 @@ namespace TowerTanks.Scripts
         {
             return aimHit.collider != null && aimHit.collider.transform.IsChildOf(gunScript.tank.transform);
         }
-
-        [Button]
-        public void AimingAt()
-        {
-            Debug.Log($"I am aiming at: {aimHit.collider.transform.name}");
-            if (AimingAtMyself()) Debug.Log("I am aiming at myself!");
-        }
         
-        public virtual void AimAtTarget()
+        private bool DirectionToTargetBlocked() // this is necessary because we want to check if we would hit our own tank
+                                                // IF we were to shoot exactly at the target right now. AimingAtMyself
+                                                // just tells you if the CURRENT aim will hit the tank or not
         {
-            if (myTankAI.targetTank == null) return;
-
-            var proj = gunScript.projectilePrefab.GetComponent<Projectile>();
-
-            trajectoryPoints = Trajectory.GetTrajectory(gunScript.barrel.position, gunScript.barrel.right * gunScript.muzzleVelocity, proj.gravity, 100);
-            aimHit = Trajectory.GetHitPoint(trajectoryPoints);
-
-            Vector3 tankPosition = myTankAI.tank.treadSystem.transform.position + Vector3.up * 2.5f;
+            var excludeLayer = (1 << LayerMask.NameToLayer("Camera")) |
+                               (1 << LayerMask.NameToLayer("Projectiles"));
             Vector3 targetPosition = myTankAI.targetTank.treadSystem.transform.position + Vector3.up * 2.5f;
+            return Physics2D.Raycast(gunScript.barrel.position, targetPosition - gunScript.barrel.position, 5, ~excludeLayer).collider != null;
+        }
+
+        public virtual IEnumerator AimAtTarget(float refreshRate = 0.1f, bool everyFrame = false)
+        {
+            while (tokenActivated)
+            {
+                if (myTankAI.targetTank == null) yield break;
+
+                var trajectoryPoints = Trajectory.GetTrajectory(gunScript.barrel.position, gunScript.barrel.right * gunScript.muzzleVelocity, myProjectile.gravity, 100);
+                aimHit = Trajectory.GetHitPoint(trajectoryPoints);
+
+                Vector3 tankPosition = myTankAI.tank.treadSystem.transform.position + Vector3.up * 2.5f;
+                Vector3 targetPosition = myTankAI.targetTank.treadSystem.transform.position + Vector3.up * 2.5f;
+
+                if (DirectionToTargetBlocked()) targetPosition = gunScript.barrel.position; // basically if the direction from our weapon
+                                                                                            // to its target point is obstructed by the weapon's tank, 
+                                                                                            // this will aim the weapon forward instead of at the target
+                
+                bool hitPointIsRightOfTarget = aimHit.point.x > targetPosition.x;
+
+                // if our projected hitpoint is past the tank we're fighting, the hitpoint is set right in front of the barrel, because in that scenario we want to aim based on our gun's general direction and not our hitpoint (this doesnt apply to mortars)
+                if ((!myTankAI.TankIsRightOfTarget() && hitPointIsRightOfTarget) || (myTankAI.TankIsRightOfTarget() && !hitPointIsRightOfTarget) || aimHit.collider == null || AimingAtMyself())
+                {
+                    aimHit.point = trajectoryPoints[2];
+                }
+
+                Vector3 direction = targetPosition - tankPosition;
+
+                // Project the hit point onto the direction vector
+                Vector3 aimHitPoint = aimHit.point; //converts to vec3 (using vec3 for project function)
+                Vector3 projectedPoint = tankPosition + Vector3.Project(aimHitPoint - tankPosition, direction);
+                if (DirectionToTargetBlocked()) projectedPoint = gunScript.barrel.position;
+                float HowFarFromTarget() => Vector3.Distance(aimHit.point, projectedPoint);
+                
+                var distFactor = Mathf.InverseLerp(0, 2, HowFarFromTarget());
+                var moveSpeed = Mathf.Lerp(minTurnSpeed, maxTurnSpeed, distFactor);
+                // Determine if the hit point is above or below the projected point
+                if (aimHit.point.y > projectedPoint.y)
+                {
+                    currentForce = myTankAI.TankIsRightOfTarget() ? moveSpeed : -moveSpeed;
+                }
+                else
+                {
+                    currentForce = myTankAI.TankIsRightOfTarget() ? -moveSpeed : moveSpeed;
+                }
+                yield return new WaitForSeconds(refreshRate);
+            }
             
-            bool hitPointIsRightOfTarget = aimHit.point.x > targetPosition.x;
-
-            // if our projected hitpoint is past the tank we're fighting, the hitpoint is set right in front of the barrel, because in that scenario we want to aim based on our gun's general direction and not our hitpoint (this doesnt apply to mortars)
-            if ((!myTankAI.TankIsRightOfTarget() && hitPointIsRightOfTarget) || (myTankAI.TankIsRightOfTarget() && !hitPointIsRightOfTarget) || aimHit.collider == null || AimingAtMyself())
-            {
-                aimHit.point = trajectoryPoints[2];
-            }
-
-            Vector3 direction = targetPosition - tankPosition;
-
-            // Project the hit point onto the direction vector
-            Vector3 aimHitPoint = aimHit.point; //converts to vec3 (using vec3 for project function)
-            Vector3 projectedPoint = tankPosition + Vector3.Project(aimHitPoint - tankPosition, direction);
-
-            // Determine if the hit point is above or below the projected point
-            if (aimHit.point.y > projectedPoint.y)
-            {
-                currentForce = myTankAI.TankIsRightOfTarget() ? 1 : -1;
-            }
-            else
-            {
-                currentForce = myTankAI.TankIsRightOfTarget() ? -1 : 1;
-            }
-
-            gunScript.RotateBarrel(currentForce, false);
         }
 
         private void OnDrawGizmos()
         {
-            if (trajectoryPoints == null) return;
+            bool mortar = mySpecificType == INTERACTABLE.Mortar;
+            Vector2 fireVelocity = (mortar ? gunScript.barrel.up : gunScript.barrel.right) * gunScript.muzzleVelocity;
+            if (mortar) fireVelocity += myTankAI.tank.treadSystem.r.GetPointVelocity(gunScript.barrel.position);
+            var trajPoints = Trajectory.GetTrajectory(gunScript.barrel.position, 
+                                                    fireVelocity,
+                                                                   myProjectile.gravity,
+                                                     100);
             if (!tokenActivated) return;
-            for (int i = 0; i < trajectoryPoints.Count - 1; i++)
+            for (int i = 0; i < trajPoints.Count - 1; i++)
             {
-                if (Vector3.Distance(trajectoryPoints[i], aimHit.point) < 0.25f) break; // stops projecting line at target
+                if (Vector3.Distance(trajPoints[i], aimHit.point) < 0.25f) break; // stops projecting line at target
                 Gizmos.color = myTankAI.TankIsRightOfTarget() ? Color.red : Color.blue;
-                Gizmos.DrawLine(trajectoryPoints[i], trajectoryPoints[i + 1]);
+                Gizmos.DrawLine(trajPoints[i], trajPoints[i + 1]);
                 
             }
             Gizmos.color = Color.green;
