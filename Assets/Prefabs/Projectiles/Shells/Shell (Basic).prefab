@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3129712472263774381}
   - component: {fileID: 7900677867697848049}
   - component: {fileID: -7973381583480994909}
+  - component: {fileID: -8841904236137192128}
   m_Layer: 20
   m_Name: Shell (Basic)
   m_TagString: Shell
@@ -52,16 +53,7 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 8552776
-  damage: 100
   hitProperties: {fileID: 11400000, guid: 3e14f9b7033bf794ab1be10c9a457472, type: 2}
-  impactProperties: {fileID: 11400000, guid: abc0660666cc2b943920b3c444201ba6, type: 2}
-  knockbackProperties: {fileID: 0}
-  hasSplashDamage: 1
-  splashData:
-  - splashDamage: 50
-    splashRadius: 0.75
-  isTunneling: 0
-  fireChance: 2
   maxLife: 10
   radius: 0.18
   drag: 0
@@ -105,6 +97,28 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
+--- !u!114 &-8841904236137192128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2026841927693228562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e005a5f17590ef4bba8c45ee5c33d66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &2082292639589091566
 GameObject:
   m_ObjectHideFlags: 0

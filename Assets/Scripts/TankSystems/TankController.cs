@@ -31,6 +31,7 @@ namespace TowerTanks.Scripts
         [Tooltip("Rooms currently installed on tank.")] internal List<Room> rooms;
         [Tooltip("Core room of tank (there can only be one.")] internal Room coreRoom;
         [Tooltip("This tank's traction system.")] internal TreadSystem treadSystem;
+        [SerializeField, Tooltip("The spawn point for the players.")] private Transform playerSpawnPoint;
         [Tooltip("Transform containing all tank rooms, point around which tower tilts.")] private Transform towerJoint;
         [SerializeField, Tooltip("Target transform in tread system which tower joint locks onto.")] private Transform towerJointTarget;
         [SerializeField, Tooltip("When true, the tank cannot take damage.")] public bool isInvincible;
@@ -43,6 +44,8 @@ namespace TowerTanks.Scripts
         private TankAI _thisTankAI;
         public GameObject tankFlag;
         public GameObject surrenderFlag;
+        private Animator tankAnimator;
+        public GameObject corpsePrefab;
 
         [Header("Cargo")]
         public GameObject[] cargoHold;
@@ -250,6 +253,7 @@ namespace TowerTanks.Scripts
 
             nameText = GetComponentInChildren<TextMeshProUGUI>();
             damageSprite = towerJoint.transform.Find("DiageticUI")?.GetComponent<SpriteRenderer>();
+            tankAnimator = GetComponent<Animator>();
 
             isPrebuilding = true;
             //Room setup:
@@ -287,10 +291,9 @@ namespace TowerTanks.Scripts
         {
             tankManager = GameObject.Find("TankManager")?.GetComponent<TankManager>();
             
-            myTankID = TankManager.instance.tanks.FirstOrDefault(tank => tank.tankScript == this);
-            
             if (tankManager != null)
             {
+                myTankID = TankManager.instance.tanks.FirstOrDefault(tank => tank.tankScript == this);
                 if (tankType == TankId.TankType.PLAYER) tankManager.playerTank = this;
                 foreach (TankId tank in tankManager.tanks)
                 {
@@ -406,11 +409,12 @@ namespace TowerTanks.Scripts
                 TransitionSequenceEvents();
             }
 
-            //UI
+            /*//UI
             if (damageTimer > 0)
             {
                 UpdateUI();
             }
+            */
         }
 
         private void UpdateUI()
@@ -572,8 +576,13 @@ namespace TowerTanks.Scripts
             currentCoreHealth -= amount;
 
             //UI
-            damageTime += (amount / 50f);
+            /*damageTime += (amount / 50f);
             damageTimer = damageTime;
+            */
+            float speedScale = 1;
+            if (amount > 50) speedScale = 0.5f;
+            if (amount <= 10) speedScale = 4f;
+            if (amount > 0) HitEffects(speedScale);
 
             if (currentCoreHealth <= 0)
             {
@@ -586,6 +595,13 @@ namespace TowerTanks.Scripts
                 }
             }
             OnCoreDamaged?.Invoke(currentCoreHealth / coreHealth);
+        }
+
+        public void HitEffects(float speedScale)
+        {
+            UpdateUI();
+            tankAnimator.SetFloat("SpeedScale", speedScale);
+            tankAnimator.Play("DamageFlashCore", 0, 0);
         }
 
         public void DeathSequenceEvents()
@@ -682,7 +698,7 @@ namespace TowerTanks.Scripts
                 foreach (Cell cell in cells)
                 {
                     //Destroy all cells
-                    cell.Kill();
+                    //cell.Kill();
 
                     //Blow up the core
                     if (cell.room.isCore)
@@ -736,6 +752,23 @@ namespace TowerTanks.Scripts
                 {
                     character.transform.SetParent(null);
                     character.KillCharacterImmediate();
+                }
+
+                //Handle Destruction Logic
+                GameObject corpse = Instantiate(corpsePrefab, null, true); //Generate a new Corpse Parent Object
+                corpse.transform.position = towerJoint.transform.position;
+                corpse.name = TankName + " (Corpse)"; //Name it accordingly
+
+                foreach (Room room in rooms) //Make all current rooms in the tank into DummyRooms, then child them to the Corpse
+                {
+                    if (!room.isCore) //Except the core
+                    {
+                        room.MakeDummy(corpse.transform);
+                        CorpseController.DummyObject _object = new CorpseController.DummyObject();
+                        _object.dummyObject = room.gameObject;
+                        corpse.GetComponent<CorpseController>().objects.Add(_object);
+                        room.enabled = false;
+                    }
                 }
 
                 //GameManager.Instance.SystemEffects.ActivateSlowMotion(0.05f, 0.4f, 1.5f, 0.4f);
@@ -1164,6 +1197,7 @@ namespace TowerTanks.Scripts
             nameText.text = TankName;
             gameObject.name = "Tank (" + TankName + ")";
         }
+        public Vector3 GetPlayerSpawnPointPosition() => playerSpawnPoint.position;
         public Character[] GetCharactersInTank() => GetComponentsInChildren<Character>();
         public float GetHighestPoint() => tankSizeValues.x;
 

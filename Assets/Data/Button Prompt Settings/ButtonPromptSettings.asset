@@ -32,13 +32,13 @@ MonoBehaviour:
     - platform: 0
       promptInfo: {fileID: 0}
     - platform: 1
-      promptInfo: {fileID: 11400000, guid: 0dd2d2f9f9f768f499a2a700bd3b6e93, type: 2}
+      promptInfo: {fileID: 11400000, guid: 51c6d8e3f9a858049b54ea6b7189ed02, type: 2}
     - platform: 2
-      promptInfo: {fileID: 11400000, guid: b765af2297be51e4d9168beaaba87ac7, type: 2}
+      promptInfo: {fileID: 11400000, guid: 83524a41dc5588547a56ae5090a7f8a1, type: 2}
     - platform: 3
       promptInfo: {fileID: 0}
     - platform: 4
-      promptInfo: {fileID: 11400000, guid: 0dd2d2f9f9f768f499a2a700bd3b6e93, type: 2}
+      promptInfo: {fileID: 11400000, guid: 51c6d8e3f9a858049b54ea6b7189ed02, type: 2}
   - action: 2
     actionType: 0
     prompts:
@@ -105,6 +105,45 @@ MonoBehaviour:
     - platform: 4
       promptInfo: {fileID: 11400000, guid: 51c6d8e3f9a858049b54ea6b7189ed02, type: 2}
   - action: 9
+    actionType: 0
+    prompts:
+    - platform: 0
+      promptInfo: {fileID: 0}
+    - platform: 1
+      promptInfo: {fileID: 11400000, guid: 0dd2d2f9f9f768f499a2a700bd3b6e93, type: 2}
+    - platform: 2
+      promptInfo: {fileID: 11400000, guid: b765af2297be51e4d9168beaaba87ac7, type: 2}
+    - platform: 3
+      promptInfo: {fileID: 0}
+    - platform: 4
+      promptInfo: {fileID: 11400000, guid: 0dd2d2f9f9f768f499a2a700bd3b6e93, type: 2}
+  - action: 7
+    actionType: 1
+    prompts:
+    - platform: 0
+      promptInfo: {fileID: 0}
+    - platform: 1
+      promptInfo: {fileID: 11400000, guid: 0dd2d2f9f9f768f499a2a700bd3b6e93, type: 2}
+    - platform: 2
+      promptInfo: {fileID: 11400000, guid: b765af2297be51e4d9168beaaba87ac7, type: 2}
+    - platform: 3
+      promptInfo: {fileID: 0}
+    - platform: 4
+      promptInfo: {fileID: 11400000, guid: 0dd2d2f9f9f768f499a2a700bd3b6e93, type: 2}
+  - action: 5
+    actionType: 0
+    prompts:
+    - platform: 0
+      promptInfo: {fileID: 0}
+    - platform: 1
+      promptInfo: {fileID: 11400000, guid: 51c6d8e3f9a858049b54ea6b7189ed02, type: 2}
+    - platform: 2
+      promptInfo: {fileID: 11400000, guid: 83524a41dc5588547a56ae5090a7f8a1, type: 2}
+    - platform: 3
+      promptInfo: {fileID: 0}
+    - platform: 4
+      promptInfo: {fileID: 11400000, guid: 51c6d8e3f9a858049b54ea6b7189ed02, type: 2}
+  - action: 10
     actionType: 0
     prompts:
     - platform: 0

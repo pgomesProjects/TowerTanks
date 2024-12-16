@@ -206,6 +206,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   readyComponentText: {fileID: 6840898166089805090}
   readyImage: {fileID: 6840898165338180363}
+  buttonPromptImage: {fileID: 0}
   notReadyColor: {r: 0.77254903, g: 0.33333334, b: 0.33333334, a: 1}
   readyColor: {r: 0.37254903, g: 0.83137256, b: 0.43529412, a: 1}
 --- !u!1 &6840898166089805088

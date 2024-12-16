@@ -27,6 +27,9 @@ namespace TowerTanks.Scripts
 
         public void Init()
         {
+            //Clear the parent if it has anything in it
+            ClearReadyComponents();
+
             PlayerData[] playerData = GameManager.Instance.MultiplayerManager.GetAllPlayers();
 
             for (int i = 0; i < playerData.Length; i++)
@@ -41,12 +44,17 @@ namespace TowerTanks.Scripts
             canReady = true;
         }
 
-        public void HideReadyUpManager()
+        private void ClearReadyComponents()
         {
             foreach (ReadyComponent readyComponent in playerReadyComponents)
                 Destroy(readyComponent.gameObject);
 
             playerReadyComponents.Clear();
+        }
+
+        public void HideReadyUpManager()
+        {
+            ClearReadyComponents();
             canvasGroup.alpha = 0;
             canReady = false;
         }

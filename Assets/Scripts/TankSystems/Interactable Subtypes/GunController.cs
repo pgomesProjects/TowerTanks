@@ -381,7 +381,7 @@ namespace TowerTanks.Scripts
                     {
                         GameManager.Instance.AudioManager.Stop("MachineGunFire", gameObject);
                     }
-                    GameManager.Instance.AudioManager.PlayRandomPitch("MachineGunFire", 0.9f, 1.5f, gameObject);
+                    GameManager.Instance.AudioManager.PlayRandomPitch("MachineGunFire", 0.9f, 1.1f, gameObject);
                 }
 
                 if (gunType == GunType.MORTAR)
@@ -403,7 +403,7 @@ namespace TowerTanks.Scripts
         private void ShowFirePrompt(bool showPrompt)
         {
             if(operatorID != null)
-                operatorID.GetCharacterHUD().SetButtonPrompt(GameAction.Fire, showPrompt);
+                operatorID.GetCharacterHUD()?.SetButtonPrompt(GameAction.Fire, showPrompt);
         }
 
         public void RotateBarrel(float force, bool withSound)

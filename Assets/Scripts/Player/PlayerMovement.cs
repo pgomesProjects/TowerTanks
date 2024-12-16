@@ -469,14 +469,12 @@ namespace TowerTanks.Scripts
 
         public void OnDeviceLost(PlayerInput playerInput)
         {
-            Debug.Log("Player " + (characterIndex + 1) + " Controller Disconnected!");
-            FindObjectOfType<CornerUIController>().OnDeviceLost(characterIndex);
+            FindObjectOfType<CornerUIController>()?.OnDeviceLost(characterIndex);
         }
 
         public void OnDeviceRegained(PlayerInput playerInput)
         {
-            Debug.Log("Player " + (characterIndex + 1) + " Controller Reconnected!");
-            FindObjectOfType<CornerUIController>().OnDeviceRegained(characterIndex);
+            FindObjectOfType<CornerUIController>()?.OnDeviceRegained(characterIndex);
         }
 
         private void OnPlayerInput(InputAction.CallbackContext ctx)
@@ -960,6 +958,9 @@ namespace TowerTanks.Scripts
 
         #endregion
 
-
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+        }
     }
 }

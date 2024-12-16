@@ -37,6 +37,7 @@ namespace TowerTanks.Scripts
         private Cell[][] sections;                                   //Groups of cells separated by connectors
         private Transform connectorParent;                           //Parent object which contains all connectors
         internal RoomData roomData;                                  //ScriptableObject containing data about rooms and objects spawned by them
+        internal PhysicsMaterial2D dummyMat;                         //Material recieved from RoomData when assigning it to the Room upon DummyRoom creation
 
         internal List<GameObject> ladders = new List<GameObject>();       //Ladders that are in this room
         private List<GameObject> leadingLadders = new List<GameObject>(); //Ladders that lead to cells in this room (but are in different rooms)
@@ -135,6 +136,7 @@ namespace TowerTanks.Scripts
             connectors = connectorParent.GetComponentsInChildren<Connector>().ToList(); //Get list of all connectors in room
             roomData = Resources.Load<RoomData>("RoomData");                            //Get roomData object from resources folder
             targetTank = GetComponentInParent<TankController>();                        //Get tank controller from current parent (only applicable if room spawns with tank)
+            dummyMat = roomData.dummyMaterial;                                          //Get Dummy Material used for DummyRooms
 
             //old spot for interactable slot code
 
@@ -486,12 +488,19 @@ namespace TowerTanks.Scripts
                 {
                     Destroy(cell.compositeClone.gameObject); //Fully delete composite clone object
                     cell.compositeClone = null;              //Clear reference to destroyed object
+                    cell.AddInteractablesFromCell();         //Remove the interactables and add them to the stacks
                 }
 
                 //Remove room from tank system:
                 targetTank.rooms.Remove(this);            // Remove room from the tank's list of rooms
+                targetTank.UpdateSizeValues();            //Check to see if any added cells are higher than the known highest cell
                 targetTank.treadSystem.ReCalculateMass(); //Re-calculate mass now that room has been removed
             }
+
+            //If the room is an armored room, add it back to the stack
+            if (type == RoomType.Armor)
+                StackManager.AddToStack(INTERACTABLE.Armor);
+
             mounted = false;                   //Indicate that room is now disconnected
             SnapMove(transform.localPosition); //Re-generate ghost couplers and stuff once everything is cleaned up and room is disconnected
         }
@@ -505,10 +514,26 @@ namespace TowerTanks.Scripts
 
             //Change room color:
             Color newColor = roomData.roomTypeColors[(int)newType]; //Get new color for room backwall
-            foreach (Cell cell in cells) //Iterate through each cell in room
+            ChangeRoomColor(newColor);  //Change the room color
+        }
+        /// <summary>
+        /// Changes the color of the room.
+        /// </summary>
+        /// <param name="newColor">The new color for the room.</param>
+        private void ChangeRoomColor(Color newColor)
+        {
+            if (backWallSprite != null)
             {
-                cell.backWall.GetComponent<SpriteRenderer>().color = newColor;                                               //Set cell color to new type
-                //foreach (Connector connector in cell.connectors) if (connector != null) connector.backWall.color = newColor; //Set color of connector back wall
+                backWallSprite.color = newColor;    //Set the back wall sprite color to new type
+            }
+            else
+            {
+                foreach (Cell cell in cells) //Iterate through each cell in room
+                {
+                    if (cell.backWall.TryGetComponent(out SpriteRenderer backWallRenderer))
+                        backWallRenderer.color = newColor;                                //Set cell color to new type
+                    //foreach (Connector connector in cell.connectors) if (connector != null) connector.backWall.color = newColor; //Set color of connector back wall
+                }
             }
         }
         /// <summary>
@@ -544,6 +569,40 @@ namespace TowerTanks.Scripts
 
             //Apply kit to room:
             kit.KitRoom(this); //Apply kit assets to room
+        }
+
+        public void MakeDummy(Transform newParent)
+        {
+            transform.parent = newParent; //transfer room to a new parent object
+            this.gameObject.layer = LayerMask.NameToLayer("Dummy");
+
+            //Strip Cells of Logic
+            foreach (Cell cell in cells)
+            {
+                //Strip Interactables
+                cell.AddInteractablesFromCell();
+
+                //Strip Couplers
+                foreach(Coupler coupler in cell.couplers)
+                {
+                    coupler.gameObject.SetActive(false);
+                }
+
+                //Convert to a Dummy Cell
+                cell.gameObject.layer = LayerMask.NameToLayer("Dummy");
+                Transform[] children = cell.GetComponentsInChildren<Transform>();
+                foreach(Transform transform in children)
+                {
+                    transform.gameObject.layer = LayerMask.NameToLayer("Dummy");
+                }
+
+                //Disable the Cell Script
+                cell.enabled = false;
+            }
+
+            //Add Rigidbody to Room
+            Rigidbody2D rb = this.gameObject.AddComponent<Rigidbody2D>();
+            rb.sharedMaterial = dummyMat;
         }
 
         //UTILITY METHODS:

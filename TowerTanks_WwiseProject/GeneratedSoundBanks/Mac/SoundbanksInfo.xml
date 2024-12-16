@@ -34,7 +34,7 @@
 				<GameParameter Id="4287925136" Name="CombatLayer2Volume"/>
 			</GameParameters>
 		</SoundBank>
-		<SoundBank Id="2880737896" Type="User" Language="SFX" Hash="{B346D33A-D03A-CF34-69FE-5204A809EFA8}">
+		<SoundBank Id="2880737896" Type="User" Language="SFX" Hash="{DA873E7E-1FF2-5339-0766-0A5B8006596F}">
 			<ShortName>mainbank</ShortName>
 			<Path>mainbank.bnk</Path>
 			<Media>
@@ -364,7 +364,7 @@
 						<MediaRef Id="2061770"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="3921814510" Name="bullet_impact" DurationType="OneShot" DurationMin="0.14125258" DurationMax="0.38316792">
+				<Event Id="3921814510" Name="bullet_impact" MaxAttenuation="100" DurationType="OneShot" DurationMin="0.14125258" DurationMax="0.38316792">
 					<MediaRefs>
 						<MediaRef Id="264891926"/>
 						<MediaRef Id="466320299"/>
@@ -373,7 +373,7 @@
 						<MediaRef Id="841978207"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="3326819226" Name="bullet_impact_dirt" DurationType="OneShot" DurationMin="0.24214727" DurationMax="0.66758657">
+				<Event Id="3326819226" Name="bullet_impact_dirt" MaxAttenuation="100" DurationType="OneShot" DurationMin="0.24214727" DurationMax="0.66758657">
 					<MediaRefs>
 						<MediaRef Id="341912688"/>
 						<MediaRef Id="421337450"/>
@@ -396,19 +396,19 @@
 						<MediaRef Id="792905054"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="155513425" Name="cannon_fire" DurationType="OneShot" DurationMin="1.6188124" DurationMax="1.6188124">
+				<Event Id="155513425" Name="cannon_fire" MaxAttenuation="200" DurationType="OneShot" DurationMin="1.6188124" DurationMax="1.6188124">
 					<MediaRefs>
 						<MediaRef Id="806435377"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="1779807686" Name="cannon_fire_new" DurationType="OneShot" DurationMin="0.68627083" DurationMax="3.25">
+				<Event Id="1779807686" Name="cannon_fire_new" MaxAttenuation="200" DurationType="OneShot" DurationMin="0.68627083" DurationMax="3.25">
 					<MediaRefs>
 						<MediaRef Id="285073727"/>
 						<MediaRef Id="608483258"/>
 						<MediaRef Id="889039676"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="3193012965" Name="cannon_fire_recycled" DurationType="OneShot" DurationMin="0.65329164" DurationMax="0.9704583">
+				<Event Id="3193012965" Name="cannon_fire_recycled" MaxAttenuation="200" DurationType="OneShot" DurationMin="0.65329164" DurationMax="0.9704583">
 					<MediaRefs>
 						<MediaRef Id="537941924"/>
 						<MediaRef Id="550003302"/>
@@ -417,17 +417,17 @@
 						<MediaRef Id="1032382603"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="1967707158" Name="cannon_lock_in_place" DurationType="OneShot" DurationMin="1.3653333" DurationMax="1.3653333">
+				<Event Id="1967707158" Name="cannon_lock_in_place" MaxAttenuation="100" DurationType="OneShot" DurationMin="1.3653333" DurationMax="1.3653333">
 					<MediaRefs>
 						<MediaRef Id="676306554"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="3265936618" Name="cannon_reload" DurationType="OneShot" DurationMin="1.374" DurationMax="1.374">
+				<Event Id="3265936618" Name="cannon_reload" MaxAttenuation="100" DurationType="OneShot" DurationMin="1.374" DurationMax="1.374">
 					<MediaRefs>
 						<MediaRef Id="22366201"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="946664204" Name="cannon_rotate" DurationType="OneShot" DurationMin="3.5301666" DurationMax="3.5301666">
+				<Event Id="946664204" Name="cannon_rotate" MaxAttenuation="100" DurationType="OneShot" DurationMin="3.5301666" DurationMax="3.5301666">
 					<MediaRefs>
 						<MediaRef Id="89869954"/>
 					</MediaRefs>
@@ -437,13 +437,13 @@
 						<MediaRef Id="401117418"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="1134111855" Name="coal_load" DurationType="OneShot" DurationMin="1.375" DurationMax="1.375">
+				<Event Id="1134111855" Name="coal_load" MaxAttenuation="100" DurationType="OneShot" DurationMin="1.375" DurationMax="1.375">
 					<MediaRefs>
 						<MediaRef Id="16839121"/>
 						<MediaRef Id="500659198"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="2581980243" Name="coal_pickup" DurationType="OneShot" DurationMin="0.75" DurationMax="0.875">
+				<Event Id="2581980243" Name="coal_pickup" MaxAttenuation="100" DurationType="OneShot" DurationMin="0.75" DurationMax="0.875">
 					<MediaRefs>
 						<MediaRef Id="168215010"/>
 						<MediaRef Id="981522565"/>
@@ -462,12 +462,12 @@
 						<MediaRef Id="354630741"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="3121770429" Name="engine_dying" DurationType="OneShot" DurationMin="0.875" DurationMax="0.875">
+				<Event Id="3121770429" Name="engine_dying" MaxAttenuation="100" DurationType="OneShot" DurationMin="0.875" DurationMax="0.875">
 					<MediaRefs>
 						<MediaRef Id="895375203"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="1498048058" Name="engine_dying_2" DurationType="OneShot" DurationMin="4.9838333" DurationMax="4.9838333">
+				<Event Id="1498048058" Name="engine_dying_2" MaxAttenuation="100" DurationType="OneShot" DurationMin="4.9838333" DurationMax="4.9838333">
 					<MediaRefs>
 						<MediaRef Id="3469524"/>
 					</MediaRefs>
@@ -489,39 +489,39 @@
 						<MediaRef Id="736230953"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="1266436627" Name="jetpack_refuel" DurationType="OneShot" DurationMin="0.6244375" DurationMax="0.6244375">
+				<Event Id="1266436627" Name="jetpack_refuel" MaxAttenuation="100" DurationType="OneShot" DurationMin="0.6244375" DurationMax="0.6244375">
 					<MediaRefs>
 						<MediaRef Id="608069065"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="3943443513" Name="jetpack_rocket_loop" DurationType="OneShot" DurationMin="4.25" DurationMax="4.25">
+				<Event Id="3943443513" Name="jetpack_rocket_loop" MaxAttenuation="100" DurationType="OneShot" DurationMin="4.25" DurationMax="4.25">
 					<MediaRefs>
 						<MediaRef Id="564972492"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="756560803" Name="jetpack_startup" DurationType="OneShot" DurationMin="0.875" DurationMax="1.125">
+				<Event Id="756560803" Name="jetpack_startup" MaxAttenuation="100" DurationType="OneShot" DurationMin="0.875" DurationMax="1.125">
 					<MediaRefs>
 						<MediaRef Id="428826036"/>
 						<MediaRef Id="895375203"/>
 						<MediaRef Id="1036265675"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="1707141479" Name="ladder_climb" DurationType="OneShot" DurationMin="0.39514583" DurationMax="0.39514583">
+				<Event Id="1707141479" Name="ladder_climb" MaxAttenuation="100" DurationType="OneShot" DurationMin="0.39514583" DurationMax="0.39514583">
 					<MediaRefs>
 						<MediaRef Id="608155079"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="531217250" Name="large_explosion" DurationType="OneShot" DurationMin="8.200666" DurationMax="8.200666">
+				<Event Id="531217250" Name="large_explosion" MaxAttenuation="200" DurationType="OneShot" DurationMin="8.200666" DurationMax="8.200666">
 					<MediaRefs>
 						<MediaRef Id="1046025241"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="164337995" Name="loading_coal" DurationType="OneShot" DurationMin="3.0376875" DurationMax="3.0376875">
+				<Event Id="164337995" Name="loading_coal" MaxAttenuation="100" DurationType="OneShot" DurationMin="3.0376875" DurationMax="3.0376875">
 					<MediaRefs>
 						<MediaRef Id="575432004"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="2515943394" Name="machine_gun_fire" DurationType="OneShot" DurationMin="3.4258068" DurationMax="3.4258068">
+				<Event Id="2515943394" Name="machine_gun_fire" MaxAttenuation="200" DurationType="OneShot" DurationMin="3.4258068" DurationMax="3.4258068">
 					<MediaRefs>
 						<MediaRef Id="920263717"/>
 					</MediaRefs>
@@ -531,12 +531,12 @@
 						<MediaRef Id="595583574"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="2121623384" Name="medium_explosion" DurationType="OneShot" DurationMin="5.6" DurationMax="5.6">
+				<Event Id="2121623384" Name="medium_explosion" MaxAttenuation="200" DurationType="OneShot" DurationMin="5.6" DurationMax="5.6">
 					<MediaRefs>
 						<MediaRef Id="1065158661"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="3615561815" Name="metal_footstep" DurationType="OneShot" DurationMin="0.30911565" DurationMax="0.30911565">
+				<Event Id="3615561815" Name="metal_footstep" MaxAttenuation="100" DurationType="OneShot" DurationMin="0.30911565" DurationMax="0.30911565">
 					<MediaRefs>
 						<MediaRef Id="652002572"/>
 					</MediaRefs>
@@ -546,7 +546,7 @@
 						<MediaRef Id="680578571"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="137332291" Name="projectile_in_air" DurationType="OneShot" DurationMin="6" DurationMax="6">
+				<Event Id="137332291" Name="projectile_in_air" MaxAttenuation="200" DurationType="OneShot" DurationMin="6" DurationMax="6">
 					<MediaRefs>
 						<MediaRef Id="544191574"/>
 					</MediaRefs>
@@ -563,41 +563,41 @@
 						<MediaRef Id="320129091"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="3519998062" Name="small_explosion" DurationType="OneShot" DurationMin="1.715625" DurationMax="1.715625">
+				<Event Id="3519998062" Name="small_explosion" MaxAttenuation="200" DurationType="OneShot" DurationMin="1.715625" DurationMax="1.715625">
 					<MediaRefs>
 						<MediaRef Id="563431773"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="2561646952" Name="steam_exhaust" DurationType="OneShot" DurationMin="1" DurationMax="1.0979792">
+				<Event Id="2561646952" Name="steam_exhaust" MaxAttenuation="100" DurationType="OneShot" DurationMin="1" DurationMax="1.0979792">
 					<MediaRefs>
 						<MediaRef Id="172496222"/>
 						<MediaRef Id="874009170"/>
 						<MediaRef Id="905378176"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="3673494633" Name="steam_exhaust_loop" DurationType="Infinite">
+				<Event Id="3673494633" Name="steam_exhaust_loop" MaxAttenuation="100" DurationType="Infinite">
 					<MediaRefs>
 						<MediaRef Id="442190223"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="620130432" Name="tank_creaking" DurationType="OneShot" DurationMin="1.875" DurationMax="2.375">
+				<Event Id="620130432" Name="tank_creaking" MaxAttenuation="100" DurationType="OneShot" DurationMin="1.875" DurationMax="2.375">
 					<MediaRefs>
 						<MediaRef Id="661803067"/>
 						<MediaRef Id="671272586"/>
 						<MediaRef Id="727609140"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="212754890" Name="tank_engine" DurationType="Infinite">
+				<Event Id="212754890" Name="tank_engine" MaxAttenuation="100" DurationType="Infinite">
 					<MediaRefs>
 						<MediaRef Id="872036804"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="70658946" Name="tank_impact" DurationType="OneShot" DurationMin="1.374" DurationMax="1.374">
+				<Event Id="70658946" Name="tank_impact" MaxAttenuation="100" DurationType="OneShot" DurationMin="1.374" DurationMax="1.374">
 					<MediaRefs>
 						<MediaRef Id="258066100"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="299811467" Name="tank_rolling" DurationType="Infinite">
+				<Event Id="299811467" Name="tank_rolling" MaxAttenuation="100" DurationType="Infinite">
 					<MediaRefs>
 						<MediaRef Id="1049821619"/>
 					</MediaRefs>
@@ -612,12 +612,12 @@
 						<MediaRef Id="835123090"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="1141416880" Name="throttle_click" DurationType="OneShot" DurationMin="0.47510415" DurationMax="0.47510415">
+				<Event Id="1141416880" Name="throttle_click" MaxAttenuation="100" DurationType="OneShot" DurationMin="0.47510415" DurationMax="0.47510415">
 					<MediaRefs>
 						<MediaRef Id="616062773"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="1821032580" Name="throttle_shift" DurationType="OneShot" DurationMin="0.12495834" DurationMax="0.12495834">
+				<Event Id="1821032580" Name="throttle_shift" MaxAttenuation="100" DurationType="OneShot" DurationMin="0.12495834" DurationMax="0.12495834">
 					<MediaRefs>
 						<MediaRef Id="763069168"/>
 					</MediaRefs>
@@ -627,7 +627,7 @@
 						<MediaRef Id="476975229"/>
 					</MediaRefs>
 				</Event>
-				<Event Id="1797317650" Name="wrench" DurationType="OneShot" DurationMin="1.374" DurationMax="1.374">
+				<Event Id="1797317650" Name="wrench" MaxAttenuation="100" DurationType="OneShot" DurationMin="1.374" DurationMax="1.374">
 					<MediaRefs>
 						<MediaRef Id="882478931"/>
 					</MediaRefs>
@@ -643,5 +643,5 @@
 			</GameParameters>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{4FB5B2A4-8E3F-44BA-95F0-0BF26E23AA2B}</FileHash>
+	<FileHash>{7616CB1A-A9B7-C7A8-2D54-EA133CB5C434}</FileHash>
 </SoundBanksInfo>

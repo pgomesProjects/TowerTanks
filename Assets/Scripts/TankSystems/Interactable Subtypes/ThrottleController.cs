@@ -69,12 +69,12 @@ namespace TowerTanks.Scripts
             if (Mathf.Abs(gear) > speedSettings)
             {
                 gear += direction;
-                GameManager.Instance.AudioManager.Play("ThrottleShift");
+                GameManager.Instance.AudioManager.Play("ThrottleShift", this.gameObject);
             }
             else
             {
                 //other effects
-                GameManager.Instance.AudioManager.Play("ThrottleClick"); //Play shift audioclip
+                GameManager.Instance.AudioManager.Play("ThrottleClick", this.gameObject); //Play shift audioclip
             }
             currentAngle = gear * (maxAngle / speedSettings);
 

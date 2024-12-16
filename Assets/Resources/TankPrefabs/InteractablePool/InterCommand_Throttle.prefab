@@ -605,6 +605,7 @@ GameObject:
   - component: {fileID: 6311746647435508950}
   - component: {fileID: 1277811774015137651}
   - component: {fileID: 271233859460530938}
+  - component: {fileID: 8698044707664674177}
   m_Layer: 0
   m_Name: InterCommand_Throttle
   m_TagString: Untagged
@@ -646,7 +647,7 @@ MonoBehaviour:
   seat: {fileID: 0}
   interactableType: 1
   thisCollider: {fileID: 0}
-  stackName: Basic Throttle
+  stackName: Throttle
   prefabRef: {fileID: 7281501281902775960}
   uiImage: {fileID: 21300000, guid: bb410dafb4f5c3c43a114a2d7b78ba4c, type: 2}
   hasOperator: 0
@@ -682,11 +683,32 @@ MonoBehaviour:
     interactable: {fileID: 0}
     script: {fileID: 0}
     brain: {fileID: 0}
-    type: 0
-    thisInteractableEnum: 0
-  myInteractableType: 0
+    groupType: 0
+  mySpecificType: 0
   interactableController: {fileID: 0}
   tokenActivated: 0
+--- !u!114 &8698044707664674177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7281501281902775960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e005a5f17590ef4bba8c45ee5c33d66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &7431721311491376393
 GameObject:
   m_ObjectHideFlags: 0

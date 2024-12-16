@@ -924,6 +924,7 @@ GameObject:
   - component: {fileID: 4858914698612243394}
   - component: {fileID: 3845794719516787924}
   - component: {fileID: 7702530583951715948}
+  - component: {fileID: 8613562749798390922}
   m_Layer: 20
   m_Name: Mortar Shell (Basic)
   m_TagString: Shell
@@ -965,18 +966,7 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 8552776
-  damage: 100
   hitProperties: {fileID: 11400000, guid: a661a05354fa1ab468166ef85ce4043d, type: 2}
-  impactProperties: {fileID: 11400000, guid: abc0660666cc2b943920b3c444201ba6, type: 2}
-  knockbackProperties: {fileID: 0}
-  hasSplashDamage: 1
-  splashData:
-  - splashDamage: 75
-    splashRadius: 1.25
-  - splashDamage: 50
-    splashRadius: 2
-  isTunneling: 0
-  fireChance: 2
   maxLife: 10
   radius: 0.18
   drag: 0
@@ -1020,6 +1010,28 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
+--- !u!114 &8613562749798390922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8367798314348147069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e005a5f17590ef4bba8c45ee5c33d66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &8423252865942741889
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,17 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Text.RegularExpressions;
 
 namespace TowerTanks.Scripts
 {
     public class TutorialPopupController : MonoBehaviour
     {
+        [Header("Tutorial Popup Settings")]
+        [SerializeField, Tooltip("The tutorial header component.")] private TextMeshProUGUI tutorialHeader;
         [SerializeField, Tooltip("The tutorial image component.")] private Image tutorialImage;
         [SerializeField, Tooltip("The tutorial text component.")] private TextMeshProUGUI tutorialText;
         [SerializeField, Tooltip("The advance tutorial component.")] private TextMeshProUGUI advanceTutorialText;
         [SerializeField, Tooltip("The advance tutorial task bar.")] private TaskProgressBar advanceTaskBar;
         [SerializeField, Tooltip("The duration to hold the advance button for.")] private float advanceTutorialDuration;
         [SerializeField, Tooltip("The current tutorial settings to display.")] private TutorialPopupSettings currentTutorial;
+        [Space()]
+        [Header("Tutorial Animation Settings")]
+        [SerializeField, Tooltip("The canvas group for the tutorial window.")] private CanvasGroup tutorialWindowCanvasGroup;
+        [Space()]
+        [Header("Open Animation Settings")]
+        [SerializeField, Tooltip("The distance for the window to move into view.")] private float windowXDistanceIn;
+        [SerializeField, Tooltip("The duration of the tutorial open animation.")] private float tutorialWindowInDuration;
+        [SerializeField, Tooltip("The LeanTween ease type of the tutorial window open animation.")] private LeanTweenType tutorialWindowInEaseType;
+        [Space()]
+        [Header("Close Animation Settings")]
+        [SerializeField, Tooltip("The distance for the window to move out of view.")] private float windowXDistanceOut;
+        [SerializeField, Tooltip("The duration of the tutorial close animation.")] private float tutorialWindowOutDuration;
+        [SerializeField, Tooltip("The LeanTween ease type of the tutorial window close animation.")] private LeanTweenType tutorialWindowOutEaseType;
 
         private bool isTutorialActive;
         private bool canEndTutorial;
@@ -23,6 +39,9 @@ namespace TowerTanks.Scripts
         private float currentAdvanceTimer;
 
         private PlayerControlSystem playerControls;
+
+        public static System.Action OnTutorialStarted;
+        public static System.Action OnTutorialEnded;
 
         private void Awake()
         {
@@ -46,10 +65,19 @@ namespace TowerTanks.Scripts
         /// <summary>
         /// Starts a tutorial using information provided.
         /// </summary>
-        /// <param name="newTutorial">The tutorial information.</param>
-        public void StartTutorial(TutorialPopupSettings newTutorial)
+        /// <param name="newTutorial">A reference to the tutorial information.</param>
+        /// <param name="overrideViewedInGame">If true, the tutorial can be viewed even if it has already been viewed.</param>
+        public void StartTutorial(ref TutorialItem newTutorial, bool overrideViewedInGame)
         {
-            currentTutorial = newTutorial;
+            //If the tutorial has been viewed and not overridden, destroy and return
+            if (GameManager.Instance.tutorialWindowActive || (newTutorial.hasBeenViewedInGame && !overrideViewedInGame))
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            newTutorial.hasBeenViewedInGame = true;
+            currentTutorial = newTutorial.tutorialPopup;
             ActivateTutorial();
         }
 
@@ -75,14 +103,41 @@ namespace TowerTanks.Scripts
             //Set active and show the first page
             gameObject.SetActive(true);
             advanceTaskBar.gameObject.SetActive(false);
+            tutorialHeader.text = currentTutorial.header;
             ShowTutorialPage(0);
+            PlayTutorialOpenAnimation();
+            OnTutorialStarted?.Invoke();
+        }
+
+        private void PlayTutorialOpenAnimation()
+        {
+            tutorialWindowCanvasGroup.alpha = 0f;
+            RectTransform tutorialRectTransform = tutorialWindowCanvasGroup.GetComponent<RectTransform>();
+            Vector2 currentTutorialPos = tutorialRectTransform.anchoredPosition;
+            currentTutorialPos.x = windowXDistanceIn;
+            tutorialRectTransform.anchoredPosition = currentTutorialPos;
+
+            LeanTween.alphaCanvas(tutorialWindowCanvasGroup, 1f, tutorialWindowInDuration).setEase(tutorialWindowInEaseType).setIgnoreTimeScale(true);
+            LeanTween.moveX(tutorialRectTransform, 0f, tutorialWindowInDuration).setEase(tutorialWindowInEaseType).setIgnoreTimeScale(true);
         }
 
         private void DeactivateTutorial()
         {
-            Time.timeScale = 1f;
+            if(!GameManager.Instance.isPaused)
+                Time.timeScale = 1f;
+
             GameManager.Instance.tutorialWindowActive = false;
-            Destroy(gameObject);
+            PlayTutorialCloseAnimation();
+            OnTutorialEnded?.Invoke();
+        }
+
+        private void PlayTutorialCloseAnimation()
+        {
+            tutorialWindowCanvasGroup.alpha = 1f;
+            RectTransform tutorialRectTransform = tutorialWindowCanvasGroup.GetComponent<RectTransform>();
+
+            LeanTween.alphaCanvas(tutorialWindowCanvasGroup, 0f, tutorialWindowOutDuration).setEase(tutorialWindowOutEaseType).setIgnoreTimeScale(true);
+            LeanTween.moveX(tutorialRectTransform, windowXDistanceOut, tutorialWindowOutDuration).setEase(tutorialWindowOutEaseType).setIgnoreTimeScale(true).setOnComplete(() => Destroy(gameObject));
         }
 
         /// <summary>
@@ -108,12 +163,63 @@ namespace TowerTanks.Scripts
                 tutorialImage.sprite = tutorialSprite;
             }
 
-            //Display the stored tutorial text
-            tutorialText.text = currentTutorial.tutorialPages[currentPageNumber].tutorialText;
+            //Display the stored tutorial text with any actions replaced with sprites
+            string tutText = ExtractActions(currentTutorial.tutorialPages[currentPageNumber].tutorialText, bracketFunction => 
+            {
+                return DisplayAction(bracketFunction);
+            });
+            tutorialText.text = tutText;
 
             //Show "Close" or "Continue" based on whether the current page is the last one or not
             advanceTutorialText.text = isLastPage ? "Close" : "Continue";
             canEndTutorial = isLastPage;
+        }
+
+        /// <summary>
+        /// Extracts all of the actions from the string and displays their sprites in the text.
+        /// </summary>
+        /// <param name="input">The tutorial text.</param>
+        /// <param name="bracketFunction">The function which takes the action and converts it into a sprite.</param>
+        /// <returns>Returns the string with the bracketed actions converted into appropriate sprites.</returns>
+        private string ExtractActions(string input, System.Func<string, string> bracketFunction)
+        {
+            // Define the regex pattern to match content inside square brackets
+            string pattern = @"\[(.*?)\]";
+
+            // Replace matches using a callback function
+            string result = Regex.Replace(input, pattern, match =>
+            {
+                //Get the action from the brackets
+                string phrase = match.Groups[1].Value;
+                //Take the func parameter and use it to alter the result 
+                return bracketFunction(phrase);
+            });
+
+
+            //Return the altered string
+            return result;
+        }
+
+        /// <summary>
+        /// Takes an action name and returns the sprite equivalent of it.
+        /// </summary>
+        /// <param name="action">The action to display.</param>
+        /// <returns>Returns the appropriate sprite text if found. Returns an empty string if not found.</returns>
+        private string DisplayAction(string action)
+        {
+            string actionSprite = string.Empty;
+
+            //If the current action exists as a game action, get the action
+            if (System.Enum.TryParse(action, true, out GameAction result))
+            {
+                PlatformPrompt promptInfo = GameManager.Instance.buttonPromptSettings.GetButtonPrompt(result, PlatformType.Gamepad);
+
+                //If the prompt exists in the system, get the sprite id from the prompt and show it in the text
+                if (promptInfo != null)
+                    actionSprite = "<sprite index=" + promptInfo.SpriteID + ">";
+            }
+
+            return actionSprite;
         }
 
         private void StartAdvance()

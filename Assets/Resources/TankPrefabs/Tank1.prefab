@@ -1413,6 +1413,8 @@ GameObject:
   - component: {fileID: 1677695872598849027}
   - component: {fileID: -2433247677247341884}
   - component: {fileID: 7640934136196105169}
+  - component: {fileID: 7793904838642235008}
+  - component: {fileID: 816067974370409419}
   m_Layer: 0
   m_Name: Tank1
   m_TagString: Untagged
@@ -1464,6 +1466,7 @@ MonoBehaviour:
   TankName: 
   tankType: 0
   coreHealth: 500
+  playerSpawnPoint: {fileID: 2558554571462768232}
   towerJointTarget: {fileID: 1677695871312723229}
   isInvincible: 0
   isFragile: 0
@@ -1477,6 +1480,7 @@ MonoBehaviour:
     buildOnStart: 0
   tankFlag: {fileID: 5685120059937764489}
   surrenderFlag: {fileID: 2687768884453491569}
+  corpsePrefab: {fileID: 1822410957947985641, guid: a0ef6e4884eb9704c9ff17411afc1462, type: 3}
   cargoHold: []
   roomKit: {fileID: 11400000, guid: 530fa040df4a8014d8d7b5abd56e4bdf, type: 2}
   gear: 0
@@ -1520,6 +1524,48 @@ MonoBehaviour:
   - type: 6
     cost: 50
   terminals: []
+--- !u!114 &7793904838642235008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1677695872598849025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e005a5f17590ef4bba8c45ee5c33d66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
+--- !u!95 &816067974370409419
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1677695872598849025}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b4931101031d9704b8b019e0766b681c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1677695872621142252
 GameObject:
   m_ObjectHideFlags: 0
@@ -1783,6 +1829,7 @@ GameObject:
   - component: {fileID: 1677695872800944109}
   - component: {fileID: 1677695872800944111}
   - component: {fileID: 1677695872800944110}
+  - component: {fileID: 2960581620927674055}
   m_Layer: 17
   m_Name: TreadSystem
   m_TagString: Untagged
@@ -1978,6 +2025,28 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
+--- !u!114 &2960581620927674055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1677695872800944108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e005a5f17590ef4bba8c45ee5c33d66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_listeners:
+    initialListenerList: []
+    useDefaultListeners: 1
+  isEnvironmentAware: 0
+  isStaticObject: 0
+  m_positionOffsetData:
+    KeepMe: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+  m_posOffsetData: {fileID: 0}
+  listenerMask: 1
 --- !u!1 &1677695872918835676
 GameObject:
   m_ObjectHideFlags: 0
@@ -3529,6 +3598,11 @@ PrefabInstance:
 --- !u!4 &2060229120778093204 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 855465098922572527, guid: 41d970ec662df1f4489d206e0ff2298f, type: 3}
+  m_PrefabInstance: {fileID: 1677695872489683067}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2558554571462768232 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3803730043941654035, guid: 41d970ec662df1f4489d206e0ff2298f, type: 3}
   m_PrefabInstance: {fileID: 1677695872489683067}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7762344039219592384
