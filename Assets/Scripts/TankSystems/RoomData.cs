@@ -16,7 +16,8 @@ public class RoomData : ScriptableObject
     [Tooltip("Reference to short ladder object (for separators) spawned when generating couplers.")]                  public GameObject shortLadderPrefab;
     [Tooltip("Reference to platform object spawned when generating sections of tank which players need to walk on.")] public GameObject platformPrefab;
     [Tooltip("Reference to indicator object which shows up on rooms with open interactable slots.")]                  public GameObject slotIndicator;
-    [Space()]
+    [Tooltip("Physics Material to use when making a DummyRoom Object.")]                                              public PhysicsMaterial2D dummyMaterial;
+    [Space()]   
     [Tooltip("List of all interactables which can be installed in tank.")] public GameObject[] interactableList;
 
     [Header("Color Palettes:")]

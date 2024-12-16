@@ -37,6 +37,7 @@ namespace TowerTanks.Scripts
         private Cell[][] sections;                                   //Groups of cells separated by connectors
         private Transform connectorParent;                           //Parent object which contains all connectors
         internal RoomData roomData;                                  //ScriptableObject containing data about rooms and objects spawned by them
+        internal PhysicsMaterial2D dummyMat;                         //Material recieved from RoomData when assigning it to the Room upon DummyRoom creation
 
         internal List<GameObject> ladders = new List<GameObject>();       //Ladders that are in this room
         private List<GameObject> leadingLadders = new List<GameObject>(); //Ladders that lead to cells in this room (but are in different rooms)
@@ -135,6 +136,7 @@ namespace TowerTanks.Scripts
             connectors = connectorParent.GetComponentsInChildren<Connector>().ToList(); //Get list of all connectors in room
             roomData = Resources.Load<RoomData>("RoomData");                            //Get roomData object from resources folder
             targetTank = GetComponentInParent<TankController>();                        //Get tank controller from current parent (only applicable if room spawns with tank)
+            dummyMat = roomData.dummyMaterial;                                          //Get Dummy Material used for DummyRooms
 
             //old spot for interactable slot code
 
@@ -573,6 +575,40 @@ namespace TowerTanks.Scripts
 
             //Apply kit to room:
             kit.KitRoom(this); //Apply kit assets to room
+        }
+
+        public void MakeDummy(Transform newParent)
+        {
+            transform.parent = newParent; //transfer room to a new parent object
+            this.gameObject.layer = LayerMask.NameToLayer("Dummy");
+
+            //Strip Cells of Logic
+            foreach (Cell cell in cells)
+            {
+                //Strip Interactables
+                cell.AddInteractablesFromCell();
+
+                //Strip Couplers
+                foreach(Coupler coupler in cell.couplers)
+                {
+                    coupler.gameObject.SetActive(false);
+                }
+
+                //Convert to a Dummy Cell
+                cell.gameObject.layer = LayerMask.NameToLayer("Dummy");
+                Transform[] children = cell.GetComponentsInChildren<Transform>();
+                foreach(Transform transform in children)
+                {
+                    transform.gameObject.layer = LayerMask.NameToLayer("Dummy");
+                }
+
+                //Disable the Cell Script
+                cell.enabled = false;
+            }
+
+            //Add Rigidbody to Room
+            Rigidbody2D rb = this.gameObject.AddComponent<Rigidbody2D>();
+            rb.sharedMaterial = dummyMat;
         }
 
         //UTILITY METHODS:
