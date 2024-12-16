@@ -229,6 +229,7 @@ namespace TowerTanks.Scripts
             /// </summary>
             public void UpdateCameraValues()
             {
+                //Pre-flight checks:
                 if (!enabled) return; //Do nothing if disabled
 
                 if (!radar) //Updates for engagement cameras
@@ -341,11 +342,25 @@ namespace TowerTanks.Scripts
                     //Update ortho size:
                     CinemachineTransposer transposer = vcam.GetCinemachineComponent<CinemachineTransposer>(); //Get reference to transposer component
                     vcam.m_Lens.OrthographicSize = (main.radarRange / cam.aspect) / 2;                        //Adjust ortho size of camera so that radar is precisely rendering designated range at all times
+                    float frameWidth = cam.aspect * (cam.orthographicSize * 2);                               //Get width of radar frame
+
+                    //Find tanks in camera:
+                    TankController lowestTank = tanks[0]; //Create container to store lowest found tank in radar, defaulting to player tank
+                    foreach (TankCamSystem system in main.camSystems) //Iterate through active cam systems
+                    {
+                        if (system.tanks.Count == 0 || system.tanks[0] == null) continue;                                                                   //Early disqualification of tanks/systems which should not be considered as contenders
+                        float distanceFromPlayer = Mathf.Abs(system.tanks[0].treadSystem.transform.position.x - tanks[0].treadSystem.transform.position.x); //Get flat horizontal distance between this system's tank and radar tank
+                        print(frameWidth);
+                        if (distanceFromPlayer > frameWidth) continue;                                                                                      //Consider tanks within radar range
+                        if (lowestTank == null || system != this && system.tanks[0].treadSystem.transform.position.y - system.tanks[0].tankSizeValues.z < lowestTank.treadSystem.transform.position.y - lowestTank.tankSizeValues.z) lowestTank = system.tanks[0]; //If tank is lower than current lowest tank, store it
+                    }
 
                     //Update offset:
-                    float frameWidth = cam.aspect * (cam.orthographicSize * 2);                  //Get width of radar frame
-                    transposer.m_FollowOffset.x = (frameWidth / 2) - main.radarEdgeBuffer.x;     //Set horizontal follow offset so tank is pinned to side of radar screen
-                    transposer.m_FollowOffset.y = cam.orthographicSize - main.radarEdgeBuffer.y; //Set vertical follow offset so tank is pinned to bottom of radar screen
+                    float leftEdgeBuffer = ((frameWidth / 2) - main.radarEdgeBuffer.x) - tanks[0].tankSizeValues.y; //Get half of frame width so that tank is pinned to edge of screen, then adjust based on edge buffer (also apply tank left side width so that full tank is in frame by default)
+                    float bottomEdgeBuffer = cam.orthographicSize - main.radarEdgeBuffer.y; //Get vertical follow offset so that tank is pinned to bottom of screen (offset by entire ortho size) and apply edge buffer for more control
+                    bottomEdgeBuffer -= Mathf.Abs(tanks[0].treadSystem.transform.position.y - lowestTank.treadSystem.transform.position.y) + lowestTank.tankSizeValues.z; //Offset by difference between lowest tank and player tank and apply tank depth value so that all engaged tanks are visible in radar
+                    transposer.m_FollowOffset.x = leftEdgeBuffer;                           //Set horizontal follow offset so tank is pinned to side of radar screen
+                    transposer.m_FollowOffset.y = bottomEdgeBuffer;                         //Set vertical follow offset so tank is pinned to bottom of radar screen
                 }
             }
             /// <summary>

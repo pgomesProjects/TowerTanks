@@ -239,7 +239,7 @@ MonoBehaviour:
   shareCamDistance: 10
   shareCamStickDistance: 16
   cameraDisappearTime: 3
-  radarEdgeBuffer: {x: 7.23, y: 12.3}
+  radarEdgeBuffer: {x: 2.5, y: 0}
   radarRange: 150
   boundColliderEdgeRadius: 1
 --- !u!1 &7846537676312662459

@@ -3370,23 +3370,23 @@ MonoBehaviour:
     bias: 0
     isPreset: 0
   - chunkPrefab: {fileID: 3766360497705465845, guid: e5efa2eaaa2c9eb449f27c8317f2d22f, type: 3}
-    weight: 0
+    weight: 10
     bias: 0
     isPreset: 0
   - chunkPrefab: {fileID: 3766360497705465845, guid: 06ff124588cc7374a9bf4d92d5686616, type: 3}
-    weight: 0
+    weight: 10
     bias: 0
     isPreset: 0
   - chunkPrefab: {fileID: 3766360497705465845, guid: cbcc0b334ac2a38448a05834a3b2ed26, type: 3}
-    weight: 0
+    weight: 1
     bias: 0
     isPreset: 0
   - chunkPrefab: {fileID: 3766360497705465845, guid: bc42ca57f9535f64390f84bb12911e54, type: 3}
-    weight: 0
+    weight: 1
     bias: 0
     isPreset: 0
   - chunkPrefab: {fileID: 5300777585851316023, guid: a34f31d338c6af749aaf23139a313968, type: 3}
-    weight: 2
+    weight: 3
     bias: 0
     isPreset: 1
   - chunkPrefab: {fileID: 5300777585851316023, guid: 3f9b55df25ebdc9499bee15e1254821f, type: 3}
@@ -3402,7 +3402,7 @@ MonoBehaviour:
     weight: 0
   - obstacle: {fileID: 2880273055600732949, guid: 38c534f27b881694b81cbcead9c56314, type: 3}
     weight: 2
-  obstacleChance: 2
+  obstacleChance: 0
   biasesCanRepeat: 0
   enableLevelBuilder: 0
   levelBuilderUI: {fileID: 1659328985}
