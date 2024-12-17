@@ -312,7 +312,7 @@ namespace TowerTanks.Scripts
                         float offsetWidth = ((leftMostPoint + rightMostPoint) / 2) - tanks[0].treadSystem.transform.position.x;                                    //Get x distance to offset camera by by finding the world center between both extreme horizontal points in tank and getting the difference between that and the tank x position
                         offsetWidth = Mathf.Lerp(prevOffsetWidth, offsetWidth, main.horizontalOffsetSmoothing * Time.deltaTime);                                   //Use a lerp to smooth out erratic changes in found offset width
                         prevOffsetWidth = offsetWidth;                                                                                                             //Store offset width value for later
-                        offset += (Vector2)(Quaternion.AngleAxis(-tanks[0].treadSystem.transform.eulerAngles.z, Vector3.forward) * (Vector3.right * offsetWidth)); //Apply value to offset, compensating for current rotation of tank
+                        offset -= (Vector2)(Quaternion.AngleAxis(-tanks[0].treadSystem.transform.eulerAngles.z, Vector3.forward) * (Vector3.right * offsetWidth)); //Apply value to offset, compensating for current rotation of tank
 
                         //Get y offset:
                         float offsetHeight = (vcam.m_Lens.OrthographicSize - tanks[0].tankSizeValues.z) - main.tankCamLowerBuffer;                               //Always adjust height of camera frame so it is lined up with lower camera buffer
