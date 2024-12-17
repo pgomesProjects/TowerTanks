@@ -524,16 +524,10 @@ namespace TowerTanks.Scripts
             foreach (Cell cell in cells) //Each cell needs its own duplicate collider
             {
                 cell.compositeClone = new GameObject(name + "_" + cell.name + "_Collider").AddComponent<BoxCollider2D>(); //Create clone for cell (size does not need to be modified bc cell size = BoxCollider2D default size)
-                cell.compositeClone.gameObject.layer = LayerMask.NameToLayer("TankCollider");                             //Place clone on cell layer so it doesn't mess with player collision
+                cell.compositeClone.gameObject.layer = LayerMask.NameToLayer("TankCollider");                             //Place clone on ground layer so it doesn't mess with player collision
                 cell.compositeClone.transform.parent = targetTank.treadSystem.colliderSystem;                             //Child collider object to treadSystem container
                 cell.compositeClone.transform.position = cell.transform.position;                                         //Move collider to match position with cell
                 cell.compositeClone.transform.rotation = cell.transform.rotation;                                         //Rotate collider to match rotation with cell
-
-                //Ignore collision with other colliders:
-                foreach (Collider2D otherCollider in GetComponentsInChildren<Collider2D>()) //Iterate through each collider in this cell
-                {
-                    Physics2D.IgnoreCollision(cell.compositeClone, otherCollider); //Each separate collider should ignore all collisions with elements from its parent cell
-                }
             }
 
             //Update tank info:

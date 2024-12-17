@@ -5,7 +5,7 @@ using Sirenix.OdinInspector;
 
 namespace TowerTanks.Scripts
 {
-    public class Projectile : MonoBehaviour
+    public class Projectile : MonoBehaviour, IMagnetizable
     {
         //Classes, Enums & Structs:
         public enum ProjectileType { BULLET, SHELL, OTHER };
@@ -314,6 +314,12 @@ namespace TowerTanks.Scripts
                 GameManager.Instance.AudioManager.Play("MedExplosionSFX", gameObject);
                 GameManager.Instance.ParticleSpawner.SpawnParticle(Random.Range(0, 2), transform.position, particleScale, null);
             }
+        }
+
+        //INTERFACE METHODS:
+        public void ApplyMagnetForce(Vector2 force, Vector2 hitPoint)
+        {
+            velocity += force; //Apply force to velocity
         }
     }
 }

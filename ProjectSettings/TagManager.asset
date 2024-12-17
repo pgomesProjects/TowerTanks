@@ -70,8 +70,8 @@ TagManager:
   - TankCamB
   - TankCamC
   - RadarCam
+  - Ghost
   - Dummy
-  - 
   - 
   - 
   m_SortingLayers:
