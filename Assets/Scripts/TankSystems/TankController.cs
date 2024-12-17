@@ -1079,7 +1079,7 @@ namespace TowerTanks.Scripts
         public void UpdateSizeValues()
         {
             //Find extreme cells:
-            
+            upMostCell = null;
             foreach (Room room in rooms) //Iterate through all rooms in tank
             {
                 foreach (Cell cell in room.cells) //Iterate through all cells in room
