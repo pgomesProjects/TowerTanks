@@ -41,15 +41,15 @@ namespace TowerTanks.Scripts
         public void Mount()
         {
             //Get adjacent walls:
-            // Combine walls from cellA and cellB into one list
+
             List<Collider2D> combinedWalls = new List<Collider2D>();
             if (cellA != null) combinedWalls.AddRange(cellA.walls.Select(wall => wall.GetComponent<Collider2D>()));
             if (cellB != null) combinedWalls.AddRange(cellB.walls.Select(wall => wall.GetComponent<Collider2D>()));
 
-            // Sort the combined walls by their distance to the coupler's position
+            // Sort the combined walls by their distance to the coupler's position. 
             combinedWalls = combinedWalls.OrderBy(wall => Vector2.Distance(wall.transform.position, transform.position)).ToList();
 
-            // Get the 2 closest walls
+            // Get the 2 closest walls. this should return the walls that the coupler is connected to
             adjacentWalls = combinedWalls.Take(2).ToArray();                                                                                                                                   //Store found walls in local array
 
             //Make holes in wall colliders:
@@ -157,6 +157,7 @@ namespace TowerTanks.Scripts
                 //Fix cell walls:
                 RaycastHit2D hit = Physics2D.Raycast(transform.position, wall.transform.position - cell.transform.position, .5f, 1 << LayerMask.NameToLayer("Cell")); // if there is a cell in our destroyed coupler direction, we don't want to change the collider size back
                                                                                                                                                                  // this is required for hatches to work in the build scene correctly for now
+                if (!Mathf.Approximately(transform.eulerAngles.z, 0)) hit = new RaycastHit2D(); // if the coupler is vertical, we want to change the collider size back
                 BoxCollider2D[] actualWalls = wall.GetComponents<BoxCollider2D>(); //Get box collider component(s) from wall
                 if (!hit) actualWalls[0].size = Vector2.one;                                 //Change wall size back to default
                 if (!hit) actualWalls[0].offset = Vector2.zero;                              //Move wall back to default position
