@@ -585,7 +585,7 @@ namespace TowerTanks.Scripts
                 //Strip Couplers
                 foreach(Coupler coupler in cell.couplers)
                 {
-                    coupler.gameObject.SetActive(false);
+                    if (coupler != null) coupler.gameObject.SetActive(false);
                 }
 
                 //Convert to a Dummy Cell
