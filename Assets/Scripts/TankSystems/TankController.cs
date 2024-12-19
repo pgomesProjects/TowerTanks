@@ -323,7 +323,7 @@ namespace TowerTanks.Scripts
             {
                 if (room.type == Room.RoomType.Armor)
                 {
-                    GameObject interactable = GameManager.Instance.interactableList[7].gameObject;
+                    GameObject interactable = GameManager.Instance.interactableList[6].gameObject;
 
                     InteractableId newId = new InteractableId();
                     newId.interactable = interactable;
@@ -912,8 +912,11 @@ namespace TowerTanks.Scripts
                 //Install interactables
                 foreach (BuildStep.CellInterAssignment cellInter in tankDesign.buildingSteps[i].cellInteractables) //Iterate through each cell interactable assignment
                 {
-                    Cell target = roomScript.transform.GetChild(0).Find(cellInter.cellName).GetComponent<Cell>();                                                                                                //Get target cell from room
-                    TankInteractable interactable = Instantiate(Resources.Load<RoomData>("RoomData").interactableList.FirstOrDefault(item => item.name == cellInter.interRef)).GetComponent<TankInteractable>(); //Get reference to and spawn in designated interactable
+                    Cell target = roomScript.transform.GetChild(0).Find(cellInter.cellName).GetComponent<Cell>();                                           //Get target cell from room
+                    GameObject interPrefab = Resources.Load<RoomData>("RoomData").interactableList.FirstOrDefault(item => item.name == cellInter.interRef); //Try to get prefab for interactable spawned in this step
+                    if (interPrefab == null) interPrefab = GameManager.Instance.defaultInteractable.gameObject;
+                    TankInteractable interactable = Instantiate(interPrefab).GetComponent<TankInteractable>();                                              //Get reference to and spawn in designated interactable
+                    
                     interactable.InstallInCell(target);                                                                                                                                                          //Install interactable in target cell
                     if (cellInter.flipped) interactable.Flip();                                                                                                                                                  //Flip interactable if ordered
 

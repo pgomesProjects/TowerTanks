@@ -298,7 +298,7 @@ namespace TowerTanks.Scripts
             Gizmos.color = Color.red;
             if (tank == null) return;
             Vector3 tankPos = tank.treadSystem.transform.position;
-            if (fsm._currentState.GetType() != typeof(TankPursueState)) Gizmos.DrawWireSphere(tankPos, aiSettings.viewRange);
+            if (fsm != null) { if (fsm._currentState.GetType() != typeof(TankPursueState)) Gizmos.DrawWireSphere(tankPos, aiSettings.viewRange); }
             int i = 0;
             foreach (var interactable in tokenActivatedInteractables)
             {
@@ -322,7 +322,7 @@ namespace TowerTanks.Scripts
 
             //draw circle for engagement range
             Gizmos.color = Color.yellow;
-            if (fsm._currentState.GetType() != typeof(TankEngageState)) Gizmos.DrawWireSphere(tankPos, aiSettings.maxEngagementRange);
+            if (fsm != null) { if (fsm._currentState.GetType() != typeof(TankEngageState)) Gizmos.DrawWireSphere(tankPos, aiSettings.maxEngagementRange); }
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(tankPos, aiSettings.preferredFightDistance);
         }
