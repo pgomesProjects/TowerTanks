@@ -599,7 +599,7 @@ namespace TowerTanks.Scripts
 
         public void HitEffects(float speedScale)
         {
-            UpdateUI();
+            //UpdateUI();
             tankAnimator.SetFloat("SpeedScale", speedScale);
             tankAnimator.Play("DamageFlashCore", 0, 0);
         }
