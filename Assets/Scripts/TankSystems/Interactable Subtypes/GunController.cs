@@ -107,6 +107,7 @@ namespace TowerTanks.Scripts
         public override void Exit(bool sameZone)
         {
             ShowFirePrompt(false);
+            if (GameManager.Instance.AudioManager.IsPlaying("CannonRotate", gameObject)) GameManager.Instance.AudioManager.Stop("CannonRotate", gameObject);
             base.Exit(sameZone);
         }
 

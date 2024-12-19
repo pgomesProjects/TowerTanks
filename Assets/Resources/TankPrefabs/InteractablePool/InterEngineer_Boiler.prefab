@@ -1922,14 +1922,9 @@ MonoBehaviour:
   stackName: Engine
   prefabRef: {fileID: 8306713773444683921}
   uiImage: {fileID: 21300000, guid: 3dce60614db2d4e499310fde54e3b229, type: 2}
-  hasOperator: 0
   isContinuous: 0
   canAim: 0
   direction: 1
-  debugMoveUp: 0
-  debugMoveDown: 0
-  debugMoveLeft: 0
-  debugMoveRight: 0
   debugFlip: 0
   particleSpots:
   - {fileID: 4223996395297889378}
@@ -1946,7 +1941,7 @@ MonoBehaviour:
   overDriveOffset: 0.5
   enginePressureHaptics: {fileID: 11400000, guid: f6ee0d036abf32946a3646619f163502, type: 2}
   maxChargeTime: 1.5
-  minChargeTime: 0
+  minChargeTime: 0.1
   chargeTimer: 0
   targetCharge: 0
   boilerSprites:

@@ -119,7 +119,7 @@ namespace TowerTanks.Scripts
 
             if (cooldown > 0)
             {
-                cooldown -= Time.deltaTime;
+                cooldown -= Time.fixedDeltaTime;
             }
 
             if (debugFlip) { debugFlip = false; Flip(); }

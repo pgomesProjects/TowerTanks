@@ -163,7 +163,7 @@ namespace TowerTanks.Scripts
             float lowerSpeed = pressureReleaseSpeed * Time.deltaTime;
             float pressureDif = (50f + (pressure * 0.5f)) / 100f; //slows down the closer it gets to 0
 
-            if (!chargeStarted && repairInputHeld)
+            if (!chargeStarted && repairInputHeld && isPowered)
             {
                 lowerSpeed *= 10f;
                 if (!GameManager.Instance.AudioManager.IsPlaying("SteamExhaustLoop", this.gameObject)) GameManager.Instance.AudioManager.Play("SteamExhaustLoop", this.gameObject);
@@ -185,7 +185,12 @@ namespace TowerTanks.Scripts
             }
             else
             {
-                if (isPowered) isPowered = false;
+                if (isPowered)
+                {
+                    if (GameManager.Instance.AudioManager.IsPlaying("SteamExhaustLoop", this.gameObject)) GameManager.Instance.AudioManager.Stop("SteamExhaustLoop", this.gameObject);
+                    GameManager.Instance.AudioManager.Play("SteamExhaust");
+                    isPowered = false;
+                }
                 pressure = 0;
             }
 
@@ -237,6 +242,8 @@ namespace TowerTanks.Scripts
             RemoveTimingGauge();
             operatorID.GetCharacterHUD().SetButtonPrompt(GameAction.AddFuel, false);
             operatorID.GetCharacterHUD().SetButtonPrompt(GameAction.ReleaseSteam, false);
+
+            if (GameManager.Instance.AudioManager.IsPlaying("SteamExhaustLoop", this.gameObject)) GameManager.Instance.AudioManager.Stop("SteamExhaustLoop", this.gameObject);
             base.Exit(sameZone);
         }
 
@@ -275,7 +282,11 @@ namespace TowerTanks.Scripts
                     AddPressure(30, true, true);
                     GameManager.Instance.AudioManager.Play("JetpackRefuel"); //Got it!
                 }
-                else AddPressure(10, true, false);
+                else
+                {
+                    //AddPressure(5, true, false);
+                    GameManager.Instance.AudioManager.Play("InvalidAlert"); //Missed it!
+                }
             }
 
             RemoveTimingGauge();
