@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Sirenix.OdinInspector;
 
 namespace TowerTanks.Scripts
 {
@@ -13,11 +14,12 @@ namespace TowerTanks.Scripts
         //Objects & Components:
         private SpriteRenderer r; //Local renderer component
 
-        [Tooltip("First room linked to this coupler.")] internal Room roomA;
-        [Tooltip("Second room linked to this coupler.")] internal Room roomB;
+        [Tooltip("First room linked to this coupler.")] public Room roomA;
+        [Tooltip("Second room linked to this coupler.")] public Room roomB;
         [Tooltip("Cell closest to this coupler on the first room.")] internal Cell cellA;
         [Tooltip("Cell closest to this coupler on the second room.")] internal Cell cellB;
         [Tooltip("Walls which are touching and affected by this coupler."), SerializeField] private Collider2D[] adjacentWalls;
+        [HideInInspector] public List<GameObject> ladders;
 
         //Runtime Variables:
         [Tooltip("True if coupler is vertically oriented (hatch). False if coupler is horizontally oriented (door).")] internal bool vertical = true;
@@ -39,9 +41,16 @@ namespace TowerTanks.Scripts
         public void Mount()
         {
             //Get adjacent walls:
-            List<Collider2D> overlaps = Physics2D.OverlapBoxAll(transform.position, new Vector2(0.79f, 0.25f + 0.1f), transform.rotation.z, LayerMask.GetMask("Ground")).ToList(); //Get list of walls near coupler (using box which extends laterally from coupler)
-            foreach (Collider2D ownCollider in GetComponentsInChildren<Collider2D>()) overlaps.Remove(ownCollider);                                                                //Remove own colliders from list of overlapping walls
-            adjacentWalls = overlaps.ToArray();                                                                                                                                    //Store found walls in local array
+
+            List<Collider2D> combinedWalls = new List<Collider2D>();
+            if (cellA != null) combinedWalls.AddRange(cellA.walls.Select(wall => wall.GetComponent<Collider2D>()));
+            if (cellB != null) combinedWalls.AddRange(cellB.walls.Select(wall => wall.GetComponent<Collider2D>()));
+
+            // Sort the combined walls by their distance to the coupler's position. 
+            combinedWalls = combinedWalls.OrderBy(wall => Vector2.Distance(wall.transform.position, transform.position)).ToList();
+
+            // Get the 2 closest walls. this should return the walls that the coupler is connected to
+            adjacentWalls = combinedWalls.Take(2).ToArray();                                                                                                                                   //Store found walls in local array
 
             //Make holes in wall colliders:
             for (int x = 0; x < adjacentWalls.Length; x++) //Iterate through each wall adjacent to coupler
@@ -57,7 +66,7 @@ namespace TowerTanks.Scripts
                     Vector2 splitWallOffset = (vertical ? Vector2.right : Vector2.up) * 0.45f;        //Get value for modifying individual collider offsets (moves them to corners of cell)
                     Vector2 splitWallSize = (vertical ? new Vector2(0.1f, 1) : new Vector2(1, 0.1f)); //Get value for modifying individual collider sizes (changes them into cubes, accounts for scaled dimension)
                     wall.offset = splitWallOffset; newWall.offset = -splitWallOffset;                 //Move walls to opposite corners of cell
-                    wall.size = splitWallSize; newWall.size = splitWallSize;                          //Scale walls into 0.1x0.1 cubes (one dimension is already scaled by object transform)
+                    wall.size = splitWallSize; newWall.size = splitWallSize;                          //Scale walls into 0.11x0.11 cubes (one dimension is already scaled by object transform)
                     continue;                                                                         //New wall colliders have been computed, move to next wall
                 }
 
@@ -143,15 +152,20 @@ namespace TowerTanks.Scripts
             {
                 if (wall == null) continue; //Skip cell walls which are already being destroyed
                                             //NOTE: CHECK FOR PLAYER INSIDE
+                Cell cell = wall.GetComponentInParent<Cell>();                          //Get cell associated with this wall
 
                 //Fix cell walls:
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, wall.transform.position - cell.transform.position, .5f, 1 << LayerMask.NameToLayer("Cell")); // if there is a cell in our destroyed coupler direction, we don't want to change the collider size back
+                                                                                                                                                                 // this is required for hatches to work in the build scene correctly for now
+                if (!Mathf.Approximately(transform.eulerAngles.z, 0)) hit = new RaycastHit2D(); // if the coupler is vertical, we want to change the collider size back
                 BoxCollider2D[] actualWalls = wall.GetComponents<BoxCollider2D>(); //Get box collider component(s) from wall
-                actualWalls[0].size = Vector2.one;                                 //Change wall size back to default
-                actualWalls[0].offset = Vector2.zero;                              //Move wall back to default position
+                if (!hit) actualWalls[0].size = Vector2.one;                                 //Change wall size back to default
+                if (!hit) actualWalls[0].offset = Vector2.zero;                              //Move wall back to default position
                 if (actualWalls.Length > 1) Destroy(actualWalls[1]);               //If there is a second (split) wall, destroy it
+                roomA.ladderCells.Remove(cellA);
 
                 //Remove from lists:
-                Cell cell = wall.GetComponentInParent<Cell>();                          //Get cell associated with this wall
+                
                 if (cell.room.couplers.Contains(this)) cell.room.couplers.Remove(this); //Remove this coupler from memory of parent room
                 if (cell.couplers.Contains(this)) cell.couplers.Remove(this);           //Remove this coupler from memory of all adjacent cells
                 if (!nonDestructive) cell.KillIfDisconnected();                         //Check to see if cell has been disconnected by this and destroy it if this is the case
@@ -170,5 +184,12 @@ namespace TowerTanks.Scripts
             else return false;                                                                                                                                                                     //Otherwise, return false
 
         }
+        
+        // private void OnDrawGizmos()
+        // {
+        //     Gizmos.color = Color.magenta;
+        //     Vector2 size = new Vector2(0.79f, 0.25f + 0.1f);
+        //     Gizmos.DrawWireCube(transform.position, size);
+        // }
     }
 }

@@ -41,6 +41,7 @@ namespace TowerTanks.Scripts
 
         internal List<GameObject> ladders = new List<GameObject>();       //Ladders that are in this room
         private List<GameObject> leadingLadders = new List<GameObject>(); //Ladders that lead to cells in this room (but are in different rooms)
+        [HideInInspector]public List<Cell> ladderCells = new List<Cell>();
 
         //Settings:
         [Header("Template Settings:")]
@@ -323,6 +324,114 @@ namespace TowerTanks.Scripts
 
             return newPoint;
         }
+
+        public void MountCouplers(List<Coupler> couplersToMount)
+        {
+            
+            foreach (Coupler coupler in couplersToMount) 
+            {
+                //Mount coupler:
+                coupler.Mount();                     
+                couplers.Add(coupler);               
+                coupler.roomB.couplers.Add(coupler); 
+                coupler.cellA.couplers.Add(coupler); 
+                coupler.cellB.couplers.Add(coupler); 
+
+                //Add ladders & platforms:
+                if (coupler.transform.localRotation.z == 0) //Coupler is horizontal
+                {
+                    //Place initial ladder:
+                    Cell cell = coupler.cellA.transform.position.y > coupler.cellB.transform.position.y ? coupler.cellB : coupler.cellA; //Pick whichever cell is below coupler
+                    GameObject ladder = Instantiate(roomData.ladderPrefab, cell.transform);                                              //Instantiate ladder as child of lower cell
+                    ladder.transform.position = new Vector2(coupler.transform.position.x, cell.transform.position.y);                    //Move ladder to horizontal position of coupler and vertical position of cell
+                    leadingLadders.Add(ladder); //Keep track of ladder with master list
+                    coupler.ladders.Add(ladder); 
+                    cell.room.ladders.Add(ladder);                                                                                       //Have room ladder is in keep track of it too
+
+                    //print("Found horizontal coupler above cell " + cell.name + ", placing ladder.");
+
+                    //Place extra ladders:
+                    if (cell.neighbors[2] != null && RoundToGrid(cell.neighbors[2].transform.position.x, 0.25f) == RoundToGrid(coupler.transform.position.x, 0.25f)) ladderCells.Add(cell); //Add cell to list of cells which need more ladders below them if cell has more southern neighbors
+                }
+            }
+        }
+        
+        public void PlaceExtraLadders()
+        {
+                //Place extra ladders:
+            for (int x = 0; x < ladderCells.Count; x++) //Iterate through list of cells which need ladders
+            {
+                Cell cell = ladderCells[x]; //Get cell from list of cells which need ladders
+                while (cell.neighbors[2] != null) //As long as currently-focused cell has a southern neighbor, keep placing ladders
+                {
+                    //Place ladder:
+                    cell = cell.neighbors[2];                                               //Move to southern neighbor of previous cell
+                    GameObject ladder = Instantiate(roomData.ladderPrefab, cell.transform); //Generate a new ladder childed to cell
+                    ladder.transform.position = cell.transform.position;                    //Match ladder to cell position
+                    ladder.transform.eulerAngles = Vector3.zero;                            //Make sure ladder is not rotated
+                    leadingLadders.Add(ladder);                                             //Keep track of ladder with master list
+                    cell.room.ladders.Add(ladder);
+                    RaycastHit2D hit = Physics2D.Raycast(cell.transform.position, Vector2.up, 100f,
+                        1 << LayerMask.NameToLayer("Coupler"));
+                    if (hit)
+                    {
+                        hit.collider.gameObject.GetComponent<Coupler>().ladders.Add(ladder);
+                    } //Check if cell has a coupler above it
+
+                    //Place short ladder:
+                    if (cell.connectors[0]) //Cell is separated from previous cell by a separator
+                    {
+                        ladder = Instantiate(roomData.shortLadderPrefab, cell.transform);                                              //Generate a new short ladder, childed to the cell below it
+                        ladder.transform.position = Vector2.Lerp(cell.transform.position, cell.neighbors[0].transform.position, 0.5f); //Place ladder directly between cell and prev cell
+                        ladder.transform.eulerAngles = Vector3.zero;                                                                   //Make sure ladder is not rotated
+                        leadingLadders.Add(ladder);                                                                                    //Keep track of ladder with master list
+                        cell.room.ladders.Add(ladder);                                                                                 //Have room ladder is in keep track of it too
+                        if (hit)
+                        {
+                            hit.collider.gameObject.GetComponent<Coupler>().ladders.Add(ladder);
+                        }
+                    }
+                }
+            }
+        }
+
+        public void GenerateHatch()
+        {
+            if (targetTank == null) targetTank = couplers[0].GetConnectedRoom(this).targetTank;
+            if (cells.Any(cell => cell.transform.position.y > targetTank.rooms.SelectMany(room => room.cells).Max(tankCell => tankCell.transform.position.y)))
+            {
+                targetTank.upMostCell = cells.OrderByDescending(cell => cell.transform.position.y).First();
+                foreach (Coupler h in targetTank.hatches)
+                {
+                    var ladderlist = h.ladders;
+                    while (ladderlist.Count > 0) //Iterate until there are no more ladders in room or leading to room
+                    {
+                        GameObject ladder = h.ladders[0];                   //Get ladder from ladders list until it is empty, then start getting them from leading ladders list
+                        ladderlist.Remove(ladder);
+                        h.ladders.Remove(ladder);
+                        Destroy(ladder);   
+                        
+                        //Destroy ladder
+                    }
+                    h.Kill();
+                }
+                targetTank.hatches.Clear();
+                Coupler hatch = Instantiate(roomData.hatchPrefab).GetComponent<Coupler>();
+                targetTank.hatches.Add(hatch);
+                hatch.transform.parent = transform;
+                Vector2 cellPos = targetTank.upMostCell.transform.position;
+                hatch.transform.position= cellPos + (0.625f * Cell.cardinals[0]);
+                hatch.transform.localPosition = RoundToGrid(hatch.transform.localPosition, 0.125f);
+                hatch.roomA = this;
+                hatch.roomB = this;
+                
+                hatch.cellA = Physics2D.Raycast(hatch.transform.position, -Cell.cardinals[0], 0.25f, LayerMask.GetMask("Cell")).collider.GetComponent<Cell>(); //Get cell in roomA closest to coupler
+                hatch.cellB = hatch.cellA;  //Get cell in roomB closest to coupler
+            }
+            
+            MountCouplers(targetTank.hatches);
+            PlaceExtraLadders();
+        }
         /// <summary>
         /// Rotates unmounted room around its pivot.
         /// </summary>
@@ -372,6 +481,19 @@ namespace TowerTanks.Scripts
             if (rotTracker > 3) rotTracker = 0; //Overflow at 3
             if (rotTracker < 0) rotTracker = 3; //Underflow at 0
         }
+        
+        public List<Cell> ValidHatchCells()
+        {
+            List<Cell> validHatchCells = new List<Cell>();
+            foreach (Cell cell in cells)
+            {
+                //if (cell == )
+                //{
+                //    validHatchCells.Add(cell);
+                //}
+            }
+            return validHatchCells;
+        }
         /// <summary>
         /// Attaches this room to another room or the tank base (based on current position of the room and couplers).
         /// </summary>
@@ -383,57 +505,12 @@ namespace TowerTanks.Scripts
 
             //Un-ghost couplers:
             List<Cell> ladderCells = new List<Cell>(); //Initialize list to keep track of cells which need ladders added to them
-            foreach (Coupler coupler in ghostCouplers) //Iterate through ghost couplers list
-            {
-                //Mount coupler:
-                coupler.Mount();                     //Tell coupler it is being mounted
-                couplers.Add(coupler);               //Add coupler to master list
-                coupler.roomB.couplers.Add(coupler); //Add coupler to other room's master list
-                coupler.cellA.couplers.Add(coupler); //Add coupler to cell A's coupler list
-                coupler.cellB.couplers.Add(coupler); //Add coupler to cell B's coupler list
-
-                //Add ladders & platforms:
-                if (coupler.transform.localRotation.z == 0) //Coupler is horizontal
-                {
-                    //Place initial ladder:
-                    Cell cell = coupler.cellA.transform.position.y > coupler.cellB.transform.position.y ? coupler.cellB : coupler.cellA; //Pick whichever cell is below coupler
-                    GameObject ladder = Instantiate(roomData.ladderPrefab, cell.transform);                                              //Instantiate ladder as child of lower cell
-                    ladder.transform.position = new Vector2(coupler.transform.position.x, cell.transform.position.y);                    //Move ladder to horizontal position of coupler and vertical position of cell
-                    leadingLadders.Add(ladder);                                                                                          //Keep track of ladder with master list
-                    cell.room.ladders.Add(ladder);                                                                                       //Have room ladder is in keep track of it too
-
-                    //print("Found horizontal coupler above cell " + cell.name + ", placing ladder.");
-
-                    //Place extra ladders:
-                    if (cell.neighbors[2] != null && RoundToGrid(cell.neighbors[2].transform.position.x, 0.25f) == RoundToGrid(coupler.transform.position.x, 0.25f)) ladderCells.Add(cell); //Add cell to list of cells which need more ladders below them if cell has more southern neighbors
-                }
-            }
-
-            //Place extra ladders:
-            for (int x = 0; x < ladderCells.Count; x++) //Iterate through list of cells which need ladders
-            {
-                Cell cell = ladderCells[x]; //Get cell from list of cells which need ladders
-                while (cell.neighbors[2] != null) //As long as currently-focused cell has a southern neighbor, keep placing ladders
-                {
-                    //Place ladder:
-                    cell = cell.neighbors[2];                                               //Move to southern neighbor of previous cell
-                    GameObject ladder = Instantiate(roomData.ladderPrefab, cell.transform); //Generate a new ladder childed to cell
-                    ladder.transform.position = cell.transform.position;                    //Match ladder to cell position
-                    ladder.transform.eulerAngles = Vector3.zero;                            //Make sure ladder is not rotated
-                    leadingLadders.Add(ladder);                                             //Keep track of ladder with master list
-                    cell.room.ladders.Add(ladder);                                          //Have room ladder is in keep track of it too
-
-                    //Place short ladder:
-                    if (cell.connectors[0]) //Cell is separated from previous cell by a separator
-                    {
-                        ladder = Instantiate(roomData.shortLadderPrefab, cell.transform);                                              //Generate a new short ladder, childed to the cell below it
-                        ladder.transform.position = Vector2.Lerp(cell.transform.position, cell.neighbors[0].transform.position, 0.5f); //Place ladder directly between cell and prev cell
-                        ladder.transform.eulerAngles = Vector3.zero;                                                                   //Make sure ladder is not rotated
-                        leadingLadders.Add(ladder);                                                                                    //Keep track of ladder with master list
-                        cell.room.ladders.Add(ladder);                                                                                 //Have room ladder is in keep track of it too
-                    }
-                }
-            }
+            //targetTank
+            
+            
+            MountCouplers(ghostCouplers);
+            GenerateHatch();
+            PlaceExtraLadders();
 
             //Cleanup:
             if (targetTank == null) targetTank = couplers[0].GetConnectedRoom(this).targetTank; //Get target tank from a mounted room if necessary

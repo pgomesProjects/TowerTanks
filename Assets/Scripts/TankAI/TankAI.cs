@@ -166,7 +166,7 @@ namespace TowerTanks.Scripts
             
         }
         
-        public void DistributeAllWeightedTokens(Dictionary<INTERACTABLE, float> weights)
+        public void DistributeAllWeightedTokens(Dictionary<INTERACTABLE, float> weights) // this can definitely be optimized. will do later
         {
             float totalWeight = weights.Values.Sum();
             
@@ -259,6 +259,8 @@ namespace TowerTanks.Scripts
         {
             return tank != null && tank.treadSystem.transform.position.x > targetTank.treadSystem.transform.position.x;
         }
+        
+        
 
         /// <summary>
         /// Will randomly set the tank's throttle to go left or right.

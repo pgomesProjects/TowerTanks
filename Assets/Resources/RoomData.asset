@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   couplerWidth: 0.9
   couplerPrefab: {fileID: 2058727034134722118, guid: 0034e2d779710bf418d9ad96f180d0dc, type: 3}
+  hatchPrefab: {fileID: 2058727034134722118, guid: 28f931da14025d94b8cf65788261533b, type: 3}
   ladderPrefab: {fileID: 5516058462407545099, guid: 8f0cd5126ff980641b7d284066d1773e, type: 3}
   shortLadderPrefab: {fileID: 5516058462407545099, guid: d8c2898d313769d4782269306132f4d5, type: 3}
   platformPrefab: {fileID: 5516058462407545099, guid: adc83aaa1ecb6254c954e63987b3d7e5, type: 3}

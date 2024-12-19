@@ -36,6 +36,10 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("Target transform in tread system which tower joint locks onto.")] private Transform towerJointTarget;
         [SerializeField, Tooltip("When true, the tank cannot take damage.")] public bool isInvincible;
         [SerializeField, Tooltip("When true, the tank transfers all damage it takes to its core.")] public bool isFragile;
+        
+        public Cell upMostCell = null;    
+        public Cell leftMostCell = null;  
+        public Cell rightMostCell = null; 
 
         private TextMeshProUGUI nameText;
         private float currentCoreHealth;
@@ -46,6 +50,7 @@ namespace TowerTanks.Scripts
         public GameObject surrenderFlag;
         private Animator tankAnimator;
         public GameObject corpsePrefab;
+        public List<Coupler> hatches = new List<Coupler>();  
 
         [Header("Cargo")]
         public GameObject[] cargoHold;
@@ -896,7 +901,9 @@ namespace TowerTanks.Scripts
                     roomScript.Rotate();
                     roomScript.UpdateRoomType(type);
                 }
+                roomScript.targetTank = this;
                 roomScript.Mount();
+                
                 roomScript.ProcessManifest(tankDesign.buildingSteps[i].cellManifest);
 
                 if (!CampaignManager.Instance.HasCampaignStarted && tankType == TankId.TankType.PLAYER) //Add the room to the stats if joining the combat scene first
@@ -1072,22 +1079,20 @@ namespace TowerTanks.Scripts
         public void UpdateSizeValues()
         {
             //Find extreme cells:
-            Transform upMostCell = null;    //Create container for store highest cell in tank
-            Transform leftMostCell = null;  //Create container for most leftward cell in tank
-            Transform rightMostCell = null; //Create container for most rightward cell in tank
+            upMostCell = null;
             foreach (Room room in rooms) //Iterate through all rooms in tank
             {
                 foreach (Cell cell in room.cells) //Iterate through all cells in room
                 {
                     Vector3 cellPos = treadSystem.transform.InverseTransformPoint(cell.transform.position); //Get shorthand variable for position of cell
-                    if (upMostCell == null || treadSystem.transform.InverseTransformPoint(upMostCell.transform.position).y < cellPos.y) upMostCell = cell.transform;          //Save cell if it is taller than tallest known cell in tank
-                    if (leftMostCell == null || treadSystem.transform.InverseTransformPoint(leftMostCell.transform.position).x > cellPos.x) leftMostCell = cell.transform;    //Save cell if it is farther left than leftmost known cell in tank
-                    if (rightMostCell == null || treadSystem.transform.InverseTransformPoint(rightMostCell.transform.position).x < cellPos.x) rightMostCell = cell.transform; //Save cell if it is farther right than rightmost known cell in tank
+                    if (upMostCell == null || treadSystem.transform.InverseTransformPoint(upMostCell.transform.position).y < cellPos.y) upMostCell = cell;          //Save cell if it is taller than tallest known cell in tank
+                    if (leftMostCell == null || treadSystem.transform.InverseTransformPoint(leftMostCell.transform.position).x > cellPos.x) leftMostCell = cell;    //Save cell if it is farther left than leftmost known cell in tank
+                    if (rightMostCell == null || treadSystem.transform.InverseTransformPoint(rightMostCell.transform.position).x < cellPos.x) rightMostCell = cell; //Save cell if it is farther right than rightmost known cell in tank
                 }
             }
 
             //Update Flag
-            UpdateFlagPosition(upMostCell);
+            UpdateFlagPosition(upMostCell.transform);
 
             //Calculate tank metrics:
             float highestCellHeight = treadSystem.transform.InverseTransformPoint(upMostCell.transform.position).y + 0.5f;                 //Get height from treadbase to top of highest cell

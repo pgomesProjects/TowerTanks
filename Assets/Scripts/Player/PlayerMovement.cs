@@ -300,21 +300,7 @@ namespace TowerTanks.Scripts
                 characterHUD?.SetButtonPrompt(GameAction.Jetpack, jetpackCanBeUsed);
         }
 
-        protected override void OnDrawGizmos()
-        {
-            base.OnDrawGizmos();
-
-        }
-
-        /*protected override void OnTriggerEnter2D(Collider2D other)//TODO: Check Character.cs ontrigger for more info
-        {
-            base.OnTriggerEnter2D(other);
-        }
-
-        protected override void OnTriggerExit2D(Collider2D other)
-        {
-            base.OnTriggerExit2D(other);
-        }*/
+        
 
         #endregion
 

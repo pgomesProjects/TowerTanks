@@ -148,12 +148,13 @@ namespace TowerTanks.Scripts
             }
             
             currentFuel = Mathf.Clamp(currentFuel, 0, characterSettings.fuelAmount);
-
+            var includeLayer = (1 << LayerMask.NameToLayer("Cell")) |
+                               (1 << LayerMask.NameToLayer("Coupler"));
             Transform newCellJoint = Physics2D.OverlapBox(
                 transform.position,
                 transform.localScale * 1.5f,
                 0f, 
-                1 << cellLayerIndex)?.gameObject.transform;
+                includeLayer)?.gameObject.transform;
             
             if (softTankDismount && !fullTankDismount) // if we left the tank, but we're still near the tank
             {
