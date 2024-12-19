@@ -265,8 +265,8 @@ namespace TowerTanks.Scripts
                             if (splashTarget == null) splashTarget = collider.GetComponentInParent<IDamageable>(); //If damage receipt component is not in collider object, look in parent objects
                             if (splashTarget != null && !damagedThisHit.Contains(splashTarget)) //Explosion has hit a (new) target
                             {
-                                damagedThisHit.Add(splashTarget);         //Add target to list so it cannot be damaged again by same explosion
-                                splashTarget.Damage(splash.splashDamage); //Deal direct damage to each target
+                                damagedThisHit.Add(splashTarget);               //Add target to list so it cannot be damaged again by same explosion
+                                splashTarget.Damage(splash.splashDamage, true); //Deal direct damage to each target
                             }
                         }
                     }

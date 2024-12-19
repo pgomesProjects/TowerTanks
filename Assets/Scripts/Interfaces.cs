@@ -20,7 +20,7 @@ namespace TowerTanks.Scripts
     public interface IDamageable
     {
         float Damage(Projectile projectile, Vector2 position);
-        void Damage(float damage);
+        void Damage(float damage, bool triggerHitEffect = false);
     }
     public interface IBurnable
     {

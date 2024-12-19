@@ -111,7 +111,7 @@ namespace TowerTanks.Scripts
             return Mathf.Max(0, extraDamage);
         }
 
-        public void Damage(float damage)
+        public void Damage(float damage, bool triggerHitEffects = false)
         {
             shieldHealth -= damage;
             shieldStunTimer = shieldStunTime;
