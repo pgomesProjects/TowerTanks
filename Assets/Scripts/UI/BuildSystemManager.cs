@@ -179,6 +179,7 @@ namespace TowerTanks.Scripts
         {
             Room roomObject = Instantiate(roomToSpawn.roomObject, roomParentTransform);
             WorldRoom room = new WorldRoom(playerSelector, roomObject, roomObject.transform);
+            roomObject.heldDuringPlacement = true;
             worldRoomObjects.Add(room);
             MoveRoomInScene(room, Vector2.zero);
         }
@@ -268,6 +269,7 @@ namespace TowerTanks.Scripts
             //Get the room from the player and mount it
             WorldRoom playerRoom = GetPlayerRoom(playerInput);
             Room mountedRoom = playerRoom.Mount();
+            mountedRoom.heldDuringPlacement = false;
 
             //If there is no room, return false
             if (mountedRoom == null)
@@ -368,6 +370,7 @@ namespace TowerTanks.Scripts
                 if (playerRoom.roomObject != null)
                     Destroy(playerRoom.roomObject.gameObject);
                 playerRoom.SetRoomObject(Instantiate(playerRoom.playerSelector.GetRoomToPlace(), roomParentTransform));
+                playerRoom.roomObject.heldDuringPlacement = true;
                 MoveRoomInScene(playerRoom, Vector2.zero);
                 playerRoom.SetRoomState(WorldRoom.RoomState.FLOATING);
 

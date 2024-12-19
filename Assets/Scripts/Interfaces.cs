@@ -25,7 +25,11 @@ namespace TowerTanks.Scripts
     public interface IBurnable
     {
         void Ignite();
-        void BurnTick();
+        void BurnTick(float deltaTime);
+    }
+    public interface IImpactable
+    {
+        void HandleImpact(Vector2 force, Vector2 point);
     }
     public interface IMagnetizable
     {

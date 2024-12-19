@@ -148,7 +148,9 @@ namespace TowerTanks.Scripts
 
         public void Hit(Collider2D hitCollider, bool destroyImmediate = false)
         {
+            //Initialization:
             List<IDamageable> damagedThisHit = new List<IDamageable>(); //Create temporary list of targets that have been damaged by this projectile in this frame (used to prevent double damage due to splash)
+            List<IBurnable> burnedThisHit = new List<IBurnable>();      //Create list to track targets burned by this projectile this hit
 
             //Check for Ignored Shields
             if (shieldsIgnored.Count > 0)
@@ -163,9 +165,10 @@ namespace TowerTanks.Scripts
                 }
             }
 
-            //Handle Direct Damage
+            //Handle projectile collision:
             if (hitCollider != null) //Projectile has actually hit something
             {
+                //Handle direct damage:
                 IDamageable target = hitCollider.GetComponent<IDamageable>();                 //Try to get damage receipt component from collider object
                 if (target == null) target = hitCollider.GetComponentInParent<IDamageable>(); //If damage receipt component is not in collider object, look in parent objects
                 if (target != null) //Projectile has hit a target
@@ -188,66 +191,18 @@ namespace TowerTanks.Scripts
                         //other.Hit(gameObject.GetComponent<Collider2D>());
                     }
                 }
-                /*
-                if (hitCollider.GetComponentInParent<EnergyShieldController>() != null) //Hit Energy Shield
-                {
-                    EnergyShieldController shield = hitCollider.GetComponentInParent<EnergyShieldController>();
-                    destroyThis = true;
-                }*/
-                /*
-                else if (hitCollider.GetComponentInParent<IDamageable>() != null) //Hit damageable object
-                {
-                    IDamageable damageTarget = hitCollider.GetComponentInParent<IDamageable>();
 
-                    //damageDealt = cellHit.Damage(remainingDamage);
-                    if (cellHit.room.isCore)
-                    { //Hit the Core
-                        damageDealt = remainingDamage;
-                        destroyThis = true;
-                        damagedCoreThisFrame = true;
-                    }
-                    else
+                //Handle fire:
+                if (hitProperties.fireChance > 0) //Only do fire stuff if projectile can cause fires
+                {
+                    IBurnable fireTarget = hitCollider.GetComponent<IBurnable>();                       //Try to get fire receipt component from collider object
+                    if (fireTarget == null) fireTarget = hitCollider.GetComponentInParent<IBurnable>(); //If fire receipt component is not in collider object, look in parent objects
+                    if (fireTarget != null) //Projectile can light something on fire
                     {
-                        //if (RollFireChance()) { cellHit.Ignite(); } //Check for Fire
+                        if (Random.Range(0f, 1f) <= hitProperties.fireChance) fireTarget.Ignite(); //Roll a random chance depending on projectile-defined likelihood of fire and ignite target if roll is high enough
+                        burnedThisHit.Add(fireTarget);                                             //Make sure target can't be targeted again this impact for fire
                     }
-
-                    //Apply impact force:
-                    if (impactProperties != null) //Projectile has useable impact properties
-                    {
-                        cellHit.room.targetTank.treadSystem.HandleImpact(impactProperties, velocity, transform.position); //NOTE: transform.position should be changed to actual point of impact rather than position of projectile
-                    }
-
-                    //GameManager.Instance.AudioManager.Play("ShellImpact", gameObject);
-                }*/
-                /*else if (target == null && hitCollider.GetComponentInParent<TreadSystem>() != null) //Hit Treads
-                {
-                    TreadSystem treads = hitCollider.GetComponentInParent<TankController>().treadSystem;
-                    if (treads != null)
-                    {
-                        //Damage Treads
-                        treads.Damage(remainingDamage);
-
-                        //Apply impact force:
-                        if (impactProperties != null) //Projectile has useable impact properties
-                        {
-                            treads.HandleImpact(impactProperties, velocity, transform.position); //NOTE: transform.position should be changed to actual point of impact rather than position of projectile
-                        }
-
-                        GameManager.Instance.AudioManager.Play("TankImpact", gameObject);
-                    }
-                }*/
-                /*
-                else if (hitCollider.CompareTag("Destructible")) //Hit Destructible Object
-                {
-                    damageDealt = hitCollider.GetComponent<DestructibleObject>().Damage(remainingDamage);
-                    GameManager.Instance.AudioManager.Play("ShellImpact", gameObject);
-                }*/
-                /*
-                else if (hitCollider.GetComponentInParent<Character>() != null) //Hit Character
-                {
-                    Character character = hitCollider.GetComponentInParent<Character>();
-                    damageDealt = character.ModifyHealth(-remainingDamage);
-                }*/
+                }
             }
 
             //Handle projectile destruction:
@@ -261,12 +216,22 @@ namespace TowerTanks.Scripts
                         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, splash.splashRadius, layerMask); //Get everything within splash damage radius
                         foreach (Collider2D collider in colliders)
                         {
+                            //Damage check:
                             IDamageable splashTarget = collider.GetComponent<IDamageable>();                       //Try to get damage receipt component from collider object
                             if (splashTarget == null) splashTarget = collider.GetComponentInParent<IDamageable>(); //If damage receipt component is not in collider object, look in parent objects
                             if (splashTarget != null && !damagedThisHit.Contains(splashTarget)) //Explosion has hit a (new) target
                             {
                                 damagedThisHit.Add(splashTarget);               //Add target to list so it cannot be damaged again by same explosion
                                 splashTarget.Damage(splash.splashDamage, true); //Deal direct damage to each target
+                            }
+
+                            //Fire check:
+                            IBurnable fireTarget = hitCollider.GetComponent<IBurnable>();               //Try to get fire receipt component from collider object
+                            if (fireTarget == null) fireTarget = hitCollider.GetComponentInParent<IBurnable>(); //If fire receipt component is not in collider object, look in parent objects
+                            if (fireTarget != null && !burnedThisHit.Contains(fireTarget)) //Projectile can light something on fire (and burn has not already been attempted on this target)
+                            {
+                                if (Random.Range(0f, 1f) <= hitProperties.fireChance) fireTarget.Ignite(); //Roll a random chance depending on projectile-defined likelihood of fire and ignite target if roll is high enough
+                                burnedThisHit.Add(fireTarget);                                             //Make sure target can't be targeted again this impact for fire
                             }
                         }
                     }
