@@ -1941,7 +1941,7 @@ MonoBehaviour:
   overDriveOffset: 0.5
   enginePressureHaptics: {fileID: 11400000, guid: f6ee0d036abf32946a3646619f163502, type: 2}
   maxChargeTime: 1.5
-  minChargeTime: 0.1
+  minChargeTime: 0
   chargeTimer: 0
   targetCharge: 0
   boilerSprites:

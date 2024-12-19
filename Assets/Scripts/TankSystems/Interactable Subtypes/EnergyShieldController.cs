@@ -131,7 +131,7 @@ namespace TowerTanks.Scripts
         {
             base.Use(overrideConditions);
 
-            if (cooldown <= 0 && !shieldDisabled && !shieldStunned)
+            if (cooldown <= 0 && !shieldDisabled)
             {
                 AddShieldCharge(15);
                 HitEffects(transform.position, 0.3f, false);
