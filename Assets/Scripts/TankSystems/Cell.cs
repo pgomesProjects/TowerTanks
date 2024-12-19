@@ -257,10 +257,10 @@ namespace TowerTanks.Scripts
             else //Projectile has struck a non-core room
             {
                 //Get damage values:
-                float incomingDamage = projectile.remainingDamage;                                                                                      //Get remaining damage from projectile as value to assign to damaging cell
-                float damageMitigated = Mathf.Min(room.type == Room.RoomType.Armor && !projectile.hitProperties.ignoresArmor ? 25 : 0, incomingDamage); //Determine amount of damage mitigated by armor
-                float dealtDamage = incomingDamage - damageMitigated;                                                                                   //Determine the amount of unmitigated damage dealt to cell
-                float extraDamage = projectile.hitProperties.tunnels ? Mathf.Abs(Mathf.Max(0, health - dealtDamage)) : 0;                               //Get overkill damage dealt by projectile (only if projectile can tunnel, otherwise alsways destroy it after hitting a cell)
+                float incomingDamage = projectile.remainingDamage;                                                        //Get remaining damage from projectile as value to assign to damaging cell
+                float damageMitigated = Mathf.Min(GetDamageMitigation(incomingDamage), incomingDamage);                   //Determine amount of damage mitigated by cell attributes
+                float dealtDamage = incomingDamage - damageMitigated;                                                     //Determine the amount of unmitigated damage dealt to cell
+                float extraDamage = projectile.hitProperties.tunnels ? Mathf.Abs(Mathf.Max(0, health - dealtDamage)) : 0; //Get overkill damage dealt by projectile (only if projectile can tunnel, otherwise alsways destroy it after hitting a cell)
 
                 //Check for fire:
                 if (dealtDamage < health && projectile.hitProperties.fireChance > 0) //Projectile has a chance of starting a fire (and cell is not being destroyed by this impact)
@@ -273,7 +273,7 @@ namespace TowerTanks.Scripts
                 else HitEffects(8f);
 
                 //Cleanup:
-                Damage(dealtDamage); //Assign dealt damage to cell (this factors in protection from armor)
+                Damage(dealtDamage); //Assign dealt damage to cell (add armor-mitigated damage back because it needs to be processed in the damage method as well in case of explosions)
                 return extraDamage;  //Tell the projectile how much left over damage it has
             }
         }
@@ -484,7 +484,7 @@ namespace TowerTanks.Scripts
                     if (!proxy) character.KillCharacterImmediate();
                 }
             }
-            Destroy(compositeClone.gameObject); //Destroy collider composite component corresponding to this cell
+            if (compositeClone != null) Destroy(compositeClone.gameObject); //Destroy collider composite component corresponding to this cell
             AddInteractablesFromCell();
             room.targetTank.UpdateSizeValues(); //Update highest cell tracker
 
@@ -526,7 +526,7 @@ namespace TowerTanks.Scripts
                 if (connectors[x] == null) continue;                             //Skip empty connector slots
                 Cell otherCell = connectors[x].GetOtherCell(this);               //Get neighbor on other side of connector from this cell
                 if (otherCell != null) otherCell.connectors[(x + 2) % 4] = null; //Remove neighbor's reference to this connector if applicable
-                Destroy(connectors[x]);                                          //Destroy connector
+                Destroy(connectors[x].gameObject);                               //Destroy connector
                 connectors[x] = null;                                            //Clear reference to destroyed connector
             }
             for (int x = 0; x < neighbors.Length; x++) //Iterate through list of neighbors (all need to be updated)
@@ -667,6 +667,15 @@ namespace TowerTanks.Scripts
             flames.SetActive(false);
 
             GameManager.Instance.AudioManager.Play("SteamExhaust", this.gameObject);
+        }
+
+        /// <summary>
+        /// Returns the amount of damage mitigated by this cell's attributes (such as armor)
+        /// </summary>
+        /// <returns></returns>
+        private float GetDamageMitigation(float damage)
+        {
+            return room.type == Room.RoomType.Armor ? damage / 2 : 0; //Armor currently mitigates half of all incoming damage
         }
     }
 }

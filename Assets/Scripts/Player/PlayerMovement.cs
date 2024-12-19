@@ -633,10 +633,7 @@ namespace TowerTanks.Scripts
                 if (cellColl != null && cellColl.TryGetComponent(out Cell cell)) //Player is on top of a cell
                 {
                     if (cell.room.targetTank.tankType == TankId.TankType.PLAYER && cell.interactable == null &&
-                        cell.playerBuilding == null && //Cell is friendly and unoccupied
-                        !cell.room.isCore && //Interactables cannot be built in the core
-                        cell.room.type ==
-                        Room.RoomType.Standard) //Interactables cannot be built in armor or cargo rooms
+                        cell.playerBuilding == null)
                     {
                         buildCell = cell; //Indicate that player is building in this cell
                         cell.playerBuilding = this; //Indicate that this player is building in given cell
