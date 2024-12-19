@@ -5021,8 +5021,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5332867684925448270}
-  - component: {fileID: 5332867684925448271}
   - component: {fileID: 5332867684925448268}
+  - component: {fileID: 5332867684925448271}
   - component: {fileID: 3919349592667607501}
   - component: {fileID: 448350889}
   - component: {fileID: -2921341399011078923}
@@ -5051,27 +5051,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!50 &5332867684925448271
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5332867684925448264}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 4.6875
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 2
-  m_Material: {fileID: 6200000, guid: 284b62e2e6ea5ee4b971c0ad8ad2e068, type: 2}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 1
-  m_Constraints: 4
 --- !u!114 &5332867684925448268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5096,10 +5075,10 @@ MonoBehaviour:
   currentState: 0
   characterSettings: {fileID: 11400000, guid: a7bc3075ff116a040a2a22890b0f100a, type: 2}
   groundMoveSpeed: 13
-  defaultAirForce: 35
+  horizontalAirSpeed: 17.5
   groundDeAcceleration: 20
-  airDeAcceleration: 0.5
-  jetpackForce: 150
+  airDeAcceleration: 10
+  jetpackForce: 20
   ladderClimbUpSpeed: 3.1
   ladderClimbDownSpeed: 5
   slipSlopeValue: 0.5
@@ -5141,6 +5120,27 @@ MonoBehaviour:
   maxSlope: 95
   maxYVelocity: 5
   maxXVelocity: 5
+--- !u!50 &5332867684925448271
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5332867684925448264}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 4.6875
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 2
+  m_Material: {fileID: 6200000, guid: 284b62e2e6ea5ee4b971c0ad8ad2e068, type: 2}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!114 &3919349592667607501
 MonoBehaviour:
   m_ObjectHideFlags: 0

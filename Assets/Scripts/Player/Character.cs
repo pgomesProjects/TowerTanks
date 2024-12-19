@@ -36,7 +36,7 @@ namespace TowerTanks.Scripts
         [SerializeField] protected float groundMoveSpeed;
 
         protected float currentGroundMoveSpeed;
-        [SerializeField] protected float defaultAirForce;
+        [SerializeField] protected float horizontalAirSpeed;
         [SerializeField] protected float groundDeAcceleration;
         [SerializeField] protected float airDeAcceleration;
         [SerializeField] protected float jetpackForce;
@@ -187,6 +187,7 @@ namespace TowerTanks.Scripts
             }
                 
             transform.SetParent(null);
+            rb.interpolation = RigidbodyInterpolation2D.Interpolate;
             fullTankDismount = true;
 
             //If the character is in the build scene and goes out of the tank, respawn them
@@ -200,6 +201,7 @@ namespace TowerTanks.Scripts
         {
             if (cellToEnter != null) // we are still inside of a tank
             {
+                rb.interpolation = RigidbodyInterpolation2D.None;
                 transform.SetParent(cellToEnter);
                 softTankDismount = false;
                 fullTankDismount = false;
@@ -218,6 +220,12 @@ namespace TowerTanks.Scripts
                 //so we need to reset the rotation when they leave a tank to avoid weirdness.
                 //it's just the player's visual sprite which is always at 0 rotation
             }
+        }
+        
+        [Button]
+        private void RandomForce()
+        {
+            rb.AddForce(new Vector2(Random.Range(-10, 10), 10), ForceMode2D.Impulse);
         }
 
         protected virtual void FixedUpdate()
@@ -303,7 +311,9 @@ namespace TowerTanks.Scripts
 
         protected void PropelJetpack()
         {
-            rb.AddForce(Vector2.up * jetpackForce);
+            Vector2 jetpackVelocity = Vector2.up * ((jetpackForce * 10) * Time.fixedDeltaTime);
+
+            rb.velocity = new Vector2(rb.velocity.x, jetpackVelocity.y);
         }
 
         protected void SetLadder()
