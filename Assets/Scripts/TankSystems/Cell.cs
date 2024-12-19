@@ -10,7 +10,7 @@ namespace TowerTanks.Scripts
     /// <summary>
     /// Square component which rooms are made of.
     /// </summary>
-    public class Cell : MonoBehaviour, IDamageable
+    public class Cell : MonoBehaviour, IDamageable, IBurnable
     {
         //Static Variables:
         public static Vector2[] cardinals = { Vector2.up, Vector2.right, Vector2.down, Vector2.left };
@@ -89,7 +89,7 @@ namespace TowerTanks.Scripts
         private void Start()
         {
             //Assign Values
-            if (room.type == Room.RoomType.Armor) maxHealth *= 2f; //Armor has 2x hitpoints
+            if (room.type == Room.RoomType.Armor) maxHealth += 25f; //Armor has +25 hitpoints
             health = maxHealth;
         }
 
@@ -261,12 +261,6 @@ namespace TowerTanks.Scripts
                 float damageMitigated = Mathf.Min(GetDamageMitigation(incomingDamage), incomingDamage);                   //Determine amount of damage mitigated by cell attributes
                 float dealtDamage = incomingDamage - damageMitigated;                                                     //Determine the amount of unmitigated damage dealt to cell
                 float extraDamage = projectile.hitProperties.tunnels ? Mathf.Abs(Mathf.Max(0, health - dealtDamage)) : 0; //Get overkill damage dealt by projectile (only if projectile can tunnel, otherwise alsways destroy it after hitting a cell)
-
-                //Check for fire:
-                if (dealtDamage < health && projectile.hitProperties.fireChance > 0) //Projectile has a chance of starting a fire (and cell is not being destroyed by this impact)
-                {
-                    if (Random.Range(0f, 1f) <= projectile.hitProperties.fireChance) { Ignite(); } //Light cell on fire if roll is high enough
-                }
 
                 //Effects
                 if (dealtDamage > 0) HitEffects(animSpeed);
@@ -572,6 +566,10 @@ namespace TowerTanks.Scripts
             burnTimer = Random.Range(minBurnTime, maxBurnTime);
 
             GameManager.Instance.AudioManager.Play("CoalLoad", this.gameObject);
+        }
+        public void BurnTick(float deltaTime)
+        {
+
         }
 
         private void Burn()
