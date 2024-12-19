@@ -83,7 +83,10 @@ namespace TowerTanks.Scripts
             //Core room-specific setup:
             if (isCore) //This is the tank's core room
             {
-                mounted = true; //Core rooms start mounted
+                SetUpCollision();                         //Set up cell colliders on treadsystem
+                mounted = true;                           //Core rooms start mounted
+                targetTank.UpdateSizeValues();            //Get base tank size
+                targetTank.treadSystem.ReCalculateMass(); //Get base tank mass
             }
         }
         private void Update()
@@ -138,8 +141,6 @@ namespace TowerTanks.Scripts
             roomData = Resources.Load<RoomData>("RoomData");                            //Get roomData object from resources folder
             targetTank = GetComponentInParent<TankController>();                        //Get tank controller from current parent (only applicable if room spawns with tank)
             dummyMat = roomData.dummyMaterial;                                          //Get Dummy Material used for DummyRooms
-
-            //old spot for interactable slot code
 
             //Set up child components:
             foreach (Connector connector in connectors) connector.Initialize(); //Initialize all connectors before setting up cells
@@ -255,6 +256,7 @@ namespace TowerTanks.Scripts
                             //Inverse check:
                             Room otherRoom = hitCell1 == null ? hitCell2.room : hitCell1.room; //Get other room hit by either raycast (works even if only one raycast hit a room)
                             if (otherRoom == this) { continue; }  //Ignore if hit block is part of this room (happens before potential inverse check)
+                            if (!otherRoom.mounted) { continue; } //Ignore if hit block is part of an unmounted room (prevents players from mounting floating rooms to each other in build scene)
                             if (hitCell1 == null || hitCell2 == null) //Only one hit made contact with a cell
                             {
                                 cellPos = (hitCell1 == null ? hitCell2 : hitCell1).transform.position; //Get position of partially-hit cell
@@ -521,14 +523,7 @@ namespace TowerTanks.Scripts
                                                                                                 //GameManager.Instance.AudioManager.Play("BuildRoom");
 
             //Set up cell collision:
-            foreach (Cell cell in cells) //Each cell needs its own duplicate collider
-            {
-                cell.compositeClone = new GameObject(name + "_" + cell.name + "_Collider").AddComponent<BoxCollider2D>(); //Create clone for cell (size does not need to be modified bc cell size = BoxCollider2D default size)
-                cell.compositeClone.gameObject.layer = LayerMask.NameToLayer("TankCollider");                             //Place clone on ground layer so it doesn't mess with player collision
-                cell.compositeClone.transform.parent = targetTank.treadSystem.colliderSystem;                             //Child collider object to treadSystem container
-                cell.compositeClone.transform.position = cell.transform.position;                                         //Move collider to match position with cell
-                cell.compositeClone.transform.rotation = cell.transform.rotation;                                         //Rotate collider to match rotation with cell
-            }
+            SetUpCollision(); //Set up colliders in treadsystem so that room interacts with other tanks
 
             //Update tank info:
             transform.parent = couplers[0].roomB.transform.parent; //Child room to parent of the rest of the rooms (home tank)
@@ -680,6 +675,20 @@ namespace TowerTanks.Scripts
             //Add Rigidbody to Room
             Rigidbody2D rb = this.gameObject.AddComponent<Rigidbody2D>();
             rb.sharedMaterial = dummyMat;
+        }
+        /// <summary>
+        /// Sets up collision with treadsystem so that cells in this room can collide with cells in other tanks.
+        /// </summary>
+        private void SetUpCollision()
+        {
+            foreach (Cell cell in cells) //Each cell needs its own duplicate collider
+            {
+                cell.compositeClone = new GameObject(name + "_" + cell.name + "_Collider").AddComponent<BoxCollider2D>(); //Create clone for cell (size does not need to be modified bc cell size = BoxCollider2D default size)
+                cell.compositeClone.gameObject.layer = LayerMask.NameToLayer("TankCollider");                             //Place clone on ground layer so it doesn't mess with player collision
+                cell.compositeClone.transform.parent = targetTank.treadSystem.colliderSystem;                             //Child collider object to treadSystem container
+                cell.compositeClone.transform.position = cell.transform.position;                                         //Move collider to match position with cell
+                cell.compositeClone.transform.rotation = cell.transform.rotation;                                         //Rotate collider to match rotation with cell
+            }
         }
 
         //UTILITY METHODS:
