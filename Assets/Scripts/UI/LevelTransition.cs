@@ -11,8 +11,8 @@ public class LevelTransition : MonoBehaviour
     [SerializeField, Tooltip("The Image used to fade between scenes.")] private CanvasGroup blackFadeCanvas;
 
     [Header("Gate Settings")]
-    [SerializeField, Tooltip("The RectTransform for the left gate.")] private RectTransform gateLeftTransform;
-    [SerializeField, Tooltip("The RectTransform for the right gate.")] private RectTransform gateRightTransform;
+    [SerializeField, Tooltip("The RectTransform for the left gate.")] private RectTransform[] gateLeftTransforms;
+    [SerializeField, Tooltip("The RectTransform for the right gate.")] private RectTransform[] gateRightTransforms;
     [SerializeField, Tooltip("The ease type for opening the gate.")] private LeanTweenType openGateEaseType;
     [SerializeField, Tooltip("The ease type for closing the gate.")] private LeanTweenType closeGateEaseType;
 
@@ -38,9 +38,9 @@ public class LevelTransition : MonoBehaviour
 
     private void Start()
     {
-        gateCanvasGroup = gateLeftTransform.GetComponentInParent<CanvasGroup>();
-        startingGatePosLeft = gateLeftTransform.anchoredPosition;
-        startingGatePosRight = gateRightTransform.anchoredPosition;
+        gateCanvasGroup = gateLeftTransforms[0].GetComponentInParent<CanvasGroup>();
+        startingGatePosLeft = gateLeftTransforms[0].anchoredPosition;
+        startingGatePosRight = gateRightTransforms[0].anchoredPosition;
 
         ResetLevelTransition();
     }
@@ -117,8 +117,15 @@ public class LevelTransition : MonoBehaviour
     /// <param name="duration">The duration it takes to open the gate.</param>
     private void OpenGate(float duration)
     {
-        LeanTween.move(gateLeftTransform, new Vector3(startingGatePosLeft.x, 0f, startingGatePosLeft.z), duration).setEase(openGateEaseType).setOnComplete(() => transitionActive = false);
-        LeanTween.move(gateRightTransform, new Vector3(startingGatePosRight.x, 0f, startingGatePosRight.z), duration).setEase(openGateEaseType);
+        for(int i = 0; i < gateLeftTransforms.Length; i++)
+        {
+            LeanTween.move(gateLeftTransforms[i], new Vector3(startingGatePosLeft.x, 0f, startingGatePosLeft.z), duration).setEase(openGateEaseType).setOnComplete(() => transitionActive = false);
+        }
+
+        for (int i = 0; i < gateRightTransforms.Length; i++)
+        {
+            LeanTween.move(gateRightTransforms[i], new Vector3(startingGatePosRight.x, 0f, startingGatePosRight.z), duration).setEase(openGateEaseType);
+        }
     }
 
     /// <summary>
@@ -127,8 +134,15 @@ public class LevelTransition : MonoBehaviour
     /// <param name="duration">The duration it takes to close the gate.</param>
     private void CloseGate(float duration)
     {
-        LeanTween.move(gateLeftTransform, new Vector3(0f, 0f, startingGatePosLeft.z), duration).setEase(closeGateEaseType).setOnComplete(() => transitionActive = false);
-        LeanTween.move(gateRightTransform, new Vector3(0f, 0f, startingGatePosRight.z), duration).setEase(closeGateEaseType);
+        for (int i = 0; i < gateLeftTransforms.Length; i++)
+        {
+            LeanTween.move(gateLeftTransforms[i], new Vector3(0f, 0f, startingGatePosLeft.z), duration).setEase(closeGateEaseType).setOnComplete(() => transitionActive = false);
+        }
+
+        for (int i = 0; i < gateRightTransforms.Length; i++)
+        {
+            LeanTween.move(gateRightTransforms[i], new Vector3(0f, 0f, startingGatePosRight.z), duration).setEase(closeGateEaseType);
+        }
     }
 
     private void Update()

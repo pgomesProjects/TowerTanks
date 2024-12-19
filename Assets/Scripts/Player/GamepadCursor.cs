@@ -316,7 +316,9 @@ namespace TowerTanks.Scripts
             if (localGamepadCursorTransform == null)
                 CreateGamepadCursor(cursorColor);
 
-            localGamepadCursorTransform.GetComponent<Image>().color = new Color(cursorColor.r, cursorColor.g, cursorColor.b, cursorActive ? 1 : 0);
+            Image[] images = localGamepadCursorTransform.GetComponentsInChildren<Image>();
+            images[1].color = new Color(images[1].color.r, images[1].color.g, images[1].color.b, cursorActive ? 1 : 0);
+            images[0].color = new Color(cursorColor.r, cursorColor.g, cursorColor.b, cursorActive ? 1 : 0);
             cursorCanMove = cursorActive;
         }
 
