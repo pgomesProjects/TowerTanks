@@ -369,6 +369,8 @@ namespace TowerTanks.Scripts
         /// <param name="point">Point of impact.</param>
         public void HandleImpact(Projectile projectile, Vector2 point)
         {
+            if (r == null) return;
+
             //Handle initial impact:
             Vector2 relativeVelocity = projectile.velocity - r.GetPointVelocity(point); //Get difference in velocity between projectile and tread system at point of impact
             Vector2 impactForce = projectile.hitProperties.mass * relativeVelocity;     //Get impact force as result of mass times (relative) velocity
