@@ -554,8 +554,7 @@ namespace TowerTanks.Scripts
             if (health < maxHealth)
             {
                 health += amount;
-                damageTime += (amount / 50f);
-                damageTimer = damageTime;
+                HitEffects(1.5f);
                 GameManager.Instance.AudioManager.Play("UseWrench", gameObject);
                 GameManager.Instance.ParticleSpawner.SpawnParticle(6, transform.position, 0.25f, null);
                 GameManager.Instance.ParticleSpawner.SpawnParticle(7, transform.position, 0.25f, null);
