@@ -101,6 +101,7 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
+    - {fileID: 11400000, guid: 3b0484ad929fefc4c96fd957efa8336a, type: 2}
     - {fileID: 11400000, guid: 5c5f77bae720eee41b0e0f1960fb8506, type: 2}
     - {fileID: 11400000, guid: 9a4bec359a763bb4892e927047522782, type: 2}
     - {fileID: 11400000, guid: dd448ac86e02fcf4380ee2e724dfa4ed, type: 2}
@@ -116,7 +117,7 @@ MonoBehaviour:
       Data: 0|TowerTanks.Scripts.TutorialItem[], TowerTanks.Scripts
     - Name: 
       Entry: 12
-      Data: 5
+      Data: 6
     - Name: 
       Entry: 7
       Data: TowerTanks.Scripts.TutorialItem, TowerTanks.Scripts
@@ -159,6 +160,15 @@ MonoBehaviour:
     - Name: tutorialPopup
       Entry: 10
       Data: 4
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: TowerTanks.Scripts.TutorialItem, TowerTanks.Scripts
+    - Name: tutorialPopup
+      Entry: 10
+      Data: 5
     - Name: 
       Entry: 8
       Data: 
