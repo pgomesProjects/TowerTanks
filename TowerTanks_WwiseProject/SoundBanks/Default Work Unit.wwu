@@ -26,6 +26,7 @@
 						<ObjectRef Name="projectile_in_air" ID="{E18FDAAA-EC61-4508-83D6-A7FD5B68DAA3}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="metal_footstep" ID="{1F1329A9-B5A7-4549-B2F0-97EE22BC9347}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="cannon_fire_recycled" ID="{6FCCF39D-806F-45C8-8D76-24434DFCF154}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Into_the_Breach" ID="{453FF2BB-8FF6-4613-A342-768610111B9B}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="rotate_room" ID="{EC3DDBB4-7FB2-4619-830E-0DC7B33C2930}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="engine_dying_2" ID="{78173B5F-2234-4626-8B88-25E34DFD9239}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="button_hover" ID="{ABCC24D7-34F6-4669-B4E9-E751FF535FCF}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>

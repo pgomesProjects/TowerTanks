@@ -25,6 +25,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	1707782163	main_menu_ambience			\Default Work Unit\main_menu_ambience	
 	1779807686	cannon_fire_new			\Default Work Unit\cannon_fire_new	
 	1797317650	wrench			\Default Work Unit\wrench	
+	1818101133	Into_the_Breach			\Default Work Unit\Into_the_Breach	
 	1821032580	throttle_shift			\Default Work Unit\throttle_shift	
 	1932095129	combat_music			\Default Work Unit\combat_music	
 	1967707158	cannon_lock_in_place			\Default Work Unit\cannon_lock_in_place	
@@ -105,6 +106,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	616062773	TT_SFX_throttle-click	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\Android\SFX\TT_SFX_throttle-click_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_throttle-click		7255
 	650954530	TT_SFX_cannon_fire_v1	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\Android\SFX\TT_SFX_cannon_fire_v1_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_cannon_fire (recycled)\TT_SFX_cannon_fire_v1		8774
 	652002572	TT_SFX_metal_footstep	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\Android\SFX\metal_footstep_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_metal_footstep		2948
+	654213358	TT_BGM_Into_the_Breach	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\Android\SFX\The Blast Garden  Into the Breach OST_AEC344A4.wem		\Actor-Mixer Hierarchy\Default Work Unit\BGM\TT_BGM_Into_the_Breach		2434188
 	661803067	TT_SFX_tank-creaking_v2	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\Android\SFX\TT_SFX_tank-creaking_v2_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_tank-creaking\TT_SFX_tank-creaking_v2		16679
 	671272586	TT_SFX_tank-creaking_v1	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\Android\SFX\TT_SFX_tank-creaking_v1_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_tank-creaking\TT_SFX_tank-creaking_v1		10610
 	676306554	TT_SFX_cannon-lock-in-place	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\Android\SFX\TT_SFX_cannon-lock-in-place_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_cannon-lock-in-place		9705

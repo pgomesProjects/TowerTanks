@@ -2408,6 +2408,35 @@
 								<ActiveSource Name="TTTT_DeathStinger_Mix_Final_2_13_22" ID="{81B6BF29-BEBF-4E7F-9A5C-AB8AB0EE0545}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
+						<Sound Name="TT_BGM_Into_the_Breach" ID="{037E6CDC-AC4B-403D-AB1D-3FA4B008DBEA}" ShortID="410839142">
+							<PropertyList>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Music Audio Bus" ID="{35A3AADB-A99C-4462-8303-6A0F7A8CC03F}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="The Blast Garden  Into the Breach OST" ID="{26EFFB08-0410-4B0D-9B1D-3F2AAA1228BE}">
+									<PropertyList>
+										<Property Name="LoopEnd" Type="Real64" Value="104.216312138825"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>The Blast Garden  Into the Breach OST.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="654213358"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="The Blast Garden  Into the Breach OST" ID="{26EFFB08-0410-4B0D-9B1D-3F2AAA1228BE}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
 					</ChildrenList>
 				</Folder>
 			</ChildrenList>

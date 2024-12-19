@@ -34,7 +34,7 @@
 				<GameParameter Id="4287925136" Name="CombatLayer2Volume"/>
 			</GameParameters>
 		</SoundBank>
-		<SoundBank Id="2880737896" Type="User" Language="SFX" Hash="{A8DC8A7B-F6D1-6A93-8525-EDEC39D6D42C}">
+		<SoundBank Id="2880737896" Type="User" Language="SFX" Hash="{E2499AF1-BF85-ABDE-BA1D-D7F7121333D8}">
 			<ShortName>mainbank</ShortName>
 			<Path>mainbank.bnk</Path>
 			<Media>
@@ -209,6 +209,10 @@
 				<File Id="652002572" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>metal_footstep.wav</ShortName>
 					<CachePath>SFX/metal_footstep_3F75BDB9.wem</CachePath>
+				</File>
+				<File Id="654213358" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>The Blast Garden  Into the Breach OST.wav</ShortName>
+					<CachePath>SFX/The Blast Garden  Into the Breach OST_42FD2E24.wem</CachePath>
 				</File>
 				<File Id="661803067" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_tank-creaking_v2.wav</ShortName>
@@ -479,6 +483,11 @@
 				</Event>
 				<Event Id="1469012939" Name="Global_Pause" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
 				<Event Id="2496259136" Name="Global_Unpause" MaxAttenuation="0" DurationType="OneShot" DurationMin="0" DurationMax="0"/>
+				<Event Id="1818101133" Name="Into_the_Breach" DurationType="Infinite">
+					<MediaRefs>
+						<MediaRef Id="654213358"/>
+					</MediaRefs>
+				</Event>
 				<Event Id="2191775701" Name="invalid_alert" DurationType="OneShot" DurationMin="0.28125" DurationMax="0.28125">
 					<MediaRefs>
 						<MediaRef Id="863978555"/>
@@ -643,5 +652,5 @@
 			</GameParameters>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{CBFC7402-49E0-94CE-6CDB-B133247752AF}</FileHash>
+	<FileHash>{4E7F3666-95DD-28CB-0FD5-85C4B42CFB33}</FileHash>
 </SoundBanksInfo>

@@ -37,6 +37,7 @@ namespace AK
         static const AkUniqueID FIRE_BURNING = 1318321645U;
         static const AkUniqueID GLOBAL_PAUSE = 1469012939U;
         static const AkUniqueID GLOBAL_UNPAUSE = 2496259136U;
+        static const AkUniqueID INTO_THE_BREACH = 1818101133U;
         static const AkUniqueID INVALID_ALERT = 2191775701U;
         static const AkUniqueID ITEM_PICKUP = 566396871U;
         static const AkUniqueID JETPACK_REFUEL = 1266436627U;
