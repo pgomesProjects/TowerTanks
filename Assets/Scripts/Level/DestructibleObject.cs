@@ -28,7 +28,7 @@ namespace TowerTanks.Scripts
             return 0;
         }
 
-        public void Damage(float damage)
+        public void Damage(float damage, bool triggerHitEffects = false)
         {
             float tempHealth = health;
             float healthLost = 0;

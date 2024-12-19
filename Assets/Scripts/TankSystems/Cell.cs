@@ -280,7 +280,7 @@ namespace TowerTanks.Scripts
         /// <summary>
         /// Simply deals given amount of damage to cell (used for non-projectile damage, ALWAYS IGNORES ARMOR).
         /// </summary>
-        public void Damage(float damage)
+        public void Damage(float damage, bool triggerHitEffect = false)
         {
             //If the current scene is the build scene, return
             if (GameManager.Instance.currentSceneState == SCENESTATE.BuildScene)
@@ -298,7 +298,11 @@ namespace TowerTanks.Scripts
                 damageTime += damageTimeAdd;
                 damageTimer = damageTime;*/
 
-                if (damage > 0) HitEffects(1);
+                if (triggerHitEffect)
+                {
+                    if (damage > 20) HitEffects(0.5f);
+                    else HitEffects(4f);
+                }
 
                 //Deal damage:
                 health = Mathf.Max(0, health - damage); //Deal damage to cell
