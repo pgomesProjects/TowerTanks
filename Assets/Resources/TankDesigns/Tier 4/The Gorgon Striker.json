@@ -10,68 +10,98 @@
     "buildingSteps": [
         {
             "roomID": "Room_Elbow4B",
-            "roomType": 4,
+            "roomType": 1,
             "localSpawnVector": {
                 "x": 3.5,
                 "y": 1.25,
                 "z": 0.0
             },
             "rotate": 2,
-            "cellInteractables": []
+            "cellInteractables": [],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
+            ]
         },
         {
             "roomID": "Room_Elbow4B_Flipped",
-            "roomType": 4,
+            "roomType": 1,
             "localSpawnVector": {
                 "x": -3.5,
                 "y": 1.25,
                 "z": 0.0
             },
             "rotate": 0,
-            "cellInteractables": []
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_0",
+                    "interRef": "InterDefense_EnergyShield",
+                    "flipped": false
+                }
+            ],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
+            ]
         },
         {
             "roomID": "Room_Line4A",
-            "roomType": 5,
+            "roomType": 0,
             "localSpawnVector": {
                 "x": 0.0,
                 "y": 1.25,
                 "z": 0.0
             },
             "rotate": 3,
-            "cellInteractables": [
-                {
-                    "cellName": "Cell_2",
-                    "interRef": "InterLogistics_Refuel",
-                    "flipped": false
-                }
+            "cellInteractables": [],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
             ]
         },
         {
             "roomID": "Room_Line4B",
-            "roomType": 4,
+            "roomType": 1,
             "localSpawnVector": {
                 "x": -1.25,
                 "y": 2.5,
                 "z": 0.0
             },
             "rotate": 3,
-            "cellInteractables": []
+            "cellInteractables": [],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
+            ]
         },
         {
             "roomID": "Room_Line4B",
-            "roomType": 4,
+            "roomType": 1,
             "localSpawnVector": {
                 "x": 1.25,
                 "y": 2.5,
                 "z": 0.0
             },
             "rotate": 3,
-            "cellInteractables": []
+            "cellInteractables": [],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
+            ]
         },
         {
             "roomID": "Room_Elbow4A",
-            "roomType": 3,
+            "roomType": 1,
             "localSpawnVector": {
                 "x": -3.5,
                 "y": 7.0,
@@ -83,24 +113,35 @@
                     "cellName": "Cell_0",
                     "interRef": "InterWeapon_Cannon",
                     "flipped": true
+                },
+                {
+                    "cellName": "Cell_1",
+                    "interRef": "InterWeapon_Cannon",
+                    "flipped": true
                 }
+            ],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
             ]
         },
         {
             "roomID": "Room_Elbow4A_Flipped",
-            "roomType": 3,
+            "roomType": 0,
             "localSpawnVector": {
                 "x": 3.5,
                 "y": 7.0,
                 "z": 0.0
             },
             "rotate": 2,
-            "cellInteractables": [
-                {
-                    "cellName": "Cell_0",
-                    "interRef": "InterWeapon_Cannon",
-                    "flipped": false
-                }
+            "cellInteractables": [],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
             ]
         },
         {
@@ -118,11 +159,15 @@
                     "interRef": "InterCommand_Throttle",
                     "flipped": false
                 }
+            ],
+            "cellManifest": [
+                true,
+                true
             ]
         },
         {
             "roomID": "Room_Line2A",
-            "roomType": 2,
+            "roomType": 1,
             "localSpawnVector": {
                 "x": 1.25,
                 "y": 8.25,
@@ -131,22 +176,30 @@
             "rotate": 1,
             "cellInteractables": [
                 {
-                    "cellName": "Cell_0",
-                    "interRef": "InterEngineer_Boiler",
+                    "cellName": "Cell_1",
+                    "interRef": "InterCommand_Throttle",
                     "flipped": false
                 }
+            ],
+            "cellManifest": [
+                true,
+                true
             ]
         },
         {
             "roomID": "Room_Line2A",
-            "roomType": 4,
+            "roomType": 1,
             "localSpawnVector": {
                 "x": -2.25,
                 "y": 9.5,
                 "z": 0.0
             },
             "rotate": 1,
-            "cellInteractables": []
+            "cellInteractables": [],
+            "cellManifest": [
+                true,
+                true
+            ]
         },
         {
             "roomID": "Room_Line2A",
@@ -162,24 +215,31 @@
                     "cellName": "Cell_0",
                     "interRef": "InterEngineer_Boiler",
                     "flipped": false
-                }
-            ]
-        },
-        {
-            "roomID": "Room_Line2A",
-            "roomType": 5,
-            "localSpawnVector": {
-                "x": 1.25,
-                "y": 9.5,
-                "z": 0.0
-            },
-            "rotate": 1,
-            "cellInteractables": [
+                },
                 {
                     "cellName": "Cell_1",
-                    "interRef": "InterLogistics_Refuel",
+                    "interRef": "InterEngineer_Boiler",
                     "flipped": false
                 }
+            ],
+            "cellManifest": [
+                true,
+                true
+            ]
+        },
+        {
+            "roomID": "Room_Line2A",
+            "roomType": 1,
+            "localSpawnVector": {
+                "x": 1.25,
+                "y": 9.5,
+                "z": 0.0
+            },
+            "rotate": 1,
+            "cellInteractables": [],
+            "cellManifest": [
+                true,
+                true
             ]
         },
         {
@@ -196,29 +256,38 @@
                     "cellName": "Cell_0",
                     "interRef": "InterEngineer_Boiler",
                     "flipped": false
+                },
+                {
+                    "cellName": "Cell_1",
+                    "interRef": "InterEngineer_Boiler",
+                    "flipped": false
                 }
+            ],
+            "cellManifest": [
+                true,
+                true
             ]
         },
         {
             "roomID": "Room_Line4A",
-            "roomType": 5,
+            "roomType": 0,
             "localSpawnVector": {
                 "x": 0.0,
                 "y": 5.75,
                 "z": 0.0
             },
             "rotate": 3,
-            "cellInteractables": [
-                {
-                    "cellName": "Cell_1",
-                    "interRef": "InterLogistics_Refuel",
-                    "flipped": false
-                }
+            "cellInteractables": [],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
             ]
         },
         {
             "roomID": "Room_Line4A",
-            "roomType": 3,
+            "roomType": 0,
             "localSpawnVector": {
                 "x": 0.0,
                 "y": 13.5,
@@ -231,11 +300,17 @@
                     "interRef": "InterWeapon_Mortar",
                     "flipped": false
                 }
+            ],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
             ]
         },
         {
             "roomID": "Room_Elbow4B_Flipped",
-            "roomType": 3,
+            "roomType": 1,
             "localSpawnVector": {
                 "x": -3.5,
                 "y": 12.0,
@@ -247,47 +322,98 @@
                     "cellName": "Cell_0",
                     "interRef": "InterWeapon_Cannon",
                     "flipped": true
+                },
+                {
+                    "cellName": "Cell_1",
+                    "interRef": "InterWeapon_Cannon",
+                    "flipped": true
                 }
+            ],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
             ]
         },
         {
             "roomID": "Room_Elbow4B",
-            "roomType": 3,
+            "roomType": 0,
             "localSpawnVector": {
                 "x": 3.5,
                 "y": 12.0,
                 "z": 0.0
             },
             "rotate": 2,
-            "cellInteractables": [
-                {
-                    "cellName": "Cell_0",
-                    "interRef": "InterWeapon_Cannon",
-                    "flipped": false
-                }
+            "cellInteractables": [],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
             ]
         },
         {
             "roomID": "Room_Line2A",
-            "roomType": 4,
+            "roomType": 1,
             "localSpawnVector": {
                 "x": -4.5,
                 "y": 9.5,
                 "z": 0.0
             },
             "rotate": 1,
-            "cellInteractables": []
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_0",
+                    "interRef": "InterDefense_EnergyShield",
+                    "flipped": false
+                }
+            ],
+            "cellManifest": [
+                true,
+                true
+            ]
         },
         {
             "roomID": "Room_Line2A",
-            "roomType": 4,
+            "roomType": 1,
             "localSpawnVector": {
                 "x": 3.5,
                 "y": 9.5,
                 "z": 0.0
             },
             "rotate": 1,
-            "cellInteractables": []
+            "cellInteractables": [],
+            "cellManifest": [
+                true,
+                true
+            ]
+        },
+        {
+            "roomID": "Room_Line2B",
+            "roomType": 0,
+            "localSpawnVector": {
+                "x": -4.75,
+                "y": 0.25,
+                "z": 0.0
+            },
+            "rotate": 0,
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_0",
+                    "interRef": "InterWeapon_MachineGun",
+                    "flipped": true
+                },
+                {
+                    "cellName": "Cell_1",
+                    "interRef": "InterWeapon_MachineGun",
+                    "flipped": true
+                }
+            ],
+            "cellManifest": [
+                true,
+                true
+            ]
         }
     ]
 }
