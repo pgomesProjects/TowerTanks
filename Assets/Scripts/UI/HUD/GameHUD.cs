@@ -40,7 +40,7 @@ namespace TowerTanks.Scripts
 
         protected virtual void Start()
         {
-            resourcesDisplay.anchoredPosition = new Vector2(startResourcesPosX, resourcesDisplay.anchoredPosition.y);
+            //resourcesDisplay.anchoredPosition = new Vector2(startResourcesPosX, resourcesDisplay.anchoredPosition.y);
             resourcesDisplayNumber = resourcesDisplay.GetComponentInChildren<TextMeshProUGUI>();
             resourcesUpdated = true;
 
@@ -93,7 +93,7 @@ namespace TowerTanks.Scripts
             else
             {
                 transitionStartTime = Time.time;
-                StartResourcesAnimation();
+                //StartResourcesAnimation();
             }
         }
 
@@ -129,7 +129,7 @@ namespace TowerTanks.Scripts
                 else if (!resourcesUpdated)
                 {
                     resourcesUpdated = true;
-                    EndResourcesAnimation();
+                    //EndResourcesAnimation();
                 }
 
                 UpdateResourcesDisplay();

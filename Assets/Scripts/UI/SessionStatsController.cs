@@ -155,9 +155,9 @@ namespace TowerTanks.Scripts
         /// </summary>
         private void GoToMain()
         {
+            Time.timeScale = 1.0f;
             canScroll = false;
             GameManager.Instance.LoadScene("Title", LevelTransition.LevelTransitionType.FADE);
-            Time.timeScale = 1.0f;
         }
     }
 }
