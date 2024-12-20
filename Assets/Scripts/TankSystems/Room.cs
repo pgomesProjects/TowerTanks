@@ -104,6 +104,21 @@ namespace TowerTanks.Scripts
                 Gizmos.DrawWireCube(bounds.center, bounds.size);
             }
         }
+        /// <summary>
+        /// Called whenever collider clone on treadsystem collides with something.
+        /// </summary>
+        public void OnTankCollision(Collision2D collision)
+        {
+            if (collision.collider.GetComponentInParent<TreadSystem>() != null) //Room has collided with another tank
+            {
+                //Get information:
+                TreadSystem opposingTreads = collision.collider.GetComponentInParent<TreadSystem>(); //Get treadsystem of opposing tank
+
+                //Apply collision properties:
+                //opposingTreads.HandleImpact(-collision.GetContact(0).normal * 100, collision.GetContact(0).point);
+                //collision.collider.GetComponent<CollisionTransmitter>().target.GetComponent<Cell>().Damage(25);
+            }
+        }
 
         private void CheckFire()
         {
@@ -525,6 +540,7 @@ namespace TowerTanks.Scripts
                                                                                                 //GameManager.Instance.AudioManager.Play("BuildRoom");
 
             //Set up cell collision:
+
             SetUpCollision(); //Set up colliders in treadsystem so that room interacts with other tanks
 
             //Update tank info:
@@ -560,9 +576,8 @@ namespace TowerTanks.Scripts
                 //Remove cells from treadsystem:
                 foreach (Cell cell in cells) //Each cell has a collider composite component that needs to be removed
                 {
-                    Destroy(cell.compositeClone.gameObject); //Fully delete composite clone object
-                    cell.compositeClone = null;              //Clear reference to destroyed object
-                    cell.AddInteractablesFromCell();         //Remove the interactables and add them to the stacks
+                    cell.CleanUpCollision();         //Remove collision elements and events from cell
+                    cell.AddInteractablesFromCell(); //Remove the interactables and add them to the stacks
                 }
 
                 //Remove room from tank system:
@@ -683,18 +698,7 @@ namespace TowerTanks.Scripts
         /// </summary>
         private void SetUpCollision()
         {
-            foreach (Cell cell in cells) //Each cell needs its own duplicate collider
-            {
-                //Generate clone:
-                cell.compositeClone = new GameObject(name + "_" + cell.name + "_Collider").AddComponent<BoxCollider2D>(); //Create clone for cell (size does not need to be modified bc cell size = BoxCollider2D default size)
-                cell.compositeClone.gameObject.layer = LayerMask.NameToLayer("TankCollider");                             //Place clone on ground layer so it doesn't mess with player collision
-                cell.compositeClone.transform.parent = targetTank.treadSystem.colliderSystem;                             //Child collider object to treadSystem container
-                cell.compositeClone.transform.position = cell.transform.position;                                         //Move collider to match position with cell
-                cell.compositeClone.transform.rotation = cell.transform.rotation;                                         //Rotate collider to match rotation with cell
-
-                //Set up transmission:
-                CollisionTransmitter transmitter = cell.compositeClone.gameObject.AddComponent<CollisionTransmitter>(); //Set up collision transmission so that clone collider can communicate with cell
-            }
+            foreach (Cell cell in cells) cell.SetUpCollision(); //Set up collision on each individual cell
         }
 
         //UTILITY METHODS:

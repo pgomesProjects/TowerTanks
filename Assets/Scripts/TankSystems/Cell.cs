@@ -55,6 +55,7 @@ namespace TowerTanks.Scripts
 
         //Settings:
         [Button("Debug Destroy Cell")] public void DebugDestroyCell() { Kill(); }
+        [Button("Debug Pull Cell")] public void DebugPullCell() { Pull(); }
         [Button("Debug Damage Cell")] public void DebugDamageCell() { Damage(50f); }
 
         //Runtime Variables:
@@ -478,8 +479,8 @@ namespace TowerTanks.Scripts
                     if (!proxy) character.KillCharacterImmediate();
                 }
             }
-            if (compositeClone != null) Destroy(compositeClone.gameObject); //Destroy collider composite component corresponding to this cell
-            AddInteractablesFromCell();
+            CleanUpCollision();                 //Remove cell collision
+            AddInteractablesFromCell();         //Add cell interactables to stack
             room.targetTank.UpdateSizeValues(); //Update highest cell tracker
 
             //Update Room Status:
@@ -515,6 +516,7 @@ namespace TowerTanks.Scripts
         public void Pull()
         {
             room.cells.Remove(this); //Take this cell out of its parent room's list
+            CleanUpCollision();      //Clean up collision elements
             for (int x = 0; x < connectors.Length; x++) //Iterate through list of connectors (all need to be destroyed)
             {
                 if (connectors[x] == null) continue;                             //Skip empty connector slots
@@ -673,6 +675,34 @@ namespace TowerTanks.Scripts
         private float GetDamageMitigation(float damage)
         {
             return room.type == Room.RoomType.Armor ? damage / 2 : 0; //Armor currently mitigates half of all incoming damage
+        }
+
+        /// <summary>
+        /// Initializes collision system for cell and attaches it to tread system.
+        /// </summary>
+        public void SetUpCollision()
+        {
+            //Generate clone:
+            compositeClone = new GameObject(name + "_" + name + "_Collider").AddComponent<BoxCollider2D>(); //Create clone for cell (size does not need to be modified bc cell size = BoxCollider2D default size)
+            compositeClone.gameObject.layer = LayerMask.NameToLayer("TankCollider");                        //Place clone on ground layer so it doesn't mess with player collision
+            compositeClone.transform.parent = room.targetTank.treadSystem.colliderSystem;                   //Child collider object to treadSystem container
+            compositeClone.transform.position = transform.position;                                         //Move collider to match position with cell
+            compositeClone.transform.rotation = transform.rotation;                                         //Rotate collider to match rotation with cell
+
+            //Set up transmission:
+            CollisionTransmitter transmitter = compositeClone.gameObject.AddComponent<CollisionTransmitter>(); //Set up collision transmission so that clone collider can communicate with cell
+            transmitter.target = gameObject;                                                                   //Give transmitter a reference to this cell's object so that it can be found when needed
+            transmitter.collisionEnter += room.OnTankCollision;                                                //Hook up collision delegate so that impact events against the treadSystem are processed on this script
+        }
+        /// <summary>
+        /// Removes and cleans up elements involved with tread system collision.
+        /// </summary>
+        public void CleanUpCollision()
+        {
+            if (compositeClone == null) return;                                                         //Do nothing if collision has not already been set up
+            compositeClone.GetComponent<CollisionTransmitter>().collisionEnter -= room.OnTankCollision; //Unsubscribe from clone collision transmission
+            Destroy(compositeClone.gameObject);                                                         //Fully delete composite clone object
+            compositeClone = null;                                                                      //Clear reference to destroyed object
         }
     }
 }

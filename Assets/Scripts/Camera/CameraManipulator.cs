@@ -236,17 +236,29 @@ namespace TowerTanks.Scripts
                 if (!radar) //Updates for engagement cameras
                 {
                     //Find tank extremities:
-                    Bounds[] allTanks = tanks.Select(t => GetTankAsBounds(t)).Concat(simulatedTanks.Select(s => s.bounds)).ToArray(); //Get an array of bounds representing all tanks in view (simulated and real)
-                    Bounds highestTank = allTanks[0];   //Make container for storing the uppermost tank onscreen and default to system's base tank (container used is bounds because it may be a simulacrum tank)
-                    Bounds lowestTank = highestTank;    //Make container for storing the lowermost tank onscreen and default to system's base tank (container used is bounds because it may be a simulacrum tank)
-                    Bounds leftMostTank = highestTank;  //Make container for storing the leftmost tank onscreen and default to system's base tank (container used is bounds because it may be a simulacrum tank)
-                    Bounds rightMostTank = highestTank; //Make container for storing the rightmost tank onscreen and default to system's base tank (container used is bounds because it may be a simulacrum tank)
-                    for (int x = 1; x < allTanks.Length; x++) //Iterate through tanks (and simulacrum stanks) in camera system (other than base tank)
+                    Bounds[] allTankBounds = tanks.Select(t => GetTankAsBounds(t)).Concat(simulatedTanks.Select(s => s.bounds)).ToArray(); //Get an array of bounds representing all tanks in view (simulated and real)
+                    Bounds highestTank = allTankBounds[0]; //Make container for storing the uppermost tank onscreen and default to system's base tank (container used is bounds because it may be a simulacrum tank)
+                    Bounds lowestTank = highestTank;       //Make container for storing the lowermost tank onscreen and default to system's base tank (container used is bounds because it may be a simulacrum tank)
+                    Bounds leftMostTank = highestTank;     //Make container for storing the leftmost tank onscreen and default to system's base tank (container used is bounds because it may be a simulacrum tank)
+                    Bounds rightMostTank = highestTank;    //Make container for storing the rightmost tank onscreen and default to system's base tank (container used is bounds because it may be a simulacrum tank)
+                    foreach (Bounds tankBounds in allTankBounds) //Iterate through tanks (and simulacrum stanks) in camera system (other than base tank)
                     {
-                        if (allTanks[x].center.y + allTanks[x].extents.y > highestTank.center.y + highestTank.extents.y) highestTank = allTanks[x];       //Factor in both physical tank position and tank height when looking for tallest tank
-                        if (allTanks[x].center.y - allTanks[x].extents.y < lowestTank.center.y - lowestTank.extents.y) lowestTank = allTanks[x];          //Factor in both physical tank position and tank depth when looking for lowest tank
-                        if (allTanks[x].center.x - allTanks[x].extents.x < leftMostTank.center.x - leftMostTank.extents.x) leftMostTank = allTanks[x];    //Factor in both physical tank position and left side length of tank when looking for leftmost tank
-                        if (allTanks[x].center.x + allTanks[x].extents.x > rightMostTank.center.x + rightMostTank.extents.x) rightMostTank = allTanks[x]; //Factor in both physical tank position and right side length of tank when looking for rightmost tank
+                        //Compare extents:
+                        if (tankBounds == allTankBounds[0]) continue;                                                                                  //Skip first entry because it does not need to be compared to itself
+                        if (tankBounds.center.y + tankBounds.extents.y > highestTank.center.y + highestTank.extents.y) highestTank = tankBounds;       //Factor in both physical tank position and tank height when looking for tallest tank
+                        if (tankBounds.center.y - tankBounds.extents.y < lowestTank.center.y - lowestTank.extents.y) lowestTank = tankBounds;          //Factor in both physical tank position and tank depth when looking for lowest tank
+                        if (tankBounds.center.x - tankBounds.extents.x < leftMostTank.center.x - leftMostTank.extents.x) leftMostTank = tankBounds;    //Factor in both physical tank position and left side length of tank when looking for leftmost tank
+                        if (tankBounds.center.x + tankBounds.extents.x > rightMostTank.center.x + rightMostTank.extents.x) rightMostTank = tankBounds; //Factor in both physical tank position and right side length of tank when looking for rightmost tank
+                    }
+                    Bounds[] allActualTankBounds = tanks.Select(t => t.treadSystem.GetTankBounds()).Concat(simulatedTanks.Select(s => s.bounds)).ToArray(); //Get an array of bounds representing actual cross section of all tanks in view (simulated and real)
+                    Bounds actualLeftMostTank = allActualTankBounds[0];  //Container specifically for REAL CURRENT bounds of leftmost tank (as opposed to tank extents)
+                    Bounds actualRightMostTank = actualLeftMostTank;     //Container specifically for REAL CURRENT bounds of rightmost tank (as opposed to tank extents)
+                    foreach (Bounds tankBounds in allActualTankBounds) //Iterate through tanks (and simulacrum tanks) in camera system
+                    {
+                        //Compare real extents:
+                        if (tankBounds == allTankBounds[0]) continue;                                                                                                    //Skip first entry because it does not need to be compared to itself
+                        if (tankBounds.center.x - tankBounds.extents.x < actualLeftMostTank.center.x - actualLeftMostTank.extents.x) actualLeftMostTank = tankBounds;    //If bounds are farther left than current leftmost bounds, indicate that they are now the new leftmost bounds
+                        if (tankBounds.center.x + tankBounds.extents.x > actualRightMostTank.center.x + actualRightMostTank.extents.x) actualRightMostTank = tankBounds; //If bounds are farther right than current rightmost bounds, indicate that they are now the new rightmost bounds
                     }
 
                     //Update ortho size:
@@ -270,31 +282,8 @@ namespace TowerTanks.Scripts
                     vcam.m_Lens.OrthographicSize = Mathf.Max(heightOrthoSize, widthOrthoSize); //Use whichever value is larger as the final orthographic size
 
                     //Get horizontal extents of frame:
-
-                    /*
-                    Cell leftMostCell = tanks[0].rooms[0].cells[0];   //Get baseline leftmost cell in leftmost tank (default to random cell in core room)
-                    Cell rightMostCell = tanks[^1].rooms[0].cells[0]; //Get baseline rightmost cell in rightmost tank (default to random cell in core room)
-                    foreach (TankController tank in tanks) //Iterate through each tank in system
-                    {
-                        foreach (Room room in tank.rooms) //Iterate through all rooms in tank
-                        {
-                            foreach (Cell cell in room.cells) //Iterate through all cells in room
-                            {
-                                if (cell.transform.position.x < leftMostCell.transform.position.x) leftMostCell = cell;   //Indicate that cell is CURRENTLY the farthest left of all cells in tank
-                                if (cell.transform.position.x > rightMostCell.transform.position.x) rightMostCell = cell; //Indicate that cell is CURRENTLY the farthest right of all cells in tank
-                            }
-                        }
-                    }
-                    bool leftTankLeaningRight = leftMostCell.room.targetTank.treadSystem.transform.eulerAngles.z > 180; //Identify which direction the tank containing the leftmost cell is leaning in
-                    bool rightTankLeaningRight = rightMostCell.room.targetTank.treadSystem.transform.eulerAngles.z > 180; //Identify which direction the tank containing the rightmost cell is leaning in
-
-                    float leftMostPoint = (leftMostCell.transform.position + (leftMostCell.transform.rotation * new Vector3(-0.5f, leftTankLeaningRight ? -0.5f : 0.5f, 0))).x;    //Get leftmost point of leftmost cell
-                    float rightMostPoint = (rightMostCell.transform.position + (rightMostCell.transform.rotation * new Vector3(0.5f, rightTankLeaningRight ? 0.5f : -0.5f, 0))).x; //Get rightmost point of rightmost cell
-                    leftMostPoint = Mathf.Min(leftMostPoint, tanks[0].treadSystem.wheels[0].transform.position.x - tanks[0].treadSystem.wheels[0].radius);                         //Check if leftmost wheel in leftmost tank tread is farther left than leftmost cell
-                    rightMostPoint = Mathf.Max(rightMostPoint, tanks[^1].treadSystem.wheels[^1].transform.position.x + tanks[0].treadSystem.wheels[^1].radius);                    //Check if rightmost wheel in rightmost tank tread is farther right than rightmost cell
-                    */
-                    float leftMostPoint = leftMostTank.center.x - leftMostTank.extents.x;    //Get leftmost extent of focused tanks
-                    float rightMostPoint = rightMostTank.center.x + rightMostTank.extents.x; //Get rightmost extent of focused tanks
+                    float actualLeftMostPoint = actualLeftMostTank.center.x - actualLeftMostTank.extents.x;
+                    float actualRightMostPoint = actualRightMostTank.center.x + actualRightMostTank.extents.x;
 
                     //Position camera:
                     if (tanks.Count == 1 && simulatedTanks.Count == 0) //When tracking a single tank, the camera system uses the tracked pose offset value to position the tank at the center of the screen
@@ -309,7 +298,7 @@ namespace TowerTanks.Scripts
 
                         //Get x offset:
                         Vector2 offset = new Vector2();                                                                                                            //Create container to apply offsets to
-                        float offsetWidth = ((leftMostPoint + rightMostPoint) / 2) - tanks[0].treadSystem.transform.position.x;                                    //Get x distance to offset camera by by finding the world center between both extreme horizontal points in tank and getting the difference between that and the tank x position
+                        float offsetWidth = tanks[0].treadSystem.transform.position.x - ((actualLeftMostPoint + actualRightMostPoint) / 2);                        //Get x distance to offset camera by by finding the world center between both extreme horizontal points in tank and getting the difference between that and the tank x position
                         offsetWidth = Mathf.Lerp(prevOffsetWidth, offsetWidth, main.horizontalOffsetSmoothing * Time.deltaTime);                                   //Use a lerp to smooth out erratic changes in found offset width
                         prevOffsetWidth = offsetWidth;                                                                                                             //Store offset width value for later
                         offset -= (Vector2)(Quaternion.AngleAxis(-tanks[0].treadSystem.transform.eulerAngles.z, Vector3.forward) * (Vector3.right * offsetWidth)); //Apply value to offset, compensating for current rotation of tank
@@ -332,7 +321,7 @@ namespace TowerTanks.Scripts
 
                         //Move target:
                         Vector2 newPosition = new Vector2();                                                                                                                    //Create container to store new position for follow dummy
-                        newPosition.x = (leftMostPoint + rightMostPoint) / 2;                                                                                                   //Position dummy at exact center between found tank extremities
+                        newPosition.x = (actualLeftMostPoint + actualRightMostPoint) / 2;                                                                                       //Position dummy at exact center between found tank extremities
                         //newPosition.y = ((lowestTank.treadSystem.transform.position.y - lowestTank.tankSizeValues.z) - main.tankCamLowerBuffer) + vcam.m_Lens.OrthographicSize; //Get position by finding bottom of lowest followed tank (plus buffer) then moving halfway up the screen from there
                         newPosition.y = ((lowestTank.center.y - lowestTank.extents.y) - main.tankCamLowerBuffer) + vcam.m_Lens.OrthographicSize; //Get position by finding bottom of lowest followed tank (plus buffer) then moving halfway up the screen from there
                         followDummy.position = newPosition;                                                                                                                     //Move dummy to calculated position
