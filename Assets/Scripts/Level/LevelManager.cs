@@ -535,7 +535,6 @@ namespace TowerTanks.Scripts
             //Stop all coroutines
             StopAllCoroutines();
 
-            Time.timeScale = 0.0f;
             GameManager.Instance.AudioManager.Play("DeathStinger");
 
             OnGameOver?.Invoke();

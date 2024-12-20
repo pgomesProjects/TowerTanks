@@ -755,7 +755,8 @@ namespace TowerTanks.Scripts
 
         public void OnSelfDestruct(InputAction.CallbackContext ctx)
         {
-            if (!isAlive) return;
+            //If the player is not alive or in the build scene, ignore this
+            if (!isAlive || GameManager.Instance.currentSceneState == SCENESTATE.BuildScene) return;
 
             if (ctx.started)
             {
@@ -930,6 +931,8 @@ namespace TowerTanks.Scripts
 
             interactInputHeld = false;
             jetpackInputHeld = false;
+            isShaking = false;
+            characterVisualParent.localPosition = Vector3.zero;
 
             if (currentObject != null)
                 currentObject.Drop(this, true, moveInput);

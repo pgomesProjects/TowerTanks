@@ -13,6 +13,8 @@ namespace TowerTanks.Scripts
         public Transform tankSpawnPoint;
         internal TankController playerTank;
 
+        public static System.Action<TankController> OnPlayerTankAssigned;
+
         [PropertySpace]
         public List<EnemyTankDesign> enemyTankDesigns = new List<EnemyTankDesign>();
         public List<EnemyTankDesign> merchantTankDesigns = new List<EnemyTankDesign>();
@@ -98,6 +100,12 @@ namespace TowerTanks.Scripts
             {
                 playerTank = tanks.FirstOrDefault(tank => tank.tankType == TankId.TankType.PLAYER)?.tankScript;
             }
+        }
+
+        private void OnEnable()
+        {
+            if (playerTank != null)
+                OnPlayerTankAssigned?.Invoke(playerTank);
         }
 
         //UTILITY METHODS:

@@ -291,6 +291,7 @@ namespace TowerTanks.Scripts
         {
             //Cleanup:
             activeTanks.Remove(this); //Upon destruction, remove a tank from activeTanks list (should make system consistent between scenes)
+            OnCoreDamaged = null;     //Remove all events from the core damaged action
         }
         private void Start()
         {
@@ -299,7 +300,6 @@ namespace TowerTanks.Scripts
             if (tankManager != null)
             {
                 myTankID = TankManager.instance.tanks.FirstOrDefault(tank => tank.tankScript == this);
-                if (tankType == TankId.TankType.PLAYER) tankManager.playerTank = this;
                 foreach (TankId tank in tankManager.tanks)
                 {
                     if (tank.gameObject == gameObject) //if I'm on the list,
@@ -315,6 +315,12 @@ namespace TowerTanks.Scripts
                             }
                         }
                     }
+                }
+
+                if (tankType == TankId.TankType.PLAYER)
+                {
+                    tankManager.playerTank = this;
+                    TankManager.OnPlayerTankAssigned?.Invoke(this);
                 }
             } 
 
@@ -746,6 +752,13 @@ namespace TowerTanks.Scripts
                             interactablePool.RemoveAt(randomDrop); //Remove from the Pool
                         }
                     }
+                }
+
+                if(tankType == TankId.TankType.PLAYER)
+                {
+                    //If there are no players in the scene, immediately game over
+                    if (GameManager.Instance.MultiplayerManager.GetAllPlayers().Length == 0)
+                        LevelManager.Instance?.GameOver();
                 }
 
                 //Unassign all characters from this tank

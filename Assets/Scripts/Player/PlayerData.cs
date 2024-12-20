@@ -20,12 +20,14 @@ namespace TowerTanks.Scripts
         private NamepadController playerNamepad;
         private string playerName;
         private PlayerMovement currentPlayer;
+        private GamepadCursor playerCursor;
 
         public static Action OnPlayerStateChanged;
 
         private void Awake()
         {
             playerInput = GetComponent<PlayerInput>();
+            playerCursor = GetComponent<GamepadCursor>();
             playerInputMap = playerInput.actions.FindActionMap("Player");
             playerUIMap = playerInput.actions.FindActionMap("GameCursor");
             SetDefaultPlayerName();
@@ -193,5 +195,6 @@ namespace TowerTanks.Scripts
             OnPlayerStateChanged?.Invoke();
         }
         public void SetNamepad(NamepadController namepadController) => playerNamepad = namepadController;
+        public GamepadCursor GetGamepadCursor() => playerCursor;
     }
 }
