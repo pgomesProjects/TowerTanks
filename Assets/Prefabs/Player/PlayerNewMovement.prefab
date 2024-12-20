@@ -5078,7 +5078,7 @@ MonoBehaviour:
   horizontalAirSpeed: 17.5
   groundDeAcceleration: 20
   airDeAcceleration: 10
-  jetpackForce: 20
+  jetpackForce: 25
   ladderClimbUpSpeed: 3.1
   ladderClimbDownSpeed: 5
   slipSlopeValue: 0.5
@@ -5086,10 +5086,10 @@ MonoBehaviour:
   groundedBoxY: 0.07
   groundedBoxOffset: 0.2
   fuelDepletionRate: 30
-  fuelRegenerationRate: 20
+  fuelRegenerationRate: 80
   characterDeathParticleSize: 0.18
   respawnTime: 3
-  tankDistanceToFullDismount: 4
+  tankDistanceToFullDismount: 5
   currentZone: {fileID: 0}
   isOperator: 0
   currentInteractable: {fileID: 0}

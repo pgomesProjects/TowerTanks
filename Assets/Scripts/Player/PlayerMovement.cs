@@ -381,12 +381,19 @@ namespace TowerTanks.Scripts
             }
         }
 
+        protected override void OnDrawGizmos()
+        {
+            base.OnDrawGizmos();
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireCube(transform.position, transform.localScale);
+        }
+
 
         protected override void ClimbLadder()
         {
-            var onCoupler = Physics2D.OverlapBox(transform.position, transform.localScale, transform.eulerAngles.z,
+            var onCoupler = Physics2D.OverlapBox(transform.position, Vector3.one * .33f, transform.eulerAngles.z,
                 1 << LayerMask.NameToLayer("Coupler"));
-            var onLadder = Physics2D.OverlapBox(transform.position, transform.localScale, transform.eulerAngles.z,
+            var onLadder = Physics2D.OverlapBox(transform.position, Vector3.one * .33f, transform.eulerAngles.z,
                 1 << LayerMask.NameToLayer("Ladder"));
             var hitGround = Physics2D.Raycast(transform.position, -transform.up, transform.localScale.y * .5f,
                 1 << LayerMask.NameToLayer("Ground"));
@@ -401,16 +408,16 @@ namespace TowerTanks.Scripts
             {
                 displacement = Vector3.zero;
             }
-
+            
             if (!onCoupler &&
                 !onLadder) //final failsafe for if you're somehow in this state and not in a ladder or coupler
             {
                 SwitchOffLadder();
             }
-
+            currentFuel += fuelRegenerationRate * Time.deltaTime;
             Vector3 newPosition = transform.position + displacement;
             rb.MovePosition(newPosition);
-
+            
             if (Mathf.Abs(moveInput.x) > ladderDismountDeadzone || jetpackInputHeld)
             {
                 SwitchOffLadder();
