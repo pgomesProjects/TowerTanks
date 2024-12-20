@@ -323,7 +323,7 @@ namespace TowerTanks.Scripts
             else currentGroundMoveSpeed = groundMoveSpeed;
 
             Vector2 force = transform.right *
-                            (moveInput.x * ((CheckGround()) ? currentGroundMoveSpeed : defaultAirForce));
+                            (moveInput.x * ((CheckGround()) ? currentGroundMoveSpeed : horizontalAirSpeed));
 
             if (CheckGround())
             {
@@ -341,7 +341,7 @@ namespace TowerTanks.Scripts
             }
             else
             {
-                rb.AddForce(force * 5,
+                rb.AddForce(force * 10,
                     ForceMode2D
                         .Force); //* 5 just makes the air force value more intuitive when compared to ground speed, air force requires more force because
                 // its using force.force instead of impulse
