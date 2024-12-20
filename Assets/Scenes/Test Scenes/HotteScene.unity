@@ -970,12 +970,12 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 57268164af32d0a4eaadf20a23a3cea5, type: 3}
   - {fileID: 21300000, guid: 33ff936bd3ff5ca4e83fd7cafa061526, type: 3}
   tanks:
-  - TankName: The Wall of Gun
+  - TankName: The Supreme Potato
     tankScript: {fileID: 1411317894}
     tankBrain: {fileID: 0}
     tankType: 0
     gameObject: {fileID: 1411317892}
-    design: {fileID: 4900000, guid: e4780146a8a95224498ded04bd0d63ce, type: 3}
+    design: {fileID: 4900000, guid: 0ae7f54292a46314da4951bdac3723a3, type: 3}
     buildOnStart: 1
 --- !u!1 &511407189
 GameObject:
@@ -4944,7 +4944,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1677695872598849025, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
       propertyPath: m_Name
-      value: The Wall of Gun
+      value: The Supreme Potato
       objectReference: {fileID: 0}
     - target: {fileID: 1677695872598849025, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
       propertyPath: m_IsActive

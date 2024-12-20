@@ -938,7 +938,13 @@ namespace TowerTanks.Scripts
                 }
             }
 
-            SetTankName(tankDesign.TankName);
+            //Assign Ai Settings
+            if (tankDesign.aiSettings != "None")
+            {
+                SetTankAI(tankDesign.aiSettings);
+            }
+
+            SetTankName(tankDesign.TankName); //Assign Tank Name
             isPrebuilding = false;
         }
 
@@ -1012,6 +1018,8 @@ namespace TowerTanks.Scripts
             }
 
             design.TankName = TankName; //Name the design after the current tank
+            if (_thisTankAI != null) design.aiSettings = _thisTankAI.name; //Assign Ai Settings based on current Settings
+            else design.aiSettings = "None";
             return design;
         }
 
@@ -1218,6 +1226,19 @@ namespace TowerTanks.Scripts
             nameText.text = TankName;
             gameObject.name = "Tank (" + TankName + ")";
         }
+
+        public void SetTankAI(string newTankAi)
+        {
+            Object[] settings = Resources.LoadAll("TankAISettings", typeof(TankAISettings));
+            foreach (TankAISettings setting in settings)
+            {
+                if (setting.name == newTankAi)
+                {
+                    _thisTankAI.aiSettings = setting;
+                }
+            }
+        }
+
         public Vector3 GetPlayerSpawnPointPosition() => playerSpawnPoint.position;
         public Character[] GetCharactersInTank() => GetComponentsInChildren<Character>();
         public float GetHighestPoint() => tankSizeValues.x;
