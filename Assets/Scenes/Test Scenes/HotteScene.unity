@@ -946,18 +946,22 @@ MonoBehaviour:
     - {fileID: 4900000, guid: f98cb2c4ff7b7c745918733f3ee80aaa, type: 3}
   - tier: 3
     designs:
-    - {fileID: 4900000, guid: d2b925f81df8bba4a91ae62dc49c2bc9, type: 3}
+    - {fileID: 4900000, guid: 2fe16900b01942247a0e13b3f1d613e4, type: 3}
+    - {fileID: 4900000, guid: 6af3cac5b0e9a94428697d80f1f706a6, type: 3}
+    - {fileID: 4900000, guid: 5e58114758a30e547a01b1c3962f6822, type: 3}
+    - {fileID: 4900000, guid: ccb7a6261d6dbae4689a03ba57e75841, type: 3}
   - tier: 4
     designs:
-    - {fileID: 4900000, guid: 9106a67c4a057394f80cf5559fde3ff3, type: 3}
-    - {fileID: 4900000, guid: e4fe768acd4a59140b83a675be060836, type: 3}
+    - {fileID: 4900000, guid: 248a10c6b833f4d4ebe34d0c5b4f8765, type: 3}
+    - {fileID: 4900000, guid: c4e1b006506b07c4ea82e25a31b586e6, type: 3}
     - {fileID: 4900000, guid: 9c38265d0767b1141bf8cc348890cb6e, type: 3}
-    - {fileID: 4900000, guid: 8b1a12644bbf5b04c93f281ed05f4c13, type: 3}
+    - {fileID: 4900000, guid: 0fd4e86b07d4d334fb8b9c93e2988d86, type: 3}
   - tier: 5
     designs:
     - {fileID: 4900000, guid: 871697c44b6024a4abb06b2b3938c926, type: 3}
     - {fileID: 4900000, guid: 566d1a856563b8643a920316711eaaa5, type: 3}
     - {fileID: 4900000, guid: 94857bee71ba89c4984ad4797a726802, type: 3}
+    - {fileID: 4900000, guid: e4780146a8a95224498ded04bd0d63ce, type: 3}
   merchantTankDesigns:
   - tier: 1
     designs:
@@ -966,12 +970,12 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 57268164af32d0a4eaadf20a23a3cea5, type: 3}
   - {fileID: 21300000, guid: 33ff936bd3ff5ca4e83fd7cafa061526, type: 3}
   tanks:
-  - TankName: The Supreme Potato
+  - TankName: The Wall of Gun
     tankScript: {fileID: 1411317894}
     tankBrain: {fileID: 0}
     tankType: 0
     gameObject: {fileID: 1411317892}
-    design: {fileID: 4900000, guid: 0ae7f54292a46314da4951bdac3723a3, type: 3}
+    design: {fileID: 4900000, guid: e4780146a8a95224498ded04bd0d63ce, type: 3}
     buildOnStart: 1
 --- !u!1 &511407189
 GameObject:
@@ -4940,7 +4944,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1677695872598849025, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
       propertyPath: m_Name
-      value: The Supreme Potato
+      value: The Wall of Gun
       objectReference: {fileID: 0}
     - target: {fileID: 1677695872598849025, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
       propertyPath: m_IsActive
@@ -4994,6 +4998,10 @@ PrefabInstance:
       propertyPath: roomKit
       value: 
       objectReference: {fileID: 11400000, guid: 530fa040df4a8014d8d7b5abd56e4bdf, type: 2}
+    - target: {fileID: 1677695872598849027, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
+      propertyPath: TankName
+      value: The Wall of Gun
+      objectReference: {fileID: 0}
     - target: {fileID: 1677695872598849027, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
       propertyPath: m_Enabled
       value: 1
