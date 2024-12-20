@@ -1470,6 +1470,9 @@ MonoBehaviour:
   towerJointTarget: {fileID: 1677695871312723229}
   isInvincible: 0
   isFragile: 0
+  upMostCell: {fileID: 0}
+  leftMostCell: {fileID: 0}
+  rightMostCell: {fileID: 0}
   myTankID:
     TankName: New Tank
     tankScript: {fileID: 0}
@@ -1481,6 +1484,7 @@ MonoBehaviour:
   tankFlag: {fileID: 5685120059937764489}
   surrenderFlag: {fileID: 2687768884453491569}
   corpsePrefab: {fileID: 1822410957947985641, guid: a0ef6e4884eb9704c9ff17411afc1462, type: 3}
+  hatches: []
   cargoHold: []
   roomKit: {fileID: 11400000, guid: 530fa040df4a8014d8d7b5abd56e4bdf, type: 2}
   gear: 0
@@ -1884,9 +1888,9 @@ MonoBehaviour:
   totalWeight: 2200
   maximumRelativeImpactHeight: 7
   gearPositions: 5
-  baseEnginePower: 50
-  boilerPowerAdd: 50
-  boilerSurgePower: 25
+  baseEnginePower: 100
+  boilerPowerAdd: 100
+  boilerSurgePower: 50
   minRPM: 0
   maxRPM: 7000
   RPMAccelFactor: 0.05
@@ -1940,7 +1944,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   maxSlipRatio: 1
-  treadInertia: 1
+  treadInertia: 5
   axleDragCoefficient: 0.001
   wheelStickiness: 15
   wheelStickCompressionCurve:
@@ -1967,9 +1971,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  brakeDragCoefficient: 0.3
+  brakeDragCoefficient: 0.5
   brakeDwellTime: 0.2
-  brakeSaturationTime: 5
+  brakeSaturationTime: 3
   brakeSaturationCurve:
     serializedVersion: 2
     m_Curve:
