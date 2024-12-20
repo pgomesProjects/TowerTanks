@@ -47,6 +47,16 @@ MonoBehaviour:
   - Mechanized
   - Inferno
   - Ultra
+  - Assault
+  - Trench
+  - Desert
+  - Junkyard
+  - Leaning
+  - Rolling
+  - Armored
+  - Lethal
+  - Screeching
+  - Spry
   nouns:
   - Roger
   - Machine
@@ -82,3 +92,9 @@ MonoBehaviour:
   - Barge
   - Constable
   - Zamboni
+  - Battery
+  - Greasetrap
+  - Unit
+  - Frontliner
+  - Yacht
+  - Puncher

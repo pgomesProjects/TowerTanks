@@ -694,11 +694,11 @@ namespace TowerTanks.Scripts
 
         public void BlowUp(bool immediate)
         {
-            CameraManipulator.main?.OnTankDestroyed(this);
-            TankManager.instance.tanks.Remove(myTankID);
             if (immediate) DestroyImmediate(gameObject);
             else
             {
+                CameraManipulator.main?.OnTankDestroyed(this);
+                TankManager.instance.tanks.Remove(myTankID);
                 Cell[] cells = GetComponentsInChildren<Cell>();
                 foreach (Cell cell in cells)
                 {
