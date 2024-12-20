@@ -60,7 +60,7 @@ namespace TowerTanks.Scripts
         private void CreatePlayerTankHealth(TankController playerTank)
         {
             playerTank.OnCoreDamaged += UpdatePlayerTankHealth;
-            healthPlayerTankName.text = playerTank.TankName + "'s Health:";
+            healthPlayerTankName.text = playerTank.TankName + ":";
         }
 
         private async void ShowGameOverScreen()

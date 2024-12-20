@@ -210,6 +210,11 @@ namespace TowerTanks.Scripts
                 newInt = 4;
             }
 
+            if (totalEnemiesDestroyed > 7)
+            {
+                newInt = 5;
+            }
+
             return newInt;
         }
 
