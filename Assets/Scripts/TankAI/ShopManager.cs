@@ -41,6 +41,7 @@ namespace TowerTanks.Scripts
         public void InitializeShop()
         {
             terminals = GetComponentsInChildren<ShopTerminal>();
+            if (terminals.Length == 0) return;
 
             //Assign Items to Terminals
             for(int t = 0; t < defaultStock.Length; t++)
