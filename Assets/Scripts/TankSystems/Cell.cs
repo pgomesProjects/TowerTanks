@@ -481,7 +481,7 @@ namespace TowerTanks.Scripts
             }
             CleanUpCollision();                 //Remove cell collision
             AddInteractablesFromCell();         //Add cell interactables to stack
-            room.targetTank.UpdateSizeValues(); //Update highest cell tracker
+            room.targetTank.UpdateSizeValues(false); //Update highest cell tracker
 
             //Update Room Status:
             room.cells.Remove(this);                  //Remove this cell from parent room's list of cells

@@ -1127,7 +1127,7 @@ namespace TowerTanks.Scripts
         /// <summary>
         /// Updates envelope describing height and width of tank relative to treadbase.
         /// </summary>
-        public void UpdateSizeValues()
+        public void UpdateSizeValues(bool flagUpdate = false)
         {
             //Find extreme cells:
             upMostCell = null;
@@ -1142,8 +1142,9 @@ namespace TowerTanks.Scripts
                 }
             }
 
-            //Update Flag
-            UpdateFlagPosition(upMostCell.transform);
+            //Update Flags
+            if (flagUpdate) UpdateFlagPosition(upMostCell.transform);
+            UpdateSurrenderFlagPosition(upMostCell.transform);
 
             //Calculate tank metrics:
             float highestCellHeight = treadSystem.transform.InverseTransformPoint(upMostCell.transform.position).y + 0.5f;                 //Get height from treadbase to top of highest cell
@@ -1274,6 +1275,12 @@ namespace TowerTanks.Scripts
         {
             Vector2 newPos = target.position;
             tankFlag.transform.position = newPos;
+            tankFlag.transform.parent = target;
+        }
+
+        public void UpdateSurrenderFlagPosition(Transform target)
+        {
+            Vector2 newPos = target.position;
             surrenderFlag.transform.position = newPos;
         }
     }

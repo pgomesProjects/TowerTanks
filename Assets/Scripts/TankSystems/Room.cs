@@ -87,7 +87,7 @@ namespace TowerTanks.Scripts
             {
                 SetUpCollision();                         //Set up cell colliders on treadsystem
                 mounted = true;                           //Core rooms start mounted
-                targetTank.UpdateSizeValues();            //Get base tank size
+                targetTank.UpdateSizeValues(true);            //Get base tank size
                 targetTank.treadSystem.ReCalculateMass(); //Get base tank mass
             }
         }
@@ -545,7 +545,7 @@ namespace TowerTanks.Scripts
 
             //Update tank info:
             transform.parent = couplers[0].roomB.transform.parent; //Child room to parent of the rest of the rooms (home tank)
-            targetTank.UpdateSizeValues();                         //Check to see if any added cells are higher than the known highest cell
+            targetTank.UpdateSizeValues(true);                     //Check to see if any added cells are higher than the known highest cell
             targetTank.treadSystem.ReCalculateMass();              //Re-calculate tank mass and center of mass
 
             return mounted;
@@ -582,7 +582,7 @@ namespace TowerTanks.Scripts
 
                 //Remove room from tank system:
                 targetTank.rooms.Remove(this);            // Remove room from the tank's list of rooms
-                targetTank.UpdateSizeValues();            //Check to see if any added cells are higher than the known highest cell
+                targetTank.UpdateSizeValues(true);            //Check to see if any added cells are higher than the known highest cell
                 targetTank.treadSystem.ReCalculateMass(); //Re-calculate mass now that room has been removed
             }
 
