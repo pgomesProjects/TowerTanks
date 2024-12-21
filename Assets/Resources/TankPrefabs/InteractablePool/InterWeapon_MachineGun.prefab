@@ -432,15 +432,10 @@ MonoBehaviour:
   thisCollider: {fileID: 0}
   stackName: Machine Gun
   prefabRef: {fileID: 1789302742507130491}
-  uiImage: {fileID: 21300000, guid: 5e8b031fc02ec6c47a1785caa19c4751, type: 2}
-  hasOperator: 0
+  uiImage: {fileID: 21300000, guid: c6eb2e535c1b66940a02dd291293dad2, type: 2}
   isContinuous: 1
   canAim: 1
   direction: 1
-  debugMoveUp: 0
-  debugMoveDown: 0
-  debugMoveLeft: 0
-  debugMoveRight: 0
   debugFlip: 0
   projectilePrefab: {fileID: 2367129227070595597, guid: ad2c16d34a64efd4ab5a6515dab7366a, type: 3}
   specialAmmo: []
