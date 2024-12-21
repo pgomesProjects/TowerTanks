@@ -1,0 +1,182 @@
+{
+    "TankName": "The Double-Decker Dealer",
+    "coreInteractables": [
+        {
+            "cellName": "Cell_2",
+            "interRef": "InterCommand_Throttle",
+            "flipped": false
+        }
+    ],
+    "buildingSteps": [
+        {
+            "roomID": "Room_Line2A",
+            "roomType": 0,
+            "localSpawnVector": {
+                "x": -2.25,
+                "y": 1.25,
+                "z": 0.0
+            },
+            "rotate": 1,
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_1",
+                    "interRef": "InterShop_Terminal",
+                    "flipped": false
+                }
+            ],
+            "cellManifest": [
+                true,
+                true
+            ]
+        },
+        {
+            "roomID": "Room_Line2A",
+            "roomType": 0,
+            "localSpawnVector": {
+                "x": -2.25,
+                "y": 2.5,
+                "z": 0.0
+            },
+            "rotate": 1,
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_1",
+                    "interRef": "InterShop_Terminal",
+                    "flipped": false
+                }
+            ],
+            "cellManifest": [
+                true,
+                true
+            ]
+        },
+        {
+            "roomID": "Room_Line2A",
+            "roomType": 0,
+            "localSpawnVector": {
+                "x": 2.25,
+                "y": 1.25,
+                "z": 0.0
+            },
+            "rotate": 3,
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_0",
+                    "interRef": "InterShop_Terminal",
+                    "flipped": false
+                }
+            ],
+            "cellManifest": [
+                true,
+                true
+            ]
+        },
+        {
+            "roomID": "Room_Line2A",
+            "roomType": 0,
+            "localSpawnVector": {
+                "x": 1.25,
+                "y": 2.5,
+                "z": 0.0
+            },
+            "rotate": 1,
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_1",
+                    "interRef": "InterShop_Terminal",
+                    "flipped": false
+                }
+            ],
+            "cellManifest": [
+                true,
+                true
+            ]
+        },
+        {
+            "roomID": "Room_Hopper_3A",
+            "roomType": 0,
+            "localSpawnVector": {
+                "x": 0.0,
+                "y": 1.5,
+                "z": 0.0
+            },
+            "rotate": 0,
+            "cellInteractables": [],
+            "cellManifest": [
+                true,
+                true,
+                true
+            ]
+        },
+        {
+            "roomID": "Room_Line2B",
+            "roomType": 0,
+            "localSpawnVector": {
+                "x": -2.25,
+                "y": 3.75,
+                "z": 0.0
+            },
+            "rotate": 1,
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_1",
+                    "interRef": "InterEngineer_Boiler",
+                    "flipped": false
+                }
+            ],
+            "cellManifest": [
+                true,
+                true
+            ]
+        },
+        {
+            "roomID": "Room_Line2B",
+            "roomType": 0,
+            "localSpawnVector": {
+                "x": 1.5,
+                "y": 3.75,
+                "z": 0.0
+            },
+            "rotate": 1,
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_0",
+                    "interRef": "InterEngineer_Boiler",
+                    "flipped": true
+                }
+            ],
+            "cellManifest": [
+                true,
+                true
+            ]
+        },
+        {
+            "roomID": "Room_LadderUp_1A",
+            "roomType": 0,
+            "localSpawnVector": {
+                "x": -3.5,
+                "y": -0.039999961853027347,
+                "z": 0.0
+            },
+            "rotate": 1,
+            "cellInteractables": [],
+            "cellManifest": [
+                true
+            ]
+        },
+        {
+            "roomID": "Room_LadderUp_1A",
+            "roomType": 0,
+            "localSpawnVector": {
+                "x": 3.5,
+                "y": -0.039999961853027347,
+                "z": 0.0
+            },
+            "rotate": 0,
+            "cellInteractables": [],
+            "cellManifest": [
+                true
+            ]
+        }
+    ]
+}

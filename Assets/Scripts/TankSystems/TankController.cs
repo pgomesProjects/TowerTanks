@@ -58,6 +58,7 @@ namespace TowerTanks.Scripts
         //Settings:
         [Header("Visual Settings:")]
         [Tooltip("Defines how cells in the tank look.")] public RoomAssetKit roomKit;
+        public Transform[] diageticElements;
         #region Debug Controls
         [Header("Debug Controls")]
         [InlineButton("ShiftRight", SdfIconType.ArrowRight, "")]
@@ -243,7 +244,7 @@ namespace TowerTanks.Scripts
         private SpriteRenderer damageSprite;
         [Tooltip("How long damage visual effect persists for")] private float damageTime;
         private float damageTimer;
-
+      
         public static System.Action OnPlayerTankSizeAdjusted;
 
         //RUNTIME METHODS:
@@ -291,6 +292,7 @@ namespace TowerTanks.Scripts
         {
             //Cleanup:
             activeTanks.Remove(this); //Upon destruction, remove a tank from activeTanks list (should make system consistent between scenes)
+            OnCoreDamaged = null;     //Remove all events from the core damaged action
         }
         private void Start()
         {
@@ -299,7 +301,6 @@ namespace TowerTanks.Scripts
             if (tankManager != null)
             {
                 myTankID = TankManager.instance.tanks.FirstOrDefault(tank => tank.tankScript == this);
-                if (tankType == TankId.TankType.PLAYER) tankManager.playerTank = this;
                 foreach (TankId tank in tankManager.tanks)
                 {
                     if (tank.gameObject == gameObject) //if I'm on the list,
@@ -315,6 +316,12 @@ namespace TowerTanks.Scripts
                             }
                         }
                     }
+                }
+
+                if (tankType == TankId.TankType.PLAYER)
+                {
+                    tankManager.playerTank = this;
+                    TankManager.OnPlayerTankAssigned?.Invoke(this);
                 }
             } 
 
@@ -354,6 +361,7 @@ namespace TowerTanks.Scripts
                 AddCargo();
             }
             currentCoreHealth = coreHealth;
+            UpdateUI();
 
             //Shop Logic
             if (tankType == TankId.TankType.NEUTRAL)
@@ -424,15 +432,40 @@ namespace TowerTanks.Scripts
 
         private void UpdateUI()
         {
+            /*
             Color newColor = damageSprite.color;
             newColor.a = Mathf.Lerp(0, 255f, (damageTimer / damageTime) * Time.fixedDeltaTime);
-            damageSprite.color = newColor;
+            damageSprite.color = newColor;*/
 
-            damageTimer -= Time.deltaTime;
-            if (damageTimer < 0)
+            //Diagetic Damage Elements
+            if (currentCoreHealth >= coreHealth)
             {
-                damageTimer = 0;
-                damageTime = 0;
+                foreach (Transform element in diageticElements)
+                {
+                    element.gameObject.SetActive(false);
+                }
+            }
+            else 
+            { 
+                diageticElements[2].gameObject.SetActive(true);
+
+                if (currentCoreHealth <= (coreHealth * 0.90f)) { diageticElements[9].gameObject.SetActive(true); }
+                if (currentCoreHealth <= (coreHealth * 0.80f)) { diageticElements[0].gameObject.SetActive(true); }
+                if (currentCoreHealth <= (coreHealth * 0.70f)) { diageticElements[1].gameObject.SetActive(true); }
+                if (currentCoreHealth <= (coreHealth * 0.60f)) { diageticElements[4].gameObject.SetActive(true); }
+                if (currentCoreHealth <= (coreHealth * 0.50f)) 
+                { 
+                    diageticElements[6].gameObject.SetActive(true);
+                    diageticElements[10].gameObject.SetActive(true); //Smoke
+                }
+                if (currentCoreHealth <= (coreHealth * 0.40f)) { diageticElements[7].gameObject.SetActive(true); }
+                if (currentCoreHealth <= (coreHealth * 0.30f)) { diageticElements[3].gameObject.SetActive(true); }
+                if (currentCoreHealth <= (coreHealth * 0.20f)) 
+                { 
+                    diageticElements[8].gameObject.SetActive(true);
+                    diageticElements[11].gameObject.SetActive(true); //Smoke
+                }
+                if (currentCoreHealth <= (coreHealth * 0.10f)) { diageticElements[5].gameObject.SetActive(true); }
             }
         }
 
@@ -604,7 +637,7 @@ namespace TowerTanks.Scripts
 
         public void HitEffects(float speedScale)
         {
-            //UpdateUI();
+            UpdateUI();
             tankAnimator.SetFloat("SpeedScale", speedScale);
             tankAnimator.Play("DamageFlashCore", 0, 0);
         }
@@ -694,11 +727,11 @@ namespace TowerTanks.Scripts
 
         public void BlowUp(bool immediate)
         {
-            CameraManipulator.main?.OnTankDestroyed(this);
-            TankManager.instance.tanks.Remove(myTankID);
             if (immediate) DestroyImmediate(gameObject);
             else
             {
+                CameraManipulator.main?.OnTankDestroyed(this);
+                TankManager.instance.tanks.Remove(myTankID);
                 Cell[] cells = GetComponentsInChildren<Cell>();
                 foreach (Cell cell in cells)
                 {
@@ -746,6 +779,13 @@ namespace TowerTanks.Scripts
                             interactablePool.RemoveAt(randomDrop); //Remove from the Pool
                         }
                     }
+                }
+
+                if(tankType == TankId.TankType.PLAYER)
+                {
+                    //If there are no players in the scene, immediately game over
+                    if (GameManager.Instance.MultiplayerManager.GetAllPlayers().Length == 0)
+                        LevelManager.Instance?.GameOver();
                 }
 
                 //Unassign all characters from this tank
@@ -925,7 +965,13 @@ namespace TowerTanks.Scripts
                 }
             }
 
-            SetTankName(tankDesign.TankName);
+            //Assign Ai Settings
+            if (tankDesign.aiSettings != "None")
+            {
+                SetTankAI(tankDesign.aiSettings);
+            }
+
+            SetTankName(tankDesign.TankName); //Assign Tank Name
             isPrebuilding = false;
         }
 
@@ -999,6 +1045,8 @@ namespace TowerTanks.Scripts
             }
 
             design.TankName = TankName; //Name the design after the current tank
+            if (_thisTankAI != null) design.aiSettings = _thisTankAI.name; //Assign Ai Settings based on current Settings
+            else design.aiSettings = "None";
             return design;
         }
 
@@ -1079,7 +1127,7 @@ namespace TowerTanks.Scripts
         /// <summary>
         /// Updates envelope describing height and width of tank relative to treadbase.
         /// </summary>
-        public void UpdateSizeValues()
+        public void UpdateSizeValues(bool flagUpdate = false)
         {
             //Find extreme cells:
             upMostCell = null;
@@ -1094,8 +1142,9 @@ namespace TowerTanks.Scripts
                 }
             }
 
-            //Update Flag
-            UpdateFlagPosition(upMostCell.transform);
+            //Update Flags
+            if (flagUpdate) UpdateFlagPosition(upMostCell.transform);
+            UpdateSurrenderFlagPosition(upMostCell.transform);
 
             //Calculate tank metrics:
             float highestCellHeight = treadSystem.transform.InverseTransformPoint(upMostCell.transform.position).y + 0.5f;                 //Get height from treadbase to top of highest cell
@@ -1205,6 +1254,19 @@ namespace TowerTanks.Scripts
             nameText.text = TankName;
             gameObject.name = "Tank (" + TankName + ")";
         }
+
+        public void SetTankAI(string newTankAi)
+        {
+            Object[] settings = Resources.LoadAll("TankAISettings", typeof(TankAISettings));
+            foreach (TankAISettings setting in settings)
+            {
+                if (setting.name == newTankAi)
+                {
+                    _thisTankAI.aiSettings = setting;
+                }
+            }
+        }
+
         public Vector3 GetPlayerSpawnPointPosition() => playerSpawnPoint.position;
         public Character[] GetCharactersInTank() => GetComponentsInChildren<Character>();
         public float GetHighestPoint() => tankSizeValues.x;
@@ -1213,6 +1275,12 @@ namespace TowerTanks.Scripts
         {
             Vector2 newPos = target.position;
             tankFlag.transform.position = newPos;
+            tankFlag.transform.parent = target;
+        }
+
+        public void UpdateSurrenderFlagPosition(Transform target)
+        {
+            Vector2 newPos = target.position;
             surrenderFlag.transform.position = newPos;
         }
     }

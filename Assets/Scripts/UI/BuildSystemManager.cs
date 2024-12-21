@@ -186,6 +186,10 @@ namespace TowerTanks.Scripts
 
         private void Update()
         {
+            //If actively in a game menu, return
+            if (GameManager.Instance.InGameMenu)
+                return;
+
             foreach (WorldRoom room in worldRoomObjects)
             {
                 if (!(room.currentRoomState == WorldRoom.RoomState.MOUNTED))
@@ -235,8 +239,7 @@ namespace TowerTanks.Scripts
         /// <param name="distance">The distance to move the room.</param>
         private void MoveRoomInScene(WorldRoom room, Vector2 distance)
         {
-            room.cursorTransform.position = Camera.main.WorldToScreenPoint(
-                room.roomObject.SnapMove((Vector2)Camera.main.ScreenToWorldPoint(room.cursorTransform.position) + distance));
+            room.playerSelector.GetCurrentPlayerData().GetGamepadCursor().AdjustCursorPosition(Camera.main.WorldToScreenPoint(room.roomObject.SnapMove((Vector2)Camera.main.ScreenToWorldPoint(room.cursorTransform.position) + distance)), Vector2.zero);
         }
 
         /// <summary>
@@ -245,6 +248,10 @@ namespace TowerTanks.Scripts
         /// <param name="playerInput">The player rotating the room.</param>
         public void RotateRoom(PlayerInput playerInput)
         {
+            //If actively in a game menu, return
+            if (GameManager.Instance.InGameMenu)
+                return;
+
             WorldRoom playerRoom = GetPlayerRoom(playerInput);
 
             //If the room is not mounted, rotate the room
@@ -262,6 +269,10 @@ namespace TowerTanks.Scripts
         /// <returns>Returns true if the mount was successful and false if it was not.</returns>
         public bool MountRoom(PlayerInput playerInput)
         {
+            //If actively in a game menu, return
+            if (GameManager.Instance.InGameMenu)
+                return false;
+
             //If the current building subphase is not in a phase that allows for building, return false
             if (CurrentSubPhase == BuildingSubphase.Naming || CurrentSubPhase == BuildingSubphase.PickRooms)
                 return false;
@@ -269,11 +280,12 @@ namespace TowerTanks.Scripts
             //Get the room from the player and mount it
             WorldRoom playerRoom = GetPlayerRoom(playerInput);
             Room mountedRoom = playerRoom.Mount();
-            mountedRoom.heldDuringPlacement = false;
 
             //If there is no room, return false
             if (mountedRoom == null)
                 return false;
+
+            mountedRoom.heldDuringPlacement = false;
 
             //Add the room to the stats
             defaultPlayerTank.AddRoomToStats(mountedRoom);

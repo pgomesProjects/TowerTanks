@@ -13,6 +13,8 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("The delay (in seconds) for the game over screen to show.")] private float gameOverDelay;
         [SerializeField, Tooltip("The controller for the session stats menu.")] private SessionStatsController sessionStatsMenu;
 
+        [SerializeField, Tooltip("The name of the player tank in the health bar.")] private TextMeshProUGUI healthPlayerTankName;
+        [SerializeField, Tooltip("The health bar for the player tank's core.")] private ProgressBar playerCoreHealth;
         [SerializeField, Tooltip("The alarm animation for incoming enemies.")] private AlarmAnimation alarmAnimation;
         [SerializeField, Tooltip("The text for the current enemy.")] private TextMeshProUGUI enemyText;
         [SerializeField, Tooltip("The canvas group for the current enemy info.")] private CanvasGroup enemyCanvasGroup;
@@ -43,6 +45,7 @@ namespace TowerTanks.Scripts
 
             LevelManager.OnGameOver += ShowGameOverScreen;
             LevelManager.OnCombatEnded += EndCombat;
+            TankManager.OnPlayerTankAssigned += CreatePlayerTankHealth;
         }
 
         protected override void OnDisable()
@@ -51,6 +54,13 @@ namespace TowerTanks.Scripts
 
             LevelManager.OnGameOver -= ShowGameOverScreen;
             LevelManager.OnCombatEnded -= EndCombat;
+            TankManager.OnPlayerTankAssigned -= CreatePlayerTankHealth;
+        }
+
+        private void CreatePlayerTankHealth(TankController playerTank)
+        {
+            playerTank.OnCoreDamaged += UpdatePlayerTankHealth;
+            healthPlayerTankName.text = playerTank.TankName + ":";
         }
 
         private async void ShowGameOverScreen()
@@ -61,6 +71,7 @@ namespace TowerTanks.Scripts
 
             gameOverMenu.SetActive(false);
             sessionStatsMenu.gameObject.SetActive(true);
+            Time.timeScale = 0.0f;
         }
 
         /// <summary>
@@ -112,6 +123,14 @@ namespace TowerTanks.Scripts
                 healthBarMask.sizeDelta = healthBarWidth;
                 yield return null;
             }
+        }
+
+        private void UpdatePlayerTankHealth(float amount)
+        {
+            playerCoreHealth.UpdateProgressValue(amount);
+
+            if (amount <= 0)
+                playerCoreHealth.gameObject.SetActive(false);
         }
 
         private void UpdateEnemyTankHealth(float amount)

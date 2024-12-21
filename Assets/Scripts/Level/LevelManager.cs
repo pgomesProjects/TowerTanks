@@ -210,6 +210,11 @@ namespace TowerTanks.Scripts
                 newInt = 4;
             }
 
+            if (totalEnemiesDestroyed > 7)
+            {
+                newInt = 5;
+            }
+
             return newInt;
         }
 
@@ -535,7 +540,6 @@ namespace TowerTanks.Scripts
             //Stop all coroutines
             StopAllCoroutines();
 
-            Time.timeScale = 0.0f;
             GameManager.Instance.AudioManager.Play("DeathStinger");
 
             OnGameOver?.Invoke();

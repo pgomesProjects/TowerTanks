@@ -1141,7 +1141,8 @@ MonoBehaviour:
   thisCollider: {fileID: 0}
   stackName: Cannon
   prefabRef: {fileID: 917774235452588900}
-  uiImage: {fileID: 21300000, guid: a376641bc7c8a904a8d1bcd5d126c35e, type: 2}
+  uiImage: {fileID: 21300000, guid: a6dcef4ce0181e94f837de6370cb4030, type: 2}
+  ghostPrefab: {fileID: 921617611550967597, guid: d03ac2c0ae009ae47b11ef0f1aff3970, type: 3}
   isContinuous: 0
   canAim: 1
   direction: 1
@@ -1220,7 +1221,7 @@ MonoBehaviour:
     script: {fileID: 0}
     brain: {fileID: 0}
     groupType: 0
-  mySpecificType: 3
+  mySpecificType: 4
   interactableController: {fileID: 0}
   tokenActivated: 0
   fireCooldown: 3
@@ -2278,7 +2279,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 4
+  m_SortingOrder: 6
   m_Sprite: {fileID: -1037956455, guid: 26cb7ac0dc1f4234284824181d9d2039, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

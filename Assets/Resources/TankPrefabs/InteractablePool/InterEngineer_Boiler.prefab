@@ -1921,7 +1921,7 @@ MonoBehaviour:
   thisCollider: {fileID: 0}
   stackName: Engine
   prefabRef: {fileID: 8306713773444683921}
-  uiImage: {fileID: 21300000, guid: 3dce60614db2d4e499310fde54e3b229, type: 2}
+  uiImage: {fileID: 21300000, guid: 80307fcd55495b645964d9da0d9caf12, type: 2}
   isContinuous: 0
   canAim: 0
   direction: 1

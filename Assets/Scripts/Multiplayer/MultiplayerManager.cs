@@ -54,6 +54,27 @@ namespace TowerTanks.Scripts
             playerInputManager.onPlayerJoined += OnPlayerJoined;
         }
 
+        private void OnEnable()
+        {
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+
+        private void OnDisable()
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+
+        public void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
+        {
+            switch ((GAMESCENE)scene.buildIndex)
+            {
+                case GAMESCENE.BUILDING:
+                    //Reset all players action maps to default
+                    SwitchAllPlayerActionMaps("Player");
+                    break;
+            }
+        }
+
         /// <summary>
         /// Behavior for when a player joins the game
         /// </summary>
@@ -139,6 +160,26 @@ namespace TowerTanks.Scripts
                 // Enable the Debug action map
                 player.actions.FindActionMap("Debug").Enable();
             }
+        }
+
+        /// <summary>
+        /// Switches the action map of a player.
+        /// </summary>
+        /// <param name="playerIndex">The index of the player.</param>
+        /// <param name="newActionMap">The name of the new action map.</param>
+        public void SwitchPlayerActionMap(int playerIndex, string newActionMap)
+        {
+            GetAllPlayers()[playerIndex].playerInput.SwitchCurrentActionMap(newActionMap);
+        }
+
+        /// <summary>
+        /// Switches the action map of all players.
+        /// </summary>
+        /// <param name="newActionMap">The name of the new action map.</param>
+        public void SwitchAllPlayerActionMaps(string newActionMap)
+        {
+            foreach (PlayerData playerData in GetAllPlayers())
+                playerData.playerInput.SwitchCurrentActionMap(newActionMap);
         }
 
         public void DisableDebugInput()

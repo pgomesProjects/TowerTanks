@@ -52,7 +52,7 @@ namespace TowerTanks.Scripts
             //Resets the cursor to the position of the cursor rectTransform
             if (localGamepadCursorTransform != null)
             {
-                Vector2 position = localGamepadCursorTransform.anchoredPosition;
+                Vector2 position = new Vector2(Screen.width / 2, Screen.height / 2);
                 InputState.Change(virtualMouse.position, position);
             }
 
@@ -99,15 +99,7 @@ namespace TowerTanks.Scripts
                 deltaValue = Mouse.current.delta.ReadValue();
 
                 Vector2 newPosition = Mouse.current.position.ReadValue();
-                newPosition.x = Mathf.Clamp(newPosition.x, padding, Screen.width - padding);
-                newPosition.y = Mathf.Clamp(newPosition.y, padding, Screen.height - padding);
-
-                // Changes the virtual mouse position and delta
-                InputState.Change(virtualMouse.position, newPosition);
-                InputState.Change(virtualMouse.delta, deltaValue);
-
-                // Update the cursor transform
-                AnchorCursor(newPosition);
+                AdjustCursorPosition(newPosition, deltaValue);
             }
 
             else if (currentDevice is Gamepad)
@@ -118,15 +110,7 @@ namespace TowerTanks.Scripts
 
                 Vector2 currentPosition = virtualMouse.position.ReadValue();
                 Vector2 newPosition = currentPosition + deltaValue;
-                newPosition.x = Mathf.Clamp(newPosition.x, padding, Screen.width - padding);
-                newPosition.y = Mathf.Clamp(newPosition.y, padding, Screen.height - padding);
-
-                // Changes the virtual mouse position and delta
-                InputState.Change(virtualMouse.position, newPosition);
-                InputState.Change(virtualMouse.delta, deltaValue);
-
-                // Update the cursor transform
-                AnchorCursor(newPosition);
+                AdjustCursorPosition(newPosition, deltaValue);
             }
 
             //Check for any UI interactions
@@ -277,6 +261,25 @@ namespace TowerTanks.Scripts
             Vector2 anchoredPosition;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRectTransform, position, canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : mainCamera, out anchoredPosition);
             localGamepadCursorTransform.anchoredPosition = anchoredPosition;
+        }
+
+        /// <summary>
+        /// Adjust the position of the cursor.
+        /// </summary>
+        /// <param name="position">The new position of the cursor.</param>
+        /// <param name="deltaValue">The new delta value of the cursor.</param>
+        public void AdjustCursorPosition(Vector2 position, Vector2 deltaValue)
+        {
+            Vector2 newPosition = position;
+            newPosition.x = Mathf.Clamp(newPosition.x, padding, Screen.width - padding);
+            newPosition.y = Mathf.Clamp(newPosition.y, padding, Screen.height - padding);
+
+            // Changes the virtual mouse position and delta
+            InputState.Change(virtualMouse.position, newPosition);
+            InputState.Change(virtualMouse.delta, deltaValue);
+
+            // Update the cursor transform
+            AnchorCursor(newPosition);
         }
 
         /// <summary>

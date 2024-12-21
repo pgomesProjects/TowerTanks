@@ -48,7 +48,9 @@ namespace TowerTanks.Scripts
         public bool isCarryingSomething; //true if player is currently carrying something
         public Cargo currentObject; //what object the player is currently carrying
 
-        [Header("Repairing")] [SerializeField, Tooltip("What cell the player is currently repairing")]
+        [Header("Building & Repairing")]
+        [SerializeField, Tooltip("What cell the player is currently repairing")]
+        private GameObject buildGhost; //current ghost the player is using to build
         private Cell currentRepairJob; //what cell the player is currently repairing
 
         [SerializeField, Tooltip("Time it takes the player to complete one repair tick")]
@@ -174,11 +176,12 @@ namespace TowerTanks.Scripts
             {
                 currentState = CharacterState.REPAIRING;
                 transform.position = buildCell.repairSpot.position;
+                StartBuilding();
 
                 timeBuilding += Time.deltaTime; //Increment build time tracker
                 if (timeBuilding >= characterSettings.buildTime) //Player has finished build
                 {
-                    TankInteractable currentInteractable = StackManager.BuildTopStackItem();                 
+                    TankInteractable currentInteractable = StackManager.BuildTopStackItem();             
                     currentInteractable.InstallInCell(buildCell); //Install interactable from top of stack into designated build cell
                     StopBuilding(); //Indicate that build has stopped
                     CancelInteraction();
@@ -602,7 +605,7 @@ namespace TowerTanks.Scripts
 
             if (ctx.started && currentState != CharacterState.REPAIRING)
             {
-                if (currentZone != null && !isHoldingDown)
+                if (currentZone != null && !isHoldingDown && !isCarryingSomething)
                 {
                     currentZone.Interact(this.gameObject);
                 }
@@ -612,9 +615,13 @@ namespace TowerTanks.Scripts
                     currentInteractable.Use();
                 }
 
-                if (currentInteractable == null && !isCarryingSomething && isHoldingDown)
+                if (currentInteractable == null)
                 {
-                    Pickup();
+                    if (isCarryingSomething)
+                    {
+                        if (currentObject != null) currentObject.Use();
+                    }
+                    else if (isHoldingDown) Pickup();
                 }
             }
 
@@ -631,7 +638,7 @@ namespace TowerTanks.Scripts
         {
             if (!isAlive) return;
 
-            if (StackManager.stack.Count > 0 && ctx.performed && !isOperator)
+            if (StackManager.stack.Count > 0 && ctx.performed && !isOperator && !isCarryingSomething)
             {
                 //Check if build is valid:
                 Collider2D cellColl =
@@ -651,9 +658,25 @@ namespace TowerTanks.Scripts
                 }
             }
 
-            if (buildCell != null && ctx.canceled) //Player is cancelling a build
+            if (ctx.performed && isCarryingSomething && currentObject != null)
             {
-                StopBuilding(); //Stop building
+                if (currentObject.isContinuous)
+                {
+                    currentObject.Use(true);
+                }
+            }
+
+            if (ctx.canceled) //Released Button
+            {
+                if (currentObject != null)
+                {
+                    currentObject.CancelUse();
+                }
+
+                if (buildCell != null)
+                {
+                    StopBuilding();
+                }
             }
         }
 
@@ -700,8 +723,7 @@ namespace TowerTanks.Scripts
 
             if (ctx.started) //Tapped
             {
-                //Items
-                if (currentObject != null) currentObject.Use();
+                
             }
 
             if (ctx.performed) //Held for 0.4 sec
@@ -727,12 +749,6 @@ namespace TowerTanks.Scripts
 
                 //Interactables
                 if (currentInteractable != null) currentInteractable.SecondaryUse(true);
-
-                //Items
-                if (currentObject != null)
-                {
-                    currentObject.Use(true);
-                }
             }
 
             if (ctx.canceled) //Let go
@@ -745,17 +761,13 @@ namespace TowerTanks.Scripts
                     currentRepairJob = null;
                     CancelInteraction();
                 }
-
-                if (currentObject != null)
-                {
-                    currentObject.Use(false);
-                }
             }
         }
 
         public void OnSelfDestruct(InputAction.CallbackContext ctx)
         {
-            if (!isAlive) return;
+            //If the player is not alive or in the build scene, ignore this
+            if (!isAlive || GameManager.Instance.currentSceneState == SCENESTATE.BuildScene) return;
 
             if (ctx.started)
             {
@@ -896,8 +908,41 @@ namespace TowerTanks.Scripts
             }
         }
 
+        public void StartBuilding()
+        {
+            if (buildCell == null) return;
+
+            if (buildGhost == null)
+            {
+                GameObject ghost = null;
+
+                //Find the object we're building
+                TankInteractable interactable = StackManager.GetTopStackItem();
+                foreach(TankInteractable _interactable in GameManager.Instance.interactableList)
+                {
+                    if (_interactable.stackName == interactable.stackName) //Found Valid Ref
+                    {
+                        //Spawn the Ghost
+                        GameObject prefab = _interactable.ghostPrefab;
+                        if (prefab != null) ghost = Instantiate(prefab, buildCell.transform);
+                    }
+                }
+
+                //Play Build Animation
+                if (ghost != null)
+                {
+                    Animator ghostAnimator = ghost.GetComponent<Animator>();
+                    //Play
+                }
+
+                //Assign the Ghost to the Player
+                buildGhost = ghost;
+            }
+        }
+
         public void StopBuilding()
         {
+            if (buildGhost != null) Destroy(buildGhost);
             if (buildCell == null) return; //Do nothing if player is not building
             buildCell.playerBuilding = null; //Indicate to cell that it is no longer being built in
             buildCell = null; //Clear cell reference
@@ -930,6 +975,8 @@ namespace TowerTanks.Scripts
 
             interactInputHeld = false;
             jetpackInputHeld = false;
+            isShaking = false;
+            characterVisualParent.localPosition = Vector3.zero;
 
             if (currentObject != null)
                 currentObject.Drop(this, true, moveInput);
