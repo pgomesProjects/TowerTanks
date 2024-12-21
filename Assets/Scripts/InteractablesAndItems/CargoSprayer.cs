@@ -24,7 +24,9 @@ namespace TowerTanks.Scripts
         {
             base.Update();
 
-            if (isSpraying)
+            if (cooldown > 0) cooldown -= Time.deltaTime;
+
+            if (isSpraying && cooldown <= 0)
             {
                 sprayTimer -= Time.deltaTime;
                 if (sprayTimer <= 0)
@@ -42,6 +44,7 @@ namespace TowerTanks.Scripts
                 if (GameManager.Instance.AudioManager.IsPlaying("SteamExhaustLoop", this.gameObject))
                 {
                     GameManager.Instance.AudioManager.Stop("SteamExhaustLoop", this.gameObject);
+                    GameManager.Instance.AudioManager.Play("SteamExhaust", this.gameObject);
                 }
             }
         }

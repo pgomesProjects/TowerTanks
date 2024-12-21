@@ -602,7 +602,7 @@ namespace TowerTanks.Scripts
 
             if (ctx.started && currentState != CharacterState.REPAIRING)
             {
-                if (currentZone != null && !isHoldingDown)
+                if (currentZone != null && !isHoldingDown && !isCarryingSomething)
                 {
                     currentZone.Interact(this.gameObject);
                 }
@@ -612,9 +612,13 @@ namespace TowerTanks.Scripts
                     currentInteractable.Use();
                 }
 
-                if (currentInteractable == null && !isCarryingSomething && isHoldingDown)
+                if (currentInteractable == null)
                 {
-                    Pickup();
+                    if (isCarryingSomething)
+                    {
+                        if (currentObject != null) currentObject.Use();
+                    }
+                    else if (isHoldingDown) Pickup();
                 }
             }
 
@@ -631,7 +635,7 @@ namespace TowerTanks.Scripts
         {
             if (!isAlive) return;
 
-            if (StackManager.stack.Count > 0 && ctx.performed && !isOperator)
+            if (StackManager.stack.Count > 0 && ctx.performed && !isOperator && !isCarryingSomething)
             {
                 //Check if build is valid:
                 Collider2D cellColl =
@@ -651,9 +655,25 @@ namespace TowerTanks.Scripts
                 }
             }
 
-            if (buildCell != null && ctx.canceled) //Player is cancelling a build
+            if (ctx.performed && isCarryingSomething && currentObject != null)
             {
-                StopBuilding(); //Stop building
+                if (currentObject.isContinuous)
+                {
+                    currentObject.Use(true);
+                }
+            }
+
+            if (ctx.canceled) //Released Button
+            {
+                if (currentObject != null)
+                {
+                    currentObject.CancelUse();
+                }
+
+                if (buildCell != null)
+                {
+                    StopBuilding();
+                }
             }
         }
 
@@ -700,8 +720,7 @@ namespace TowerTanks.Scripts
 
             if (ctx.started) //Tapped
             {
-                //Items
-                if (currentObject != null) currentObject.Use();
+                
             }
 
             if (ctx.performed) //Held for 0.4 sec
@@ -727,12 +746,6 @@ namespace TowerTanks.Scripts
 
                 //Interactables
                 if (currentInteractable != null) currentInteractable.SecondaryUse(true);
-
-                //Items
-                if (currentObject != null)
-                {
-                    currentObject.Use(true);
-                }
             }
 
             if (ctx.canceled) //Let go
@@ -744,11 +757,6 @@ namespace TowerTanks.Scripts
                     currentRepairJob.repairMan = null;
                     currentRepairJob = null;
                     CancelInteraction();
-                }
-
-                if (currentObject != null)
-                {
-                    currentObject.Use(false);
                 }
             }
         }

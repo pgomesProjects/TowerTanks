@@ -20,6 +20,7 @@ namespace TowerTanks.Scripts
         private CapsuleCollider2D capsule2D;
         public bool ignoreInit; //set to true if we want to just have this object instantiate normally
         private float initCooldown; //time it takes for collider to enable
+        internal float cooldown = 0.3f; //time it takes after pickup before this can be used
 
         private TrailRenderer trail;
         private float trailCooldown; //time it takes for trail to disable
@@ -118,6 +119,7 @@ namespace TowerTanks.Scripts
                 currentHolder = player;
                 player.isCarryingSomething = true;
                 player.currentObject = this;
+                cooldown = 0.3f;
 
                 GameManager.Instance.AudioManager.Play("UseSFX");
             }
@@ -143,34 +145,40 @@ namespace TowerTanks.Scripts
             GameManager.Instance.AudioManager.Play("ButtonCancel");
         }
 
-        public void Use(bool held = false) //called from Holder when pressing Alt
+        public void Use(bool held = false) //called from Holder when pressing Interact
         {
             if (type == CargoType.EXPLOSIVE)
             {
                 Cargo_Explosive script = GetComponent<Cargo_Explosive>();
 
-                if (script.isLit == false) GameManager.Instance.AudioManager.Play("UseSFX", gameObject);
-                script.isLit = true;
+                if (!held)
+                {
+                    if (script.isLit == false) GameManager.Instance.AudioManager.Play("UseSFX", gameObject);
+                    script.isLit = true;
+                }
             }
 
             if (type == CargoType.AMMO)
             {
-                if (currentHolder.currentZone != null)
+                if (!held)
                 {
-                    GunController interactable = currentHolder.currentZone.GetComponentInParent<GunController>();
-                    if (interactable.interactableType == TankInteractable.InteractableType.WEAPONS)
+                    if (currentHolder.currentZone != null)
                     {
-                        if (interactable.gunType == GunController.GunType.CANNON)
+                        GunController interactable = currentHolder.currentZone.GetComponentInParent<GunController>();
+                        if (interactable.interactableType == TankInteractable.InteractableType.WEAPONS)
                         {
-                            interactable.AddSpecialAmmo(contents[0], amount);
-                            Destroy(this.gameObject);
+                            if (interactable.gunType == GunController.GunType.CANNON)
+                            {
+                                interactable.AddSpecialAmmo(contents[0], amount);
+                                Destroy(this.gameObject);
 
-                        }
+                            }
 
-                        if (interactable.gunType == GunController.GunType.MORTAR)
-                        {
-                            interactable.AddSpecialAmmo(contents[1], amount);
-                            Destroy(this.gameObject);
+                            if (interactable.gunType == GunController.GunType.MORTAR)
+                            {
+                                interactable.AddSpecialAmmo(contents[1], amount);
+                                Destroy(this.gameObject);
+                            }
                         }
                     }
                 }
@@ -186,13 +194,23 @@ namespace TowerTanks.Scripts
                         Debug.Log("Using " + this.name + "!");
                         sprayer.isSpraying = true;
                     }
-                    else
+                }
+            }
+        }
+
+        public void CancelUse()
+        {
+            if (type == CargoType.TOOL)
+            {
+                if (isContinuous)
+                {
+                    CargoSprayer sprayer = GetComponent<CargoSprayer>();
+                    
+                    if (sprayer.isSpraying)
                     {
-                        if (sprayer.isSpraying)
-                        {
-                            Debug.Log("Stopped using " + this.name);
-                            sprayer.isSpraying = false;
-                        }
+                        Debug.Log("Stopped using " + this.name);
+                        sprayer.isSpraying = false;
+                        sprayer.CancelUse();
                     }
                 }
             }
