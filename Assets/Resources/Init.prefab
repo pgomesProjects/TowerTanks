@@ -227,6 +227,7 @@ MonoBehaviour:
   _shopChance: 0
   tankDesign:
     TankName: 
+    aiSettings: 
     coreInteractables: []
     buildingSteps: []
   cargoManifest:

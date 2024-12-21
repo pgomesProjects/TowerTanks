@@ -18,6 +18,7 @@
 						<ObjectRef Name="small_explosion" ID="{A4A16DEB-B2F5-42E1-9EC8-FB95C1B75CA4}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="tank_impact" ID="{17F53DE3-AF24-42EB-BC87-C2A9662EE9D1}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="jetpack_rocket_loop" ID="{0199D9E5-3AFA-4337-A6F6-B40AC7EFB6E6}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Into_the_Breach_Combat" ID="{3E7B3363-CECC-43B7-AACF-914165D0DC06}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="coal_load" ID="{F1546671-8424-4414-A7AA-E773BA3308EE}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="throttle_shift" ID="{9CA753AD-D849-4445-AAC7-DBC1D1121806}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="text_scroll" ID="{62672F9E-027D-4468-A178-DDBF9627C2E2}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
