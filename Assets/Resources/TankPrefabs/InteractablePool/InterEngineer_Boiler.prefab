@@ -1922,6 +1922,7 @@ MonoBehaviour:
   stackName: Engine
   prefabRef: {fileID: 8306713773444683921}
   uiImage: {fileID: 21300000, guid: 80307fcd55495b645964d9da0d9caf12, type: 2}
+  ghostPrefab: {fileID: 5114841227109737086, guid: abdbcaf2a9d7ca040985e831473124c6, type: 3}
   isContinuous: 0
   canAim: 0
   direction: 1
