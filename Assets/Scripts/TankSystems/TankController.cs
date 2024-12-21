@@ -339,7 +339,7 @@ namespace TowerTanks.Scripts
                     newId.groupType = newId.script.interactableType;
                     newId.stackName = newId.script.stackName;
                     interactableList.Add(newId);
-                    if (tankType == TankId.TankType.ENEMY) interactablePool.Add(newId);
+                    //if (tankType == TankId.TankType.ENEMY) interactablePool.Add(newId);
                 }
             }
 
@@ -767,7 +767,7 @@ namespace TowerTanks.Scripts
                     //Random Interactable Drops
                     if (interactablePool.Count > 0)
                     {
-                        int random = Random.Range(1, Mathf.CeilToInt(interactablePool.Count / 3) + 1); //# of drops
+                        int random = Random.Range(1, 3); //# of drops
                         for (int i = 0; i < random; i++)
                         {
                             int randomDrop = Random.Range(0, interactablePool.Count); //Randomly Select from Pool
