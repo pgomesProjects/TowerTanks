@@ -17,7 +17,7 @@ MonoBehaviour:
     that would be used in the campaign mode map.
   objectiveType: 1
   numberOfRounds: 0
-  startingInteractables: 040000000500000006000000020000000000000007000000
+  startingInteractables: 030000000400000005000000020000000000000006000000
   metersToTravel: 1500
   enemiesToDefeat: 2
   secondsToSurviveFor: 0
