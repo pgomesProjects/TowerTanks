@@ -1142,14 +1142,9 @@ MonoBehaviour:
   stackName: Cannon
   prefabRef: {fileID: 917774235452588900}
   uiImage: {fileID: 21300000, guid: a376641bc7c8a904a8d1bcd5d126c35e, type: 2}
-  hasOperator: 0
   isContinuous: 0
   canAim: 1
   direction: 1
-  debugMoveUp: 0
-  debugMoveDown: 0
-  debugMoveLeft: 0
-  debugMoveRight: 0
   debugFlip: 0
   projectilePrefab: {fileID: 2026841927693228562, guid: 0192140aff1560b4687b143a3b7cd16b, type: 3}
   specialAmmo: []
@@ -1225,7 +1220,7 @@ MonoBehaviour:
     script: {fileID: 0}
     brain: {fileID: 0}
     groupType: 0
-  mySpecificType: 4
+  mySpecificType: 3
   interactableController: {fileID: 0}
   tokenActivated: 0
   fireCooldown: 3

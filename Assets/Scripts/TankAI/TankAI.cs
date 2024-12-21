@@ -166,50 +166,17 @@ namespace TowerTanks.Scripts
             
         }
         
-        public void DistributeAllWeightedTokens(Dictionary<INTERACTABLE, float> weights) // this can definitely be optimized. will do later
+        public void DistributeAllWeightedTokens(Dictionary<INTERACTABLE, float> weights)
         {
-            float totalWeight = weights.Values.Sum();
-            
-            // scales weights to add up to 100%
-            // (if they are under 100% it just won't distribute 100% of the tank's tokens)
-            if (totalWeight > 100)
-            {
-                float ratio = 100 / totalWeight;
-                
-                foreach (var key in weights.Keys.ToList())
-                {
-                    weights[key] *= ratio;
-                }
-            }
-            
-            // Calculate tokens for each type based on weight percentage
-            Dictionary<INTERACTABLE, int> tokensToDistribute = new Dictionary<INTERACTABLE, int>();
-            foreach (var weight in weights)
-            {
-                int tokens = Mathf.RoundToInt((weight.Value / 100) * currentTokenCount);
-                tokensToDistribute[weight.Key] = tokens;
-                if (weight.Key == INTERACTABLE.Throttle && tokens > 0) tokensToDistribute[weight.Key] = 1; //doesn't make sense to distribute more than 1 throttle token
-                Debug.Log($"Distributing {tokens} tokens to {weight.Key}");
-            }
-            
-            int totalTokensToDistribute = tokensToDistribute.Values.Sum();
-
-            //#1#/ if we have too many tokens to distribute, take away from the type with the most weight
-            while (totalTokensToDistribute > currentTokenCount)
-            { 
-                var maxWeightType = tokensToDistribute.OrderByDescending(kvp => weights[kvp.Key]).First().Key; //orders the key-value pairs (kvp) in the tokensToDistribute dictionary in descending order based on the weight values from the weights dictionary. The kvp.Key is used to access the corresponding weight in the weights dictionary.
-                tokensToDistribute[maxWeightType]--;
-                totalTokensToDistribute--;
-                Debug.Log($"Extra token was generated, removing extra token from {maxWeightType}");
-            }
-
+            var tokensToDistribute = aiSettings.GetTokenDistribution(weights);
 
             foreach (var tokenDistribution in tokensToDistribute)
             {
+                Debug.Log($"Distributing {tokenDistribution.Value} tokens of type {tokenDistribution.Key}");
                 // Check if the interactable type is present on the tank
                 bool interactablePresent = tank.interactableList.Any(i => i.brain != null &&
-                                                                                 i.brain.mySpecificType == tokenDistribution.Key &&
-                                                                                 !tokenActivatedInteractables.Contains(i));
+                                                                         i.brain.mySpecificType == tokenDistribution.Key &&
+                                                                         !tokenActivatedInteractables.Contains(i));
 
                 if (interactablePresent)
                 {
@@ -219,7 +186,7 @@ namespace TowerTanks.Scripts
                         DistributeToken(tokenDistribution.Key);
                     }
                 }
-                else //distribute the token to a different interactable of the same classification
+                else // Distribute the token to a different interactable of the same classification
                 {
                     // Get the group of the current interactable type
                     var group = InteractableLookups.typeToGroupMap[tokenDistribution.Key];
@@ -231,15 +198,11 @@ namespace TowerTanks.Scripts
                     for (int i = 0; i < tokenDistribution.Value; i++)
                     {
                         var suitableInteractable = groupInteractables
-                            .FirstOrDefault(interactable => tank.interactableList.Any(i => i.brain != null && i.brain.mySpecificType == interactable && !tokenActivatedInteractables.Contains(i))); //any open interactable in the same group
+                            .FirstOrDefault(interactable => tank.interactableList.Any(i => i.brain != null && i.brain.mySpecificType == interactable && !tokenActivatedInteractables.Contains(i)));
                         if (suitableInteractable != default) DistributeToken(suitableInteractable);
                     }
-                    
                 }
-
-                
             }
-            
         }
 
 
