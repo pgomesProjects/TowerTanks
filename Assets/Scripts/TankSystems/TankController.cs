@@ -58,6 +58,7 @@ namespace TowerTanks.Scripts
         //Settings:
         [Header("Visual Settings:")]
         [Tooltip("Defines how cells in the tank look.")] public RoomAssetKit roomKit;
+        public Transform[] diageticElements;
         #region Debug Controls
         [Header("Debug Controls")]
         [InlineButton("ShiftRight", SdfIconType.ArrowRight, "")]
@@ -243,7 +244,7 @@ namespace TowerTanks.Scripts
         private SpriteRenderer damageSprite;
         [Tooltip("How long damage visual effect persists for")] private float damageTime;
         private float damageTimer;
-
+      
         public static System.Action OnPlayerTankSizeAdjusted;
 
         //RUNTIME METHODS:
@@ -360,6 +361,7 @@ namespace TowerTanks.Scripts
                 AddCargo();
             }
             currentCoreHealth = coreHealth;
+            UpdateUI();
 
             //Shop Logic
             if (tankType == TankId.TankType.NEUTRAL)
@@ -430,15 +432,40 @@ namespace TowerTanks.Scripts
 
         private void UpdateUI()
         {
+            /*
             Color newColor = damageSprite.color;
             newColor.a = Mathf.Lerp(0, 255f, (damageTimer / damageTime) * Time.fixedDeltaTime);
-            damageSprite.color = newColor;
+            damageSprite.color = newColor;*/
 
-            damageTimer -= Time.deltaTime;
-            if (damageTimer < 0)
+            //Diagetic Damage Elements
+            if (currentCoreHealth >= coreHealth)
             {
-                damageTimer = 0;
-                damageTime = 0;
+                foreach (Transform element in diageticElements)
+                {
+                    element.gameObject.SetActive(false);
+                }
+            }
+            else 
+            { 
+                diageticElements[2].gameObject.SetActive(true);
+
+                if (currentCoreHealth <= (coreHealth * 0.90f)) { diageticElements[9].gameObject.SetActive(true); }
+                if (currentCoreHealth <= (coreHealth * 0.80f)) { diageticElements[0].gameObject.SetActive(true); }
+                if (currentCoreHealth <= (coreHealth * 0.70f)) { diageticElements[1].gameObject.SetActive(true); }
+                if (currentCoreHealth <= (coreHealth * 0.60f)) { diageticElements[4].gameObject.SetActive(true); }
+                if (currentCoreHealth <= (coreHealth * 0.50f)) 
+                { 
+                    diageticElements[6].gameObject.SetActive(true);
+                    diageticElements[10].gameObject.SetActive(true); //Smoke
+                }
+                if (currentCoreHealth <= (coreHealth * 0.40f)) { diageticElements[7].gameObject.SetActive(true); }
+                if (currentCoreHealth <= (coreHealth * 0.30f)) { diageticElements[3].gameObject.SetActive(true); }
+                if (currentCoreHealth <= (coreHealth * 0.20f)) 
+                { 
+                    diageticElements[8].gameObject.SetActive(true);
+                    diageticElements[11].gameObject.SetActive(true); //Smoke
+                }
+                if (currentCoreHealth <= (coreHealth * 0.10f)) { diageticElements[5].gameObject.SetActive(true); }
             }
         }
 
@@ -610,7 +637,7 @@ namespace TowerTanks.Scripts
 
         public void HitEffects(float speedScale)
         {
-            //UpdateUI();
+            UpdateUI();
             tankAnimator.SetFloat("SpeedScale", speedScale);
             tankAnimator.Play("DamageFlashCore", 0, 0);
         }
