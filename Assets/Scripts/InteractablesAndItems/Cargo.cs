@@ -179,6 +179,13 @@ namespace TowerTanks.Scripts
                                 interactable.AddSpecialAmmo(contents[1], amount);
                                 Destroy(this.gameObject);
                             }
+
+                            if (interactable.gunType == GunController.GunType.MACHINEGUN)
+                            {
+                                amount *= 20;
+                                interactable.AddSpecialAmmo(contents[2], amount);
+                                Destroy(this.gameObject);
+                            }
                         }
                     }
                 }

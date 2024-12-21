@@ -897,7 +897,9 @@ MonoBehaviour:
   contents:
   - {fileID: 3640374074342539547, guid: 1e93586965860dd45b48c21673aea549, type: 3}
   - {fileID: 2446699370988271855, guid: b442068e42cdd1248879a0fdf7930b2e, type: 3}
+  - {fileID: 2367129227070595597, guid: 85691ddecc678de4d8ae87a0b48575ba, type: 3}
   amount: 3
+  ignoreInit: 0
   isOnTank: 0
   onTankMask:
     serializedVersion: 2
