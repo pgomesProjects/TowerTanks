@@ -26,9 +26,11 @@ namespace TowerTanks.Scripts
 
         //Settings:
         [Header("Stack Properties:")]
-        [Tooltip("Display name for interactable while in stack.")]    public string stackName;
-        [Tooltip("Reference to this interactable's prefab.")]         public GameObject prefabRef;
-        [Tooltip("Image used to represent this interactable in UI.")] public Sprite uiImage;
+        [Tooltip("Display name for interactable while in stack.")]      public string stackName;
+        [Tooltip("Reference to this interactable's prefab.")]           public GameObject prefabRef;
+        [Tooltip("Image used to represent this interactable in UI.")]   public Sprite uiImage;
+        [Tooltip("Ghost object used when building this interactable.")] public GameObject ghostPrefab;
+
         //ADD SPATIAL CONSTRAINT SYSTEM
         [Button("Debug Place")] public void DebugPlace()
         {

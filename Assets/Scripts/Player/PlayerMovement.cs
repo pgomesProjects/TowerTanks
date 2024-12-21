@@ -48,7 +48,9 @@ namespace TowerTanks.Scripts
         public bool isCarryingSomething; //true if player is currently carrying something
         public Cargo currentObject; //what object the player is currently carrying
 
-        [Header("Repairing")] [SerializeField, Tooltip("What cell the player is currently repairing")]
+        [Header("Building & Repairing")]
+        [SerializeField, Tooltip("What cell the player is currently repairing")]
+        private GameObject buildGhost; //current ghost the player is using to build
         private Cell currentRepairJob; //what cell the player is currently repairing
 
         [SerializeField, Tooltip("Time it takes the player to complete one repair tick")]
@@ -174,11 +176,12 @@ namespace TowerTanks.Scripts
             {
                 currentState = CharacterState.REPAIRING;
                 transform.position = buildCell.repairSpot.position;
+                StartBuilding();
 
                 timeBuilding += Time.deltaTime; //Increment build time tracker
                 if (timeBuilding >= characterSettings.buildTime) //Player has finished build
                 {
-                    TankInteractable currentInteractable = StackManager.BuildTopStackItem();                 
+                    TankInteractable currentInteractable = StackManager.BuildTopStackItem();             
                     currentInteractable.InstallInCell(buildCell); //Install interactable from top of stack into designated build cell
                     StopBuilding(); //Indicate that build has stopped
                     CancelInteraction();
@@ -905,8 +908,41 @@ namespace TowerTanks.Scripts
             }
         }
 
+        public void StartBuilding()
+        {
+            if (buildCell == null) return;
+
+            if (buildGhost == null)
+            {
+                GameObject ghost = null;
+
+                //Find the object we're building
+                TankInteractable interactable = StackManager.GetTopStackItem();
+                foreach(TankInteractable _interactable in GameManager.Instance.interactableList)
+                {
+                    if (_interactable.stackName == interactable.stackName) //Found Valid Ref
+                    {
+                        //Spawn the Ghost
+                        GameObject prefab = _interactable.ghostPrefab;
+                        if (prefab != null) ghost = Instantiate(prefab, buildCell.transform);
+                    }
+                }
+
+                //Play Build Animation
+                if (ghost != null)
+                {
+                    Animator ghostAnimator = ghost.GetComponent<Animator>();
+                    //Play
+                }
+
+                //Assign the Ghost to the Player
+                buildGhost = ghost;
+            }
+        }
+
         public void StopBuilding()
         {
+            if (buildGhost != null) Destroy(buildGhost);
             if (buildCell == null) return; //Do nothing if player is not building
             buildCell.playerBuilding = null; //Indicate to cell that it is no longer being built in
             buildCell = null; //Clear cell reference

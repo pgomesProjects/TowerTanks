@@ -255,6 +255,19 @@ namespace TowerTanks.Scripts
             return newInteractable; //Return prefab from taken stack item
         }
 
+        public static TankInteractable GetTopStackItem()
+        {
+            TankInteractable interactable = null;
+
+            if (stack.Count > 0)
+            {
+                StackItem item = stack[0];
+                interactable = item.prefab.GetComponent<TankInteractable>();
+            }
+
+            return interactable;
+        }
+
         /// <summary>
         /// Clears the stack information completely.
         /// </summary>
