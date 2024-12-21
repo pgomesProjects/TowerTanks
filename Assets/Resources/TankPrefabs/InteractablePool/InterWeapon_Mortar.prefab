@@ -1132,6 +1132,7 @@ MonoBehaviour:
   stackName: Mortar
   prefabRef: {fileID: 5015744295796166023}
   uiImage: {fileID: 21300000, guid: f9315f37a3498d1439e48498b905dd5d, type: 2}
+  ghostPrefab: {fileID: 0}
   isContinuous: 0
   canAim: 1
   direction: 1
@@ -1183,7 +1184,7 @@ MonoBehaviour:
     script: {fileID: 0}
     brain: {fileID: 0}
     groupType: 0
-  mySpecificType: 6
+  mySpecificType: 5
   interactableController: {fileID: 0}
   tokenActivated: 0
   fireCooldown: 5

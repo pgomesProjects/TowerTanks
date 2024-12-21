@@ -1221,7 +1221,7 @@ MonoBehaviour:
     script: {fileID: 0}
     brain: {fileID: 0}
     groupType: 0
-  mySpecificType: 4
+  mySpecificType: 3
   interactableController: {fileID: 0}
   tokenActivated: 0
   fireCooldown: 3
