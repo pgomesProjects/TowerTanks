@@ -325,6 +325,7 @@ namespace TowerTanks.Scripts
                 }
             } 
 
+            /*
             //Check Room Typing for Random Drops
             foreach(Room room in rooms)
             {
@@ -341,7 +342,7 @@ namespace TowerTanks.Scripts
                     interactableList.Add(newId);
                     //if (tankType == TankId.TankType.ENEMY) interactablePool.Add(newId);
                 }
-            }
+            }*/
 
             //Identify what tank I am
             GetTankInfo();
@@ -1188,7 +1189,10 @@ namespace TowerTanks.Scripts
             interactableList.Add(newId);
             if (tankType == TankId.TankType.ENEMY)
             {
-                interactablePool.Add(newId);
+                if (newId.groupType != TankInteractable.InteractableType.CONSUMABLE)
+                {
+                    interactablePool.Add(newId);
+                }
             }
         }
 
