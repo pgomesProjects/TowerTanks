@@ -20,7 +20,8 @@ namespace TowerTanks.Scripts
         [Header("Center of Gravity Settings:")]
         [Tooltip("Height at which center of gravity is locked relative to tread system.")]                                                                                  public float COGHeight;
         [Tooltip("Extents of center of gravity (affects how far tank can lean).")]                                                                                          public float COGWidth;
-        [Tooltip("How much weight the tank currently has")]                                                                                                                 public float totalWeight = 0;
+        [SerializeField, Tooltip("Amount by which to multiply final tank mass."), Min(0.001f)]                                                                              private float massMultiplier = 1;
+        [SerializeField, Tooltip("How much each individual cell in the tank weighs."), Min(0.001f)]                                                                         private float cellWeight = 1;
         [Tooltip("Maximum height above centerpoint of treadsystem at which impact points will be processed, prevents tank from being jerked around by high hits."), Min(0)] public float maximumRelativeImpactHeight;
         [Header("Engine Properties:")]
         [Min(1), Tooltip("Number of positions throttle can be in (includes neutral and reverse)")]      public int gearPositions = 5;
@@ -106,6 +107,12 @@ namespace TowerTanks.Scripts
                 tread.eulerAngles = Vector3.forward * Vector2.SignedAngle(Vector2.up, treadNormal); //Rotate tread to target rotation
                 tread.localScale = new Vector3(treadWidth, tread.localScale.y, 1);                  //Scale tread to target length
             }
+
+            //Update mass (editor):
+            /*if (Application.isEditor) //Only do this update while testing
+            {
+                ReCalculateMass();
+            }*/
         }
         private void FixedUpdate()
         {
@@ -426,8 +433,10 @@ namespace TowerTanks.Scripts
             }
 
             //Calculation:
-            totalWeight = cellCount * 100f;
-            avgCellPos /= cellCount;        //Get average position of cells
+
+            r.mass = cellCount * cellWeight * massMultiplier; //Apply mass of tank according to cell weight and overall multiplier factors
+            print("Final Mass = " + r.mass);
+            avgCellPos /= cellCount;                          //Get average position of cells
             r.centerOfMass = Vector2.zero; //NOTE: Temporary
             //r.centerOfMass = new Vector2(Mathf.Clamp(avgCellPos.x, -COGWidth / 2, COGWidth / 2), COGHeight); //Constrain center mass to line segment controlled in settings (for tank handling reliability)
         }

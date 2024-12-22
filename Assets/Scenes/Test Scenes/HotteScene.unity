@@ -4898,14 +4898,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -1844445078350209630, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
-      propertyPath: flag
-      value: 
-      objectReference: {fileID: 1538535699}
-    - target: {fileID: -1844445078350209630, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1677695871689777843, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
       propertyPath: damper
       value: 0.78
@@ -5077,18 +5069,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1677695872800944111, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
-      propertyPath: boilerPowerAdd
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 1677695872800944111, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
-      propertyPath: baseEnginePower
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 1677695872800944111, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
-      propertyPath: boilerSurgePower
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 1677695872800944111, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
       propertyPath: defaultCollisionImpact
       value: 100
       objectReference: {fileID: 0}
@@ -5112,10 +5092,6 @@ PrefabInstance:
       propertyPath: maxSpringSpeed
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1783300488993757565, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2687768884453491569, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -5128,6 +5104,14 @@ PrefabInstance:
       propertyPath: m_listeners.initialListenerList.Array.data[0]
       value: 
       objectReference: {fileID: 1018531891}
+    - target: {fileID: 0}
+      propertyPath: flag
+      value: 
+      objectReference: {fileID: 1538535699}
+    - target: {fileID: 0}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
 --- !u!114 &2096001710620190511

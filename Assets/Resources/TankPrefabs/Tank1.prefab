@@ -2066,7 +2066,8 @@ MonoBehaviour:
   treadPrefab: {fileID: 336787287087755646, guid: 2fa44d21d74e76a4390ddea6875ac19a, type: 3}
   COGHeight: -0.31
   COGWidth: 3.5
-  totalWeight: 2200
+  massMultiplier: 0.037
+  cellWeight: 1
   maximumRelativeImpactHeight: 7
   gearPositions: 5
   baseEnginePower: 100
@@ -2074,7 +2075,7 @@ MonoBehaviour:
   boilerSurgePower: 50
   minRPM: 0
   maxRPM: 7000
-  RPMAccelFactor: 0.05
+  RPMAccelFactor: 0.025
   engineTorqueCurve:
     serializedVersion: 2
     m_Curve:
@@ -2099,7 +2100,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  frictionCoefficient: 20
+  frictionCoefficient: 15
   slipRatioCurve:
     serializedVersion: 2
     m_Curve:
@@ -2126,7 +2127,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   maxSlipRatio: 1
   treadInertia: 5
-  axleDragCoefficient: 0.001
+  axleDragCoefficient: 0.00075
   wheelStickiness: 15
   wheelStickCompressionCurve:
     serializedVersion: 2
