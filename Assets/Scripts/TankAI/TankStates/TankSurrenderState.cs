@@ -19,7 +19,7 @@ namespace TowerTanks.Scripts
         {
             _tank.SetTankGearOverTime(0, .15f); //stop moving
             _tank.surrenderFlag.SetActive(true);
-            _tank.tankFlag.SetActive(false);
+            if (_tank.tankFlag != null) _tank.tankFlag.SetActive(false);
             _tank.MakeFragile();
         }
 

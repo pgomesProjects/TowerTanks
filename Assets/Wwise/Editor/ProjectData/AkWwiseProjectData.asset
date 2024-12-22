@@ -101,7 +101,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: df5fafb8b92e944290f5318847f0e90d
     GuidInternal: 
-    m_lastTime: -8584669412123570652
+    m_lastTime: -8584667923064472363
     List:
     - name: mainbank
       guid: 3a7f49372b0b1a428cab0adbe8b1c2b4
@@ -129,7 +129,7 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: 83957ce1e688d54e8b6b22beb20598dd
     GuidInternal: 
-    m_lastTime: -8584669412132833804
+    m_lastTime: -8584667923064558584
     List:
     - name: blaring_alarm
       guid: 0557db327da0a0479a6261e902cede4a
@@ -604,6 +604,23 @@ MonoBehaviour:
         ObjectType: 3
         guid: bbf23f45f68f1346a342768610111b9b
       Path: Events\Default Work Unit\Into_the_Breach
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: Into_the_Breach_Combat
+      guid: 63337b3eccceb743aacf914165d0dc06
+      id: 1784725048
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: Into_the_Breach_Combat
+        ObjectType: 3
+        guid: 63337b3eccceb743aacf914165d0dc06
+      Path: Events\Default Work Unit\Into_the_Breach_Combat
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
