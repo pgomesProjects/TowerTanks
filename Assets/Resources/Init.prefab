@@ -1223,6 +1223,17 @@ MonoBehaviour:
   - id: Fire Extinguisher
     cargoPrefab: {fileID: 8695668838568183417, guid: 61afdcf2de5e52d4785c259326d39da4, type: 3}
     weight: 1
+  projectileList:
+  - type: 0
+    ammoTypes:
+    - {fileID: 2367129227070595597, guid: ad2c16d34a64efd4ab5a6515dab7366a, type: 3}
+    - {fileID: 2367129227070595597, guid: 85691ddecc678de4d8ae87a0b48575ba, type: 3}
+  - type: 1
+    ammoTypes:
+    - {fileID: 2026841927693228562, guid: 0192140aff1560b4687b143a3b7cd16b, type: 3}
+    - {fileID: 3640374074342539547, guid: 1e93586965860dd45b48c21673aea549, type: 3}
+    - {fileID: 8367798314348147069, guid: d44124302ce9eb347aab35655450f0ab, type: 3}
+    - {fileID: 2446699370988271855, guid: b442068e42cdd1248879a0fdf7930b2e, type: 3}
 --- !u!1 &6961505860283407432
 GameObject:
   m_ObjectHideFlags: 0

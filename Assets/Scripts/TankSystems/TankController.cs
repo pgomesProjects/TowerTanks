@@ -359,6 +359,11 @@ namespace TowerTanks.Scripts
                 coreHealth *= 0.5f;
                 EnableCannonBrains(false);
                 AddCargo();
+                int toLoad = LevelManager.Instance.RollSpecialAmmo();
+                if (toLoad > 0)
+                {
+                    LoadRandomWeapons(toLoad);
+                }
             }
             currentCoreHealth = coreHealth;
             UpdateUI();
@@ -1264,6 +1269,44 @@ namespace TowerTanks.Scripts
                 {
                     _thisTankAI.aiSettings = setting;
                 }
+            }
+        }
+
+        public void LoadRandomWeapons(int weaponCount)
+        {
+            List<InteractableId> weaponPool = new List<InteractableId>();
+
+            //Get # of Weapons
+            foreach (InteractableId id in interactableList)
+            {
+                if (id.groupType == TankInteractable.InteractableType.WEAPONS) { weaponPool.Add(id); }
+            }
+
+            for (int w = 0; w < weaponCount; w++)
+            {
+                int random = Random.Range(0, weaponPool.Count); //Pick a Random Weapon from the Pool
+                GunController gun = weaponPool[random].interactable.GetComponent<GunController>();
+
+                GameObject ammo = null;
+                int amount = 3;
+
+                switch (gun.gunType) //Determine Ammo Type & Quantity
+                {
+                    case GunController.GunType.MACHINEGUN:
+                        ammo = GameManager.Instance.CargoManager.projectileList[0].ammoTypes[1];
+                        amount *= 20;
+                        break;
+
+                    case GunController.GunType.CANNON:
+                        ammo = GameManager.Instance.CargoManager.projectileList[1].ammoTypes[1];
+                        break;
+
+                    case GunController.GunType.MORTAR:
+                        ammo = GameManager.Instance.CargoManager.projectileList[1].ammoTypes[3];
+                        break;
+                }
+
+                if (ammo != null) gun.AddSpecialAmmo(ammo, amount); //Load the Gun
             }
         }
 
