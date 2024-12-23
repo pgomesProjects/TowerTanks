@@ -183,6 +183,7 @@ namespace TowerTanks.Scripts
                 {
                     TankInteractable currentInteractable = StackManager.BuildTopStackItem();             
                     currentInteractable.InstallInCell(buildCell); //Install interactable from top of stack into designated build cell
+                    if (currentInteractable.interactableType == TankInteractable.InteractableType.CONSUMABLE) currentInteractable.gameObject.GetComponent<TankConsumable>().Use();
                     StopBuilding(); //Indicate that build has stopped
                     CancelInteraction();
 

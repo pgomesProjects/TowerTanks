@@ -1,5 +1,6 @@
 {
     "TankName": "The Simpler Stetson",
+    "aiSettings": "Tier 2 AI Settings (Balanced)",
     "coreInteractables": [
         {
             "cellName": "Cell_2",
@@ -10,14 +11,20 @@
     "buildingSteps": [
         {
             "roomID": "Room_Elbow4A_Flipped",
-            "roomType": 4,
+            "roomType": 1,
             "localSpawnVector": {
                 "x": -3.5,
                 "y": 1.25,
                 "z": 0.0
             },
             "rotate": 0,
-            "cellInteractables": []
+            "cellInteractables": [],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
+            ]
         },
         {
             "roomID": "Room_Elbow4A_Flipped",
@@ -34,11 +41,17 @@
                     "interRef": "InterEngineer_Boiler",
                     "flipped": false
                 }
+            ],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
             ]
         },
         {
             "roomID": "Room_Tee4C_Flipped",
-            "roomType": 3,
+            "roomType": 0,
             "localSpawnVector": {
                 "x": -0.25,
                 "y": 2.5,
@@ -51,18 +64,28 @@
                     "interRef": "InterWeapon_Cannon",
                     "flipped": true
                 }
+            ],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
             ]
         },
         {
             "roomID": "Room_Line2A",
-            "roomType": 4,
+            "roomType": 1,
             "localSpawnVector": {
                 "x": -3.5,
                 "y": 2.5,
                 "z": 0.0
             },
             "rotate": 1,
-            "cellInteractables": []
+            "cellInteractables": [],
+            "cellManifest": [
+                true,
+                true
+            ]
         },
         {
             "roomID": "Room_Tee4B",
@@ -79,6 +102,12 @@
                     "interRef": "InterEngineer_Boiler",
                     "flipped": false
                 }
+            ],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
             ]
         },
         {
@@ -96,6 +125,12 @@
                     "interRef": "InterWeapon_MachineGun",
                     "flipped": true
                 }
+            ],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
             ]
         },
         {
@@ -113,18 +148,30 @@
                     "interRef": "InterEngineer_Boiler",
                     "flipped": false
                 }
+            ],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
             ]
         },
         {
             "roomID": "Room_Elbow4A",
-            "roomType": 4,
+            "roomType": 1,
             "localSpawnVector": {
                 "x": 1.0,
                 "y": 6.25,
                 "z": 0.0
             },
             "rotate": 0,
-            "cellInteractables": []
+            "cellInteractables": [],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
+            ]
         },
         {
             "roomID": "Room_Block4A",
@@ -141,18 +188,30 @@
                     "interRef": "InterWeapon_Mortar",
                     "flipped": true
                 }
+            ],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
             ]
         },
         {
             "roomID": "Room_Block4A",
-            "roomType": 4,
+            "roomType": 1,
             "localSpawnVector": {
                 "x": -0.75,
                 "y": 6.75,
                 "z": 0.0
             },
             "rotate": 0,
-            "cellInteractables": []
+            "cellInteractables": [],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
+            ]
         }
     ]
 }

@@ -1,5 +1,6 @@
 {
     "TankName": "The Octane Contraption",
+    "aiSettings": "Tier 2 AI Settings (Long Range)",
     "coreInteractables": [],
     "buildingSteps": [
         {

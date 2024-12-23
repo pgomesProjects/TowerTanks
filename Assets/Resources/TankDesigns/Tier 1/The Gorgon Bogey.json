@@ -1,5 +1,6 @@
 {
     "TankName": "The Gorgon Bogey",
+    "aiSettings": "Tier 1 AI Settings (Long Range)",
     "coreInteractables": [],
     "buildingSteps": [
         {

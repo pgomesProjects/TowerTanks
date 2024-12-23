@@ -24,6 +24,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	1707141479	ladder_climb			\Default Work Unit\ladder_climb	
 	1707782163	main_menu_ambience			\Default Work Unit\main_menu_ambience	
 	1779807686	cannon_fire_new			\Default Work Unit\cannon_fire_new	
+	1784725048	Into_the_Breach_Combat			\Default Work Unit\Into_the_Breach_Combat	
 	1797317650	wrench			\Default Work Unit\wrench	
 	1818101133	Into_the_Breach			\Default Work Unit\Into_the_Breach	
 	1821032580	throttle_shift			\Default Work Unit\throttle_shift	
@@ -81,6 +82,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	341912688	TT_SFX_bullet_impact_dirt_03	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\GUN-RICOCHET_GEN-HDF-13674_EA69F621.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_bullet_impact_dirt\TT_SFX_bullet_impact_dirt_03		8450
 	354630741	TTTT_DeathStinger_Mix_Final_2_13_22	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TTTT_DeathStinger_Mix_Final_2.13.22_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\BGM\TTTT_DeathStinger_Mix_Final_2_13_22		151745
 	359788963	TT_SFX_fire-burning	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_buildRoom_v1_696A9007.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_fire-burning		8750
+	383822766	TT_BGM_Into_the_Breach_Combat	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\The Blast Garden  Into the Breach OST_F325B26D.wem		\Actor-Mixer Hierarchy\Default Work Unit\BGM\TT_BGM_Into_the_Breach_Combat		1203150
 	401117418	TT_SFX_character-use	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_character-use_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_character-use		3101
 	421337450	TT_SFX_bullet_impact_dirt	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\GUN-RICOCHET_GEN-HDF-13674_F5BB2EE3.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_bullet_impact_dirt\TT_SFX_bullet_impact_dirt		6109
 	428826036	TT_SFX_jetpack-startup_v1	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_jetpack-startup_v1_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_jetpack-startup\TT_SFX_jetpack-startup_v1		6550
@@ -106,7 +108,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	616062773	TT_SFX_throttle-click	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_throttle-click_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_throttle-click		7334
 	650954530	TT_SFX_cannon_fire_v1	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_cannon_fire_v1_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_cannon_fire (recycled)\TT_SFX_cannon_fire_v1		8846
 	652002572	TT_SFX_metal_footstep	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\metal_footstep_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_metal_footstep		2989
-	654213358	TT_BGM_Into_the_Breach	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\The Blast Garden  Into the Breach OST_AEC344A4.wem		\Actor-Mixer Hierarchy\Default Work Unit\BGM\TT_BGM_Into_the_Breach		2466128
+	654213358	TT_BGM_Into_the_Breach	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\The Blast Garden  Into the Breach OST_15FD0C99.wem		\Actor-Mixer Hierarchy\Default Work Unit\BGM\TT_BGM_Into_the_Breach		2465728
 	661803067	TT_SFX_tank-creaking_v2	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_tank-creaking_v2_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_tank-creaking\TT_SFX_tank-creaking_v2		16927
 	671272586	TT_SFX_tank-creaking_v1	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_tank-creaking_v1_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_tank-creaking\TT_SFX_tank-creaking_v1		10740
 	676306554	TT_SFX_cannon-lock-in-place	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\Mac\SFX\TT_SFX_cannon-lock-in-place_3CADDE39.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_cannon-lock-in-place		9593

@@ -653,6 +653,17 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="Into_the_Breach_Combat" ID="{3E7B3363-CECC-43B7-AACF-914165D0DC06}">
+					<ChildrenList>
+						<Action Name="" ID="{04C9E19D-F0C8-4DD5-9A1E-082225B8F00E}" ShortID="316663883">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_BGM_Into_the_Breach_Combat" ID="{B0E3109A-6324-4CCD-B606-D24722669B48}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

@@ -2,56 +2,68 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class CargoManager : MonoBehaviour
+namespace TowerTanks.Scripts
 {
-    public List<CargoId> cargoList = new List<CargoId>();
-
-    private string[] cargoWeights;
-
-    private void Awake()
+    [System.Serializable]
+    public class CargoManager : MonoBehaviour
     {
-        SetupWeights();
-    }
+        public List<CargoId> cargoList = new List<CargoId>();
 
-    public void SetupWeights()
-    {
-        int count = 0;
-        int length = 0;
-        foreach (CargoId cargo in cargoList) //Get weights from every available chunk in the spawner
+        private string[] cargoWeights;
+
+        private void Awake()
         {
-            length += cargo.weight;
+            SetupWeights();
         }
 
-        cargoWeights = new string[length]; //sets up total weight values
-
-        foreach (CargoId cargo in cargoList) //assigns weights to spawner array
+        public void SetupWeights()
         {
-            if (cargo.weight > 0)
+            int count = 0;
+            int length = 0;
+            foreach (CargoId cargo in cargoList) //Get weights from every available chunk in the spawner
             {
-                for (int i = 0; i < cargo.weight; i++)
+                length += cargo.weight;
+            }
+
+            cargoWeights = new string[length]; //sets up total weight values
+
+            foreach (CargoId cargo in cargoList) //assigns weights to spawner array
+            {
+                if (cargo.weight > 0)
                 {
-                    cargoWeights[count] = cargo.cargoPrefab.name;
-                    count++;
+                    for (int i = 0; i < cargo.weight; i++)
+                    {
+                        cargoWeights[count] = cargo.cargoPrefab.name;
+                        count++;
+                    }
                 }
             }
         }
-    }
 
-    public GameObject GetRandomCargo()
-    {
-        GameObject cargo = null;
-
-        int random = Random.Range(0, cargoWeights.Length);
-
-        foreach (CargoId weight in cargoList)
+        public GameObject GetRandomCargo()
         {
-            if (weight.cargoPrefab.name == cargoWeights[random])
+            GameObject cargo = null;
+
+            int random = Random.Range(0, cargoWeights.Length);
+
+            foreach (CargoId weight in cargoList)
             {
-                cargo = weight.cargoPrefab;
+                if (weight.cargoPrefab.name == cargoWeights[random])
+                {
+                    cargo = weight.cargoPrefab;
+                }
             }
+
+            return cargo;
         }
 
-        return cargo;
+        [System.Serializable]
+        public class ProjectileId
+        {
+            public Projectile.ProjectileType type;
+            public GameObject[] ammoTypes;
+        }
+
+        [SerializeField] public List<ProjectileId> projectileList = new List<ProjectileId>();
     }
 }

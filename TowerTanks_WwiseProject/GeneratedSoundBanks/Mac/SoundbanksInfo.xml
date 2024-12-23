@@ -34,7 +34,7 @@
 				<GameParameter Id="4287925136" Name="CombatLayer2Volume"/>
 			</GameParameters>
 		</SoundBank>
-		<SoundBank Id="2880737896" Type="User" Language="SFX" Hash="{5CF5B37F-DD9C-6FD4-0283-316327213C6D}">
+		<SoundBank Id="2880737896" Type="User" Language="SFX" Hash="{B49E2484-EDCC-4BB6-7324-01DE51465C46}">
 			<ShortName>mainbank</ShortName>
 			<Path>mainbank.bnk</Path>
 			<Media>
@@ -109,6 +109,10 @@
 				<File Id="359788963" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_buildRoom_v1.wav</ShortName>
 					<CachePath>SFX/TT_SFX_buildRoom_v1_696A9007.wem</CachePath>
+				</File>
+				<File Id="383822766" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>The Blast Garden  Into the Breach OST.wav</ShortName>
+					<CachePath>SFX/The Blast Garden  Into the Breach OST_F325B26D.wem</CachePath>
 				</File>
 				<File Id="401117418" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_character-use.wav</ShortName>
@@ -212,7 +216,7 @@
 				</File>
 				<File Id="654213358" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>The Blast Garden  Into the Breach OST.wav</ShortName>
-					<CachePath>SFX/The Blast Garden  Into the Breach OST_AEC344A4.wem</CachePath>
+					<CachePath>SFX/The Blast Garden  Into the Breach OST_15FD0C99.wem</CachePath>
 				</File>
 				<File Id="661803067" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>TT_SFX_tank-creaking_v2.wav</ShortName>
@@ -488,6 +492,11 @@
 						<MediaRef Id="654213358"/>
 					</MediaRefs>
 				</Event>
+				<Event Id="1784725048" Name="Into_the_Breach_Combat" DurationType="Infinite">
+					<MediaRefs>
+						<MediaRef Id="383822766"/>
+					</MediaRefs>
+				</Event>
 				<Event Id="2191775701" Name="invalid_alert" DurationType="OneShot" DurationMin="0.28125" DurationMax="0.28125">
 					<MediaRefs>
 						<MediaRef Id="863978555"/>
@@ -652,5 +661,5 @@
 			</GameParameters>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{3B70790A-34FE-E681-BD43-805D08A4256A}</FileHash>
+	<FileHash>{017A6AFD-9AB5-387A-4157-8FD6158C4D70}</FileHash>
 </SoundBanksInfo>

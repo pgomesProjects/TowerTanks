@@ -10,10 +10,19 @@ namespace TowerTanks.Scripts
         [Header("Consumable Properties:")]
         public Room.RoomType conversionType;
 
+        public void Use()
+        {
+            //Effects
+            GameManager.Instance.AudioManager.Play("UseWrench", gameObject);
+            GameManager.Instance.AudioManager.Play("ConnectRoom", gameObject);
+            GameManager.Instance.ParticleSpawner.SpawnParticle(6, transform.position, 0.25f, null);
+        }
+
         public void ConvertRoom(Cell target)
         {
             target.room.UpdateRoomType(conversionType);
 
+            /*
             //Check for Interactables
             if (target.room.type == Room.RoomType.Armor || target.room.type == Room.RoomType.Cargo)
             {
@@ -28,15 +37,11 @@ namespace TowerTanks.Scripts
                         }
                     }
                 }
-            }
+            }*/
 
-            //Effects
-            GameManager.Instance.AudioManager.Play("UseWrench", gameObject);
-            GameManager.Instance.AudioManager.Play("ConnectRoom", gameObject);
-            GameManager.Instance.ParticleSpawner.SpawnParticle(6, transform.position, 0.25f, null);
-
+            /*
             //Cleanup
-            Destroy(gameObject);
+            Destroy(gameObject);*/
         }
 
         public virtual void OnDestroy()

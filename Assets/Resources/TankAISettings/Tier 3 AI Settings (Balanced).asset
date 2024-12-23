@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9e90a7e6e0adf4444abf9b82d5cfdaba, type: 3}
-  m_Name: Tier 1 AI Settings
+  m_Name: Tier 3 AI Settings (Balanced)
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -40,7 +40,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 1
+      Data: 3
     - Name: 
       Entry: 7
       Data: 
@@ -49,7 +49,31 @@ MonoBehaviour:
       Data: 0
     - Name: $v
       Entry: 4
-      Data: 25
+      Data: 50
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 2
+    - Name: $v
+      Entry: 4
+      Data: 75
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 4
+      Data: 50
     - Name: 
       Entry: 8
       Data: 
@@ -68,13 +92,37 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 12
-      Data: 2
+      Data: 6
     - Name: 
       Entry: 7
       Data: 
     - Name: $k
       Entry: 3
       Data: 0
+    - Name: $v
+      Entry: 4
+      Data: 50
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 2
+    - Name: $v
+      Entry: 4
+      Data: 50
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 3
     - Name: $v
       Entry: 4
       Data: 25
@@ -86,7 +134,31 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 3
-      Data: 2
+      Data: 5
+    - Name: $v
+      Entry: 4
+      Data: 25
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 4
+    - Name: $v
+      Entry: 4
+      Data: 25
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
     - Name: $v
       Entry: 4
       Data: 50
@@ -108,7 +180,7 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 12
-      Data: 4
+      Data: 6
     - Name: 
       Entry: 7
       Data: 
@@ -117,7 +189,7 @@ MonoBehaviour:
       Data: 0
     - Name: $v
       Entry: 4
-      Data: 1
+      Data: 50
     - Name: 
       Entry: 8
       Data: 
@@ -129,7 +201,7 @@ MonoBehaviour:
       Data: 4
     - Name: $v
       Entry: 4
-      Data: 1
+      Data: 50
     - Name: 
       Entry: 8
       Data: 
@@ -141,7 +213,7 @@ MonoBehaviour:
       Data: 5
     - Name: $v
       Entry: 4
-      Data: 1
+      Data: 50
     - Name: 
       Entry: 8
       Data: 
@@ -153,7 +225,31 @@ MonoBehaviour:
       Data: 3
     - Name: $v
       Entry: 4
+      Data: 50
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 2
+    - Name: $v
+      Entry: 4
+      Data: 25
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
       Data: 1
+    - Name: $v
+      Entry: 4
+      Data: 50
     - Name: 
       Entry: 8
       Data: 
@@ -163,8 +259,8 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  viewRange: 150.1
-  maxEngagementRange: 71
-  preferredFightDistance: 30.93
+  viewRange: 200
+  maxEngagementRange: 115
+  preferredFightDistance: 80
   tankEconomy: 4
   redistributeTokensCooldown: 15

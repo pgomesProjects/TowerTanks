@@ -114,9 +114,23 @@ namespace TowerTanks.Scripts
                 //Get information:
                 TreadSystem opposingTreads = collision.collider.GetComponentInParent<TreadSystem>(); //Get treadsystem of opposing tank
 
-                //Apply collision properties:
-                //opposingTreads.HandleImpact(-collision.GetContact(0).normal * 100, collision.GetContact(0).point);
-                //collision.collider.GetComponent<CollisionTransmitter>().target.GetComponent<Cell>().Damage(25);
+                if (collision.contacts.Length > 0) //Hit properties can only be handled if there is an actual contact
+                {
+                    //Apply collision properties:
+                    ContactPoint2D contact = collision.GetContact(0);
+                    opposingTreads.HandleImpact(-collision.GetContact(0).normal * 75, contact.point);
+                    collision.collider.GetComponent<CollisionTransmitter>().target.GetComponent<Cell>().Damage(20);
+                    collision.otherCollider.GetComponent<CollisionTransmitter>().target.GetComponent<Cell>().Damage(20);
+
+                    //Other effects:
+                    GameManager.Instance.AudioManager.Play("ExplosionSFX", gameObject);
+                    for (int x = 0; x < 3; x++) //Spawn cloud of particle effects
+                    {
+                        Vector2 offset = Random.insideUnitCircle * 0.20f;
+                        GameManager.Instance.ParticleSpawner.SpawnParticle(7, contact.point + offset, 0.6f, collision.collider.GetComponent<CollisionTransmitter>().target.GetComponent<Cell>().transform);
+                    }
+                    
+                }
             }
         }
 
@@ -534,7 +548,6 @@ namespace TowerTanks.Scripts
             //Cleanup:
             if (targetTank == null) targetTank = couplers[0].GetConnectedRoom(this).targetTank; //Get target tank from a mounted room if necessary
             if (!targetTank.rooms.Contains(this)) targetTank.rooms.Add(this);                   //Add to target tank's index of rooms
-            targetTank.treadSystem.ReCalculateMass();                                           //Re-calculate mass now that new room has been added
             ghostCouplers.Clear();                                                              //Clear ghost couplers list
             mounted = true;                                                                     //Indicate that room is now mounted
                                                                                                 //GameManager.Instance.AudioManager.Play("BuildRoom");
