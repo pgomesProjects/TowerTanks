@@ -1,5 +1,6 @@
 {
     "TankName": "The Queen's Destroyer",
+    "aiSettings": "Tier 5 AI Settings (Short Range)",
     "coreInteractables": [],
     "buildingSteps": [
         {

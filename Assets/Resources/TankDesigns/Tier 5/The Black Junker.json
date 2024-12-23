@@ -1,5 +1,6 @@
 {
     "TankName": "The Black Junker",
+    "aiSettings": "Tier 5 AI Settings (Balanced)",
     "coreInteractables": [],
     "buildingSteps": [
         {
