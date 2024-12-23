@@ -1,5 +1,6 @@
 {
     "TankName": "The Power Guzzler",
+    "aiSettings": "Tier 1 AI Settings (Short Range)",
     "coreInteractables": [],
     "buildingSteps": [
         {

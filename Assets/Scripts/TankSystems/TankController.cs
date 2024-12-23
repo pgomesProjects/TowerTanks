@@ -1051,7 +1051,7 @@ namespace TowerTanks.Scripts
             }
 
             design.TankName = TankName; //Name the design after the current tank
-            if (_thisTankAI != null) design.aiSettings = _thisTankAI.name; //Assign Ai Settings based on current Settings
+            if (_thisTankAI != null) design.aiSettings = _thisTankAI.aiSettings.name; //Assign Ai Settings based on current Settings
             else design.aiSettings = "None";
             return design;
         }
