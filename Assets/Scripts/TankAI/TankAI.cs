@@ -172,7 +172,6 @@ namespace TowerTanks.Scripts
 
             foreach (var tokenDistribution in tokensToDistribute)
             {
-                Debug.Log($"Distributing {tokenDistribution.Value} tokens of type {tokenDistribution.Key}");
                 // Check if the interactable type is present on the tank
                 bool interactablePresent = tank.interactableList.Any(i => i.brain != null &&
                                                                          i.brain.mySpecificType == tokenDistribution.Key &&
@@ -180,7 +179,6 @@ namespace TowerTanks.Scripts
 
                 if (interactablePresent)
                 {
-                    Debug.Log($"Interactable present: {tokenDistribution.Key}");
                     for (int i = 0; i < tokenDistribution.Value; i++)
                     {
                         DistributeToken(tokenDistribution.Key);
@@ -257,11 +255,12 @@ namespace TowerTanks.Scripts
         private void OnDrawGizmos()
         {
             //draw circle for view range
+            if (fsm == null) return;
             if (!enabled) return;
             Gizmos.color = Color.red;
             if (tank == null) return;
             Vector3 tankPos = tank.treadSystem.transform.position;
-            if (fsm != null) { if (fsm._currentState.GetType() != typeof(TankPursueState)) Gizmos.DrawWireSphere(tankPos, aiSettings.viewRange); }
+            if (fsm._currentState.GetType() != typeof(TankPursueState)) Gizmos.DrawWireSphere(tankPos, aiSettings.viewRange);
             int i = 0;
             foreach (var interactable in tokenActivatedInteractables)
             {
