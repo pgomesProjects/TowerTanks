@@ -8,7 +8,7 @@ namespace TowerTanks.Scripts
     public class GameUIManager : SerializedMonoBehaviour
     {
         private const string CANVAS_TAG_NAME = "GameUI";
-        public enum UIType { TaskBar, RadialTaskBar, TimingGauge, RadialTimingGauge, ButtonPrompt, Damage }
+        public enum UIType { TaskBar, RadialTaskBar, TimingGauge, RadialTimingGauge, ButtonPrompt, Damage, SymbolDisplay }
 
         [SerializeField, Tooltip("The prefabs of the different UI elements (only one of each type should exist).")] private UIPrefab[] uiPrefabs;
         [SerializeField, Tooltip("The button prompt settings.")] private ButtonPromptSettings buttonPromptSettings;
@@ -352,6 +352,28 @@ namespace TowerTanks.Scripts
             LeanTween.scale(gameObject, Vector3.one + (Vector3.one * 1.2f), 0.2f).setEase(LeanTweenType.punch);
 
             Destroy(damageObj, duration);
+        }
+
+        /// <summary>
+        /// Displays a symbol with text on a GameObject.
+        /// </summary>
+        /// <param name="gameObject">The GameObject to add the timing gauge to (must have a canvas).</param>
+        /// <param name="position">The position of the UI object relative to the GameObject.</param>
+        /// <param name="symbolSprite">The sprite to show on the display.</param>
+        /// <param name="displayText">The initial text to show on the display.</param>
+        /// <returns>Returns the symbol display created.</returns>
+        public SymbolDisplay AddSymbolDisplay(GameObject gameObject, Vector2 position, Sprite symbolSprite, string displayText)
+        {
+            Canvas canvas = GetCanvasFromGameObject(gameObject, position, true);
+
+            //If no canvas is found, return null
+            if (canvas == null)
+                return null;
+
+            SymbolDisplay symbolObj = Instantiate(GetPrefabFromList(UIType.SymbolDisplay), canvas.transform).GetComponent<SymbolDisplay>();
+            symbolObj.Init(symbolSprite, displayText);
+
+            return symbolObj;
         }
 
         /// <summary>
