@@ -1,5 +1,6 @@
 {
     "TankName": "The Octane Battery",
+    "aiSettings": "Tier 4 AI Settings (Long Range)",
     "coreInteractables": [],
     "buildingSteps": [
         {
