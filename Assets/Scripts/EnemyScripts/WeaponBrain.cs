@@ -37,7 +37,7 @@ namespace TowerTanks.Scripts
         {
             fireTimer = 0;
             StartCoroutine(AimAtTarget());
-            StartCoroutine(UpdateTargetPoint(75));
+            StartCoroutine(UpdateTargetPoint(myTankAI.aiSettings.tankAccuracy));
         }
 
         // Update is called once per frame

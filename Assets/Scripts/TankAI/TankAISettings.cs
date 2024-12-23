@@ -3,6 +3,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.Internal;
 #if UNITY_EDITOR 
 using UnityEditor; 
 using Sirenix.OdinInspector.Editor;
@@ -17,6 +18,9 @@ namespace TowerTanks.Scripts
         public float maxEngagementRange;
         public float preferredFightDistance;
         public int tankEconomy;
+        [Range(0, 100)]
+        [Tooltip("The accuracy of the tank's aim. 0 is completely inaccurate, 100 is perfectly accurate, in theory.")]
+        public float tankAccuracy = 100; //default value is complete accuracy
 
         [Title("Interactable Weights")]
         [InfoBox("Key: Interactable type to populate with tokens, \nValue: percentage of our tokens to give to this interactable type.")]
