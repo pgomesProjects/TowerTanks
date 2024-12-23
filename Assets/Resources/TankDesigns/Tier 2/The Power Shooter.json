@@ -1,5 +1,6 @@
 {
     "TankName": "The Power Shooter",
+    "aiSettings": "Tier 2 AI Settings (Short Range)",
     "coreInteractables": [
         {
             "cellName": "Cell_2",
@@ -10,14 +11,20 @@
     "buildingSteps": [
         {
             "roomID": "Room_Tee4C_Flipped",
-            "roomType": 4,
+            "roomType": 1,
             "localSpawnVector": {
                 "x": -3.5,
                 "y": 1.25,
                 "z": 0.0
             },
             "rotate": 1,
-            "cellInteractables": []
+            "cellInteractables": [],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
+            ]
         },
         {
             "roomID": "Room_Line4A",
@@ -34,6 +41,12 @@
                     "interRef": "InterEngineer_Boiler",
                     "flipped": false
                 }
+            ],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
             ]
         },
         {
@@ -51,11 +64,17 @@
                     "interRef": "InterEngineer_Boiler",
                     "flipped": false
                 }
+            ],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
             ]
         },
         {
             "roomID": "Room_Block4A",
-            "roomType": 3,
+            "roomType": 0,
             "localSpawnVector": {
                 "x": -1.75,
                 "y": 3.0,
@@ -68,22 +87,34 @@
                     "interRef": "InterWeapon_MachineGun",
                     "flipped": true
                 }
+            ],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
             ]
         },
         {
             "roomID": "Room_Block4A",
-            "roomType": 4,
+            "roomType": 1,
             "localSpawnVector": {
                 "x": 0.5,
                 "y": 3.0,
                 "z": 0.0
             },
             "rotate": 0,
-            "cellInteractables": []
+            "cellInteractables": [],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
+            ]
         },
         {
             "roomID": "Room_Elbow4A_Flipped",
-            "roomType": 3,
+            "roomType": 0,
             "localSpawnVector": {
                 "x": 2.25,
                 "y": 4.75,
@@ -91,16 +122,22 @@
             },
             "rotate": 1,
             "cellInteractables": [
-              {
-                "cellName": "Cell_0",
-                "interRef": "InterWeapon_MachineGun",
-                "flipped": true
-              }
+                {
+                    "cellName": "Cell_0",
+                    "interRef": "InterWeapon_MachineGun",
+                    "flipped": true
+                }
+            ],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
             ]
         },
         {
             "roomID": "Room_Line2A",
-            "roomType": 3,
+            "roomType": 0,
             "localSpawnVector": {
                 "x": -4.75,
                 "y": 0.0,
@@ -108,11 +145,15 @@
             },
             "rotate": 0,
             "cellInteractables": [
-              {
-                "cellName": "Cell_0",
-                "interRef": "InterWeapon_MachineGun",
-                "flipped": true
-              }
+                {
+                    "cellName": "Cell_0",
+                    "interRef": "InterWeapon_MachineGun",
+                    "flipped": true
+                }
+            ],
+            "cellManifest": [
+                true,
+                true
             ]
         }
     ]
