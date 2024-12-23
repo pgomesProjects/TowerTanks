@@ -52,7 +52,7 @@ namespace TowerTanks.Scripts
             // accounts for any leftover tokens from rounding down
             while (remainingTokens > 0)
             {
-                foreach (var kvp in weights.OrderByDescending(kvp => kvp.Value))
+                foreach (var kvp in weights.OrderByDescending(kvp => kvp.Value)) // distributes leftover tokens to the interactables with the highest weights
                 {
                     if (kvp.Value == 0) continue;
                     if (remainingTokens <= 0) break;
@@ -73,21 +73,7 @@ namespace TowerTanks.Scripts
             DisplayTokenDistributionForDictionary(engageStateInteractableWeights, "Engage State");
         }
 
-        /*private void DisplayTokenDistributionForDictionary(Dictionary<INTERACTABLE, float> dictionary, string stateName)
-        {
-            if (dictionary == null || dictionary.Count == 0) return;
-
-            GUILayout.Space(10);
-            GUILayout.Label($"{stateName} Token Distribution", EditorStyles.boldLabel);
-
-            float totalWeight = dictionary.Values.Sum();
-            foreach (var kvp in dictionary)
-            {
-                float percentage = kvp.Value / totalWeight;
-                int tokens = Mathf.CeilToInt(tankEconomy * percentage);
-                GUILayout.Label($"{kvp.Key}: {tokens} tokens");
-            }
-        }*/
+        
         private void DisplayTokenDistributionForDictionary(Dictionary<INTERACTABLE, float> dictionary, string stateName)
         {
             if (dictionary == null || dictionary.Count == 0) return;
