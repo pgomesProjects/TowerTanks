@@ -133,6 +133,7 @@ namespace TowerTanks.Scripts
                 interactable.brain.enabled = true;
                 interactable.brain.ReceiveToken();
                 interactable.brain.mySpecificType = toInteractable;
+                interactable.brain.Init();
                 currentTokenCount--;
             }
 

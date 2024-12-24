@@ -25,6 +25,7 @@ namespace TowerTanks.Scripts
         internal Vector3 targetPoint;
         protected Vector3 targetPointOffset;
         protected bool miss;
+        private bool started;
 
         private void Awake()
         {
@@ -32,7 +33,7 @@ namespace TowerTanks.Scripts
             myProjectile = gunScript.projectilePrefab.GetComponent<Projectile>();
         }
 
-        protected void Start()
+        public override void Init()
         {
             fireTimer = 0;
             StartCoroutine(AimAtTarget());
@@ -89,7 +90,7 @@ namespace TowerTanks.Scripts
         /// </param>
         protected virtual IEnumerator UpdateTargetPoint(float aimFactor)
         {
-            while (enabled)
+            while (tokenActivated)
             {
                 var targetTankTransform = myTankAI.targetTank.treadSystem.transform;
                 var upmostCell = myTankAI.targetTank.upMostCell.transform;
@@ -122,7 +123,7 @@ namespace TowerTanks.Scripts
 
         protected virtual IEnumerator AimAtTarget(float refreshRate = 0.1f, bool everyFrame = false)
         {
-            while (enabled)
+            while (tokenActivated)
             {
                 if (myTankAI.targetTank == null) yield break;
 

@@ -12,7 +12,6 @@ namespace TowerTanks.Scripts
 
         void Start()
         {
-            base.Start();
             clip = Random.Range(clipMin, clipMax);
         }
         
