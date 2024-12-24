@@ -6,9 +6,7 @@ namespace TowerTanks.Scripts
 {
     public class SimpleMortarBrain : WeaponBrain
     {
-        private float minChargeTime = 4f;
-        
-        
+        private float minChargeTime = 3f;
 
         protected override void Update()
         {
@@ -18,9 +16,14 @@ namespace TowerTanks.Scripts
             
             bool diffIsPositive = diff.x >= 0;
             
-            if (myTankAI.TankIsRightOfTarget() && gunScript.chargeTimer < minChargeTime)
+            if (myTankAI.TankIsRightOfTarget() && gunScript.chargeTimer < minChargeTime && aimHitPoint.x - targetPoint.x > 2)
             {
                 gunScript.ChargeMortar(diffIsPositive);
+            }
+
+            if (Vector3.Distance(aimHitPoint, targetPoint) > 8)
+            {
+                fireTimer = 0; //mortar wont fire if its way way off from hitting 
             }
         }
         protected override IEnumerator AimAtTarget(float refreshRate = .001f, bool everyFrame = true)
@@ -32,7 +35,7 @@ namespace TowerTanks.Scripts
                 
                 var proj = gunScript.projectilePrefab.GetComponent<Projectile>();
                 Vector2 fireVelocity = gunScript.barrel.up * gunScript.muzzleVelocity;
-                fireVelocity += myTankAI.tank.treadSystem.r.GetPointVelocity(gunScript.barrel.position);
+                fireVelocity += myTankAI.tank.treadSystem.r.velocity;
                 var trajectoryPoints = Trajectory.GetTrajectory(gunScript.barrel.position,
                     fireVelocity, proj.gravity, 100);
                 aimHit = Trajectory.GetHitPoint(trajectoryPoints);
@@ -40,7 +43,7 @@ namespace TowerTanks.Scripts
                 Vector3 aimHitPoint = aimHit.point;
                 if (aimHitPoint == Vector3.zero) aimHitPoint = trajectoryPoints[^1];
 
-                float HowFarFromTarget() => Vector3.Distance(aimHitPoint, targetPoint);
+                float HowFarFromTarget() => Mathf.Abs(aimHitPoint.x - targetPoint.x);
 
                 maxTurnSpeed = .75f;
                 var distFactor = Mathf.InverseLerp(0, 2, HowFarFromTarget());
@@ -76,7 +79,7 @@ namespace TowerTanks.Scripts
                 if (hit)
                 {
                     miss = false;
-                    targetPoint = GetRandomPointBetweenVectors(leftMostCell.position, rightMostCell.position);
+                    targetPoint = GetRandomPointBetweenVectors(leftMostCell.position + (Vector3.right * 2), rightMostCell.position + (Vector3.left * 2));
                 }
                 else
                 {

@@ -24,6 +24,11 @@ namespace TowerTanks.Scripts
             interactableController = GetComponent<TankInteractable>();
         }
         
+        public virtual void Init()
+        {
+            //this empty method just needs to be here for now for the override call in DistributeToken() to work
+        }
+        
         public void ReceiveToken() 
         {
             tokenActivated = true;

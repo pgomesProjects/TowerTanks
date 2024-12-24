@@ -13,7 +13,6 @@ namespace TowerTanks.Scripts
         internal GunController gunScript;
         private Projectile myProjectile;
         
-        public float fireCooldown;
         internal float fireTimer;
         public float cooldownOffset;
         
@@ -26,6 +25,7 @@ namespace TowerTanks.Scripts
         internal Vector3 targetPoint;
         protected Vector3 targetPointOffset;
         protected bool miss;
+        private bool started;
 
         private void Awake()
         {
@@ -33,7 +33,7 @@ namespace TowerTanks.Scripts
             myProjectile = gunScript.projectilePrefab.GetComponent<Projectile>();
         }
 
-        protected void Start()
+        public override void Init()
         {
             fireTimer = 0;
             StartCoroutine(AimAtTarget());
@@ -45,12 +45,11 @@ namespace TowerTanks.Scripts
         {
             gunScript.RotateBarrel(currentForce, false);
             
-            if (fireTimer < fireCooldown) fireTimer += Time.deltaTime;
+            if (fireTimer < gunScript.rateOfFire) fireTimer += Time.deltaTime;
             else if (!AimingAtMyself())
             {
                 gunScript.Fire(true, gunScript.tank.tankType);
-                float randomOffset = Random.Range(-cooldownOffset, cooldownOffset);
-                fireTimer = 0 + randomOffset;
+                fireTimer = 0;
             }
             else
             {
@@ -91,7 +90,7 @@ namespace TowerTanks.Scripts
         /// </param>
         protected virtual IEnumerator UpdateTargetPoint(float aimFactor)
         {
-            while (enabled)
+            while (tokenActivated)
             {
                 var targetTankTransform = myTankAI.targetTank.treadSystem.transform;
                 var upmostCell = myTankAI.targetTank.upMostCell.transform;
@@ -173,7 +172,7 @@ namespace TowerTanks.Scripts
         {
             bool mortar = mySpecificType == INTERACTABLE.Mortar;
             Vector2 fireVelocity = (mortar ? gunScript.barrel.up : gunScript.barrel.right) * gunScript.muzzleVelocity;
-            if (mortar) fireVelocity += myTankAI.tank.treadSystem.r.GetPointVelocity(gunScript.barrel.position);
+            if (mortar) fireVelocity += myTankAI.tank.treadSystem.r.velocity;
             var trajPoints = Trajectory.GetTrajectory(gunScript.barrel.position, 
                                                     fireVelocity,
                                                                    myProjectile.gravity,
