@@ -1588,6 +1588,8 @@ MonoBehaviour:
     gameObject: {fileID: 5504484630492744355, guid: 5b0529b2d9504a34b98ec7b4cc0fd408, type: 3}
   - type: 5
     gameObject: {fileID: 5504484630492744355, guid: b2ef24e05e7ad8545b6926e5edf79ed7, type: 3}
+  - type: 6
+    gameObject: {fileID: 1131269492136351833, guid: cc9ab5d260652d641a9bb6270f795219, type: 3}
   buttonPromptSettings: {fileID: 11400000, guid: d9592cc9952e7b4449964cc3e6a40d1b, type: 2}
 --- !u!1001 &7563297248085180075
 PrefabInstance:
