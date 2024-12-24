@@ -25,7 +25,7 @@ namespace TowerTanks.Scripts
         [Tooltip("Force exerted on tank each time weapon is fired."), SerializeField, Min(0)] private float recoil;
         [Tooltip("Speed at which the cannon barrel rotates"), SerializeField]                 private float rotateSpeed;
         [Tooltip("Max angle (up or down) weapon joint can be rotated to."), SerializeField]   private float gimbalRange;
-        [Tooltip("Cooldown in seconds between when the weapon can fire"), SerializeField, Min(0)] private float rateOfFire;
+        [Tooltip("Cooldown in seconds between when the weapon can fire"),  Min(0)]            public float rateOfFire;
         [Header("Barrel Reciprocation:")]
         [SerializeField, Tooltip("How far the barrel reciprocates when firing."), Min(0)]          private float reciprocationDistance;
         [SerializeField, Tooltip("How long barrel reciprocation phase is."), Min(0)]               private float reciprocationTime;
@@ -216,13 +216,13 @@ namespace TowerTanks.Scripts
         /// <param name="charging">
         /// "False" will cooldown it's charge, "True" will increment it.
         /// </param>
-        public void ChargeMortar(bool charging = true)
+        public void ChargeMortar(bool charging = true, float chargeMultiplier = 1)
         {
             if (charging)
             {
                 if (chargeTimer < maxChargeTime)
                 {
-                    chargeTimer += Time.deltaTime;
+                    chargeTimer += Time.deltaTime * chargeMultiplier;
                 }
 
                 if (chargeTimer >= minChargeTime)
@@ -247,7 +247,7 @@ namespace TowerTanks.Scripts
                 trajectoryLine.enabled = false;
                 if (chargeTimer > 0)
                 {
-                    chargeTimer -= Time.deltaTime;
+                    chargeTimer -= Time.deltaTime * chargeMultiplier;
                 }
             }
             
