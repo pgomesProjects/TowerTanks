@@ -45,14 +45,12 @@ namespace TowerTanks.Scripts
         private void Awake()
         {
             tank = GetComponent<TankController>();
-            
-            currentTokenCount = aiSettings.tankEconomy;
-
         }
         
         private IEnumerator Start()
         {
             yield return new WaitForSeconds(0.1f); // AI Waits before initialization to give time for any tank room generation
+            currentTokenCount = aiSettings.tankEconomy;
             fsm = new StateMachine();
             var patrolState = new TankPatrolState(this);
             var pursueState = new TankPursueState(this);
@@ -261,6 +259,7 @@ namespace TowerTanks.Scripts
             if (tank == null) return;
             Vector3 tankPos = tank.treadSystem.transform.position;
             if (fsm._currentState.GetType() != typeof(TankPursueState)) Gizmos.DrawWireSphere(tankPos, aiSettings.viewRange);
+            GUIStyle style = new GUIStyle();
             int i = 0;
             foreach (var interactable in tokenActivatedInteractables)
             {
@@ -268,19 +267,20 @@ namespace TowerTanks.Scripts
                 Gizmos.color = Color.blue;
                 Bounds bnds = interactable.script.thisCollider.bounds;
                 Gizmos.DrawWireCube(interactable.script.transform.position, bnds.size);
-                GUIStyle style = new GUIStyle();
+                
                 style.fontSize = 20; 
                 style.fontStyle = FontStyle.Bold;
                 style.normal.textColor = Color.green;
                 Handles.Label(interactable.script.transform.position + Vector3.up * 2, $"{i}", style: style);
-                style.normal.textColor = Color.cyan;
-                Handles.Label(tank.treadSystem.transform.position + Vector3.up * 25, $"AI STATE: {fsm._currentState.GetType().Name}", style: style);
-                style.normal.textColor = Color.yellow;
-                Handles.Label(tank.treadSystem.transform.position + Vector3.up * 22, $"Available Tokens: {currentTokenCount}", style: style);
-                style.normal.textColor = Color.red;
-                Handles.Label(tank.treadSystem.transform.position + Vector3.up * 19, $"Total Tokens: {aiSettings.tankEconomy}", style: style);
                 i++;
             }
+            style.fontStyle = FontStyle.Bold;
+            style.normal.textColor = Color.cyan;
+            Handles.Label(tank.treadSystem.transform.position + Vector3.up * 25, $"AI STATE: {fsm._currentState.GetType().Name}", style: style);
+            style.normal.textColor = Color.yellow;
+            Handles.Label(tank.treadSystem.transform.position + Vector3.up * 22, $"Available Tokens: {currentTokenCount}", style: style);
+            style.normal.textColor = Color.red;
+            Handles.Label(tank.treadSystem.transform.position + Vector3.up * 19, $"Total Tokens: {aiSettings.tankEconomy}", style: style);
 
             //draw circle for engagement range
             Gizmos.color = Color.yellow;
