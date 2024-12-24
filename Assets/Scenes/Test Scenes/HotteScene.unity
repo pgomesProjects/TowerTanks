@@ -976,7 +976,7 @@ MonoBehaviour:
     tankType: 0
     gameObject: {fileID: 1411317892}
     design: {fileID: 4900000, guid: 0ae7f54292a46314da4951bdac3723a3, type: 3}
-    buildOnStart: 0
+    buildOnStart: 1
 --- !u!1 &511407189
 GameObject:
   m_ObjectHideFlags: 0
@@ -3389,11 +3389,11 @@ MonoBehaviour:
     bias: 0
     isPreset: 0
   - chunkPrefab: {fileID: 3766360497705465845, guid: e5efa2eaaa2c9eb449f27c8317f2d22f, type: 3}
-    weight: 0
+    weight: 10
     bias: 0
     isPreset: 0
   - chunkPrefab: {fileID: 3766360497705465845, guid: 06ff124588cc7374a9bf4d92d5686616, type: 3}
-    weight: 0
+    weight: 10
     bias: 0
     isPreset: 0
   - chunkPrefab: {fileID: 3766360497705465845, guid: cbcc0b334ac2a38448a05834a3b2ed26, type: 3}
