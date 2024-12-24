@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -53,6 +54,7 @@ namespace TowerTanks.Scripts
         private float smokePuffTimer = 0;
 
         private SpriteRenderer heatRenderer;
+        private SymbolDisplay currentSpecialAmmo;
 
         //Mortar
         private float maxVelocity;
@@ -66,6 +68,32 @@ namespace TowerTanks.Scripts
         public bool fire;
         [Range(0, 1)] public float moveGimbal = 0.5f;
         private Vector3 currentRotation = new Vector3(0, 0, 0);
+
+
+        [Button(ButtonSizes.Medium)]
+        private void TestAddSpecialAmmo()
+        {
+            GameObject ammo = null;
+            int amount = 3;
+            
+            switch (gunType) //Determine Ammo Type & Quantity
+            {
+                case GunType.MACHINEGUN:
+                    ammo = GameManager.Instance.CargoManager.projectileList[0].ammoTypes[1];
+                    amount *= 20;
+                    break;
+
+                case GunType.CANNON:
+                    ammo = GameManager.Instance.CargoManager.projectileList[1].ammoTypes[1];
+                    break;
+
+                case GunType.MORTAR:
+                    ammo = GameManager.Instance.CargoManager.projectileList[1].ammoTypes[3];
+                    break;
+            }
+
+            if (ammo != null) AddSpecialAmmo(ammo, amount);
+        }
 
         //Runtime Variables:
         private Vector2 barrelBasePos;
@@ -343,7 +371,15 @@ namespace TowerTanks.Scripts
                 parentCell.room.targetTank.treadSystem.HandleImpact(knockbackForce, barrel.position);       //Apply knockback to own treadsystem at barrel position in reverse direction of projectile
 
                 //If Special, Remove from List
-                if (projectile != projectilePrefab) { specialAmmo.RemoveAt(0); }
+                if (projectile != projectilePrefab)
+                {
+                    specialAmmo.RemoveAt(0);
+                    currentSpecialAmmo?.UpdateDisplay(specialAmmo.Count.ToString());
+
+                    //If there is no more special ammo, destroy the display
+                    if (specialAmmo.Count <= 0)
+                        currentSpecialAmmo?.DestroyDisplay();
+                }
 
                 /*
                 if (newProjectile.factionId == TankId.TankType.ENEMY) {
@@ -433,6 +469,13 @@ namespace TowerTanks.Scripts
             {
                 specialAmmo.Add(ammo);
             }
+
+            //If there is special ammo already, add to the display
+            if (currentSpecialAmmo != null)
+                currentSpecialAmmo.UpdateDisplay(specialAmmo.Count.ToString());
+            //If not, create the display
+            else
+                currentSpecialAmmo = GameManager.Instance.UIManager.AddSymbolDisplay(gameObject, new Vector2(0f, 0.6f), null, quantity.ToString());
             GameManager.Instance.AudioManager.Play("CannonReload", this.gameObject);
         }
 
