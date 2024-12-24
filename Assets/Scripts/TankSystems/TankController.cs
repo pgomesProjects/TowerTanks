@@ -1051,7 +1051,7 @@ namespace TowerTanks.Scripts
             }
 
             design.TankName = TankName; //Name the design after the current tank
-            if (_thisTankAI != null) design.aiSettings = _thisTankAI.aiSettings.name; //Assign Ai Settings based on current Settings
+            if (_thisTankAI != null && tankType != TankId.TankType.PLAYER) design.aiSettings = _thisTankAI.aiSettings.name; //Assign Ai Settings based on current Settings
             else design.aiSettings = "None";
             return design;
         }
@@ -1260,7 +1260,7 @@ namespace TowerTanks.Scripts
         public void SetTankName(string newTankName)
         {
             TankName = newTankName;
-            nameText.text = TankName;
+            if (nameText != null) nameText.text = TankName;
             gameObject.name = "Tank (" + TankName + ")";
         }
 

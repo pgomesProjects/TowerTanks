@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: de64f8a47d78d1e4e956a3c7a895a3a2
+guid: 096c3cddad80b4a4ea2d8528d811f78a
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -44,7 +44,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
@@ -128,7 +128,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Tank_Base_Assets_0
+      name: Basic_TreadKit_0
       rect:
         serializedVersion: 2
         x: 640
@@ -142,14 +142,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f1fda42b76a6c2c4985cc91dcecdf921
-      internalID: 10800869
+      spriteID: a2d703d5c0a7cda499fe22bcb7e6a4cb
+      internalID: -1377433736
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tank_Base_Assets_1
+      name: Basic_TreadKit_1
       rect:
         serializedVersion: 2
         x: 2277
@@ -163,14 +163,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 776e34c8d7649bb41b6da38f7dc19fbb
-      internalID: 171642068
+      spriteID: 567f18181d2e6c246adfc68dfe22b1c1
+      internalID: 1414986737
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tank_Base_Assets_2
+      name: Basic_TreadKit_2
       rect:
         serializedVersion: 2
         x: 3190
@@ -184,14 +184,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 432ca8f78f36efd49b1ae0fd206c2342
-      internalID: 590011539
+      spriteID: 21d3c3def03fbbf48bafbf33330da1aa
+      internalID: -1321045642
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tank_Base_Assets_3
+      name: Basic_TreadKit_3
       rect:
         serializedVersion: 2
         x: 734
@@ -205,14 +205,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e20b101057d75d341836215dadcec7f5
-      internalID: 1448378068
+      spriteID: cf4b4958d8de15e42aab1edb3a647da4
+      internalID: -1146655872
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tank_Base_Assets_4
+      name: Basic_TreadKit_4
       rect:
         serializedVersion: 2
         x: 1972
@@ -226,14 +226,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 248379a0597220f41b45ba7f43ffc2b9
-      internalID: 738967870
+      spriteID: c41c0f97bea07a84cb91e2d8206c1927
+      internalID: -2058791671
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tank_Base_Assets_5
+      name: Basic_TreadKit_5
       rect:
         serializedVersion: 2
         x: 3311
@@ -247,14 +247,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1f284838ecd902548a5503f61e241c51
-      internalID: 2046919314
+      spriteID: a04f69889608d1a4ea78d594da7cadbf
+      internalID: 2089146592
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tank_Base_Assets_6
+      name: Basic_TreadKit_6
       rect:
         serializedVersion: 2
         x: 856
@@ -268,14 +268,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 55b4288e2c1da1f45b6a94c21a77b78e
-      internalID: 555569531
+      spriteID: 65d3d0566d927ec4fabbdf9a6705ca0e
+      internalID: 85560429
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tank_Base_Assets_7
+      name: Basic_TreadKit_7
       rect:
         serializedVersion: 2
         x: 2038
@@ -289,14 +289,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e6025b968ea290a43a40d4b4c25056f0
-      internalID: 747841965
+      spriteID: a70f8d3d9a68e7d458c198d3fba7cfea
+      internalID: 574381
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Tank_Base_Assets_8
+      name: Basic_TreadKit_8
       rect:
         serializedVersion: 2
         x: 3503
@@ -310,8 +310,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7aef946b2e78c99448e54be48ff820ee
-      internalID: 289243189
+      spriteID: bea406e92361d084aab8868bb5b2f3e4
+      internalID: -1187266132
       vertices: []
       indices: 
       edges: []
@@ -327,15 +327,15 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Tank_Base_Assets_1: 171642068
-      Tank_Base_Assets_0: 10800869
-      Tank_Base_Assets_4: 738967870
-      Tank_Base_Assets_7: 747841965
-      Tank_Base_Assets_2: 590011539
-      Tank_Base_Assets_3: 1448378068
-      Tank_Base_Assets_5: 2046919314
-      Tank_Base_Assets_6: 555569531
-      Tank_Base_Assets_8: 289243189
+      Basic_TreadKit_0: -1377433736
+      Basic_TreadKit_2: -1321045642
+      Basic_TreadKit_4: -2058791671
+      Basic_TreadKit_6: 85560429
+      Basic_TreadKit_8: -1187266132
+      Basic_TreadKit_1: 1414986737
+      Basic_TreadKit_3: -1146655872
+      Basic_TreadKit_5: 2089146592
+      Basic_TreadKit_7: 574381
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
