@@ -75,14 +75,11 @@ namespace TowerTanks.Scripts
                 
                 if (hit)
                 {
-                    Debug.Log("MORTAR HIT!");
                     miss = false;
                     targetPoint = GetRandomPointBetweenVectors(leftMostCell.position, rightMostCell.position);
-                    
                 }
                 else
                 {
-                    Debug.Log("MORTAR MISS!");
                     miss = true;
                     var pointLeftOfTarget = leftMostCell.position - leftMostCell.right * 4f;
                     var pointRightTarget = rightMostCell.position + rightMostCell.right * 4f;
