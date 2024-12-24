@@ -167,4 +167,5 @@ MonoBehaviour:
   maxEngagementRange: 100
   preferredFightDistance: 75
   tankEconomy: 2
+  tankAccuracy: 60
   redistributeTokensCooldown: 15
