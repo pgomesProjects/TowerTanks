@@ -30,10 +30,6 @@ namespace TowerTanks.Scripts
                 }
             }
             
-            if (Vector2.Distance(myTankAI.tank.treadSystem.transform.position, myTankAI.targetTank.treadSystem.transform.position) > 50)
-            {
-                fireTimer = 0; //machine gun will no longer shoot if the target is out of range of it's bullets
-            }
         }
     }
 }
