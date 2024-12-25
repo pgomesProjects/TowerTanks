@@ -15,3 +15,5 @@ MonoBehaviour:
   objectName: combat_music
   id: 1932095129
   guid: EFF23527-200A-4A30-87B9-C1CF628AAF2B
+  IsInUserDefinedSoundBank: 1
+  IsAutoBankLoaded: 0

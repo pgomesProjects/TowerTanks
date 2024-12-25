@@ -15,3 +15,5 @@ MonoBehaviour:
   objectName: build_room
   id: 2462051799
   guid: 8A28287C-D8A1-4CC0-934B-2132F9786DF4
+  IsInUserDefinedSoundBank: 1
+  IsAutoBankLoaded: 0

@@ -15,3 +15,5 @@ MonoBehaviour:
   objectName: steam_exhaust
   id: 2561646952
   guid: A6951C9E-8870-4DF5-8644-705652A6AAF0
+  IsInUserDefinedSoundBank: 1
+  IsAutoBankLoaded: 0

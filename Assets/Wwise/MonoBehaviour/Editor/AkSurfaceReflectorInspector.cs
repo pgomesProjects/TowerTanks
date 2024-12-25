@@ -13,10 +13,10 @@ Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
 this file in accordance with the end user license agreement provided with the
 software or, alternatively, in accordance with the terms contained
 in a written agreement between you and Audiokinetic Inc.
-Copyright (c) 2023 Audiokinetic Inc.
+Copyright (c) 2024 Audiokinetic Inc.
 *******************************************************************************/
 
-[UnityEditor.CustomEditor(typeof(AkSurfaceReflector))]
+[UnityEditor.CustomEditor(typeof(AkSurfaceReflector), true)]
 [UnityEditor.CanEditMultipleObjects]
 public class AkSurfaceReflectorInspector : UnityEditor.Editor
 {
@@ -27,7 +27,7 @@ public class AkSurfaceReflectorInspector : UnityEditor.Editor
 	private UnityEditor.SerializedProperty TransmissionLossValues;
 	private UnityEditor.SerializedProperty EnableDiffraction;
 	private UnityEditor.SerializedProperty EnableDiffractionOnBoundaryEdges;
-	private UnityEditor.SerializedProperty AssociatedRoom;
+	private UnityEditor.SerializedProperty Solid;
 
 	public void OnEnable()
 	{
@@ -38,18 +38,12 @@ public class AkSurfaceReflectorInspector : UnityEditor.Editor
 		TransmissionLossValues = serializedObject.FindProperty("TransmissionLossValues");
 		EnableDiffraction = serializedObject.FindProperty("EnableDiffraction");
 		EnableDiffractionOnBoundaryEdges = serializedObject.FindProperty("EnableDiffractionOnBoundaryEdges");
-		AssociatedRoom = serializedObject.FindProperty("AssociatedRoom");
+		Solid = serializedObject.FindProperty("Solid");
 	}
 
 	public override void OnInspectorGUI()
 	{
-		bool GeometryNeedsUpdate = false;
-		bool GeometryInstanceNeedsUpdate = false;
-
 		serializedObject.Update();
-
-		// Start a code block to check for GUI changes
-		UnityEditor.EditorGUI.BeginChangeCheck();
 
 		UnityEditor.EditorGUILayout.PropertyField(Mesh);
 
@@ -65,32 +59,9 @@ public class AkSurfaceReflectorInspector : UnityEditor.Editor
 			UnityEditor.EditorGUILayout.PropertyField(EnableDiffractionOnBoundaryEdges);
 		}
 
-		if (UnityEditor.EditorGUI.EndChangeCheck())
-		{
-			GeometryNeedsUpdate = true;
-		}
-
-		//Start a code block to check for GUI changes
-		UnityEditor.EditorGUI.BeginChangeCheck();
-
-		UnityEditor.EditorGUILayout.PropertyField(AssociatedRoom);
-
-		if (UnityEditor.EditorGUI.EndChangeCheck())
-		{
-			GeometryInstanceNeedsUpdate = true;
-		}
+		UnityEditor.EditorGUILayout.PropertyField(Solid);
 
 		serializedObject.ApplyModifiedProperties();
-
-		if (GeometryNeedsUpdate)
-		{
-			m_AkSurfaceReflector.SetGeometry();
-		}
-
-		if (GeometryInstanceNeedsUpdate)
-		{
-			m_AkSurfaceReflector.UpdateAssociatedRoom();
-		}
 	}
 
 	public static void CheckArraySize(AkSurfaceReflector surfaceReflector, int length, string name)

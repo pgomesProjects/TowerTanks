@@ -15,3 +15,5 @@ MonoBehaviour:
   objectName: coal_load
   id: 1134111855
   guid: F1546671-8424-4414-A7AA-E773BA3308EE
+  IsInUserDefinedSoundBank: 1
+  IsAutoBankLoaded: 0

@@ -15,3 +15,5 @@ MonoBehaviour:
   objectName: jetpack_startup
   id: 756560803
   guid: E0347EB4-54E5-4FF7-85BE-472252C23DBA
+  IsInUserDefinedSoundBank: 1
+  IsAutoBankLoaded: 0

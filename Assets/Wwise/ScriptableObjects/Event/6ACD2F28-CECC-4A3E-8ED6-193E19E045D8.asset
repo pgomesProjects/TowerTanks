@@ -15,3 +15,5 @@ MonoBehaviour:
   objectName: tank_engine
   id: 212754890
   guid: 6ACD2F28-CECC-4A3E-8ED6-193E19E045D8
+  IsInUserDefinedSoundBank: 1
+  IsAutoBankLoaded: 0

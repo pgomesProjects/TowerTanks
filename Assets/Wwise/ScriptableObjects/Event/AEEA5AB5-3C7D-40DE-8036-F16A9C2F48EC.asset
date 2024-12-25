@@ -15,3 +15,5 @@ MonoBehaviour:
   objectName: button_cancel
   id: 3130542990
   guid: AEEA5AB5-3C7D-40DE-8036-F16A9C2F48EC
+  IsInUserDefinedSoundBank: 1
+  IsAutoBankLoaded: 0

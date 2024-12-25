@@ -15,3 +15,5 @@ MonoBehaviour:
   objectName: ladder_climb
   id: 1707141479
   guid: D9B8CBC5-2F10-40B6-A6C5-14C2BB9FEAD7
+  IsInUserDefinedSoundBank: 1
+  IsAutoBankLoaded: 0

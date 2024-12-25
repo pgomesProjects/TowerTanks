@@ -15,3 +15,5 @@ MonoBehaviour:
   objectName: engine_dying_2
   id: 1498048058
   guid: 78173B5F-2234-4626-8B88-25E34DFD9239
+  IsInUserDefinedSoundBank: 1
+  IsAutoBankLoaded: 0

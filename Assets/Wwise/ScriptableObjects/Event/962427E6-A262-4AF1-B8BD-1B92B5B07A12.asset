@@ -15,3 +15,5 @@ MonoBehaviour:
   objectName: throttle_click
   id: 1141416880
   guid: 962427E6-A262-4AF1-B8BD-1B92B5B07A12
+  IsInUserDefinedSoundBank: 1
+  IsAutoBankLoaded: 0

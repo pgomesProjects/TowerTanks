@@ -15,3 +15,5 @@ MonoBehaviour:
   objectName: rotate_room
   id: 2075466706
   guid: EC3DDBB4-7FB2-4619-830E-0DC7B33C2930
+  IsInUserDefinedSoundBank: 1
+  IsAutoBankLoaded: 0

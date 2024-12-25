@@ -15,3 +15,5 @@ MonoBehaviour:
   objectName: blaring_alarm
   id: 3949782988
   guid: 32DB5705-A07D-47A0-9A62-61E902CEDE4A
+  IsInUserDefinedSoundBank: 1
+  IsAutoBankLoaded: 0

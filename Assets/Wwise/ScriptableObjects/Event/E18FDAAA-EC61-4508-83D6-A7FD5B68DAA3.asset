@@ -15,3 +15,5 @@ MonoBehaviour:
   objectName: projectile_in_air
   id: 137332291
   guid: E18FDAAA-EC61-4508-83D6-A7FD5B68DAA3
+  IsInUserDefinedSoundBank: 1
+  IsAutoBankLoaded: 0

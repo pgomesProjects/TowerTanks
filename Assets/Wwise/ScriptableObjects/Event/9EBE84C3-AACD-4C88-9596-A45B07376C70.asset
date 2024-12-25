@@ -15,3 +15,5 @@ MonoBehaviour:
   objectName: tank_rolling
   id: 299811467
   guid: 9EBE84C3-AACD-4C88-9596-A45B07376C70
+  IsInUserDefinedSoundBank: 1
+  IsAutoBankLoaded: 0

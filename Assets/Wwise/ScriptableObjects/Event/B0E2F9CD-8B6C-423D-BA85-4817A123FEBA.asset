@@ -15,3 +15,5 @@ MonoBehaviour:
   objectName: large_explosion
   id: 531217250
   guid: B0E2F9CD-8B6C-423D-BA85-4817A123FEBA
+  IsInUserDefinedSoundBank: 1
+  IsAutoBankLoaded: 0

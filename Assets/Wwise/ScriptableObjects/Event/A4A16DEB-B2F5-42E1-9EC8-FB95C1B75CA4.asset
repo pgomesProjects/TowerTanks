@@ -15,3 +15,5 @@ MonoBehaviour:
   objectName: small_explosion
   id: 3519998062
   guid: A4A16DEB-B2F5-42E1-9EC8-FB95C1B75CA4
+  IsInUserDefinedSoundBank: 1
+  IsAutoBankLoaded: 0

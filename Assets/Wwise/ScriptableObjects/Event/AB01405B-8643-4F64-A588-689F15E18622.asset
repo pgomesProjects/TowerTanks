@@ -15,3 +15,5 @@ MonoBehaviour:
   objectName: coal_pickup
   id: 2581980243
   guid: AB01405B-8643-4F64-A588-689F15E18622
+  IsInUserDefinedSoundBank: 1
+  IsAutoBankLoaded: 0
