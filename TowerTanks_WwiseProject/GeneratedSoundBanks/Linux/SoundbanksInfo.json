@@ -18,7 +18,7 @@
     "Type": "User",
     "GUID": "{701ECBBD-9C7B-4030-8CDB-749EE5D1C7B9}",
     "Language": "SFX",
-    "Hash": "{A2F8844F-930D-5BAA-ED4E-32C191BEB23A}",
+    "Hash": "{9317ACC6-ACD8-A07E-A1EF-A9C62919F6BD}",
     "ObjectPath": "Init",
     "ShortName": "Init",
     "Path": "Init.bnk",
@@ -106,6 +106,12 @@
       "GUID": "{2F53B7D6-1456-48C7-9401-16A556219669}"
      },
      {
+      "Id": "3939064495",
+      "Name": "EnginePitch",
+      "ObjectPath": "\\Game Parameters\\Default Work Unit\\EnginePitch",
+      "GUID": "{1410D1D1-D54C-4027-9FB0-57E4263F1D0F}"
+     },
+     {
       "Id": "4287925136",
       "Name": "CombatLayer2Volume",
       "ObjectPath": "\\Game Parameters\\Default Work Unit\\CombatLayer2Volume",
@@ -118,7 +124,7 @@
     "Type": "User",
     "GUID": "{37497F3A-0B2B-421A-8CAB-0ADBE8B1C2B4}",
     "Language": "SFX",
-    "Hash": "{C21C1806-EC1C-F3E9-AB05-567C87752BF8}",
+    "Hash": "{D96EF0ED-3742-AE70-3036-2A179750AF96}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\mainbank",
     "ShortName": "mainbank",
     "Path": "mainbank.bnk",
@@ -657,7 +663,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "TT_SFX_tank-engine.wav",
-      "CachePath": "F0/{F028EC90-72C4-E2B1-07E9-8B5F3B89F2D6}.wem"
+      "CachePath": "61/{611351C9-36DF-02F6-C331-7B9A06130200}.wem"
      },
      {
       "Id": "874009170",
@@ -761,7 +767,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "TT_SFX_tank-rolling.wav",
-      "CachePath": "7F/{7F4CAF15-79CF-B032-32D2-227113FD8C20}.wem"
+      "CachePath": "74/{740CC3FC-BAF4-CCE5-86BE-B928E7E4E72E}.wem"
      },
      {
       "Id": "1065158661",
@@ -1773,6 +1779,12 @@
       "GUID": "{2F53B7D6-1456-48C7-9401-16A556219669}"
      },
      {
+      "Id": "3939064495",
+      "Name": "EnginePitch",
+      "ObjectPath": "\\Game Parameters\\Default Work Unit\\EnginePitch",
+      "GUID": "{1410D1D1-D54C-4027-9FB0-57E4263F1D0F}"
+     },
+     {
       "Id": "4287925136",
       "Name": "CombatLayer2Volume",
       "ObjectPath": "\\Game Parameters\\Default Work Unit\\CombatLayer2Volume",
@@ -1781,6 +1793,6 @@
     ]
    }
   ],
-  "FileHash": "{154CDB0E-3C7D-8F96-43BA-44389EBEC45F}"
+  "FileHash": "{8058D95A-6B1D-126A-009D-2E8DF8EE0A55}"
  }
 }

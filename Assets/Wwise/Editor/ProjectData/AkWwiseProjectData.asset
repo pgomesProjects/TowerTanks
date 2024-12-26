@@ -1197,7 +1197,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\Default Work Unit
     guid: 7fd26d170457f64b9c4075e46d49e907
     GuidInternal: 
-    m_lastTime: -8584664981383058811
+    m_lastTime: -8584663519061967382
     List:
     - name: CombatLayer0Volume
       guid: 999f4b2c35a11740af640b4d29de9d1c
@@ -1255,6 +1255,20 @@ MonoBehaviour:
         ObjectType: 13
         guid: c48637483ae14c428c182e313b0e7b44
       Path: Game Parameters\Default Work Unit\CombatLayer3Volume
+    - name: EnginePitch
+      guid: d1d110144cd527409fb057e4263f1d0f
+      id: 3939064495
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 7fd26d170457f64b9c4075e46d49e907
+      - ElementName: EnginePitch
+        ObjectType: 13
+        guid: d1d110144cd527409fb057e4263f1d0f
+      Path: Game Parameters\Default Work Unit\EnginePitch
     - name: GlobalCombatVolume
       guid: 53438bf090580f42b430afda94d9dae7
       id: 2834886298

@@ -591,6 +591,11 @@
 							</ReferenceList>
 							<ChildrenList>
 								<AudioFileSource Name="TT_SFX_tank-engine" ID="{A79BF59B-55AE-4762-89E9-076B54CE8650}">
+									<PropertyList>
+										<Property Name="LoopBegin" Type="Real64" Value="0.0988520408163265"/>
+										<Property Name="LoopEnd" Type="Real64" Value="3.81173469387755"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+									</PropertyList>
 									<Language>SFX</Language>
 									<AudioFile>TT_SFX_tank-engine.wav</AudioFile>
 									<MediaIDList>
@@ -644,6 +649,11 @@
 							</ReferenceList>
 							<ChildrenList>
 								<AudioFileSource Name="TT_SFX_tank-rolling" ID="{47FD3C9F-C6B2-4137-BA0D-4CAB2A9CC8B5}">
+									<PropertyList>
+										<Property Name="LoopBegin" Type="Real64" Value="0.189795918367347"/>
+										<Property Name="LoopEnd" Type="Real64" Value="7.51275510204082"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+									</PropertyList>
 									<Language>SFX</Language>
 									<AudioFile>TT_SFX_tank-rolling.wav</AudioFile>
 									<MediaIDList>
@@ -651,6 +661,45 @@
 									</MediaIDList>
 								</AudioFileSource>
 							</ChildrenList>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{1E7E5A10-FA1F-427C-9415-A1418545902E}" ShortID="360610611">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Pitch"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="EnginePitch" ID="{1410D1D1-D54C-4027-9FB0-57E4263F1D0F}" WorkUnitID="{176DD27F-5704-4BF6-9C40-75E46D49E907}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{8214B875-9166-4B8C-A126-49F8C20A55BF}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="65537"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-600</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>600</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
 							<ActiveSourceList>
 								<ActiveSource Name="TT_SFX_tank-rolling" ID="{47FD3C9F-C6B2-4137-BA0D-4CAB2A9CC8B5}" Platform="Linked"/>
 							</ActiveSourceList>
@@ -1508,6 +1557,14 @@
 							</ActiveSourceList>
 						</Sound>
 						<Sound Name="TT_SFX_engine_running" ID="{AE55B66C-60EE-4714-BCC7-47D1C62E6B78}" ShortID="159975669">
+							<PropertyList>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-15</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Attenuation">
 									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
@@ -1521,6 +1578,10 @@
 							</ReferenceList>
 							<ChildrenList>
 								<AudioFileSource Name="TT_SFX_engine_running" ID="{57254273-7388-42E1-945D-25FDFFDEADD1}">
+									<PropertyList>
+										<Property Name="LoopBegin" Type="Real64" Value="0.336734693877551"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+									</PropertyList>
 									<Language>SFX</Language>
 									<AudioFile>TT_SFX_engine_running.wav</AudioFile>
 									<MediaIDList>

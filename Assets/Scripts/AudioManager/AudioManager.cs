@@ -224,6 +224,11 @@ namespace TowerTanks.Scripts
             Play("Build_1", null, true);
         }
 
+        public void UpdateRTPCValue(string name, float value, GameObject audioLocation)
+        {
+            AkSoundEngine.SetRTPCValue(name, value, audioLocation);
+        }
+
         private Sound GetSound(string name) => Array.Find(sounds, sound => sound.name == name);
         public string GetEventName(string name) => GetSound(name).audioEvent.Name;
         public float GetSoundLength(string name) => 0f;

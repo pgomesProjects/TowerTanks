@@ -3,6 +3,8 @@
 	<UserProjectSettingsInfo>
 		<UserProjectSettings Name="" ID="{CE07A4E7-F8DB-4E04-AA59-7F7EE6632599}">
 			<PropertyList>
+				<Property Name="Attenuation\{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}\x64_CurvePins" Type="string" Value="AAAAAAAAAAAAAAAAAAAAAAAAAA=="/>
+				<Property Name="Attenuation\{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}\x64_DropdownPath1" Type="string" Value=""/>
 				<Property Name="AudioFilesImporter\Path" Type="string" Value="C:\Users\rprat\Downloads\"/>
 				<Property Name="Event Action List\{0199D9E5-3AFA-4337-A6F6-B40AC7EFB6E6}\x64_Expand States" Type="string" Value=""/>
 				<Property Name="Event Action List\{054C3506-B4B9-4EC3-96AA-A1AE33050767}\x64_Expand States" Type="string" Value=""/>

@@ -65,6 +65,7 @@ Game Parameter	ID	Name			Wwise Object Path	Notes
 	2834886298	GlobalCombatVolume			\Default Work Unit\GlobalCombatVolume	
 	2857378200	SFXPitch			\Default Work Unit\SFXPitch	
 	3720003847	CombatLayer1Volume			\Default Work Unit\CombatLayer1Volume	
+	3939064495	EnginePitch			\Default Work Unit\EnginePitch	
 	4287925136	CombatLayer2Volume			\Default Work Unit\CombatLayer2Volume	
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
@@ -134,7 +135,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	841978207	TT_SFX_bullet_impact_04	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\C3\{C373EE18-ADAA-BE00-8126-3B826242E158}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_bullet_impact\TT_SFX_bullet_impact_04		5672
 	863978555	TT_SFX_invalidAlert	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\73\{73B03077-FEED-F753-EE84-B2B76D2E9AE2}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_invalidAlert		5527
 	868853871	TT_SFX_cannon_fire_v4	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\D6\{D6887821-D7EC-E557-F4AD-7166DD3B2298}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_cannon_fire (recycled)\TT_SFX_cannon_fire_v4		8511
-	872036804	TT_SFX_tank-engine	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\F0\{F028EC90-72C4-E2B1-07E9-8B5F3B89F2D6}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_tank-engine		56805
+	872036804	TT_SFX_tank-engine	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\61\{611351C9-36DF-02F6-C331-7B9A06130200}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_tank-engine		56873
 	874009170	TT_SFX_steam_exhaust_v1	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\E5\{E5386604-EE40-4A96-9969-BAE475C19542}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_steam-exhaust\TT_SFX_steam_exhaust_v1		13185
 	881076302	TT_SFX_buildRoom	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\51\{5178AB25-20D5-1D83-9B56-363F32B73237}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_build-room\TT_SFX_buildRoom		10085
 	882478931	TT_SFX_wrench	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\7B\{7B760393-3E6D-9A0F-8922-D9B7C2DA9CA9}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_wrench		12576
@@ -147,7 +148,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	1032382603	TT_SFX_cannon_fire_v5	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\86\{86E70B31-459E-F599-1656-A7F6B60E0EB7}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_cannon_fire (recycled)\TT_SFX_cannon_fire_v5		8636
 	1036265675	TT_SFX_jetpack-startup_v2	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\7F\{7F617B62-3CB1-8B85-D4A0-FF423DD09271}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_jetpack-startup\TT_SFX_jetpack-startup_v2		13983
 	1046025241	TT_SFX_large-explosion	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\0B\{0B403FE3-56A3-7463-8EE3-C68CEE08905F}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_large-explosion		113379
-	1049821619	TT_SFX_tank-rolling	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\7F\{7F4CAF15-79CF-B032-32D2-227113FD8C20}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_tank-rolling		76105
+	1049821619	TT_SFX_tank-rolling	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\74\{740CC3FC-BAF4-CCE5-86BE-B928E7E4E72E}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_tank-rolling		76173
 	1065158661	TT_SFX_medium-explosion	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\FD\{FDFD0B87-A8CB-5833-23DE-A9F096271EF9}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_medium-explosion		69726
 	1067390579	TT_SFX_bullet_impact_dirt_01	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\99\{99D52E5A-D0B3-ED02-FE60-809301467AB4}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_bullet_impact_dirt\TT_SFX_bullet_impact_dirt_01		5256
 
