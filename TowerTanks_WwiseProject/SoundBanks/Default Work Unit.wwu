@@ -49,6 +49,7 @@
 						<ObjectRef Name="item_pickup" ID="{196A0EF4-A5F5-4A78-A653-76AFC3A8B73E}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="throttle_click" ID="{962427E6-A262-4AF1-B8BD-1B92B5B07A12}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="invalid_alert" ID="{E1B14A8D-8F54-4AF5-8A1B-9ED3308EDC78}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Into_the_Breach_Build" ID="{4977EAE0-CB26-4B5C-B9AC-C2EF70CEB0FF}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="tank_rolling" ID="{9EBE84C3-AACD-4C88-9596-A45B07376C70}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="steam_exhaust_loop" ID="{FE7A8EAE-7228-4C8A-B011-AABDE40F2AC6}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="fire_burning" ID="{A31D5596-720E-4C94-85A8-42220EB03011}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>

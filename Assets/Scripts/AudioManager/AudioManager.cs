@@ -219,6 +219,11 @@ namespace TowerTanks.Scripts
             if (this.IsPlaying("Combat_2")) Play("Mission_2", null, true);
         }
 
+        public void StartBuildMusic()
+        {
+            Play("Build_1", null, true);
+        }
+
         private Sound GetSound(string name) => Array.Find(sounds, sound => sound.name == name);
         public string GetEventName(string name) => GetSound(name).audioEvent.Name;
         public float GetSoundLength(string name) => 0f;

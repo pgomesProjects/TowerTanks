@@ -988,6 +988,17 @@ MonoBehaviour:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: f4ca61f751497684ea6dd6ff0f7b05e5, type: 2}
+  - name: Build_1
+    audioEvent:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: 40dcf62a82892474cbd6b20350998b90, type: 2}
+  currentTrack:
+    name: 
+    audioEvent:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 0}
 --- !u!1 &5338811766095787865
 GameObject:
   m_ObjectHideFlags: 0

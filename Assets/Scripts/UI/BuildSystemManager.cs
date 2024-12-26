@@ -156,6 +156,8 @@ namespace TowerTanks.Scripts
 
             if (GameManager.Instance.tankDesign != null)
                 defaultPlayerTank.Build(GameManager.Instance.tankDesign);
+
+            GameManager.Instance.AudioManager.StartBuildMusic();
         }
 
         private void OnEnable()

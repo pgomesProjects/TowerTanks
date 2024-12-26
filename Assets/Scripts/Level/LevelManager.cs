@@ -106,13 +106,13 @@ namespace TowerTanks.Scripts
             switch (GameSettings.difficulty)
             {
                 case 0.5f:
-                    totalScrapValue = 1500;
+                    totalScrapValue = 1000;
                     break;
                 case 1.5f:
-                    totalScrapValue = 500;
+                    totalScrapValue = 250;
                     break;
                 default:
-                    totalScrapValue = 1000;
+                    totalScrapValue = 500;
                     break;
             }
 

@@ -39,6 +39,7 @@ namespace AK
         static const AkUniqueID GLOBAL_UNPAUSE = 2496259136U;
         static const AkUniqueID INTO_THE_BREACH = 1818101133U;
         static const AkUniqueID INTO_THE_BREACH_2 = 3947822154U;
+        static const AkUniqueID INTO_THE_BREACH_BUILD = 2264166104U;
         static const AkUniqueID INTO_THE_BREACH_COMBAT = 1784725048U;
         static const AkUniqueID INTO_THE_BREACH_COMBAT_2 = 3620024679U;
         static const AkUniqueID INVALID_ALERT = 2191775701U;

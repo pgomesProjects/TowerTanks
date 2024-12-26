@@ -647,7 +647,6 @@
 						<Action Name="" ID="{EBBFBAB0-8E1C-4BDC-9B4C-5554A2A65B13}" ShortID="147863005">
 							<PropertyList>
 								<Property Name="FadeInCurve" Type="int16" Value="1"/>
-								<Property Name="FadeTime" Type="Real64" Value="3"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
@@ -662,7 +661,6 @@
 						<Action Name="" ID="{04C9E19D-F0C8-4DD5-9A1E-082225B8F00E}" ShortID="316663883">
 							<PropertyList>
 								<Property Name="FadeInCurve" Type="int16" Value="1"/>
-								<Property Name="FadeTime" Type="Real64" Value="3"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
@@ -677,7 +675,6 @@
 						<Action Name="" ID="{18AB1C68-8D02-42CE-9C6F-684EB4E2CA86}" ShortID="235286743">
 							<PropertyList>
 								<Property Name="FadeInCurve" Type="int16" Value="1"/>
-								<Property Name="FadeTime" Type="Real64" Value="3"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
@@ -692,11 +689,24 @@
 						<Action Name="" ID="{27AE5620-9871-4E5F-81DC-E142271BFD2A}" ShortID="1494428">
 							<PropertyList>
 								<Property Name="FadeInCurve" Type="int16" Value="1"/>
-								<Property Name="FadeTime" Type="Real64" Value="3"/>
 							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="TT_BGM_Into_the_Breach_Combat_2" ID="{C3CE5C33-C017-4953-A78D-203DC7036DB5}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Into_the_Breach_Build" ID="{4977EAE0-CB26-4B5C-B9AC-C2EF70CEB0FF}">
+					<ChildrenList>
+						<Action Name="" ID="{2D6B4A90-CBCE-47C7-9596-BDF8E126B24D}" ShortID="23809241">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_BGM_Into_the_Breach_Build" ID="{7CC01D63-C9A7-4F09-8465-C11C174E0DB4}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>
