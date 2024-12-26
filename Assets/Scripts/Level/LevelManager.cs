@@ -98,6 +98,10 @@ namespace TowerTanks.Scripts
             isSettingUpOnStart = true;
             GameManager.Instance.AudioManager.Play("MainMenuWindAmbience");
 
+            int random = UnityEngine.Random.Range(0, 2);
+            if (random == 0) GameManager.Instance.AudioManager.Play("Mission_1", null, true);
+            if (random == 1) GameManager.Instance.AudioManager.Play("Mission_2", null, true);
+
             //Starting resources
             switch (GameSettings.difficulty)
             {

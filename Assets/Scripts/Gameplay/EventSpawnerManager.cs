@@ -189,6 +189,7 @@ namespace TowerTanks.Scripts
                 Vector3 destroyedPos = tank.treadSystem.transform.position;
                 int newMarker = chunkLoader.GetChunkAtPosition(destroyedPos).chunkNumber;
                 if (newMarker != -1) lastChunk = newMarker;
+                GameManager.Instance.AudioManager.StopCombatMusic();
             }
         }
 

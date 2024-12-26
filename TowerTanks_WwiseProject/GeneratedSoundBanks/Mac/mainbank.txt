@@ -49,13 +49,16 @@ Event	ID	Name			Wwise Object Path	Notes
 	3510154964	text_scroll			\Default Work Unit\text_scroll	
 	3519998062	small_explosion			\Default Work Unit\small_explosion	
 	3615561815	metal_footstep			\Default Work Unit\metal_footstep	
+	3620024679	Into_the_Breach_Combat_2			\Default Work Unit\Into_the_Breach_Combat_2	
 	3673494633	steam_exhaust_loop			\Default Work Unit\steam_exhaust_loop	
 	3902994021	muffled_cannon_fire			\Default Work Unit\muffled_cannon_fire	
 	3921814510	bullet_impact			\Default Work Unit\bullet_impact	
 	3943443513	jetpack_rocket_loop			\Default Work Unit\jetpack_rocket_loop	
+	3947822154	Into_the_Breach_2			\Default Work Unit\Into_the_Breach_2	
 	3949782988	blaring_alarm			\Default Work Unit\blaring_alarm	
 
 Game Parameter	ID	Name			Wwise Object Path	Notes
+	2346531308	MusicVolume			\Default Work Unit\MusicVolume	
 	2431286926	CombatLayer0Volume			\Default Work Unit\CombatLayer0Volume	
 	2831834313	CombatLayer3Volume			\Default Work Unit\CombatLayer3Volume	
 	2834886298	GlobalCombatVolume			\Default Work Unit\GlobalCombatVolume	
@@ -71,6 +74,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	89869954	TT_SFX_cannon_rotate_v2	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\FA\{FA450889-ACFB-4F05-A91B-97062AEDF122}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_cannon_rotate_v2		43816
 	127070365	TTTT_L2_Combat_Mix_2_28_23	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\2F\{2F49CF4E-E1E5-93F9-283E-0D4656A8B050}.wem		\Interactive Music Hierarchy\Default Work Unit\Combat\CombatMusicTracks\TTTT_L2_Combat_Mix_2_28_23		440911
 	168215010	TT_SFX_coal-pickup	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\E2\{E29F0A2B-BE5C-BEC7-E49E-0804B9BE7832}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_coal_pickup\TT_SFX_coal-pickup		5380
+	170713564	TT_BGM_Into_the_Breach_2	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\A9\{A9B44586-C826-E6AC-5385-9DA9FB3C4EDB}.wem		\Actor-Mixer Hierarchy\Default Work Unit\BGM\TT_BGM_Into_the_Breach_2		1673766
 	172496222	TT_SFX_steam_exhaust	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\7D\{7DF3D891-FBA2-55EF-5632-2D2EC2BC1BBB}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_steam-exhaust\TT_SFX_steam_exhaust		6554
 	188920233	TT_UI_button_cancel	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\7F\{7FF0E61B-9B69-2BB5-61B9-D228A15A2CF2}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_UI_button_cancel		1813
 	238669381	TTTT_L0_Combat_Mix_2_28_23	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\77\{775DD106-26CE-480B-F5FC-44F5071CF6E1}.wem		\Interactive Music Hierarchy\Default Work Unit\Combat\CombatMusicTracks\TTTT_L0_Combat_Mix_2_28_23		549616
@@ -82,7 +86,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	341912688	TT_SFX_bullet_impact_dirt_03	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\DF\{DF872376-460B-1660-2B56-5A6E933923E1}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_bullet_impact_dirt\TT_SFX_bullet_impact_dirt_03		8450
 	354630741	TTTT_DeathStinger_Mix_Final_2_13_22	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\23\{235F135C-BB6F-7242-01F1-3C4795EBC923}.wem		\Actor-Mixer Hierarchy\Default Work Unit\BGM\TTTT_DeathStinger_Mix_Final_2_13_22		151745
 	359788963	TT_SFX_fire-burning	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\15\{15B53178-356C-572D-C39C-08BE43B82B99}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_fire-burning		8750
-	383822766	TT_BGM_Into_the_Breach_Combat	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\91\{91DE8178-7532-D3AA-351D-8CAF5CB5E762}.wem		\Actor-Mixer Hierarchy\Default Work Unit\BGM\TT_BGM_Into_the_Breach_Combat		1203150
+	383822766	TT_BGM_Into_the_Breach_Combat	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\02\{02EE7AE8-C152-EBB9-3F32-1A791307BF58}.wem		\Actor-Mixer Hierarchy\Default Work Unit\BGM\TT_BGM_Into_the_Breach_Combat		1203332
 	401117418	TT_SFX_character-use	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\92\{929FBAE6-FE62-2B07-CE8A-8B15730094BD}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_character-use		3101
 	421337450	TT_SFX_bullet_impact_dirt	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\95\{95C84761-32EB-5B56-C511-3EA862F6AD5C}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_bullet_impact_dirt\TT_SFX_bullet_impact_dirt		6109
 	428826036	TT_SFX_jetpack-startup_v1	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\9C\{9C0892D9-FB55-F72D-D358-597634F5B72C}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_jetpack-startup\TT_SFX_jetpack-startup_v1		6550
@@ -90,6 +94,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	466320299	TT_SFX_bullet_impact_01	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\6D\{6D1BC11B-DBA8-943B-C25E-AC7493F4C0DB}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_bullet_impact\TT_SFX_bullet_impact_01		2723
 	476931074	TT_SFX_bullet_impact_02	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\E2\{E25F9421-9726-1E16-7656-CDEE0CC3AFAE}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_bullet_impact\TT_SFX_bullet_impact_02		2123
 	476975229	TT_SFX_outside-ambience	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\39\{396E39FB-9F5D-FAB1-D2ED-BC8F32F10E6C}.wem		\Actor-Mixer Hierarchy\Default Work Unit\BGM\TT_SFX_outside-ambience		1554690
+	483113004	TT_BGM_Into_the_Breach_Combat_2	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\25\{25AEF837-5F03-39D5-5748-F38AFB649815}.wem		\Actor-Mixer Hierarchy\Default Work Unit\BGM\TT_BGM_Into_the_Breach_Combat_2		2490709
 	500659198	TT_SFX_coal-load_Engine	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\49\{491F1BF1-F001-3BAC-4B7B-10E15452A7D0}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_coal-load_Engine		10742
 	508593160	TT_SFX_bullet_impact_03	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\66\{6616278D-610E-CEEE-9876-42B9D8CA9BD0}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_bullet_impact\TT_SFX_bullet_impact_03		3903
 	537941924	TT_SFX_cannon_fire_v3	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\FC\{FCB1B2E0-7C00-2D62-9AF6-BDA79CA16600}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_cannon_fire (recycled)\TT_SFX_cannon_fire_v3		6334
@@ -108,7 +113,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	616062773	TT_SFX_throttle-click	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\11\{11AB6F79-145A-F2AA-679F-05F90321C74E}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_throttle-click		7334
 	650954530	TT_SFX_cannon_fire_v1	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\36\{36715BCF-7917-78D3-88CC-BA6EFE95885C}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_cannon_fire (recycled)\TT_SFX_cannon_fire_v1		8846
 	652002572	TT_SFX_metal_footstep	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\D1\{D1747DD8-5B2B-476B-31F3-F4D1009036E4}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_metal_footstep		2989
-	654213358	TT_BGM_Into_the_Breach	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\23\{233F3332-F9DB-FFA6-2751-99B0CF7B31CF}.wem		\Actor-Mixer Hierarchy\Default Work Unit\BGM\TT_BGM_Into_the_Breach		2465728
+	654213358	TT_BGM_Into_the_Breach	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\CC\{CC934B04-0918-B922-1683-59E7256B5E11}.wem		\Actor-Mixer Hierarchy\Default Work Unit\BGM\TT_BGM_Into_the_Breach		2466037
 	661803067	TT_SFX_tank-creaking_v2	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\A0\{A094E293-FEB9-9ACA-FC24-1BB23EB708CE}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_tank-creaking\TT_SFX_tank-creaking_v2		16927
 	671272586	TT_SFX_tank-creaking_v1	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\27\{2763BBF6-B275-21F3-E183-BBA595422F53}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_tank-creaking\TT_SFX_tank-creaking_v1		10740
 	676306554	TT_SFX_cannon-lock-in-place	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\E8\{E8F6BE09-6733-BC88-1093-76EA6BD28441}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_cannon-lock-in-place		9593

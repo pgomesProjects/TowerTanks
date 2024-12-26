@@ -14,6 +14,9 @@ namespace TowerTanks.Scripts
 
         internal GameObject GlobalGameObject;
 
+        [Header("Music Manager:")]
+        public Sound currentTrack;
+
         private void Awake()
         {
             GlobalGameObject = gameObject;
@@ -26,7 +29,7 @@ namespace TowerTanks.Scripts
         /// </summary>
         /// <param name="name">The name of the sound.</param>
         /// <param name="audioLocation">The game object that the event will be played on.</param>
-        public void Play(string name, GameObject audioLocation = null)
+        public void Play(string name, GameObject audioLocation = null, bool music = false)
         {
             Sound s = GetSound(name);
             if (audioLocation != null)
@@ -41,7 +44,29 @@ namespace TowerTanks.Scripts
                 s.audioEvent.Post(audioLocation);
             }
             else
-                s.audioEvent.Post(GlobalGameObject);
+            {
+                if (music)
+                {
+                    if (currentTrack.name != "")
+                    {
+                        if (s.name != currentTrack.name)
+                        {
+                            if (this.IsPlaying(currentTrack.name)) this.Stop(currentTrack.name);
+                            s.audioEvent.Post(GlobalGameObject);
+                            currentTrack = s;
+                        }
+                    }
+                    else
+                    {
+                        s.audioEvent.Post(GlobalGameObject);
+                        currentTrack = s;
+                    }
+                }
+                else 
+                {
+                    s.audioEvent.Post(GlobalGameObject);
+                }
+            }
         }
 
         /// <summary>
@@ -180,6 +205,18 @@ namespace TowerTanks.Scripts
         public void UpdateSFXVolume()
         {
             AkSoundEngine.SetRTPCValue("SFXVolume", GameSettings.currentSettings.masterVolume * GameSettings.currentSettings.sfxVolume * 100f);
+        }
+
+        public void StartCombatMusic()
+        {
+            if (this.IsPlaying("Mission_1")) Play("Combat_1", null, true);
+            if (this.IsPlaying("Mission_2")) Play("Combat_2", null, true);
+        }
+
+        public void StopCombatMusic()
+        {
+            if (this.IsPlaying("Combat_1")) Play("Mission_1", null, true);
+            if (this.IsPlaying("Combat_2")) Play("Mission_2", null, true);
         }
 
         private Sound GetSound(string name) => Array.Find(sounds, sound => sound.name == name);

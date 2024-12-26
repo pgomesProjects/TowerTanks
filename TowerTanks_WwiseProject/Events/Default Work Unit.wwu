@@ -645,6 +645,10 @@
 				<Event Name="Into_the_Breach" ID="{453FF2BB-8FF6-4613-A342-768610111B9B}">
 					<ChildrenList>
 						<Action Name="" ID="{EBBFBAB0-8E1C-4BDC-9B4C-5554A2A65B13}" ShortID="147863005">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="1"/>
+								<Property Name="FadeTime" Type="Real64" Value="3"/>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="TT_BGM_Into_the_Breach" ID="{037E6CDC-AC4B-403D-AB1D-3FA4B008DBEA}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
@@ -656,9 +660,43 @@
 				<Event Name="Into_the_Breach_Combat" ID="{3E7B3363-CECC-43B7-AACF-914165D0DC06}">
 					<ChildrenList>
 						<Action Name="" ID="{04C9E19D-F0C8-4DD5-9A1E-082225B8F00E}" ShortID="316663883">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="1"/>
+								<Property Name="FadeTime" Type="Real64" Value="3"/>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Target">
 									<ObjectRef Name="TT_BGM_Into_the_Breach_Combat" ID="{B0E3109A-6324-4CCD-B606-D24722669B48}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Into_the_Breach_2" ID="{3F5FE250-E8DA-43C3-8A7E-B1462882DA9E}">
+					<ChildrenList>
+						<Action Name="" ID="{18AB1C68-8D02-42CE-9C6F-684EB4E2CA86}" ShortID="235286743">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="1"/>
+								<Property Name="FadeTime" Type="Real64" Value="3"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_BGM_Into_the_Breach_2" ID="{D4FF624D-1241-40A1-B58E-2A7F93F43306}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Into_the_Breach_Combat_2" ID="{27C4FC18-1358-42B2-9E71-AC888FF3C503}">
+					<ChildrenList>
+						<Action Name="" ID="{27AE5620-9871-4E5F-81DC-E142271BFD2A}" ShortID="1494428">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="1"/>
+								<Property Name="FadeTime" Type="Real64" Value="3"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_BGM_Into_the_Breach_Combat_2" ID="{C3CE5C33-C017-4953-A78D-203DC7036DB5}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
 								</Reference>
 							</ReferenceList>
 						</Action>

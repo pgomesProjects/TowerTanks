@@ -118,7 +118,7 @@
     "Type": "User",
     "GUID": "{37497F3A-0B2B-421A-8CAB-0ADBE8B1C2B4}",
     "Language": "SFX",
-    "Hash": "{79898E67-0398-FD04-1BCB-A6D394D7065C}",
+    "Hash": "{C4EF65DB-266D-3105-40FD-BEF4D3367F79}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\mainbank",
     "ShortName": "mainbank",
     "Path": "mainbank.bnk",
@@ -178,6 +178,14 @@
       "Location": "Memory",
       "ShortName": "TT_SFX_coal-pickup.wav",
       "CachePath": "E2/{E29F0A2B-BE5C-BEC7-E49E-0804B9BE7832}.wem"
+     },
+     {
+      "Id": "170713564",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Red Sands _ Into the Breach OST [ ezmp3.cc ].wav",
+      "CachePath": "A9/{A9B44586-C826-E6AC-5385-9DA9FB3C4EDB}.wem"
      },
      {
       "Id": "172496222",
@@ -273,7 +281,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "The Blast Garden  Into the Breach OST.wav",
-      "CachePath": "91/{91DE8178-7532-D3AA-351D-8CAF5CB5E762}.wem"
+      "CachePath": "02/{02EE7AE8-C152-EBB9-3F32-1A791307BF58}.wem"
      },
      {
       "Id": "401117418",
@@ -330,6 +338,14 @@
       "Location": "Memory",
       "ShortName": "TT_SFX_outside-ambience.wav",
       "CachePath": "39/{396E39FB-9F5D-FAB1-D2ED-BC8F32F10E6C}.wem"
+     },
+     {
+      "Id": "483113004",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Pinnacle Robotics _ Into the Breach OST [ ezmp3.cc ].wav",
+      "CachePath": "25/{25AEF837-5F03-39D5-5748-F38AFB649815}.wem"
      },
      {
       "Id": "500659198",
@@ -481,7 +497,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "The Blast Garden  Into the Breach OST.wav",
-      "CachePath": "23/{233F3332-F9DB-FFA6-2751-99B0CF7B31CF}.wem"
+      "CachePath": "CC/{CC934B04-0918-B922-1683-59E7256B5E11}.wem"
      },
      {
       "Id": "661803067",
@@ -1188,6 +1204,19 @@
       ]
      },
      {
+      "Id": "3947822154",
+      "Name": "Into_the_Breach_2",
+      "ObjectPath": "\\Events\\Default Work Unit\\Into_the_Breach_2",
+      "GUID": "{3F5FE250-E8DA-43C3-8A7E-B1462882DA9E}",
+      "Color": "13",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "170713564"
+       }
+      ]
+     },
+     {
       "Id": "1784725048",
       "Name": "Into_the_Breach_Combat",
       "ObjectPath": "\\Events\\Default Work Unit\\Into_the_Breach_Combat",
@@ -1197,6 +1226,19 @@
       "MediaRefs": [
        {
         "Id": "383822766"
+       }
+      ]
+     },
+     {
+      "Id": "3620024679",
+      "Name": "Into_the_Breach_Combat_2",
+      "ObjectPath": "\\Events\\Default Work Unit\\Into_the_Breach_Combat_2",
+      "GUID": "{27C4FC18-1358-42B2-9E71-AC888FF3C503}",
+      "Color": "13",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "483113004"
        }
       ]
      },
@@ -1674,6 +1716,12 @@
     ],
     "GameParameters": [
      {
+      "Id": "2346531308",
+      "Name": "MusicVolume",
+      "ObjectPath": "\\Game Parameters\\Default Work Unit\\MusicVolume",
+      "GUID": "{8DF6A26C-6613-43E2-8BC4-629F3F26B67D}"
+     },
+     {
       "Id": "2431286926",
       "Name": "CombatLayer0Volume",
       "ObjectPath": "\\Game Parameters\\Default Work Unit\\CombatLayer0Volume",
@@ -1712,6 +1760,6 @@
     ]
    }
   ],
-  "FileHash": "{17CA684B-8BE4-646F-1A1B-8A38D229D472}"
+  "FileHash": "{F6E50BC0-E49F-AD17-0A1A-3678470D2E91}"
  }
 }

@@ -101,7 +101,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: df5fafb8b92e944290f5318847f0e90d
     GuidInternal: 
-    m_lastTime: -8584664981383198839
+    m_lastTime: -8584664129319619269
     List:
     - name: mainbank
       guid: 3a7f49372b0b1a428cab0adbe8b1c2b4
@@ -129,7 +129,7 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: 83957ce1e688d54e8b6b22beb20598dd
     GuidInternal: 
-    m_lastTime: -8584664981383373987
+    m_lastTime: -8584664067683727886
     List:
     - name: blaring_alarm
       guid: 0557db327da0a0479a6261e902cede4a
@@ -607,6 +607,23 @@ MonoBehaviour:
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
+    - name: Into_the_Breach_2
+      guid: 50e25f3fdae8c3438a7eb1462882da9e
+      id: 3947822154
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: Into_the_Breach_2
+        ObjectType: 3
+        guid: 50e25f3fdae8c3438a7eb1462882da9e
+      Path: Events\Default Work Unit\Into_the_Breach_2
+      maxAttenuation: 0
+      maxDuration: 0
+      minDuration: 0
     - name: Into_the_Breach_Combat
       guid: 63337b3eccceb743aacf914165d0dc06
       id: 1784725048
@@ -621,6 +638,23 @@ MonoBehaviour:
         ObjectType: 3
         guid: 63337b3eccceb743aacf914165d0dc06
       Path: Events\Default Work Unit\Into_the_Breach_Combat
+      maxAttenuation: 0
+      maxDuration: 0
+      minDuration: 0
+    - name: Into_the_Breach_Combat_2
+      guid: 18fcc4275813b2429e71ac888ff3c503
+      id: 3620024679
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: Into_the_Breach_Combat_2
+        ObjectType: 3
+        guid: 18fcc4275813b2429e71ac888ff3c503
+      Path: Events\Default Work Unit\Into_the_Breach_Combat_2
       maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
@@ -1303,7 +1337,7 @@ MonoBehaviour:
     m_lastTime: -8584664981382836322
     List: []
   ExpandedFileSystemItemIds: 
-  ExpandedWaapiItemIds: 0200000004000000060000004a000000
+  ExpandedWaapiItemIds: 040000000500000006000000070000004a000000
   AutoSyncSelection: 0
   autoPopulateEnabled: 1
   currentDataSource: 0

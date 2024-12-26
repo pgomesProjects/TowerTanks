@@ -968,6 +968,26 @@ MonoBehaviour:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: ebb269c1c8458f74f9a345267cc055dd, type: 2}
+  - name: Mission_1
+    audioEvent:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: 306cd34e5dd96ec40b90285faf3fbcc7, type: 2}
+  - name: Mission_2
+    audioEvent:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: 6fb122974cafb4b4ba777f60f7e4fe12, type: 2}
+  - name: Combat_1
+    audioEvent:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: 099ba3355f0ba6d4ca93a2264faed0ee, type: 2}
+  - name: Combat_2
+    audioEvent:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: f4ca61f751497684ea6dd6ff0f7b05e5, type: 2}
 --- !u!1 &5338811766095787865
 GameObject:
   m_ObjectHideFlags: 0

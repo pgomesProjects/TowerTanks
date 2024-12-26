@@ -2423,7 +2423,7 @@
 							<ChildrenList>
 								<AudioFileSource Name="The Blast Garden  Into the Breach OST" ID="{26EFFB08-0410-4B0D-9B1D-3F2AAA1228BE}">
 									<PropertyList>
-										<Property Name="FadeInDuration" Type="Real64" Value="1.53351047801671"/>
+										<Property Name="FadeInDuration" Type="Real64" Value="0.828999733438296"/>
 										<Property Name="LoopEnd" Type="Real64" Value="104.216312138825"/>
 										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
 									</PropertyList>
@@ -2434,6 +2434,45 @@
 									</MediaIDList>
 								</AudioFileSource>
 							</ChildrenList>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{C5C4E9CD-5476-43DD-8E41-43D185DEAAB0}" ShortID="212864429">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Volume"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="MusicVolume" ID="{8DF6A26C-6613-43E2-8BC4-629F3F26B67D}" WorkUnitID="{176DD27F-5704-4BF6-9C40-75E46D49E907}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{33449E97-1207-4EA9-847F-0C3DEF32C7C6}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="3"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-200</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>0</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
 							<ActiveSourceList>
 								<ActiveSource Name="The Blast Garden  Into the Breach OST" ID="{26EFFB08-0410-4B0D-9B1D-3F2AAA1228BE}" Platform="Linked"/>
 							</ActiveSourceList>
@@ -2453,7 +2492,6 @@
 							<ChildrenList>
 								<AudioFileSource Name="The Blast Garden  Into the Breach OST" ID="{933E0577-F2C9-49DF-92D6-B36CC53542D4}">
 									<PropertyList>
-										<Property Name="FadeInDuration" Type="Real64" Value="0.752223651515976"/>
 										<Property Name="LoopBegin" Type="Real64" Value="128.164770561929"/>
 										<Property Name="LoopEnd" Type="Real64" Value="168.170930018656"/>
 										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
@@ -2466,8 +2504,187 @@
 									</MediaIDList>
 								</AudioFileSource>
 							</ChildrenList>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{79FDEDCF-DD57-4DD4-AF78-1A05677C33D5}" ShortID="892219665">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Volume"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="MusicVolume" ID="{8DF6A26C-6613-43E2-8BC4-629F3F26B67D}" WorkUnitID="{176DD27F-5704-4BF6-9C40-75E46D49E907}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{A8177FA4-1AC3-4563-A93B-729B1CD26DFD}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="3"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-200</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>0</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
 							<ActiveSourceList>
 								<ActiveSource Name="The Blast Garden  Into the Breach OST" ID="{933E0577-F2C9-49DF-92D6-B36CC53542D4}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_BGM_Into_the_Breach_2" ID="{D4FF624D-1241-40A1-B58E-2A7F93F43306}" ShortID="982006128">
+							<PropertyList>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Red Sands _ Into the Breach OST [ ezmp3_cc ]" ID="{B20E4553-7AD9-44B8-BB89-297AB4DD5C2E}">
+									<PropertyList>
+										<Property Name="FadeInDuration" Type="Real64" Value="0.911297607421875"/>
+										<Property Name="LoopBegin" Type="Real64" Value="13.7597851341091"/>
+										<Property Name="LoopEnd" Type="Real64" Value="101.64401144327"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>Red Sands _ Into the Breach OST [ ezmp3.cc ].wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="170713564"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{34EF01D9-9022-4D8D-9098-FC077CA5B35F}" ShortID="892251621">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Volume"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="MusicVolume" ID="{8DF6A26C-6613-43E2-8BC4-629F3F26B67D}" WorkUnitID="{176DD27F-5704-4BF6-9C40-75E46D49E907}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{3D7E3014-DB7E-44C5-BD17-A013962BF9EA}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="3"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-200</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>0</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+							<ActiveSourceList>
+								<ActiveSource Name="Red Sands _ Into the Breach OST [ ezmp3_cc ]" ID="{B20E4553-7AD9-44B8-BB89-297AB4DD5C2E}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_BGM_Into_the_Breach_Combat_2" ID="{C3CE5C33-C017-4953-A78D-203DC7036DB5}" ShortID="268476110">
+							<PropertyList>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Pinnacle Robotics _ Into the Breach OST [ ezmp3_cc ]" ID="{5B6A88F1-80A4-4457-9B95-2977BE453857}">
+									<PropertyList>
+										<Property Name="FadeInDuration" Type="Real64" Value="0.707454198720503"/>
+										<Property Name="LoopBegin" Type="Real64" Value="3.85075005426438"/>
+										<Property Name="LoopEnd" Type="Real64" Value="171.365576671682"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>Pinnacle Robotics _ Into the Breach OST [ ezmp3.cc ].wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="483113004"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{1CA7B8FF-3562-46E8-9902-CA0B95AC739F}" ShortID="34922800">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Volume"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="MusicVolume" ID="{8DF6A26C-6613-43E2-8BC4-629F3F26B67D}" WorkUnitID="{176DD27F-5704-4BF6-9C40-75E46D49E907}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{0EE8F467-A655-4143-BA41-5B6040376B0F}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="3"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-200</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>0</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+							<ActiveSourceList>
+								<ActiveSource Name="Pinnacle Robotics _ Into the Breach OST [ ezmp3_cc ]" ID="{5B6A88F1-80A4-4457-9B95-2977BE453857}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
 					</ChildrenList>
