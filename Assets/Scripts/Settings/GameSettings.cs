@@ -17,6 +17,7 @@ public static class GameSettings
 {
     public static bool debugMode = false;
     public static bool customPlayerNames = false;
+    public static bool sendUserData = false;
 
     public static string controlSchemeUI = "Gamepad";
 
