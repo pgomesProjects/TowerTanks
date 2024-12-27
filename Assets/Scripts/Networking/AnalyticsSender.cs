@@ -13,6 +13,10 @@ namespace TowerTanks.Scripts
 
         public void SubmitAnalytics()
         {
+            //If send user data is turned off, return
+            if (!GameSettings.sendUserData)
+                return;
+
             //If the data has already been sent, return
             if (dataSent)
                 return;
