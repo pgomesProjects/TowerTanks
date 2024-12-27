@@ -7,6 +7,9 @@ namespace TowerTanks.Scripts
     [System.Serializable]
     public class ParallaxLayer
     {
+        public enum LayerType { TILE, CHUNK };
+
+        [Tooltip("The type of parallax layer.")] public LayerType layerType;
         [Tooltip("The SpriteRenderer for the background.")] public SpriteRenderer parallaxSpriteRenderer;
         [Tooltip("The speed of the parallax movement.")] public Vector2 parallaxSpeed;
         [Tooltip("The innate speed of the parallax movement.")] public Vector2 automaticSpeed;
@@ -76,21 +79,28 @@ namespace TowerTanks.Scripts
             //Move all of the layers accordingly
             foreach (ParallaxLayer layer in parallaxLayers)
             {
-                //Move the layer
-                layer.parallaxSpriteRenderer.transform.position += new Vector3((deltaMovement.x * layer.parallaxSpeed.x) + (layer.automaticSpeed.x * Time.deltaTime), (deltaMovement.y * layer.parallaxSpeed.y) + (layer.automaticSpeed.y * Time.deltaTime), 0);
-
-                //If the layer scrolls infinitely horizontally and has reached the end of the texture, offset the position
-                if (layer.infiniteHorizontal && Mathf.Abs(followCamera.transform.position.x - layer.parallaxSpriteRenderer.transform.position.x) >= layer.GetTextureUnitSize().x)
+                switch (layer.layerType)
                 {
-                    float offsetPositionX = (followCamera.transform.position.x - layer.parallaxSpriteRenderer.transform.position.x) % layer.GetTextureUnitSize().x;
-                    layer.parallaxSpriteRenderer.transform.position = new Vector3(followCamera.transform.position.x + offsetPositionX, layer.parallaxSpriteRenderer.transform.position.y);
-                }
+                    case ParallaxLayer.LayerType.TILE:
+                        //Move the layer
+                        layer.parallaxSpriteRenderer.transform.position += new Vector3((deltaMovement.x * layer.parallaxSpeed.x) + (layer.automaticSpeed.x * Time.deltaTime), (deltaMovement.y * layer.parallaxSpeed.y) + (layer.automaticSpeed.y * Time.deltaTime), 0);
 
-                //If the layer scrolls infinitely vertically and has reached the end of the texture, offset the position
-                if (layer.infiniteVertical && Mathf.Abs(followCamera.transform.position.y - layer.parallaxSpriteRenderer.transform.position.y) >= layer.GetTextureUnitSize().y)
-                {
-                    float offsetPositionY = (followCamera.transform.position.y - layer.parallaxSpriteRenderer.transform.position.y) % layer.GetTextureUnitSize().y;
-                    layer.parallaxSpriteRenderer.transform.position = new Vector3(layer.parallaxSpriteRenderer.transform.position.x, layer.parallaxSpriteRenderer.transform.position.y + offsetPositionY);
+                        //If the layer scrolls infinitely horizontally and has reached the end of the texture, offset the position
+                        if (layer.infiniteHorizontal && Mathf.Abs(followCamera.transform.position.x - layer.parallaxSpriteRenderer.transform.position.x) >= layer.GetTextureUnitSize().x)
+                        {
+                            float offsetPositionX = (followCamera.transform.position.x - layer.parallaxSpriteRenderer.transform.position.x) % layer.GetTextureUnitSize().x;
+                            layer.parallaxSpriteRenderer.transform.position = new Vector3(followCamera.transform.position.x + offsetPositionX, layer.parallaxSpriteRenderer.transform.position.y);
+                        }
+
+                        //If the layer scrolls infinitely vertically and has reached the end of the texture, offset the position
+                        if (layer.infiniteVertical && Mathf.Abs(followCamera.transform.position.y - layer.parallaxSpriteRenderer.transform.position.y) >= layer.GetTextureUnitSize().y)
+                        {
+                            float offsetPositionY = (followCamera.transform.position.y - layer.parallaxSpriteRenderer.transform.position.y) % layer.GetTextureUnitSize().y;
+                            layer.parallaxSpriteRenderer.transform.position = new Vector3(layer.parallaxSpriteRenderer.transform.position.x, layer.parallaxSpriteRenderer.transform.position.y + offsetPositionY);
+                        }
+                        break;
+                    case ParallaxLayer.LayerType.CHUNK:
+                        break;
                 }
             }
         }
