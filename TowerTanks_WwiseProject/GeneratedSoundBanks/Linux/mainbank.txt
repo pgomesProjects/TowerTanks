@@ -7,6 +7,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	212754890	tank_engine			\Default Work Unit\tank_engine	
 	228008419	room_connect			\Default Work Unit\room_connect	
 	299811467	tank_rolling			\Default Work Unit\tank_rolling	
+	369266163	engine_running			\Default Work Unit\engine_running	
 	531217250	large_explosion			\Default Work Unit\large_explosion	
 	566396871	item_pickup			\Default Work Unit\item_pickup	
 	620130432	tank_creaking			\Default Work Unit\tank_creaking	
@@ -86,6 +87,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	305378326	TT_SFX_rotate-room_v1	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\11\{11FF6B21-5FE2-848F-3ABC-74DF921954F9}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_rotate-room\TT_SFX_rotate-room_v1		5270
 	318882470	TT_BGM_Into_the_Breach_Build	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\F7\{F7A4B858-03A6-6253-12C1-68D21531C62B}.wem		\Actor-Mixer Hierarchy\Default Work Unit\BGM\TT_BGM_Into_the_Breach_Build		1494342
 	320129091	TT_SFX_rotate-room	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\9A\{9A0D5D77-D16B-1DDE-58BB-EDF2CD2200E4}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_rotate-room\TT_SFX_rotate-room		6964
+	327969907	TT_SFX_engine_running	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\48\{48C3B642-08F0-FE94-138C-D9A7BD34B63B}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_engine_running		56909
 	341912688	TT_SFX_bullet_impact_dirt_03	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\6C\{6CD6A223-CA8C-CA1E-D3C3-8E934E2389AC}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_bullet_impact_dirt\TT_SFX_bullet_impact_dirt_03		10372
 	354630741	TTTT_DeathStinger_Mix_Final_2_13_22	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\73\{7376F18D-7199-C9B5-41C1-09B1E3F974A4}.wem		\Actor-Mixer Hierarchy\Default Work Unit\BGM\TTTT_DeathStinger_Mix_Final_2_13_22		205583
 	359788963	TT_SFX_fire-burning	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\A0\{A0BEAD8E-8530-3350-04E9-32E50BC31DD9}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_fire-burning		10631

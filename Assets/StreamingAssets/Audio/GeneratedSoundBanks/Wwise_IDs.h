@@ -34,6 +34,7 @@ namespace AK
         static const AkUniqueID DEATH_STINGER = 1015288770U;
         static const AkUniqueID ENGINE_DYING = 3121770429U;
         static const AkUniqueID ENGINE_DYING_2 = 1498048058U;
+        static const AkUniqueID ENGINE_RUNNING = 369266163U;
         static const AkUniqueID FIRE_BURNING = 1318321645U;
         static const AkUniqueID GLOBAL_PAUSE = 1469012939U;
         static const AkUniqueID GLOBAL_UNPAUSE = 2496259136U;

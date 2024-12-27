@@ -101,7 +101,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: df5fafb8b92e944290f5318847f0e90d
     GuidInternal: 
-    m_lastTime: -8584663634234929527
+    m_lastTime: -8584663486140092742
     List:
     - name: mainbank
       guid: 3a7f49372b0b1a428cab0adbe8b1c2b4
@@ -502,9 +502,9 @@ MonoBehaviour:
         ObjectType: 3
         guid: 017876c4342be942b7faeecbc82ca28f
       Path: Events\Default Work Unit\engine_running
-      maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxAttenuation: 100
+      maxDuration: 0
+      minDuration: 0
     - name: fire_burning
       guid: 96551da30e72944c85a842220eb03011
       id: 1318321645

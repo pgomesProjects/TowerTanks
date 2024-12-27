@@ -315,8 +315,15 @@ namespace TowerTanks.Scripts
                 if (pressure >= dangerZoneThreshold) power = 1.5f;
 
                 //if (isSurging) power *= boostMultiplier;
+
+                //SFX
+                if (!GameManager.Instance.AudioManager.IsPlaying("EngineRunning", this.gameObject)) GameManager.Instance.AudioManager.Play("EngineRunning", this.gameObject);
             }
-            else power = 0;
+            else
+            {
+                if (GameManager.Instance.AudioManager.IsPlaying("EngineRunning", this.gameObject)) GameManager.Instance.AudioManager.Stop("EngineRunning", this.gameObject);
+                power = 0;
+            }
         }
 
         private void CheckForFire()

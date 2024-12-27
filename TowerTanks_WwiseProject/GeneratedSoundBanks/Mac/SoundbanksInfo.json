@@ -124,7 +124,7 @@
     "Type": "User",
     "GUID": "{37497F3A-0B2B-421A-8CAB-0ADBE8B1C2B4}",
     "Language": "SFX",
-    "Hash": "{615F9997-77C9-0167-676C-793351FBC2A5}",
+    "Hash": "{C2AB7274-7AC9-D24C-5C28-C0ABBD6E5C6A}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\mainbank",
     "ShortName": "mainbank",
     "Path": "mainbank.bnk",
@@ -264,6 +264,14 @@
       "Location": "Memory",
       "ShortName": "TT_SFX_rotate-room.wav",
       "CachePath": "86/{86F44C2C-348A-F3A0-9844-023D8442FFC3}.wem"
+     },
+     {
+      "Id": "327969907",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "TT_SFX_engine_running.wav",
+      "CachePath": "0C/{0C7BCB36-65FB-BE02-894A-67D413A8DC67}.wem"
      },
      {
       "Id": "341912688",
@@ -1170,6 +1178,20 @@
       ]
      },
      {
+      "Id": "369266163",
+      "Name": "engine_running",
+      "ObjectPath": "\\Events\\Default Work Unit\\engine_running",
+      "GUID": "{C4767801-2B34-42E9-B7FA-EECBC82CA28F}",
+      "Color": "13",
+      "MaxAttenuation": "100",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "327969907"
+       }
+      ]
+     },
+     {
       "Id": "1318321645",
       "Name": "fire_burning",
       "ObjectPath": "\\Events\\Default Work Unit\\fire_burning",
@@ -1793,6 +1815,6 @@
     ]
    }
   ],
-  "FileHash": "{E665D596-89AE-89F5-5091-803F2ABC81EB}"
+  "FileHash": "{8185ADE5-C4EB-992B-C252-75DB5B54880E}"
  }
 }
