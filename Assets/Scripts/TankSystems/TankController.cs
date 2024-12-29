@@ -752,6 +752,7 @@ namespace TowerTanks.Scripts
                 }
 
                 //Spawn Cargo
+                if (cargoHold.Length > 0) { GameManager.Instance.DisplayTutorial(4, false, 5); }
                 foreach (GameObject _cargo in cargoHold)
                 {
                     GameObject flyingCargo = Instantiate(_cargo, treadSystem.transform.position, treadSystem.transform.rotation, null);

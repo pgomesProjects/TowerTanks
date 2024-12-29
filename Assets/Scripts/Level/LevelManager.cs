@@ -139,6 +139,8 @@ namespace TowerTanks.Scripts
             OnResourcesUpdated?.Invoke(totalScrapValue, false);
             OnMissionStart?.Invoke(CampaignManager.Instance.GetCurrentLevelEvent());
             isSettingUpOnStart = false;
+
+            GameManager.Instance.DisplayTutorial(3, false, 5);
         }
 
         private void OnEnable()
@@ -599,6 +601,9 @@ namespace TowerTanks.Scripts
                 {
                     //Spawn the End Level Flag
                     eventManager.SpawnEndOfLevel();
+
+                    //Display tutorial
+                    GameManager.Instance.DisplayTutorial(5, false, 5);
                 }
             }
         }

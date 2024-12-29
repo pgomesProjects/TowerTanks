@@ -184,6 +184,8 @@ namespace TowerTanks.Scripts
             roomObject.heldDuringPlacement = true;
             worldRoomObjects.Add(room);
             MoveRoomInScene(room, Vector2.zero);
+
+            GameManager.Instance.DisplayTutorial(1, false, 3);
         }
 
         private void Update()
@@ -315,6 +317,7 @@ namespace TowerTanks.Scripts
                         player.SetPlayerState(PlayerData.PlayerState.ReadyForCombat);
                     }
                     readyUpManager.Init();
+                    GameManager.Instance.DisplayTutorial(2, false, 3);
                 }
 
                 return true;

@@ -260,10 +260,24 @@ namespace TowerTanks.Scripts
         /// </summary>
         /// <param name="tutorialIndex">The index of the tutorial to show.</param>
         /// <param name="overrideViewedInGame">If true, the tutorial can be viewed even if it has already been viewed.</param>
-        public void DisplayTutorial(int tutorialIndex, bool overrideViewedInGame = false)
+        public void DisplayTutorial(int tutorialIndex, bool overrideViewedInGame = false, float delay = 0)
         {
+            if (delay == 0)
+            {
+                TutorialPopupController currentTutorialPopup = Instantiate(tutorialPopup, GameObject.FindGameObjectWithTag("CursorCanvas").transform);
+                currentTutorialPopup.StartTutorial(ref tutorialsList[tutorialIndex], overrideViewedInGame);
+            }
+            else
+            {
+                StartCoroutine(DelayedTutorial(tutorialIndex, overrideViewedInGame, delay));
+            }
+        }
+
+        private IEnumerator DelayedTutorial(int index, bool overrideViewed = false, float delay = 0)
+        {
+            yield return new WaitForSeconds(delay);
             TutorialPopupController currentTutorialPopup = Instantiate(tutorialPopup, GameObject.FindGameObjectWithTag("CursorCanvas").transform);
-            currentTutorialPopup.StartTutorial(ref tutorialsList[tutorialIndex], overrideViewedInGame);
+            currentTutorialPopup.StartTutorial(ref tutorialsList[index], overrideViewed);
         }
 
         /// <summary>
