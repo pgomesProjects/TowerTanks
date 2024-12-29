@@ -969,6 +969,7 @@ MonoBehaviour:
   tankFlagSprites:
   - {fileID: 21300000, guid: 57268164af32d0a4eaadf20a23a3cea5, type: 3}
   - {fileID: 21300000, guid: 33ff936bd3ff5ca4e83fd7cafa061526, type: 3}
+  - {fileID: 21300000, guid: 26f1eb4d59cdbc44caa8c380f40066a4, type: 3}
   tanks:
   - TankName: The Supreme Potato
     tankScript: {fileID: 1411317894}
@@ -2179,6 +2180,7 @@ MonoBehaviour:
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: 5cd56c9f97b22944faa48c87210bb050, type: 2}
   decodeBank: 0
+  overrideLoadSetting: 0
   loadAsynchronous: 0
   saveDecodedBank: 0
   unloadTriggerList: 958ca0ea
@@ -2202,6 +2204,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isDefaultListener: 1
+  bOverrideScalingFactor: 0
+  scalingFactor: -1
   listenerId: 0
 --- !u!1 &1030976749
 GameObject:
@@ -2254,7 +2258,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1372034088680711591, guid: 55a2de1c12df41647b2333975b669960, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1526581371669013675, guid: 55a2de1c12df41647b2333975b669960, type: 3}
       propertyPath: m_RootOrder
@@ -2262,7 +2266,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1656039896013798289, guid: 55a2de1c12df41647b2333975b669960, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2182343647866508265, guid: 55a2de1c12df41647b2333975b669960, type: 3}
       propertyPath: m_RootOrder
@@ -2323,6 +2327,10 @@ PrefabInstance:
     - target: {fileID: 5259366190194711448, guid: 55a2de1c12df41647b2333975b669960, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9153368504887486215, guid: 55a2de1c12df41647b2333975b669960, type: 3}
+      propertyPath: m_RootOrder
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 55a2de1c12df41647b2333975b669960, type: 3}
@@ -5300,21 +5308,29 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1871507600391860596, guid: d9f2af575fc79734fbe76afaea9d2322, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 26f1eb4d59cdbc44caa8c380f40066a4, type: 3}
+    - target: {fileID: 1871507600391860596, guid: d9f2af575fc79734fbe76afaea9d2322, type: 3}
       propertyPath: m_Color.b
-      value: 0.17610055
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1871507600391860596, guid: d9f2af575fc79734fbe76afaea9d2322, type: 3}
       propertyPath: m_Color.g
-      value: 1
+      value: 0.6981132
       objectReference: {fileID: 0}
     - target: {fileID: 1871507600391860596, guid: d9f2af575fc79734fbe76afaea9d2322, type: 3}
       propertyPath: m_Color.r
-      value: 0.56297356
+      value: 0.32911056
       objectReference: {fileID: 0}
     - target: {fileID: 2692299717525915721, guid: d9f2af575fc79734fbe76afaea9d2322, type: 3}
       propertyPath: m_Name
       value: Flag
       objectReference: {fileID: 0}
+    - target: {fileID: 5102835082643792288, guid: d9f2af575fc79734fbe76afaea9d2322, type: 3}
+      propertyPath: flagSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 26f1eb4d59cdbc44caa8c380f40066a4, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d9f2af575fc79734fbe76afaea9d2322, type: 3}
 --- !u!1001 &4653194585634076173
