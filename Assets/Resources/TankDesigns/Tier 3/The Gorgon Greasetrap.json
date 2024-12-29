@@ -1,5 +1,6 @@
 {
     "TankName": "The Gorgon Greasetrap",
+    "aiSettings": "Tier 3 AI Settings (Long Range)",
     "coreInteractables": [],
     "buildingSteps": [
         {

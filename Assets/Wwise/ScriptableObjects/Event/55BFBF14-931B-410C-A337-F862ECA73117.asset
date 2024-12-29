@@ -15,3 +15,5 @@ MonoBehaviour:
   objectName: room_connect
   id: 228008419
   guid: 55BFBF14-931B-410C-A337-F862ECA73117
+  IsInUserDefinedSoundBank: 1
+  IsAutoBankLoaded: 0

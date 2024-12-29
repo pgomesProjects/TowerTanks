@@ -15,3 +15,5 @@ MonoBehaviour:
   objectName: machine_gun_fire
   id: 2515943394
   guid: C14D2096-D636-4DF0-B379-3ACC9792C0FF
+  IsInUserDefinedSoundBank: 1
+  IsAutoBankLoaded: 0

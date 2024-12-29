@@ -15,3 +15,5 @@ MonoBehaviour:
   objectName: button_hover
   id: 1701177942
   guid: ABCC24D7-34F6-4669-B4E9-E751FF535FCF
+  IsInUserDefinedSoundBank: 1
+  IsAutoBankLoaded: 0

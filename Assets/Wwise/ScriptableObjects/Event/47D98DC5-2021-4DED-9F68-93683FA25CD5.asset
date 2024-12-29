@@ -15,3 +15,5 @@ MonoBehaviour:
   objectName: bullet_impact
   id: 3921814510
   guid: 47D98DC5-2021-4DED-9F68-93683FA25CD5
+  IsInUserDefinedSoundBank: 1
+  IsAutoBankLoaded: 0

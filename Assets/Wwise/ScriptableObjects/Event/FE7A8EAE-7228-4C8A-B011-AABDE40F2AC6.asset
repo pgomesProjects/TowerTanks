@@ -15,3 +15,5 @@ MonoBehaviour:
   objectName: steam_exhaust_loop
   id: 3673494633
   guid: FE7A8EAE-7228-4C8A-B011-AABDE40F2AC6
+  IsInUserDefinedSoundBank: 1
+  IsAutoBankLoaded: 0

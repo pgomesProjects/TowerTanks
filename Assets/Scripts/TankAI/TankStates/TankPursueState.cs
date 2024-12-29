@@ -21,6 +21,7 @@ namespace TowerTanks.Scripts
             _tankAI.DistributeAllWeightedTokens(_tankAI.aiSettings.pursueStateInteractableWeights);
             _tank.StartCoroutine(Heartbeat());
             Debug.Log("Pursue state entered.");
+            GameManager.Instance.AudioManager.StartCombatMusic(); //why do I hear boss music?
         }
 
         private IEnumerator Heartbeat()

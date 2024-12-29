@@ -1,5 +1,6 @@
 {
     "TankName": "The Wall of Gun",
+    "aiSettings": "Tier 5 AI Settings (Short Range)",
     "coreInteractables": [],
     "buildingSteps": [
         {

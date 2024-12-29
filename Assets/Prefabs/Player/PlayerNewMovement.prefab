@@ -48,7 +48,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1552823785509373203
 Transform:
   m_ObjectHideFlags: 0
@@ -5099,8 +5099,8 @@ MonoBehaviour:
   interactInputHeld: 0
   playerNameText: {fileID: 8429224900115243135}
   playerInputComponent: {fileID: 0}
-  spinAngleCheckUpdateTimer: 0.1
-  spinValidAngleLimit: 30
+  spinAngleCheckUpdateTimer: 0.05
+  spinValidAngleLimit: 15
   validSpinCheckRows: 1
   cannonScrollSensitivity: 3
   isSpinningJoystick: 0
@@ -5110,7 +5110,7 @@ MonoBehaviour:
     m_Bits: 512
   isCarryingSomething: 0
   currentObject: {fileID: 0}
-  currentRepairJob: {fileID: 0}
+  buildGhost: {fileID: 0}
   repairTime: 0.5
   repairAmount: 10
   couplerStickDeadzone: 0.5
@@ -5248,9 +5248,11 @@ MonoBehaviour:
     useDefaultListeners: 1
   isEnvironmentAware: 0
   isStaticObject: 0
+  usePositionOffsetData: 0
   m_positionOffsetData:
     KeepMe: 0
     positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
   m_posOffsetData: {fileID: 0}
   listenerMask: 1
 --- !u!1 &5332867685461826562

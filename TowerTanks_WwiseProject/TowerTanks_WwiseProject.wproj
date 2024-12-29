@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WwiseDocument Type="Project" SchemaVersion="110" WwiseVersion="v2022.1.2" WwiseBuild="8150">
+<WwiseDocument Type="Project" SchemaVersion="123" WwiseVersion="v2024.1.1" WwiseBuild="8691">
 	<ProjectInfo>
 		<Project Name="TowerTanks_WwiseProject" ID="{BA05CB12-A567-445D-80D6-FDC238A55C7F}">
 			<Platforms>
@@ -31,10 +31,14 @@
 						<Value Platform="Linux">GeneratedSoundBanks\Linux</Value>
 					</ValueList>
 				</Property>
+				<Property Name="GenerateSoundBankJSON" Type="bool" Value="True"/>
+				<Property Name="GenerateSoundBankXML" Type="bool" Value="False"/>
 				<Property Name="SoundBankGenerateEstimatedDuration" Type="bool" Value="True"/>
 				<Property Name="SoundBankGenerateHeaderFile" Type="bool" Value="True"/>
 				<Property Name="SoundBankGenerateMaxAttenuationInfo" Type="bool" Value="True"/>
-				<Property Name="SoundBankHeaderFilePath" Type="string" Value="..\..\TowerTanks\Assets\StreamingAssets\Audio\GeneratedSoundBanks"/>
+				<Property Name="SoundBankGeneratePrintGUID" Type="bool" Value="True"/>
+				<Property Name="SoundBankGeneratePrintPath" Type="bool" Value="True"/>
+				<Property Name="SoundBankHeaderFilePath" Type="string" Value="../Assets/StreamingAssets/Audio/GeneratedSoundBanks"/>
 				<Property Name="SoundBankPaths" Type="string">
 					<ValueList>
 						<Value Platform="Android">GeneratedSoundBanks\Android\</Value>
@@ -181,7 +185,15 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="PCM" PluginType="1" CompanyID="0" PluginID="1"/>
+				<SharedPropertyList ClassName="PCM" PluginType="1" CompanyID="0" PluginID="1">
+					<PropertyList>
+						<Property Name="MaxBitDepth" Type="int32">
+							<ValueList>
+								<Value>16</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+				</SharedPropertyList>
 				<SharedPropertyList ClassName="Sound" PluginType="0" CompanyID="1" PluginID="1">
 					<PropertyList>
 						<Property Name="3DPosition" Type="int16">
@@ -194,32 +206,17 @@
 								<Value>0</Value>
 							</ValueList>
 						</Property>
+						<Property Name="AttenuationDistanceScaling" Type="Real32">
+							<ValueList>
+								<Value>1</Value>
+							</ValueList>
+						</Property>
 						<Property Name="BelowThresholdBehavior" Type="int16">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
 						</Property>
 						<Property Name="BypassEffect" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect0" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect1" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect2" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect3" Type="bool">
 							<ValueList>
 								<Value>False</Value>
 							</ValueList>
@@ -359,6 +356,16 @@
 								<Value>2</Value>
 							</ValueList>
 						</Property>
+						<Property Name="LoudnessNormalizationTarget" Type="Real64">
+							<ValueList>
+								<Value>-23</Value>
+							</ValueList>
+						</Property>
+						<Property Name="LoudnessNormalizationType" Type="int16">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
 						<Property Name="Lowpass" Type="int16">
 							<ValueList>
 								<Value>0</Value>
@@ -450,11 +457,6 @@
 							</ValueList>
 						</Property>
 						<Property Name="OverrideAnalysis" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="OverrideAttachableMixerInput" Type="bool">
 							<ValueList>
 								<Value>False</Value>
 							</ValueList>
@@ -559,26 +561,6 @@
 								<Value>0</Value>
 							</ValueList>
 						</Property>
-						<Property Name="RenderEffect0" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="RenderEffect1" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="RenderEffect2" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="RenderEffect3" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
 						<Property Name="SpeakerPanning" Type="int16">
 							<ValueList>
 								<Value>0</Value>
@@ -676,15 +658,7 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="ADPCM" PluginType="1" CompanyID="0" PluginID="2">
-					<PropertyList>
-						<Property Name="FixLoopMethod" Type="int32">
-							<ValueList>
-								<Value>1</Value>
-							</ValueList>
-						</Property>
-					</PropertyList>
-				</SharedPropertyList>
+				<SharedPropertyList ClassName="ADPCM" PluginType="1" CompanyID="0" PluginID="2"/>
 				<SharedPropertyList ClassName="Folder" PluginType="0" CompanyID="1" PluginID="2">
 					<PropertyList>
 						<Property Name="Color" Type="int16">
@@ -704,7 +678,7 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="" PluginType="3" CompanyID="259" PluginID="2">
+				<SharedPropertyList ClassName="iZotope Hybrid Reverb" PluginType="3" CompanyID="259" PluginID="2">
 					<PropertyList>
 						<Property Name="Color" Type="int16">
 							<ValueList>
@@ -900,9 +874,9 @@
 								<Value>0</Value>
 							</ValueList>
 						</Property>
-						<Property Name="FrequencyWeighting" Type="int16">
+						<Property Name="GarbageCollectWaveAnalysis" Type="bool">
 							<ValueList>
-								<Value>1</Value>
+								<Value>True</Value>
 							</ValueList>
 						</Property>
 						<Property Name="GenerateMainSoundBank" Type="bool">
@@ -933,6 +907,11 @@
 						<Property Name="LicenseKey" Type="string">
 							<ValueList>
 								<Value></Value>
+							</ValueList>
+						</Property>
+						<Property Name="LineEnding" Type="Uint16">
+							<ValueList>
+								<Value>0</Value>
 							</ValueList>
 						</Property>
 						<Property Name="MaxDangerousVirtualVoices" Type="Uint32">
@@ -993,6 +972,11 @@
 						<Property Name="SoundBankGenerateMaxAttenuationInfo" Type="bool">
 							<ValueList>
 								<Value>False</Value>
+							</ValueList>
+						</Property>
+						<Property Name="SoundBankGeneratePrintColor" Type="bool">
+							<ValueList>
+								<Value>True</Value>
 							</ValueList>
 						</Property>
 						<Property Name="SoundBankGeneratePrintGUID" Type="bool">
@@ -1092,7 +1076,7 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="" PluginType="3" CompanyID="259" PluginID="3">
+				<SharedPropertyList ClassName="iZotope Trash Distortion" PluginType="3" CompanyID="259" PluginID="3">
 					<PropertyList>
 						<Property Name="Color" Type="int16">
 							<ValueList>
@@ -1223,11 +1207,6 @@
 								<Value>4</Value>
 							</ValueList>
 						</Property>
-						<Property Name="RenderLineAlgo" Type="int32">
-							<ValueList>
-								<Value>0</Value>
-							</ValueList>
-						</Property>
 						<Property Name="ReservoirBiasFactor" Type="Real32">
 							<ValueList>
 								<Value>0.1</Value>
@@ -1259,7 +1238,7 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="" PluginType="3" CompanyID="259" PluginID="4">
+				<SharedPropertyList ClassName="iZotope Trash Delay" PluginType="3" CompanyID="259" PluginID="4">
 					<PropertyList>
 						<Property Name="Color" Type="int16">
 							<ValueList>
@@ -1350,29 +1329,9 @@
 								<Value>True</Value>
 							</ValueList>
 						</Property>
-						<Property Name="BypassEffect" Type="bool">
+						<Property Name="BypassFlag" Type="bool">
 							<ValueList>
 								<Value>True</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect0" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect1" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect2" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect3" Type="bool">
-							<ValueList>
-								<Value>False</Value>
 							</ValueList>
 						</Property>
 						<Property Name="BypassGameParameterInternalTransition" Type="bool">
@@ -1482,7 +1441,7 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="" PluginType="3" CompanyID="259" PluginID="5">
+				<SharedPropertyList ClassName="iZotope Trash Dynamics Mono" PluginType="3" CompanyID="259" PluginID="5">
 					<PropertyList>
 						<Property Name="Bypass" Type="int32">
 							<ValueList>
@@ -1565,7 +1524,7 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="" PluginType="3" CompanyID="259" PluginID="6">
+				<SharedPropertyList ClassName="iZotope Trash Filters" PluginType="3" CompanyID="259" PluginID="6">
 					<PropertyList>
 						<Property Name="Color" Type="int16">
 							<ValueList>
@@ -1783,7 +1742,7 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="" PluginType="3" CompanyID="259" PluginID="7">
+				<SharedPropertyList ClassName="iZotope Trash Box Modeler" PluginType="3" CompanyID="259" PluginID="7">
 					<PropertyList>
 						<Property Name="BoxModel" Type="int32">
 							<ValueList>
@@ -1849,32 +1808,17 @@
 								<Value>0</Value>
 							</ValueList>
 						</Property>
+						<Property Name="AttenuationDistanceScaling" Type="Real32">
+							<ValueList>
+								<Value>1</Value>
+							</ValueList>
+						</Property>
 						<Property Name="BelowThresholdBehavior" Type="int16">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
 						</Property>
 						<Property Name="BypassEffect" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect0" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect1" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect2" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect3" Type="bool">
 							<ValueList>
 								<Value>False</Value>
 							</ValueList>
@@ -1974,6 +1918,16 @@
 								<Value>True</Value>
 							</ValueList>
 						</Property>
+						<Property Name="LoudnessNormalizationTarget" Type="Real64">
+							<ValueList>
+								<Value>-23</Value>
+							</ValueList>
+						</Property>
+						<Property Name="LoudnessNormalizationType" Type="int16">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
 						<Property Name="Lowpass" Type="int16">
 							<ValueList>
 								<Value>0</Value>
@@ -2065,11 +2019,6 @@
 							</ValueList>
 						</Property>
 						<Property Name="OverrideAnalysis" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="OverrideAttachableMixerInput" Type="bool">
 							<ValueList>
 								<Value>False</Value>
 							</ValueList>
@@ -2167,26 +2116,6 @@
 						<Property Name="ReflectionsVolume" Type="Real64">
 							<ValueList>
 								<Value>0</Value>
-							</ValueList>
-						</Property>
-						<Property Name="RenderEffect0" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="RenderEffect1" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="RenderEffect2" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="RenderEffect3" Type="bool">
-							<ValueList>
-								<Value>False</Value>
 							</ValueList>
 						</Property>
 						<Property Name="SpeakerPanning" Type="int16">
@@ -2293,32 +2222,17 @@
 								<Value>0</Value>
 							</ValueList>
 						</Property>
+						<Property Name="AttenuationDistanceScaling" Type="Real32">
+							<ValueList>
+								<Value>1</Value>
+							</ValueList>
+						</Property>
 						<Property Name="BelowThresholdBehavior" Type="int16">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
 						</Property>
 						<Property Name="BypassEffect" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect0" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect1" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect2" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect3" Type="bool">
 							<ValueList>
 								<Value>False</Value>
 							</ValueList>
@@ -2428,6 +2342,16 @@
 								<Value>True</Value>
 							</ValueList>
 						</Property>
+						<Property Name="LoudnessNormalizationTarget" Type="Real64">
+							<ValueList>
+								<Value>-23</Value>
+							</ValueList>
+						</Property>
+						<Property Name="LoudnessNormalizationType" Type="int16">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
 						<Property Name="Lowpass" Type="int16">
 							<ValueList>
 								<Value>0</Value>
@@ -2524,11 +2448,6 @@
 							</ValueList>
 						</Property>
 						<Property Name="OverrideAnalysis" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="OverrideAttachableMixerInput" Type="bool">
 							<ValueList>
 								<Value>False</Value>
 							</ValueList>
@@ -2683,26 +2602,6 @@
 								<Value>0</Value>
 							</ValueList>
 						</Property>
-						<Property Name="RenderEffect0" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="RenderEffect1" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="RenderEffect2" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="RenderEffect3" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
 						<Property Name="RestartBeginningOrBackward" Type="int16">
 							<ValueList>
 								<Value>1</Value>
@@ -2805,7 +2704,7 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="" PluginType="3" CompanyID="259" PluginID="9">
+				<SharedPropertyList ClassName="iZotope Trash Multiband Distortion" PluginType="3" CompanyID="259" PluginID="9">
 					<PropertyList>
 						<Property Name="Color" Type="int16">
 							<ValueList>
@@ -3026,32 +2925,17 @@
 								<Value>0</Value>
 							</ValueList>
 						</Property>
+						<Property Name="AttenuationDistanceScaling" Type="Real32">
+							<ValueList>
+								<Value>1</Value>
+							</ValueList>
+						</Property>
 						<Property Name="BelowThresholdBehavior" Type="int16">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
 						</Property>
 						<Property Name="BypassEffect" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect0" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect1" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect2" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect3" Type="bool">
 							<ValueList>
 								<Value>False</Value>
 							</ValueList>
@@ -3156,6 +3040,16 @@
 								<Value>True</Value>
 							</ValueList>
 						</Property>
+						<Property Name="LoudnessNormalizationTarget" Type="Real64">
+							<ValueList>
+								<Value>-23</Value>
+							</ValueList>
+						</Property>
+						<Property Name="LoudnessNormalizationType" Type="int16">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
 						<Property Name="Lowpass" Type="int16">
 							<ValueList>
 								<Value>0</Value>
@@ -3247,11 +3141,6 @@
 							</ValueList>
 						</Property>
 						<Property Name="OverrideAnalysis" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="OverrideAttachableMixerInput" Type="bool">
 							<ValueList>
 								<Value>False</Value>
 							</ValueList>
@@ -3349,26 +3238,6 @@
 						<Property Name="ReflectionsVolume" Type="Real64">
 							<ValueList>
 								<Value>0</Value>
-							</ValueList>
-						</Property>
-						<Property Name="RenderEffect0" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="RenderEffect1" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="RenderEffect2" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="RenderEffect3" Type="bool">
-							<ValueList>
-								<Value>False</Value>
 							</ValueList>
 						</Property>
 						<Property Name="SpeakerPanning" Type="int16">
@@ -3700,6 +3569,11 @@
 								<Value>0</Value>
 							</ValueList>
 						</Property>
+						<Property Name="AttenuationDistanceScaling" Type="Real32">
+							<ValueList>
+								<Value>1</Value>
+							</ValueList>
+						</Property>
 						<Property Name="BusChannelConfig" Type="int32">
 							<ValueList>
 								<Value>0</Value>
@@ -3711,26 +3585,6 @@
 							</ValueList>
 						</Property>
 						<Property Name="BypassEffect" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect0" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect1" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect2" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect3" Type="bool">
 							<ValueList>
 								<Value>False</Value>
 							</ValueList>
@@ -4092,11 +3946,6 @@
 								<Value>False</Value>
 							</ValueList>
 						</Property>
-						<Property Name="OnSwitchChange" Type="int16">
-							<ValueList>
-								<Value>0</Value>
-							</ValueList>
-						</Property>
 					</PropertyList>
 				</SharedPropertyList>
 				<SharedPropertyList ClassName="WorkUnit" PluginType="0" CompanyID="1" PluginID="25">
@@ -4144,32 +3993,17 @@
 								<Value>0</Value>
 							</ValueList>
 						</Property>
+						<Property Name="AttenuationDistanceScaling" Type="Real32">
+							<ValueList>
+								<Value>1</Value>
+							</ValueList>
+						</Property>
 						<Property Name="BelowThresholdBehavior" Type="int16">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
 						</Property>
 						<Property Name="BypassEffect" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect0" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect1" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect2" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect3" Type="bool">
 							<ValueList>
 								<Value>False</Value>
 							</ValueList>
@@ -4284,6 +4118,16 @@
 								<Value>True</Value>
 							</ValueList>
 						</Property>
+						<Property Name="LoudnessNormalizationTarget" Type="Real64">
+							<ValueList>
+								<Value>-23</Value>
+							</ValueList>
+						</Property>
+						<Property Name="LoudnessNormalizationType" Type="int16">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
 						<Property Name="Lowpass" Type="int16">
 							<ValueList>
 								<Value>0</Value>
@@ -4330,11 +4174,6 @@
 							</ValueList>
 						</Property>
 						<Property Name="OverrideAnalysis" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="OverrideAttachableMixerInput" Type="bool">
 							<ValueList>
 								<Value>False</Value>
 							</ValueList>
@@ -4437,26 +4276,6 @@
 						<Property Name="ReflectionsVolume" Type="Real64">
 							<ValueList>
 								<Value>0</Value>
-							</ValueList>
-						</Property>
-						<Property Name="RenderEffect0" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="RenderEffect1" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="RenderEffect2" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="RenderEffect3" Type="bool">
-							<ValueList>
-								<Value>False</Value>
 							</ValueList>
 						</Property>
 						<Property Name="SpeakerPanning" Type="int16">
@@ -4578,32 +4397,17 @@
 								<Value>0</Value>
 							</ValueList>
 						</Property>
+						<Property Name="AttenuationDistanceScaling" Type="Real32">
+							<ValueList>
+								<Value>1</Value>
+							</ValueList>
+						</Property>
 						<Property Name="BelowThresholdBehavior" Type="int16">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
 						</Property>
 						<Property Name="BypassEffect" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect0" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect1" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect2" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect3" Type="bool">
 							<ValueList>
 								<Value>False</Value>
 							</ValueList>
@@ -4718,6 +4522,16 @@
 								<Value>100</Value>
 							</ValueList>
 						</Property>
+						<Property Name="LoudnessNormalizationTarget" Type="Real64">
+							<ValueList>
+								<Value>-23</Value>
+							</ValueList>
+						</Property>
+						<Property Name="LoudnessNormalizationType" Type="int16">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
 						<Property Name="Lowpass" Type="int16">
 							<ValueList>
 								<Value>0</Value>
@@ -4769,11 +4583,6 @@
 							</ValueList>
 						</Property>
 						<Property Name="OverrideAnalysis" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="OverrideAttachableMixerInput" Type="bool">
 							<ValueList>
 								<Value>False</Value>
 							</ValueList>
@@ -4871,26 +4680,6 @@
 						<Property Name="ReflectionsVolume" Type="Real64">
 							<ValueList>
 								<Value>0</Value>
-							</ValueList>
-						</Property>
-						<Property Name="RenderEffect0" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="RenderEffect1" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="RenderEffect2" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="RenderEffect3" Type="bool">
-							<ValueList>
-								<Value>False</Value>
 							</ValueList>
 						</Property>
 						<Property Name="SpeakerPanning" Type="int16">
@@ -4997,6 +4786,11 @@
 								<Value>0</Value>
 							</ValueList>
 						</Property>
+						<Property Name="AttenuationDistanceScaling" Type="Real32">
+							<ValueList>
+								<Value>1</Value>
+							</ValueList>
+						</Property>
 						<Property Name="BelowThresholdBehavior" Type="int16">
 							<ValueList>
 								<Value>0</Value>
@@ -5008,26 +4802,6 @@
 							</ValueList>
 						</Property>
 						<Property Name="BypassEffect" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect0" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect1" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect2" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect3" Type="bool">
 							<ValueList>
 								<Value>False</Value>
 							</ValueList>
@@ -5132,6 +4906,16 @@
 								<Value>True</Value>
 							</ValueList>
 						</Property>
+						<Property Name="LoudnessNormalizationTarget" Type="Real64">
+							<ValueList>
+								<Value>-23</Value>
+							</ValueList>
+						</Property>
+						<Property Name="LoudnessNormalizationType" Type="int16">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
 						<Property Name="Lowpass" Type="int16">
 							<ValueList>
 								<Value>0</Value>
@@ -5223,11 +5007,6 @@
 							</ValueList>
 						</Property>
 						<Property Name="OverrideAnalysis" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="OverrideAttachableMixerInput" Type="bool">
 							<ValueList>
 								<Value>False</Value>
 							</ValueList>
@@ -5325,26 +5104,6 @@
 						<Property Name="ReflectionsVolume" Type="Real64">
 							<ValueList>
 								<Value>0</Value>
-							</ValueList>
-						</Property>
-						<Property Name="RenderEffect0" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="RenderEffect1" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="RenderEffect2" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="RenderEffect3" Type="bool">
-							<ValueList>
-								<Value>False</Value>
 							</ValueList>
 						</Property>
 						<Property Name="SpeakerPanning" Type="int16">
@@ -5768,32 +5527,17 @@
 								<Value>0</Value>
 							</ValueList>
 						</Property>
+						<Property Name="AttenuationDistanceScaling" Type="Real32">
+							<ValueList>
+								<Value>1</Value>
+							</ValueList>
+						</Property>
 						<Property Name="BelowThresholdBehavior" Type="int16">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
 						</Property>
 						<Property Name="BypassEffect" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect0" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect1" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect2" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect3" Type="bool">
 							<ValueList>
 								<Value>False</Value>
 							</ValueList>
@@ -5903,6 +5647,16 @@
 								<Value>True</Value>
 							</ValueList>
 						</Property>
+						<Property Name="LoudnessNormalizationTarget" Type="Real64">
+							<ValueList>
+								<Value>-23</Value>
+							</ValueList>
+						</Property>
+						<Property Name="LoudnessNormalizationType" Type="int16">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
 						<Property Name="Lowpass" Type="int16">
 							<ValueList>
 								<Value>0</Value>
@@ -5949,11 +5703,6 @@
 							</ValueList>
 						</Property>
 						<Property Name="OverrideAnalysis" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="OverrideAttachableMixerInput" Type="bool">
 							<ValueList>
 								<Value>False</Value>
 							</ValueList>
@@ -6056,26 +5805,6 @@
 						<Property Name="ReflectionsVolume" Type="Real64">
 							<ValueList>
 								<Value>0</Value>
-							</ValueList>
-						</Property>
-						<Property Name="RenderEffect0" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="RenderEffect1" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="RenderEffect2" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="RenderEffect3" Type="bool">
-							<ValueList>
-								<Value>False</Value>
 							</ValueList>
 						</Property>
 						<Property Name="SpeakerPanning" Type="int16">
@@ -6197,32 +5926,17 @@
 								<Value>0</Value>
 							</ValueList>
 						</Property>
+						<Property Name="AttenuationDistanceScaling" Type="Real32">
+							<ValueList>
+								<Value>1</Value>
+							</ValueList>
+						</Property>
 						<Property Name="BelowThresholdBehavior" Type="int16">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
 						</Property>
 						<Property Name="BypassEffect" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect0" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect1" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect2" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect3" Type="bool">
 							<ValueList>
 								<Value>False</Value>
 							</ValueList>
@@ -6337,6 +6051,16 @@
 								<Value>True</Value>
 							</ValueList>
 						</Property>
+						<Property Name="LoudnessNormalizationTarget" Type="Real64">
+							<ValueList>
+								<Value>-23</Value>
+							</ValueList>
+						</Property>
+						<Property Name="LoudnessNormalizationType" Type="int16">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
 						<Property Name="Lowpass" Type="int16">
 							<ValueList>
 								<Value>0</Value>
@@ -6388,11 +6112,6 @@
 							</ValueList>
 						</Property>
 						<Property Name="OverrideAnalysis" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="OverrideAttachableMixerInput" Type="bool">
 							<ValueList>
 								<Value>False</Value>
 							</ValueList>
@@ -6495,26 +6214,6 @@
 						<Property Name="ReflectionsVolume" Type="Real64">
 							<ValueList>
 								<Value>0</Value>
-							</ValueList>
-						</Property>
-						<Property Name="RenderEffect0" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="RenderEffect1" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="RenderEffect2" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="RenderEffect3" Type="bool">
-							<ValueList>
-								<Value>False</Value>
 							</ValueList>
 						</Property>
 						<Property Name="SpeakerPanning" Type="int16">
@@ -7088,6 +6787,11 @@
 								<Value>False</Value>
 							</ValueList>
 						</Property>
+						<Property Name="SoundBankGeneratePrintColor" Type="bool">
+							<ValueList>
+								<Value>True</Value>
+							</ValueList>
+						</Property>
 						<Property Name="SoundBankGeneratePrintGUID" Type="bool">
 							<ValueList>
 								<Value>False</Value>
@@ -7207,7 +6911,7 @@
 						</Property>
 						<Property Name="MaxSampleRate" Type="int32">
 							<ValueList>
-								<Value>0</Value>
+								<Value>48000</Value>
 							</ValueList>
 						</Property>
 						<Property Name="MinSampleRate" Type="int32">
@@ -7250,6 +6954,16 @@
 				<SharedPropertyList ClassName="ExternalSourceFile" PluginType="0" CompanyID="1" PluginID="56">
 					<PropertyList>
 						<Property Name="AnalysisType" Type="int32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="LoudnessNormalizationTarget" Type="Real64">
+							<ValueList>
+								<Value>-23</Value>
+							</ValueList>
+						</Property>
+						<Property Name="LoudnessNormalizationType" Type="int16">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
@@ -7386,6 +7100,11 @@
 								<Value>0</Value>
 							</ValueList>
 						</Property>
+						<Property Name="AttenuationDistanceScaling" Type="Real32">
+							<ValueList>
+								<Value>1</Value>
+							</ValueList>
+						</Property>
 						<Property Name="BusChannelConfig" Type="int32">
 							<ValueList>
 								<Value>0</Value>
@@ -7397,26 +7116,6 @@
 							</ValueList>
 						</Property>
 						<Property Name="BypassEffect" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect0" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect1" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect2" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect3" Type="bool">
 							<ValueList>
 								<Value>False</Value>
 							</ValueList>
@@ -7854,26 +7553,6 @@
 								<Value>False</Value>
 							</ValueList>
 						</Property>
-						<Property Name="BypassEffect0" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect1" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect2" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect3" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
 						<Property Name="Color" Type="int16">
 							<ValueList>
 								<Value>0</Value>
@@ -8017,6 +7696,7 @@
 					</PropertyList>
 				</SharedPropertyList>
 				<SharedPropertyList ClassName="CustomState" PluginType="0" CompanyID="1" PluginID="79"/>
+				<SharedPropertyList ClassName="MidiFileSource" PluginType="0" CompanyID="1" PluginID="80"/>
 				<SharedPropertyList ClassName="Metadata" PluginType="0" CompanyID="1" PluginID="81">
 					<PropertyList>
 						<Property Name="Color" Type="int16">
@@ -8030,6 +7710,58 @@
 							</ValueList>
 						</Property>
 						<Property Name="OverrideColor" Type="bool">
+							<ValueList>
+								<Value>False</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+				</SharedPropertyList>
+				<SharedPropertyList ClassName="Marker" PluginType="0" CompanyID="1" PluginID="82">
+					<PropertyList>
+						<Property Name="Color" Type="int16">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Label" Type="string">
+							<ValueList>
+								<Value></Value>
+							</ValueList>
+						</Property>
+						<Property Name="OverrideColor" Type="bool">
+							<ValueList>
+								<Value>False</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Time" Type="Real64">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+				</SharedPropertyList>
+				<SharedPropertyList ClassName="MultiSwitchEntry" PluginType="0" CompanyID="1" PluginID="83">
+					<PropertyList>
+						<Property Name="Probability" Type="int32">
+							<ValueList>
+								<Value>100</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Weight" Type="int32">
+							<ValueList>
+								<Value>50</Value>
+							</ValueList>
+						</Property>
+					</PropertyList>
+				</SharedPropertyList>
+				<SharedPropertyList ClassName="EffectSlot" PluginType="0" CompanyID="1" PluginID="84">
+					<PropertyList>
+						<Property Name="Bypass" Type="bool">
+							<ValueList>
+								<Value>False</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Render" Type="bool">
 							<ValueList>
 								<Value>False</Value>
 							</ValueList>
@@ -8203,7 +7935,7 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="" PluginType="3" CompanyID="256" PluginID="103">
+				<SharedPropertyList ClassName="McDSP ML1" PluginType="3" CompanyID="256" PluginID="103">
 					<PropertyList>
 						<Property Name="Ceiling" Type="Real32">
 							<ValueList>
@@ -8562,7 +8294,7 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="" PluginType="3" CompanyID="256" PluginID="110">
+				<SharedPropertyList ClassName="McDSP FutzBox" PluginType="3" CompanyID="256" PluginID="110">
 					<PropertyList>
 						<Property Name="Balance" Type="Real32">
 							<ValueList>
@@ -8579,6 +8311,16 @@
 								<Value>0</Value>
 							</ValueList>
 						</Property>
+						<Property Name="DistortionChopAmount" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="DistortionChopMode" Type="int32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
 						<Property Name="DistortionEnable" Type="bool">
 							<ValueList>
 								<Value>True</Value>
@@ -8589,12 +8331,22 @@
 								<Value>0</Value>
 							</ValueList>
 						</Property>
+						<Property Name="DistortionIntensityMode" Type="int32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
 						<Property Name="DistortionMode" Type="int32">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
 						</Property>
 						<Property Name="DistortionRectify" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="DistortionWobble" Type="Real32">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
@@ -8775,6 +8527,11 @@
 							</ValueList>
 						</Property>
 						<Property Name="SIMType" Type="int32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="Version" Type="int32">
 							<ValueList>
 								<Value>0</Value>
 							</ValueList>
@@ -9179,7 +8936,7 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="" PluginType="2" CompanyID="0" PluginID="119">
+				<SharedPropertyList ClassName="SoundSeed Air Wind" PluginType="2" CompanyID="0" PluginID="119">
 					<PropertyList>
 						<Property Name="AttenuationRollOff" Type="Real32">
 							<ValueList>
@@ -9338,7 +9095,7 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="" PluginType="2" CompanyID="0" PluginID="120">
+				<SharedPropertyList ClassName="SoundSeed Air Woosh" PluginType="2" CompanyID="0" PluginID="120">
 					<PropertyList>
 						<Property Name="AttenuationRollOff" Type="Real32">
 							<ValueList>
@@ -9472,7 +9229,7 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="" PluginType="0" CompanyID="0" PluginID="121">
+				<SharedPropertyList ClassName="Deflector" PluginType="0" CompanyID="0" PluginID="121">
 					<PropertyList>
 						<Property Name="Frequency" Type="Real32">
 							<ValueList>
@@ -9501,7 +9258,7 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="" PluginType="0" CompanyID="0" PluginID="122">
+				<SharedPropertyList ClassName="Deflector" PluginType="0" CompanyID="0" PluginID="122">
 					<PropertyList>
 						<Property Name="Anchor" Type="bool">
 							<ValueList>
@@ -10539,7 +10296,7 @@
 						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="" PluginType="3" CompanyID="0" PluginID="171">
+				<SharedPropertyList ClassName="Wwise Reflect" PluginType="3" CompanyID="0" PluginID="171">
 					<PropertyList>
 						<Property Name="BaseTextureFrequency" Type="Real32">
 							<ValueList>
@@ -10559,6 +10316,36 @@
 						<Property Name="CurveUsageMask" Type="Uint32">
 							<ValueList>
 								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="DecorrAlgorithmSelect" Type="int32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="DecorrFilterMaxReflectionOrder" Type="Uint32">
+							<ValueList>
+								<Value>1</Value>
+							</ValueList>
+						</Property>
+						<Property Name="DecorrHardwareAcceleration" Type="bool">
+							<ValueList>
+								<Value>False</Value>
+							</ValueList>
+						</Property>
+						<Property Name="DecorrStrength" Type="Real32">
+							<ValueList>
+								<Value>0</Value>
+							</ValueList>
+						</Property>
+						<Property Name="DecorrStrengthSource" Type="int32">
+							<ValueList>
+								<Value>1</Value>
+							</ValueList>
+						</Property>
+						<Property Name="DecorrWindowWidth" Type="Uint32">
+							<ValueList>
+								<Value>7</Value>
 							</ValueList>
 						</Property>
 						<Property Name="DiffractionWarping" Type="Real32">
@@ -10581,9 +10368,24 @@
 								<Value>-96</Value>
 							</ValueList>
 						</Property>
+						<Property Name="FadeTime" Type="Real32">
+							<ValueList>
+								<Value>500</Value>
+							</ValueList>
+						</Property>
+						<Property Name="FusingTime" Type="Real32">
+							<ValueList>
+								<Value>20</Value>
+							</ValueList>
+						</Property>
 						<Property Name="Inclusion" Type="bool">
 							<ValueList>
 								<Value>True</Value>
+							</ValueList>
+						</Property>
+						<Property Name="MaterialFilteringSelect" Type="Uint32">
+							<ValueList>
+								<Value>0</Value>
 							</ValueList>
 						</Property>
 						<Property Name="MaxDistance" Type="Real32">
@@ -10616,11 +10418,6 @@
 								<Value>0</Value>
 							</ValueList>
 						</Property>
-						<Property Name="PhasingSuppression" Type="Real32">
-							<ValueList>
-								<Value>0</Value>
-							</ValueList>
-						</Property>
 						<Property Name="PitchThreshold" Type="Real32">
 							<ValueList>
 								<Value>2400</Value>
@@ -10629,6 +10426,11 @@
 						<Property Name="SpeedOfSound" Type="Real32">
 							<ValueList>
 								<Value>345</Value>
+							</ValueList>
+						</Property>
+						<Property Name="StereoDecorrelation" Type="bool">
+							<ValueList>
+								<Value>False</Value>
 							</ValueList>
 						</Property>
 						<Property Name="ThresholdMode" Type="int32">
@@ -10656,26 +10458,6 @@
 							</ValueList>
 						</Property>
 						<Property Name="BypassEffect" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect0" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect1" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect2" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect3" Type="bool">
 							<ValueList>
 								<Value>False</Value>
 							</ValueList>
@@ -10719,26 +10501,6 @@
 								<Value>False</Value>
 							</ValueList>
 						</Property>
-						<Property Name="BypassEffect0" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect1" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect2" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect3" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
 						<Property Name="Color" Type="int16">
 							<ValueList>
 								<Value>0</Value>
@@ -10768,26 +10530,6 @@
 								<Value>False</Value>
 							</ValueList>
 						</Property>
-						<Property Name="BypassEffect0" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect1" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect2" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect3" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
 						<Property Name="Color" Type="int16">
 							<ValueList>
 								<Value>0</Value>
@@ -10808,26 +10550,6 @@
 				<SharedPropertyList ClassName="Controller Headphones" PluginType="7" CompanyID="0" PluginID="177">
 					<PropertyList>
 						<Property Name="BypassEffect" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect0" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect1" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect2" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect3" Type="bool">
 							<ValueList>
 								<Value>False</Value>
 							</ValueList>
@@ -10856,26 +10578,6 @@
 								<Value>False</Value>
 							</ValueList>
 						</Property>
-						<Property Name="BypassEffect0" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect1" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect2" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect3" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
 						<Property Name="Color" Type="int16">
 							<ValueList>
 								<Value>0</Value>
@@ -10900,26 +10602,6 @@
 								<Value>False</Value>
 							</ValueList>
 						</Property>
-						<Property Name="BypassEffect0" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect1" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect2" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect3" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
 						<Property Name="Color" Type="int16">
 							<ValueList>
 								<Value>0</Value>
@@ -10940,26 +10622,6 @@
 				<SharedPropertyList ClassName="No Output" PluginType="7" CompanyID="0" PluginID="181">
 					<PropertyList>
 						<Property Name="BypassEffect" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect0" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect1" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect2" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect3" Type="bool">
 							<ValueList>
 								<Value>False</Value>
 							</ValueList>
@@ -11673,26 +11335,6 @@
 								<Value>False</Value>
 							</ValueList>
 						</Property>
-						<Property Name="BypassEffect0" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect1" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect2" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
-						<Property Name="BypassEffect3" Type="bool">
-							<ValueList>
-								<Value>False</Value>
-							</ValueList>
-						</Property>
 						<Property Name="Color" Type="int16">
 							<ValueList>
 								<Value>0</Value>
@@ -11761,6 +11403,11 @@
 								<Value>0</Value>
 							</ValueList>
 						</Property>
+						<Property Name="InsertFrom" Type="int16">
+							<ValueList>
+								<Value>1</Value>
+							</ValueList>
+						</Property>
 						<Property Name="InsertStartAt" Type="int32">
 							<ValueList>
 								<Value>0</Value>
@@ -11816,28 +11463,9 @@
 								<Value></Value>
 							</ValueList>
 						</Property>
-						<Property Name="insertFrom" Type="int16">
-							<ValueList>
-								<Value>1</Value>
-							</ValueList>
-						</Property>
 					</PropertyList>
 				</SharedPropertyList>
-				<SharedPropertyList ClassName="Marker" PluginType="0" CompanyID="0" PluginID="993">
-					<PropertyList>
-						<Property Name="Label" Type="string">
-							<ValueList>
-								<Value></Value>
-							</ValueList>
-						</Property>
-						<Property Name="Time" Type="Real64">
-							<ValueList>
-								<Value>0</Value>
-							</ValueList>
-						</Property>
-					</PropertyList>
-				</SharedPropertyList>
-				<SharedPropertyList ClassName="" PluginType="3" CompanyID="263" PluginID="1100">
+				<SharedPropertyList ClassName="Auro Headphone" PluginType="3" CompanyID="263" PluginID="1100">
 					<PropertyList>
 						<Property Name="Bypass" Type="bool">
 							<ValueList>
@@ -12077,6 +11705,132 @@
 					<ObsOccCurve CurveXType="Occlusion" CurveYType="HPF">
 						<PlatformCurve Platform="Linked" EnableCurve="false">
 							<Curve Name="" ID="{79B14E0A-AB78-4A71-B778-8825004FAD12}">
+								<PropertyList>
+									<Property Name="Flags" Type="int32" Value="1"/>
+								</PropertyList>
+								<PointList>
+									<Point>
+										<XPos>0</XPos>
+										<YPos>0</YPos>
+										<Flags>5</Flags>
+									</Point>
+									<Point>
+										<XPos>100</XPos>
+										<YPos>100</YPos>
+										<Flags>37</Flags>
+									</Point>
+								</PointList>
+							</Curve>
+						</PlatformCurve>
+					</ObsOccCurve>
+					<ObsOccCurve CurveXType="Diffraction" CurveYType="Volume">
+						<PlatformCurve Platform="Linked" EnableCurve="true">
+							<Curve Name="" ID="{46D07BE3-FE8C-4161-ABE8-E2CF15682338}">
+								<PropertyList>
+									<Property Name="Flags" Type="int32" Value="3"/>
+								</PropertyList>
+								<PointList>
+									<Point>
+										<XPos>0</XPos>
+										<YPos>0</YPos>
+										<Flags>5</Flags>
+									</Point>
+									<Point>
+										<XPos>100</XPos>
+										<YPos>-200</YPos>
+										<Flags>37</Flags>
+									</Point>
+								</PointList>
+							</Curve>
+						</PlatformCurve>
+					</ObsOccCurve>
+					<ObsOccCurve CurveXType="Diffraction" CurveYType="LPF">
+						<PlatformCurve Platform="Linked" EnableCurve="true">
+							<Curve Name="" ID="{29490092-02C0-4F77-94F7-07638E964DFE}">
+								<PropertyList>
+									<Property Name="Flags" Type="int32" Value="1"/>
+								</PropertyList>
+								<PointList>
+									<Point>
+										<XPos>0</XPos>
+										<YPos>0</YPos>
+										<Flags>5</Flags>
+									</Point>
+									<Point>
+										<XPos>100</XPos>
+										<YPos>100</YPos>
+										<Flags>37</Flags>
+									</Point>
+								</PointList>
+							</Curve>
+						</PlatformCurve>
+					</ObsOccCurve>
+					<ObsOccCurve CurveXType="Diffraction" CurveYType="HPF">
+						<PlatformCurve Platform="Linked" EnableCurve="false">
+							<Curve Name="" ID="{67F407F7-F05B-43F7-A687-1FC7554D8102}">
+								<PropertyList>
+									<Property Name="Flags" Type="int32" Value="1"/>
+								</PropertyList>
+								<PointList>
+									<Point>
+										<XPos>0</XPos>
+										<YPos>0</YPos>
+										<Flags>5</Flags>
+									</Point>
+									<Point>
+										<XPos>100</XPos>
+										<YPos>100</YPos>
+										<Flags>37</Flags>
+									</Point>
+								</PointList>
+							</Curve>
+						</PlatformCurve>
+					</ObsOccCurve>
+					<ObsOccCurve CurveXType="Transmission" CurveYType="Volume">
+						<PlatformCurve Platform="Linked" EnableCurve="true">
+							<Curve Name="" ID="{A7669F86-714B-434C-A5AB-44782FC387A0}">
+								<PropertyList>
+									<Property Name="Flags" Type="int32" Value="3"/>
+								</PropertyList>
+								<PointList>
+									<Point>
+										<XPos>0</XPos>
+										<YPos>0</YPos>
+										<Flags>5</Flags>
+									</Point>
+									<Point>
+										<XPos>100</XPos>
+										<YPos>-200</YPos>
+										<Flags>37</Flags>
+									</Point>
+								</PointList>
+							</Curve>
+						</PlatformCurve>
+					</ObsOccCurve>
+					<ObsOccCurve CurveXType="Transmission" CurveYType="LPF">
+						<PlatformCurve Platform="Linked" EnableCurve="true">
+							<Curve Name="" ID="{2E2EC1EF-80A8-4CC3-96AF-3E5574C4DE02}">
+								<PropertyList>
+									<Property Name="Flags" Type="int32" Value="1"/>
+								</PropertyList>
+								<PointList>
+									<Point>
+										<XPos>0</XPos>
+										<YPos>0</YPos>
+										<Flags>5</Flags>
+									</Point>
+									<Point>
+										<XPos>100</XPos>
+										<YPos>100</YPos>
+										<Flags>37</Flags>
+									</Point>
+								</PointList>
+							</Curve>
+						</PlatformCurve>
+					</ObsOccCurve>
+					<ObsOccCurve CurveXType="Transmission" CurveYType="HPF">
+						<PlatformCurve Platform="Linked" EnableCurve="false">
+							<Curve Name="" ID="{74C033C4-56B0-44B6-B6B8-ED6FF1E4B817}">
 								<PropertyList>
 									<Property Name="Flags" Type="int32" Value="1"/>
 								</PropertyList>

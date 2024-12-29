@@ -15,3 +15,5 @@ MonoBehaviour:
   objectName: invalid_alert
   id: 2191775701
   guid: E1B14A8D-8F54-4AF5-8A1B-9ED3308EDC78
+  IsInUserDefinedSoundBank: 1
+  IsAutoBankLoaded: 0

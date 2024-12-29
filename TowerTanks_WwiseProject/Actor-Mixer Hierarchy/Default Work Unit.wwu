@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WwiseDocument Type="WorkUnit" ID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}" SchemaVersion="110">
+<WwiseDocument Type="WorkUnit" ID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}" SchemaVersion="123">
 	<AudioObjects>
 		<WorkUnit Name="Default Work Unit" ID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}" PersistMode="Standalone">
 			<ChildrenList>
@@ -591,6 +591,11 @@
 							</ReferenceList>
 							<ChildrenList>
 								<AudioFileSource Name="TT_SFX_tank-engine" ID="{A79BF59B-55AE-4762-89E9-076B54CE8650}">
+									<PropertyList>
+										<Property Name="LoopBegin" Type="Real64" Value="0.0988520408163265"/>
+										<Property Name="LoopEnd" Type="Real64" Value="3.81173469387755"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+									</PropertyList>
 									<Language>SFX</Language>
 									<AudioFile>TT_SFX_tank-engine.wav</AudioFile>
 									<MediaIDList>
@@ -644,6 +649,11 @@
 							</ReferenceList>
 							<ChildrenList>
 								<AudioFileSource Name="TT_SFX_tank-rolling" ID="{47FD3C9F-C6B2-4137-BA0D-4CAB2A9CC8B5}">
+									<PropertyList>
+										<Property Name="LoopBegin" Type="Real64" Value="0.189795918367347"/>
+										<Property Name="LoopEnd" Type="Real64" Value="7.51275510204082"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+									</PropertyList>
 									<Language>SFX</Language>
 									<AudioFile>TT_SFX_tank-rolling.wav</AudioFile>
 									<MediaIDList>
@@ -651,6 +661,45 @@
 									</MediaIDList>
 								</AudioFileSource>
 							</ChildrenList>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{1E7E5A10-FA1F-427C-9415-A1418545902E}" ShortID="360610611">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Pitch"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="EnginePitch" ID="{1410D1D1-D54C-4027-9FB0-57E4263F1D0F}" WorkUnitID="{176DD27F-5704-4BF6-9C40-75E46D49E907}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{8214B875-9166-4B8C-A126-49F8C20A55BF}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="65537"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-600</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>600</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
 							<ActiveSourceList>
 								<ActiveSource Name="TT_SFX_tank-rolling" ID="{47FD3C9F-C6B2-4137-BA0D-4CAB2A9CC8B5}" Platform="Linked"/>
 							</ActiveSourceList>
@@ -686,7 +735,7 @@
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
 								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
@@ -783,7 +832,7 @@
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
 								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
@@ -805,7 +854,7 @@
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
 								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
@@ -827,7 +876,7 @@
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
 								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
@@ -883,7 +932,7 @@
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
 								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
@@ -939,7 +988,7 @@
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
 								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
@@ -998,7 +1047,7 @@
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
 								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
@@ -1030,7 +1079,7 @@
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
 								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
@@ -1111,7 +1160,7 @@
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
 								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
@@ -1139,7 +1188,7 @@
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
 								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
@@ -1164,7 +1213,7 @@
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
 								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
@@ -1189,7 +1238,7 @@
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
 								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
@@ -1270,7 +1319,7 @@
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
 								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
@@ -1348,7 +1397,7 @@
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
 								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
@@ -1407,7 +1456,7 @@
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
 								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
@@ -1466,7 +1515,7 @@
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
 								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
@@ -1491,7 +1540,7 @@
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
 								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
@@ -1508,6 +1557,14 @@
 							</ActiveSourceList>
 						</Sound>
 						<Sound Name="TT_SFX_engine_running" ID="{AE55B66C-60EE-4714-BCC7-47D1C62E6B78}" ShortID="159975669">
+							<PropertyList>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-15</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
 							<ReferenceList>
 								<Reference Name="Attenuation">
 									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
@@ -1516,11 +1573,15 @@
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
 								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
 								<AudioFileSource Name="TT_SFX_engine_running" ID="{57254273-7388-42E1-945D-25FDFFDEADD1}">
+									<PropertyList>
+										<Property Name="LoopBegin" Type="Real64" Value="0.336734693877551"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+									</PropertyList>
 									<Language>SFX</Language>
 									<AudioFile>TT_SFX_engine_running.wav</AudioFile>
 									<MediaIDList>
@@ -1541,7 +1602,7 @@
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
 								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
@@ -1622,7 +1683,7 @@
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
 								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
@@ -1703,7 +1764,7 @@
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
 								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
@@ -1828,7 +1889,7 @@
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
 								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
@@ -1919,7 +1980,7 @@
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
 								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
@@ -2009,7 +2070,7 @@
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
 								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
@@ -2171,7 +2232,7 @@
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
 								</Reference>
 								<Reference Name="OutputBus">
-									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
@@ -2423,7 +2484,8 @@
 							<ChildrenList>
 								<AudioFileSource Name="The Blast Garden  Into the Breach OST" ID="{26EFFB08-0410-4B0D-9B1D-3F2AAA1228BE}">
 									<PropertyList>
-										<Property Name="FadeInDuration" Type="Real64" Value="1.53351047801671"/>
+										<Property Name="FadeInDuration" Type="Real64" Value="0.828999733438296"/>
+										<Property Name="FadeOutDuration" Type="Real64" Value="21.9684929361149"/>
 										<Property Name="LoopEnd" Type="Real64" Value="104.216312138825"/>
 										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
 									</PropertyList>
@@ -2434,6 +2496,45 @@
 									</MediaIDList>
 								</AudioFileSource>
 							</ChildrenList>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{C5C4E9CD-5476-43DD-8E41-43D185DEAAB0}" ShortID="212864429">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Volume"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="MusicVolume" ID="{8DF6A26C-6613-43E2-8BC4-629F3F26B67D}" WorkUnitID="{176DD27F-5704-4BF6-9C40-75E46D49E907}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{33449E97-1207-4EA9-847F-0C3DEF32C7C6}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="3"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-200</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>0</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
 							<ActiveSourceList>
 								<ActiveSource Name="The Blast Garden  Into the Breach OST" ID="{26EFFB08-0410-4B0D-9B1D-3F2AAA1228BE}" Platform="Linked"/>
 							</ActiveSourceList>
@@ -2453,7 +2554,7 @@
 							<ChildrenList>
 								<AudioFileSource Name="The Blast Garden  Into the Breach OST" ID="{933E0577-F2C9-49DF-92D6-B36CC53542D4}">
 									<PropertyList>
-										<Property Name="FadeInDuration" Type="Real64" Value="0.752223651515976"/>
+										<Property Name="FadeOutDuration" Type="Real64" Value="19.4814937358"/>
 										<Property Name="LoopBegin" Type="Real64" Value="128.164770561929"/>
 										<Property Name="LoopEnd" Type="Real64" Value="168.170930018656"/>
 										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
@@ -2466,8 +2567,259 @@
 									</MediaIDList>
 								</AudioFileSource>
 							</ChildrenList>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{79FDEDCF-DD57-4DD4-AF78-1A05677C33D5}" ShortID="892219665">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Volume"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="MusicVolume" ID="{8DF6A26C-6613-43E2-8BC4-629F3F26B67D}" WorkUnitID="{176DD27F-5704-4BF6-9C40-75E46D49E907}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{A8177FA4-1AC3-4563-A93B-729B1CD26DFD}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="3"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-200</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>0</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
 							<ActiveSourceList>
 								<ActiveSource Name="The Blast Garden  Into the Breach OST" ID="{933E0577-F2C9-49DF-92D6-B36CC53542D4}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_BGM_Into_the_Breach_2" ID="{D4FF624D-1241-40A1-B58E-2A7F93F43306}" ShortID="982006128">
+							<PropertyList>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Music Audio Bus" ID="{35A3AADB-A99C-4462-8303-6A0F7A8CC03F}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Red Sands _ Into the Breach OST [ ezmp3_cc ]" ID="{B20E4553-7AD9-44B8-BB89-297AB4DD5C2E}">
+									<PropertyList>
+										<Property Name="FadeInDuration" Type="Real64" Value="0.911297607421875"/>
+										<Property Name="FadeOutDuration" Type="Real64" Value="22.049787902832"/>
+										<Property Name="LoopBegin" Type="Real64" Value="13.7597851341091"/>
+										<Property Name="LoopEnd" Type="Real64" Value="101.64401144327"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>Red Sands _ Into the Breach OST [ ezmp3.cc ].wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="170713564"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{34EF01D9-9022-4D8D-9098-FC077CA5B35F}" ShortID="892251621">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Volume"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="MusicVolume" ID="{8DF6A26C-6613-43E2-8BC4-629F3F26B67D}" WorkUnitID="{176DD27F-5704-4BF6-9C40-75E46D49E907}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{3D7E3014-DB7E-44C5-BD17-A013962BF9EA}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="3"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-200</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>0</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+							<ActiveSourceList>
+								<ActiveSource Name="Red Sands _ Into the Breach OST [ ezmp3_cc ]" ID="{B20E4553-7AD9-44B8-BB89-297AB4DD5C2E}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_BGM_Into_the_Breach_Combat_2" ID="{C3CE5C33-C017-4953-A78D-203DC7036DB5}" ShortID="268476110">
+							<PropertyList>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Music Audio Bus" ID="{35A3AADB-A99C-4462-8303-6A0F7A8CC03F}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Pinnacle Robotics _ Into the Breach OST [ ezmp3_cc ]" ID="{5B6A88F1-80A4-4457-9B95-2977BE453857}">
+									<PropertyList>
+										<Property Name="FadeInDuration" Type="Real64" Value="0.707454198720503"/>
+										<Property Name="FadeOutDuration" Type="Real64" Value="25.2046431249502"/>
+										<Property Name="LoopBegin" Type="Real64" Value="3.85075005426438"/>
+										<Property Name="LoopEnd" Type="Real64" Value="171.365576671682"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>Pinnacle Robotics _ Into the Breach OST [ ezmp3.cc ].wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="483113004"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{1CA7B8FF-3562-46E8-9902-CA0B95AC739F}" ShortID="34922800">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Volume"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="MusicVolume" ID="{8DF6A26C-6613-43E2-8BC4-629F3F26B67D}" WorkUnitID="{176DD27F-5704-4BF6-9C40-75E46D49E907}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{0EE8F467-A655-4143-BA41-5B6040376B0F}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="3"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-200</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>0</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+							<ActiveSourceList>
+								<ActiveSource Name="Pinnacle Robotics _ Into the Breach OST [ ezmp3_cc ]" ID="{5B6A88F1-80A4-4457-9B95-2977BE453857}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_BGM_Into_the_Breach_Build" ID="{7CC01D63-C9A7-4F09-8465-C11C174E0DB4}" ShortID="369802059">
+							<PropertyList>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Music Audio Bus" ID="{35A3AADB-A99C-4462-8303-6A0F7A8CC03F}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Detritus _ Into the Breach OST [ ezmp3_cc ]" ID="{DB1F3B0B-C694-4FB1-B09E-54338DA75E51}">
+									<PropertyList>
+										<Property Name="FadeOutDuration" Type="Real64" Value="8.76162377182318"/>
+										<Property Name="LoopEnd" Type="Real64" Value="99.612916933782"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+										<Property Name="TrimEnd" Type="Real64" Value="100.286887993153"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>Detritus _ Into the Breach OST [ ezmp3.cc ].wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="318882470"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{7F92513F-F531-4FB1-B310-97DF3E992103}" ShortID="521582193">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Volume"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="MusicVolume" ID="{8DF6A26C-6613-43E2-8BC4-629F3F26B67D}" WorkUnitID="{176DD27F-5704-4BF6-9C40-75E46D49E907}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{F4F82C6C-49B4-4319-BC96-69D44B7AF266}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="3"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-200</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>0</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+							<ActiveSourceList>
+								<ActiveSource Name="Detritus _ Into the Breach OST [ ezmp3_cc ]" ID="{DB1F3B0B-C694-4FB1-B09E-54338DA75E51}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
 					</ChildrenList>

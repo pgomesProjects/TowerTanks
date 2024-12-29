@@ -258,7 +258,9 @@ namespace TowerTanks.Scripts
             if (type == ProjectileType.SHELL)
             {
                 GameManager.Instance.AudioManager.Play("ExplosionSFX", gameObject);
-                GameManager.Instance.ParticleSpawner.SpawnParticle(Random.Range(0, 2), transform.position, particleScale, null);
+
+                if (hitProperties.fireChance >= 0.9) GameManager.Instance.ParticleSpawner.SpawnParticle(17, transform.position, particleScale, null);
+                else GameManager.Instance.ParticleSpawner.SpawnParticle(Random.Range(0, 2), transform.position, particleScale, null);
             }
 
             if (type == ProjectileType.BULLET)

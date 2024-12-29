@@ -71,7 +71,7 @@ namespace TowerTanks.Scripts
         //Runtime Variables:
         private bool initialized; //True if tread system has already been set up
 
-        private float engineRPM;       //Speed (in rotations per minute) at which engine is currently turning
+        public float engineRPM;       //Speed (in rotations per minute) at which engine is currently turning
         internal int gear;             //Basic designator for current direction and speed the tank is set to move in (0 = Neutral)
         private float brakeSaturation; //Time tank has spent braking (ticks up when brakes are active, ticks down when brakes are inactive)
         [Tooltip("Value between -1 and 1 representing current real normalized position of throttle.")] private float throttleValue; //Current value of the throttle, adjusted over time based on acceleration and gear for smooth movement
@@ -266,6 +266,9 @@ namespace TowerTanks.Scripts
                 correctiveForce *= tipPreventionForce * -Mathf.Sign(r.rotation);                                                 //Calculate corrective force based on setting, angular position in buffer zone, and direction of tippage
                 r.AddTorque(correctiveForce, ForceMode2D.Force);                                                                 //Apply corrective force to prevent tippage
             }
+
+            //Update SFX
+            UpdateSFX();
         }
         private void OnDrawGizmos()
         {
@@ -410,6 +413,28 @@ namespace TowerTanks.Scripts
                 isJammed = true;
                 GameManager.Instance.AudioManager.Play("EngineDyingSFX", this.gameObject);
             }
+        }
+
+        public void UpdateSFX()
+        {
+            //Engine Sound
+            if (!isJammed)
+            {
+                if (!GameManager.Instance.AudioManager.IsPlaying("TankIdle", this.gameObject)) GameManager.Instance.AudioManager.Play("TankIdle", this.gameObject);
+            }
+            else if (GameManager.Instance.AudioManager.IsPlaying("TankIdle", this.gameObject)) GameManager.Instance.AudioManager.Stop("TankIdle", this.gameObject);
+
+            //Update Pitch
+            float engineRatio = (Mathf.Abs(engineRPM) / maxRPM) * 100f;
+            Mathf.Clamp(engineRatio, 0, 100);
+            GameManager.Instance.AudioManager.UpdateRTPCValue("EnginePitch", engineRatio, this.gameObject);
+
+            //Wheels Moving
+            if (Mathf.Abs(engineRPM) > minRPM)
+            {
+                if (!GameManager.Instance.AudioManager.IsPlaying("TreadsRolling", this.gameObject)) GameManager.Instance.AudioManager.Play("TreadsRolling", this.gameObject);
+            }
+            else if (GameManager.Instance.AudioManager.IsPlaying("TreadsRolling", this.gameObject)) GameManager.Instance.AudioManager.Stop("TreadsRolling", this.gameObject);
         }
 
         //UTILITY METHODS:

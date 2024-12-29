@@ -15,3 +15,5 @@ MonoBehaviour:
   objectName: cannon_lock_in_place
   id: 1967707158
   guid: AC92CB7F-47BF-44DB-BB1D-2C55FF5EF038
+  IsInUserDefinedSoundBank: 1
+  IsAutoBankLoaded: 0

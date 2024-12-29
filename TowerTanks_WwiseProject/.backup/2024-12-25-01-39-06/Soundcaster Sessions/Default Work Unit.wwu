@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{E6272D95-1FD4-4480-B624-8916B2190766}" SchemaVersion="110">
+	<SoundcasterSessions>
+		<WorkUnit Name="Default Work Unit" ID="{E6272D95-1FD4-4480-B624-8916B2190766}" PersistMode="Standalone">
+			<ChildrenList>
+				<SoundcasterSession Name="CannonSoundcaster" ID="{F18677EF-115D-4C72-A118-930C2E99F2B6}">
+					<RTPCValueList ShowAll="true"/>
+					<CurrentStateList ShowAll="true"/>
+					<CurrentSwitchList ShowAll="true"/>
+				</SoundcasterSession>
+				<SoundcasterSession Name="New Soundcaster Session" ID="{69EB41D0-085F-4A61-9FFC-CD811DC20F2B}">
+					<ModuleList>
+						<Module>
+							<ObjectRef Name="TT_SFX_blaring-alarm" ID="{5CF46254-3ADA-45CB-9DFA-487914AC47A1}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+							<Position X="0" Y="0"/>
+						</Module>
+						<Module>
+							<ObjectRef Name="TT_SFX_item_pickup" ID="{14AFAD6C-BA5B-4D4C-899C-CF944170430E}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+							<Position X="1" Y="0"/>
+						</Module>
+					</ModuleList>
+					<RTPCValueList ShowAll="true"/>
+					<CurrentStateList ShowAll="true"/>
+					<CurrentSwitchList ShowAll="true"/>
+				</SoundcasterSession>
+			</ChildrenList>
+		</WorkUnit>
+	</SoundcasterSessions>
+</WwiseDocument>

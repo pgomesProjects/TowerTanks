@@ -15,3 +15,5 @@ MonoBehaviour:
   objectName: cannon_rotate
   id: 946664204
   guid: 3442E508-B6C4-47FE-8890-CA74D9251E62
+  IsInUserDefinedSoundBank: 1
+  IsAutoBankLoaded: 0

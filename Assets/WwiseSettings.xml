@@ -7,13 +7,14 @@
   <CreateWwiseGlobal>true</CreateWwiseGlobal>
   <CreateWwiseListener>true</CreateWwiseListener>
   <ObjectReferenceAutoCleanup>true</ObjectReferenceAutoCleanup>
+  <LoadSoundEngineInEditMode>true</LoadSoundEngineInEditMode>
   <ShowMissingRigidBodyWarning>true</ShowMissingRigidBodyWarning>
   <ShowSpatialAudioWarningMsg>true</ShowSpatialAudioWarningMsg>
   <WwiseInstallationPathMac />
-  <WwiseInstallationPathWindows>C:\Program Files (x86)\Audiokinetic\Wwise 2022.1.2.8150</WwiseInstallationPathWindows>
+  <WwiseInstallationPathWindows>C:\Program Files (x86)\Audiokinetic\Wwise2024.1.1.8691</WwiseInstallationPathWindows>
   <WwiseProjectPath>../TowerTanks_WwiseProject/TowerTanks_WwiseProject.wproj</WwiseProjectPath>
   <UseWaapi>true</UseWaapi>
-  <WaapiPort>8080</WaapiPort>
+  <WaapiPort>8081</WaapiPort>
   <WaapiIP>127.0.0.1</WaapiIP>
   <XMLTranslatorTimeout>10</XMLTranslatorTimeout>
   <WaapiTranslatorTimeout>0</WaapiTranslatorTimeout>

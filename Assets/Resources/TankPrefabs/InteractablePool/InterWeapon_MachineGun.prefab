@@ -452,7 +452,7 @@ MonoBehaviour:
   gunType: 1
   muzzleVelocity: 45
   recoil: 2
-  rotateSpeed: 30
+  rotateSpeed: 60
   gimbalRange: 30
   rateOfFire: 0.08
   reciprocationDistance: 0
@@ -490,7 +490,6 @@ MonoBehaviour:
   mySpecificType: 4
   interactableController: {fileID: 0}
   tokenActivated: 0
-  fireCooldown: 0.1
   cooldownOffset: 0
   isRotating: 0
 --- !u!114 &4392302978687042807
@@ -510,9 +509,11 @@ MonoBehaviour:
     useDefaultListeners: 1
   isEnvironmentAware: 0
   isStaticObject: 0
+  usePositionOffsetData: 0
   m_positionOffsetData:
     KeepMe: 0
     positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
   m_posOffsetData: {fileID: 0}
   listenerMask: 1
 --- !u!1 &1789302742600092477

@@ -15,3 +15,5 @@ MonoBehaviour:
   objectName: jetpack_refuel
   id: 1266436627
   guid: FB6F1FAF-4C04-4D7F-9632-9943CC9FA0B2
+  IsInUserDefinedSoundBank: 1
+  IsAutoBankLoaded: 0

@@ -34,11 +34,15 @@ namespace AK
         static const AkUniqueID DEATH_STINGER = 1015288770U;
         static const AkUniqueID ENGINE_DYING = 3121770429U;
         static const AkUniqueID ENGINE_DYING_2 = 1498048058U;
+        static const AkUniqueID ENGINE_RUNNING = 369266163U;
         static const AkUniqueID FIRE_BURNING = 1318321645U;
         static const AkUniqueID GLOBAL_PAUSE = 1469012939U;
         static const AkUniqueID GLOBAL_UNPAUSE = 2496259136U;
         static const AkUniqueID INTO_THE_BREACH = 1818101133U;
+        static const AkUniqueID INTO_THE_BREACH_2 = 3947822154U;
+        static const AkUniqueID INTO_THE_BREACH_BUILD = 2264166104U;
         static const AkUniqueID INTO_THE_BREACH_COMBAT = 1784725048U;
+        static const AkUniqueID INTO_THE_BREACH_COMBAT_2 = 3620024679U;
         static const AkUniqueID INVALID_ALERT = 2191775701U;
         static const AkUniqueID ITEM_PICKUP = 566396871U;
         static const AkUniqueID JETPACK_REFUEL = 1266436627U;
@@ -76,6 +80,7 @@ namespace AK
         static const AkUniqueID COMBATLAYER1VOLUME = 3720003847U;
         static const AkUniqueID COMBATLAYER2VOLUME = 4287925136U;
         static const AkUniqueID COMBATLAYER3VOLUME = 2831834313U;
+        static const AkUniqueID ENGINEPITCH = 3939064495U;
         static const AkUniqueID GLOBALCOMBATVOLUME = 2834886298U;
         static const AkUniqueID MUSICVOLUME = 2346531308U;
         static const AkUniqueID SFXPITCH = 2857378200U;

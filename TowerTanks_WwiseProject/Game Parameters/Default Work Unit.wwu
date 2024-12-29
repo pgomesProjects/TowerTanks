@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WwiseDocument Type="WorkUnit" ID="{176DD27F-5704-4BF6-9C40-75E46D49E907}" SchemaVersion="110">
+<WwiseDocument Type="WorkUnit" ID="{176DD27F-5704-4BF6-9C40-75E46D49E907}" SchemaVersion="123">
 	<GameParameters>
 		<WorkUnit Name="Default Work Unit" ID="{176DD27F-5704-4BF6-9C40-75E46D49E907}" PersistMode="Standalone">
 			<ChildrenList>
@@ -34,6 +34,11 @@
 					<PropertyList>
 						<Property Name="InitialValue" Type="Real64" Value="1"/>
 						<Property Name="Max" Type="Real64" Value="2"/>
+					</PropertyList>
+				</GameParameter>
+				<GameParameter Name="EnginePitch" ID="{1410D1D1-D54C-4027-9FB0-57E4263F1D0F}">
+					<PropertyList>
+						<Property Name="InitialValue" Type="Real64" Value="0"/>
 					</PropertyList>
 				</GameParameter>
 			</ChildrenList>

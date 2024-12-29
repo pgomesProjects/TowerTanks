@@ -181,8 +181,10 @@ namespace TowerTanks.Scripts
                 timeBuilding += Time.deltaTime; //Increment build time tracker
                 if (timeBuilding >= characterSettings.buildTime) //Player has finished build
                 {
+                    StackManager.EndBuildingStackItem(0);
                     TankInteractable currentInteractable = StackManager.BuildTopStackItem();             
                     currentInteractable.InstallInCell(buildCell); //Install interactable from top of stack into designated build cell
+                    if (currentInteractable.interactableType == TankInteractable.InteractableType.CONSUMABLE) currentInteractable.gameObject.GetComponent<TankConsumable>().Use();
                     StopBuilding(); //Indicate that build has stopped
                     CancelInteraction();
 
@@ -653,6 +655,7 @@ namespace TowerTanks.Scripts
                         cell.playerBuilding = this; //Indicate that this player is building in given cell
                         print("started building");
                         taskProgressBar?.StartTask(characterSettings.buildTime);
+                        StackManager.StartBuildingStackItem(0, characterSettings.buildTime);
                     }
                     else print("tried to start building");
                 }
@@ -675,6 +678,7 @@ namespace TowerTanks.Scripts
 
                 if (buildCell != null)
                 {
+                    StackManager.EndBuildingStackItem(0);
                     StopBuilding();
                 }
             }

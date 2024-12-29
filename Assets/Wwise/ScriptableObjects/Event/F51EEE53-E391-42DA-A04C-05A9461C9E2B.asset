@@ -15,3 +15,5 @@ MonoBehaviour:
   objectName: cannon_fire_new
   id: 1779807686
   guid: F51EEE53-E391-42DA-A04C-05A9461C9E2B
+  IsInUserDefinedSoundBank: 1
+  IsAutoBankLoaded: 0

@@ -15,3 +15,5 @@ MonoBehaviour:
   objectName: cannon_aim
   id: 1221570156
   guid: D6EF2E29-9C77-4726-9087-FF7AA942CC8D
+  IsInUserDefinedSoundBank: 1
+  IsAutoBankLoaded: 0

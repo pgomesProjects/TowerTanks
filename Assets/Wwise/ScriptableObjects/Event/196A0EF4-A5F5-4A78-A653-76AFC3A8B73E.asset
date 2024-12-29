@@ -15,3 +15,5 @@ MonoBehaviour:
   objectName: item_pickup
   id: 566396871
   guid: 196A0EF4-A5F5-4A78-A653-76AFC3A8B73E
+  IsInUserDefinedSoundBank: 1
+  IsAutoBankLoaded: 0

@@ -27,6 +27,7 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("The component that tracks tank information.")] public TankManager tankManager;
         [SerializeField] public float enemiesDestroyed;
         public static float totalEnemiesDestroyed;
+        public int enemyTierOffset;
 
         public static LevelManager Instance;
 
@@ -97,17 +98,21 @@ namespace TowerTanks.Scripts
             isSettingUpOnStart = true;
             GameManager.Instance.AudioManager.Play("MainMenuWindAmbience");
 
+            int random = UnityEngine.Random.Range(0, 2);
+            if (random == 0) GameManager.Instance.AudioManager.Play("Mission_1", null, true);
+            if (random == 1) GameManager.Instance.AudioManager.Play("Mission_2", null, true);
+
             //Starting resources
             switch (GameSettings.difficulty)
             {
                 case 0.5f:
-                    totalScrapValue = 1500;
+                    totalScrapValue = 1000;
                     break;
                 case 1.5f:
-                    totalScrapValue = 500;
+                    totalScrapValue = 250;
                     break;
                 default:
-                    totalScrapValue = 1000;
+                    totalScrapValue = 500;
                     break;
             }
 
@@ -134,6 +139,8 @@ namespace TowerTanks.Scripts
             OnResourcesUpdated?.Invoke(totalScrapValue, false);
             OnMissionStart?.Invoke(CampaignManager.Instance.GetCurrentLevelEvent());
             isSettingUpOnStart = false;
+
+            GameManager.Instance.DisplayTutorial(3, false, 5);
         }
 
         private void OnEnable()
@@ -215,7 +222,7 @@ namespace TowerTanks.Scripts
                 newInt = 5;
             }
 
-            return newInt;
+            return newInt + enemyTierOffset;
         }
 
         /// <summary>
@@ -239,6 +246,27 @@ namespace TowerTanks.Scripts
                 totalScrapValue += resources;
                 OnResourcesUpdated?.Invoke(resources, true);
             }
+        }
+
+        public int RollSpecialAmmo()
+        {
+            int interactablesToLoad = 0;
+
+            int rolls = GetEnemyTier() - 2; //Tier 3+ get chance for special ammo
+            if (rolls > 0)
+            {
+                for (int r = 0; r < rolls; r++)
+                {
+                    int chance = 20;
+                    if (chance <= (int)UnityEngine.Random.Range(0, 100))
+                    {
+                        interactablesToLoad += 1; //Add 1 to the amount of things we're loading
+                        Debug.Log("Loaded!");
+                    };
+                }
+            }
+
+            return interactablesToLoad;
         }
 
         public bool CanPlayerAfford(int price)
@@ -573,6 +601,9 @@ namespace TowerTanks.Scripts
                 {
                     //Spawn the End Level Flag
                     eventManager.SpawnEndOfLevel();
+
+                    //Display tutorial
+                    GameManager.Instance.DisplayTutorial(5, false, 5);
                 }
             }
         }

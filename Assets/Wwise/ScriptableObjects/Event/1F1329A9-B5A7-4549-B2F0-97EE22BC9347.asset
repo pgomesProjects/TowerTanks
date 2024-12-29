@@ -15,3 +15,5 @@ MonoBehaviour:
   objectName: metal_footstep
   id: 3615561815
   guid: 1F1329A9-B5A7-4549-B2F0-97EE22BC9347
+  IsInUserDefinedSoundBank: 1
+  IsAutoBankLoaded: 0

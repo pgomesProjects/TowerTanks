@@ -103,8 +103,8 @@ MonoBehaviour:
     ReferencedUnityObjects:
     - {fileID: 11400000, guid: 3b0484ad929fefc4c96fd957efa8336a, type: 2}
     - {fileID: 11400000, guid: 5c5f77bae720eee41b0e0f1960fb8506, type: 2}
-    - {fileID: 11400000, guid: 9a4bec359a763bb4892e927047522782, type: 2}
     - {fileID: 11400000, guid: dd448ac86e02fcf4380ee2e724dfa4ed, type: 2}
+    - {fileID: 11400000, guid: 9a4bec359a763bb4892e927047522782, type: 2}
     - {fileID: 11400000, guid: 73b079231657fd7418b5016920249387, type: 2}
     - {fileID: 11400000, guid: 8270639046558c145b88d0f4710b39f8, type: 2}
     SerializedBytesString: 
@@ -968,6 +968,42 @@ MonoBehaviour:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: ebb269c1c8458f74f9a345267cc055dd, type: 2}
+  - name: Mission_1
+    audioEvent:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: 306cd34e5dd96ec40b90285faf3fbcc7, type: 2}
+  - name: Mission_2
+    audioEvent:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: 6fb122974cafb4b4ba777f60f7e4fe12, type: 2}
+  - name: Combat_1
+    audioEvent:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: 099ba3355f0ba6d4ca93a2264faed0ee, type: 2}
+  - name: Combat_2
+    audioEvent:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: f4ca61f751497684ea6dd6ff0f7b05e5, type: 2}
+  - name: Build_1
+    audioEvent:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: 40dcf62a82892474cbd6b20350998b90, type: 2}
+  - name: EngineRunning
+    audioEvent:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: deabb46e2c35c28418325f247f5bb929, type: 2}
+  currentTrack:
+    name: 
+    audioEvent:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 0}
 --- !u!1 &5338811766095787865
 GameObject:
   m_ObjectHideFlags: 0
@@ -1165,6 +1201,7 @@ MonoBehaviour:
   - {fileID: 7886208225322957548, guid: 1f5d2126f6bf8c04f9d4e620f637de44, type: 3}
   - {fileID: 8317756643219714684, guid: f237cd1c639164c46bee172d0b41d55c, type: 3}
   - {fileID: 5046753724322107359, guid: 3a00234ecfc55844fb946c59a90c47cd, type: 3}
+  - {fileID: 1620070485275652822, guid: 47ca13bae53cdc341b9566bcb03f05a6, type: 3}
   particleFolderPath: 
 --- !u!1 &6359139974781729948
 GameObject:
@@ -1223,6 +1260,17 @@ MonoBehaviour:
   - id: Fire Extinguisher
     cargoPrefab: {fileID: 8695668838568183417, guid: 61afdcf2de5e52d4785c259326d39da4, type: 3}
     weight: 1
+  projectileList:
+  - type: 0
+    ammoTypes:
+    - {fileID: 2367129227070595597, guid: ad2c16d34a64efd4ab5a6515dab7366a, type: 3}
+    - {fileID: 2367129227070595597, guid: 85691ddecc678de4d8ae87a0b48575ba, type: 3}
+  - type: 1
+    ammoTypes:
+    - {fileID: 2026841927693228562, guid: 0192140aff1560b4687b143a3b7cd16b, type: 3}
+    - {fileID: 3640374074342539547, guid: 1e93586965860dd45b48c21673aea549, type: 3}
+    - {fileID: 8367798314348147069, guid: d44124302ce9eb347aab35655450f0ab, type: 3}
+    - {fileID: 2446699370988271855, guid: b442068e42cdd1248879a0fdf7930b2e, type: 3}
 --- !u!1 &6961505860283407432
 GameObject:
   m_ObjectHideFlags: 0
@@ -1577,6 +1625,8 @@ MonoBehaviour:
     gameObject: {fileID: 5504484630492744355, guid: 5b0529b2d9504a34b98ec7b4cc0fd408, type: 3}
   - type: 5
     gameObject: {fileID: 5504484630492744355, guid: b2ef24e05e7ad8545b6926e5edf79ed7, type: 3}
+  - type: 6
+    gameObject: {fileID: 1131269492136351833, guid: cc9ab5d260652d641a9bb6270f795219, type: 3}
   buttonPromptSettings: {fileID: 11400000, guid: d9592cc9952e7b4449964cc3e6a40d1b, type: 2}
 --- !u!1001 &7563297248085180075
 PrefabInstance:

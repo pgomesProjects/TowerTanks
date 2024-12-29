@@ -3,6 +3,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.Internal;
 #if UNITY_EDITOR 
 using UnityEditor; 
 using Sirenix.OdinInspector.Editor;
@@ -17,6 +18,9 @@ namespace TowerTanks.Scripts
         public float maxEngagementRange;
         public float preferredFightDistance;
         public int tankEconomy;
+        [Range(0, 100)]
+        [Tooltip("The accuracy of the tank's aim. 0 is completely inaccurate, 100 is perfectly accurate, in theory.")]
+        public float tankAccuracy = 100; //default value is complete accuracy
 
         [Title("Interactable Weights")]
         [InfoBox("Key: Interactable type to populate with tokens, \nValue: percentage of our tokens to give to this interactable type.")]
@@ -52,7 +56,7 @@ namespace TowerTanks.Scripts
             // accounts for any leftover tokens from rounding down
             while (remainingTokens > 0)
             {
-                foreach (var kvp in weights.OrderByDescending(kvp => kvp.Value))
+                foreach (var kvp in weights.OrderByDescending(kvp => kvp.Value)) // distributes leftover tokens to the interactables with the highest weights
                 {
                     if (kvp.Value == 0) continue;
                     if (remainingTokens <= 0) break;
@@ -73,21 +77,7 @@ namespace TowerTanks.Scripts
             DisplayTokenDistributionForDictionary(engageStateInteractableWeights, "Engage State");
         }
 
-        /*private void DisplayTokenDistributionForDictionary(Dictionary<INTERACTABLE, float> dictionary, string stateName)
-        {
-            if (dictionary == null || dictionary.Count == 0) return;
-
-            GUILayout.Space(10);
-            GUILayout.Label($"{stateName} Token Distribution", EditorStyles.boldLabel);
-
-            float totalWeight = dictionary.Values.Sum();
-            foreach (var kvp in dictionary)
-            {
-                float percentage = kvp.Value / totalWeight;
-                int tokens = Mathf.CeilToInt(tankEconomy * percentage);
-                GUILayout.Label($"{kvp.Key}: {tokens} tokens");
-            }
-        }*/
+        
         private void DisplayTokenDistributionForDictionary(Dictionary<INTERACTABLE, float> dictionary, string stateName)
         {
             if (dictionary == null || dictionary.Count == 0) return;

@@ -15,3 +15,5 @@ MonoBehaviour:
   objectName: jetpack_rocket_loop
   id: 3943443513
   guid: 0199D9E5-3AFA-4337-A6F6-B40AC7EFB6E6
+  IsInUserDefinedSoundBank: 1
+  IsAutoBankLoaded: 0

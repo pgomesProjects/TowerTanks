@@ -935,7 +935,7 @@ MonoBehaviour:
   - tier: 1
     designs:
     - {fileID: 4900000, guid: 60995db5b3c7cc34b8413bb4155356cf, type: 3}
-    - {fileID: 4900000, guid: 74b6e008e0e834e4db52e032b6dbb7b9, type: 3}
+    - {fileID: 4900000, guid: 5f378c4a49bc7c543b03756a5917095f, type: 3}
     - {fileID: 4900000, guid: 0dcba3895f9f2bc4b9dbc8f50e42291e, type: 3}
     - {fileID: 4900000, guid: e4a4b2cff2a8ed84caf6d14275621189, type: 3}
   - tier: 2
@@ -2664,6 +2664,7 @@ MonoBehaviour:
   eventManager: {fileID: 0}
   tankManager: {fileID: 0}
   enemiesDestroyed: 0
+  enemyTierOffset: 0
   resourcesToAdd: 100
 --- !u!4 &1152782961
 Transform:
@@ -3388,11 +3389,11 @@ MonoBehaviour:
     bias: 0
     isPreset: 0
   - chunkPrefab: {fileID: 3766360497705465845, guid: e5efa2eaaa2c9eb449f27c8317f2d22f, type: 3}
-    weight: 0
+    weight: 10
     bias: 0
     isPreset: 0
   - chunkPrefab: {fileID: 3766360497705465845, guid: 06ff124588cc7374a9bf4d92d5686616, type: 3}
-    weight: 0
+    weight: 10
     bias: 0
     isPreset: 0
   - chunkPrefab: {fileID: 3766360497705465845, guid: cbcc0b334ac2a38448a05834a3b2ed26, type: 3}

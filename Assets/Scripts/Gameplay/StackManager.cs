@@ -25,6 +25,9 @@ namespace TowerTanks.Scripts
             [Tooltip("Tracker for time since panel position data has been updated.")] public float timeSinceAnimUpdate;
             [Tooltip("Position at start of current animation.")] public Vector2 prevPosition;
 
+            [Tooltip("The current progress bar shown for the item being built.")] private TaskProgressBar buildProgressBar;
+            [Tooltip("The list of player indices selecting the current stack item.")] private List<int> playersSelecting;
+
             //OPERATION METHODS:
             /// <summary>
             /// Generates and fills in data for a UI panel representing this stack item.
@@ -57,6 +60,8 @@ namespace TowerTanks.Scripts
                     timeSinceAnimUpdate = 0;                                  //Have animation begin
                 }
                 prevPosition = newPanel.localPosition; //Simply set previous position to current
+
+                playersSelecting = new List<int>();
             }
             /// <summary>
             /// Deactivates UI panel (for when item is built).
@@ -92,6 +97,35 @@ namespace TowerTanks.Scripts
             {
                 prevPosition = uiPanel.localPosition; //Set current position to previous so that panel can animate from here
                 timeSinceAnimUpdate = 0;              //Have panel begin animating and let GetTargetPos do the work
+            }
+
+            /// <summary>
+            /// Starts the build progress bar.
+            /// </summary>
+            /// <param name="duration">The duration of the build time.</param>
+            public void StartBuildProgressBar(float duration)
+            {
+                //If there's a progress bar already active, end it
+                if (buildProgressBar != null)
+                    buildProgressBar.EndTask();
+
+                buildProgressBar = GameManager.Instance.UIManager.AddRadialTaskBar(uiPanel.gameObject, new Vector2(80f, 42f), duration, false);
+            }
+
+            /// <summary>
+            /// Cancels the build progress bar.
+            /// </summary>
+            public void CancelBuildProgressBar()
+            {
+                buildProgressBar?.EndTask();
+            }
+
+            public void ClearPlayersSelected()
+            {
+                foreach (Transform trans in uiPanel.GetChild(3))
+                    Destroy(trans.gameObject);
+
+                playersSelecting.Clear();
             }
 
             //DATA METHODS:
@@ -266,6 +300,26 @@ namespace TowerTanks.Scripts
             }
 
             return interactable;
+        }
+
+        public static void StartBuildingStackItem(int index, float duration)
+        {
+            StackItem item = stack[index];
+            //If there is no item, return
+            if (item == null)
+                return;
+
+            item.StartBuildProgressBar(duration);
+        }
+
+        public static void EndBuildingStackItem(int index)
+        {
+            StackItem item = stack[index];
+            //If there is no item, return
+            if (item == null)
+                return;
+
+            item.CancelBuildProgressBar();
         }
 
         /// <summary>

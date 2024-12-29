@@ -15,3 +15,5 @@ MonoBehaviour:
   objectName: Global_Pause
   id: 1469012939
   guid: 802B3562-B902-49B6-A6A7-97296444FA72
+  IsInUserDefinedSoundBank: 1
+  IsAutoBankLoaded: 0

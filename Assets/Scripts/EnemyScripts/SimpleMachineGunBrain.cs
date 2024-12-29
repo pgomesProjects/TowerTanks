@@ -7,12 +7,11 @@ namespace TowerTanks.Scripts
     public class SimpleMachineGunBrain : WeaponBrain
     {
         private float clip;
-        private float clipMin = 12;
-        private float clipMax = 30;
+        private float clipMin = 15;
+        private float clipMax = 35;
 
         void Start()
         {
-            base.Start();
             clip = Random.Range(clipMin, clipMax);
         }
         
@@ -20,7 +19,7 @@ namespace TowerTanks.Scripts
         {
             base.Update();
             
-            if (fireTimer >= fireCooldown)
+            if (fireTimer >= gunScript.rateOfFire)
             {
                 clip -= 1;
                 if (clip <= 0)
@@ -29,6 +28,7 @@ namespace TowerTanks.Scripts
                     clip = Random.Range(clipMin, clipMax);
                 }
             }
+            
         }
     }
 }

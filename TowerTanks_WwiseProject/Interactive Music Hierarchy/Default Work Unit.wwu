@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WwiseDocument Type="WorkUnit" ID="{0F4E5390-01B4-4906-A0D7-41B6390F15ED}" SchemaVersion="110">
+<WwiseDocument Type="WorkUnit" ID="{0F4E5390-01B4-4906-A0D7-41B6390F15ED}" SchemaVersion="123">
 	<InteractiveMusic>
 		<WorkUnit Name="Default Work Unit" ID="{0F4E5390-01B4-4906-A0D7-41B6390F15ED}" PersistMode="Standalone">
 			<ChildrenList>
@@ -11,6 +11,21 @@
 						<Reference Name="OutputBus">
 							<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
 						</Reference>
+						<Reference Name="TransitionRoot">
+							<Custom>
+								<MusicTransition Name="Root" ID="{7DE06185-1C5B-484C-9639-727E7C6DAD8E}">
+									<PropertyList>
+										<Property Name="IsFolder" Type="bool" Value="True"/>
+									</PropertyList>
+									<ChildrenList>
+										<MusicTransition Name="Transition" ID="{8A8D2A6F-8EEF-42DF-984D-D061CCA2019A}">
+											<TransitionInfo/>
+										</MusicTransition>
+									</ChildrenList>
+									<TransitionInfo/>
+								</MusicTransition>
+							</Custom>
+						</Reference>
 					</ReferenceList>
 					<ChildrenList>
 						<MusicPlaylistContainer Name="CannonMixtape" ID="{EFF6D900-0116-49C8-870A-0CBCEB63B7DF}" ShortID="377492475">
@@ -20,6 +35,26 @@
 								</Reference>
 								<Reference Name="OutputBus">
 									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+								<Reference Name="PlaylistRoot">
+									<Custom>
+										<MusicPlaylistItem Name="" ID="{27F60D5E-F52C-43AA-82B1-ED5682CED7BA}" ShortID="150012790"/>
+									</Custom>
+								</Reference>
+								<Reference Name="TransitionRoot">
+									<Custom>
+										<MusicTransition Name="Root" ID="{A763A156-A08F-4EC2-BEC8-BE9CC00A7635}">
+											<PropertyList>
+												<Property Name="IsFolder" Type="bool" Value="True"/>
+											</PropertyList>
+											<ChildrenList>
+												<MusicTransition Name="Transition" ID="{2951EFE3-F365-496D-862F-8FCCAAF8EEC4}">
+													<TransitionInfo/>
+												</MusicTransition>
+											</ChildrenList>
+											<TransitionInfo/>
+										</MusicTransition>
+									</Custom>
 								</Reference>
 							</ReferenceList>
 							<ChildrenList>
@@ -38,6 +73,16 @@
 												<Reference Name="OutputBus">
 													<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
 												</Reference>
+												<Reference Name="TransitionRoot">
+													<Custom>
+														<MusicTransition Name="Root" ID="{D1B27353-22AA-4954-81DB-D8CB53AD3A8E}">
+															<PropertyList>
+																<Property Name="IsFolder" Type="bool" Value="True"/>
+															</PropertyList>
+															<TransitionInfo/>
+														</MusicTransition>
+													</Custom>
+												</Reference>
 											</ReferenceList>
 											<ChildrenList>
 												<AudioFileSource Name="TT_SFX_cannon-fires" ID="{7844F7A2-99A4-48A5-BC75-949495EF882E}">
@@ -48,14 +93,6 @@
 													</MediaIDList>
 												</AudioFileSource>
 											</ChildrenList>
-											<TransitionList>
-												<MusicTransition Name="Root" ID="{D1B27353-22AA-4954-81DB-D8CB53AD3A8E}">
-													<PropertyList>
-														<Property Name="IsFolder" Type="bool" Value="True"/>
-													</PropertyList>
-													<TransitionInfo/>
-												</MusicTransition>
-											</TransitionList>
 											<ObjectLists>
 												<ObjectList Name="Sequences">
 													<Reference>
@@ -105,37 +142,8 @@
 									</ObjectLists>
 								</MusicSegment>
 							</ChildrenList>
-							<TransitionList>
-								<MusicTransition Name="Root" ID="{A763A156-A08F-4EC2-BEC8-BE9CC00A7635}">
-									<PropertyList>
-										<Property Name="IsFolder" Type="bool" Value="True"/>
-									</PropertyList>
-									<ChildrenList>
-										<MusicTransition Name="Transition" ID="{2951EFE3-F365-496D-862F-8FCCAAF8EEC4}">
-											<TransitionInfo/>
-										</MusicTransition>
-									</ChildrenList>
-									<TransitionInfo/>
-								</MusicTransition>
-							</TransitionList>
-							<Playlist>
-								<MusicPlaylistItem Name="" ID="{27F60D5E-F52C-43AA-82B1-ED5682CED7BA}" ShortID="150012790"/>
-							</Playlist>
 						</MusicPlaylistContainer>
 					</ChildrenList>
-					<TransitionList>
-						<MusicTransition Name="Root" ID="{7DE06185-1C5B-484C-9639-727E7C6DAD8E}">
-							<PropertyList>
-								<Property Name="IsFolder" Type="bool" Value="True"/>
-							</PropertyList>
-							<ChildrenList>
-								<MusicTransition Name="Transition" ID="{8A8D2A6F-8EEF-42DF-984D-D061CCA2019A}">
-									<TransitionInfo/>
-								</MusicTransition>
-							</ChildrenList>
-							<TransitionInfo/>
-						</MusicTransition>
-					</TransitionList>
 				</MusicSwitchContainer>
 				<MusicPlaylistContainer Name="Combat" ID="{10545CE1-3232-4C48-9A09-09C5DF3ACEC2}" ShortID="900869908">
 					<ReferenceList>
@@ -144,6 +152,42 @@
 						</Reference>
 						<Reference Name="OutputBus">
 							<ObjectRef Name="Music Audio Bus" ID="{35A3AADB-A99C-4462-8303-6A0F7A8CC03F}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+						</Reference>
+						<Reference Name="PlaylistRoot">
+							<Custom>
+								<MusicPlaylistItem Name="" ID="{F5761E32-9F3A-49A2-80AA-AADA33C038F6}" ShortID="147457093">
+									<PropertyList>
+										<Property Name="LoopCount" Type="int16" Value="0"/>
+									</PropertyList>
+									<ChildrenList>
+										<MusicPlaylistItem Name="" ID="{0FA705C4-3344-43FE-91C4-DE2F7D2762F0}" ShortID="127387315">
+											<PropertyList>
+												<Property Name="PlaylistItemType" Type="int16" Value="1"/>
+											</PropertyList>
+											<ReferenceList>
+												<Reference Name="Segment">
+													<ObjectRef Name="CombatMusicTracks" ID="{25EDE22A-7C1B-4A8F-921F-8D220E16C044}" WorkUnitID="{0F4E5390-01B4-4906-A0D7-41B6390F15ED}"/>
+												</Reference>
+											</ReferenceList>
+										</MusicPlaylistItem>
+									</ChildrenList>
+								</MusicPlaylistItem>
+							</Custom>
+						</Reference>
+						<Reference Name="TransitionRoot">
+							<Custom>
+								<MusicTransition Name="Root" ID="{CDB497B4-BC66-4EA3-AAA9-61E0F242F6F1}">
+									<PropertyList>
+										<Property Name="IsFolder" Type="bool" Value="True"/>
+									</PropertyList>
+									<ChildrenList>
+										<MusicTransition Name="Transition" ID="{C6BA86EE-4D1B-4D1E-BB52-8A9B6653467E}">
+											<TransitionInfo/>
+										</MusicTransition>
+									</ChildrenList>
+									<TransitionInfo/>
+								</MusicTransition>
+							</Custom>
 						</Reference>
 					</ReferenceList>
 					<ChildrenList>
@@ -165,6 +209,16 @@
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
 										</Reference>
+										<Reference Name="TransitionRoot">
+											<Custom>
+												<MusicTransition Name="Root" ID="{7861243E-D064-4235-9786-40545126F78C}">
+													<PropertyList>
+														<Property Name="IsFolder" Type="bool" Value="True"/>
+													</PropertyList>
+													<TransitionInfo/>
+												</MusicTransition>
+											</Custom>
+										</Reference>
 									</ReferenceList>
 									<ChildrenList>
 										<AudioFileSource Name="TTTT_L0_Combat_Mix_2_28_23" ID="{347E99F2-77C0-46B0-A473-2F44DAEE8466}">
@@ -175,14 +229,6 @@
 											</MediaIDList>
 										</AudioFileSource>
 									</ChildrenList>
-									<TransitionList>
-										<MusicTransition Name="Root" ID="{7861243E-D064-4235-9786-40545126F78C}">
-											<PropertyList>
-												<Property Name="IsFolder" Type="bool" Value="True"/>
-											</PropertyList>
-											<TransitionInfo/>
-										</MusicTransition>
-									</TransitionList>
 									<ObjectLists>
 										<ObjectList Name="RTPC">
 											<Reference>
@@ -259,6 +305,16 @@
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
 										</Reference>
+										<Reference Name="TransitionRoot">
+											<Custom>
+												<MusicTransition Name="Root" ID="{23EFF821-1343-4B5D-BA93-B9CC07C1665C}">
+													<PropertyList>
+														<Property Name="IsFolder" Type="bool" Value="True"/>
+													</PropertyList>
+													<TransitionInfo/>
+												</MusicTransition>
+											</Custom>
+										</Reference>
 									</ReferenceList>
 									<ChildrenList>
 										<AudioFileSource Name="TTTT_L1_Combat_Mix_2_28_23" ID="{61C110C1-BD6E-471B-8935-2F3D40EB4B70}">
@@ -269,14 +325,6 @@
 											</MediaIDList>
 										</AudioFileSource>
 									</ChildrenList>
-									<TransitionList>
-										<MusicTransition Name="Root" ID="{23EFF821-1343-4B5D-BA93-B9CC07C1665C}">
-											<PropertyList>
-												<Property Name="IsFolder" Type="bool" Value="True"/>
-											</PropertyList>
-											<TransitionInfo/>
-										</MusicTransition>
-									</TransitionList>
 									<ObjectLists>
 										<ObjectList Name="RTPC">
 											<Reference>
@@ -353,6 +401,16 @@
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
 										</Reference>
+										<Reference Name="TransitionRoot">
+											<Custom>
+												<MusicTransition Name="Root" ID="{643BCE6C-A353-4C0B-BCA7-CADF99F198A7}">
+													<PropertyList>
+														<Property Name="IsFolder" Type="bool" Value="True"/>
+													</PropertyList>
+													<TransitionInfo/>
+												</MusicTransition>
+											</Custom>
+										</Reference>
 									</ReferenceList>
 									<ChildrenList>
 										<AudioFileSource Name="TTTT_L2_Combat_Mix_2_28_23" ID="{D65DF6A6-E7AF-4AA1-8C14-6F4C0F15FFCC}">
@@ -363,14 +421,6 @@
 											</MediaIDList>
 										</AudioFileSource>
 									</ChildrenList>
-									<TransitionList>
-										<MusicTransition Name="Root" ID="{643BCE6C-A353-4C0B-BCA7-CADF99F198A7}">
-											<PropertyList>
-												<Property Name="IsFolder" Type="bool" Value="True"/>
-											</PropertyList>
-											<TransitionInfo/>
-										</MusicTransition>
-									</TransitionList>
 									<ObjectLists>
 										<ObjectList Name="RTPC">
 											<Reference>
@@ -447,6 +497,16 @@
 										<Reference Name="OutputBus">
 											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
 										</Reference>
+										<Reference Name="TransitionRoot">
+											<Custom>
+												<MusicTransition Name="Root" ID="{B990CC54-7D46-48B9-900B-7A214B1E72A1}">
+													<PropertyList>
+														<Property Name="IsFolder" Type="bool" Value="True"/>
+													</PropertyList>
+													<TransitionInfo/>
+												</MusicTransition>
+											</Custom>
+										</Reference>
 									</ReferenceList>
 									<ChildrenList>
 										<AudioFileSource Name="TTTT_L3_Combat_Mix_2_28_23" ID="{2AB5EB2C-8E82-4FE9-8BE7-27AB3E24F5BE}">
@@ -457,14 +517,6 @@
 											</MediaIDList>
 										</AudioFileSource>
 									</ChildrenList>
-									<TransitionList>
-										<MusicTransition Name="Root" ID="{B990CC54-7D46-48B9-900B-7A214B1E72A1}">
-											<PropertyList>
-												<Property Name="IsFolder" Type="bool" Value="True"/>
-											</PropertyList>
-											<TransitionInfo/>
-										</MusicTransition>
-									</TransitionList>
 									<ObjectLists>
 										<ObjectList Name="RTPC">
 											<Reference>
@@ -551,19 +603,6 @@
 							</ObjectLists>
 						</MusicSegment>
 					</ChildrenList>
-					<TransitionList>
-						<MusicTransition Name="Root" ID="{CDB497B4-BC66-4EA3-AAA9-61E0F242F6F1}">
-							<PropertyList>
-								<Property Name="IsFolder" Type="bool" Value="True"/>
-							</PropertyList>
-							<ChildrenList>
-								<MusicTransition Name="Transition" ID="{C6BA86EE-4D1B-4D1E-BB52-8A9B6653467E}">
-									<TransitionInfo/>
-								</MusicTransition>
-							</ChildrenList>
-							<TransitionInfo/>
-						</MusicTransition>
-					</TransitionList>
 					<ObjectLists>
 						<ObjectList Name="RTPC">
 							<Reference>
@@ -603,21 +642,6 @@
 							</Reference>
 						</ObjectList>
 					</ObjectLists>
-					<Playlist>
-						<MusicPlaylistItem Name="" ID="{F5761E32-9F3A-49A2-80AA-AADA33C038F6}" ShortID="147457093">
-							<PropertyList>
-								<Property Name="LoopCount" Type="int16" Value="0"/>
-							</PropertyList>
-							<ChildrenList>
-								<MusicPlaylistItem Name="" ID="{0FA705C4-3344-43FE-91C4-DE2F7D2762F0}" ShortID="127387315">
-									<PropertyList>
-										<Property Name="PlaylistItemType" Type="int16" Value="1"/>
-									</PropertyList>
-									<SegmentRef Name="CombatMusicTracks" ID="{25EDE22A-7C1B-4A8F-921F-8D220E16C044}"/>
-								</MusicPlaylistItem>
-							</ChildrenList>
-						</MusicPlaylistItem>
-					</Playlist>
 				</MusicPlaylistContainer>
 			</ChildrenList>
 		</WorkUnit>

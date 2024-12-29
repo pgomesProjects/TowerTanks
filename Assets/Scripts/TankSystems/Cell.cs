@@ -286,22 +286,15 @@ namespace TowerTanks.Scripts
                 if (!room.targetTank.isInvincible) room.targetTank.Damage(damage); //Deal all core cell damage directly to tank instead of destroying cells (unless tank is invincible)
             }
             else //Damage is being dealt to normal cell
-            {
-                /*//Visual effect:
-                float damageTimeAdd = (damage / 50f);
-                if (damageTimeAdd < 0.1f) damageTimeAdd = 0.1f;
-                damageTime += damageTimeAdd;
-                damageTimer = damageTime;*/
-
-                if (triggerHitEffect)
+            { 
+                //Deal damage:
+                health = Mathf.Max(0, health - damage); //Deal damage to cell
+                if (health <= 0) Kill();                //Kill cell if mortal damage has been dealt
+                else if (triggerHitEffect)
                 {
                     if (damage > 20) HitEffects(0.5f);
                     else HitEffects(4f);
                 }
-
-                //Deal damage:
-                health = Mathf.Max(0, health - damage); //Deal damage to cell
-                if (health <= 0) Kill();                //Kill cell if mortal damage has been dealt
             }
         }
 
@@ -503,7 +496,7 @@ namespace TowerTanks.Scripts
         public void AddInteractablesFromCell()
         {
             //Stack update:
-            if (interactable != null)
+            if (interactable != null && interactable.interactableType != TankInteractable.InteractableType.CONSUMABLE)
             {
                 if (room.targetTank != null && room.targetTank.tankType == TankId.TankType.PLAYER) StackManager.AddToStack(GameManager.Instance.TankInteractableToEnum(interactable)); //Add interactable data to stack upon destruction (if it is in a player tank)
                 Destroy(interactable.gameObject); //Destroy this interactable
