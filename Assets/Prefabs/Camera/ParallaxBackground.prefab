@@ -226,13 +226,13 @@ MonoBehaviour:
     infiniteVertical: 1
   - layerType: 0
     parallaxSpriteRenderer: {fileID: 3696405528355790694}
-    parallaxSpeed: {x: 0.7, y: 0.6}
+    parallaxSpeed: {x: 0.8, y: 0.7}
     automaticSpeed: {x: 0, y: 0}
     infiniteHorizontal: 1
     infiniteVertical: 0
   - layerType: 0
     parallaxSpriteRenderer: {fileID: 3696405527914470451}
-    parallaxSpeed: {x: 0.4, y: 0.4}
+    parallaxSpeed: {x: 0.65, y: 0.5}
     automaticSpeed: {x: 0, y: 0}
     infiniteHorizontal: 1
     infiniteVertical: 0
