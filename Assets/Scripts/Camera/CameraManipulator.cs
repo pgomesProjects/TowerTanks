@@ -113,6 +113,15 @@ namespace TowerTanks.Scripts
                 parallaxController.transform.position = Vector3.zero;                                                                   //Zero out position of parallax system
                 foreach (Transform child in parallaxController.transform) child.gameObject.layer = LayerMask.NameToLayer(camLayerName); //Put each parallax layer on a layer which can only be seen by this camera
 
+                //Perlin setup:
+                if (!radar) //The radar does not need to shake
+                {
+                    CinemachineBasicMultiChannelPerlin perlin = vcam.AddCinemachineComponent<CinemachineBasicMultiChannelPerlin>(); //Add perlin noise component to camera
+                    perlin.m_NoiseProfile = main.shakeNoiseProfile;                                                                 //Set noise profile to predetermined value
+                    perlin.m_AmplitudeGain = 0;                                                                                     //Have camera default to no noise
+                    perlin.m_FrequencyGain = 0;                                                                                     //Have camera default to no noise
+                }
+
                 //Cleanup:
                 tanks.Add(tank);                                                 //Add given tank controller as the first instance in list of tracked tanks
                 if (tank.tankType == TankId.TankType.PLAYER) isPlayerCam = true; //Mark whether or not this is the player tank's camera system
@@ -447,6 +456,7 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("List of camera systems being used to actively render tanks in scene.")] private List<TankCamSystem> camSystems = new List<TankCamSystem>();
         [Tooltip("Cam system used to control the radar camera.")]                                         private TankCamSystem radarSystem;
         [SerializeField, Tooltip("Prefab for parallax system instantiated for each camera.")]             private GameObject parallaxPrefab;
+        [SerializeField, Tooltip("Noise profile asset describing behavior of camera shake events.")]      private NoiseSettings shakeNoiseProfile;
 
         //Settings:
         [Header("General Settings:")]
@@ -473,8 +483,12 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("How far ahead of the player tank the radar can see."), Min(0)]                        private float radarRange;
         [Header("Offscreen Visualization Settings:")]
         [SerializeField, Tooltip("Roundness of collider corners around camera plane (smooths out edge UI)."), Min(0)] private float boundColliderEdgeRadius = 1;
+        [Header("Test Features:")]
+        [SerializeField] private float testShakeIntensity;
+        [SerializeField] private float testShakeDuration;
+        [Button("ShakeCamera", Icon = SdfIconType.PhoneVibrate)] private void TestShakeCam() { ShakeTankCamera(camSystems[0].tanks[0], testShakeIntensity, testShakeDuration); }
 
-        //Runtima Variables:
+        //Runtime Variables:
         private Canvas zoneVisCanvas;          //Generated canvas which contains visualizers for camera zones (used to position where cameras will render)
         private string[] camLayers;            //Array of all user-assigned camera layers in the game (used to make each separate cam exclusive of others)
         private Rect normalizedEngagementArea; //Normalized rectangle representing area on screen that engagement cameras are confined to and rendered in
@@ -585,6 +599,21 @@ namespace TowerTanks.Scripts
         {
             //Remove tank from camSystems:
             foreach (TankCamSystem camSystem in camSystems) if (camSystem.tanks[0] == tank) camSystem.CleanUpLater(); //Clean up main cam system for destroyed tank
+        }
+        /// <summary>
+        /// Finds tank for which this is the primary camera and shakes it according to given settings.
+        /// </summary>
+        public void ShakeTankCamera(TankController tank, ScreenshakeSettings settings)
+        {
+            ShakeTankCamera(tank, settings.intensity, settings.duration); //Get data out of settings and send it to other method.
+        }
+        public void ShakeTankCamera(TankController tank, float intensity, float duration)
+        {
+            if (tank == null) return;                                                                                  //Do not allow method to run with null camera
+            CinemachineVirtualCamera cam = null;                                                                       //Initialize container to store target camera
+            foreach (TankCamSystem system in camSystems) if (system.tanks[0] == tank) { cam = system.vcam; break; }    //Try to find system for which given tank is the main one
+            if (cam == null) { print("Could not find camSystem for given tank when attempting screenshake"); return; } //Indicate if tank cam could not be found
+            GameManager.Instance.SystemEffects.ShakeCamera(cam, intensity, duration);                                  //Shake found camera using given settings
         }
 
         //UTILITY METHODS:

@@ -268,6 +268,18 @@ namespace TowerTanks.Scripts
 
             StartCoroutine(ShakeCameraAnimation(currentCamera, screenshakeSettings.intensity, screenshakeSettings.duration));
         }
+        /// <summary>
+        /// Override for ShakeCamera that accepts raw values instead of a scriptable object.
+        /// </summary>
+        /// <param name="currentCamera">The current camera to shake (requires a Perlin Noise Profile on the camera to work).</param>
+        public void ShakeCamera(CinemachineVirtualCamera currentCamera, float intensity, float duration)
+        {
+            //If the users have Screenshake turned off or there are no settings, return
+            if (GameSettings.currentSettings.screenshakeOn == 0)
+                return;
+
+            StartCoroutine(ShakeCameraAnimation(currentCamera, intensity, duration));
+        }
 
         /// <summary>
         /// Coroutine that shakes the camera for a specified duration.

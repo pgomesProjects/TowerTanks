@@ -129,7 +129,10 @@ namespace TowerTanks.Scripts
                         Vector2 offset = Random.insideUnitCircle * 0.20f;
                         GameManager.Instance.ParticleSpawner.SpawnParticle(7, contact.point + offset, 0.6f, collision.collider.GetComponent<CollisionTransmitter>().target.GetComponent<Cell>().transform);
                     }
-                    
+                    float impactSpeed = contact.relativeVelocity.magnitude;                  //Get speed of impact from which to derive screenshake values
+                    float duration = Mathf.Lerp(0.1f, 0.5f, impactSpeed / 10);               //Use a clamped lerp to increase duration of screenshake proportionately to speed of impact, up to a certain maximum speed
+                    float intensity = Mathf.Lerp(0.1f, 1, impactSpeed / 10);                 //Use a clamped lerp to increase magnitude of screenshake proportionately to speed of impact, up to a certain maximum speed
+                    CameraManipulator.main.ShakeTankCamera(targetTank, intensity, duration); //Send shake command to be handled by camera manipulator (which can find the camera associated with this tank)
                 }
             }
         }

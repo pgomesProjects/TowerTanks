@@ -225,6 +225,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camSystems: []
   parallaxPrefab: {fileID: 3696405528154087446, guid: 2e6fa989fcf68194b8fc6210a215df86, type: 3}
+  shakeNoiseProfile: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
   maxTankCams: 3
   useRadar: 1
   engagementZoneTargeter: {fileID: 641975958061573031}
