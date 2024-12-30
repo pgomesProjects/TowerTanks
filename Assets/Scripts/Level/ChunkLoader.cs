@@ -12,7 +12,7 @@ namespace TowerTanks.Scripts
     {
         [Header("Objects")]
         [SerializeField, Tooltip("The parent to keep all ground pieces in when spawned.")] private Transform groundParentTransform;
-        [SerializeField, Tooltip("The chunk that the level starts with.")] private ChunkData startingChunk;
+        [SerializeField, Tooltip("The chunk that the level starts with.")] private ChunkData[] startingChunks;
 
         public Transform playerTank;
         public int currentChunk; //which chunk the player is currently on
@@ -128,10 +128,14 @@ namespace TowerTanks.Scripts
 
         private void InitializeStarterChunk()
         {
-            //Initialize starting chunk
-            startingChunk.InitializeChunk(Vector3.zero);
-            groundPool.Add(startingChunk);
+            //Initialize starting chunks
+            foreach (ChunkData chunk in startingChunks)
+            {
+                chunk.InitializeChunk(chunk.transform.localPosition);
+                groundPool.Add(chunk);
+            }
         }
+
         /// <summary>
         /// Creates an object pool of chunks, starting with the starting chunk, and then places them. If directions is 1, chunks will only spawn to the right.
         /// </summary>

@@ -36,7 +36,7 @@ namespace TowerTanks.Scripts
         {
             if (!isInitialized)
             {
-                transform.localPosition = position;
+                if (position != null) transform.localPosition = position;
                 isInitialized = true;
             }
         }
