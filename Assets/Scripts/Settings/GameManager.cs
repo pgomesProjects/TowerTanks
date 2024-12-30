@@ -414,6 +414,17 @@ namespace TowerTanks.Scripts
             return validInteractables;
         }
 
+        /// <summary>
+        /// Resets all static variables & values in the current session. Meant to be used on Game Over or Restart.
+        /// </summary>
+        public void ResetStaticValues()
+        {
+            LevelManager.totalEnemiesDestroyed = 0;
+            tankDesign = null;
+            cargoManifest = null;
+            StackManager.ClearStack();
+        }
+
         public bool SetCheatsMenuActive(bool cheatsActive) => CheatsMenuActive = cheatsActive;
     }
 }
