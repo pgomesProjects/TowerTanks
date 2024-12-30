@@ -378,11 +378,18 @@ namespace TowerTanks.Scripts
                     jetpackCanBeUsed = false;
                     characterHUD.SetButtonPrompt(GameAction.Jetpack, jetpackCanBeUsed);
                 }
+                jetpackVisuals.SetActive(true);
+                jetpackSmoke.Play();
             }
             else if (!jetpackCanBeUsed)
             {
                 jetpackCanBeUsed = true;
                 characterHUD.SetButtonPrompt(GameAction.Jetpack, jetpackCanBeUsed);
+            }
+            else
+            {
+                jetpackVisuals.SetActive(false);
+                jetpackSmoke.Stop(false, ParticleSystemStopBehavior.StopEmitting);
             }
         }
 
@@ -595,7 +602,10 @@ namespace TowerTanks.Scripts
 
             jetpackInputHeld = ctx.ReadValue<float>() > 0;
             if (ctx.ReadValue<float>() > 0 && currentState != CharacterState.OPERATING)
+            {
                 GameManager.Instance.AudioManager.Play("JetpackStartup", gameObject);
+                GameManager.Instance.ParticleSpawner.SpawnParticle(3, jetpackVisuals.transform.position, 0.1f, null);
+            }
         }
 
         public void OnInteract(InputAction.CallbackContext ctx)

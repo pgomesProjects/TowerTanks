@@ -24,6 +24,8 @@ namespace TowerTanks.Scripts
         protected Transform hands;
         protected Transform characterVisualParent;
         protected TaskProgressBar taskProgressBar;
+        protected GameObject jetpackVisuals;
+        protected ParticleSystem jetpackSmoke;
 
         protected Color characterColor = new Color(1, 1, 1, 1);
 
@@ -119,7 +121,11 @@ namespace TowerTanks.Scripts
             characterVisualParent = transform.GetChild(0);
             hands = characterVisualParent.Find("Hands");
             flames = characterVisualParent.Find("flames").gameObject;
+            jetpackVisuals = characterVisualParent.Find("jetpack").gameObject;
+            jetpackSmoke = characterVisualParent.Find("smokeTrail").GetComponent<ParticleSystem>();
             flames.SetActive(false);
+            jetpackVisuals.SetActive(false);
+            jetpackSmoke.Stop();
         }
 
         protected virtual void Start()
