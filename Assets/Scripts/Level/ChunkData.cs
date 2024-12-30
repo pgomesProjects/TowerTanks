@@ -62,6 +62,10 @@ namespace TowerTanks.Scripts
 
             if (color == Color.red) { newflag.name = "Flag (End)"; }
 
+            FlagSettings settings = newflag.GetComponent<FlagSettings>();
+            Sprite _sprite = TankManager.instance.tankFlagSprites[2];
+            settings.flagSprite = _sprite;
+
             currentFlag = newflag.transform;
         }
 
