@@ -12,7 +12,8 @@ namespace TowerTanks.Scripts
         private Transform scrapElements;   //Elements of connector which stick out of the open side when it is damaged
         internal Room room;                //The room this connector is a part of
         internal GameObject backWall;      //Object containing back wall of connector (will be moved and changed into a sprite mask by room kit)
-        
+        private GameObject deathWallMask;  //Mask used to hide walls when connector is removed
+
         [Tooltip("The two side walls for this connector.")] public GameObject[] walls;
         [Space()]
         [SerializeField] internal Cell cellA; //Cell on first side of the connector
@@ -30,7 +31,10 @@ namespace TowerTanks.Scripts
         }
             private void OnDestroy()
             {
-                Destroy(backWall); //Destroy back wall object (will probably be childed to back wall sprite object in room)
+                //Clean up walls:
+                Destroy(backWall);                                                   //Destroy back wall object (will probably be childed to back wall sprite object in room)
+                deathWallMask.transform.parent = room.outerWallController.transform; //Child death mask to the wall spriteRenderer which it will be masking out
+                deathWallMask.SetActive(true);                                       //Activate mask
             }
 
         //FUNCTIONALITY METHODS:
