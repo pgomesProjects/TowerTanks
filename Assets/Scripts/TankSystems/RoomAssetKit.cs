@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.U2D;
 
 namespace TowerTanks.Scripts
 {
@@ -31,24 +32,11 @@ namespace TowerTanks.Scripts
         }
 
         //Assets:
-        [Header("Essential Assets:")]
+        [Header("Back Wall:")]
         [Tooltip("Tiled sprite used for the back wall of the entire cell.")] public Sprite backWallSprite;
         [Tooltip("Scale of back wall sprite."), Min(0)]                      public float backWallScale = 1;
-        [Space()]
-        [Tooltip("Assets for upper wall of the cell.")] public RoomAsset[] cellTopWalls;
-        [Tooltip("Assets for right wall of the cell.")] public RoomAsset[] cellRightWalls;
-        [Tooltip("Assets for lower wall of the cell.")] public RoomAsset[] cellBottomWalls;
-        [Tooltip("Assets for left wall of the cell.")]  public RoomAsset[] cellLeftWalls;
-        [Space()]
-        [Tooltip("Corner piece for outside corners of walls with no neighbors.")]                  public RoomAsset[] wallCorner90 = new RoomAsset[4];
-        [Tooltip("Corner piece for straightaway walls that connect directly to neighbors.")]       public RoomAsset[] wallCorner180 = new RoomAsset[4];
-        [Tooltip("Corner piece for inside corner walls that connect to connectors or neighbors.")] public RoomAsset[] wallCorner270 = new RoomAsset[4];
-        [Tooltip("Corner piece for straightaway walls that connect to connectors.")]               public RoomAsset[] wallCornerConnector = new RoomAsset[4];
-        [Space()]
-        [Tooltip("Assets for upper wall of a connector.")] public RoomAsset[] connectorTopWalls;
-        [Tooltip("Assets for right wall of a connector.")] public RoomAsset[] connectorRightWalls;
-        [Tooltip("Assets for lower wall of a connector.")] public RoomAsset[] connectorBottomWalls;
-        [Tooltip("Assets for left wall of a connector.")]  public RoomAsset[] connectorLeftWalls;
+        [Header("Side Walls:")]
+        [Tooltip("Prefab containing sprite shape asset to be used for external wall.")] public GameObject spriteShapeProfile;
 
         //FUNCTIONALITY METHODS:
         /// <summary>
@@ -113,115 +101,35 @@ namespace TowerTanks.Scripts
                 }
             }
 
-            //Set up granular cell components:
-            RoomAsset[][] neswWallAssets = { cellTopWalls, cellRightWalls, cellBottomWalls, cellLeftWalls }; //Get array of all side wall asset sets
-            foreach (Cell cell in room.cells) //Iterate through cells in room
+            //Setup outline wall object:
+            if (room.outerWallController == null) //Outer wall object needs to be spawned
             {
-                //CELL WALLS:
-                for (int x = 0; x < 4; x++) //Iterate through each wall in cell
-                {
-                    //Validity checks:
-                    if (!cell.walls[x].activeSelf) continue;     //Skip walls which are disabled
-                    if (neswWallAssets[x].Length == 0) continue; //Skip walls which do not have a corresponding asset yet
+                //Generate object:
+                room.outerWallController = Instantiate(spriteShapeProfile).GetComponent<SpriteShapeController>(); //Instantiate sprite shape profile object and get controller out of it
+                room.outerWallController.transform.parent = room.transform;                                       //Child wall object to room
+                room.outerWallController.transform.localPosition = Vector3.zero;                                  //Move object on top of room (just for neatness)
 
-                    //Apply middle section of wall:
-                    GetAsset(neswWallAssets[x]).Apply(cell.walls[x].transform.Find("Middle").GetComponent<SpriteRenderer>()); //Assign a random wall from the appropriate wall asset list (this will be the flat section of the wall which does not need to adapt depending on adjacent cells).
-                    cell.walls[x].GetComponent<SpriteRenderer>().enabled = false;                                             //Disable placeholder sprite asset
+                //Move vertices:
+                room.outerWallController.spline.Clear(); //Start out by clearing spline
+                for (int x = 0; x < room.wallVerts.Length + 2; x++) //Iterate through room wall vertices, wrapping around the last two so that final wall and corner are included
+                {
+                    room.outerWallController.spline.InsertPointAt(x, room.wallVerts[x < room.wallVerts.Length ? x : x - room.wallVerts.Length] * (1 / spriteShapeProfile.transform.localScale.x)); //Insert spline point at world position of each room vertex point (adjust for scale of profile) (detect wrap so that wallvert index does not go out of bounds and instead overflows)
                 }
 
-                //CELL WALL CORNERS:
-                for (int x = 0; x < 4; x++) //Iterate through each of the four corners in the cell
+                //Hide demo walls:
+                foreach (Cell cell in room.cells) //Iterate through cells in room
                 {
-                    //Determine corner type:
-                    if (cell.connectors[x] != null) //Corner is on the counterclockwise (left) side of a connector
+                    foreach (GameObject wall in cell.walls) //Iterate through each wall in cell
                     {
-                        //USE CONNECTOR CORNER
-                    }
-                    else if (cell.connectors[x - 1 >= 0 ? x - 1 : 3] != null) //Corner is on the clockwise (right) side of a connector
-                    {
-                        //USE CONNECTOR CORNER
-                    }
-                    else if (cell.neighbors[x] != null || cell.neighbors[x - 1 >= 0 ? x - 1 : 3] != null) //Corner is being modified by at least one neighboring cell
-                    {
-                        if (cell.neighbors[x] != null && cell.neighbors[x - 1 >= 0 ? x - 1 : 3] != null) //Corner has a neighboring cell to its left and right
-                        {
-                            if (cell.neighbors[x].neighbors[x - 1 >= 0 ? x - 1 : 3] != null) //Corner is in the middle of a 2x2 arrangement of 4 cells
-                            {
-                                //CORNER IS INVISIBLE
-                            }
-                            else //Corner is in the middle of the inside elbow of an L-shaped arrangement of 3 cells
-                            {
-                                //USE 270 CORNER
-                            }
-                        }
-                        else //Corner is only being modified by one neighboring cell
-                        {
-                            if (cell.neighbors[x] != null) //Corner is part of a straightaway with its clockwise neighbor
-                            {
-                                //USE 180 CORNER
-                            }
-                            else //Corner is part of a straightaway with its counterclockwise neighbor
-                            {
-                                //USE 180 CORNER
-                            }
-                        }
-                    }
-                    else //Corner is not affected by any neighbors or connectors
-                    {
-                        wallCorner90[x].Apply(cell.corners[x]); //Use 90 degree corner, select corresponding one from corner array
-                    }
-                }
-
-                //CELL FLOORS:
-                if (cell.neighbors[2] == null) //Cell has no lower neighbors
-                {
-                    //PLACE FLOOR
-                }
-            }
-
-            //Set up connectors:
-            foreach (Connector connector in room.connectors) //Iterate through connectors in room
-            {
-                //NOTE: Add stuff to set up connector back wall mask with rest of the cells
-
-                //Set up walls:
-                if (connector.vertical) //Only left and right walls need to be set up
-                {
-                    //Get walls to modify:
-                    GameObject leftWall = connector.walls[0].transform.position.x < connector.walls[1].transform.position.x ? connector.walls[0] : connector.walls[1]; //Get leftmost wall in connector based on relative position
-                    GameObject rightWall = leftWall == connector.walls[0] ? connector.walls[1] : connector.walls[0];                                                   //Right wall is whichever wall left wall is not
-
-                    //Apply wall asset:
-                    if (connectorLeftWalls.Length > 0) //Only apply wall asset if one is present in kit
-                    {
-                        GetAsset(connectorLeftWalls).Apply(leftWall.transform.Find("Sprite").GetComponent<SpriteRenderer>()); //Assign a random wall from the appropriate wall asset list
-                        leftWall.GetComponent<SpriteRenderer>().enabled = false;                                              //Disable placeholder sprite asset
-                    }
-                    if (connectorRightWalls.Length > 0) //Only apply wall asset if one is present in kit
-                    {
-                        GetAsset(connectorRightWalls).Apply(rightWall.transform.Find("Sprite").GetComponent<SpriteRenderer>()); //Assign a random wall from the appropriate wall asset list
-                        rightWall.GetComponent<SpriteRenderer>().enabled = false;                                               //Disable placeholder sprite asset
-                    }
-                }
-                else //Only top and bottom walls need to be set up
-                {
-                    //Get walls to modify:
-                    GameObject topWall = connector.walls[0].transform.position.y > connector.walls[1].transform.position.y ? connector.walls[0] : connector.walls[1]; //Get uppermost wall in connector based on relative position
-                    GameObject bottomWall = topWall == connector.walls[0] ? connector.walls[1] : connector.walls[0];                                                  //Bottom wall is whichever wall top wall is not
-
-                    //Apply wall asset:
-                    if (connectorTopWalls.Length > 0) //Only apply wall asset if one is present in kit
-                    {
-                        GetAsset(connectorTopWalls).Apply(topWall.transform.Find("Sprite").GetComponent<SpriteRenderer>()); //Assign a random wall from the appropriate wall asset list
-                        topWall.GetComponent<SpriteRenderer>().enabled = false;                                             //Disable placeholder sprite asset
-                    }
-                    if (connectorBottomWalls.Length > 0) //Only apply wall asset if one is present in kit
-                    {
-                        GetAsset(connectorBottomWalls).Apply(bottomWall.transform.Find("Sprite").GetComponent<SpriteRenderer>()); //Assign a random wall from the appropriate wall asset list
-                        bottomWall.GetComponent<SpriteRenderer>().enabled = false;                                                //Disable placeholder sprite asset
+                        wall.GetComponent<SpriteRenderer>().enabled = false; //Disable spriterenderer for demo wall
                     }
                 }
             }
+            else //Room already has a wall object but is being re-kit
+            {
+                //Replace profile here
+            }
+
         }
     }
 }
