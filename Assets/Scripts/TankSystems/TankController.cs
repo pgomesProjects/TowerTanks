@@ -823,9 +823,18 @@ namespace TowerTanks.Scripts
                     }
                 }
 
+                DestructionEffects();
                 //GameManager.Instance.SystemEffects.ActivateSlowMotion(0.05f, 0.4f, 1.5f, 0.4f);
                 Destroy(gameObject);
             }
+        }
+
+        public void DestructionEffects()
+        {
+            GameManager.Instance.ParticleSpawner.SpawnParticle(18, treadSystem.transform.position, 1f);
+            GameManager.Instance.AudioManager.PlayRandomPitch("MedExplosionSFX", 0.2f, 0.5f, treadSystem.gameObject);
+            GameManager.Instance.AudioManager.PlayRandomPitch("CannonFire", 0.4f, 0.5f, treadSystem.gameObject);
+            GameManager.Instance.AudioManager.Play("LargeExplosionSFX", treadSystem.gameObject);
         }
 
         public void DespawnTank()

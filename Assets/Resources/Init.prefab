@@ -224,6 +224,7 @@ MonoBehaviour:
   isPaused: 0
   inBugReportMenu: 0
   inDebugMenu: 0
+  ignoreTutorials: 1
   _shopChance: 0
   tankDesign:
     TankName: 
@@ -1202,6 +1203,7 @@ MonoBehaviour:
   - {fileID: 8317756643219714684, guid: f237cd1c639164c46bee172d0b41d55c, type: 3}
   - {fileID: 5046753724322107359, guid: 3a00234ecfc55844fb946c59a90c47cd, type: 3}
   - {fileID: 1620070485275652822, guid: 47ca13bae53cdc341b9566bcb03f05a6, type: 3}
+  - {fileID: 7757385688290870796, guid: 3a601a2d5638d884c9bd906604528b39, type: 3}
   particleFolderPath: 
 --- !u!1 &6359139974781729948
 GameObject:

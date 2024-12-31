@@ -124,7 +124,7 @@
     "Type": "User",
     "GUID": "{37497F3A-0B2B-421A-8CAB-0ADBE8B1C2B4}",
     "Language": "SFX",
-    "Hash": "{C056AE95-5A09-E000-10B9-6EF4542CA319}",
+    "Hash": "{28C1BB1F-7567-4BA7-A853-37996EE953F4}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\mainbank",
     "ShortName": "mainbank",
     "Path": "mainbank.bnk",
@@ -191,7 +191,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "Red Sands _ Into the Breach OST [ ezmp3.cc ].wav",
-      "CachePath": "F6/{F69FF1C2-48D8-64F6-9FC8-2E1DFAE42E2D}.wem"
+      "CachePath": "87/{87C5F136-FC73-6158-06BF-D925B8EF108F}.wem"
      },
      {
       "Id": "172496222",
@@ -255,7 +255,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "Detritus _ Into the Breach OST [ ezmp3.cc ].wav",
-      "CachePath": "F7/{F7A4B858-03A6-6253-12C1-68D21531C62B}.wem"
+      "CachePath": "07/{07F6E475-9A7C-655B-FB21-556CE558DB3E}.wem"
      },
      {
       "Id": "320129091",
@@ -303,7 +303,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "The Blast Garden  Into the Breach OST.wav",
-      "CachePath": "0D/{0DA2239E-4182-710D-CE24-62D2D2A49D59}.wem"
+      "CachePath": "38/{382E58E6-8FD9-B2F1-134C-F4BC3DE8BF70}.wem"
      },
      {
       "Id": "401117418",
@@ -367,7 +367,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "Pinnacle Robotics _ Into the Breach OST [ ezmp3.cc ].wav",
-      "CachePath": "3B/{3BC3B4E6-E6AE-DC75-8E7B-A75C5C7A7719}.wem"
+      "CachePath": "14/{1465184A-0094-8081-4B66-07A489AE30E1}.wem"
      },
      {
       "Id": "500659198",
@@ -519,7 +519,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "The Blast Garden  Into the Breach OST.wav",
-      "CachePath": "08/{083BE96F-ECC4-0C42-42A9-6242AFB754AA}.wem"
+      "CachePath": "79/{797544CB-91C7-CE25-9BBA-37BF5FC41958}.wem"
      },
      {
       "Id": "661803067",
@@ -671,7 +671,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "TT_SFX_tank-engine.wav",
-      "CachePath": "61/{611351C9-36DF-02F6-C331-7B9A06130200}.wem"
+      "CachePath": "12/{12701A36-2314-5540-F4FF-662B73F6E4BE}.wem"
      },
      {
       "Id": "874009170",
@@ -775,7 +775,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "TT_SFX_tank-rolling.wav",
-      "CachePath": "74/{740CC3FC-BAF4-CCE5-86BE-B928E7E4E72E}.wem"
+      "CachePath": "4D/{4DAEA4C8-0CBD-1ABD-67F9-A04C307D0AE6}.wem"
      },
      {
       "Id": "1065158661",
@@ -1815,6 +1815,6 @@
     ]
    }
   ],
-  "FileHash": "{114963D5-1163-1633-40AC-95C020414578}"
+  "FileHash": "{6A13EC8C-D12C-6E71-53E6-5D81EFF2C3D8}"
  }
 }
