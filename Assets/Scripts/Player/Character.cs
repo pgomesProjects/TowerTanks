@@ -154,8 +154,7 @@ namespace TowerTanks.Scripts
             }
             
             currentFuel = Mathf.Clamp(currentFuel, 0, characterSettings.fuelAmount);
-            var includeLayer = (1 << LayerMask.NameToLayer("Cell")) |
-                               (1 << LayerMask.NameToLayer("Coupler"));
+            var includeLayer = 1 << LayerMask.NameToLayer("Cell");
             Transform newCellJoint = Physics2D.OverlapBox(
                 transform.position,
                 transform.localScale * 1.5f,
@@ -192,7 +191,7 @@ namespace TowerTanks.Scripts
                 Debug.Log($"Force applied: {tankRb.GetPointVelocity(transform.position)}");
             }
                 
-            transform.SetParent(null);
+            transform.SetParent(null, true);
             rb.interpolation = RigidbodyInterpolation2D.Interpolate;
             fullTankDismount = true;
 
@@ -208,7 +207,7 @@ namespace TowerTanks.Scripts
             if (cellToEnter != null) // we are still inside of a tank
             {
                 rb.interpolation = RigidbodyInterpolation2D.None;
-                transform.SetParent(cellToEnter);
+                transform.SetParent(cellToEnter, true);
                 softTankDismount = false;
                 fullTankDismount = false;
                 if (!Mathf.Approximately(transform.eulerAngles.z, cellToEnter.eulerAngles.z))
@@ -255,6 +254,8 @@ namespace TowerTanks.Scripts
             if (!softTankDismount || fullTankDismount) return;
             Gizmos.color = Color.Lerp(Color.blue, Color.red, Mathf.InverseLerp(0, tankDistanceToFullDismount, Vector3.Distance(transform.position, dismountPoint ? dismountPoint.position : transform.position)));
             Gizmos.DrawWireSphere(dismountPoint.position, tankDistanceToFullDismount);
+            Gizmos.DrawWireCube(transform.position, transform.localScale);
+            
         }
 
         /* TODO: Ladders are not triggers. Change this to use checksurfacecollider with the ladder layerindex
