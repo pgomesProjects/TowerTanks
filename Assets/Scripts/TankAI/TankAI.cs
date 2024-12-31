@@ -14,7 +14,7 @@ namespace TowerTanks.Scripts
     {
         #region Transition Conditions
         
-        private float GetDistanceToTarget() => Vector2.Distance(tank.treadSystem.transform.position, targetTank.treadSystem.transform.position);
+        public float GetDistanceToTarget() => Vector2.Distance(tank.treadSystem.transform.position, targetTank.treadSystem.transform.position);
         
         public bool TargetInViewRange() =>      targetTank != null &&
                                                 GetDistanceToTarget() < aiSettings.viewRange;
@@ -27,7 +27,7 @@ namespace TowerTanks.Scripts
         public bool TargetTooClose() =>         targetTank != null &&
                                                 GetDistanceToTarget() < aiSettings.preferredFightDistance;
         public bool TargetAtFightingDistance() => targetTank != null &&
-                                                    Mathf.Abs(GetDistanceToTarget() - aiSettings.preferredFightDistance) <= 25; //we are within 3 units of our preferred fighting distance (we are at our preferred distance)
+                                                    Mathf.Abs(GetDistanceToTarget() - aiSettings.preferredFightDistance) <= 5; 
         bool NoGuns() => !tank.interactableList.Any(i => i.script is GunController);
         #endregion
         

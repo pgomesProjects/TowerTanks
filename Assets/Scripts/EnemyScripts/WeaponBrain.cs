@@ -26,6 +26,7 @@ namespace TowerTanks.Scripts
         protected Vector3 targetPointOffset;
         protected bool miss;
         private bool started;
+        protected bool stopFiring = false;
 
         private void Awake()
         {
@@ -45,13 +46,13 @@ namespace TowerTanks.Scripts
         {
             gunScript.RotateBarrel(currentForce, false);
             
-            if (fireTimer < gunScript.rateOfFire) fireTimer += Time.deltaTime;
-            else if (!AimingAtMyself())
+            fireTimer += Time.deltaTime;
+            if (!AimingAtMyself() && fireTimer > gunScript.rateOfFire && !stopFiring)
             {
                 gunScript.Fire(true, gunScript.tank.tankType);
                 fireTimer = 0;
             }
-            else
+            if (AimingAtMyself())
             {
                 fireTimer = 0; // resets the timer, so a shot doesnt immediately fire after aiming at self for a while
             }
