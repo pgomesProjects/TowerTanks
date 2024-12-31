@@ -4950,3 +4950,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 7554503182677885181}
+  lifeTime: 3
+  xForceMultiplier: 1
+  yForceMultiplier: 1

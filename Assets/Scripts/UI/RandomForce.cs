@@ -8,8 +8,13 @@ namespace TowerTanks.Scripts
     {
         public Rigidbody2D rb;
         float randomRotation;
-        float lifeTime = 4f;
+        public float lifeTime = 4f;
         float shrinkTime = 1f;
+        public float xForceMultiplier = 1f;
+        public float yForceMultiplier = 1f;
+
+        public bool bounceExpire;
+        public int bounces; 
 
         // Start is called before the first frame update
         void Start()
@@ -25,7 +30,7 @@ namespace TowerTanks.Scripts
             float randomY = Random.Range(4f, 10f);
             if (randomX < 2f && randomX > -2f) randomY += 8f;
             transform.localScale *= randomS;
-            rb.AddForce(new Vector2(randomX, randomY), ForceMode2D.Impulse);
+            rb.AddForce(new Vector2(randomX * xForceMultiplier, randomY * yForceMultiplier), ForceMode2D.Impulse);
             rb.AddTorque(randomRotation);
         }
 
@@ -42,6 +47,19 @@ namespace TowerTanks.Scripts
                 if (transform.localScale.x < 0) transform.localScale = new Vector3(0, 0, 0);
             }
             if (lifeTime <= 0) Destroy(gameObject);
+        }
+
+        public void OnCollisionEnter2D(Collision2D collision)
+        {
+            if (bounceExpire)
+            {
+                bounces -= 1;
+                if (bounces <= 0)
+                {
+                    GameManager.Instance.ParticleSpawner.SpawnParticle(17, transform.position, 0.5f, null);
+                    Destroy(gameObject);
+                }
+            }
         }
     }
 }

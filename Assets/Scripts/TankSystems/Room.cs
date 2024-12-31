@@ -680,10 +680,14 @@ namespace TowerTanks.Scripts
         {
             transform.parent = newParent; //transfer room to a new parent object
             this.gameObject.layer = LayerMask.NameToLayer("Dummy");
+            List<Vector2> cellPositions = new List<Vector2>();
 
             //Strip Cells of Logic
             foreach (Cell cell in cells)
             {
+                //Add Position to List
+                cellPositions.Add(cell.transform.localPosition);
+
                 //Strip Interactables
                 cell.AddInteractablesFromCell();
 
@@ -704,6 +708,23 @@ namespace TowerTanks.Scripts
                 //Disable the Cell Script
                 cell.enabled = false;
             }
+
+            //Add Fire to Average Cell Position
+            Vector2 localAverage;
+            float x = 0;
+            float y = 0;
+            foreach (Vector2 pos in cellPositions)
+            {
+                x += pos.x;
+                y += pos.y;
+            }
+            x = x / cellPositions.Count;
+            y = y / cellPositions.Count;
+            localAverage = new Vector2(x, y);
+
+            GameObject fireball = roomData.fireBackLayer;
+            GameObject _fireball = Instantiate(fireball, localAverage, Quaternion.identity, this.transform);
+            _fireball.transform.localPosition = localAverage;
 
             //Add Rigidbody to Room
             Rigidbody2D rb = this.gameObject.AddComponent<Rigidbody2D>();
