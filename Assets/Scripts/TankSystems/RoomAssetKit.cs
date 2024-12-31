@@ -102,7 +102,7 @@ namespace TowerTanks.Scripts
             }
 
             //Setup outline wall object:
-            if (room.outerWallController == null) //Outer wall object needs to be spawned
+            if (room.outerWallController == null && room.wallVerts.Length > 0) //Outer wall object needs to be spawned (and room has vertices assigned)
             {
                 //Generate object:
                 room.outerWallController = Instantiate(spriteShapeProfile).GetComponent<SpriteShapeController>(); //Instantiate sprite shape profile object and get controller out of it

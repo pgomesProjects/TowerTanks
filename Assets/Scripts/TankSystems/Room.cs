@@ -171,6 +171,7 @@ namespace TowerTanks.Scripts
             //Initialization check:
             if (initialized) return; //Do not attempt to re-initialize a room
             initialized = true;      //Indicate that room has been initialized
+            print("Initializing room " + name);
 
             //Setup runtime variables:
             cells = new List<Cell>(GetComponentsInChildren<Cell>());                    //Get references to cells in room
@@ -181,8 +182,8 @@ namespace TowerTanks.Scripts
             dummyMat = roomData.dummyMaterial;                                          //Get Dummy Material used for DummyRooms
 
             //Get wall vertices:
-            wallVerts = new Vector2[transform.Find("WallVerts").childCount];                                                 //Resize vert array to fit number of wall vertices in room
-            for (int x = 0; x < wallVerts.Length; x++) wallVerts[x] = transform.Find("WallVerts").GetChild(x).localPosition; //Get local position of each set vertex and add to vert list
+            wallVerts = new Vector2[transform.Find("WallVerts").childCount];                                                                           //Resize vert array to fit number of wall vertices in room
+            if (wallVerts.Length > 0) for (int x = 0; x < wallVerts.Length; x++) wallVerts[x] = transform.Find("WallVerts").GetChild(x).localPosition; //Get local position of each set vertex and add to vert list (making sure there is at least one present vert
 
             //Set up child components:
             foreach (Connector connector in connectors) connector.Initialize(); //Initialize all connectors before setting up cells

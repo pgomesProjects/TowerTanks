@@ -46,6 +46,7 @@ namespace TowerTanks.Scripts
         [Tooltip("Back wall of cell, will be turned into sprite mask by room kit.")]                public GameObject backWall;
         [Tooltip("Pre-assigned cell walls (in NESW order) which confine players inside the tank.")] public GameObject[] walls;
         [Tooltip("Spriterenderes representing corners of cell wall.")]                              public SpriteRenderer[] corners = new SpriteRenderer[4];
+        [Tooltip("Mask used to hide cell walls when cell is destroyed.")]                           private GameObject deathWallMask;
         [Space()]
         [SerializeField, Tooltip("The interactable currently installed in this cell (if any).")]      internal TankInteractable interactable;
         [SerializeField, Tooltip("Transform used for repairmen to snap to when repairing this cell")] public Transform repairSpot;
@@ -166,6 +167,7 @@ namespace TowerTanks.Scripts
             c = GetComponent<BoxCollider2D>();   //Get local collider
             health = maxHealth;
             damageSprite = transform.Find("DiageticUI")?.GetComponent<SpriteRenderer>();
+            deathWallMask = transform.Find("DeathWallMask").gameObject;                  //Get object used to mask out cell walls in death
             cellAnimator = GetComponent<Animator>();
         }
         /// <summary>
@@ -476,6 +478,10 @@ namespace TowerTanks.Scripts
             AddInteractablesFromCell();         //Add cell interactables to stack
             room.targetTank.UpdateSizeValues(false); //Update highest cell tracker
 
+            //Update walls:
+            deathWallMask.transform.parent = room.outerWallController.transform; //Child death mask to the wall spriteRenderer which it will be masking out
+            deathWallMask.SetActive(true);                                       //Activate mask
+
             //Update Room Status:
             room.cells.Remove(this);                  //Remove this cell from parent room's list of cells
             room.cellManifest[manifestIndex] = false; //Indicate to room that this cell is missing and should be saved as such
@@ -508,6 +514,11 @@ namespace TowerTanks.Scripts
         /// </summary>
         public void Pull()
         {
+            //Update walls:
+            deathWallMask.transform.parent = room.outerWallController.transform; //Child death mask to the wall spriteRenderer which it will be masking out
+            deathWallMask.SetActive(true);                                       //Activate mask
+
+            //Update everything else:
             room.cells.Remove(this); //Take this cell out of its parent room's list
             CleanUpCollision();      //Clean up collision elements
             for (int x = 0; x < connectors.Length; x++) //Iterate through list of connectors (all need to be destroyed)
