@@ -627,7 +627,7 @@ SpriteMask:
   m_BackSortingLayer: 0
   m_FrontSortingOrder: 13
   m_BackSortingOrder: 12
-  m_IsCustomRangeActive: 1
+  m_IsCustomRangeActive: 0
   m_SpriteSortPoint: 0
 --- !u!1 &4149942186224917561
 GameObject:
