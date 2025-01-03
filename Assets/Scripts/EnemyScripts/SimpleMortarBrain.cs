@@ -7,6 +7,8 @@ namespace TowerTanks.Scripts
     public class SimpleMortarBrain : WeaponBrain
     {
         private float minChargeTime = 3f;
+        
+        private float HowFarFromTarget() => Mathf.Abs(aimHit.point.x - targetPoint.x);
 
         protected override void Update()
         {
@@ -16,14 +18,19 @@ namespace TowerTanks.Scripts
             
             bool diffIsPositive = diff.x >= 0;
             
-            if (myTankAI.TankIsRightOfTarget() && gunScript.chargeTimer < minChargeTime && aimHitPoint.x - targetPoint.x > 2)
+            if (myTankAI.TankIsRightOfTarget() && gunScript.chargeTimer < minChargeTime && HowFarFromTarget() > 2)
             {
                 gunScript.ChargeMortar(diffIsPositive);
             }
 
-            if (Vector3.Distance(aimHitPoint, targetPoint) > 8)
+            if (HowFarFromTarget() > 15)
             {
-                fireTimer = 0; //mortar wont fire if its way way off from hitting 
+                Debug.Log("Distance: " + HowFarFromTarget());
+                stopFiring = true; //mortar wont fire if its way way off from hitting 
+            }
+            else
+            {
+                stopFiring = false;
             }
         }
         protected override IEnumerator AimAtTarget(float refreshRate = .001f, bool everyFrame = true)
@@ -42,10 +49,7 @@ namespace TowerTanks.Scripts
 
                 Vector3 aimHitPoint = aimHit.point;
                 if (aimHitPoint == Vector3.zero) aimHitPoint = trajectoryPoints[^1];
-
-                float HowFarFromTarget() => Mathf.Abs(aimHitPoint.x - targetPoint.x);
-
-                maxTurnSpeed = .75f;
+                
                 var distFactor = Mathf.InverseLerp(0, 2, HowFarFromTarget());
                 var moveSpeed = Mathf.Lerp(minTurnSpeed, maxTurnSpeed, distFactor);
                 // Determine if the hit point is above or below the projected point

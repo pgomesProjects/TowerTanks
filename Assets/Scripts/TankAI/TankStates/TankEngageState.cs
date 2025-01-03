@@ -8,7 +8,7 @@ namespace TowerTanks.Scripts
     {
         private TankAI _tankAI;
         private TankController _tank;
-        private float heartbeatTimer = 1f;
+        private float heartbeatTimer = 1;
 
         public TankEngageState(TankAI tank)
         {
@@ -21,11 +21,13 @@ namespace TowerTanks.Scripts
             var dir = _tankAI.TankIsRightOfTarget() ? -1 : 1;
             if (_tankAI.HasActiveThrottle())
             {
-                if (!_tankAI.TargetAtFightingDistance()) dir *= 2; //if we are at our fighting distance, it just use a speed setting of 1 instead of 2
-                if (_tankAI.TargetTooClose())
-                {
-                    _tank.SetTankGearOverTime(-dir, .15f);
-                }
+                if (!_tankAI.TargetAtFightingDistance()) dir *= 2;
+                if (_tankAI.TargetAtFightingDistance() && Random.Range(0, 2) == 0) dir = 0; //if we are at our fighting distance, stop moving.
+                                                                                               //i have a random 50/50 for if the tank stops entirely
+                if (_tankAI.TargetTooClose())                                               //at the fight distance, or keeps moving a little bit.         
+                {                                                                           //so, at fight distance, it should move a few inches
+                    _tank.SetTankGearOverTime(-dir, .15f);        //every now and then. just humanizes the movement a bit
+                }                                                                           
                 else
                 {
                     _tank.SetTankGearOverTime(dir, .15f);

@@ -5118,7 +5118,7 @@ MonoBehaviour:
   couplerStickDeadzone: 0.5
   ladderDismountDeadzone: 0.5
   ladderEnterDeadzone: 0.75
-  ladderDetectionRadius: 0.05
+  ladderDetectionRadius: 0.1
   maxSlope: 95
   maxYVelocity: 5
   maxXVelocity: 5

@@ -170,6 +170,10 @@ namespace TowerTanks.Scripts
                 ShakePlayer();
 
             currentLadder = Physics2D.OverlapCircle(transform.position, ladderDetectionRadius, ladderLayer)?.gameObject;
+            if (!currentLadder && !CheckSurfaceCollider(18))
+            { //if no ladder is detected on us, and we arent on a coupler (layer 18), check below. this is for ladders that go up out of a tank
+                currentLadder = Physics2D.OverlapCircle(transform.position - transform.up, ladderDetectionRadius, ladderLayer)?.gameObject;
+            }
 
             //Interactable building:
             if (buildCell != null) //Player is currently in build mode
@@ -407,8 +411,10 @@ namespace TowerTanks.Scripts
                 1 << LayerMask.NameToLayer("Coupler"));
             var onLadder = Physics2D.OverlapBox(transform.position, Vector3.one * .33f, transform.eulerAngles.z,
                 1 << LayerMask.NameToLayer("Ladder"));
-            var hitGround = Physics2D.Raycast(transform.position, -transform.up, transform.localScale.y * .5f,
+            var hitGround = Physics2D.Raycast(transform.position, -transform.up, transform.localScale.y * .7f,
                 1 << LayerMask.NameToLayer("Ground"));
+            var ladderUnderMe = Physics2D.OverlapBox(transform.position - transform.up, Vector3.one * .33f, transform.eulerAngles.z,
+                1 << LayerMask.NameToLayer("Ladder"));
 
             Vector3 displacement = transform.up * ((moveInput.y > 0 ? ladderClimbUpSpeed : ladderClimbDownSpeed) *
                                                    moveInput.y * Time.deltaTime);
@@ -416,13 +422,13 @@ namespace TowerTanks.Scripts
             // If you hit ground, and you're trying to move down, stop climbing.
             // If you're not on a coupler or ladder, and you're trying to move up, stop climbing.
             // This makes it so you can climb up through couplers, if the coupler is at the end of the ladder.
-            if ((hitGround && moveInput.y < 0) || (!onCoupler && !onLadder && moveInput.y > 0))
+            if (((hitGround && !ladderUnderMe) && moveInput.y < 0) || (!onCoupler && !onLadder && moveInput.y > 0))
             {
                 displacement = Vector3.zero;
             }
             
             if (!onCoupler &&
-                !onLadder) //final failsafe for if you're somehow in this state and not in a ladder or coupler
+                !onLadder && !ladderUnderMe) //final failsafe for if you're somehow in this state and not in a ladder or coupler
             {
                 SwitchOffLadder();
             }
@@ -430,7 +436,13 @@ namespace TowerTanks.Scripts
             Vector3 newPosition = transform.position + displacement;
             rb.MovePosition(newPosition);
             
-            if (Mathf.Abs(moveInput.x) > ladderDismountDeadzone || jetpackInputHeld)
+            if (Mathf.Abs(moveInput.x) > ladderDismountDeadzone)
+            {
+                if (!CheckGround()) SwitchOffLadder(startJump:true);
+                else SwitchOffLadder();
+            }
+
+            if (jetpackInputHeld)
             {
                 SwitchOffLadder();
             }
@@ -566,8 +578,8 @@ namespace TowerTanks.Scripts
 
             SetCharacterMovement(ctx.ReadValue<Vector2>());
 
-            if (((moveInput.y > ladderEnterDeadzone) || (moveInput.y < -ladderEnterDeadzone && !CheckGround())) &&
-                (currentLadder != null && currentState != CharacterState.CLIMBING))
+            if ((moveInput.y > ladderEnterDeadzone || moveInput.y < -ladderEnterDeadzone) &&
+                currentLadder != null && currentState != CharacterState.CLIMBING)
             {
                 //if up is pressed above the deadzone, if down is pressed under the deadzone and we aren't grounded, and if we are near a ladder and we aren't already climbing
                 SetLadder();
