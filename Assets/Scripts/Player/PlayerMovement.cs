@@ -243,6 +243,13 @@ namespace TowerTanks.Scripts
                 {
                     GameManager.Instance.AudioManager.Stop("JetpackRocket", gameObject);
                 }
+
+                if (jetpackVisuals.activeInHierarchy == true)
+                {
+                    jetpackVisuals.SetActive(false);
+                    jetpackSmoke.Stop(false, ParticleSystemStopBehavior.StopEmitting);
+                }
+
                 characterHUD?.UpdateFuelBar((currentFuel / characterSettings.fuelAmount) * 100f);
             }
 
