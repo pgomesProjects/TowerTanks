@@ -159,9 +159,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fea0bc18cc7b2b459d06e46afba26a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  assetKit: {fileID: 0}
+  ladderCells: []
+  assetKit: {fileID: 11400000, guid: 530fa040df4a8014d8d7b5abd56e4bdf, type: 2}
   isCore: 0
   type: 0
+  ignoreRoomKit: 1
 --- !u!1 &1469998333765858813
 GameObject:
   m_ObjectHideFlags: 0
@@ -786,6 +788,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7737954280297247946}
     m_Modifications:
+    - target: {fileID: 7130123517119372721, guid: dc6cecb12a490e5499e650da19ca3b9b, type: 3}
+      propertyPath: m_RootOrder
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8667256878992978240, guid: dc6cecb12a490e5499e650da19ca3b9b, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -860,6 +866,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7130123517119372721, guid: dc6cecb12a490e5499e650da19ca3b9b, type: 3}
+      propertyPath: m_RootOrder
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8667256878992978240, guid: dc6cecb12a490e5499e650da19ca3b9b, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -922,6 +932,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7737954280297247946}
     m_Modifications:
+    - target: {fileID: 7130123517119372721, guid: dc6cecb12a490e5499e650da19ca3b9b, type: 3}
+      propertyPath: m_RootOrder
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8667256878992978240, guid: dc6cecb12a490e5499e650da19ca3b9b, type: 3}
       propertyPath: m_RootOrder
       value: 0

@@ -616,7 +616,7 @@ namespace TowerTanks.Scripts
             if (ctx.ReadValue<float>() > 0 && currentState != CharacterState.OPERATING)
             {
                 GameManager.Instance.AudioManager.Play("JetpackStartup", gameObject);
-                GameManager.Instance.ParticleSpawner.SpawnParticle(3, jetpackVisuals.transform.position, 0.1f, null);
+                GameManager.Instance.ParticleSpawner.SpawnParticle(19, jetpackVisuals.transform.position, 0.05f, null);
             }
         }
 

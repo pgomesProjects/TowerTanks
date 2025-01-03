@@ -4950,6 +4950,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 7554503182677885181}
-  lifeTime: 3
+  lifeTime: 2
   xForceMultiplier: 1
   yForceMultiplier: 1
+  bounceExpire: 0
+  bounceParticle: 0
+  bounceParticleId: 0
+  expireParticle: 0
+  expireParticleId: 0
+  bounces: 1

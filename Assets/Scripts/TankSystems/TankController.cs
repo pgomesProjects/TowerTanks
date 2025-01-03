@@ -831,9 +831,10 @@ namespace TowerTanks.Scripts
 
         public void DestructionEffects()
         {
-            GameManager.Instance.ParticleSpawner.SpawnParticle(18, treadSystem.transform.position, 1f);
-            GameManager.Instance.AudioManager.PlayRandomPitch("MedExplosionSFX", 0.2f, 0.5f, treadSystem.gameObject);
-            GameManager.Instance.AudioManager.PlayRandomPitch("CannonFire", 0.4f, 0.5f, treadSystem.gameObject);
+            GameObject particle = GameManager.Instance.ParticleSpawner.SpawnParticle(18, treadSystem.transform.position, 1.25f);
+            particle.transform.rotation = towerJoint.transform.rotation;
+            GameManager.Instance.AudioManager.PlayRandomPitch("MedExplosionSFX", 0.4f, 0.8f, treadSystem.gameObject);
+            GameManager.Instance.AudioManager.PlayRandomPitch("CannonFire", 0.6f, 0.7f, treadSystem.gameObject);
             GameManager.Instance.AudioManager.Play("LargeExplosionSFX", treadSystem.gameObject);
         }
 

@@ -14,6 +14,10 @@ namespace TowerTanks.Scripts
         public float yForceMultiplier = 1f;
 
         public bool bounceExpire;
+        public bool bounceParticle; //spawn a particle when bouncing?
+        public int bounceParticleId;
+        public bool expireParticle; //spawn a particle when expiring?
+        public int expireParticleId;
         public int bounces; 
 
         // Start is called before the first frame update
@@ -56,8 +60,13 @@ namespace TowerTanks.Scripts
                 bounces -= 1;
                 if (bounces <= 0)
                 {
-                    GameManager.Instance.ParticleSpawner.SpawnParticle(17, transform.position, 0.5f, null);
+                    if (expireParticle) GameManager.Instance.ParticleSpawner.SpawnParticle(expireParticleId, transform.position, 0.5f, null);
                     Destroy(gameObject);
+                }
+
+                if (bounceParticle)
+                {
+                    GameManager.Instance.ParticleSpawner.SpawnParticle(bounceParticleId, transform.position, 0.2f, null);
                 }
             }
         }

@@ -65,6 +65,8 @@ namespace TowerTanks.Scripts
         /// </summary>
         public void KitRoom(Room room)
         {
+            if (room.ignoreRoomKit) return; //Don't kit the room if we want to ignore it
+
             //First-time back wall setup:
             if (backWallSprite != null && room.backWallSprite == null) //Room does not already have a back wall sprite
             {
