@@ -64,14 +64,18 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("Amount of damage treads can take.")]                                            private float treadMaxHealth = 200f;
         [SerializeField, Tooltip("Tread health regeneration factor (in points per second).")]                     private float healthRegenRate;
         [SerializeField, Tooltip("Health value below which treads will jam, and above which treads will unjam.")] private float unjamHealthThreshold = 60f;
-        
+
+        [Header("Animation:")]
+        [SerializeField, Tooltip("Gear in the center of the treadbase.")]   private Transform centerGear;
+        [SerializeField, Tooltip("Modifies speed of center gear."), Min(0)] private float centerGearSpeedScale;
+
         [Button("JamTreads", Icon = SdfIconType.Wrench)]
         private void JamTreads() { Damage(treadHealth); }
 
         //Runtime Variables:
         private bool initialized; //True if tread system has already been set up
 
-        public float engineRPM;       //Speed (in rotations per minute) at which engine is currently turning
+        internal float engineRPM;      //Speed (in rotations per minute) at which engine is currently turning
         internal int gear;             //Basic designator for current direction and speed the tank is set to move in (0 = Neutral)
         private float brakeSaturation; //Time tank has spent braking (ticks up when brakes are active, ticks down when brakes are inactive)
         [Tooltip("Value between -1 and 1 representing current real normalized position of throttle.")] private float throttleValue; //Current value of the throttle, adjusted over time based on acceleration and gear for smooth movement
@@ -108,11 +112,12 @@ namespace TowerTanks.Scripts
                 tread.localScale = new Vector3(treadWidth, tread.localScale.y, 1);                  //Scale tread to target length
             }
 
-            //Update mass (editor):
-            /*if (Application.isEditor) //Only do this update while testing
+            //Animate:
+            if (centerGear != null) //Big treadbase gear is present
             {
-                ReCalculateMass();
-            }*/
+                float gearSpeed = engineRPM * centerGearSpeedScale;             //Get angular speed at which gear is to be rotated (use engine speed because it's a useful piece of information to subtly break out)
+                centerGear.Rotate(Vector3.forward, gearSpeed * Time.deltaTime); //Rotate gear
+            }
         }
         private void FixedUpdate()
         {

@@ -33,7 +33,8 @@ namespace TowerTanks.Scripts
             {
                 //Clean up walls:
                 Destroy(backWall);                                                   //Destroy back wall object (will probably be childed to back wall sprite object in room)
-                deathWallMask.transform.parent = room.outerWallController.transform; //Child death mask to the wall spriteRenderer which it will be masking out
+                print("oog");
+                deathWallMask.transform.parent = room.outerWallController.transform; //Child death mask to the wall spriteRenderer which it will be masking out 
                 deathWallMask.SetActive(true);                                       //Activate mask
             }
 
@@ -48,11 +49,12 @@ namespace TowerTanks.Scripts
             initialized = true;      //Indicate that connector has been initialized
 
             //Get objects & components:
-            room = GetComponentInParent<Room>();                   //Get parent room
-            intactElements = transform.Find("IntactElements");     //Get intact elements container
-            damagedElements = transform.Find("DamagedElements");   //Get damaged elements container
-            scrapElements = damagedElements.Find("ScrapElements"); //Get scrap elements container
-            backWall = transform.Find("BackWall").gameObject;      //Get back wall object
+            room = GetComponentInParent<Room>();                        //Get parent room
+            intactElements = transform.Find("IntactElements");          //Get intact elements container
+            damagedElements = transform.Find("DamagedElements");        //Get damaged elements container
+            scrapElements = damagedElements.Find("ScrapElements");      //Get scrap elements container
+            backWall = transform.Find("BackWall").gameObject;           //Get back wall object
+            deathWallMask = transform.Find("DeathWallMask").gameObject; //Get death mask object
         }
         public float Damage(Projectile projectile, Vector2 point)
         {

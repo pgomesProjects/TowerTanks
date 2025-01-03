@@ -45,7 +45,7 @@ namespace TowerTanks.Scripts
         [Header("Cell Components:")]
         [Tooltip("Back wall of cell, will be turned into sprite mask by room kit.")]                public GameObject backWall;
         [Tooltip("Pre-assigned cell walls (in NESW order) which confine players inside the tank.")] public GameObject[] walls;
-        [Tooltip("Spriterenderes representing corners of cell wall.")]                              public SpriteRenderer[] corners = new SpriteRenderer[4];
+        [Tooltip("Points at corners of cell's outer wall, used to generate wall.")]                 public Transform[] corners = new Transform[4];
         [Tooltip("Mask used to hide cell walls when cell is destroyed.")]                           private GameObject deathWallMask;
         [Space()]
         [SerializeField, Tooltip("The interactable currently installed in this cell (if any).")]      internal TankInteractable interactable;
@@ -213,7 +213,6 @@ namespace TowerTanks.Scripts
                             neighbors[x].connectors[(x + 2) % 4] = connector; //Give connection information to neighbor
                             connector.cellB = neighbors[x];                   //Indicate to connector that it is attached to neighbor
                         }
-
                     }
                 }
             }
@@ -523,17 +522,33 @@ namespace TowerTanks.Scripts
             CleanUpCollision();      //Clean up collision elements
             for (int x = 0; x < connectors.Length; x++) //Iterate through list of connectors (all need to be destroyed)
             {
+                //Destroy connectors:
                 if (connectors[x] == null) continue;                             //Skip empty connector slots
                 Cell otherCell = connectors[x].GetOtherCell(this);               //Get neighbor on other side of connector from this cell
                 if (otherCell != null) otherCell.connectors[(x + 2) % 4] = null; //Remove neighbor's reference to this connector if applicable
                 Destroy(connectors[x].gameObject);                               //Destroy connector
                 connectors[x] = null;                                            //Clear reference to destroyed connector
+
+                //Add wall cap:
+                Transform wallCap = Instantiate(Resources.Load<GameObject>("TankPrefabs/WallCap").transform); //Instantiate a wall cap visual to put over hole created by pulling connector
+                wallCap.parent = otherCell.transform;                                                         //Child cap to relevant cell
+                wallCap.transform.position = otherCell.walls[(x + 2) % 4].transform.position;                 //Match cap position to wall position
+                wallCap.transform.localScale = Vector3.one;                                                   //Clean up local scale
+                wallCap.transform.Rotate(Vector3.forward, 180 - 90 * x);                                      //Rotate cap to match direction of wall opening
             }
             for (int x = 0; x < neighbors.Length; x++) //Iterate through list of neighbors (all need to be updated)
             {
+                //Reactivate neighbor wall:
                 if (neighbors[x] == null) continue;              //Skip empty neighbor slots
                 neighbors[x].neighbors[(x + 2) % 4] = null;      //Clear neighbor reference to this cell
                 neighbors[x].walls[(x + 2) % 4].SetActive(true); //Re-activate neighbor's wall facing this cell
+
+                //Add wall cap:
+                Transform wallCap = Instantiate(Resources.Load<GameObject>("TankPrefabs/WallCap").transform); //Instantiate a wall cap visual to put over hole created by pulling connector
+                wallCap.parent = neighbors[x].transform;                                                      //Child cap to relevant cell
+                wallCap.transform.position = neighbors[x].walls[(x + 2) % 4].transform.position;              //Match cap position to wall position
+                wallCap.transform.localScale = Vector3.one;                                                   //Clean up local scale
+                wallCap.transform.Rotate(Vector3.forward, 180 - 90 * x);                                      //Rotate cap to match direction of wall opening
             }
             while (couplers.Count > 0) //Iterate until there are no couplers left on this cell
             {
