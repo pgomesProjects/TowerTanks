@@ -17,7 +17,8 @@ MonoBehaviour:
   hasSplashDamage: 1
   splashData:
   - splashDamage: 25
-    splashRadius: 2.5
+    splashRadius: 2.25
   tunnels: 0
   fireChance: 1
   ignoresArmor: 0
+  slamForce: 0

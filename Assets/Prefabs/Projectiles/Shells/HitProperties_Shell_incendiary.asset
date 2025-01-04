@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ea903d9b1b0c834c990915fdaf5cb15, type: 3}
   m_Name: HitProperties_Shell_incendiary
   m_EditorClassIdentifier: 
-  damage: 30
+  damage: 50
   mass: 1
   hasSplashDamage: 1
   splashData:
   - splashDamage: 15
-    splashRadius: 1.5
+    splashRadius: 1.75
   tunnels: 0
   fireChance: 1
   ignoresArmor: 0
+  slamForce: 1

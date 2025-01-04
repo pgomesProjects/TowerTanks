@@ -197,6 +197,7 @@ namespace TowerTanks.Scripts
                 {
                     IBurnable fireTarget = hitCollider.GetComponent<IBurnable>();                       //Try to get fire receipt component from collider object
                     if (fireTarget == null) fireTarget = hitCollider.GetComponentInParent<IBurnable>(); //If fire receipt component is not in collider object, look in parent objects
+                    if (hitCollider.gameObject.layer == LayerMask.NameToLayer("EnergyShield")) fireTarget = null; //don't light energy shield parent on fire
                     if (fireTarget != null) //Projectile can light something on fire
                     {
                         if (Random.Range(0f, 1f) <= hitProperties.fireChance) fireTarget.Ignite(); //Roll a random chance depending on projectile-defined likelihood of fire and ignite target if roll is high enough
@@ -228,6 +229,7 @@ namespace TowerTanks.Scripts
                             //Fire check:
                             IBurnable fireTarget = collider.GetComponent<IBurnable>(); //Try to get fire receipt component from collider object
                             if (fireTarget == null) fireTarget = collider.GetComponentInParent<IBurnable>(); //If fire receipt component is not in collider object, look in parent objects
+                            if (collider.gameObject.layer == LayerMask.NameToLayer("EnergyShield")) fireTarget = null; //don't light energy shield parent on fire
                             if (fireTarget != null && !burnedThisHit.Contains(fireTarget))                   //Projectile can light something on fire (and burn has not already been attempted on this target)
                             {
                                 if (Random.Range(0f, 1f) <= hitProperties.fireChance) fireTarget.Ignite(); //Roll a random chance depending on projectile-defined likelihood of fire and ignite target if roll is high enough
