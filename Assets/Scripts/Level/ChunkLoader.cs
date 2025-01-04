@@ -468,7 +468,7 @@ namespace TowerTanks.Scripts
         public bool CheckEndFlag()
         {
             bool hasRedFlag = false;
-            Transform flag = groundPool[currentChunk - 2].currentFlag;
+            Transform flag = groundPool[currentChunk - 1].currentFlag;
             if (flag != null)
             {
                 if (flag.gameObject.name == "Flag (End)")

@@ -76,12 +76,15 @@ namespace TowerTanks.Scripts
                 chunksTraveled += 1;
             }
 
-            bool endLevel = chunkLoader.CheckEndFlag();
-            if (endLevel == true && levelEnded == false)
+            if (endFlagExists)
             {
-                Debug.Log("Level Finished!");
-                playerTank.Transition();
-                levelEnded = true;
+                bool endLevel = chunkLoader.CheckEndFlag();
+                if (endLevel == true && levelEnded == false)
+                {
+                    Debug.Log("Level Finished!");
+                    playerTank.Transition();
+                    levelEnded = true;
+                }
             }
         }
 
