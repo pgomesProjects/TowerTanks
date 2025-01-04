@@ -711,7 +711,11 @@ namespace TowerTanks.Scripts
                 //Strip Couplers
                 foreach(Coupler coupler in cell.couplers)
                 {
-                    if (coupler != null) coupler.gameObject.SetActive(false);
+                    if (coupler != null)
+                    {
+                        GameManager.Instance.ParticleSpawner.SpawnParticle((int)Random.Range(0, 3), coupler.transform.position, 0.1f, null);
+                        coupler.gameObject.SetActive(false);
+                    }
                 }
 
                 //Convert to a Dummy Cell

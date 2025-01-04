@@ -376,7 +376,13 @@ namespace TowerTanks.Scripts
                     if (couplerNeighbor != null && !connectedCells.Contains(couplerNeighbor)) connectedCells.Add(couplerNeighbor); //Add neighbor if it isn't already found in list
                 }
             }
+
+            //(RYAN) Here's where I want it to check whether or not this cell's parent room is still connected to the tank.
+            //If it is:
             Kill(); //Kill cell if it has not found a connection to the core
+            //If it isn't: {
+            //if (Room.tank.corpseInstance == null) Room.Tank.GenerateCorpse();
+            //Room.MakeDummy(Room.tank.corpseInstance.transform); }
         }
         /// <summary>
         /// Obliterates cell and updates adjacency info for other cells.
@@ -443,6 +449,7 @@ namespace TowerTanks.Scripts
                         detachedNeighbors.RemoveAt(x);        //Indicate that this neighborhood has been dealt with
                         foreach (Cell cell in connectedCells) //Iterate through each cell in disconnected neighborhood
                         {
+                            //(Ryan) Add Dummy Logic here
                             cell.Kill(true); //Destroy cell (proxy setting prevents them from each having to separately check for breakoff)
                         }
                     }

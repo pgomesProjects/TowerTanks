@@ -36,6 +36,7 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("Target transform in tread system which tower joint locks onto.")] private Transform towerJointTarget;
         [SerializeField, Tooltip("When true, the tank cannot take damage.")] public bool isInvincible;
         [SerializeField, Tooltip("When true, the tank transfers all damage it takes to its core.")] public bool isFragile;
+        [SerializeField, Tooltip("Current corpse object assigned to this tank.")] public GameObject corpseInstance;
         
         public Cell upMostCell = null;    
         public Cell leftMostCell = null;  
@@ -807,18 +808,19 @@ namespace TowerTanks.Scripts
                 }
 
                 //Handle Destruction Logic
-                GameObject corpse = Instantiate(corpsePrefab, null, true); //Generate a new Corpse Parent Object
-                corpse.transform.position = towerJoint.transform.position;
-                corpse.name = TankName + " (Corpse)"; //Name it accordingly
+                if (corpseInstance == null)
+                {
+                    GenerateCorpse();
+                }
 
                 foreach (Room room in rooms) //Make all current rooms in the tank into DummyRooms, then child them to the Corpse
                 {
                     if (!room.isCore) //Except the core
                     {
-                        room.MakeDummy(corpse.transform);
+                        room.MakeDummy(corpseInstance.transform);
                         CorpseController.DummyObject _object = new CorpseController.DummyObject();
                         _object.dummyObject = room.gameObject;
-                        corpse.GetComponent<CorpseController>().objects.Add(_object);
+                        corpseInstance.GetComponent<CorpseController>().objects.Add(_object);
                         room.enabled = false;
                     }
                 }
@@ -836,6 +838,16 @@ namespace TowerTanks.Scripts
             GameManager.Instance.AudioManager.PlayRandomPitch("MedExplosionSFX", 0.4f, 0.8f, treadSystem.gameObject);
             GameManager.Instance.AudioManager.PlayRandomPitch("CannonFire", 0.6f, 0.7f, treadSystem.gameObject);
             GameManager.Instance.AudioManager.Play("LargeExplosionSFX", treadSystem.gameObject);
+        }
+
+        public void GenerateCorpse()
+        {
+            if (corpseInstance != null) return;
+
+            GameObject corpse = Instantiate(corpsePrefab, null, true); //Generate a new Corpse Parent Object
+            corpse.transform.position = towerJoint.transform.position;
+            corpse.name = TankName + " (Corpse)"; //Name it accordingly
+            corpseInstance = corpse;
         }
 
         public void DespawnTank()
