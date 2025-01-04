@@ -568,17 +568,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 975085553}
     m_Modifications:
-    - target: {fileID: 801505083565531132, guid: 55a2de1c12df41647b2333975b669960, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1372034088680711591, guid: 55a2de1c12df41647b2333975b669960, type: 3}
       propertyPath: m_RootOrder
       value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1526581371669013675, guid: 55a2de1c12df41647b2333975b669960, type: 3}
-      propertyPath: m_RootOrder
-      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1610890902606889458, guid: 55a2de1c12df41647b2333975b669960, type: 3}
       propertyPath: m_Sprites.Array.size
@@ -693,17 +685,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 975085553}
     m_Modifications:
-    - target: {fileID: 801505083565531132, guid: 55a2de1c12df41647b2333975b669960, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1372034088680711591, guid: 55a2de1c12df41647b2333975b669960, type: 3}
       propertyPath: m_RootOrder
       value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1526581371669013675, guid: 55a2de1c12df41647b2333975b669960, type: 3}
-      propertyPath: m_RootOrder
-      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1610890902606889458, guid: 55a2de1c12df41647b2333975b669960, type: 3}
       propertyPath: m_Sprites.Array.size
@@ -802,17 +786,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 975085553}
     m_Modifications:
-    - target: {fileID: 801505083565531132, guid: 55a2de1c12df41647b2333975b669960, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1372034088680711591, guid: 55a2de1c12df41647b2333975b669960, type: 3}
       propertyPath: m_RootOrder
       value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1526581371669013675, guid: 55a2de1c12df41647b2333975b669960, type: 3}
-      propertyPath: m_RootOrder
-      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1610890902606889458, guid: 55a2de1c12df41647b2333975b669960, type: 3}
       propertyPath: m_Sprites.Array.size
@@ -911,17 +887,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 975085553}
     m_Modifications:
-    - target: {fileID: 801505083565531132, guid: 55a2de1c12df41647b2333975b669960, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1372034088680711591, guid: 55a2de1c12df41647b2333975b669960, type: 3}
       propertyPath: m_RootOrder
       value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1526581371669013675, guid: 55a2de1c12df41647b2333975b669960, type: 3}
-      propertyPath: m_RootOrder
-      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1610890902606889458, guid: 55a2de1c12df41647b2333975b669960, type: 3}
       propertyPath: m_Sprites.Array.size
@@ -1150,17 +1118,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 975085553}
     m_Modifications:
-    - target: {fileID: 801505083565531132, guid: 55a2de1c12df41647b2333975b669960, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1372034088680711591, guid: 55a2de1c12df41647b2333975b669960, type: 3}
       propertyPath: m_RootOrder
       value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1526581371669013675, guid: 55a2de1c12df41647b2333975b669960, type: 3}
-      propertyPath: m_RootOrder
-      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1610890902606889458, guid: 55a2de1c12df41647b2333975b669960, type: 3}
       propertyPath: m_Sprites.Array.size
@@ -1622,7 +1582,7 @@ MonoBehaviour:
     tankType: 0
     gameObject: {fileID: 1411317892}
     design: {fileID: 4900000, guid: 0ae7f54292a46314da4951bdac3723a3, type: 3}
-    buildOnStart: 1
+    buildOnStart: 0
 --- !u!1 &511407189
 GameObject:
   m_ObjectHideFlags: 0
@@ -2199,17 +2159,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 975085553}
     m_Modifications:
-    - target: {fileID: 801505083565531132, guid: 55a2de1c12df41647b2333975b669960, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1372034088680711591, guid: 55a2de1c12df41647b2333975b669960, type: 3}
       propertyPath: m_RootOrder
       value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1526581371669013675, guid: 55a2de1c12df41647b2333975b669960, type: 3}
-      propertyPath: m_RootOrder
-      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1610890902606889458, guid: 55a2de1c12df41647b2333975b669960, type: 3}
       propertyPath: m_Sprites.Array.size
@@ -3068,7 +3020,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1372034088680711591, guid: 55a2de1c12df41647b2333975b669960, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1526581371669013675, guid: 55a2de1c12df41647b2333975b669960, type: 3}
       propertyPath: m_RootOrder
@@ -3096,7 +3048,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
     - target: {fileID: 1656039896013798289, guid: 55a2de1c12df41647b2333975b669960, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2182343647866508265, guid: 55a2de1c12df41647b2333975b669960, type: 3}
       propertyPath: m_RootOrder
@@ -3112,7 +3064,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4624054823319381545, guid: 55a2de1c12df41647b2333975b669960, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5259366190194711448, guid: 55a2de1c12df41647b2333975b669960, type: 3}
       propertyPath: m_RootOrder
@@ -3160,7 +3112,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9153368504887486215, guid: 55a2de1c12df41647b2333975b669960, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 55a2de1c12df41647b2333975b669960, type: 3}
@@ -3550,8 +3502,8 @@ MonoBehaviour:
   currentChunk: 0
   lastChunk: 0
   chunksTraveled: 0
-  minTriggerDistance: 1
-  maxTriggerDistance: 3
+  minTriggerDistance: 2
+  maxTriggerDistance: 4
   eventSpawnCooldown: 4
   shopChance: 0
   endFlagExists: 0
@@ -4313,15 +4265,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groundParentTransform: {fileID: 975085553}
   startingChunks:
-  - {fileID: 421784667}
-  - {fileID: 1670015891}
-  - {fileID: 513791271}
-  - {fileID: 1067676809}
-  - {fileID: 1391356129}
-  - {fileID: 1613622965}
-  - {fileID: 245264025}
-  - {fileID: 642585251}
   - {fileID: 1204112369}
+  - {fileID: 642585251}
+  - {fileID: 245264025}
+  - {fileID: 1613622965}
+  - {fileID: 1391356129}
+  - {fileID: 1067676809}
+  - {fileID: 513791271}
+  - {fileID: 1670015891}
+  - {fileID: 421784667}
   playerTank: {fileID: 1018531887}
   currentChunk: 0
   chunkPrefabs:
@@ -4686,17 +4638,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 975085553}
     m_Modifications:
-    - target: {fileID: 801505083565531132, guid: 55a2de1c12df41647b2333975b669960, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1372034088680711591, guid: 55a2de1c12df41647b2333975b669960, type: 3}
       propertyPath: m_RootOrder
       value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1526581371669013675, guid: 55a2de1c12df41647b2333975b669960, type: 3}
-      propertyPath: m_RootOrder
-      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1610890902606889458, guid: 55a2de1c12df41647b2333975b669960, type: 3}
       propertyPath: m_Sprites.Array.size

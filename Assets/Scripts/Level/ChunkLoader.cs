@@ -67,7 +67,7 @@ namespace TowerTanks.Scripts
             }
             else
             {
-                InitializeStarterChunk();
+                InitializeStarterChunks();
             }
         }
 
@@ -126,13 +126,17 @@ namespace TowerTanks.Scripts
             }
         }
 
-        private void InitializeStarterChunk()
+        private void InitializeStarterChunks()
         {
+            chunkCounter = 0;
+
             //Initialize starting chunks
             foreach (ChunkData chunk in startingChunks)
             {
                 chunk.InitializeChunk(chunk.transform.localPosition);
                 groundPool.Add(chunk);
+                chunkCounter += 1;
+                chunk.chunkNumber = chunkCounter;
             }
         }
 
@@ -141,11 +145,10 @@ namespace TowerTanks.Scripts
         /// </summary>
         private void InitializeChunks(int directions)
         {
-            InitializeStarterChunk();
+            InitializeStarterChunks();
 
             float direction = -1f;
             if (directions == 1) direction = 1f;
-            chunkCounter = 0;
             previousY = 0f;
 
             //Creates each chunk in the world
@@ -164,14 +167,15 @@ namespace TowerTanks.Scripts
                 ChunkData chunkData = null;
 
                 bool presetCheck = CheckForPreset();
+                float xOffset = ChunkData.CHUNK_WIDTH * (chunkCounter - startingChunks.Length) * direction;
 
                 if (presetCheck)
                 {
-                    chunkData = InstantiatePreset(true, new Vector3(ChunkData.CHUNK_WIDTH * chunkCounter * direction, previousY, 0f));
+                    chunkData = InstantiatePreset(true, new Vector3(xOffset, previousY, 0f));
                 }
                 else
                 {
-                    chunkData = InstantiateChunk(new Vector3(ChunkData.CHUNK_WIDTH * chunkCounter * direction, previousY, 0f));
+                    chunkData = InstantiateChunk(new Vector3(xOffset, previousY, 0f));
                     groundPool.Add(chunkData);
                     chunkData.chunkNumber = chunkCounter;
                 }
@@ -186,14 +190,14 @@ namespace TowerTanks.Scripts
                         if (previousChunk.GetComponent<ChunkData>() != null) //it's a normal chunk
                         {
                             chunkCounter++;
-                            chunkData = InstantiateChunk(new Vector3(ChunkData.CHUNK_WIDTH * chunkCounter * direction, previousY, 0f), previousChunk);
+                            chunkData = InstantiateChunk(new Vector3(xOffset, previousY, 0f), previousChunk);
                             groundPool.Add(chunkData);
                             chunkData.chunkNumber = chunkCounter;
                         }
                         else
                         {
                             chunkCounter++;
-                            chunkData = InstantiatePreset(false, new Vector3(ChunkData.CHUNK_WIDTH * chunkCounter * direction, previousY, 0f), previousChunk);
+                            chunkData = InstantiatePreset(false, new Vector3(xOffset, previousY, 0f), previousChunk);
                         }
                         if (chunkData.yOffset != 0) previousY += chunkData.yOffset;
                     }
@@ -464,7 +468,7 @@ namespace TowerTanks.Scripts
         public bool CheckEndFlag()
         {
             bool hasRedFlag = false;
-            Transform flag = groundPool[currentChunk].currentFlag;
+            Transform flag = groundPool[currentChunk - 2].currentFlag;
             if (flag != null)
             {
                 if (flag.gameObject.name == "Flag (End)")
@@ -732,6 +736,14 @@ namespace TowerTanks.Scripts
                     chunk = _chunk;
                 }
             }
+
+            return chunk;
+        }
+
+        public ChunkData GetChunkAtIndex(int index)
+        {
+            ChunkData chunk = null;
+            chunk = groundPool[index];
 
             return chunk;
         }
