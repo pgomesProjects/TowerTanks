@@ -66,7 +66,12 @@ namespace TowerTanks.Scripts
 
                 if (bounceParticle)
                 {
-                    GameManager.Instance.ParticleSpawner.SpawnParticle(bounceParticleId, transform.position, 0.2f, null);
+                    Vector2 current = transform.position;
+                    Vector2 spawnPoint = collision.contacts[0].point;
+                    Vector2 direction = (spawnPoint - current).normalized;
+                    
+                    GameObject particle = GameManager.Instance.ParticleSpawner.SpawnParticle(bounceParticleId, spawnPoint, 0.2f, null);
+                    particle.transform.rotation = Quaternion.FromToRotation(Vector2.up, direction) * particle.transform.rotation;
                 }
             }
         }
