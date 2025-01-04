@@ -297,6 +297,8 @@ namespace TowerTanks.Scripts
                     else HitEffects(4f);
                 }
             }
+
+            UpdateUI();
         }
 
         public void HitEffects(float speedScale)
@@ -611,7 +613,7 @@ namespace TowerTanks.Scripts
             {
                 burnDamageTimer = burnDamageRate;
 
-                if (health >= maxHealth * 0.25f) Damage(5f);
+                if (health >= maxHealth * 0.25f) Damage(5f, true);
 
                 if (interactable != null)
                 {
