@@ -48,7 +48,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4080648382595742368}
   - component: {fileID: 8683510367267135492}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -216,7 +216,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7443947177137698948}
   - component: {fileID: 4926776665273466923}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5392,9 +5392,11 @@ MonoBehaviour:
     useDefaultListeners: 1
   isEnvironmentAware: 0
   isStaticObject: 0
+  usePositionOffsetData: 0
   m_positionOffsetData:
     KeepMe: 0
     positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
   m_posOffsetData: {fileID: 0}
   listenerMask: 1
 --- !u!1 &7337001366534925170
@@ -5547,7 +5549,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6750002515504816181}
   - component: {fileID: 7292122206081488053}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Square_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5631,7 +5633,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5610189657245038979}
   - component: {fileID: 7927215979409657375}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Circle_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}

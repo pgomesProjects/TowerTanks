@@ -20,7 +20,7 @@ namespace TowerTanks.Scripts
         void Start()
         {
             ApplyForces();
-            StartCountdown(4f);
+            //StartCountdown(4f);
         }
 
         private void FixedUpdate()

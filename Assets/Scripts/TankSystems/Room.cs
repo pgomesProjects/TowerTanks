@@ -6,6 +6,7 @@ using CustomEnums;
 using Sirenix.OdinInspector;
 using UnityEditor.SceneManagement;
 using UnityEngine.U2D;
+using UnityEngine.Rendering;
 
 namespace TowerTanks.Scripts
 {
@@ -699,6 +700,34 @@ namespace TowerTanks.Scripts
             this.gameObject.layer = LayerMask.NameToLayer("Dummy");
             List<Vector2> cellPositions = new List<Vector2>();
 
+            //Conversions
+            Transform[] children = transform.GetComponentsInChildren<Transform>();
+            foreach (Transform child in children)
+            {
+                //Convert Physics Layers
+                if (child.gameObject.layer == LayerMask.NameToLayer("Ground") || child.gameObject.layer == LayerMask.NameToLayer("Connector"))
+                { 
+                    child.gameObject.layer = LayerMask.NameToLayer("Dummy");
+                }
+
+                //Convert Visual Layers
+                SpriteRenderer renderer = child.gameObject.GetComponent<SpriteRenderer>();
+                if (renderer != null && child.gameObject.layer != LayerMask.NameToLayer("Item")) 
+                { 
+                    renderer.sortingLayerName = "Background";
+                    SortingGroup group = child.gameObject.GetComponent<SortingGroup>();
+                    if (group != null) group.sortingLayerName = "Background";
+                }
+
+                SpriteShapeRenderer _renderer = child.gameObject.GetComponent<SpriteShapeRenderer>();
+                if (_renderer != null)
+                {
+                    _renderer.sortingLayerName = "Background";
+                    SortingGroup group = child.gameObject.GetComponent<SortingGroup>();
+                    if (group != null) group.sortingLayerName = "Background";
+                }
+            }
+            
             //Strip Cells of Logic
             foreach (Cell cell in cells)
             {
@@ -720,8 +749,8 @@ namespace TowerTanks.Scripts
 
                 //Convert to a Dummy Cell
                 cell.gameObject.layer = LayerMask.NameToLayer("Dummy");
-                Transform[] children = cell.GetComponentsInChildren<Transform>();
-                foreach(Transform transform in children)
+                Transform[] _children = cell.GetComponentsInChildren<Transform>();
+                foreach(Transform transform in _children)
                 {
                     transform.gameObject.layer = LayerMask.NameToLayer("Dummy");
                 }
