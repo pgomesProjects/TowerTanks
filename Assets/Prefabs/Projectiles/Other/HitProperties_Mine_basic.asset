@@ -23,3 +23,4 @@ MonoBehaviour:
   tunnels: 0
   fireChance: 0.05
   ignoresArmor: 0
+  slamForce: 10

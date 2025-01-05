@@ -414,8 +414,8 @@ public static class AkCallbackManager
 							var msg = "Wwise: " + AkMonitoringCallbackInfo.message;
 							ParseCallbackInfoMessage(ref msg);
 
-							if (AkMonitoringCallbackInfo.errorLevel == AkMonitorErrorLevel.ErrorLevel_Error)
-								UnityEngine.Debug.LogError(msg);
+							if (AkMonitoringCallbackInfo.errorLevel == AkMonitorErrorLevel.ErrorLevel_Error) { }
+								//UnityEngine.Debug.LogError(msg);
 							else
 								UnityEngine.Debug.Log(msg);
 						}

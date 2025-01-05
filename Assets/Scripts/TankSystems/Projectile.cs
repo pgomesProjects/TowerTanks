@@ -19,7 +19,7 @@ namespace TowerTanks.Scripts
         [Tooltip("Describes damage effect this projectile has on struck targets.")] public ProjectileHitProperties hitProperties;
 
         [Header("Travel Properties:")]
-        [SerializeField, Tooltip("Maximum lifetime of this projectile.")]          public float maxLife; 
+        [SerializeField, Tooltip("Maximum lifetime of this projectile. Set to -1 for infinite.")] public float maxLife; 
         [SerializeField, Tooltip("Radius of projectile collider.")]                public float radius;
         [SerializeField, Tooltip("Causes projectile to lose velocity over time.")] public float drag;
         [SerializeField, Tooltip("How fast this projectile falls.")]               public float gravity;
@@ -55,8 +55,11 @@ namespace TowerTanks.Scripts
 
             CheckforCollision();
 
-            timeAlive += Time.deltaTime;
-            if (timeAlive >= maxLife) Hit(null, true);
+            if (maxLife > -1)
+            {
+                timeAlive += Time.deltaTime;
+                if (timeAlive >= maxLife) Hit(null, true);
+            }
         }
 
         private void FixedUpdate()
@@ -178,7 +181,7 @@ namespace TowerTanks.Scripts
                     if (!hitProperties.tunnels) remainingDamage = 0;           //Make sure non-tunneling projectiles are terminated upon hit
                 }
                 else if (hitCollider.CompareTag("Ground")) //Hit the Ground
-                {
+                { 
                     remainingDamage = 0; //Always destroy projectiles that hit the ground (by reducing their remaining damage to zero)
                 }
                 else if (hitCollider.CompareTag("Shell")) //Hit another projectile

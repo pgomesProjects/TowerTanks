@@ -356,8 +356,12 @@ namespace TowerTanks.Scripts
         /// <returns>Remaining damage after projectile damage is assigned (used for tunneling)</returns>
         public float Damage(Projectile projectile, Vector2 position)
         {
+            //Check For Land Mine
+            bool overrideRelative = false;
+            if (projectile.type == Projectile.ProjectileType.OTHER) { overrideRelative = true; }
+
             //Handle projectile effects:
-            HandleImpact(projectile, position); //Handle impact from projectile
+            HandleImpact(projectile, position, overrideRelative); //Handle impact from projectile
             Damage(projectile.remainingDamage); //Assign damage to treads
 
             //Other effects:
@@ -383,12 +387,15 @@ namespace TowerTanks.Scripts
         /// </summary>
         /// <param name="projectile">Projectile doing the impact.</param>
         /// <param name="point">Point of impact.</param>
-        public void HandleImpact(Projectile projectile, Vector2 point)
+        /// <param name="overrideRelative">Ignores projectile's relative velocity (used for stationary projectiles)</param>
+        public void HandleImpact(Projectile projectile, Vector2 point, bool overrideRelative = false)
         {
             if (r == null) return;
 
             //Handle initial impact:
             Vector2 relativeVelocity = projectile.velocity - r.GetPointVelocity(point); //Get difference in velocity between projectile and tread system at point of impact
+            float sign = Mathf.Sign(projectile.transform.position.x - transform.position.x);
+            if (overrideRelative) relativeVelocity = new Vector2(40 * -sign, 40) - r.GetPointVelocity(point);
             Vector2 impactForce = projectile.hitProperties.mass * relativeVelocity;     //Get impact force as result of mass times (relative) velocity
             HandleImpact(impactForce, point);                                           //Pass to basic impact handler
 

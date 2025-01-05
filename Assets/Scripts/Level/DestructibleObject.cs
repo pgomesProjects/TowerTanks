@@ -44,6 +44,7 @@ namespace TowerTanks.Scripts
                 {
                     if (projectile.type == Projectile.ProjectileType.OTHER)
                     {
+                        projectile.remainingDamage = 0;
                         projectile.Hit(null);
                     }
                 }
