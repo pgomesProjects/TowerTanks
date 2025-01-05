@@ -8,6 +8,8 @@ namespace TowerTanks.Scripts
     {
         //Objects & Components
         [Tooltip("Transforms to spawn particles from when used."), SerializeField] private Transform[] particleSpots;
+        private Animator animator;
+        private bool isOverheating;
 
         //Settings:
         [Header("Engine Settings:")]
@@ -73,6 +75,8 @@ namespace TowerTanks.Scripts
 
             maxTargetCharge = maxChargeTime - (targetChargeOffset * 2f);
             minTargetCharge = (targetChargeOffset * 2f);
+
+            animator = GetComponent<Animator>();
         }
 
         // Update is called once per frame
@@ -162,21 +166,27 @@ namespace TowerTanks.Scripts
         {
             float lowerSpeed = pressureReleaseSpeed * Time.deltaTime;
             float pressureDif = (50f + (pressure * 0.5f)) / 100f; //slows down the closer it gets to 0
+            float smokeMultiplier = 1f;
 
             if (!chargeStarted && repairInputHeld && isPowered)
             {
                 lowerSpeed *= 10f;
+                smokeMultiplier = 10f;
                 if (!GameManager.Instance.AudioManager.IsPlaying("SteamExhaustLoop", this.gameObject)) GameManager.Instance.AudioManager.Play("SteamExhaustLoop", this.gameObject);
             }
             else if (GameManager.Instance.AudioManager.IsPlaying("SteamExhaustLoop", this.gameObject)) GameManager.Instance.AudioManager.Stop("SteamExhaustLoop", this.gameObject);
 
             if (pressure > 0)
             {
-                if (!isPowered) isPowered = true;
+                if (!isPowered)
+                {
+                    isPowered = true;
+                    particleSpots[2].gameObject.SetActive(true);
+                }
                 pressure -= lowerSpeed * pressureDif;
 
                 //Puff Smoke
-                smokePuffTimer += Time.deltaTime;
+                smokePuffTimer += Time.deltaTime * smokeMultiplier;
                 if (smokePuffTimer >= smokePuffRate)
                 {
                     smokePuffTimer = 0;
@@ -189,6 +199,8 @@ namespace TowerTanks.Scripts
                 {
                     if (GameManager.Instance.AudioManager.IsPlaying("SteamExhaustLoop", this.gameObject)) GameManager.Instance.AudioManager.Stop("SteamExhaustLoop", this.gameObject);
                     GameManager.Instance.AudioManager.Play("SteamExhaust");
+                    GameManager.Instance.ParticleSpawner.SpawnParticle(19, particleSpots[0].position, 0.1f, transform);
+                    particleSpots[2].gameObject.SetActive(false);
                     isPowered = false;
                 }
                 pressure = 0;
@@ -197,6 +209,18 @@ namespace TowerTanks.Scripts
             if (pressure < dangerZoneThreshold)
             {
                 if (explosionChance != explosionChanceOriginal) { explosionChance = explosionChanceOriginal; }
+                if (isOverheating) { 
+                    isOverheating = false;
+                    animator.Play("Default", 0, 0);
+                }
+            }
+            else
+            {
+                if (!isOverheating) {
+                    isOverheating = true;
+                    animator.Play("Overheat", 0, 0); 
+                }
+
             }
 
         }

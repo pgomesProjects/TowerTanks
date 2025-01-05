@@ -1614,7 +1614,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6493220104010530252}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.008, y: 0.464, z: -0.35}
+  m_LocalPosition: {x: -0.008, y: 0.216, z: -0.35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1874,6 +1874,7 @@ GameObject:
   - component: {fileID: 6509196919286349231}
   - component: {fileID: -4983016872044679315}
   - component: {fileID: 2323315364589482199}
+  - component: {fileID: 7148809975794954828}
   m_Layer: 0
   m_Name: InterEngineer_Boiler
   m_TagString: Untagged
@@ -1930,6 +1931,7 @@ MonoBehaviour:
   particleSpots:
   - {fileID: 4223996395297889378}
   - {fileID: 828606465616710838}
+  - {fileID: 6184290690538193444}
   isPowered: 0
   power: 0
   isSurging: 0
@@ -1999,11 +2001,33 @@ MonoBehaviour:
     useDefaultListeners: 1
   isEnvironmentAware: 0
   isStaticObject: 0
+  usePositionOffsetData: 0
   m_positionOffsetData:
     KeepMe: 0
     positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
   m_posOffsetData: {fileID: 0}
   listenerMask: 1
+--- !u!95 &7148809975794954828
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8306713773444683921}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d4aae6b752a5a3842b32dc164c6a5f51, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8529339176062166826
 GameObject:
   m_ObjectHideFlags: 0
@@ -2076,7 +2100,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 7
+  m_SortingOrder: 8
   m_Sprite: {fileID: 129677499, guid: c39905a66569ea647b9901d2aa957efc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
