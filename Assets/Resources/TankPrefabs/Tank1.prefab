@@ -1811,6 +1811,7 @@ MonoBehaviour:
   towerJointTarget: {fileID: 1677695871312723229}
   isInvincible: 0
   isFragile: 0
+  corpseInstance: {fileID: 0}
   upMostCell: {fileID: 0}
   leftMostCell: {fileID: 0}
   rightMostCell: {fileID: 0}
@@ -2253,9 +2254,9 @@ MonoBehaviour:
   cellWeight: 1
   maximumRelativeImpactHeight: 7
   gearPositions: 5
-  baseEnginePower: 100
-  boilerPowerAdd: 100
-  boilerSurgePower: 50
+  baseEnginePower: 0
+  boilerPowerAdd: 125
+  boilerSurgePower: 75
   minRPM: 0
   maxRPM: 7000
   RPMAccelFactor: 0.025
@@ -2375,6 +2376,7 @@ MonoBehaviour:
   unjamHealthThreshold: 60
   centerGear: {fileID: 1098652911147423295}
   centerGearSpeedScale: 0.08
+  engineRPM: 0
 --- !u!50 &1677695872800944110
 Rigidbody2D:
   serializedVersion: 4

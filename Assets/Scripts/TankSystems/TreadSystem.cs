@@ -75,7 +75,7 @@ namespace TowerTanks.Scripts
         //Runtime Variables:
         private bool initialized; //True if tread system has already been set up
 
-        internal float engineRPM;      //Speed (in rotations per minute) at which engine is currently turning
+        public float engineRPM;      //Speed (in rotations per minute) at which engine is currently turning
         internal int gear;             //Basic designator for current direction and speed the tank is set to move in (0 = Neutral)
         private float brakeSaturation; //Time tank has spent braking (ticks up when brakes are active, ticks down when brakes are inactive)
         [Tooltip("Value between -1 and 1 representing current real normalized position of throttle.")] private float throttleValue; //Current value of the throttle, adjusted over time based on acceleration and gear for smooth movement
@@ -163,7 +163,7 @@ namespace TowerTanks.Scripts
                     GameObject particle = GameManager.Instance.ParticleSpawner.SpawnParticle(14, randomPos, particleScale, transform);
 
                     //Smoke Particle
-                    GameManager.Instance.ParticleSpawner.SpawnParticle(3, randomPos, particleScale, null);
+                    GameManager.Instance.ParticleSpawner.SpawnParticle(3, randomPos, particleScale, transform);
 
                     //Randomize Rotation
                     float randomRot = Random.Range(0f, 360f);
@@ -183,6 +183,7 @@ namespace TowerTanks.Scripts
 
             //Update engine RPM:
             float targetRPM = Mathf.Lerp(-maxRPM, maxRPM, Mathf.InverseLerp(-1, 1, throttleValue));                                   //Get target RPM based on value of throttle
+            if (GetEnginePower() == 0 || isJammed) targetRPM = 0;
             engineRPM = Mathf.Lerp(engineRPM, targetRPM, RPMAccelFactor);                                                             //Adjust RPM based on RPM acceleration factor (physics approximation, I dunno how to actually relate this accurately to throttle)
             float driveTorque = engineTorqueCurve.Evaluate(Mathf.Abs(engineRPM) / maxRPM) * Mathf.Sign(engineRPM) * GetEnginePower(); //Get amount of torque exerted by engine based on current RPM, maximum engine power, and engine torque curve
             if (isJammed) driveTorque = 0;                                                                                            //Cancel ALL drive torque if treads are jammed
