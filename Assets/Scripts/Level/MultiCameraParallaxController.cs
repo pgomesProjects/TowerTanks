@@ -30,6 +30,9 @@ namespace TowerTanks.Scripts
         private Vector3 lastCameraPosition;
         private bool camInitialized;
 
+        public Color[] desertColorPalette;
+        public bool useDesertPalette;
+
         private void Start()
         {
             //Set the texture unit size of all the background pieces
@@ -38,6 +41,15 @@ namespace TowerTanks.Scripts
                 Sprite sprite = layer.parallaxSpriteRenderer.sprite;
                 Texture2D texture = sprite.texture;
                 layer.SetTextureUnitSize(new Vector2(texture.width / sprite.pixelsPerUnit, texture.height / sprite.pixelsPerUnit) * layer.parallaxSpriteRenderer.transform.localScale);
+            }
+
+            for (int i = 0; i < parallaxLayers.Count; i++)
+            {
+                if (useDesertPalette)
+                {
+                    SpriteRenderer renderer = parallaxLayers[i].parallaxSpriteRenderer;
+                    if (renderer != null) renderer.color = desertColorPalette[i];
+                }
             }
 
             InitCamera();

@@ -111,6 +111,7 @@ namespace TowerTanks.Scripts
                 parallaxController.gameObject.name = "Parallax_" + cam.name;                                                            //Rename parallax object for clarity
                 parallaxController.AddCameraToParallax(cam);                                                                            //Add this camera to controller so it is tracked properly
                 parallaxController.transform.position = Vector3.zero;                                                                   //Zero out position of parallax system
+                if (parallaxController.useDesertPalette) cam.backgroundColor = parallaxController.desertColorPalette[0];                //Use alternate background color if bool is checked
                 foreach (Transform child in parallaxController.transform) child.gameObject.layer = LayerMask.NameToLayer(camLayerName); //Put each parallax layer on a layer which can only be seen by this camera
 
                 //Perlin setup:
