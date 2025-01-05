@@ -198,7 +198,7 @@ namespace TowerTanks.Scripts
                 if (isPowered)
                 {
                     if (GameManager.Instance.AudioManager.IsPlaying("SteamExhaustLoop", this.gameObject)) GameManager.Instance.AudioManager.Stop("SteamExhaustLoop", this.gameObject);
-                    GameManager.Instance.AudioManager.Play("SteamExhaust");
+                    GameManager.Instance.AudioManager.Play("SteamExhaust", this.gameObject);
                     GameManager.Instance.ParticleSpawner.SpawnParticle(19, particleSpots[0].position, 0.1f, transform);
                     particleSpots[2].gameObject.SetActive(false);
                     isPowered = false;
