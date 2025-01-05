@@ -39,7 +39,7 @@ namespace TowerTanks.Scripts
         internal int totalLayers;
         internal bool isSettingUpOnStart;
 
-        private int totalScrapValue;
+        public static int totalScrapValue;
 
         private GameObject currentGhostLayer;
 
@@ -101,20 +101,6 @@ namespace TowerTanks.Scripts
             int random = UnityEngine.Random.Range(0, 2);
             if (random == 0) GameManager.Instance.AudioManager.Play("Mission_1", null, true);
             if (random == 1) GameManager.Instance.AudioManager.Play("Mission_2", null, true);
-
-            //Starting resources
-            switch (GameSettings.difficulty)
-            {
-                case 0.5f:
-                    totalScrapValue = 1000;
-                    break;
-                case 1.5f:
-                    totalScrapValue = 250;
-                    break;
-                default:
-                    totalScrapValue = 500;
-                    break;
-            }
 
             /*        if (GameSettings.skipTutorial)
                     {

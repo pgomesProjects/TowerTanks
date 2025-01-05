@@ -69,6 +69,20 @@ namespace TowerTanks.Scripts
             foreach (INTERACTABLE interactable in currentLevelEvent.startingInteractables)
                 StackManager.AddToStack(interactable);
 
+            //Starting resources
+            switch (GameSettings.difficulty)
+            {
+                case 0.5f:
+                    LevelManager.totalScrapValue = 1000;
+                    break;
+                case 1.5f:
+                    LevelManager.totalScrapValue = 250;
+                    break;
+                default:
+                    LevelManager.totalScrapValue = 500;
+                    break;
+            }
+
             OnCampaignStarted?.Invoke();
             HasCampaignStarted = true;
         }
