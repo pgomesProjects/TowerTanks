@@ -10,7 +10,11 @@ namespace TowerTanks.Scripts
         public float fuseTimer;
         public bool isLit;
 
+        //Components
         private Transform smokeTrail;
+        private Animator animator;
+        private float bombFlashTimer;
+        private float randomDelay;
 
         public LayerMask hitboxMask;
         public float explosionRadius;
@@ -26,14 +30,17 @@ namespace TowerTanks.Scripts
 
             smokeTrail = transform.Find("smokeTrail");
             smokeTrail.gameObject.SetActive(false);
+            animator = GetComponent<Animator>();
         }
 
         protected override void Start()
         {
             base.Start();
 
-            float randomOffset = Random.Range(-1f, 3f);
+            float randomOffset = Random.Range(0f, 4f);
             fuseTimer += randomOffset;
+            bombFlashTimer = 0;
+            randomDelay = Random.Range(4f, 5.5f);
         }
 
         protected override void Update()
@@ -46,6 +53,15 @@ namespace TowerTanks.Scripts
                 fuseTimer -= Time.deltaTime;
 
                 if (fuseTimer <= 0) Explode();
+
+
+                bombFlashTimer -= Time.deltaTime;
+                if (bombFlashTimer <= 0)
+                {
+                    animator.Play("BombFlash", 0, 0);
+                    bombFlashTimer = 1f;
+                    if (fuseTimer <= randomDelay) bombFlashTimer = 0.4f;
+                }
             }
 
             if (detonate) { Explode(); }
