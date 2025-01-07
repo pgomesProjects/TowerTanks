@@ -328,12 +328,18 @@ namespace TowerTanks.Scripts
             if (currentLadder == null) return;
             currentState = CharacterState.CLIMBING;
             rb.bodyType = RigidbodyType2D.Kinematic;
-            transform.eulerAngles = currentLadder.transform.eulerAngles;
+            AlignPlayerWithLadder();
+        }
+
+        protected void AlignPlayerWithLadder()
+        {
+            if (currentLadder == null) return;
             // converts the player's position from world space to local space relative to the ladder
             // have to do this cause ladders are rotated sometimes
+            transform.eulerAngles = currentLadder.transform.eulerAngles;
             Vector3 localPosition = currentLadder.transform.InverseTransformPoint(transform.position);
 
-            // set the local x position to 0 bc ladder transform is in the the center of the ladder
+            // set the local x position to 0 bc ladder transform is in the center of the ladder
             localPosition.x = 0; 
 
             // Convert the updated local position back to world space

@@ -25,7 +25,6 @@ namespace TowerTanks.Scripts
 
             if (HowFarFromTarget() > 15)
             {
-                Debug.Log("Distance: " + HowFarFromTarget());
                 stopFiring = true; //mortar wont fire if its way way off from hitting 
             }
             else

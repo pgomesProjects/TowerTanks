@@ -1,9 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Net;
 using UnityEngine;
-using UnityEngine.Assertions.Must;
 using UnityEngine.InputSystem;
 using TMPro;
 
@@ -168,11 +166,20 @@ namespace TowerTanks.Scripts
 
             if (isShaking)
                 ShakePlayer();
-
+            var lastLadder = currentLadder;
             currentLadder = Physics2D.OverlapCircle(transform.position, ladderDetectionRadius, ladderLayer)?.gameObject;
             if (!currentLadder && !CheckSurfaceCollider(18))
             { //if no ladder is detected on us, and we arent on a coupler (layer 18), check below. this is for ladders that go up out of a tank
                 currentLadder = Physics2D.OverlapCircle(transform.position - transform.up, ladderDetectionRadius, ladderLayer)?.gameObject;
+            }
+            
+            if (lastLadder != currentLadder && currentLadder != null && currentState == CharacterState.CLIMBING) //will only be active for the frame that we found a new ladder
+            {
+                Vector3 localPosition = currentLadder.transform.InverseTransformPoint(transform.position);
+                if (!Mathf.Approximately(localPosition.x, 0))
+                {
+                    AlignPlayerWithLadder(); //fixes issues with climbing ladders that aren't aligned in a straight line
+                }
             }
 
             //Interactable building:
