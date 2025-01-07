@@ -276,5 +276,24 @@ namespace TowerTanks.Scripts
                 direction = 1;
             }
         }
+
+        public string[] GetSpecialAmmoRef()
+        {
+            string[] specialAmmoRef = null;
+
+            if (gunScript != null)
+            {
+                if (gunScript.specialAmmo.Count > 0) 
+                {
+                    specialAmmoRef = new string[gunScript.specialAmmo.Count];
+                    for (int i = 0; i < gunScript.specialAmmo.Count; i++)
+                    {
+                        specialAmmoRef[i] = gunScript.specialAmmo[i].name;
+                    }
+                }
+            }
+
+            return specialAmmoRef;
+        }
     }
 }

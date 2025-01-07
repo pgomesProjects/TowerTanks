@@ -165,7 +165,7 @@ namespace TowerTanks.Scripts
                     if (currentHolder.currentZone != null)
                     {
                         GunController interactable = currentHolder.currentZone.GetComponentInParent<GunController>();
-                        if (interactable.interactableType == TankInteractable.InteractableType.WEAPONS)
+                        if (interactable?.interactableType == TankInteractable.InteractableType.WEAPONS)
                         {
                             if (interactable.gunType == GunController.GunType.CANNON)
                             {

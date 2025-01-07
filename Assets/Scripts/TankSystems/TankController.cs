@@ -989,6 +989,19 @@ namespace TowerTanks.Scripts
                     interactable.InstallInCell(target);                                                                                                                                                          //Install interactable in target cell
                     if (cellInter.flipped) interactable.Flip();                                                                                                                                                  //Flip interactable if ordered
 
+                    if (interactable.interactableType == TankInteractable.InteractableType.WEAPONS)
+                    {
+                        if(cellInter.specialAmmo?.Length > 0)
+                        {
+                            for(int a = 0; a < cellInter.specialAmmo.Length; a++)
+                            {
+                                GunController gun = interactable.gameObject.GetComponent<GunController>();
+                                GameObject ammoToLoad = GameManager.Instance.CargoManager.GetProjectileByNameHash(cellInter.specialAmmo[a]);
+                                gun.AddSpecialAmmo(ammoToLoad, 1, false);
+                            }
+                        }
+                    }
+
                     if (!CampaignManager.Instance.HasCampaignStarted) //Add the interactable to the stats if joining the combat scene first
                         AddInteractableToStats(interactable);
                 }
@@ -1046,7 +1059,8 @@ namespace TowerTanks.Scripts
                         string cellName = interactable.parentCell.name;              //Get reference name for cell with interactable
                         string interName = interactable.name.Replace("(Clone)", ""); //Get reference string for installed interactable
                         bool flipStatus = interactable.direction == -1;              //Determine whether or not interactable is flipped
-                        cellInters.Add(new BuildStep.CellInterAssignment(cellName, interName, flipStatus)); //Add an interactable designator with reference to cell and interactable name
+                        string[] specialAmmo = interactable.GetSpecialAmmoRef();     //Determine what (if any) special ammo is currently loaded into this interactable
+                        cellInters.Add(new BuildStep.CellInterAssignment(cellName, interName, flipStatus, specialAmmo)); //Add an interactable designator with reference to cell and interactable name
                     }
                     if (roomScript.isCore) //Store interactables for core room but do not try to store spawn information
                     {

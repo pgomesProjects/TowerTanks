@@ -9,7 +9,7 @@ namespace TowerTanks.Scripts
     {
         //Objects & Components:
         [Tooltip("Default projectile which will be fired by this weapon")]                                      public GameObject projectilePrefab;
-        [Tooltip("List containing special Ammo loaded into this weapon"), SerializeField]                       private List<GameObject> specialAmmo = new List<GameObject>();
+        [Tooltip("List containing special Ammo loaded into this weapon"), SerializeField]                       public List<GameObject> specialAmmo = new List<GameObject>();
         [Tooltip("Transform indicating direction and position in which projectiles are fired"), SerializeField] internal Transform barrel;
         [Tooltip("Joint around which moving cannon assembly rotates."), SerializeField]                         private Transform pivot;
         [Tooltip("Transforms to spawn particles from when used."), SerializeField]                              private Transform[] particleSpots;
@@ -463,7 +463,7 @@ namespace TowerTanks.Scripts
             }
         }
 
-        public void AddSpecialAmmo(GameObject ammo, int quantity)
+        public void AddSpecialAmmo(GameObject ammo, int quantity, bool enableSounds = true)
         {
             for (int i = 0; i < quantity; i++)
             {
@@ -476,7 +476,7 @@ namespace TowerTanks.Scripts
             //If not, create the display
             else
                 currentSpecialAmmo = GameManager.Instance.UIManager.AddSymbolDisplay(gameObject, new Vector2(0f, 0.6f), null, quantity.ToString());
-            GameManager.Instance.AudioManager.Play("CannonReload", this.gameObject);
+            if (enableSounds) GameManager.Instance.AudioManager.Play("CannonReload", this.gameObject);
         }
 
         //DEBUG METHODS:

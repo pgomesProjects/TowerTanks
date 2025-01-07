@@ -65,5 +65,20 @@ namespace TowerTanks.Scripts
         }
 
         [SerializeField] public List<ProjectileId> projectileList = new List<ProjectileId>();
+
+        public GameObject GetProjectileByNameHash(string name)
+        {
+            GameObject projectile = null;
+
+            foreach(ProjectileId id in projectileList)
+            {
+                foreach(GameObject ammo in id.ammoTypes)
+                {
+                    if (ammo.name == name) projectile = ammo;
+                }
+            }
+
+            return projectile;
+        }
     }
 }

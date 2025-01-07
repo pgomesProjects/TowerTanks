@@ -16,12 +16,14 @@ namespace TowerTanks.Scripts
             [Tooltip("Name of the cell with the interactable.")] public string cellName;
             [Tooltip("Name of interactable prefab in folder.")] public string interRef;
             [Tooltip("True if interactable is flipped.")] public bool flipped;
+            [Tooltip("List of Special Ammo Loaded into Weapon Interactable.")] public string[] specialAmmo;
 
-            public CellInterAssignment(string cell, string interactable, bool flip = false)
+            public CellInterAssignment(string cell, string interactable, bool flip = false, string[] specialAmmo = null)
             {
                 this.cellName = cell;         //Assign cell name
                 this.interRef = interactable; //Assign interactable reference
                 this.flipped = flip;          //Assign interactable direction
+                this.specialAmmo = specialAmmo; //Assign ammo (if applicable)
             }
         }
 
