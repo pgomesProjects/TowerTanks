@@ -109,6 +109,12 @@ namespace TowerTanks.Scripts
                     CheckCharge();
                 }
             }
+            else
+            {
+                repairInputHeld = false;
+                chargeStarted = false;
+                CheckCharge();
+            }
         }
 
         //FUNCTIONALITY METHODS:
