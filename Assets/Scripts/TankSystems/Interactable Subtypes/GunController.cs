@@ -1,5 +1,4 @@
 using Sirenix.OdinInspector;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -98,6 +97,7 @@ namespace TowerTanks.Scripts
         //Runtime Variables:
         private Vector2 barrelBasePos;
         private float reciproTimeLeft;
+        [HideInInspector] public bool usingAIbrain = false;
 
         //RUNTIME METHODS:
 
@@ -186,23 +186,44 @@ namespace TowerTanks.Scripts
                         }
                     }
                 }
-
-                if (overheatTimer > 0 && spinTimer <= 0) //Track overheat timer
+                if (!usingAIbrain) // if the operator is not an AI
                 {
-                    overheatTimer -= (Time.deltaTime * (1 / overheatCooldownMultiplier));
-                }
-                else
-                {
-                    if (overheatTimer <= 0)
+                    if (overheatTimer > 0 && spinTimer <= 0) //Track overheat timer
                     {
-                        isOverheating = false;
-                        if (isCooldownActive)
+                        overheatTimer -= (Time.deltaTime * (1 / overheatCooldownMultiplier));
+                    }
+                    else
+                    {
+                        if (overheatTimer <= 0)
                         {
-                            isCooldownActive = false;
-                            ShowFirePrompt(true);
+                            isOverheating = false;
+                            if (isCooldownActive)
+                            {
+                                isCooldownActive = false;
+                                ShowFirePrompt(true);
+                            }
                         }
                     }
                 }
+                else // if the operator is the ai, the overheat timer is handled slightly differently
+                {
+                    if (overheatTimer > 0 && isOverheating)
+                    {
+                        overheatTimer -= (Time.deltaTime * (1 / overheatCooldownMultiplier));
+                    }
+                    else
+                    {
+                        if (overheatTimer <= 0)
+                        {
+                            isOverheating = false;
+                            if (isCooldownActive)
+                            {
+                                isCooldownActive = false;
+                            }
+                        }
+                    }
+                }
+                
 
                 if (isOverheating)
                 {
@@ -288,7 +309,7 @@ namespace TowerTanks.Scripts
         /// <summary>
         /// Fires the weapon, once.
         /// </summary>
-        public void Fire(bool overrideConditions, TankId.TankType inheritance = TankId.TankType.PLAYER)
+        public void Fire(bool overrideConditions, TankId.TankType inheritance = TankId.TankType.PLAYER, bool bypassSpinup = false)
         {
             bool canFire = true;
             if (tank == null) tank = GetComponentInParent<TankController>();
@@ -300,15 +321,14 @@ namespace TowerTanks.Scripts
             {
                 if (isOverheating == false)
                 {
-                    if (spinupTimer < spinupTime)
+                    if (spinupTimer < spinupTime && !bypassSpinup)
                     {
                         canFire = false;
-                        if (isOverheating == false) spinupTimer += Time.deltaTime;
+                        spinupTimer += Time.deltaTime;
                     }
                     else
                     {
-                        canFire = true;
-                        spinTimer = spinTime;
+                        if (!usingAIbrain) spinTimer = spinTime;
                         overheatTimer += Time.deltaTime;
                     }
 
@@ -340,7 +360,7 @@ namespace TowerTanks.Scripts
                 if ((chargeTimer >= minChargeTime) || overrideConditions)
                 {
                     canFire = true;
-                    chargeTimer = 0;
+                    if (!usingAIbrain) chargeTimer = 0;
                 }
             };
 
