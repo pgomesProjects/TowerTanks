@@ -340,7 +340,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7231857347864599891}
   - component: {fileID: 3772316815373512544}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Visuals
   m_TagString: Untagged
   m_Icon: {fileID: 0}

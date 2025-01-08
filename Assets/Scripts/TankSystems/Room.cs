@@ -705,8 +705,13 @@ namespace TowerTanks.Scripts
             foreach (Transform child in children)
             {
                 //Convert Physics Layers
-                if (child.gameObject.layer == LayerMask.NameToLayer("Ground") || child.gameObject.layer == LayerMask.NameToLayer("Connector") || child.gameObject.layer == LayerMask.NameToLayer("Item"))
+                if (child.gameObject.layer == LayerMask.NameToLayer("Ground") || child.gameObject.layer == LayerMask.NameToLayer("Connector"))
                 { 
+                    child.gameObject.layer = LayerMask.NameToLayer("Dummy");
+                }
+
+                if (child.gameObject.layer == LayerMask.NameToLayer("Item") && child.GetComponent<Cargo>() == null)
+                {
                     child.gameObject.layer = LayerMask.NameToLayer("Dummy");
                 }
 
@@ -725,6 +730,16 @@ namespace TowerTanks.Scripts
                     _renderer.sortingLayerName = "Background";
                     SortingGroup group = child.gameObject.GetComponent<SortingGroup>();
                     if (group != null) group.sortingLayerName = "Background";
+                }
+
+                ParticleSystem particle = child.gameObject.GetComponent<ParticleSystem>();
+                if (particle != null)
+                {
+                    if (particle.name == "flames")
+                    {
+                        ParticleSystemRenderer part_renderer = particle.GetComponent<ParticleSystemRenderer>();
+                        if (part_renderer != null) part_renderer.sortingLayerName = "Background";
+                    }
                 }
             }
             
