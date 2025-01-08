@@ -435,8 +435,7 @@ namespace TowerTanks.Scripts.DebugTools
                 {
                     if (room != null) //Try to Mount the Current Room
                     {
-                        if (enableSounds) GameManager.Instance.AudioManager.Play("ConnectRoom");
-                        room.Mount();
+                        room.Mount(enableSounds);
                         Vector3 roomPos = room.transform.position;
 
                         room = null;

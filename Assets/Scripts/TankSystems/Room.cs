@@ -551,7 +551,7 @@ namespace TowerTanks.Scripts
         /// <summary>
         /// Attaches this room to another room or the tank base (based on current position of the room and couplers).
         /// </summary>
-        public bool Mount()
+        public bool Mount(bool enableSounds = false)
         {
             //Validity checks:
             if (mounted) { Debug.LogError("Tried to mount room which is already mounted!"); return true; }                              //Cannot mount rooms which are already mounted
@@ -570,8 +570,8 @@ namespace TowerTanks.Scripts
             if (targetTank == null) targetTank = couplers[0].GetConnectedRoom(this).targetTank; //Get target tank from a mounted room if necessary
             if (!targetTank.rooms.Contains(this)) targetTank.rooms.Add(this);                   //Add to target tank's index of rooms
             ghostCouplers.Clear();                                                              //Clear ghost couplers list
+            if (enableSounds && !mounted) GameManager.Instance.AudioManager.Play("ConnectRoom");
             mounted = true;                                                                     //Indicate that room is now mounted
-                                                                                                //GameManager.Instance.AudioManager.Play("BuildRoom");
 
             //Set up cell collision:
 

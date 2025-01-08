@@ -34,13 +34,13 @@ namespace TowerTanks.Scripts
 
             public Room Mount()
             {
-                bool mounted = roomObject.Mount();
+                bool mounted = roomObject.Mount(true);
 
                 if (!mounted)
                     return null;
 
                 Debug.Log("Room Mounted!");
-                GameManager.Instance.AudioManager.Play("ConnectRoom");
+                //GameManager.Instance.AudioManager.Play("ConnectRoom");
 
                 playerSelector.MountRoom();
                 if (playerSelector.AllRoomsMounted())
