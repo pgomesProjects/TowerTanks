@@ -160,7 +160,7 @@ namespace TowerTanks.Scripts
                 operatorID.currentInteractable = null;
                 operatorID.isOperator = false;
                 operatorID.gameObject.GetComponent<Rigidbody2D>().isKinematic = false;
-                operatorID.CancelInteraction();
+                operatorID.CancelInteraction(startJump:true);
                 
                 if(GameManager.Instance.currentSceneState == SCENESTATE.BuildScene)
                     operatorID.GetPlayerData().undoActionAvailable = false;

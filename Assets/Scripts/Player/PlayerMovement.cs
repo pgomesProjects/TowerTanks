@@ -197,7 +197,7 @@ namespace TowerTanks.Scripts
                     currentInteractable.InstallInCell(buildCell); //Install interactable from top of stack into designated build cell
                     if (currentInteractable.interactableType == TankInteractable.InteractableType.CONSUMABLE) currentInteractable.gameObject.GetComponent<TankConsumable>().Use();
                     StopBuilding(); //Indicate that build has stopped
-                    CancelInteraction();
+                    CancelInteraction(startJump:true);
 
                     //Add the interactable built to the stats
                     GetComponentInParent<TankController>()?.AddInteractableToStats(currentInteractable);
@@ -222,7 +222,7 @@ namespace TowerTanks.Scripts
                     GameManager.Instance.AudioManager.Play("ItemPickup", gameObject);
                     currentRepairJob.repairMan = null;
                     currentRepairJob = null;
-                    CancelInteraction();
+                    CancelInteraction(startJump:true);
                 }
             }
 
@@ -444,7 +444,7 @@ namespace TowerTanks.Scripts
             if (!onCoupler &&
                 !onLadder && !ladderUnderMe) //final failsafe for if you're somehow in this state and not in a ladder or coupler
             {
-                SwitchOffLadder();
+                CancelInteraction();
             }
             currentFuel += fuelRegenerationRate * Time.deltaTime;
             Vector3 newPosition = transform.position + displacement;
@@ -452,13 +452,13 @@ namespace TowerTanks.Scripts
             
             if (Mathf.Abs(moveInput.x) > ladderDismountDeadzone)
             {
-                if (!CheckGround()) SwitchOffLadder(startJump:true);
-                else SwitchOffLadder();
+                if (!CheckGround()) CancelInteraction(startJump:true);
+                else CancelInteraction();
             }
 
             if (jetpackInputHeld)
             {
-                SwitchOffLadder();
+                CancelInteraction();
             }
         }
 
@@ -593,7 +593,7 @@ namespace TowerTanks.Scripts
             SetCharacterMovement(ctx.ReadValue<Vector2>());
 
             if ((moveInput.y > ladderEnterDeadzone || moveInput.y < -ladderEnterDeadzone) &&
-                currentLadder != null && currentState != CharacterState.CLIMBING)
+                currentLadder != null && currentState != CharacterState.CLIMBING && currentState != CharacterState.OPERATING)
             {
                 //if up is pressed above the deadzone, if down is pressed under the deadzone and we aren't grounded, and if we are near a ladder and we aren't already climbing
                 SetLadder();
@@ -799,7 +799,7 @@ namespace TowerTanks.Scripts
                 {
                     currentRepairJob.repairMan = null;
                     currentRepairJob = null;
-                    CancelInteraction();
+                    CancelInteraction(startJump:true);
                 }
             }
         }
