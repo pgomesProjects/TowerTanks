@@ -133,6 +133,9 @@ namespace TowerTanks.Scripts
 
         private void ConfirmNames()
         {
+            if (GameManager.Instance.InGameMenu)
+                return;
+
             if (BuildSystemManager.Instance.CurrentSubPhase == BuildSystemManager.BuildingSubphase.Naming && allPlayersConnectedAndReady)
             {
                 CampaignManager.Instance.SetPlayerTankName(tankNameController.GetCurrentName());

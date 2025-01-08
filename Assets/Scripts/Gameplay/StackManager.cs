@@ -118,6 +118,7 @@ namespace TowerTanks.Scripts
             public void CancelBuildProgressBar()
             {
                 buildProgressBar?.EndTask();
+                buildProgressBar = null;
             }
 
             public void ClearPlayersSelected()
@@ -302,7 +303,7 @@ namespace TowerTanks.Scripts
             return interactable;
         }
 
-        public static void StartBuildingStackItem(int index, float duration)
+        public static void StartBuildingStackItem(int index, PlayerMovement player, float duration)
         {
             StackItem item = stack[index];
             //If there is no item, return
@@ -312,7 +313,7 @@ namespace TowerTanks.Scripts
             item.StartBuildProgressBar(duration);
         }
 
-        public static void EndBuildingStackItem(int index)
+        public static void EndBuildingStackItem(int index, PlayerMovement player)
         {
             StackItem item = stack[index];
             //If there is no item, return

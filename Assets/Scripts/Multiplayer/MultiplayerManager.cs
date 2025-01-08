@@ -20,6 +20,8 @@ namespace TowerTanks.Scripts
         public Action<PlayerInput> OnPlayerConnected;
         public Action<int> OnPlayerLost, OnPlayerRegained;
 
+        private List<KeyValuePair<PlayerInput, string>> currentStoredActionMaps;
+
         [Button(ButtonSizes.Medium)]
         private void ToggleMultiplayerDebug()
         {
@@ -37,6 +39,7 @@ namespace TowerTanks.Scripts
             playerInputManager = GetComponent<PlayerInputManager>();
 
             connectedControllers = new bool[playerInputManager.maxPlayerCount];
+            currentStoredActionMaps = new List<KeyValuePair<PlayerInput, string>>();
             for (int i = 0; i < connectedControllers.Length; i++)
                 connectedControllers[i] = false;
             playerInputManager.EnableJoining();
@@ -180,6 +183,22 @@ namespace TowerTanks.Scripts
         {
             foreach (PlayerData playerData in GetAllPlayers())
                 playerData.playerInput.SwitchCurrentActionMap(newActionMap);
+        }
+
+        public void SaveCurrentActionMaps()
+        {
+            currentStoredActionMaps.Clear();
+
+            foreach (PlayerData playerData in GetAllPlayers())
+                currentStoredActionMaps.Add(new KeyValuePair<PlayerInput, string>(playerData.playerInput, playerData.playerInput.currentActionMap.name));
+        }
+
+        public void RestoreCurrentActionMaps()
+        {
+            foreach (var currentPlayer in currentStoredActionMaps)
+                currentPlayer.Key.SwitchCurrentActionMap(currentPlayer.Value);
+
+            currentStoredActionMaps.Clear();
         }
 
         public void DisableDebugInput()

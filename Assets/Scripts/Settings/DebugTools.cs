@@ -86,7 +86,10 @@ namespace TowerTanks.Scripts.DebugTools
         {
             //If the user is in the bug report screen already, disable it
             if (GameManager.Instance.inBugReportMenu)
+            {
                 currentBugReportForm.gameObject.SetActive(false);
+                GameManager.Instance.MultiplayerManager.RestoreCurrentActionMaps();
+            }
             else
             {
                 //If the game has another menu up, return
@@ -100,6 +103,9 @@ namespace TowerTanks.Scripts.DebugTools
                 }
                 else
                     currentBugReportForm.gameObject.SetActive(true);
+
+                GameManager.Instance.MultiplayerManager.SaveCurrentActionMaps();
+                GameManager.Instance.MultiplayerManager.SwitchAllPlayerActionMaps("UI");
             }
         }
 

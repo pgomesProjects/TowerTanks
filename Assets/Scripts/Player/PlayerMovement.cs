@@ -192,7 +192,7 @@ namespace TowerTanks.Scripts
                 timeBuilding += Time.deltaTime; //Increment build time tracker
                 if (timeBuilding >= characterSettings.buildTime) //Player has finished build
                 {
-                    StackManager.EndBuildingStackItem(0);
+                    StackManager.EndBuildingStackItem(0, this);
                     TankInteractable currentInteractable = StackManager.BuildTopStackItem();             
                     currentInteractable.InstallInCell(buildCell); //Install interactable from top of stack into designated build cell
                     if (currentInteractable.interactableType == TankInteractable.InteractableType.CONSUMABLE) currentInteractable.gameObject.GetComponent<TankConsumable>().Use();
@@ -691,7 +691,7 @@ namespace TowerTanks.Scripts
                         cell.playerBuilding = this; //Indicate that this player is building in given cell
                         print("started building");
                         taskProgressBar?.StartTask(characterSettings.buildTime);
-                        StackManager.StartBuildingStackItem(0, characterSettings.buildTime);
+                        StackManager.StartBuildingStackItem(0, this, characterSettings.buildTime);
                     }
                     else print("tried to start building");
                 }
@@ -714,8 +714,8 @@ namespace TowerTanks.Scripts
 
                 if (buildCell != null)
                 {
-                    StackManager.EndBuildingStackItem(0);
                     StopBuilding();
+                    StackManager.EndBuildingStackItem(0, this);
                 }
             }
         }
@@ -980,7 +980,7 @@ namespace TowerTanks.Scripts
             }
         }
 
-        public void StopBuilding()
+        public void StopBuilding(bool forceStopBuild = false)
         {
             if (buildGhost != null) Destroy(buildGhost);
             if (buildCell == null) return; //Do nothing if player is not building
@@ -988,7 +988,8 @@ namespace TowerTanks.Scripts
             buildCell = null; //Clear cell reference
             timeBuilding = 0; //Reset build time tracker
             currentState = CharacterState.NONCLIMBING;
-            taskProgressBar?.EndTask();
+            if(!forceStopBuild)
+                taskProgressBar?.EndTask();
             print("stopped building");
         }
 
