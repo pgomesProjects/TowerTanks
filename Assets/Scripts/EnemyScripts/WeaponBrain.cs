@@ -1,9 +1,5 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
 namespace TowerTanks.Scripts
@@ -27,16 +23,19 @@ namespace TowerTanks.Scripts
         protected bool miss;
         private bool started;
         protected bool stopFiring = false;
+        private bool obstruction;
 
         private void Awake()
         {
             gunScript = GetComponent<GunController>();
             myProjectile = gunScript.projectilePrefab.GetComponent<Projectile>();
+            
         }
 
         public override void Init()
         {
             fireTimer = 0;
+            gunScript.usingAIbrain = true;
             StartCoroutine(AimAtTarget());
             StartCoroutine(UpdateTargetPoint(myTankAI.aiSettings.tankAccuracy));
         }
@@ -46,15 +45,18 @@ namespace TowerTanks.Scripts
         {
             gunScript.RotateBarrel(currentForce, false);
             
-            fireTimer += Time.deltaTime;
-            if (!AimingAtMyself() && fireTimer > gunScript.rateOfFire && !stopFiring)
+            fireTimer += Time.deltaTime; //firetimer is used for rate of fire
+            if (!AimingAtMyself() && !stopFiring && !obstruction)
             {
-                gunScript.Fire(true, gunScript.tank.tankType);
+                gunScript.Fire(false, gunScript.tank.tankType, bypassSpinup:true);
                 fireTimer = 0;
             }
-            if (AimingAtMyself())
+            if (DirectionToTargetBlocked() && gunScript.gunType != GunController.GunType.MORTAR)
             {
-                fireTimer = 0; // resets the timer, so a shot doesnt immediately fire after aiming at self for a while
+                obstruction = true;
+            } else
+            {
+                obstruction = false;
             }
             
             if (myTankAI.targetTank != null)
@@ -133,7 +135,7 @@ namespace TowerTanks.Scripts
 
                 Vector3 myTankPosition = myTankAI.tank.treadSystem.transform.position + Vector3.up * 2.5f;
 
-                if (DirectionToTargetBlocked() && !miss) targetPoint = gunScript.barrel.position; // basically if the direction from our weapon
+                if (DirectionToTargetBlocked() && !miss) targetPoint = gunScript.transform.right; // basically if the direction from our weapon
                                                                                             // to its target point is obstructed by the weapon's tank, 
                                                                                             // this will aim the weapon forward instead of at the target
                 
