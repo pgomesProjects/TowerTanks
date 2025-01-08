@@ -705,7 +705,7 @@ namespace TowerTanks.Scripts
             foreach (Transform child in children)
             {
                 //Convert Physics Layers
-                if (child.gameObject.layer == LayerMask.NameToLayer("Ground") || child.gameObject.layer == LayerMask.NameToLayer("Connector"))
+                if (child.gameObject.layer == LayerMask.NameToLayer("Ground") || child.gameObject.layer == LayerMask.NameToLayer("Connector") || child.gameObject.layer == LayerMask.NameToLayer("Item"))
                 { 
                     child.gameObject.layer = LayerMask.NameToLayer("Dummy");
                 }
