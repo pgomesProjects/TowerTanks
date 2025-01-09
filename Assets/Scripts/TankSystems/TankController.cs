@@ -26,6 +26,7 @@ namespace TowerTanks.Scripts
         [InlineButton("KillTank", SdfIconType.EmojiDizzy, "Kill")]
         [InlineButton("DamageTank", SdfIconType.Magic, "-100")]
         [SerializeField] public float coreHealth = 500;
+        public float currentCoreHealth;
 
         //Objects & Components:
         [Tooltip("Rooms currently installed on tank.")] internal List<Room> rooms;
@@ -41,9 +42,8 @@ namespace TowerTanks.Scripts
         public Cell upMostCell = null;    
         public Cell leftMostCell = null;  
         public Cell rightMostCell = null; 
-
         private TextMeshProUGUI nameText;
-        private float currentCoreHealth;
+        
         private TankManager tankManager;
         [HideInInspector] public TankId myTankID;
         private TankAI _thisTankAI;

@@ -51,7 +51,7 @@ MonoBehaviour:
   type: 1
   layerMask:
     serializedVersion: 2
-    m_Bits: 8552776
+    m_Bits: 8553288
   hitProperties: {fileID: 11400000, guid: 71a90927396a47340819f997c0c9470d, type: 2}
   maxLife: 15
   radius: 0.25

@@ -637,6 +637,26 @@ namespace TowerTanks.Scripts
 
                     }
                 }
+
+                //Check for Items in Cell
+                LayerMask itemMask = LayerMask.GetMask("Item");
+                Collider2D[] items = Physics2D.OverlapCircleAll(transform.position, 0.6f, itemMask);
+                if (items.Length > 0)
+                {
+                    foreach (Collider2D collider in items)
+                    {
+                        Cargo cargo = collider.GetComponent<Cargo>();
+                        if (cargo?.type == Cargo.CargoType.EXPLOSIVE)
+                        {
+                            int igniteChance = Random.Range(90, 99);
+                            int randomRoll = Random.Range(0, 100);
+                            if (randomRoll <= igniteChance)
+                            {
+                                cargo.Use();
+                            }
+                        }
+                    }
+                }
             }
 
             burnTimer -= Time.deltaTime;

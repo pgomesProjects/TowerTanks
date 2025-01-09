@@ -51,7 +51,7 @@ MonoBehaviour:
   type: 0
   layerMask:
     serializedVersion: 2
-    m_Bits: 8552776
+    m_Bits: 8553288
   hitProperties: {fileID: 11400000, guid: 4992789ae9d78ae45815b81fe91e2f2f, type: 2}
   maxLife: 1
   radius: 0.06
@@ -92,9 +92,11 @@ MonoBehaviour:
     useDefaultListeners: 1
   isEnvironmentAware: 0
   isStaticObject: 0
+  usePositionOffsetData: 0
   m_positionOffsetData:
     KeepMe: 0
     positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
   m_posOffsetData: {fileID: 0}
   listenerMask: 1
 --- !u!1 &4843549763213045103

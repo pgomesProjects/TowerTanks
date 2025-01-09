@@ -4,11 +4,12 @@ using UnityEngine;
 
 namespace TowerTanks.Scripts
 {
-    public class Cargo_Explosive : Cargo
+    public class Cargo_Explosive : Cargo, IDamageable
     {
         [Header("Explosive Settings")]
         public float fuseTimer;
         public bool isLit;
+        public float explosionDamage;
 
         //Components
         private Transform smokeTrail;
@@ -23,6 +24,7 @@ namespace TowerTanks.Scripts
 
         [Header("Debug")]
         public bool detonate;
+        private bool isExploding;
 
         protected override void Awake()
         {
@@ -41,6 +43,7 @@ namespace TowerTanks.Scripts
             fuseTimer += randomOffset;
             bombFlashTimer = 0;
             randomDelay = Random.Range(4f, 5.5f);
+            isExploding = false;
         }
 
         protected override void Update()
@@ -70,40 +73,74 @@ namespace TowerTanks.Scripts
 
         public void Explode()
         {
+            List<IDamageable> damagedThisHit = new List<IDamageable>(); //Create temporary list of targets that have been damaged by this projectile in this frame (used to prevent double damage due to splash)
+
             //AOE Damage
             Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, explosionRadius, hitboxMask);
             foreach (Collider2D collider in colliders)
             {
-                Cell cellScript = collider.gameObject.GetComponent<Cell>();
-                if (cellScript != null)
+                //Damage check:
+                IDamageable splashTarget = collider.GetComponent<IDamageable>();                       //Try to get damage receipt component from collider object
+                if (splashTarget == null) splashTarget = collider.GetComponentInParent<IDamageable>(); //If damage receipt component is not in collider object, look in parent objects
+                if (splashTarget != null && !damagedThisHit.Contains(splashTarget)) //Explosion has hit a (new) target
                 {
-                    cellScript.Damage(200);
+                    damagedThisHit.Add(splashTarget);           //Add target to list so it cannot be damaged again by same explosion
+                    splashTarget.Damage(explosionDamage, true); //Deal direct damage to each target
                 }
-
-                if (collider.CompareTag("Destructible"))
-                {
-                    collider.gameObject.GetComponent<DestructibleObject>().Damage(200);
-                }
-
-                /*if (collider.CompareTag("Cargo"))
-                {
-                    if (collider.gameObject.GetComponent<Cargo>().type == CargoType.EXPLOSIVE)
-                    {
-                        collider.gameObject.GetComponent<Cargo_Explosive>().isExploding = true;
-                    }
-                    else
-                    {
-                        Destroy(collider.gameObject);
-                    }
-                }*/
             }
 
             //Other Effects
-            GameManager.Instance.ParticleSpawner.SpawnParticle(4, transform.position, 0.2f);
+            GameManager.Instance.ParticleSpawner.SpawnParticle(Random.Range(0, 2), transform.position, 0.6f);
             GameManager.Instance.AudioManager.Play("CannonFire", gameObject);
             GameManager.Instance.AudioManager.Play("MedExplosionSFX", gameObject);
 
             Destroy(gameObject);
+        }
+
+        public IEnumerator ExplodeAfterDelay(float delay)
+        {
+            isExploding = true;
+            yield return new WaitForSeconds(delay);
+            Explode();
+        }
+
+        public float Damage(Projectile projectile, Vector2 position)
+        {
+            //If the current scene is the build scene, return
+            if (GameManager.Instance.currentSceneState == SCENESTATE.BuildScene)
+                return 0;
+
+            animator.Play("BombFlash", 0, 0);
+
+            float damage = projectile.remainingDamage;
+            if (damage > 20) 
+            {
+                if (!isExploding) StartCoroutine(ExplodeAfterDelay(Random.Range(0.1f, 0.2f)));
+            }
+            else
+            {
+                Use();
+            }
+
+            return 0;
+        }
+
+        public void Damage(float damage, bool triggerHitEffect = false)
+        {
+            //If the current scene is the build scene, return
+            if (GameManager.Instance.currentSceneState == SCENESTATE.BuildScene)
+                return;
+
+            animator.Play("BombFlash", 0, 0);
+
+            if (damage > 20)
+            {
+                if (!isExploding) StartCoroutine(ExplodeAfterDelay(Random.Range(0.1f, 0.2f)));
+            }
+            else
+            {
+                Use();
+            }
         }
 
         public void OnDrawGizmos()
