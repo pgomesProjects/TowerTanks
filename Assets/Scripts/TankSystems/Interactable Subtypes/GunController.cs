@@ -495,7 +495,10 @@ namespace TowerTanks.Scripts
                 currentSpecialAmmo.UpdateDisplay(specialAmmo.Count.ToString());
             //If not, create the display
             else
-                currentSpecialAmmo = GameManager.Instance.UIManager.AddSymbolDisplay(gameObject, new Vector2(0f, 0.6f), null, quantity.ToString());
+            {
+                Sprite sprite = GameManager.Instance.CargoManager.ammoSymbols[0];
+                currentSpecialAmmo = GameManager.Instance.UIManager.AddSymbolDisplay(gameObject, new Vector2(0f, 0.6f), sprite, quantity.ToString());
+            }
             if (enableSounds) GameManager.Instance.AudioManager.Play("CannonReload", this.gameObject);
         }
 

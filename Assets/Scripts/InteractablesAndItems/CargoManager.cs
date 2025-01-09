@@ -66,6 +66,8 @@ namespace TowerTanks.Scripts
 
         [SerializeField] public List<ProjectileId> projectileList = new List<ProjectileId>();
 
+        [SerializeField] public Sprite[] ammoSymbols;
+
         public GameObject GetProjectileByNameHash(string name)
         {
             GameObject projectile = null;

@@ -1274,6 +1274,8 @@ MonoBehaviour:
     - {fileID: 3640374074342539547, guid: 1e93586965860dd45b48c21673aea549, type: 3}
     - {fileID: 8367798314348147069, guid: d44124302ce9eb347aab35655450f0ab, type: 3}
     - {fileID: 2446699370988271855, guid: b442068e42cdd1248879a0fdf7930b2e, type: 3}
+  ammoSymbols:
+  - {fileID: 21300000, guid: 969de49ca82e3ab488e7fe2dc8191e2a, type: 2}
 --- !u!1 &6961505860283407432
 GameObject:
   m_ObjectHideFlags: 0
