@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 namespace TowerTanks.Scripts
 {
@@ -60,9 +61,18 @@ namespace TowerTanks.Scripts
         private bool canExplode = false;
         private float explosionTimeOriginal;
         public float explosionTimer = 0;
+        public LayerMask hitboxMask; //Layers the engine can hit when exploding
+        public float explosionDamage;
+        public float explosionRadius;
 
         [Header("Debug Controls:")]
         public bool addPressure;
+
+        [Button("Debug Explode")]
+        public void DebugExplode()
+        {
+            Explode(); //blow the fuck up
+        }
 
         //Input
         public bool repairInputHeld;
@@ -388,9 +398,33 @@ namespace TowerTanks.Scripts
 
         public void Explode()
         {
+            List<IDamageable> damagedThisHit = new List<IDamageable>(); //Create temporary list of targets that have been damaged by this projectile in this frame (used to prevent double damage due to splash)
+
+            //AOE Damage
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, explosionRadius, hitboxMask);
+            foreach (Collider2D collider in colliders)
+            {
+                //Damage check:
+                IDamageable splashTarget = collider.GetComponent<IDamageable>();                       //Try to get damage receipt component from collider object
+                if (splashTarget == null) splashTarget = collider.GetComponentInParent<IDamageable>(); //If damage receipt component is not in collider object, look in parent objects
+                if (splashTarget != null && !damagedThisHit.Contains(splashTarget)) //Explosion has hit a (new) target
+                {
+                    damagedThisHit.Add(splashTarget);           //Add target to list so it cannot be damaged again by same explosion
+                    splashTarget.Damage(explosionDamage, true); //Deal direct damage to each target
+                }
+            }
+
+            //Effects
             GameManager.Instance.ParticleSpawner.SpawnParticle(4, particleSpots[1].position, 0.1f, null);
-            GameManager.Instance.AudioManager.Play("LargeExplosionSFX", gameObject);
-            parentCell.Damage(100);
+            GameManager.Instance.ParticleSpawner.SpawnParticle(17, particleSpots[1].position, 0.2f, null);
+            GameManager.Instance.AudioManager.Play("CoalLoad", this.gameObject);
+            GameManager.Instance.AudioManager.Play("LargeExplosionSFX", this.gameObject);
+            //parentCell.Damage(100);
+
+            if (parentCell?.room.isCore == true)
+            {
+                parentCell.AddInteractablesFromCell();
+            }
         }
 
         public void UpdateUI()

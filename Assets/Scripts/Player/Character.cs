@@ -353,15 +353,6 @@ namespace TowerTanks.Scripts
 
         }
 
-        protected virtual void SwitchOffLadder(bool startJump = false)
-        {
-            currentState = CharacterState.NONCLIMBING;
-            rb.bodyType = RigidbodyType2D.Dynamic;
-            rb.velocity = Vector2.zero;
-            if (startJump) rb.AddForce(Vector2.up * 10f, ForceMode2D.Impulse);
-            CancelInteraction();
-        }
-
         protected virtual void OperateInteractable()
         {
             rb.velocity = Vector2.zero;
@@ -372,9 +363,12 @@ namespace TowerTanks.Scripts
             rb.velocity = Vector2.zero;
         }
 
-        public void CancelInteraction()
+        public void CancelInteraction(bool startJump = false)
         {
             currentState = CharacterState.NONCLIMBING;
+            rb.bodyType = RigidbodyType2D.Dynamic;
+            rb.velocity = Vector2.zero;
+            if (startJump) rb.AddForce(Vector2.up * 10f, ForceMode2D.Impulse);
         }
 
         public virtual void LinkPlayerHUD(PlayerHUD newHUD)

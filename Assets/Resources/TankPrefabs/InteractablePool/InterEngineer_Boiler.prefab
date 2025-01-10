@@ -1960,6 +1960,11 @@ MonoBehaviour:
   explosionChance: 0
   explosionTime: 4.5
   explosionTimer: 0
+  hitboxMask:
+    serializedVersion: 2
+    m_Bits: 33544
+  explosionDamage: 75
+  explosionRadius: 0.8
   addPressure: 0
   repairInputHeld: 0
 --- !u!114 &-4983016872044679315

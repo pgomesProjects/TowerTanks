@@ -6,7 +6,6 @@ namespace TowerTanks.Scripts
 {
     public class SimpleMortarBrain : WeaponBrain
     {
-        private float minChargeTime = 3f;
         
         private float HowFarFromTarget() => Mathf.Abs(aimHit.point.x - targetPoint.x);
 
@@ -14,14 +13,19 @@ namespace TowerTanks.Scripts
         {
             base.Update();
             Vector3 aimHitPoint = aimHit.point;
-            var diff = aimHitPoint - targetPoint;
+            var diff = aimHit.point.x - targetPoint.x;
             
-            bool diffIsPositive = diff.x >= 0;
+            bool diffIsPositive = diff >= 0;
             
-            if (myTankAI.TankIsRightOfTarget() && gunScript.chargeTimer < minChargeTime && HowFarFromTarget() > 2)
+            if (myTankAI.TankIsRightOfTarget())
             {
                 gunScript.ChargeMortar(diffIsPositive);
+            } else
+            {
+                gunScript.ChargeMortar(!diffIsPositive);
             }
+            
+            
 
             if (HowFarFromTarget() > 15)
             {
@@ -49,16 +53,16 @@ namespace TowerTanks.Scripts
                 Vector3 aimHitPoint = aimHit.point;
                 if (aimHitPoint == Vector3.zero) aimHitPoint = trajectoryPoints[^1];
                 
-                var distFactor = Mathf.InverseLerp(0, 2, HowFarFromTarget());
+                var distFactor = Mathf.InverseLerp(0, 5, HowFarFromTarget());
                 var moveSpeed = Mathf.Lerp(minTurnSpeed, maxTurnSpeed, distFactor);
                 // Determine if the hit point is above or below the projected point
                 if (aimHitPoint.x > targetPoint.x)
                 {
-                    currentForce = myTankAI.TankIsRightOfTarget() ? moveSpeed : -moveSpeed;
+                    currentForce = moveSpeed;
                 }
                 else
                 {
-                    currentForce = myTankAI.TankIsRightOfTarget() ? -moveSpeed : moveSpeed;
+                    currentForce = -moveSpeed;
                 }
                 
                 if (!everyFrame) yield return new WaitForSeconds(refreshRate);

@@ -5453,6 +5453,7 @@ MonoBehaviour:
   isContinuous: 0
   fuseTimer: 7
   isLit: 0
+  explosionDamage: 150
   hitboxMask:
     serializedVersion: 2
     m_Bits: 1082120

@@ -290,7 +290,7 @@ namespace TowerTanks.Scripts
             { 
                 //Deal damage:
                 health = Mathf.Max(0, health - damage); //Deal damage to cell
-                if (health <= 0) Kill();                //Kill cell if mortal damage has been dealt
+                if (health <= 0) Kill(false, true);     //Kill cell if mortal damage has been dealt
                 else if (triggerHitEffect)
                 {
                     if (damage > 20) HitEffects(0.5f);
@@ -390,8 +390,8 @@ namespace TowerTanks.Scripts
         /// Obliterates cell and updates adjacency info for other cells.
         /// </summary>
         /// <param name="proxy">Pass true when cell is being destroyed by another cell destruction method.</param>
-        /// <param name="spareIfConnected">If true, cell will only be destroyed if it is currently disconnected from the rest of the tank.</param>
-        public void Kill(bool proxy = false)
+        /// <param name="lethal">If true, the cell was killed by damage, rather than disconnecting or other.</param>
+        public void Kill(bool proxy = false, bool lethal = false)
         {
             //Validity checks:
             if (room.isCore) return; //Do not allow cells in core room to be destroyed
@@ -483,6 +483,11 @@ namespace TowerTanks.Scripts
                 }
             }
             CleanUpCollision();                 //Remove cell collision
+            if (lethal)                         //Blow up engines first
+            {
+                EngineController engine = interactable?.gameObject.GetComponent<EngineController>();
+                if (engine != null) engine.Explode();
+            }                      
             AddInteractablesFromCell();         //Add cell interactables to stack
             room.targetTank.UpdateSizeValues(false); //Update highest cell tracker
 
@@ -635,6 +640,26 @@ namespace TowerTanks.Scripts
                             }
                         }
 
+                    }
+                }
+
+                //Check for Items in Cell
+                LayerMask itemMask = LayerMask.GetMask("Item");
+                Collider2D[] items = Physics2D.OverlapCircleAll(transform.position, 0.6f, itemMask);
+                if (items.Length > 0)
+                {
+                    foreach (Collider2D collider in items)
+                    {
+                        Cargo cargo = collider.GetComponent<Cargo>();
+                        if (cargo?.type == Cargo.CargoType.EXPLOSIVE)
+                        {
+                            int igniteChance = Random.Range(90, 99);
+                            int randomRoll = Random.Range(0, 100);
+                            if (randomRoll <= igniteChance)
+                            {
+                                cargo.Use();
+                            }
+                        }
                     }
                 }
             }
