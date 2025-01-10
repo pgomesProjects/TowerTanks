@@ -72,6 +72,7 @@ namespace TowerTanks.Scripts
         public InteractableZone currentZone = null;
         public bool isOperator; //true if player is currently operating an interactable
         public TankInteractable currentInteractable; //what interactable player is currently operating
+        public LayerMask obstructionMask; //layers that block players from interacting with things
 
         [Header("Conditions")]
         [SerializeField] public bool isOnFire;

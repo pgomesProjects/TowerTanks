@@ -5095,6 +5095,9 @@ MonoBehaviour:
   currentZone: {fileID: 0}
   isOperator: 0
   currentInteractable: {fileID: 0}
+  obstructionMask:
+    serializedVersion: 2
+    m_Bits: 256
   isOnFire: 0
   isDebugPlayer: 0
   jetpackInputHeld: 0

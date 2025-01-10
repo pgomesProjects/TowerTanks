@@ -645,7 +645,12 @@ namespace TowerTanks.Scripts
             {
                 if (currentZone != null && !isHoldingDown && !isCarryingSomething)
                 {
-                    currentZone.Interact(this.gameObject);
+                    if (!Physics2D.Linecast(transform.position, currentZone.transform.position, obstructionMask))
+                        currentZone.Interact(this.gameObject);
+                    else {
+                        Debug.Log("Interactable is obstructed!");
+                        //GameManager.Instance.AudioManager.Play("InvalidAlert"); 
+                    }
                 }
 
                 if (currentInteractable != null && isOperator)
@@ -676,7 +681,7 @@ namespace TowerTanks.Scripts
         {
             if (!isAlive) return;
 
-            if (StackManager.stack.Count > 0 && ctx.performed && !isOperator && !isCarryingSomething)
+            if (StackManager.stack.Count > 0 && ctx.performed && !isOperator && !isCarryingSomething && !isHoldingDown)
             {
                 //Check if build is valid:
                 Collider2D cellColl =
@@ -943,7 +948,16 @@ namespace TowerTanks.Scripts
                 foreach (Cargo item in objects)
                 {
                     float _distance = Vector2.Distance(item.transform.position, transform.position);
-                    if (_distance == distance) item.Pickup(this);
+                    if (_distance == distance)
+                    {
+                        if (!Physics2D.Linecast(transform.position, item.transform.position, obstructionMask))
+                            item.Pickup(this);
+                        else
+                        {
+                            Debug.Log("Object is obstructed!");
+                            //GameManager.Instance.AudioManager.Play("InvalidAlert");
+                        }
+                    }
                 }
             }
         }
