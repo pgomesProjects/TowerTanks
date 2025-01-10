@@ -1162,9 +1162,9 @@ MonoBehaviour:
     m_RotationOrder: 4
   fireCooldownTimer: 0
   spread: 2
-  chargeTimer: 0
   fire: 0
   moveGimbal: 0.5
+  usingAIbrain: 0
 --- !u!114 &-7033447428060440738
 MonoBehaviour:
   m_ObjectHideFlags: 0

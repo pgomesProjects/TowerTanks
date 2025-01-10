@@ -19,10 +19,10 @@ namespace TowerTanks.Scripts
             
             if (myTankAI.TankIsRightOfTarget())
             {
-                gunScript.ChargeMortar(diffIsPositive);
+                //gunScript.ChargeMortar(diffIsPositive);
             } else
             {
-                gunScript.ChargeMortar(!diffIsPositive);
+                //gunScript.ChargeMortar(!diffIsPositive);
             }
             
             

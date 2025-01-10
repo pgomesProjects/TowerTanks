@@ -57,11 +57,10 @@ namespace TowerTanks.Scripts
 
         //Mortar
         private float maxVelocity;
-        private float minVelocity = 20f;
-        private float maxChargeTime = 2.4f; //maximum duration weapon can be charged before firing
-        private float minChargeTime = 0.4f; //minimum duration the weapon needs to be charged before it can fire
-        [HideInInspector]public float chargeTimer = 0;
-
+        //private float minVelocity = 20f;
+        //private float maxChargeTime = 2.4f; //maximum duration weapon can be charged before firing
+        //private float minChargeTime = 0.4f; //minimum duration the weapon needs to be charged before it can fire
+        //[HideInInspector]public float chargeTimer = 0;
 
         [Header("Debug Controls:")]
         public bool fire;
@@ -247,18 +246,18 @@ namespace TowerTanks.Scripts
 
             if (gunType == GunType.MORTAR)
             {
-                if (operatorID != null && operatorID.interactInputHeld && fireCooldownTimer <= 0)
+                if (operatorID != null && fireCooldownTimer <= 0 && tank.tankType == TankId.TankType.PLAYER)
                 {
-                    ChargeMortar();
+                    ToggleTrajectory(true);
                 }
-                else if (tank.tankType != TankId.TankType.ENEMY) 
+                else
                 {
-                    ChargeMortar(false);
+                    ToggleTrajectory(false);
                 }
-                
             }
         }
 
+        /*
         /// <summary>
         /// Should be called in update, will charge or discharge the mortar based on the parameter.
         /// </summary>
@@ -304,6 +303,7 @@ namespace TowerTanks.Scripts
             float newVelocity = Mathf.Lerp(minVelocity, maxVelocity, (chargeTimer / maxChargeTime));
             muzzleVelocity = newVelocity;
         }
+        */
 
         //FUNCTIONALITY METHODS:
         /// <summary>
@@ -355,13 +355,14 @@ namespace TowerTanks.Scripts
 
             if (gunType == GunType.MORTAR)
             {
+                /*
                 canFire = false;
 
                 if ((chargeTimer >= minChargeTime) || overrideConditions)
                 {
                     canFire = true;
                     if (!usingAIbrain) chargeTimer = 0;
-                }
+                }*/
             };
 
             if ((fireCooldownTimer <= 0 || overrideConditions) && canFire)
@@ -500,6 +501,26 @@ namespace TowerTanks.Scripts
                 currentSpecialAmmo = GameManager.Instance.UIManager.AddSymbolDisplay(gameObject, new Vector2(0f, 0.6f), sprite, quantity.ToString());
             }
             if (enableSounds) GameManager.Instance.AudioManager.Play("CannonReload", this.gameObject);
+        }
+
+        public void ToggleTrajectory(bool toggle)
+        {
+            List<Vector3> trajectoryPoints = Trajectory.GetTrajectory(barrel.position, barrel.up * muzzleVelocity, 30, 100);
+
+            if (operatorID)
+            {
+                Color playerColor = operatorID.GetCharacterColor();
+                trajectoryLine.startColor = playerColor;
+                trajectoryLine.endColor = playerColor;
+
+                trajectoryLine.enabled = true;
+                for (int i = 0; i < trajectoryPoints.Count; i++)
+                {
+                    trajectoryLine.SetPosition(i, trajectoryPoints[i]);
+                }
+            }
+
+            trajectoryLine.enabled = toggle;
         }
 
         //DEBUG METHODS:
