@@ -1032,12 +1032,7 @@ namespace TowerTanks.Scripts
                 }
             }
 
-            if (roomCount > 0) design.buildingSteps = new BuildStep[roomCount]; //Set up the instructions
-            else
-            {
-                Debug.LogError("You're trying to create a blank design. Place some rooms first.");
-                return null;
-            }
+            design.buildingSteps = new BuildStep[roomCount]; //Set up the instructions
 
             for (int i = 0; i < design.buildingSteps.Length; i++)
             {
