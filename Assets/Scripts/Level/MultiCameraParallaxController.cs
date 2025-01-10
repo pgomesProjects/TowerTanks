@@ -9,23 +9,57 @@ namespace TowerTanks.Scripts
     {
         public enum LayerType { TILE, CHUNK };
 
+        [Header("Layer Settings")]
         [Tooltip("The type of parallax layer.")] public LayerType layerType;
         [Tooltip("The SpriteRenderer for the background.")] public SpriteRenderer parallaxSpriteRenderer;
         [Tooltip("The speed of the parallax movement.")] public Vector2 parallaxSpeed;
         [Tooltip("The innate speed of the parallax movement.")] public Vector2 automaticSpeed;
         [Tooltip("If true, the background infinitely scrolls horizontally.")] public bool infiniteHorizontal;
         [Tooltip("If true, the background infinitely scrolls vertically.")] public bool infiniteVertical;
+        [Space()]
+        [Header("Chunk Settings")]
+        [Tooltip("The parent for the chunk layers.")]public Transform chunkParent;
+        [Tooltip("Prefab to spawn for chunk layers.")] public GameObject chunkPrefab;
+        [Tooltip("Frequency at which chunks are spawned.")] public float spawnFrequency = 5f;
+        [Tooltip("The pool size of the background layer.")] public int poolSize;
 
         private Vector2 textureUnitSize;
+        private float nextSpawnTime;
+        private float currentDistanceTraveled;
+        private List<GameObject> chunkPool = new List<GameObject>();
 
         public Vector2 GetTextureUnitSize() => textureUnitSize;
         public void SetTextureUnitSize(Vector2 textureUnitSize) => this.textureUnitSize = textureUnitSize;
+
+        public void ResetSpawnTimer()
+        {
+            nextSpawnTime = spawnFrequency;
+            currentDistanceTraveled = 0f;
+        }
+
+        public float GetCurrentDistanceTraveled() => currentDistanceTraveled;
+        public void SetDistanceTraveled(float distanceTraveled) => currentDistanceTraveled = distanceTraveled;
+        public bool CanSpawnChunk() => currentDistanceTraveled >= nextSpawnTime;
+        public GameObject GetNextChunk(Vector2 position)
+        {
+            GameObject newChunk = GameObject.Instantiate(chunkPrefab, chunkParent);
+            newChunk.transform.localPosition = position;
+            chunkPool.Add(newChunk);
+            return newChunk;
+        }
+
+        public void ReturnChunkToPool(GameObject chunk)
+        {
+            //Set inactive
+            chunk.SetActive(false);
+        }
     }
 
     public class MultiCameraParallaxController : MonoBehaviour
     {
         [SerializeField, Tooltip("The camera to follow.")] private Camera followCamera;
         [SerializeField, Tooltip("The layers of the parallax background.")] private List<ParallaxLayer> parallaxLayers = new List<ParallaxLayer>();
+        [SerializeField, Tooltip("How far away from the tank a chunk is allowed to render from.")] public float RENDER_DISTANCE = 100f;
 
         private Vector3 lastCameraPosition;
         private bool camInitialized;
@@ -35,12 +69,27 @@ namespace TowerTanks.Scripts
 
         private void Start()
         {
-            //Set the texture unit size of all the background pieces
             foreach(ParallaxLayer layer in parallaxLayers)
             {
-                Sprite sprite = layer.parallaxSpriteRenderer.sprite;
-                Texture2D texture = sprite.texture;
-                layer.SetTextureUnitSize(new Vector2(texture.width / sprite.pixelsPerUnit, texture.height / sprite.pixelsPerUnit) * layer.parallaxSpriteRenderer.transform.localScale);
+                switch (layer.layerType)
+                {
+                    case ParallaxLayer.LayerType.TILE:
+                        //Set the texture unit size of all the background pieces
+                        Sprite sprite = layer.parallaxSpriteRenderer.sprite;
+                        Texture2D texture = sprite.texture;
+                        layer.SetTextureUnitSize(new Vector2(texture.width / sprite.pixelsPerUnit, texture.height / sprite.pixelsPerUnit) * layer.parallaxSpriteRenderer.transform.localScale);
+                        break;
+                    case ParallaxLayer.LayerType.CHUNK:
+
+                        for(int i = 0; i < layer.poolSize; i++)
+                        {
+                            float xOffset = ChunkData.CHUNK_WIDTH * i;
+                            layer.GetNextChunk(new Vector2(xOffset, 0));
+                        }
+
+                        layer.ResetSpawnTimer();
+                        break;
+                }
             }
 
             for (int i = 0; i < parallaxLayers.Count; i++)
@@ -112,6 +161,35 @@ namespace TowerTanks.Scripts
                         }
                         break;
                     case ParallaxLayer.LayerType.CHUNK:
+                        //Move the layer
+                        Vector3 distanceMoved = new Vector3((deltaMovement.x * layer.parallaxSpeed.x) + (layer.automaticSpeed.x * Time.deltaTime), (deltaMovement.y * layer.parallaxSpeed.y) + (layer.automaticSpeed.y * Time.deltaTime), 0);
+                        layer.chunkParent.transform.position += distanceMoved;
+
+                        layer.SetDistanceTraveled(layer.GetCurrentDistanceTraveled() + distanceMoved.x);
+
+                        //If the layer can spawn a new chunk, spawn one
+                        if (layer.CanSpawnChunk())
+                        {
+                            layer.ResetSpawnTimer();
+                        }
+
+                        List<Transform> chunksToRecycle = new List<Transform>();
+                        //If there are chunks outside of the layer's render distance, add them to a list to recycle
+                        foreach (Transform chunk in layer.chunkParent)
+                        {
+                            float chunkDistance = Vector3.Distance(followCamera.transform.position, chunk.position);
+
+                            if (chunkDistance <= RENDER_DISTANCE)
+                                chunk.gameObject.SetActive(true);
+
+                            if (chunkDistance > RENDER_DISTANCE)
+                                chunksToRecycle.Add(chunk);
+                        }
+
+                        //Return all chunks outside of the render distance to the chunk pool
+                        foreach (Transform chunk in chunksToRecycle)
+                            layer.ReturnChunkToPool(chunk.gameObject);
+
                         break;
                 }
             }

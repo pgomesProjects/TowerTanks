@@ -30,7 +30,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 3696405528154087440}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3696405527362995913
 SpriteRenderer:
@@ -200,6 +200,7 @@ Transform:
   - {fileID: 3696405528373490711}
   - {fileID: 3696405528355790695}
   - {fileID: 3696405527914470448}
+  - {fileID: 8691455531486725043}
   - {fileID: 3696405527362995919}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -224,24 +225,41 @@ MonoBehaviour:
     automaticSpeed: {x: 0.3, y: 0}
     infiniteHorizontal: 1
     infiniteVertical: 1
+    chunkParent: {fileID: 0}
+    chunkPrefab: {fileID: 0}
+    spawnFrequency: 0
+    poolSize: 0
   - layerType: 0
     parallaxSpriteRenderer: {fileID: 3696405528355790694}
     parallaxSpeed: {x: 0.8, y: 0.7}
     automaticSpeed: {x: 0, y: 0}
     infiniteHorizontal: 1
     infiniteVertical: 0
+    chunkParent: {fileID: 0}
+    chunkPrefab: {fileID: 0}
+    spawnFrequency: 0
+    poolSize: 0
   - layerType: 0
     parallaxSpriteRenderer: {fileID: 3696405527914470451}
     parallaxSpeed: {x: 0.65, y: 0.5}
     automaticSpeed: {x: 0, y: 0}
     infiniteHorizontal: 1
     infiniteVertical: 0
+    chunkParent: {fileID: 0}
+    chunkPrefab: {fileID: 0}
+    spawnFrequency: 0
+    poolSize: 0
   - layerType: 0
     parallaxSpriteRenderer: {fileID: 3696405527362995913}
     parallaxSpeed: {x: -0.9, y: 0}
     automaticSpeed: {x: 0, y: 0}
     infiniteHorizontal: 1
     infiniteVertical: 0
+    chunkParent: {fileID: 0}
+    chunkPrefab: {fileID: 0}
+    spawnFrequency: 0
+    poolSize: 0
+  RENDER_DISTANCE: 100
   desertColorPalette:
   - {r: 0.9607844, g: 0.92549026, b: 0.627451, a: 1}
   - {r: 1, g: 0.8745098, b: 0.72156864, a: 1}
@@ -416,3 +434,34 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &6086539686815460681
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8691455531486725043}
+  m_Layer: 0
+  m_Name: TestChunkLayer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8691455531486725043
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6086539686815460681}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 46.3, y: -10, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 3696405528154087440}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
