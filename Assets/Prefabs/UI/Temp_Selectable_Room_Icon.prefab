@@ -27,7 +27,7 @@ RectTransform:
   m_GameObject: {fileID: 1531952330795422848}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.9, y: 0.9, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3512296238343044260}
@@ -66,7 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 8a1e735953e68c242bf6fc05c3152f48, type: 2}
+  m_Sprite: {fileID: 21300000, guid: 854c6dca32171d547bee63ec2c7ebfc3, type: 2}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -142,7 +142,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 11152d2db7abead46a7b9c4e82468985, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -222,7 +222,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 11152d2db7abead46a7b9c4e82468985, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -245,6 +245,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayerExclusive: 0
+  ownerPlayerIndex: -1
   selectableImage: {fileID: 3908477095875635026}
   hoverColor: {r: 0, g: 1, b: 0.083200455, a: 0.39215687}
   selectColor: {r: 1, g: 0.4198113, b: 0.4198113, a: 0.627451}

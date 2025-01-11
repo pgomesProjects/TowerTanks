@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: 3-Cell Elbow A
   roomObject: {fileID: 3076244680111811852, guid: 0e2f209746c77a04fb197813b0d75d43, type: 3}
-  sprite: {fileID: 21300000, guid: 8a1b7c0b49dc5ff4cb709650b7a89ae2, type: 2}
+  sprite: {fileID: 21300000, guid: 772596ce553ef3446a43f9c3dc0c5a86, type: 2}

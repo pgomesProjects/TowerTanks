@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: 4-Cell Z C
   roomObject: {fileID: 3076244680111811852, guid: 1ff5ecd312e82094f93416dd7a78e87b, type: 3}
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: b354221f2fdea6040a58fb914cbdaa37, type: 2}

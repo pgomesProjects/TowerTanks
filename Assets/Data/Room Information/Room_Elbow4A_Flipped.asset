@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: 4-Cell Elbow A Flipped
   roomObject: {fileID: 3076244680111811852, guid: 58db6f32a2ebb6e4cb7be33a1709a890, type: 3}
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: a6d766199814c2948813b1ef57a3ba1d, type: 2}

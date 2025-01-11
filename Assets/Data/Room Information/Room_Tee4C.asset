@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: 4-Cell Tee C
   roomObject: {fileID: 3076244680111811852, guid: 015bef292bb9b914b9cb1082cee66bf7, type: 3}
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: d471856c96222f847ab31b63d27d87a1, type: 2}
