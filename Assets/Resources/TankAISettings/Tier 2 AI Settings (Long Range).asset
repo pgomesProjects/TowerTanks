@@ -61,7 +61,7 @@ MonoBehaviour:
       Data: 2
     - Name: $v
       Entry: 4
-      Data: 25
+      Data: 50
     - Name: 
       Entry: 8
       Data: 
@@ -80,7 +80,7 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 12
-      Data: 3
+      Data: 4
     - Name: 
       Entry: 7
       Data: 
@@ -101,7 +101,7 @@ MonoBehaviour:
       Data: 2
     - Name: $v
       Entry: 4
-      Data: 50
+      Data: 75
     - Name: 
       Entry: 8
       Data: 
@@ -111,6 +111,18 @@ MonoBehaviour:
     - Name: $k
       Entry: 3
       Data: 5
+    - Name: $v
+      Entry: 4
+      Data: 50
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 3
     - Name: $v
       Entry: 4
       Data: 50
@@ -189,7 +201,7 @@ MonoBehaviour:
       Data: 2
     - Name: $v
       Entry: 4
-      Data: 25
+      Data: 50
     - Name: 
       Entry: 8
       Data: 
@@ -199,9 +211,9 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-  viewRange: 150
-  maxEngagementRange: 115
-  preferredFightDistance: 90
-  tankEconomy: 3
+  viewRange: 125
+  maxEngagementRange: 90
+  preferredFightDistance: 75
+  tankEconomy: 4
   tankAccuracy: 70
   redistributeTokensCooldown: 15
