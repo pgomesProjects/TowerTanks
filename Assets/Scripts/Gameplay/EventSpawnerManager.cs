@@ -145,7 +145,8 @@ namespace TowerTanks.Scripts
         public void SpawnNewMerchant()
         {
             //Finding new spawn point
-            float chunkX = (currentChunk + 8) * ChunkData.CHUNK_WIDTH; //Find the chunk that's 8 chunks away from current chunk
+            int offset = currentChunk + 6; //Find the chunk that's [x] chunks away from current chunk
+            float chunkX = chunkLoader.GetChunkAtIndex(offset).transform.position.x; //get it's x position
             Vector3 findPos = new Vector3(chunkX, 0, 0);
             Vector3 newSpawnPoint = chunkLoader.GetChunkAtPosition(findPos).transform.position; //Get it's position
 
@@ -212,7 +213,7 @@ namespace TowerTanks.Scripts
         public void SpawnEndOfLevel()
         {
             Debug.Log("Spawned Flag!");
-            int flagOffset = currentChunk + 3;
+            int flagOffset = lastChunk + 3;
             chunkLoader.SpawnEndFlag(flagOffset);
         }
     }

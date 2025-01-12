@@ -4313,7 +4313,7 @@ MonoBehaviour:
     weight: 0
     bias: 0
     isPreset: 1
-  poolSize: 50
+  poolSize: 500
   RENDER_DISTANCE: 600
   obstacles:
   - obstacle: {fileID: 7245675298519190089, guid: 8d1ac7cdbdbefb843bad6d3cd7f79167, type: 3}
