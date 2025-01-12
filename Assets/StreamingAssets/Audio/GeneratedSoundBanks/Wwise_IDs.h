@@ -62,6 +62,7 @@ namespace AK
         static const AkUniqueID SMALL_EXPLOSION = 3519998062U;
         static const AkUniqueID STEAM_EXHAUST = 2561646952U;
         static const AkUniqueID STEAM_EXHAUST_LOOP = 3673494633U;
+        static const AkUniqueID TANK_ALARM = 3127992739U;
         static const AkUniqueID TANK_CREAKING = 620130432U;
         static const AkUniqueID TANK_ENGINE = 212754890U;
         static const AkUniqueID TANK_IMPACT = 70658946U;

@@ -41,6 +41,7 @@ namespace TowerTanks.Scripts
         private Transform connectorParent;                           //Parent object which contains all connectors
         internal RoomData roomData;                                  //ScriptableObject containing data about rooms and objects spawned by them
         internal PhysicsMaterial2D dummyMat;                         //Material recieved from RoomData when assigning it to the Room upon DummyRoom creation
+        internal Animator roomAnimator;                              //Animator component used for room VFX
         
         internal List<GameObject> ladders = new List<GameObject>();       //Ladders that are in this room
         private List<GameObject> leadingLadders = new List<GameObject>(); //Ladders that lead to cells in this room (but are in different rooms)

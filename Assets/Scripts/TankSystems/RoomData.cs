@@ -19,6 +19,7 @@ public class RoomData : ScriptableObject
     [Tooltip("Reference to indicator object which shows up on rooms with open interactable slots.")]                  public GameObject slotIndicator;
     [Tooltip("Physics Material to use when making a DummyRoom Object.")]                                              public PhysicsMaterial2D dummyMaterial;
                                                                                                                       public GameObject fireBackLayer;
+                                                                                                                      public GameObject roomAnimator;
     [Space()]   
     [Tooltip("List of all interactables which can be installed in tank.")] public GameObject[] interactableList;
 

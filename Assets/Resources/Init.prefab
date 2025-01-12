@@ -999,6 +999,11 @@ MonoBehaviour:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: deabb46e2c35c28418325f247f5bb929, type: 2}
+  - name: TankAlarm
+    audioEvent:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: e0e9abf135f76cc40a145c2fa5a97a34, type: 2}
   currentTrack:
     name: 
     audioEvent:

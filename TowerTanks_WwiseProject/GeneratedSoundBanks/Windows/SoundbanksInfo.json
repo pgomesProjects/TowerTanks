@@ -124,7 +124,7 @@
     "Type": "User",
     "GUID": "{37497F3A-0B2B-421A-8CAB-0ADBE8B1C2B4}",
     "Language": "SFX",
-    "Hash": "{28C1BB1F-7567-4BA7-A853-37996EE953F4}",
+    "Hash": "{BE787978-2BC8-38C6-D4D4-E5C249B9CB21}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\mainbank",
     "ShortName": "mainbank",
     "Path": "mainbank.bnk",
@@ -634,6 +634,14 @@
       "CachePath": "8F/{8F6BE431-38BD-7DB5-E73D-B96C50A3203A}.wem"
      },
      {
+      "Id": "828978616",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "TT_SFX_tank_alarm_v1.wav",
+      "CachePath": "C5/{C552FD03-91D5-03C0-795E-6B87DAF644F7}.wem"
+     },
+     {
       "Id": "835123090",
       "Language": "SFX",
       "Streaming": "false",
@@ -728,6 +736,14 @@
       "Location": "Memory",
       "ShortName": "MachineGun GUNS01_89_2.wav",
       "CachePath": "DC/{DC5D313B-E1AB-E91E-EF06-A7A69C21671F}.wem"
+     },
+     {
+      "Id": "961137882",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "TT_SFX_tank_alarm.wav",
+      "CachePath": "4C/{4C6FA7C6-3F4A-4B2E-4F85-AF1E906EC26B}.wem"
      },
      {
       "Id": "963356657",
@@ -1606,6 +1622,24 @@
       ]
      },
      {
+      "Id": "3127992739",
+      "Name": "tank_alarm",
+      "ObjectPath": "\\Events\\Default Work Unit\\tank_alarm",
+      "GUID": "{F4B0D818-4D6B-4B8B-AB95-B111A6ADA2A0}",
+      "Color": "13",
+      "DurationType": "OneShot",
+      "DurationMin": "2.625",
+      "DurationMax": "2.625",
+      "MediaRefs": [
+       {
+        "Id": "828978616"
+       },
+       {
+        "Id": "961137882"
+       }
+      ]
+     },
+     {
       "Id": "620130432",
       "Name": "tank_creaking",
       "ObjectPath": "\\Events\\Default Work Unit\\tank_creaking",
@@ -1815,6 +1849,6 @@
     ]
    }
   ],
-  "FileHash": "{EB0ECC1A-D29B-3BAA-D4C4-E32636E84EAC}"
+  "FileHash": "{3FEF6F3D-FA1B-1E0E-C6C6-0C643646F390}"
  }
 }

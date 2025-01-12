@@ -43,6 +43,7 @@ Event	ID	Name			Wwise Object Path	Notes
 	2581980243	coal_pickup			\Default Work Unit\coal_pickup	
 	2737219330	wind_ambience			\Default Work Unit\wind_ambience	
 	3121770429	engine_dying			\Default Work Unit\engine_dying	
+	3127992739	tank_alarm			\Default Work Unit\tank_alarm	
 	3130542990	button_cancel			\Default Work Unit\button_cancel	
 	3193012965	cannon_fire_recycled			\Default Work Unit\cannon_fire_recycled	
 	3265936618	cannon_reload			\Default Work Unit\cannon_reload	
@@ -133,6 +134,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	792905054	TT_SFX_cannon-aim-system	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\B9\{B9119D81-24A7-A730-4EBA-D14AAF0192CA}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_cannon-aim-system		53771
 	806435377	TT_SFX_cannon-fires	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\D1\{D178815B-0AEF-C6B5-7378-A5196AFC8D6C}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_cannon-fires		18393
 	813749911	TT_UI_button_hover	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\5B\{5B608055-7BCE-4A63-F699-411CE536FD69}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_UI_button_hover		2347
+	828978616	TT_SFX_tank_alarm_v1	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\70\{709201FA-8BE4-C7F3-19A1-5921CF4D039D}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_tank-alarm\TT_SFX_tank_alarm_v1		27105
 	835123090	TT_SFX_text-scroll	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\37\{37DBB2E4-D704-892A-B589-3A595DB84453}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_text-scroll		1078
 	841978207	TT_SFX_bullet_impact_04	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\5A\{5ACAD7B1-B5C2-EB47-26EB-2E5B6ED028DF}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_bullet_impact\TT_SFX_bullet_impact_04		4474
 	863978555	TT_SFX_invalidAlert	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\90\{90676216-771C-E2AA-7B3B-65EF5ABC843F}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_invalidAlert		3987
@@ -145,6 +147,7 @@ In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
 	895375203	TT_SFX_jetpack-startup	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\94\{941B7443-4579-18FC-1ECD-66B8D140E99A}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_jetpack-startup\TT_SFX_jetpack-startup		8719
 	905378176	TT_SFX_steam_exhaust_v2	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\F2\{F292FD01-13C5-9192-2035-A497FC7C474F}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_steam-exhaust\TT_SFX_steam_exhaust_v2		9449
 	920263717	TT_SFX_machine_gun_fire_1	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\DD\{DDC09237-67B1-9C3B-146F-4C42B81FF34D}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_machine_gun_fire\TT_SFX_machine_gun_fire_1		41115
+	961137882	TT_SFX_tank_alarm	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\5B\{5BFD7624-E1FF-0D78-C54C-641DEC9ACA8E}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_tank-alarm\TT_SFX_tank_alarm		27074
 	963356657	TT_SFX_blaring-alarm	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\A1\{A127C078-8F7F-A506-0620-10CD09CDDACB}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_blaring-alarm		91016
 	981522565	TT_SFX_coal-pickup_v1	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\53\{53EE67B6-E53E-A7FB-D99F-8EAA4E0A81E6}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_coal_pickup\TT_SFX_coal-pickup_v1		5772
 	1032382603	TT_SFX_cannon_fire_v5	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\11\{114D99AE-BC2C-FAE1-4006-8B393889ED1C}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_cannon_fire (recycled)\TT_SFX_cannon_fire_v5		7396

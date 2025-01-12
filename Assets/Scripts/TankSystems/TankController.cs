@@ -66,6 +66,7 @@ namespace TowerTanks.Scripts
         [InlineButton("ShiftLeft", SdfIconType.ArrowLeft, "")]
         public int gear;
         public System.Action<float> OnCoreDamaged;
+        private bool alarmTriggered;
 
         public void ShiftRight()
         {
@@ -468,7 +469,8 @@ namespace TowerTanks.Scripts
                 if (currentCoreHealth <= (coreHealth * 0.40f)) { diageticElements[7].gameObject.SetActive(true); }
                 if (currentCoreHealth <= (coreHealth * 0.30f)) { diageticElements[3].gameObject.SetActive(true); }
                 if (currentCoreHealth <= (coreHealth * 0.20f)) 
-                { 
+                {
+                    if (!alarmTriggered) TriggerTankAlarm();
                     diageticElements[8].gameObject.SetActive(true);
                     diageticElements[11].gameObject.SetActive(true); //Smoke
                 }
@@ -910,6 +912,20 @@ namespace TowerTanks.Scripts
             {
                 cargoHold[i] = GameManager.Instance.CargoManager.GetRandomCargo();
             }
+        }
+
+        public void TriggerTankAlarm()
+        {
+            if (tankType != TankId.TankType.PLAYER) return;
+            foreach(Room room in rooms)
+            {
+                if (room.roomAnimator != null)
+                {
+                    room.roomAnimator.Play("Alarm", 0, 0);
+                }
+            }
+            GameManager.Instance.AudioManager.Play("TankAlarm", transform.gameObject);
+            alarmTriggered = true;
         }
 
         

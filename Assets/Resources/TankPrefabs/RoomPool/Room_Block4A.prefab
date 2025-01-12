@@ -51,6 +51,7 @@ MonoBehaviour:
   assetKit: {fileID: 11400000, guid: 530fa040df4a8014d8d7b5abd56e4bdf, type: 2}
   isCore: 0
   type: 0
+  ignoreRoomKit: 0
 --- !u!1 &3937679562241493354
 GameObject:
   m_ObjectHideFlags: 0

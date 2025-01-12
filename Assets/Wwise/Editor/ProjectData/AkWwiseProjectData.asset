@@ -101,7 +101,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: df5fafb8b92e944290f5318847f0e90d
     GuidInternal: 
-    m_lastTime: -8584652976339515862
+    m_lastTime: -8584649628179018171
     List:
     - name: mainbank
       guid: 3a7f49372b0b1a428cab0adbe8b1c2b4
@@ -1013,8 +1013,8 @@ MonoBehaviour:
         guid: 18d8b0f46b4d8b4bab95b111a6ada2a0
       Path: Events\Default Work Unit\tank_alarm
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 2.625
+      minDuration: 2.625
     - name: tank_creaking
       guid: 3de2d9cf54b530409cb4cdcbae47bf37
       id: 620130432
@@ -1368,7 +1368,7 @@ MonoBehaviour:
     m_lastTime: -8584661205432012758
     List: []
   ExpandedFileSystemItemIds: 
-  ExpandedWaapiItemIds: 0600000007000000
+  ExpandedWaapiItemIds: 050000000600000007000000
   AutoSyncSelection: 0
   autoPopulateEnabled: 1
   currentDataSource: 0
