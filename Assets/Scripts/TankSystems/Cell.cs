@@ -250,6 +250,13 @@ namespace TowerTanks.Scripts
                 animSpeed = 4f;
             }
 
+            //Check Ai Triggers
+            TankAI ai = room?.targetTank.GetComponent<TankAI>();
+            if (room.targetTank.tankType != projectile.factionId)
+            {
+                if (ai != null) ai.TriggerAlerted();
+            }
+
             //Deal damage:
             if (room.isCore || room.targetTank.isFragile) //Projectile has struck a core cell, or the tank is fragile
             {

@@ -41,6 +41,7 @@ namespace TowerTanks.Scripts
 
         [Header("AI Configuration")]
         public TankAISettings aiSettings;
+        private bool alerted; //AI is alerted when taking damage from a player-source for the first time
 
         private void Awake()
         {
@@ -247,8 +248,31 @@ namespace TowerTanks.Scripts
             }
         }
 
+        public void TriggerAlerted()
+        {
+            if (alerted) return;
+            if (aiSettings != null)
+            {
+                Debug.Log("HEY! WHAT THE-");
+                StartCoroutine(Alert(5f));
+            }
+        }
+
+        private IEnumerator Alert(float duration)
+        {
+            alerted = true;
+            aiSettings.viewRange += 50f;
+            yield return new WaitForSeconds(duration);
+            aiSettings.viewRange -= 50f;
+            alerted = false;
+        }
+
         #endregion
 
+        private void OnDestroy()
+        {
+            StopAllCoroutines();
+        }
 
 #if UNITY_EDITOR
         private void OnDrawGizmos()
