@@ -17,9 +17,9 @@ namespace TowerTanks.Scripts
         public float GetDistanceToTarget() => Vector2.Distance(tank.treadSystem.transform.position, targetTank.treadSystem.transform.position);
         
         public bool TargetInViewRange() =>      targetTank != null &&
-                                                GetDistanceToTarget() < aiSettings.viewRange;
+                                                GetDistanceToTarget() < aiSettings.viewRange + viewRangeOffset;
         public bool TargetOutOfView() =>        targetTank == null ||
-                                                GetDistanceToTarget() > aiSettings.viewRange;
+                                                GetDistanceToTarget() > aiSettings.viewRange + viewRangeOffset;
         public bool TargetInEngageRange() =>    targetTank != null &&
                                                 GetDistanceToTarget() < aiSettings.maxEngagementRange;
         public bool TargetOutOfEngageRange() => targetTank == null ||
@@ -42,6 +42,7 @@ namespace TowerTanks.Scripts
         [Header("AI Configuration")]
         public TankAISettings aiSettings;
         private bool alerted; //AI is alerted when taking damage from a player-source for the first time
+        private float viewRangeOffset = 0;
 
         private void Awake()
         {
@@ -64,7 +65,7 @@ namespace TowerTanks.Scripts
             
             At(patrolState, pursueState, TargetInViewRange);
             At(pursueState, engageState ,TargetInEngageRange);
-            At(engageState, patrolState ,TargetOutOfView);
+            At(engageState, pursueState ,TargetOutOfEngageRange);
             At(pursueState, patrolState ,TargetOutOfView);
 
             AnyAt(surrenderState, NoGuns); //this being an "any transition" means that it can be triggered from any state
@@ -261,9 +262,9 @@ namespace TowerTanks.Scripts
         private IEnumerator Alert(float duration)
         {
             alerted = true;
-            aiSettings.viewRange += 50f;
+            viewRangeOffset += 50f;
             yield return new WaitForSeconds(duration);
-            aiSettings.viewRange -= 50f;
+            viewRangeOffset -= 50f;
             alerted = false;
         }
 
