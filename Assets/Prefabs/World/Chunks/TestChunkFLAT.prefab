@@ -494,6 +494,7 @@ MonoBehaviour:
   - {fileID: 5766760174749146771}
   - {fileID: 1714020705110227720}
   - {fileID: 8560121704073244540}
+  canSpawnLandmarks: 1
 --- !u!1 &4249769414675342450
 GameObject:
   m_ObjectHideFlags: 0

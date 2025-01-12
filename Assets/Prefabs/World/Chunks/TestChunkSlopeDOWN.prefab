@@ -282,6 +282,7 @@ MonoBehaviour:
   - {fileID: 7786789435012479441}
   - {fileID: 8518717004578451040}
   - {fileID: 393124542386500123}
+  canSpawnLandmarks: 1
 --- !u!1971053207 &6657773278462411101
 SpriteShapeRenderer:
   m_ObjectHideFlags: 0

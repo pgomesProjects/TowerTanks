@@ -330,6 +330,7 @@ MonoBehaviour:
   obstacleSpawns:
   - {fileID: 9190537855465215165}
   - {fileID: 7602278658303684119}
+  canSpawnLandmarks: 0
 --- !u!1971053207 &6657773278462411101
 SpriteShapeRenderer:
   m_ObjectHideFlags: 0

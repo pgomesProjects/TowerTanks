@@ -31,6 +31,10 @@ namespace TowerTanks.Scripts
         public ObstacleWeight[] obstacles;
         public float obstacleChance;
         private string[] obstacleWeights;
+        public GameObject[] landmarks;
+        [SerializeField, Tooltip("The chance that a landmark will spawn on a chunk.")] public float landmarkChance;
+        [SerializeField, Tooltip("How many chunks must spawn between each landmark.")] public int landMarkOffset;
+        private int landMarkCounter = 0;
 
         [Header("Procedural Variables")]
         [SerializeField, Tooltip("When false, the same bias can't happen twice in a row")] public bool biasesCanRepeat;
@@ -257,6 +261,19 @@ namespace TowerTanks.Scripts
             //Roll for obstacle
             GameObject randomObstacle = DetermineObstacleType();
             newChunkTransform.GenerateObstacle(randomObstacle, obstacleChance);
+
+            //Roll for Landmark
+            if (landMarkCounter >= landMarkOffset)
+            {
+                GameObject landMark = landmarks[(int)Random.Range(0, landmarks.Length)];
+                float random = Random.Range(0, 100);
+                if ((random <= landmarkChance) && newChunkTransform.canSpawnLandmarks)
+                {
+                    newChunkTransform.GenerateLandmark(landMark);
+                    landMarkCounter = 0;
+                }
+            }
+            else landMarkCounter++;
 
             //Check for bias
             foreach (ChunkWeight weight in chunkPrefabs)

@@ -22,6 +22,8 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("Position on this chunk to spawn a flag")] private Transform flagSpawn; //place to spawn a flag if needed
         [SerializeField, Tooltip("Positions on this chunk to spawn obstacles")] private Transform[] obstacleSpawns; //place to spawn a flag if needed
 
+        public bool canSpawnLandmarks;
+
         private void Awake()
         {
             flagSpawn = transform.Find("FlagSpawn");
@@ -51,6 +53,16 @@ namespace TowerTanks.Scripts
                 int random = Random.Range(0, obstacleSpawns.Length);
                 Transform randomSpawn = obstacleSpawns[random];
                 DestructibleObject newObstacle = Instantiate(obstacle, randomSpawn.position, randomSpawn.rotation, transform).GetComponent<DestructibleObject>();
+            }
+        }
+
+        public void GenerateLandmark(GameObject landmark)
+        {
+            if (canSpawnLandmarks && obstacleSpawns.Length > 0)
+            {
+                int random = Random.Range(0, obstacleSpawns.Length);
+                Transform randomSpawn = obstacleSpawns[random];
+                GameObject newLandmark = Instantiate(landmark, randomSpawn.position, randomSpawn.rotation, transform);
             }
         }
 

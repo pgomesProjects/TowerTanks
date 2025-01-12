@@ -279,6 +279,7 @@ MonoBehaviour:
   - {fileID: 9190537855465215165}
   - {fileID: 7602278658303684119}
   - {fileID: 1461379401561532572}
+  canSpawnLandmarks: 0
 --- !u!1971053207 &6657773278462411101
 SpriteShapeRenderer:
   m_ObjectHideFlags: 0
@@ -289,7 +290,7 @@ SpriteShapeRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
+  m_DynamicOccludee: 0
   m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
@@ -765,7 +766,7 @@ SpriteMask:
   m_BackSortingLayerID: -246504627
   m_FrontSortingLayer: -1
   m_BackSortingLayer: -1
-  m_FrontSortingOrder: -4
+  m_FrontSortingOrder: -3
   m_BackSortingOrder: -6
   m_IsCustomRangeActive: 1
   m_SpriteSortPoint: 0
