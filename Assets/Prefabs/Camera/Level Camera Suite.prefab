@@ -236,13 +236,15 @@ MonoBehaviour:
   engagementCamSeparation: 25
   horizontalOffsetSmoothing: 6
   tankCameraColor: {r: 0.26666668, g: 0.6156863, b: 0.86666673, a: 1}
-  engagementDistance: 100
-  shareCamDistance: 10
-  shareCamStickDistance: 16
-  cameraDisappearTime: 3
+  engagementDistance: 150
+  shareCamDistance: 30
+  shareCamStickDistance: 40
+  cameraDisappearTime: 4
   radarEdgeBuffer: {x: 2.5, y: 0}
   radarRange: 150
   boundColliderEdgeRadius: 1
+  testShakeIntensity: 0
+  testShakeDuration: 0
 --- !u!1 &7846537676312662459
 GameObject:
   m_ObjectHideFlags: 0

@@ -116,6 +116,8 @@ namespace TowerTanks.Scripts
         {
             if (currentHolder == null)
             {
+                rb.velocity = new Vector2(0, 0);
+                rb.angularVelocity = 0;
                 currentHolder = player;
                 player.isCarryingSomething = true;
                 player.currentObject = this;

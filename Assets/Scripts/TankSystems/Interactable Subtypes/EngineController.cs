@@ -320,7 +320,7 @@ namespace TowerTanks.Scripts
                 if (currentGauge.PressGauge())
                 {
                     AddPressure(30, true, true);
-                    GameManager.Instance.AudioManager.Play("JetpackRefuel"); //Got it!
+                    GameManager.Instance.AudioManager.Play("JetpackRefuel", this.gameObject); //Got it!
                 }
                 else
                 {
