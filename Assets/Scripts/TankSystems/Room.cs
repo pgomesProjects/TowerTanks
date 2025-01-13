@@ -4,7 +4,6 @@ using UnityEngine;
 using System.Linq;
 using CustomEnums;
 using Sirenix.OdinInspector;
-using UnityEditor.SceneManagement;
 using UnityEngine.U2D;
 using UnityEngine.Rendering;
 

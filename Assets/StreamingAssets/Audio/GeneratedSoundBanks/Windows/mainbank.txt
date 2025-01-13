@@ -1,0 +1,159 @@
+Event	ID	Name			Wwise Object Path	Notes
+	70658946	tank_impact			\Default Work Unit\tank_impact	
+	137332291	projectile_in_air			\Default Work Unit\projectile_in_air	
+	155513425	cannon_fire			\Default Work Unit\cannon_fire	
+	164337995	loading_coal			\Default Work Unit\loading_coal	
+	185536228	build_undo			\Default Work Unit\build_undo	
+	212754890	tank_engine			\Default Work Unit\tank_engine	
+	228008419	room_connect			\Default Work Unit\room_connect	
+	299811467	tank_rolling			\Default Work Unit\tank_rolling	
+	369266163	engine_running			\Default Work Unit\engine_running	
+	531217250	large_explosion			\Default Work Unit\large_explosion	
+	566396871	item_pickup			\Default Work Unit\item_pickup	
+	620130432	tank_creaking			\Default Work Unit\tank_creaking	
+	756560803	jetpack_startup			\Default Work Unit\jetpack_startup	
+	946664204	cannon_rotate			\Default Work Unit\cannon_rotate	
+	1015288770	death_stinger			\Default Work Unit\death_stinger	
+	1134111855	coal_load			\Default Work Unit\coal_load	
+	1141416880	throttle_click			\Default Work Unit\throttle_click	
+	1221570156	cannon_aim			\Default Work Unit\cannon_aim	
+	1266436627	jetpack_refuel			\Default Work Unit\jetpack_refuel	
+	1318321645	fire_burning			\Default Work Unit\fire_burning	
+	1469012939	Global_Pause			\Default Work Unit\Global_Pause	
+	1498048058	engine_dying_2			\Default Work Unit\engine_dying_2	
+	1701177942	button_hover			\Default Work Unit\button_hover	
+	1707141479	ladder_climb			\Default Work Unit\ladder_climb	
+	1707782163	main_menu_ambience			\Default Work Unit\main_menu_ambience	
+	1779807686	cannon_fire_new			\Default Work Unit\cannon_fire_new	
+	1784725048	Into_the_Breach_Combat			\Default Work Unit\Into_the_Breach_Combat	
+	1797317650	wrench			\Default Work Unit\wrench	
+	1818101133	Into_the_Breach			\Default Work Unit\Into_the_Breach	
+	1821032580	throttle_shift			\Default Work Unit\throttle_shift	
+	1932095129	combat_music			\Default Work Unit\combat_music	
+	1967707158	cannon_lock_in_place			\Default Work Unit\cannon_lock_in_place	
+	2012015775	text_beep			\Default Work Unit\text_beep	
+	2075466706	rotate_room			\Default Work Unit\rotate_room	
+	2121623384	medium_explosion			\Default Work Unit\medium_explosion	
+	2191775701	invalid_alert			\Default Work Unit\invalid_alert	
+	2264166104	Into_the_Breach_Build			\Default Work Unit\Into_the_Breach_Build	
+	2462051799	build_room			\Default Work Unit\build_room	
+	2496259136	Global_Unpause			\Default Work Unit\Global_Unpause	
+	2515943394	machine_gun_fire			\Default Work Unit\machine_gun_fire	
+	2561646952	steam_exhaust			\Default Work Unit\steam_exhaust	
+	2581980243	coal_pickup			\Default Work Unit\coal_pickup	
+	2737219330	wind_ambience			\Default Work Unit\wind_ambience	
+	3121770429	engine_dying			\Default Work Unit\engine_dying	
+	3127992739	tank_alarm			\Default Work Unit\tank_alarm	
+	3130542990	button_cancel			\Default Work Unit\button_cancel	
+	3193012965	cannon_fire_recycled			\Default Work Unit\cannon_fire_recycled	
+	3265936618	cannon_reload			\Default Work Unit\cannon_reload	
+	3289544510	character_use			\Default Work Unit\character_use	
+	3326819226	bullet_impact_dirt			\Default Work Unit\bullet_impact_dirt	
+	3510154964	text_scroll			\Default Work Unit\text_scroll	
+	3519998062	small_explosion			\Default Work Unit\small_explosion	
+	3615561815	metal_footstep			\Default Work Unit\metal_footstep	
+	3620024679	Into_the_Breach_Combat_2			\Default Work Unit\Into_the_Breach_Combat_2	
+	3673494633	steam_exhaust_loop			\Default Work Unit\steam_exhaust_loop	
+	3902994021	muffled_cannon_fire			\Default Work Unit\muffled_cannon_fire	
+	3921814510	bullet_impact			\Default Work Unit\bullet_impact	
+	3943443513	jetpack_rocket_loop			\Default Work Unit\jetpack_rocket_loop	
+	3947822154	Into_the_Breach_2			\Default Work Unit\Into_the_Breach_2	
+	3949782988	blaring_alarm			\Default Work Unit\blaring_alarm	
+
+Game Parameter	ID	Name			Wwise Object Path	Notes
+	2346531308	MusicVolume			\Default Work Unit\MusicVolume	
+	2431286926	CombatLayer0Volume			\Default Work Unit\CombatLayer0Volume	
+	2831834313	CombatLayer3Volume			\Default Work Unit\CombatLayer3Volume	
+	2834886298	GlobalCombatVolume			\Default Work Unit\GlobalCombatVolume	
+	2857378200	SFXPitch			\Default Work Unit\SFXPitch	
+	3720003847	CombatLayer1Volume			\Default Work Unit\CombatLayer1Volume	
+	3939064495	EnginePitch			\Default Work Unit\EnginePitch	
+	4287925136	CombatLayer2Volume			\Default Work Unit\CombatLayer2Volume	
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	2061770	TT_SFX_buildUndo	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\55\{5537AA81-3994-E241-2096-F078995CF6C5}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_buildUndo		4164
+	3469524	TT_SFX_engine-dying-2	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\E0\{E00D8EE9-9B88-C36D-C5E2-E77320321E63}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_engine-dying-2		92472
+	16839121	TT_SFX_coal-load_Fire	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\18\{18F97C29-FDAA-E3AD-A9FA-2D54AC1C9BDF}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_coal-load_Fire		11324
+	22366201	TT_SFX_cannon-reload	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\3C\{3CED9436-3B31-39C7-07C1-B2A7229F4FEA}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_cannon-reload		21199
+	89869954	TT_SFX_cannon_rotate_v2	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\CD\{CDFE90CD-8C7B-7B50-7B97-F53619BEE540}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_cannon_rotate_v2		52180
+	127070365	TTTT_L2_Combat_Mix_2_28_23	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\0E\{0E3879E9-4747-07AE-76CC-D53E26563DE9}.wem		\Interactive Music Hierarchy\Default Work Unit\Combat\CombatMusicTracks\TTTT_L2_Combat_Mix_2_28_23		618743
+	168215010	TT_SFX_coal-pickup	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\E1\{E1D84A44-DF7D-F818-DD60-0BDC0010E20B}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_coal_pickup\TT_SFX_coal-pickup		6074
+	170713564	TT_BGM_Into_the_Breach_2	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\87\{87C5F136-FC73-6158-06BF-D925B8EF108F}.wem		\Actor-Mixer Hierarchy\Default Work Unit\BGM\TT_BGM_Into_the_Breach_2		2261868
+	172496222	TT_SFX_steam_exhaust	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\54\{5453DA23-57F1-9B3B-A68F-19278258CBE9}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_steam-exhaust\TT_SFX_steam_exhaust		7439
+	188920233	TT_UI_button_cancel	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\50\{50F79E7B-290F-B65C-3871-FD3E09F5E315}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_UI_button_cancel		2461
+	238669381	TTTT_L0_Combat_Mix_2_28_23	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\4C\{4CAA1A7A-0BAA-4E3D-A0BE-C55B2C5F3067}.wem		\Interactive Music Hierarchy\Default Work Unit\Combat\CombatMusicTracks\TTTT_L0_Combat_Mix_2_28_23		717482
+	258066100	TT_SFX_tank-impact	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\FF\{FF6F8606-C932-41CD-0AD9-C678A7B115DC}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_tank-impact		17957
+	264891926	TT_SFX_bullet_impact	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\FB\{FB747FB9-528E-B5D8-F28C-7F1800B0724B}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_bullet_impact\TT_SFX_bullet_impact		4427
+	285073727	TT_SFX_cannon_fire[02-25]	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\4F\{4F71B0AD-580E-408A-525F-BC9C9F500E74}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_cannon_fire (new)\TT_SFX_cannon_fire[02-25]		16095
+	305378326	TT_SFX_rotate-room_v1	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\11\{11FF6B21-5FE2-848F-3ABC-74DF921954F9}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_rotate-room\TT_SFX_rotate-room_v1		5270
+	318882470	TT_BGM_Into_the_Breach_Build	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\07\{07F6E475-9A7C-655B-FB21-556CE558DB3E}.wem		\Actor-Mixer Hierarchy\Default Work Unit\BGM\TT_BGM_Into_the_Breach_Build		1494342
+	320129091	TT_SFX_rotate-room	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\9A\{9A0D5D77-D16B-1DDE-58BB-EDF2CD2200E4}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_rotate-room\TT_SFX_rotate-room		6964
+	327969907	TT_SFX_engine_running	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\48\{48C3B642-08F0-FE94-138C-D9A7BD34B63B}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_engine_running		56909
+	341912688	TT_SFX_bullet_impact_dirt_03	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\6C\{6CD6A223-CA8C-CA1E-D3C3-8E934E2389AC}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_bullet_impact_dirt\TT_SFX_bullet_impact_dirt_03		10372
+	354630741	TTTT_DeathStinger_Mix_Final_2_13_22	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\73\{7376F18D-7199-C9B5-41C1-09B1E3F974A4}.wem		\Actor-Mixer Hierarchy\Default Work Unit\BGM\TTTT_DeathStinger_Mix_Final_2_13_22		205583
+	359788963	TT_SFX_fire-burning	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\A0\{A0BEAD8E-8530-3350-04E9-32E50BC31DD9}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_fire-burning		10631
+	383822766	TT_BGM_Into_the_Breach_Combat	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\38\{382E58E6-8FD9-B2F1-134C-F4BC3DE8BF70}.wem		\Actor-Mixer Hierarchy\Default Work Unit\BGM\TT_BGM_Into_the_Breach_Combat		1580731
+	401117418	TT_SFX_character-use	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\D5\{D5E0959D-1B5B-D868-BA21-5A7E312F33D8}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_character-use		4266
+	421337450	TT_SFX_bullet_impact_dirt	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\B0\{B0A9848A-3E60-0EAA-E70E-C640399F7102}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_bullet_impact_dirt\TT_SFX_bullet_impact_dirt		7337
+	428826036	TT_SFX_jetpack-startup_v1	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\80\{80A6AE82-8116-1CE9-014A-47A4E055C274}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_jetpack-startup\TT_SFX_jetpack-startup_v1		7479
+	442190223	TT_SFX_steam_exhaust_loop	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\36\{3676AC6F-2818-2609-FC65-0697FF21783A}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_steam_exhaust_loop		36929
+	466320299	TT_SFX_bullet_impact_01	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\31\{3100701F-244F-0D20-E91B-DF809454956E}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_bullet_impact\TT_SFX_bullet_impact_01		4613
+	476931074	TT_SFX_bullet_impact_02	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\AC\{ACE9C75F-D0AA-47C6-2A31-AC60B53F57AB}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_bullet_impact\TT_SFX_bullet_impact_02		2576
+	476975229	TT_SFX_outside-ambience	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\D6\{D65FB4BF-D9D7-D24B-BF53-88D8A9426858}.wem		\Actor-Mixer Hierarchy\Default Work Unit\BGM\TT_SFX_outside-ambience		1955829
+	483113004	TT_BGM_Into_the_Breach_Combat_2	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\14\{1465184A-0094-8081-4B66-07A489AE30E1}.wem		\Actor-Mixer Hierarchy\Default Work Unit\BGM\TT_BGM_Into_the_Breach_Combat_2		3311149
+	500659198	TT_SFX_coal-load_Engine	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\1A\{1AA20B79-90EB-1324-2874-4151175075AF}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_coal-load_Engine		12143
+	508593160	TT_SFX_bullet_impact_03	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\F7\{F7834F3C-9EFB-7D0F-41F2-0F13E6FB310D}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_bullet_impact\TT_SFX_bullet_impact_03		5975
+	537941924	TT_SFX_cannon_fire_v3	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\89\{89FD1492-F129-3204-9DEA-565F6CF0EEBF}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_cannon_fire (recycled)\TT_SFX_cannon_fire_v3		7172
+	542757787	TT_SFX_bullet_impact_dirt_02	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\CB\{CB5FF859-D7A3-4DED-FDD5-BA1B05BD5468}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_bullet_impact_dirt\TT_SFX_bullet_impact_dirt_02		5757
+	544191574	TT_SFX_projectile-in-air	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\40\{40569416-049E-E599-1BCF-506BBEE36746}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_projectile-in-air		76331
+	550003302	TT_SFX_cannon_fire	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\6B\{6B57F9DB-16CB-FA88-2833-36E9BFEF7507}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_cannon_fire (recycled)\TT_SFX_cannon_fire		7376
+	563431773	TT_SFX_small-explosion	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\3E\{3E35E3CB-F115-061A-FC24-730A6D2AF0E0}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_small-explosion		17559
+	564210437	TTTT_L3_Combat_Mix_2_28_23	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\04\{04AF428E-04E0-EAFA-4424-CC46DAF93A6F}.wem		\Interactive Music Hierarchy\Default Work Unit\Combat\CombatMusicTracks\TTTT_L3_Combat_Mix_2_28_23		592894
+	564972492	TT_SFX_jetpack_rocket_loop	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\67\{674D58F7-D6BC-80F4-60AB-83E0CEC28DEF}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_jetpack_rocket_loop		42473
+	575432004	TT_SFX_loading-coal	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\3D\{3D7DDC7F-1AC0-F517-DE84-31F93F6BC26D}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_loading-coal		38388
+	582839826	TT_SFX_buildRoom_v1	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\4D\{4D82E52C-F2A6-4BF0-8B52-A9318AEC9CBF}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_build-room\TT_SFX_buildRoom_v1		10631
+	595583574	TTTT_Menu_Sketch_Mix	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\4D\{4D982ABB-E033-D035-98CF-654F7AEE3904}.wem		\Actor-Mixer Hierarchy\Default Work Unit\BGM\TTTT_Menu_Sketch_Mix		1213436
+	608069065	TT_SFX_jetpack_refuel_v1	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\F3\{F379EF25-00A1-2041-CB8D-4A622BF0FBB5}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_jetpack_refuel_v1		8797
+	608155079	TT_SFX_ladder_climb	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\27\{27ADF075-D6E3-6E6E-CA62-FDAAADAD0E41}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_ladder_climb		3864
+	608483258	TT_SFX_cannon_fire_v1[02-25]	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\3B\{3B7B1510-FE55-285B-C3EA-B996C2F6A491}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_cannon_fire (new)\TT_SFX_cannon_fire_v1[02-25]		32835
+	616062773	TT_SFX_throttle-click	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\D5\{D59C07E0-FDAE-05F7-7FD2-48C2AE2FB1F4}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_throttle-click		8971
+	650954530	TT_SFX_cannon_fire_v1	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\08\{083E135E-EA7F-0FE5-FB9E-BC5DFC6C716D}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_cannon_fire (recycled)\TT_SFX_cannon_fire_v1		9521
+	652002572	TT_SFX_metal_footstep	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\61\{617F8EC3-E72C-6D92-CB74-DD10D348AEDB}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_metal_footstep		3127
+	654213358	TT_BGM_Into_the_Breach	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\79\{797544CB-91C7-CE25-9BBA-37BF5FC41958}.wem		\Actor-Mixer Hierarchy\Default Work Unit\BGM\TT_BGM_Into_the_Breach		3242535
+	661803067	TT_SFX_tank-creaking_v2	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\2D\{2D616BA1-3D88-2119-1A05-2BBD91DE9D60}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_tank-creaking\TT_SFX_tank-creaking_v2		19306
+	671272586	TT_SFX_tank-creaking_v1	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\89\{8933AD99-3AE8-D8A9-9B52-E15B2750EE25}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_tank-creaking\TT_SFX_tank-creaking_v1		12240
+	676306554	TT_SFX_cannon-lock-in-place	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\49\{49A967E6-2C6A-5AD5-F243-F497A9B32CE4}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_cannon-lock-in-place		14993
+	680578571	TT_SFX_muffled_cannon_fire	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\B3\{B3EB1085-3FDF-9F17-C88A-C34AD591B757}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_muffled_cannon_fire		35917
+	727609140	TT_SFX_tank-creaking	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\F5\{F5606298-79E6-0A62-E19D-51969DB35FD0}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_tank-creaking\TT_SFX_tank-creaking		14119
+	729628631	TT_UI_text_beep	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\CB\{CBED7BA1-87CC-37F2-CA7F-BBE0D19AF1FC}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_UI_text_beep		719
+	732871025	TTTT_L1_Combat_Mix_2_28_23	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\DF\{DF806F7D-60CA-DEB0-8EFC-99E418CD9BFB}.wem		\Interactive Music Hierarchy\Default Work Unit\Combat\CombatMusicTracks\TTTT_L1_Combat_Mix_2_28_23		574387
+	736230953	TT_SFX_item_pickup	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\25\{2569F064-8519-8E17-C811-879BFB12296F}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_item_pickup		9326
+	756116293	TT_SFX_room-connect	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\51\{512C39BF-654E-1F83-A9AE-51EEEFF203A1}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_room-connect\TT_SFX_room-connect		9201
+	763069168	TT_SFX_throttle-shift	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\73\{73A88A29-2612-03B4-95E1-5ED6BB06DAEB}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_throttle-shift		4108
+	767659334	TT_SFX_room-connect_v1	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\6B\{6B331496-95D1-3A38-0AB0-D94DE9DDC705}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_room-connect\TT_SFX_room-connect_v1		10034
+	792905054	TT_SFX_cannon-aim-system	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\B9\{B9A3D3FB-A58D-814F-88FE-2242DE7A8CAD}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_cannon-aim-system		54835
+	806435377	TT_SFX_cannon-fires	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\9D\{9DBFA154-F0A9-3875-6E31-076950969B71}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_cannon-fires		22557
+	813749911	TT_UI_button_hover	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\8F\{8F6BE431-38BD-7DB5-E73D-B96C50A3203A}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_UI_button_hover		3076
+	828978616	TT_SFX_tank_alarm_v1	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\C5\{C552FD03-91D5-03C0-795E-6B87DAF644F7}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_tank-alarm\TT_SFX_tank_alarm_v1		35918
+	835123090	TT_SFX_text-scroll	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\6B\{6B38ACD1-C86D-AFC9-B664-C59A7C094E96}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_text-scroll		1835
+	841978207	TT_SFX_bullet_impact_04	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\C3\{C373EE18-ADAA-BE00-8126-3B826242E158}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_bullet_impact\TT_SFX_bullet_impact_04		5672
+	863978555	TT_SFX_invalidAlert	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\73\{73B03077-FEED-F753-EE84-B2B76D2E9AE2}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_invalidAlert		5527
+	868853871	TT_SFX_cannon_fire_v4	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\D6\{D6887821-D7EC-E557-F4AD-7166DD3B2298}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_cannon_fire (recycled)\TT_SFX_cannon_fire_v4		8511
+	872036804	TT_SFX_tank-engine	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\12\{12701A36-2314-5540-F4FF-662B73F6E4BE}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_tank-engine		56873
+	874009170	TT_SFX_steam_exhaust_v1	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\E5\{E5386604-EE40-4A96-9969-BAE475C19542}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_steam-exhaust\TT_SFX_steam_exhaust_v1		13185
+	881076302	TT_SFX_buildRoom	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\51\{5178AB25-20D5-1D83-9B56-363F32B73237}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_build-room\TT_SFX_buildRoom		10085
+	882478931	TT_SFX_wrench	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\7B\{7B760393-3E6D-9A0F-8922-D9B7C2DA9CA9}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_wrench		12576
+	889039676	TT_SFX_cannon_fire_v2	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\ED\{ED86DE55-9BE8-743C-CC24-41705E9EAF3B}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_cannon_fire (new)\TT_SFX_cannon_fire_v2		8308
+	895375203	TT_SFX_jetpack-startup	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\E4\{E4470463-D8FE-870A-D638-436B5D16C0FA}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_jetpack-startup\TT_SFX_jetpack-startup		10465
+	905378176	TT_SFX_steam_exhaust_v2	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\E5\{E54D31C8-C392-F4D4-C8F3-7E9F17209980}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_steam-exhaust\TT_SFX_steam_exhaust_v2		11267
+	920263717	TT_SFX_machine_gun_fire_1	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\DC\{DC5D313B-E1AB-E91E-EF06-A7A69C21671F}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_machine_gun_fire\TT_SFX_machine_gun_fire_1		52693
+	961137882	TT_SFX_tank_alarm	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\4C\{4C6FA7C6-3F4A-4B2E-4F85-AF1E906EC26B}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_tank-alarm\TT_SFX_tank_alarm		35487
+	963356657	TT_SFX_blaring-alarm	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\84\{84A10F73-2716-7DA8-0135-BF8AC6B0D461}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_blaring-alarm		124137
+	981522565	TT_SFX_coal-pickup_v1	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\F4\{F4D30B49-81F1-5055-5B64-BCB3EBD76317}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_coal_pickup\TT_SFX_coal-pickup_v1		6535
+	1032382603	TT_SFX_cannon_fire_v5	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\86\{86E70B31-459E-F599-1656-A7F6B60E0EB7}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_cannon_fire (recycled)\TT_SFX_cannon_fire_v5		8636
+	1036265675	TT_SFX_jetpack-startup_v2	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\7F\{7F617B62-3CB1-8B85-D4A0-FF423DD09271}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_jetpack-startup\TT_SFX_jetpack-startup_v2		13983
+	1046025241	TT_SFX_large-explosion	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\0B\{0B403FE3-56A3-7463-8EE3-C68CEE08905F}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_large-explosion		113379
+	1049821619	TT_SFX_tank-rolling	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\4D\{4DAEA4C8-0CBD-1ABD-67F9-A04C307D0AE6}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_tank-rolling		76173
+	1065158661	TT_SFX_medium-explosion	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\FD\{FDFD0B87-A8CB-5833-23DE-A9F096271EF9}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_medium-explosion		69726
+	1067390579	TT_SFX_bullet_impact_dirt_01	C:\Users\rprat\Documents\GitHub\TowerTanks\TowerTanks\TowerTanks_WwiseProject\.cache\99\{99D52E5A-D0B3-ED02-FE60-809301467AB4}.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX\TT_SFX_bullet_impact_dirt\TT_SFX_bullet_impact_dirt_01		5256
+

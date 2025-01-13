@@ -4302,7 +4302,7 @@ MonoBehaviour:
     bias: 0
     isPreset: 0
   - chunkPrefab: {fileID: 3766360497705465845, guid: 257f5992a35b10f41965e64657fe6a91, type: 3}
-    weight: 0
+    weight: 3
     bias: 0
     isPreset: 0
   - chunkPrefab: {fileID: 5300777585851316023, guid: a34f31d338c6af749aaf23139a313968, type: 3}
