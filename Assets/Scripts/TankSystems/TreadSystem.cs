@@ -431,7 +431,7 @@ namespace TowerTanks.Scripts
         public void UpdateSFX()
         {
             //Engine Sound
-            if (!isJammed)
+            if (!isJammed && GameManager.Instance.currentSceneState != SCENESTATE.BuildScene)
             {
                 if (!GameManager.Instance.AudioManager.IsPlaying("TankIdle", this.gameObject)) GameManager.Instance.AudioManager.Play("TankIdle", this.gameObject);
             }

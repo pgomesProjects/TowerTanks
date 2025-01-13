@@ -13,8 +13,7 @@ namespace TowerTanks.Scripts
         public void Use()
         {
             //Effects
-            GameManager.Instance.AudioManager.Play("UseWrench", gameObject);
-            GameManager.Instance.AudioManager.Play("ConnectRoom", gameObject);
+            GameManager.Instance.AudioManager.Play("TankImpact", gameObject);
             GameManager.Instance.ParticleSpawner.SpawnParticle(6, transform.position, 0.25f, null);
         }
 

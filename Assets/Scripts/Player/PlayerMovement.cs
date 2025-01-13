@@ -199,6 +199,14 @@ namespace TowerTanks.Scripts
                     StopBuilding(); //Indicate that build has stopped
                     CancelInteraction(startJump:true);
 
+                    //Build Effects
+                    GameManager.Instance.AudioManager.Play("UseWrench", currentInteractable.gameObject);
+                    GameManager.Instance.AudioManager.Play("ConnectRoom", currentInteractable.gameObject);
+                    Vector2 particlePos = new Vector2(currentInteractable.transform.position.x, currentInteractable.transform.position.y - 0.5f);
+                    GameManager.Instance.ParticleSpawner.SpawnParticle(19, particlePos, 0.1f, currentInteractable.transform);
+                    GameManager.Instance.ParticleSpawner.SpawnParticle(6, particlePos, 0.4f, currentInteractable.transform);
+                    GameManager.Instance.ParticleSpawner.SpawnParticle(7, particlePos, 0.4f, currentInteractable.transform);
+
                     //Add the interactable built to the stats
                     GetComponentInParent<TankController>()?.AddInteractableToStats(currentInteractable);
                 }
