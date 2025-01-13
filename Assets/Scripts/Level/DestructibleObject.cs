@@ -6,9 +6,11 @@ namespace TowerTanks.Scripts
 {
     public class DestructibleObject : MonoBehaviour, IDamageable
     {
+        public bool isObstacle; //set true if this object is meant to trigger collision events on tanks
         public float maxHealth;
         public float health;
         private SpriteMask[] damageMasks;
+        public float collisionResistance; //multiplier to damage from collision-based damage sources
 
         public void Awake()
         {

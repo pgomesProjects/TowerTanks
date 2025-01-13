@@ -389,6 +389,7 @@ namespace TowerTanks.Scripts
 
                 //Handle knockback:
                 Vector2 knockbackForce = newProjectile.hitProperties.mass * muzzleVelocity * -barrel.right; //Calculate knockback force based on mass and muzzle velocity of projectile
+                //if (parentCell.room.targetTank.treadSystem.ramming) knockbackForce *= 0.5f;
                 parentCell.room.targetTank.treadSystem.HandleImpact(knockbackForce, barrel.position);       //Apply knockback to own treadsystem at barrel position in reverse direction of projectile
 
                 //If Special, Remove from List

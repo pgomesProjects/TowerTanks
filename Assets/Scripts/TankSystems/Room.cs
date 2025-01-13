@@ -125,11 +125,12 @@ namespace TowerTanks.Scripts
                     //Apply collision properties:
                     ContactPoint2D contact = collision.GetContact(0);
                     opposingTreads.HandleImpact(-collision.GetContact(0).normal * 75, contact.point);
-                    collision.collider.GetComponent<CollisionTransmitter>().target.GetComponent<Cell>().Damage(20);
-                    collision.otherCollider.GetComponent<CollisionTransmitter>().target.GetComponent<Cell>().Damage(20);
+                    collision.collider.GetComponent<CollisionTransmitter>().target.GetComponent<Cell>().Damage(20, true);
+                    collision.otherCollider.GetComponent<CollisionTransmitter>().target.GetComponent<Cell>().Damage(20, true);
 
                     //Other effects:
                     GameManager.Instance.AudioManager.Play("ExplosionSFX", gameObject);
+                    GameManager.Instance.AudioManager.Play("TankImpact", gameObject);
                     for (int x = 0; x < 3; x++) //Spawn cloud of particle effects
                     {
                         Vector2 offset = Random.insideUnitCircle * 0.20f;
@@ -139,6 +140,38 @@ namespace TowerTanks.Scripts
                     float duration = Mathf.Lerp(0.1f, 0.5f, impactSpeed / 10);               //Use a clamped lerp to increase duration of screenshake proportionately to speed of impact, up to a certain maximum speed
                     float intensity = Mathf.Lerp(0.1f, 1, impactSpeed / 10);                 //Use a clamped lerp to increase magnitude of screenshake proportionately to speed of impact, up to a certain maximum speed
                     CameraManipulator.main.ShakeTankCamera(targetTank, intensity, duration); //Send shake command to be handled by camera manipulator (which can find the camera associated with this tank)
+                }
+            }
+
+            if (collision.collider.GetComponentInParent<DestructibleObject>() != null) //Room has collided with an obstacle
+            {
+                DestructibleObject obstacle = collision.collider.GetComponentInParent<DestructibleObject>();
+                TreadSystem treads = targetTank.treadSystem;
+
+                if (collision.contacts.Length > 0 && obstacle.isObstacle)
+                {
+                    //Get Point of Contact
+                    ContactPoint2D contact = collision.GetContact(0);
+
+                    //Calculate impact magnitude
+                    float impactSpeed = contact.relativeVelocity.magnitude; //Get speed of impact
+                    Debug.Log("Speed of Impact: " + impactSpeed);
+                    float impactDamage = (10 * Mathf.Abs(impactSpeed)) * obstacle.collisionResistance;
+                    if (treads.ramming) impactDamage *= 2f; //double the impact damage
+
+                    //Apply Collision Properties
+                    float knockbackForce = 75f;
+                    if (!treads.ramming) treads.HandleImpact(collision.GetContact(0).normal * knockbackForce, contact.point);
+                    obstacle.Damage(impactDamage);
+                    collision.otherCollider.GetComponent<CollisionTransmitter>().target.GetComponent<Cell>().Damage(10, true);
+
+                    //Other effects:
+                    GameManager.Instance.AudioManager.Play("TankImpact", obstacle.gameObject);
+                    for (int x = 0; x < 3; x++) //Spawn cloud of particle effects
+                    {
+                        Vector2 offset = Random.insideUnitCircle * 0.20f;
+                        GameManager.Instance.ParticleSpawner.SpawnParticle(7, contact.point + offset, 0.6f);
+                    }
                 }
             }
         }

@@ -1807,6 +1807,7 @@ MonoBehaviour:
   TankName: 
   tankType: 0
   coreHealth: 500
+  currentCoreHealth: 0
   playerSpawnPoint: {fileID: 2558554571462768232}
   towerJointTarget: {fileID: 1677695871312723229}
   isInvincible: 0
@@ -2370,7 +2371,7 @@ MonoBehaviour:
   tipAngleBufferZone: 10
   tipPreventionForce: 50
   impactForceMultiplier: 10
-  rammingSpeed: 10
+  rammingSpeed: 8
   treadMaxHealth: 200
   healthRegenRate: 10
   unjamHealthThreshold: 60
