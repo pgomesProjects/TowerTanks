@@ -237,6 +237,7 @@ namespace TowerTanks.Scripts
         private bool isDying = false; //true when the tank is in the process of blowing up
         private float deathSequenceTimer = 0;
         private bool isTransitioning = false; //true when the tank is about to move between scenes
+        private float totalDeathSequenceTimer = 0;
         private float transitionSequenceTimer = 0;
         private float transitionSequenceInterval = 0;
         [Tooltip("Describes the size of the tank in each cardinal direction (relative to treadbase). X = height, Y = left width, Z = depth, W = right width.")] internal Vector4 tankSizeValues;
@@ -638,7 +639,8 @@ namespace TowerTanks.Scripts
                     EventSpawnerManager spawner = GameObject.Find("LevelManager")?.GetComponent<EventSpawnerManager>();
                     if (tankType == TankId.TankType.ENEMY) spawner.EnemyDestroyed(this);
                     if (tankType == TankId.TankType.NEUTRAL) spawner.EncounterEnded(EventSpawnerManager.EventType.FRIENDLY);
-                    StartCoroutine(DeathSequence(2.5f));
+                    totalDeathSequenceTimer = Random.Range(2.0f, 3.0f);
+                    isDying = true;
                 }
             }
             OnCoreDamaged?.Invoke(currentCoreHealth / coreHealth);
@@ -654,6 +656,7 @@ namespace TowerTanks.Scripts
         public void DeathSequenceEvents()
         {
             deathSequenceTimer -= Time.fixedDeltaTime;
+            totalDeathSequenceTimer -= Time.fixedDeltaTime;
             if (deathSequenceTimer <= 0)
             {
                 int randomParticle = Random.Range(0, 3);
@@ -670,13 +673,11 @@ namespace TowerTanks.Scripts
 
                 deathSequenceTimer = Random.Range(0.1f, 0.2f);
             }
-        }
 
-        public IEnumerator DeathSequence(float duration)
-        {
-            isDying = true;
-            yield return new WaitForSeconds(duration);
-            BlowUp(false);
+            if (totalDeathSequenceTimer <= 0)
+            {
+                BlowUp(false);
+            }
         }
 
         public void Transition()
