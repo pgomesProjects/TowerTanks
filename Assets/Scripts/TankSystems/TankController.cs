@@ -1107,7 +1107,7 @@ namespace TowerTanks.Scripts
 
         public void SpawnCargo(CargoManifest manifest) //Called when spawning a tank that contains cargo/items
         {
-            if (GameManager.Instance.cargoManifest.items.Count > 0) //if we have any cargo
+            if (GameManager.Instance.cargoManifest?.items.Count > 0) //if we have any cargo
             {
                 foreach (CargoManifest.ManifestItem item in GameManager.Instance.cargoManifest.items) //go through each item in the manifest
                 {
