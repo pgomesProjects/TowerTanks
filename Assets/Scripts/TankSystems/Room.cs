@@ -308,6 +308,7 @@ namespace TowerTanks.Scripts
                 {
                     if (collider.TryGetComponent(out Cell otherCell) && otherCell.room != this) //Collider overlaps with a cell from another room
                     {
+                        if (otherCell.room.targetTank == null) continue; //Collider is overlapping with a ghost room
                         //print("Cell obstructed");
                         return newPoint; //Generate no new couplers
                     }
@@ -336,6 +337,7 @@ namespace TowerTanks.Scripts
                         {
                             //Inverse check:
                             Room otherRoom = hitCell1 == null ? hitCell2.room : hitCell1.room; //Get other room hit by either raycast (works even if only one raycast hit a room)
+                            if (otherRoom.targetTank == null) { continue; } //Ignore if other cell is part of a ghost room
                             if (otherRoom == this) { continue; }  //Ignore if hit block is part of this room (happens before potential inverse check)
                             if (heldDuringPlacement && !otherRoom.mounted) { continue; } //Ignore if hit block is part of an unmounted room (prevents players from mounting floating rooms to each other in build scene)
                             if (hitCell1 == null || hitCell2 == null) //Only one hit made contact with a cell
@@ -481,6 +483,7 @@ namespace TowerTanks.Scripts
         public void GenerateHatch()
         {
             if (targetTank == null) targetTank = couplers[0].GetConnectedRoom(this).targetTank;
+            if (targetTank == null) return;
             if (cells.Any(cell => cell.transform.position.y > targetTank.rooms.SelectMany(room => room.cells).Max(tankCell => tankCell.transform.position.y)))
             {
                 targetTank.upMostCell = cells.OrderByDescending(cell => cell.transform.position.y).First();
