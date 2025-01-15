@@ -142,7 +142,7 @@ namespace TowerTanks.Scripts
                     CameraManipulator.main.ShakeTankCamera(targetTank, intensity, duration); //Send shake command to be handled by camera manipulator (which can find the camera associated with this tank)
                 }
             }
-
+           
             if (collision.collider.GetComponentInParent<DestructibleObject>() != null) //Room has collided with an obstacle
             {
                 DestructibleObject obstacle = collision.collider.GetComponentInParent<DestructibleObject>();
@@ -155,13 +155,16 @@ namespace TowerTanks.Scripts
 
                     //Calculate impact magnitude
                     float impactSpeed = contact.relativeVelocity.magnitude; //Get speed of impact
-                    Debug.Log("Speed of Impact: " + impactSpeed);
+                    //Debug.Log("Speed of Impact: " + impactSpeed);
                     float impactDamage = (10 * Mathf.Abs(impactSpeed)) * obstacle.collisionResistance;
-                    if (treads.ramming) impactDamage *= 2f; //double the impact damage
+                    if (treads.ramming) impactDamage = 200f; //double the impact damage
 
                     //Apply Collision Properties
                     float knockbackForce = 75f;
-                    if (!treads.ramming) treads.HandleImpact(collision.GetContact(0).normal * knockbackForce, contact.point);
+                    
+                    if (!treads.ramming && collision.contactCount > 0) treads.HandleImpact(collision.GetContact(0).normal * knockbackForce, contact.point);
+                    else targetTank.treadSystem.SetVelocity();
+
                     obstacle.Damage(impactDamage);
                     collision.otherCollider.GetComponent<CollisionTransmitter>().target.GetComponent<Cell>().Damage(10, true);
 
@@ -174,6 +177,7 @@ namespace TowerTanks.Scripts
                     }
                 }
             }
+           
         }
 
         private void CheckFire()
