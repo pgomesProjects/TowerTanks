@@ -420,9 +420,11 @@ namespace TowerTanks.Scripts
             Debug.DrawLine(point, point + force, Color.red, 1.5f);
         }
 
-        public void SetVelocity()
+        public void SetVelocity(float percentageOffset = 1)
         {
-            //r.angularVelocity = lastAngVelocity;
+            //lastAngVelocity *= percentageOffset;
+            lastVelocity *= percentageOffset;
+            r.angularVelocity = lastAngVelocity;
             r.velocity = lastVelocity;
         }
 
@@ -527,6 +529,69 @@ namespace TowerTanks.Scripts
                 treadBounds.Encapsulate(treadBaseColl.bounds); //Encapsulate collider of each object in treadbase (might need some massaging later)
             }
             return treadBounds; //Return fully-encapsulated bounds
+        }
+
+        public void OnCollisionEnter2D(Collision2D collision)
+        {
+            if (collision.collider.GetComponentInParent<TreadSystem>() != null) //Room has collided with another tank
+            {
+                //Get information:
+                TreadSystem opposingTreads = collision.collider.GetComponentInParent<TreadSystem>(); //Get treadsystem of opposing tank
+                if (collision.collider.gameObject.GetComponent<BoxCollider2D>() == null) return; //only do collision-related code when colliding with the treadbase
+
+                if (collision.contacts.Length > 0) //Hit properties can only be handled if there is an actual contact
+                {
+                    //Apply collision properties:
+                    ContactPoint2D contact = collision.GetContact(0);
+                    opposingTreads.HandleImpact(-collision.GetContact(0).normal * 75, contact.point);
+                    opposingTreads.Damage(20, true);
+                    Damage(20, true);
+
+                    //Other effects:
+                    //GameManager.Instance.AudioManager.Play("ExplosionSFX", gameObject);
+                    GameManager.Instance.AudioManager.Play("TankImpact", gameObject);
+                    for (int x = 0; x < 3; x++) //Spawn cloud of particle effects
+                    {
+                        Vector2 offset = Random.insideUnitCircle * 0.20f;
+                        GameManager.Instance.ParticleSpawner.SpawnParticle(7, contact.point + offset, 0.6f);
+                    }
+                }
+            }
+
+            if (collision.collider.GetComponentInParent<DestructibleObject>() != null) //Room has collided with an obstacle
+            {
+                DestructibleObject obstacle = collision.collider.GetComponentInParent<DestructibleObject>();
+
+                if (collision.contacts.Length > 0 && obstacle.isObstacle)
+                {
+                    if (collision.otherCollider.gameObject.GetComponent<BoxCollider2D>() == null) return; //only do collision-related code when colliding with the treadbase
+                    //Get Point of Contact
+                    ContactPoint2D contact = collision.GetContact(0);
+
+                    //Calculate impact magnitude
+                    float impactSpeed = contact.relativeVelocity.magnitude; //Get speed of impact
+                    //Debug.Log("Speed of Impact: " + impactSpeed);
+                    float impactDamage = (10 * Mathf.Abs(impactSpeed)) * obstacle.collisionResistance;
+                    if (ramming) impactDamage = 200f; //double the impact damage
+
+                    //Apply Collision Properties
+                    float knockbackForce = 75f;
+
+                    if (!ramming && collision.contactCount > 0) HandleImpact(collision.GetContact(0).normal * knockbackForce, contact.point);
+                    else SetVelocity(0.8f);
+
+                    obstacle.Damage(impactDamage);
+                    Damage(20, true);
+
+                    //Other effects:
+                    GameManager.Instance.AudioManager.Play("TankImpact", obstacle.gameObject);
+                    for (int x = 0; x < 3; x++) //Spawn cloud of particle effects
+                    {
+                        Vector2 offset = Random.insideUnitCircle * 0.20f;
+                        GameManager.Instance.ParticleSpawner.SpawnParticle(7, contact.point + offset, 0.6f);
+                    }
+                }
+            }
         }
     }
 }

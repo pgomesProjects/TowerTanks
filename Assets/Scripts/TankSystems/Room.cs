@@ -125,7 +125,8 @@ namespace TowerTanks.Scripts
                     //Apply collision properties:
                     ContactPoint2D contact = collision.GetContact(0);
                     opposingTreads.HandleImpact(-collision.GetContact(0).normal * 75, contact.point);
-                    collision.collider.GetComponent<CollisionTransmitter>().target.GetComponent<Cell>().Damage(20, true);
+                    if (collision.collider.gameObject.layer == LayerMask.GetMask("Treads")) opposingTreads.Damage(20, true); //Room has collided directly with the treadbase
+                    else collision.collider.GetComponent<CollisionTransmitter>().target.GetComponent<Cell>().Damage(20, true);
                     collision.otherCollider.GetComponent<CollisionTransmitter>().target.GetComponent<Cell>().Damage(20, true);
 
                     //Other effects:
