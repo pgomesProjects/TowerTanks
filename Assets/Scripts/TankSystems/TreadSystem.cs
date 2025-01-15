@@ -15,6 +15,7 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("Prefab which will be used to generate caterpillar treads (should be 1 unit long)")] private GameObject treadPrefab;
         [Tooltip("Array of all tread segments in system (one per wheel).")]                                           private Transform[] treads;
         [Tooltip("Object containing colliders which make up collide-able mass of tank.")]                             internal Transform colliderSystem;
+        [Tooltip("Animator component used for tread animations.")]                                                    public Animator animator;
 
         //Settings:
         [Header("Center of Gravity Settings:")]
@@ -67,6 +68,7 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("Amount of damage treads can take.")]                                            private float treadMaxHealth = 200f;
         [SerializeField, Tooltip("Tread health regeneration factor (in points per second).")]                     private float healthRegenRate;
         [SerializeField, Tooltip("Health value below which treads will jam, and above which treads will unjam.")] private float unjamHealthThreshold = 60f;
+                                                                                                                  public Transform jammedSprite;
 
         [Header("Animation:")]
         [SerializeField, Tooltip("Gear in the center of the treadbase.")]   private Transform centerGear;
@@ -136,7 +138,14 @@ namespace TowerTanks.Scripts
             if (treadHealth < treadMaxHealth) //Treads are damaged
             {
                 treadHealth = Mathf.Min(treadHealth + (healthRegenRate * Time.fixedDeltaTime), treadMaxHealth); //Regen health according to regen rate (capping at max health)
-                if (treadHealth >= unjamHealthThreshold) if (isJammed) isJammed = false;                        //Unjam treads if above health threshold
+                if (treadHealth >= unjamHealthThreshold)
+                {
+                    if (isJammed)
+                    {
+                        isJammed = false;                        //Unjam treads if above health threshold
+                        jammedSprite.gameObject.SetActive(false);
+                    }
+                }
             }
 
             //Jam effects:
@@ -319,6 +328,7 @@ namespace TowerTanks.Scripts
             tankController = GetComponentInParent<TankController>(); //Get tank controller object from parent
             r = GetComponent<Rigidbody2D>();                         //Get rigidbody component
             wheels = GetComponentsInChildren<TreadWheel>();          //Get array of all wheels in system
+            animator = GetComponent<Animator>();
 
             //Generate treads:
             List<Transform> newTreads = new List<Transform>(); //Instantiate list to store spawned treads
@@ -363,7 +373,7 @@ namespace TowerTanks.Scripts
 
             //Handle projectile effects:
             HandleImpact(projectile, position, overrideRelative); //Handle impact from projectile
-            Damage(projectile.remainingDamage); //Assign damage to treads
+            Damage(projectile.remainingDamage, true); //Assign damage to treads
 
             //Other effects:
             GameManager.Instance.AudioManager.Play("TankImpact", gameObject); //Play tread impact sound
@@ -375,12 +385,25 @@ namespace TowerTanks.Scripts
         {
             treadHealth -= damage; //Reduce tread health
 
+            //Effects
+            if (triggerHitEffects)
+            {
+                if (damage > 40) HitEffects(0.5f);
+                else HitEffects(4f);
+            }
+
             //Check jam:
             if (treadHealth <= 0) //Tread health has fallen below zero
             {
                 treadHealth = 0; //Clamp tread health to zero
                 Jam();           //Jam treads
             }
+        }
+
+        public void HitEffects(float speedScale)
+        {
+            animator.SetFloat("SpeedScale", speedScale);
+            animator.Play("TreadFlash", 0, 0);
         }
 
         /// <summary>
@@ -436,6 +459,7 @@ namespace TowerTanks.Scripts
             {
                 isJammed = true;
                 GameManager.Instance.AudioManager.Play("EngineDyingSFX", this.gameObject);
+                jammedSprite.gameObject.SetActive(true);
             }
         }
 
