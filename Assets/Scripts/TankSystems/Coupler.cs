@@ -80,8 +80,8 @@ namespace TowerTanks.Scripts
             }
 
             //Cleanup:
-            Color newColor = r.color; newColor.a = 1; r.color = newColor; //Remove ghost transparency
-            mounted = true;                                               //Indicate that coupler is mounted
+            if (r != null) { Color newColor = r.color; newColor.a = 1; r.color = newColor; }    //Remove ghost transparency
+            mounted = true;                                                                     //Indicate that coupler is mounted
         }
 
         //RUNTIME METHODS:
