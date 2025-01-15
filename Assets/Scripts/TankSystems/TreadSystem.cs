@@ -182,6 +182,8 @@ namespace TowerTanks.Scripts
             float driveTorque = engineTorqueCurve.Evaluate(Mathf.Abs(engineRPM) / maxRPM) * Mathf.Sign(engineRPM) * GetEnginePower(); //Get amount of torque exerted by engine based on current RPM, maximum engine power, and engine torque curve
             if (isJammed) driveTorque = 0;                                                                                            //Cancel ALL drive torque if treads are jammed
 
+            if (Time.timeScale != 1) return;
+
             //Apply wheel forces:
             Vector2 alignedVelocity = Vector3.Project(r.velocity, transform.right);         //Get velocity of tank aligned to tank's horizontal axis
             float longVelocity = alignedVelocity.magnitude * Mathf.Sign(alignedVelocity.x); //Get float velocity of tank along its forward axis (longitudinal velocity) NOTE: Might need to be modified to check on a wheel-by-wheel basis later
@@ -194,7 +196,7 @@ namespace TowerTanks.Scripts
                     float suspensionMagnitude = wheel.stiffnessCurve.Evaluate(wheel.compressionValue) * wheel.stiffness; //Use wheel compression value and stiffness to determine magnitude of exerted force
                     float dragMagnitude = wheel.damper * wheel.springSpeed;                                              //Get magnitude of force applied by spring damper (drag and inefficiency of suspension)
                     Vector2 suspensionForce = transform.up * (suspensionMagnitude + dragMagnitude);                      //Get directional force to apply to rigidbody
-                    r?.AddForceAtPosition(suspensionForce, wheel.transform.position, ForceMode2D.Force);                  //Apply total spring forces to rigidbody at position of wheel
+                    r.AddForceAtPosition(suspensionForce, wheel.transform.position, ForceMode2D.Force);                  //Apply total spring forces to rigidbody at position of wheel
 
                     //Apply wheel stickiness:
                     if (!wheel.nonStick && wheel.springSpeed < 0) //Wheel appears to be leaving the ground (negative spring speed indicates that spring is decompressing)
