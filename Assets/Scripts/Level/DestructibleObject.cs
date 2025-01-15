@@ -11,6 +11,8 @@ namespace TowerTanks.Scripts
         public float health;
         private SpriteMask[] damageMasks;
         public float collisionResistance; //multiplier to damage from collision-based damage sources
+        public Transform[] particleSpot;
+        public float particleScale;
 
         public void Awake()
         {
@@ -53,6 +55,8 @@ namespace TowerTanks.Scripts
                 else
                 {
                     //Debug.Log("No projectile found.");
+                    GameManager.Instance.ParticleSpawner.SpawnParticle((int)Random.Range(0, 3), particleSpot[0].position, particleScale);
+                    GameManager.Instance.AudioManager.Play("MedExplosionSFX", this.gameObject);
                     Destroy(gameObject);
                 }
             }

@@ -4278,7 +4278,7 @@ MonoBehaviour:
   currentChunk: 0
   chunkPrefabs:
   - chunkPrefab: {fileID: 3766360497705465845, guid: 55a2de1c12df41647b2333975b669960, type: 3}
-    weight: 15
+    weight: 20
     bias: 0
     isPreset: 0
   - chunkPrefab: {fileID: 3766360497705465845, guid: e5efa2eaaa2c9eb449f27c8317f2d22f, type: 3}
@@ -4321,8 +4321,8 @@ MonoBehaviour:
   - obstacle: {fileID: 951168179812281977, guid: 28228dd6287a00544b1d07b5430181b8, type: 3}
     weight: 10
   - obstacle: {fileID: 2880273055600732949, guid: 38c534f27b881694b81cbcead9c56314, type: 3}
-    weight: 2
-  obstacleChance: 10
+    weight: 0
+  obstacleChance: 20
   landmarks:
   - {fileID: 1657263657352873313, guid: ad97cb9004420144aa9809a184ab9c84, type: 3}
   - {fileID: 2238501236492524393, guid: 0f6e7299cc1ae924f82817b32d82bacb, type: 3}

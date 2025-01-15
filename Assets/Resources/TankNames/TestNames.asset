@@ -14,8 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   articles:
   - The
-  - El
-  - SS
+  - ST
   adjectives:
   - Jolly
   - Massive
