@@ -415,9 +415,6 @@ namespace TowerTanks.Scripts
             float deltaHeight = Vector3.Project((Vector3)point - transform.position, transform.up).magnitude;                              //Get difference in height between impact point and center of tank (linear difference is aligned with tank up value)
             if (deltaHeight > maximumRelativeImpactHeight) point -= (Vector2)(transform.up * (deltaHeight - maximumRelativeImpactHeight)); //Adjust impact point downward if it is higher than allowed level on tank
 
-            //Debug
-            Debug.Log("Oogx2");
-
             //Cleanup:
             r.AddForceAtPosition(force, point, ForceMode2D.Force); //Apply force to rigidbody
             Debug.DrawLine(point, point + force, Color.red, 1.5f);
