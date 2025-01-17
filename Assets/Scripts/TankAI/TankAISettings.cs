@@ -30,6 +30,9 @@ namespace TowerTanks.Scripts
         [Tooltip("With extremely small aggression, this cooldown will be used. At .5 aggression, half this value will be used. At 100% aggression, this value is basically just ignored, and no cooldown is used.")]
         public float maxFireCooldown;
 
+        [Tooltip("Offset used to make aggression pattern more randomized. Higher value = more range of values for aggro cooldown.")]
+        public float aggressionCooldownOffset;
+
         [Title("Interactable Weights")]
         [InfoBox("Key: Interactable type to populate with tokens, \nValue: percentage of our tokens to give to this interactable type.")]
 

@@ -25,7 +25,7 @@ namespace TowerTanks.Scripts
         protected bool stopFiring = false;
         private bool obstruction;
         protected float aggroCooldownTimer;
-        protected float aggroCooldown;
+        public float aggroCooldown;
 
         private void Awake()
         {
@@ -41,22 +41,25 @@ namespace TowerTanks.Scripts
             StartCoroutine(AimAtTarget());
             StartCoroutine(UpdateTargetPoint(myTankAI.aiSettings.tankAccuracy));
             aggroCooldown = Mathf.Lerp(myTankAI.aiSettings.maxFireCooldown, 0, myTankAI.aiSettings.aggression);
+            gunScript.fireCooldownTimer = aggroCooldown + GetAggroOffset();
         }
 
         // Update is called once per frame
         protected virtual void Update()
         {
             gunScript.RotateBarrel(currentForce, false);
-            
-            fireTimer += Time.deltaTime; //firetimer is used for rate of fire
-            if (myTankAI.aiSettings.aggression != 0) aggroCooldownTimer += Time.deltaTime;
+
+            if (myTankAI.aiSettings.aggression == 0) stopFiring = true;
             if (!AimingAtMyself() && !stopFiring && !obstruction)
             {
                 if (gunScript.gunType == GunController.GunType.MACHINEGUN ||
                     aggroCooldownTimer > aggroCooldown)
                 {
                     gunScript.Fire(false, gunScript.tank.tankType, bypassSpinup:true);
-                    if (gunScript.gunType != GunController.GunType.MACHINEGUN) aggroCooldownTimer = 0;
+                    if (gunScript.gunType != GunController.GunType.MACHINEGUN)
+                    {
+                        aggroCooldownTimer = 0 + GetAggroOffset();
+                    }
                 }
                     
                 fireTimer = 0;
@@ -74,6 +77,12 @@ namespace TowerTanks.Scripts
                 targetPoint = myTankAI.targetTank.treadSystem.transform.position + targetPointOffset;
             }
             
+        }
+
+        protected virtual void FixedUpdate()
+        {
+            fireTimer += Time.fixedDeltaTime; //firetimer is used for rate of fire
+            if (myTankAI.aiSettings.aggression != 0 && gunScript.fireCooldownTimer <= 0) aggroCooldownTimer += Time.fixedDeltaTime;
         }
 
         private bool AimingAtMyself()
@@ -179,6 +188,20 @@ namespace TowerTanks.Scripts
                 yield return new WaitForSeconds(refreshRate);
             }
             
+        }
+
+        public float GetAggroOffset()
+        {
+            float number = 0;
+            float offset = myTankAI.aiSettings.aggressionCooldownOffset;
+
+            if (aggroCooldown >= offset) //Only apply offset when it can't reduce our cooldown timer below 0
+            {
+                float random = Random.Range(-offset, offset);
+                number = 0 + random;
+            }
+
+            return number;
         }
 
         private void OnDrawGizmos()

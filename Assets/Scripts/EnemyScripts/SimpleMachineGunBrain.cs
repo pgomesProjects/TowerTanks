@@ -9,17 +9,23 @@ namespace TowerTanks.Scripts
         void Update()
         {
             base.Update();
-            if (gunScript.isOverheating)
-            {
-                aggroCooldownTimer = 0;
-            }
-            else
-            {
-                aggroCooldownTimer += Time.deltaTime;
-            }
             
             stopFiring = aggroCooldownTimer < aggroCooldown;
             
+        }
+
+        private void FixedUpdate()
+        {
+            base.FixedUpdate();
+            if (gunScript.isOverheating)
+            {
+                aggroCooldownTimer = 0 + GetAggroOffset();
+            }
+            else
+            {
+                aggroCooldownTimer += Time.fixedDeltaTime;
+            }
+
         }
     }
 }

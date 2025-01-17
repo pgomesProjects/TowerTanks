@@ -153,7 +153,7 @@ MonoBehaviour:
       Data: 0
     - Name: $v
       Entry: 4
-      Data: 50
+      Data: 75
     - Name: 
       Entry: 8
       Data: 
@@ -201,7 +201,7 @@ MonoBehaviour:
       Data: 2
     - Name: $v
       Entry: 4
-      Data: 50
+      Data: 75
     - Name: 
       Entry: 8
       Data: 
@@ -216,4 +216,7 @@ MonoBehaviour:
   preferredFightDistance: 75
   tankEconomy: 3
   tankAccuracy: 60
+  aggression: 0.2
+  maxFireCooldown: 5
+  aggressionCooldownOffset: 0.2
   redistributeTokensCooldown: 15

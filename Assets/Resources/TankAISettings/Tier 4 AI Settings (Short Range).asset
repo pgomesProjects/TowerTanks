@@ -252,4 +252,7 @@ MonoBehaviour:
   preferredFightDistance: 40
   tankEconomy: 6
   tankAccuracy: 90
+  aggression: 0.6
+  maxFireCooldown: 5
+  aggressionCooldownOffset: 2
   redistributeTokensCooldown: 15

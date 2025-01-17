@@ -36,6 +36,7 @@ namespace TowerTanks.Scripts
                 stopFiring = false;
             }
         }
+
         protected override IEnumerator AimAtTarget(float refreshRate = .001f, bool everyFrame = true)
         {
             everyFrame = true;
