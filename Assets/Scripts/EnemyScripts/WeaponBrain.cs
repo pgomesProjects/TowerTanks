@@ -24,6 +24,8 @@ namespace TowerTanks.Scripts
         private bool started;
         protected bool stopFiring = false;
         private bool obstruction;
+        protected float aggroCooldownTimer;
+        protected float aggroCooldown;
 
         private void Awake()
         {
@@ -38,6 +40,7 @@ namespace TowerTanks.Scripts
             gunScript.usingAIbrain = true;
             StartCoroutine(AimAtTarget());
             StartCoroutine(UpdateTargetPoint(myTankAI.aiSettings.tankAccuracy));
+            aggroCooldown = Mathf.Lerp(myTankAI.aiSettings.maxFireCooldown, 0, myTankAI.aiSettings.aggression);
         }
 
         // Update is called once per frame
@@ -46,9 +49,16 @@ namespace TowerTanks.Scripts
             gunScript.RotateBarrel(currentForce, false);
             
             fireTimer += Time.deltaTime; //firetimer is used for rate of fire
+            if (myTankAI.aiSettings.aggression != 0) aggroCooldownTimer += Time.deltaTime;
             if (!AimingAtMyself() && !stopFiring && !obstruction)
             {
-                gunScript.Fire(false, gunScript.tank.tankType, bypassSpinup:true);
+                if (gunScript.gunType == GunController.GunType.MACHINEGUN ||
+                    aggroCooldownTimer > aggroCooldown)
+                {
+                    gunScript.Fire(false, gunScript.tank.tankType, bypassSpinup:true);
+                    if (gunScript.gunType != GunController.GunType.MACHINEGUN) aggroCooldownTimer = 0;
+                }
+                    
                 fireTimer = 0;
             }
             if (DirectionToTargetBlocked() && gunScript.gunType != GunController.GunType.MORTAR)
