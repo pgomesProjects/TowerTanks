@@ -155,12 +155,28 @@ namespace TowerTanks.Scripts
 
             pivot.localEulerAngles = currentRotation;
 
+            if (gunType == GunType.MORTAR)
+            {
+                if (operatorID != null && fireCooldownTimer <= 0 && tank.tankType == TankId.TankType.PLAYER)
+                {
+                    ToggleTrajectory(true);
+                }
+                else
+                {
+                    ToggleTrajectory(false);
+                }
+            }
+        }
+
+        private void FixedUpdate()
+        {
+            base.FixedUpdate();
             //Cooldown
             if (fireCooldownTimer > 0)
             {
-                fireCooldownTimer -= Time.deltaTime;
+                fireCooldownTimer -= Time.fixedDeltaTime;
             }
-            else if(isCooldownActive && !(gunType == GunType.MACHINEGUN))
+            else if (isCooldownActive && !(gunType == GunType.MACHINEGUN))
             {
                 isCooldownActive = false;
                 ShowFirePrompt(true);
@@ -169,7 +185,8 @@ namespace TowerTanks.Scripts
             //Gun Specific
             if (gunType == GunType.CANNON) { };
 
-            if (gunType == GunType.MACHINEGUN) {
+            if (gunType == GunType.MACHINEGUN)
+            {
 
                 if (spinupTimer > 0) //Calculate barrel spin timings
                 {
@@ -177,11 +194,11 @@ namespace TowerTanks.Scripts
                     {
                         if (spinTimer > 0)
                         {
-                            spinTimer -= Time.deltaTime;
+                            spinTimer -= Time.fixedDeltaTime;
                         }
                         else
                         {
-                            spinupTimer -= Time.deltaTime;
+                            spinupTimer -= Time.fixedDeltaTime;
                         }
                     }
                 }
@@ -189,7 +206,7 @@ namespace TowerTanks.Scripts
                 {
                     if (overheatTimer > 0 && spinTimer <= 0) //Track overheat timer
                     {
-                        overheatTimer -= (Time.deltaTime * (1 / overheatCooldownMultiplier));
+                        overheatTimer -= (Time.fixedDeltaTime * (1 / overheatCooldownMultiplier));
                     }
                     else
                     {
@@ -208,7 +225,7 @@ namespace TowerTanks.Scripts
                 {
                     if (overheatTimer > 0 && isOverheating)
                     {
-                        overheatTimer -= (Time.deltaTime * (1 / overheatCooldownMultiplier));
+                        overheatTimer -= (Time.fixedDeltaTime * (1 / overheatCooldownMultiplier));
                     }
                     else
                     {
@@ -222,15 +239,15 @@ namespace TowerTanks.Scripts
                         }
                     }
                 }
-                
+
 
                 if (isOverheating)
                 {
-                    smokePuffTimer += Time.deltaTime;
+                    smokePuffTimer += Time.fixedDeltaTime;
                     if (smokePuffTimer >= smokePuffRate)
                     {
                         smokePuffTimer = 0;
-                        GameManager.Instance.ParticleSpawner.SpawnParticle(3, particleSpots[1].position, 0.1f, null);
+                        GameManager.Instance.ParticleSpawner.SpawnParticle(3, particleSpots[1].position, 0.1f, this.transform);
                     }
                 }
 
@@ -243,18 +260,6 @@ namespace TowerTanks.Scripts
                 }
 
             };
-
-            if (gunType == GunType.MORTAR)
-            {
-                if (operatorID != null && fireCooldownTimer <= 0 && tank.tankType == TankId.TankType.PLAYER)
-                {
-                    ToggleTrajectory(true);
-                }
-                else
-                {
-                    ToggleTrajectory(false);
-                }
-            }
         }
 
         /*
