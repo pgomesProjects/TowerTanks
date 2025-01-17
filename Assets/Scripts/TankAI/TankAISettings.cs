@@ -22,6 +22,14 @@ namespace TowerTanks.Scripts
         [Tooltip("The accuracy of the tank's aim. 0 is completely inaccurate, 100 is perfectly accurate, in theory.")]
         public float tankAccuracy = 100; //default value is complete accuracy
 
+        [Range(0, 1)]
+        [Tooltip("The amount of time to take between shots. 0% aggression won't shoot weapons at all, 1% will use " +
+                 "the max fire cooldown, 100% will have no cooldown.")]
+        public float aggression = 1;
+        
+        [Tooltip("With extremely small aggression, this cooldown will be used. At .5 aggression, half this value will be used. At 100% aggression, this value is basically just ignored, and no cooldown is used.")]
+        public float maxFireCooldown;
+
         [Title("Interactable Weights")]
         [InfoBox("Key: Interactable type to populate with tokens, \nValue: percentage of our tokens to give to this interactable type.")]
 

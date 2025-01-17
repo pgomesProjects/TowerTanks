@@ -48,7 +48,7 @@ namespace TowerTanks.Scripts
         private float overheatTime = 6.5f; //how long the operator can keep shooting for before the weapon overheats
         private float overheatCooldownMultiplier = 0.5f; //what percentage of time does it take for the weapon to cooldown
         private float overheatTimer = 0f;
-        private bool isOverheating = false;
+        public bool isOverheating { get; private set; }
         private float smokePuffRate = 0.3f; //how much the gun should smoke when overheating (lower = more smoke)
         private float smokePuffTimer = 0;
 
