@@ -606,6 +606,7 @@ namespace TowerTanks.Scripts
                     if (!ramming && collision.contactCount > 0) HandleImpact(collision.GetContact(0).normal * knockbackForce, contact.point);
                     else SetVelocity(0.8f);
 
+                    obstacle.ApplyImpactDirection(collision.GetContact(0).normal * knockbackForce, contact.point);
                     obstacle.Damage(impactDamage);
                     Damage(20, true);
 

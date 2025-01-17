@@ -166,6 +166,7 @@ namespace TowerTanks.Scripts
                     if (!treads.ramming && collision.contactCount > 0) treads.HandleImpact(collision.GetContact(0).normal * knockbackForce, contact.point);
                     else targetTank.treadSystem.SetVelocity();
 
+                    obstacle.ApplyImpactDirection(collision.GetContact(0).normal * knockbackForce, contact.point);
                     obstacle.Damage(impactDamage);
                     collision.otherCollider.GetComponent<CollisionTransmitter>().target.GetComponent<Cell>().Damage(10, true);
 
@@ -219,7 +220,7 @@ namespace TowerTanks.Scripts
             connectors = connectorParent.GetComponentsInChildren<Connector>().ToList(); //Get list of all connectors in room
             roomData = Resources.Load<RoomData>("RoomData");                            //Get roomData object from resources folder
             targetTank = GetComponentInParent<TankController>();                        //Get tank controller from current parent (only applicable if room spawns with tank)
-            dummyMat = roomData.dummyMaterial;                                          //Get Dummy Material used for DummyRooms
+            dummyMat = roomData.dummyMaterials[0];                                          //Get Dummy Material used for DummyRooms
 
             //Get wall vertices:
             if (!ignoreRoomKit)

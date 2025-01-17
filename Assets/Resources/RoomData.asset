@@ -19,7 +19,9 @@ MonoBehaviour:
   shortLadderPrefab: {fileID: 5516058462407545099, guid: d8c2898d313769d4782269306132f4d5, type: 3}
   platformPrefab: {fileID: 5516058462407545099, guid: adc83aaa1ecb6254c954e63987b3d7e5, type: 3}
   slotIndicator: {fileID: 2807317277340653817, guid: 5ff77f9a52b053b41b8982b424ac56a4, type: 3}
-  dummyMaterial: {fileID: 6200000, guid: 76d758e1d4585dc46a44b7f2afbcb6d3, type: 2}
+  dummyMaterials:
+  - {fileID: 6200000, guid: 76d758e1d4585dc46a44b7f2afbcb6d3, type: 2}
+  - {fileID: 6200000, guid: 44b8c9fd0719a9a4995830c6d405751e, type: 2}
   fireBackLayer: {fileID: 2015639804448943819, guid: 92be10804df6ee7459966241ab346be2, type: 3}
   roomAnimator: {fileID: 5763303651882044135, guid: ef82c30fdcc0fb94e9483164d82ef80e, type: 3}
   interactableList:
