@@ -13,10 +13,14 @@ namespace TowerTanks.Scripts
         private float sprayRate = 0.05f;
         private float sprayTimer = 0;
 
+        private ParticleSystem spray;
+
         // Start is called before the first frame update
         void Start()
         {
             base.Start();
+
+            spray = nozzle.GetComponentInChildren<ParticleSystem>();
         }
 
         // Update is called once per frame
@@ -36,6 +40,7 @@ namespace TowerTanks.Scripts
                         GameManager.Instance.AudioManager.Play("SteamExhaustLoop", this.gameObject);
                     }
                     Spray();
+                    spray.Play();
                     sprayTimer = sprayRate;
                 }
             }
@@ -46,14 +51,29 @@ namespace TowerTanks.Scripts
                     GameManager.Instance.AudioManager.Stop("SteamExhaustLoop", this.gameObject);
                     GameManager.Instance.AudioManager.Play("SteamExhaust", this.gameObject);
                 }
+                spray.Stop();
+            }
+
+            if (isOnTank)
+            {
+                var main = spray.main;
+                if (tankTransform != null)
+                {
+                    if (main.simulationSpace != ParticleSystemSimulationSpace.Custom) main.simulationSpace = ParticleSystemSimulationSpace.Custom;
+                    main.customSimulationSpace = tankTransform;
+                }
+                else
+                {
+                    if (main.simulationSpace != ParticleSystemSimulationSpace.World) main.simulationSpace = ParticleSystemSimulationSpace.World;
+                }
             }
         }
 
 
         public void Spray()
         {
-            GameObject particle = GameManager.Instance.ParticleSpawner.SpawnParticle(15, nozzle.position, 1f);
-            particle.transform.rotation = nozzle.rotation;
+            //GameObject particle = GameManager.Instance.ParticleSpawner.SpawnParticle(15, nozzle.position, 1f);
+            //particle.transform.rotation = nozzle.rotation;
         }
 
         public void UpdateNozzle(Vector2 direction)

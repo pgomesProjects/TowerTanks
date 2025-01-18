@@ -718,6 +718,8 @@ namespace TowerTanks.Scripts
             isOnFire = false;
             flames.SetActive(false);
 
+            Vector2 pos = new Vector2(transform.position.x, transform.position.y - 0.3f);
+            GameManager.Instance.ParticleSpawner.SpawnParticle(3, pos, 0.2f, this.transform);
             GameManager.Instance.AudioManager.Play("SteamExhaust", this.gameObject);
         }
 

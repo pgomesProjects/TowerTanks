@@ -27,6 +27,7 @@ namespace TowerTanks.Scripts
 
         public bool isOnTank; //whether or not this object is considered "on" the tank
         public LayerMask onTankMask;
+        internal Transform tankTransform; //transform of the tank we're currently on
 
         public float throwForce;
 
@@ -233,11 +234,13 @@ namespace TowerTanks.Scripts
                 Transform newParent = cellCheck.transform.parent;
                 transform.parent = newParent;
                 isOnTank = true;
+                tankTransform = newParent.gameObject.GetComponentInParent<TankController>().treadSystem.transform;
             }
             else
             {
                 transform.parent = null;
                 isOnTank = false;
+                tankTransform = null;
             }
         }
 

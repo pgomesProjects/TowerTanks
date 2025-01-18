@@ -6,13 +6,16 @@ namespace TowerTanks.Scripts
 {
     public class ParticleCollisionEvent : MonoBehaviour
     {
+        public GameObject foamStick;
+
         public void OnParticleCollision(GameObject other)
         {
-            Cell cell = other.GetComponentInParent<Cell>();
+            Cell cell = other.gameObject.GetComponentInParent<Cell>();
 
             if (cell != null)
             {
                 //Debug.Log("Particle hit!");
+                //GameObject foam = Instantiate(foamStick, other.point, Quaternion.identity, cell.transform);
 
                 if (cell.isOnFire)
                 {
@@ -24,11 +27,13 @@ namespace TowerTanks.Scripts
                 }
             }
 
-            Character character = other.GetComponent<Character>();
+            Character character = other.gameObject.GetComponent<Character>();
 
             if (character != null)
             {
                 //Debug.Log("Particle hit!");
+
+                //GameObject foam = Instantiate(foamStick, other.GetContact(0).point, Quaternion.identity, character.transform);
 
                 if (character.isOnFire)
                 {
