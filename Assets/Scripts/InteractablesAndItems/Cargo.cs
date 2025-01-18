@@ -234,7 +234,8 @@ namespace TowerTanks.Scripts
                 Transform newParent = cellCheck.transform.parent;
                 transform.parent = newParent;
                 isOnTank = true;
-                tankTransform = newParent.gameObject.GetComponentInParent<TankController>().treadSystem.transform;
+                TankController tank = newParent.gameObject.GetComponentInParent<TankController>();
+                if (tank != null) tankTransform = tank.treadSystem.transform;
             }
             else
             {
