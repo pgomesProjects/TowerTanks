@@ -549,13 +549,6 @@ namespace TowerTanks.Scripts
                 if (otherCell != null) otherCell.connectors[(x + 2) % 4] = null; //Remove neighbor's reference to this connector if applicable
                 Destroy(connectors[x].gameObject);                               //Destroy connector
                 connectors[x] = null;                                            //Clear reference to destroyed connector
-
-                //Add wall cap:
-                Transform wallCap = Instantiate(Resources.Load<GameObject>("TankPrefabs/WallCap").transform); //Instantiate a wall cap visual to put over hole created by pulling connector
-                wallCap.parent = otherCell.transform;                                                         //Child cap to relevant cell
-                wallCap.transform.position = otherCell.walls[(x + 2) % 4].transform.position;                 //Match cap position to wall position
-                wallCap.transform.localScale = Vector3.one;                                                   //Clean up local scale
-                wallCap.transform.Rotate(Vector3.forward, 180 - 90 * x);                                      //Rotate cap to match direction of wall opening
             }
             for (int x = 0; x < neighbors.Length; x++) //Iterate through list of neighbors (all need to be updated)
             {

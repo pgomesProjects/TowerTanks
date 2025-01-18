@@ -505,7 +505,7 @@ namespace TowerTanks.Scripts
                         
                         //Destroy ladder
                     }
-                    h.Kill();
+                    if (h != null) h.Kill();
                 }
                 targetTank.hatches.Clear();
                 Coupler hatch = Instantiate(roomData.hatchPrefab).GetComponent<Coupler>();
