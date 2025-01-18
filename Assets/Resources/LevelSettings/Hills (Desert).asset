@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b3459f51e629a04b9c426011f1ce255, type: 3}
+  m_Name: Hills (Desert)
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  chunkPrefabs:
+  - chunkPrefab: {fileID: 3766360497705465845, guid: 55a2de1c12df41647b2333975b669960, type: 3}
+    weight: 20
+    bias: 0
+    isPreset: 0
+  - chunkPrefab: {fileID: 3766360497705465845, guid: e5efa2eaaa2c9eb449f27c8317f2d22f, type: 3}
+    weight: 15
+    bias: 0
+    isPreset: 0
+  - chunkPrefab: {fileID: 3766360497705465845, guid: 06ff124588cc7374a9bf4d92d5686616, type: 3}
+    weight: 10
+    bias: 0
+    isPreset: 0
+  - chunkPrefab: {fileID: 3766360497705465845, guid: cbcc0b334ac2a38448a05834a3b2ed26, type: 3}
+    weight: 0
+    bias: 0
+    isPreset: 0
+  - chunkPrefab: {fileID: 3766360497705465845, guid: bc42ca57f9535f64390f84bb12911e54, type: 3}
+    weight: 0
+    bias: 0
+    isPreset: 0
+  - chunkPrefab: {fileID: 3766360497705465845, guid: 52431615c5dd61041b96f28f49089538, type: 3}
+    weight: 0
+    bias: 0
+    isPreset: 0
+  - chunkPrefab: {fileID: 3766360497705465845, guid: 257f5992a35b10f41965e64657fe6a91, type: 3}
+    weight: 0
+    bias: 0
+    isPreset: 0
+  - chunkPrefab: {fileID: 5300777585851316023, guid: a34f31d338c6af749aaf23139a313968, type: 3}
+    weight: 0
+    bias: 0
+    isPreset: 1
+  - chunkPrefab: {fileID: 5300777585851316023, guid: 3f9b55df25ebdc9499bee15e1254821f, type: 3}
+    weight: 0
+    bias: 0
+    isPreset: 1
+  poolSize: 500
+  obstacles:
+  - obstacle: {fileID: 7245675298519190089, guid: 8d1ac7cdbdbefb843bad6d3cd7f79167, type: 3}
+    weight: 10
+  - obstacle: {fileID: 951168179812281977, guid: 28228dd6287a00544b1d07b5430181b8, type: 3}
+    weight: 5
+  - obstacle: {fileID: 2880273055600732949, guid: 38c534f27b881694b81cbcead9c56314, type: 3}
+    weight: 0
+  obstacleChance: 10
+  landmarks:
+  - {fileID: 1657263657352873313, guid: ad97cb9004420144aa9809a184ab9c84, type: 3}
+  - {fileID: 2238501236492524393, guid: 0f6e7299cc1ae924f82817b32d82bacb, type: 3}
+  - {fileID: 1737123757267034684, guid: ef903c19a86bd8449beb9a9ae7883a02, type: 3}
+  - {fileID: 2390028312821390095, guid: e1557d0975068a34b97f820b01542a9b, type: 3}
+  - {fileID: 8932742379166886923, guid: 679a62c20f9cc254e80d090efe65fe1d, type: 3}
+  - {fileID: 8777832819200820924, guid: 8e3554b25045ed044a8d6a50399b3272, type: 3}
+  - {fileID: 8192493426788629729, guid: eedacc86461baec4e80f20cfbdc875d1, type: 3}
+  landmarkChance: 20
+  landMarkOffset: 3
+  biasesCanRepeat: 0

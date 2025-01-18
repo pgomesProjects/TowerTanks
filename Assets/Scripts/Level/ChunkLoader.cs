@@ -21,6 +21,10 @@ namespace TowerTanks.Scripts
         // The object pool for the ground chunks
         private List<ChunkData> groundPool = new List<ChunkData>();
 
+        [Header("Level Settings")]
+        [SerializeField, Tooltip("The procedural settings to use when generating the level.")] public LevelSettings levelSettings;
+        [Tooltip("Set to true to ignore the assigned levelSettings.")] public bool ignoreSettings;
+
         [Header("Chunk Pool")]
         [SerializeField, Tooltip("The chunk prefabs to use for spawning new chunks.")] private ChunkWeight[] chunkPrefabs;
         [SerializeField, Tooltip("How many chunks to spawn in the level.")] public int poolSize = 50;
@@ -62,6 +66,11 @@ namespace TowerTanks.Scripts
             if (playerInputComponent != null) LinkPlayerInput(playerInputComponent);
             tankManager = GameObject.Find("TankManager")?.GetComponent<TankManager>();
 
+            if (!ignoreSettings)
+            {
+                GetSpawnerValuesFromSettings(levelSettings);
+            }
+
             // Create and initialize the object pool
             if (!enableLevelBuilder)
             {
@@ -83,6 +92,25 @@ namespace TowerTanks.Scripts
         private void OnDisable()
         {
             inputMap.actionTriggered -= OnPlayerInput;
+        }
+
+        public void GetSpawnerValuesFromSettings(LevelSettings settings)
+        {
+            //Chunks
+            chunkPrefabs = settings.chunkPrefabs;
+            poolSize = settings.poolSize;
+
+            //Obstacles
+            obstacles = settings.obstacles;
+            obstacleChance = settings.obstacleChance;
+
+            //Landmarks
+            landmarks = settings.landmarks;
+            landmarkChance = settings.landmarkChance;
+            landMarkOffset = settings.landMarkOffset;
+
+            //Procedural Values
+            biasesCanRepeat = settings.biasesCanRepeat;
         }
 
         private void SetupSpawner()
@@ -194,6 +222,7 @@ namespace TowerTanks.Scripts
                         if (previousChunk.GetComponent<ChunkData>() != null) //it's a normal chunk
                         {
                             chunkCounter++;
+                            xOffset = ChunkData.CHUNK_WIDTH * (chunkCounter - startingChunks.Length) * direction;
                             chunkData = InstantiateChunk(new Vector3(xOffset, previousY, 0f), previousChunk);
                             groundPool.Add(chunkData);
                             chunkData.chunkNumber = chunkCounter;
@@ -201,6 +230,7 @@ namespace TowerTanks.Scripts
                         else
                         {
                             chunkCounter++;
+                            xOffset = ChunkData.CHUNK_WIDTH * (chunkCounter - startingChunks.Length) * direction;
                             chunkData = InstantiatePreset(false, new Vector3(xOffset, previousY, 0f), previousChunk);
                         }
                         if (chunkData.yOffset != 0) previousY += chunkData.yOffset;
