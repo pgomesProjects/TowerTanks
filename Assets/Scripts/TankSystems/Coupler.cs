@@ -172,7 +172,7 @@ namespace TowerTanks.Scripts
             }
 
             //Final cleanup:
-            Destroy(gameObject); //Destroy this coupler
+            if (gameObject != null) Destroy(gameObject); //Destroy this coupler
         }
         /// <summary>
         /// Returns true if both cells are on the same side of the coupler

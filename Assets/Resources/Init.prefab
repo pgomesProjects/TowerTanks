@@ -232,7 +232,9 @@ MonoBehaviour:
     coreInteractables: []
     buildingSteps: []
   cargoManifest:
-    items: []
+    items:
+    - itemID: Fire Extinguisher
+      localSpawnVector: {x: -1, y: 0, z: 0}
 --- !u!114 &2776762177459489224
 MonoBehaviour:
   m_ObjectHideFlags: 0
