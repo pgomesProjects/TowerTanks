@@ -28,7 +28,7 @@ namespace TowerTanks.Scripts
             /// <summary> Room which provides lift to tank, at the cost of having lower health and exploding entirely on destruction of a cell. </summary>
             Dirigible
         }
-        
+
         //Objects & Components:
         private Room parentRoom;                                     //The room this room was mounted to
         internal List<Coupler> couplers = new List<Coupler>();       //Couplers connecting this room to other rooms
@@ -282,6 +282,13 @@ namespace TowerTanks.Scripts
             SnapMove(targetPos);                                                        //Use normal snapMove method to place room
         }
         /// <summary>
+        /// Snaps unmounted room to closest grid point, useful for updating coupler adjacency values.
+        /// </summary>
+        public Vector2 SnapMove()
+        {
+            return SnapMove(transform.localPosition); //Snapmove using current localPosition
+        }
+        /// <summary>
         /// Moves unmounted room as close as possible to target position (in local space) while snapping to grid.
         /// </summary>
         /// <param name="targetPoint"></param>
@@ -418,7 +425,14 @@ namespace TowerTanks.Scripts
 
         public void MountCouplers(List<Coupler> couplersToMount)
         {
-            
+            //Remove null couplers from list:
+            for (int x = 0; x < couplersToMount.Count;)
+            {
+                if (couplersToMount[x] == null) couplersToMount.RemoveAt(x);
+                else x++;
+            }
+
+            //Mount couplers:
             foreach (Coupler coupler in couplersToMount) 
             {
                 //Mount coupler:

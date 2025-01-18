@@ -297,6 +297,12 @@ namespace TowerTanks.Scripts
             //Add the room mounting to the player action history
             AddToPlayerActionHistory(playerInput, playerRoom.playerSelector.GetRoomAt(playerRoom.playerSelector.GetNumberOfRoomsPlaced() - 1), mountedRoom);
 
+            //Update all other rooms so that overlapping rooms cannot be placed:
+            foreach(WorldRoom room in worldRoomObjects) //Iterate through each held room
+            {
+                if (!room.roomObject.mounted) room.roomObject.SnapMove(); //Snap room to closest gridpoint, updating ghost couplers and placeability
+            }
+
             //If all of the rooms are mounted from the player
             if (playerRoom.currentRoomState == WorldRoom.RoomState.MOUNTED)
             {
