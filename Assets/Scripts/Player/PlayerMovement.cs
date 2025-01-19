@@ -38,6 +38,7 @@ namespace TowerTanks.Scripts
         private Vector2 lastJoystickInput = Vector2.zero;
         private bool isCheckingSpinInput = false;
         private int validSpinCheckCounter = 0;
+        public bool isUsingCompositeAiming = false; //whether or not the active player is using composite aiming controls or not, ie whether they are using a joystick to aim or not
 
         private Cell buildCell; //Cell player is currently building a stack interactable in (null if not building)
         private float timeBuilding = 0; //Time spent in build mode
@@ -280,12 +281,32 @@ namespace TowerTanks.Scripts
 
                 if (currentInteractable.canAim)
                 {
-                    CheckJoystickSpinning();
-                    if (isSpinningJoystick)
+                    if (!isUsingCompositeAiming)
                     {
-                        currentInteractable.Rotate(spinningForce);
+                        CheckJoystickSpinning();
+                        if (isSpinningJoystick)
+                        {
+                            currentInteractable.Rotate(spinningForce);
+                        }
+                        else currentInteractable.Rotate(0);
                     }
-                    else currentInteractable.Rotate(0);
+                    else
+                    {
+                        GunController gunScript = currentInteractable.GetComponent<GunController>();
+                        if (gunScript != null) 
+                        {
+                            if (gunScript.gunType == GunController.GunType.MORTAR)
+                            {
+                                if (Mathf.Abs(moveInput.x) > 0.2f) currentInteractable.Rotate(-moveInput.x);
+                                else currentInteractable.Rotate(0);
+                            }
+                            else
+                            {
+                                if (Mathf.Abs(moveInput.y) > 0.2f) currentInteractable.Rotate(moveInput.y);
+                                else currentInteractable.Rotate(0);
+                            }
+                        }
+                    }
                 }
             }
 
@@ -597,6 +618,10 @@ namespace TowerTanks.Scripts
         public void OnMove(InputAction.CallbackContext ctx)
         {
             if (!isAlive) return;
+
+            var binding = ctx.action.GetBindingForControl(ctx.control);
+            if (binding.Value.isPartOfComposite) isUsingCompositeAiming = true;
+            else isUsingCompositeAiming = false;
 
             SetCharacterMovement(ctx.ReadValue<Vector2>());
 

@@ -1161,7 +1161,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   fireCooldownTimer: 0
-  spread: 2
+  spread: 0
   fire: 0
   moveGimbal: 0.5
   usingAIbrain: 0
@@ -1189,6 +1189,7 @@ MonoBehaviour:
   tokenActivated: 0
   cooldownOffset: 1
   isRotating: 0
+  aggroCooldown: 0
 --- !u!114 &4613825642288855973
 MonoBehaviour:
   m_ObjectHideFlags: 0
