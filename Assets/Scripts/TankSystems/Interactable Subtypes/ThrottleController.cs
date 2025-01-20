@@ -26,6 +26,10 @@ namespace TowerTanks.Scripts
         public bool shiftLeft;
 
         //Runtime variables
+        private void Start()
+        {
+            MatchCurrentGear();
+        }
 
         // RUNTIME METHODS:
         void Update()
@@ -57,6 +61,14 @@ namespace TowerTanks.Scripts
             if (tank != null) tank.ChangeAllGear(direction);
         }
 
+        public void MatchCurrentGear()
+        {
+            //Update throttle to match the tank's current gear
+            previousAngle = gear * (maxAngle / speedSettings);
+            gear = -tank.treadSystem.gear;
+            currentAngle = gear * (maxAngle / speedSettings);
+            shiftTimer = 0.1f;
+        }
 
         //FUNCTIONALITY METHODS:
         /// <summary>
