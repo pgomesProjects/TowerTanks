@@ -100,6 +100,17 @@ namespace TowerTanks.Scripts
                 {
                     CameraManipulator.main.ShakeTankCamera(tankTransform.GetComponent<TankController>(), 
                         GameManager.Instance.SystemEffects.GetScreenShakeSetting("Explosion"));
+
+                    //Apply Haptics to Players inside this tank
+                    foreach (Character character in tankTransform.GetComponent<TankController>().GetCharactersInTank())
+                    {
+                        PlayerMovement player = character.GetComponent<PlayerMovement>();
+                        if (player != null)
+                        {
+                            HapticsSettings setting = GameManager.Instance.SystemEffects.GetHapticsSetting("BigRumble");
+                            GameManager.Instance.SystemEffects.ApplyControllerHaptics(player.GetPlayerData().playerInput, setting); //Apply haptics
+                        }
+                    }
                 }
             }
 

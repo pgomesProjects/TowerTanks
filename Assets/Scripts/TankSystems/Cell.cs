@@ -262,11 +262,23 @@ namespace TowerTanks.Scripts
             {
                 Damage(projectile.remainingDamage); //Simply do normal projectile damage to the core
                 TankController tank = room?.targetTank;
-                if (tank != null)
+                if (tank != null) //Apply effects
                 {
                     float duration = Mathf.Lerp(0.05f, 1f, projectile.remainingDamage / 100);
                     float intensity = Mathf.Lerp(1f, 15f, projectile.remainingDamage / 100);
                     CameraManipulator.main.ShakeTankCamera(tank, intensity, duration);
+
+                    //Apply Haptics to Players inside this tank
+                    foreach (Character character in tank.GetCharactersInTank())
+                    {
+                        PlayerMovement player = character.GetComponent<PlayerMovement>();
+                        if (player != null)
+                        {
+                            HapticsSettings setting = GameManager.Instance.SystemEffects.GetHapticsSetting("QuickJolt");
+                            if (projectile.remainingDamage > 50f) setting = GameManager.Instance.SystemEffects.GetHapticsSetting("ImpactRumble");
+                            GameManager.Instance.SystemEffects.ApplyControllerHaptics(player.GetPlayerData().playerInput, setting); //Apply haptics
+                        }
+                    }
                 }
                 return 0;                           //Projectiles cannot tunnel through the core
             }
@@ -289,6 +301,18 @@ namespace TowerTanks.Scripts
                         float duration = Mathf.Lerp(0.05f, 1f, dealtDamage / 100);
                         float intensity = Mathf.Lerp(1f, 15f, dealtDamage / 100);
                         CameraManipulator.main.ShakeTankCamera(tank, intensity, duration);
+
+                        //Apply Haptics to Players inside this tank
+                        foreach (Character character in room.targetTank.GetCharactersInTank())
+                        {
+                            PlayerMovement player = character.GetComponent<PlayerMovement>();
+                            if (player != null)
+                            {
+                                HapticsSettings setting = GameManager.Instance.SystemEffects.GetHapticsSetting("QuickJolt");
+                                if (dealtDamage > 50f) setting = GameManager.Instance.SystemEffects.GetHapticsSetting("ImpactRumble");
+                                GameManager.Instance.SystemEffects.ApplyControllerHaptics(player.GetPlayerData().playerInput, setting); //Apply haptics
+                            }
+                        }
                     }
                 }
                 else HitEffects(8f);

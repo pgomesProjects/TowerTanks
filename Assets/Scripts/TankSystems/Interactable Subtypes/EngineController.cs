@@ -418,6 +418,17 @@ namespace TowerTanks.Scripts
             CameraManipulator.main.ShakeTankCamera(tank, GameManager.Instance.SystemEffects.GetScreenShakeSetting("Explosion"));
             //parentCell.Damage(100);
 
+            //Apply Haptics to Players inside this tank
+            foreach (Character character in tank.GetCharactersInTank())
+            {
+                PlayerMovement player = character.GetComponent<PlayerMovement>();
+                if (player != null)
+                {
+                    HapticsSettings setting = GameManager.Instance.SystemEffects.GetHapticsSetting("ImpactRumble");
+                    GameManager.Instance.SystemEffects.ApplyControllerHaptics(player.GetPlayerData().playerInput, setting); //Apply haptics
+                }
+            }
+
             if (parentCell?.room.isCore == true)
             {
                 parentCell.AddInteractablesFromCell();

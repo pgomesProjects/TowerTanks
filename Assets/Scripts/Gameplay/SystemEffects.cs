@@ -177,6 +177,21 @@ namespace TowerTanks.Scripts
 
         #endregion
         #region HAPTICS
+
+        public HapticsSettings[] hapticsOptions;
+
+        public HapticsSettings GetHapticsSetting(string id)
+        {
+            HapticsSettings setting = null;
+
+            foreach (HapticsSettings settings in hapticsOptions)
+            {
+                if (settings.name == id) setting = settings;
+            }
+
+            return setting;
+        }
+
         /// <summary>
         /// Applies controller haptics to all players.
         /// </summary>

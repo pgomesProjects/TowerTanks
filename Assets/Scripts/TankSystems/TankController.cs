@@ -672,6 +672,17 @@ namespace TowerTanks.Scripts
                 GameManager.Instance.AudioManager.Play("LargeExplosionSFX", treadSystem.gameObject);
                 CameraManipulator.main.ShakeTankCamera(this, GameManager.Instance.SystemEffects.GetScreenShakeSetting("Jolt"));
 
+                //Apply Haptics to Players inside this tank
+                foreach (Character character in this.GetCharactersInTank())
+                {
+                    PlayerMovement player = character.GetComponent<PlayerMovement>();
+                    if (player != null)
+                    {
+                        HapticsSettings setting = GameManager.Instance.SystemEffects.GetHapticsSetting("QuickRumble");
+                        GameManager.Instance.SystemEffects.ApplyControllerHaptics(player.GetPlayerData().playerInput, setting); //Apply haptics
+                    }
+                }
+
                 deathSequenceTimer = Random.Range(0.1f, 0.2f);
             }
 
@@ -846,6 +857,10 @@ namespace TowerTanks.Scripts
             GameManager.Instance.AudioManager.PlayRandomPitch("MedExplosionSFX", 0.4f, 0.8f, treadSystem.gameObject);
             GameManager.Instance.AudioManager.PlayRandomPitch("CannonFire", 0.6f, 0.7f, treadSystem.gameObject);
             GameManager.Instance.AudioManager.Play("LargeExplosionSFX", treadSystem.gameObject);
+
+            //Apply haptics to all players
+            HapticsSettings haptics = GameManager.Instance.SystemEffects.GetHapticsSetting("BigRumble");
+            GameManager.Instance.SystemEffects.ApplyControllerHaptics(haptics);
         }
 
         public void GenerateCorpse()

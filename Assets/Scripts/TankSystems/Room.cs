@@ -141,6 +141,17 @@ namespace TowerTanks.Scripts
                     float duration = Mathf.Lerp(0.1f, 0.5f, impactSpeed / 10);               //Use a clamped lerp to increase duration of screenshake proportionately to speed of impact, up to a certain maximum speed
                     float intensity = Mathf.Lerp(0.1f, 1, impactSpeed / 10);                 //Use a clamped lerp to increase magnitude of screenshake proportionately to speed of impact, up to a certain maximum speed
                     CameraManipulator.main.ShakeTankCamera(targetTank, intensity, duration); //Send shake command to be handled by camera manipulator (which can find the camera associated with this tank)
+
+                    //Apply Haptics to Players inside this tank
+                    foreach (Character character in targetTank.GetCharactersInTank())
+                    {
+                        PlayerMovement player = character.GetComponent<PlayerMovement>();
+                        if (player != null)
+                        {
+                            HapticsSettings setting = GameManager.Instance.SystemEffects.GetHapticsSetting("ImpactRumble");
+                            GameManager.Instance.SystemEffects.ApplyControllerHaptics(player.GetPlayerData().playerInput, setting); //Apply haptics
+                        }
+                    }
                 }
             }
            
@@ -181,6 +192,17 @@ namespace TowerTanks.Scripts
                     float duration = Mathf.Lerp(0.1f, 0.5f, _impactSpeed / 10);               //Use a clamped lerp to increase duration of screenshake proportionately to speed of impact, up to a certain maximum speed
                     float intensity = Mathf.Lerp(0.1f, 1, _impactSpeed / 10);                 //Use a clamped lerp to increase magnitude of screenshake proportionately to speed of impact, up to a certain maximum speed
                     CameraManipulator.main.ShakeTankCamera(targetTank, intensity, duration); //Send shake command to be handled by camera manipulator (which can find the camera associated with this tank)
+
+                    //Apply Haptics to Players inside this tank
+                    foreach (Character character in targetTank.GetCharactersInTank())
+                    {
+                        PlayerMovement player = character.GetComponent<PlayerMovement>();
+                        if (player != null)
+                        {
+                            HapticsSettings setting = GameManager.Instance.SystemEffects.GetHapticsSetting("ImpactJolt");
+                            GameManager.Instance.SystemEffects.ApplyControllerHaptics(player.GetPlayerData().playerInput, setting); //Apply haptics
+                        }
+                    }
                 }
             }
            

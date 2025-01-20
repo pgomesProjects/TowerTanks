@@ -70,6 +70,13 @@ namespace TowerTanks.Scripts
             {
                 gear += direction;
                 GameManager.Instance.AudioManager.Play("ThrottleShift", this.gameObject);
+
+                //Apply Haptics to Operator
+                if (operatorID != null)
+                {
+                    HapticsSettings setting = GameManager.Instance.SystemEffects.GetHapticsSetting("QuickJolt");
+                    GameManager.Instance.SystemEffects.ApplyControllerHaptics(operatorID.GetPlayerData().playerInput, setting); //Apply haptics
+                }
             }
             else
             {

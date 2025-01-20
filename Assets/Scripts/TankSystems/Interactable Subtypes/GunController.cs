@@ -430,6 +430,13 @@ namespace TowerTanks.Scripts
                     GameManager.Instance.UIManager.AddTaskBar(gameObject, new Vector2(-0.4f, -0.55f), rateOfFire, true);
                     ShowFirePrompt(false);
                     isCooldownActive = true;
+
+                    //Haptics
+                    if (operatorID != null)
+                    {
+                        HapticsSettings setting = GameManager.Instance.SystemEffects.GetHapticsSetting("QuickRumble");
+                        GameManager.Instance.SystemEffects.ApplyControllerHaptics(operatorID.GetPlayerData().playerInput, setting); //Apply haptics
+                    }
                 }
 
                 if (gunType == GunType.MACHINEGUN)
@@ -447,6 +454,13 @@ namespace TowerTanks.Scripts
                         GameManager.Instance.AudioManager.Stop("MachineGunFire", gameObject);
                     }
                     GameManager.Instance.AudioManager.PlayRandomPitch("MachineGunFire", 0.9f, 1.1f, gameObject);
+
+                    //Haptics
+                    if (operatorID != null)
+                    {
+                        HapticsSettings setting = GameManager.Instance.SystemEffects.GetHapticsSetting("QuickJolt");
+                        GameManager.Instance.SystemEffects.ApplyControllerHaptics(operatorID.GetPlayerData().playerInput, setting); //Apply haptics
+                    }
                 }
 
                 if (gunType == GunType.MORTAR)
@@ -459,6 +473,13 @@ namespace TowerTanks.Scripts
                     GameManager.Instance.UIManager.AddTaskBar(gameObject, new Vector2(-0.4f, -0.55f), rateOfFire, true);
                     ShowFirePrompt(false);
                     isCooldownActive = true;
+
+                    //Haptics
+                    if (operatorID != null)
+                    {
+                        HapticsSettings setting = GameManager.Instance.SystemEffects.GetHapticsSetting("LowRumble");
+                        GameManager.Instance.SystemEffects.ApplyControllerHaptics(operatorID.GetPlayerData().playerInput, setting); //Apply haptics
+                    }
                 }
 
                 //Set Cooldown

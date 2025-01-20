@@ -44,6 +44,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92d6de14122beea4a82565e83cf4070e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hapticsOptions:
+  - {fileID: 11400000, guid: ce17c19ec8fb7e84e828badf7deaa4cf, type: 2}
+  - {fileID: 11400000, guid: e66b1cf33c404454dbff486c5964e49d, type: 2}
+  - {fileID: 11400000, guid: f6ee0d036abf32946a3646619f163502, type: 2}
+  - {fileID: 11400000, guid: 68e679b6ceab71442a5c0f818c85e185, type: 2}
+  - {fileID: 11400000, guid: 87520251243b7504f9b1ab6b9b7f6e94, type: 2}
+  - {fileID: 11400000, guid: ebdbc1e5a6e383e4e874978e804d397c, type: 2}
+  - {fileID: 11400000, guid: 47b0a86ffee79f54b8402e79bb228f29, type: 2}
   screenshakeOptions:
   - {fileID: 11400000, guid: 1888f390f558a224db448bcc54300d2a, type: 2}
   - {fileID: 11400000, guid: 1bc21f1211f207a438f9bb21db5fe19c, type: 2}
@@ -103,8 +111,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
+    SerializedFormat: 0
+    SerializedBytes: 01010d0000007400750074006f007200690061006c0073004c006900730074002f00000000013500000054006f00770065007200540061006e006b0073002e0053006300720069007000740073002e005400750074006f007200690061006c004900740065006d005b005d002c00200054006f00770065007200540061006e006b0073002e00530063007200690070007400730000000000060600000000000000042f01000000013300000054006f00770065007200540061006e006b0073002e0053006300720069007000740073002e005400750074006f007200690061006c004900740065006d002c00200054006f00770065007200540061006e006b0073002e0053006300720069007000740073000b010d0000007400750074006f007200690061006c0050006f0070007500700000000000050430010000000b010d0000007400750074006f007200690061006c0050006f0070007500700001000000050430010000000b010d0000007400750074006f007200690061006c0050006f0070007500700002000000050430010000000b010d0000007400750074006f007200690061006c0050006f0070007500700003000000050430010000000b010d0000007400750074006f007200690061006c0050006f0070007500700004000000050430010000000b010d0000007400750074006f007200690061006c0050006f0070007500700005000000050705
     ReferencedUnityObjects:
     - {fileID: 11400000, guid: 3b0484ad929fefc4c96fd957efa8336a, type: 2}
     - {fileID: 11400000, guid: 5c5f77bae720eee41b0e0f1960fb8506, type: 2}
@@ -116,73 +124,7 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes:
-    - Name: tutorialsList
-      Entry: 7
-      Data: 0|TowerTanks.Scripts.TutorialItem[], TowerTanks.Scripts
-    - Name: 
-      Entry: 12
-      Data: 6
-    - Name: 
-      Entry: 7
-      Data: TowerTanks.Scripts.TutorialItem, TowerTanks.Scripts
-    - Name: tutorialPopup
-      Entry: 10
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: TowerTanks.Scripts.TutorialItem, TowerTanks.Scripts
-    - Name: tutorialPopup
-      Entry: 10
-      Data: 1
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: TowerTanks.Scripts.TutorialItem, TowerTanks.Scripts
-    - Name: tutorialPopup
-      Entry: 10
-      Data: 2
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: TowerTanks.Scripts.TutorialItem, TowerTanks.Scripts
-    - Name: tutorialPopup
-      Entry: 10
-      Data: 3
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: TowerTanks.Scripts.TutorialItem, TowerTanks.Scripts
-    - Name: tutorialPopup
-      Entry: 10
-      Data: 4
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: TowerTanks.Scripts.TutorialItem, TowerTanks.Scripts
-    - Name: tutorialPopup
-      Entry: 10
-      Data: 5
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
+    SerializationNodes: []
   playerHUDPrefab: {fileID: 7233397024689304095, guid: 40576d2ea0d1e834aa0a94b73261c6a6, type: 3}
   tutorialPopup: {fileID: 7246176982549920993, guid: 5c09bd25fe367e947a9b55a4a014671e, type: 3}
   roomList:
@@ -229,7 +171,7 @@ MonoBehaviour:
   isPaused: 0
   inBugReportMenu: 0
   inDebugMenu: 0
-  ignoreTutorials: 0
+  ignoreTutorials: 1
   _shopChance: 0
   tankDesign:
     TankName: 
@@ -385,107 +327,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
+    SerializedFormat: 0
+    SerializedBytes: 01010c00000070006c00610079006500720043006f006c006f00720073002f00000000012b00000055006e0069007400790045006e00670069006e0065002e0043006f006c006f0072005b005d002c00200055006e0069007400790045006e00670069006e0065002e0043006f00720065004d006f00640075006c00650000000000060400000000000000042f01000000012900000055006e0069007400790045006e00670069006e0065002e0043006f006c006f0072002c00200055006e0069007400790045006e00670069006e0065002e0043006f00720065004d006f00640075006c006500200000803f20000000002000000000200000803f0504300100000020000000002000000000200000803f200000803f05043001000000200000803f20eceb6b3f208180803c200000803f050430010000002000000000200000803f2000000000200000803f0507052d01110000004f006e0050006c00610079006500720043006f006e006e00650063007400650064002d010c0000004f006e0050006c0061007900650072004c006f00730074002d01100000004f006e0050006c006100790065007200520065006700610069006e0065006400
     ReferencedUnityObjects: []
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes:
-    - Name: playerColors
-      Entry: 7
-      Data: 0|UnityEngine.Color[], UnityEngine.CoreModule
-    - Name: 
-      Entry: 12
-      Data: 4
-    - Name: 
-      Entry: 7
-      Data: UnityEngine.Color, UnityEngine.CoreModule
-    - Name: 
-      Entry: 4
-      Data: 1
-    - Name: 
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 4
-      Data: 1
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: UnityEngine.Color, UnityEngine.CoreModule
-    - Name: 
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 4
-      Data: 1
-    - Name: 
-      Entry: 4
-      Data: 1
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: UnityEngine.Color, UnityEngine.CoreModule
-    - Name: 
-      Entry: 4
-      Data: 1
-    - Name: 
-      Entry: 4
-      Data: 0.921568632
-    - Name: 
-      Entry: 4
-      Data: 0.0156862754
-    - Name: 
-      Entry: 4
-      Data: 1
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: UnityEngine.Color, UnityEngine.CoreModule
-    - Name: 
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 4
-      Data: 1
-    - Name: 
-      Entry: 4
-      Data: 0
-    - Name: 
-      Entry: 4
-      Data: 1
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: OnPlayerConnected
-      Entry: 6
-      Data: 
-    - Name: OnPlayerLost
-      Entry: 6
-      Data: 
-    - Name: OnPlayerRegained
-      Entry: 6
-      Data: 
+    SerializationNodes: []
   playerPrefab: {fileID: 5332867684925448268, guid: 79f26049c394b4140bd0a93f14c225cd, type: 3}
   MultiplayerEnabled: 1
 --- !u!1 &2386267742676790645
@@ -1621,7 +1470,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 2
+    SerializedFormat: 0
     SerializedBytes: 
     ReferencedUnityObjects: []
     SerializedBytesString: 

@@ -135,6 +135,13 @@ namespace TowerTanks.Scripts
             {
                 AddShieldCharge(15);
                 HitEffects(transform.position, 0.3f, false);
+
+                //Apply Haptics to Operator
+                if (operatorID != null)
+                {
+                    HapticsSettings setting = GameManager.Instance.SystemEffects.GetHapticsSetting("QuickJolt");
+                    GameManager.Instance.SystemEffects.ApplyControllerHaptics(operatorID.GetPlayerData().playerInput, setting); //Apply haptics
+                }
             }
         }
 

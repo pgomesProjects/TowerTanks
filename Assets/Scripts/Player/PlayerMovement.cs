@@ -1051,6 +1051,10 @@ namespace TowerTanks.Scripts
         {
             base.OnCharacterDeath();
 
+            //Death Haptics
+            HapticsSettings setting = GameManager.Instance.SystemEffects.GetHapticsSetting("ImpactRumble");
+            GameManager.Instance.SystemEffects.ApplyControllerHaptics(this.GetPlayerData().playerInput, setting); //Apply haptics
+
             if (permaDeath)
             {
                 OnPlayerDeath?.Invoke();

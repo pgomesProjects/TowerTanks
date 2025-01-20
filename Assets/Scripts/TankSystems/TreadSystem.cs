@@ -384,7 +384,21 @@ namespace TowerTanks.Scripts
                 float intensity = Mathf.Lerp(1f, 15f, projectile.remainingDamage / 100);
                 CameraManipulator.main.ShakeTankCamera(tank, intensity, duration);
 
-                if (overrideRelative) CameraManipulator.main.ShakeTankCamera(tank, GameManager.Instance.SystemEffects.GetScreenShakeSetting("Explosion"));
+                if (overrideRelative)
+                {
+                    CameraManipulator.main.ShakeTankCamera(tank, GameManager.Instance.SystemEffects.GetScreenShakeSetting("Explosion"));
+
+                    //Apply Haptics to Players inside this tank
+                    foreach (Character character in tank.GetCharactersInTank())
+                    {
+                        PlayerMovement player = character.GetComponent<PlayerMovement>();
+                        if (player != null)
+                        {
+                            HapticsSettings setting = GameManager.Instance.SystemEffects.GetHapticsSetting("LowRumble");
+                            GameManager.Instance.SystemEffects.ApplyControllerHaptics(player.GetPlayerData().playerInput, setting); //Apply haptics
+                        }
+                    }
+                }
             }
 
             //Cleanup:
@@ -568,7 +582,7 @@ namespace TowerTanks.Scripts
 
         public void OnCollisionEnter2D(Collision2D collision)
         {
-            if (collision.collider.GetComponentInParent<TreadSystem>() != null) //Room has collided with another tank
+            if (collision.collider.GetComponentInParent<TreadSystem>() != null) //Tread has collided with another tank
             {
                 //Get information:
                 TreadSystem opposingTreads = collision.collider.GetComponentInParent<TreadSystem>(); //Get treadsystem of opposing tank
@@ -591,7 +605,19 @@ namespace TowerTanks.Scripts
                         GameManager.Instance.ParticleSpawner.SpawnParticle(7, contact.point + offset, 0.6f);
                     }
 
+                    //Camera Shake
                     CameraManipulator.main.ShakeTankCamera(tankController, GameManager.Instance.SystemEffects.GetScreenShakeSetting("Impact"));
+
+                    //Apply Haptics to Players inside this tank
+                    foreach (Character character in tankController.GetCharactersInTank())
+                    {
+                        PlayerMovement player = character.GetComponent<PlayerMovement>();
+                        if (player != null)
+                        {
+                            HapticsSettings setting = GameManager.Instance.SystemEffects.GetHapticsSetting("ImpactRumble");
+                            GameManager.Instance.SystemEffects.ApplyControllerHaptics(player.GetPlayerData().playerInput, setting); //Apply haptics
+                        }
+                    }
                 }
             }
 
@@ -629,8 +655,21 @@ namespace TowerTanks.Scripts
                         GameManager.Instance.ParticleSpawner.SpawnParticle(7, contact.point + offset, 0.6f);
                     }
 
+                    //Camera Shake
                     if (!ramming) CameraManipulator.main.ShakeTankCamera(tankController, GameManager.Instance.SystemEffects.GetScreenShakeSetting("Jolt"));
                     CameraManipulator.main.ShakeTankCamera(tankController, GameManager.Instance.SystemEffects.GetScreenShakeSetting("Jolt"));
+
+                    //Apply Haptics to Players inside this tank
+                    foreach (Character character in tankController.GetCharactersInTank())
+                    {
+                        PlayerMovement player = character.GetComponent<PlayerMovement>();
+                        if (player != null)
+                        {
+                            HapticsSettings setting = GameManager.Instance.SystemEffects.GetHapticsSetting("ImpactJolt");
+                            if (ramming) setting = GameManager.Instance.SystemEffects.GetHapticsSetting("QuickJolt");
+                            GameManager.Instance.SystemEffects.ApplyControllerHaptics(player.GetPlayerData().playerInput, setting); //Apply haptics
+                        }
+                    }
                 }
             }
         }
