@@ -55,12 +55,10 @@ namespace TowerTanks.Scripts
         public Transform pressureBar;
 
         [Header("Explosion Settings:")]
-        public float explosionChance; //chance out of 100 that an explosion will happen when conditions are met
-        private float explosionChanceOriginal;
-        public float explosionTime; //how long it takes to trigger an explosion when conditions are met
-        private bool canExplode = false;
-        private float explosionTimeOriginal;
-        public float explosionTimer = 0;
+        public float fireChance; //chance out of 100 that a fire will break out when conditions are met
+        private float fireChanceOriginal;
+        private bool canIgnite = false;
+        
         public LayerMask hitboxMask; //Layers the engine can hit when exploding
         public float explosionDamage;
         public float explosionRadius;
@@ -79,8 +77,7 @@ namespace TowerTanks.Scripts
 
         private void Start()
         {
-            explosionTimeOriginal = explosionTime;
-            explosionChanceOriginal = explosionChance;
+            fireChanceOriginal = fireChance;
             chargeStarted = false;
 
             maxTargetCharge = maxChargeTime - (targetChargeOffset * 2f);
@@ -104,7 +101,6 @@ namespace TowerTanks.Scripts
             base.FixedUpdate();
 
             UpdatePressure();
-            CheckForFire();
 
             //Input
             if (hasOperator)
@@ -131,7 +127,7 @@ namespace TowerTanks.Scripts
         /// <summary>
         /// Loads (amount) coal into the engine.
         /// </summary>
-        public void AddPressure(int amount, bool enableSounds = true, bool surgeSpeed = false)
+        public void AddPressure(int amount, bool enableSounds = true, bool surgeSpeed = false, bool checkFire = false)
         {
             //Increase coal total:
             pressure += amount;
@@ -139,14 +135,9 @@ namespace TowerTanks.Scripts
             if (pressure > 100)
             {
                 pressure = 100;
-                float random = Random.Range(0f, 100f);
-                float chance = explosionChance;
-                //if (parentCell.isOnFire) chance += explosionChance;
-
-                if (random < chance && parentCell.isOnFire == false) parentCell.Ignite();
-
-                explosionChance += 5f;
             }
+
+            if (checkFire) CheckForFire();
 
             if (enableSounds)
             { 
@@ -224,7 +215,7 @@ namespace TowerTanks.Scripts
 
             if (pressure < dangerZoneThreshold)
             {
-                if (explosionChance != explosionChanceOriginal) { explosionChance = explosionChanceOriginal; }
+                if (fireChance != fireChanceOriginal) { fireChance = fireChanceOriginal; }
                 if (isOverheating) { 
                     isOverheating = false;
                     animator.Play("Default", 0, 0);
@@ -296,6 +287,8 @@ namespace TowerTanks.Scripts
                 return;
             }
 
+            if (chargeStarted) return; //if there's somehow already a charge started, don't start another one
+
             float random = Random.Range(minTargetCharge, maxTargetCharge);
             targetCharge = random;
 
@@ -319,7 +312,7 @@ namespace TowerTanks.Scripts
                 //If the gauge was pressed in the zone
                 if (currentGauge.PressGauge())
                 {
-                    AddPressure(30, true, true);
+                    AddPressure(30, true, true, true);
                     GameManager.Instance.AudioManager.Play("JetpackRefuel", this.gameObject); //Got it!
                 }
                 else
@@ -353,6 +346,7 @@ namespace TowerTanks.Scripts
                 power = 0.5f;
                 if (pressure >= 50) power = 1f;
                 if (pressure >= dangerZoneThreshold) power = 1.5f;
+                if (canIgnite) power += Mathf.Lerp(1f, 0, fireChance / 100f); //increase power output based on current chance of fire
 
                 //if (isSurging) power *= boostMultiplier;
 
@@ -368,31 +362,33 @@ namespace TowerTanks.Scripts
 
         private void CheckForFire()
         {
-            if (pressure > dangerZoneThreshold)
-            {
-                if (!canExplode)
-                {
-                    explosionTimer = 0;
-                    float randomOffset = Random.Range(-1f, 3f);
-                    explosionTime += randomOffset;
-                }
-                canExplode = true;
-            }
-
             if (pressure < dangerZoneThreshold)
             {
-                canExplode = false;
-                explosionTime = explosionTimeOriginal;
+                canIgnite = false;
             }
 
-            if (canExplode)
+            if (canIgnite)
             {
-                if (explosionTimer < explosionTime) explosionTimer += Time.deltaTime;
-                if (explosionTimer > explosionTime)
+                float random = Random.Range(0, 100);
+                if (random <= fireChance)
                 {
-                    explosionTimer = 0;
-                    if (parentCell.isOnFire != true) parentCell.Ignite();
+                    if (parentCell.isOnFire != true)
+                    {
+                        parentCell.Ignite();
+                        if (fireChance != fireChanceOriginal) { fireChance = fireChanceOriginal; }
+                    }
                 }
+            }
+
+            if (pressure > dangerZoneThreshold)
+            {
+                fireChance += 10f;
+                canIgnite = true;
+            }
+
+            if (pressure >= 100)
+            {
+                fireChance += 10f;
             }
         }
 
