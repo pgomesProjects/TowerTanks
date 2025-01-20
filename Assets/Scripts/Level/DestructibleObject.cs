@@ -19,6 +19,8 @@ namespace TowerTanks.Scripts
         private Vector2 impactDirection;
         private Vector2 impactPoint;
 
+        public int debrisParticleId = -1;
+
         public void Awake()
         {
             health = maxHealth;
@@ -75,8 +77,8 @@ namespace TowerTanks.Scripts
                 {
                     if (this.gameObject.layer != LayerMask.NameToLayer("Dummy"))
                     {
-                        GameManager.Instance.ParticleSpawner.SpawnParticle((int)Random.Range(0, 3), particleSpot[0].position, particleScale);
-                        GameManager.Instance.AudioManager.Play("MedExplosionSFX", this.gameObject);
+                        DestructionEffects();
+                        this.gameObject.layer = LayerMask.NameToLayer("Dummy");
                         Destroy(gameObject);
                         //becomeDummy = true;
                     }
@@ -99,6 +101,26 @@ namespace TowerTanks.Scripts
                 if ((i + 1) * Mathf.RoundToInt(damageThresholdSegment) > health)
                 {
                     damageMasks[i].enabled = true;
+                }
+            }
+        }
+
+        public void DestructionEffects()
+        {
+            GameManager.Instance.ParticleSpawner.SpawnParticle((int)Random.Range(0, 3), particleSpot[0].position, particleScale);
+            GameManager.Instance.AudioManager.Play("MedExplosionSFX", this.gameObject);
+
+            if (debrisParticleId != -1)
+            {
+                int random = Random.Range(3, 6);
+                for (int i = 0; i < random; i++)
+                {
+                    GameObject particle = GameManager.Instance.ParticleSpawner.SpawnParticle(debrisParticleId, particleSpot[0].position, 1f);
+                    RandomForce force = particle.GetComponent<RandomForce>();
+                    force.xForceMultiplier = 1.5f;
+
+                    float randomS = Random.Range(0.5f, 1.2f);
+                    particle.transform.localScale *= randomS;
                 }
             }
         }

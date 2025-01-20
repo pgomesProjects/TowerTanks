@@ -844,6 +844,7 @@ MonoBehaviour:
   - {fileID: 7371061350819083792}
   segmentMass: 2
   dummyMatIndex: 1
+  debrisParticleId: 21
 --- !u!114 &7199892300023835595
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -892,7 +893,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1184115362393214425}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.07, z: 0}
+  m_LocalPosition: {x: -0.32, y: 2.04, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

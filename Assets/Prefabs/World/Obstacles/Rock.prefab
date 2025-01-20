@@ -3938,6 +3938,7 @@ MonoBehaviour:
   - {fileID: 4992964380643296555}
   segmentMass: 3
   dummyMatIndex: 1
+  debrisParticleId: 20
 --- !u!114 &-8962081527952709543
 MonoBehaviour:
   m_ObjectHideFlags: 0

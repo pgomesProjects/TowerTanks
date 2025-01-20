@@ -18,7 +18,9 @@ namespace TowerTanks.Scripts
         public int bounceParticleId;
         public bool expireParticle; //spawn a particle when expiring?
         public int expireParticleId;
-        public int bounces; 
+        public int bounces;
+        public Transform smokeTrail;
+        public bool bounceRemoveTrail;
 
         // Start is called before the first frame update
         void Start()
@@ -55,23 +57,35 @@ namespace TowerTanks.Scripts
 
         public void OnCollisionEnter2D(Collision2D collision)
         {
-            if (bounceExpire)
+            if (collision.gameObject.CompareTag("Ground"))
             {
-                bounces -= 1;
-                if (bounces <= 0)
+                if (bounceExpire)
                 {
-                    if (expireParticle) GameManager.Instance.ParticleSpawner.SpawnParticle(expireParticleId, transform.position, 0.5f, null);
-                    Destroy(gameObject);
+                    bounces -= 1;
+                    if (bounces <= 0)
+                    {
+                        if (expireParticle) GameManager.Instance.ParticleSpawner.SpawnParticle(expireParticleId, transform.position, 0.5f, null);
+                        Destroy(gameObject);
+                    }
+
+                    if (bounceParticle)
+                    {
+                        Vector2 current = transform.position;
+                        Vector2 spawnPoint = collision.contacts[0].point;
+                        Vector2 direction = (spawnPoint - current).normalized;
+
+                        GameObject particle = GameManager.Instance.ParticleSpawner.SpawnParticle(bounceParticleId, spawnPoint, 0.2f, null);
+                        particle.transform.rotation = Quaternion.FromToRotation(Vector2.up, direction) * particle.transform.rotation;
+                    }
                 }
 
-                if (bounceParticle)
+                if (bounceRemoveTrail)
                 {
-                    Vector2 current = transform.position;
-                    Vector2 spawnPoint = collision.contacts[0].point;
-                    Vector2 direction = (spawnPoint - current).normalized;
-                    
-                    GameObject particle = GameManager.Instance.ParticleSpawner.SpawnParticle(bounceParticleId, spawnPoint, 0.2f, null);
-                    particle.transform.rotation = Quaternion.FromToRotation(Vector2.up, direction) * particle.transform.rotation;
+                    bounces -= 1;
+                    if (bounces <= 0)
+                    {
+                        if (smokeTrail != null) smokeTrail.gameObject.SetActive(false);
+                    }
                 }
             }
         }
