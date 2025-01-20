@@ -76,6 +76,7 @@ namespace TowerTanks.Scripts
             get { return gameElapsedTime; }
         }
 
+        private float unpauseFrames = 0;
         private float target;
         private float loadMaxDelta = 3f;
         private bool loadingScene = false;
@@ -239,6 +240,18 @@ namespace TowerTanks.Scripts
             gameDeltaTime = Time.unscaledDeltaTime * gameTimeScale;
             gameElapsedTime += gameDeltaTime;
             Time.fixedDeltaTime = gameTimeScale * gameFixedDeltaTimeStep;
+
+            if (unpauseFrames > 0)
+            {
+                Time.timeScale += 0.25f;
+                if (Time.timeScale >= 1f) Time.timeScale = 1;
+                unpauseFrames -= 1;
+            }
+        }
+
+        public void UnpauseFrames(int frames)
+        {
+            unpauseFrames = frames;
         }
 
         /// <summary>

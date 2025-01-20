@@ -123,8 +123,8 @@ namespace TowerTanks.Scripts
 
         private void DeactivateTutorial()
         {
-            if(!GameManager.Instance.isPaused)
-                Time.timeScale = 1f;
+            if (!GameManager.Instance.isPaused)
+                GameManager.Instance.UnpauseFrames(4);
 
             GameManager.Instance.tutorialWindowActive = false;
             PlayTutorialCloseAnimation();

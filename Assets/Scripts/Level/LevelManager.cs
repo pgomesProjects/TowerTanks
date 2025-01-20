@@ -76,7 +76,6 @@ namespace TowerTanks.Scripts
         }
 
         public int resourcesToAdd = 100;
-        private int unpauseFrames = 0;
 
         private void Awake()
         {
@@ -142,16 +141,6 @@ namespace TowerTanks.Scripts
             GameManager.Instance.MultiplayerManager.OnPlayerConnected -= SpawnPlayer;
             PlayerMovement.OnPlayerDeath -= CheckForGameOver;
             ObjectiveTracker.OnMissionComplete -= CompleteMission;
-        }
-
-        private void Update()
-        {
-            if (unpauseFrames > 0)
-            {
-                Time.timeScale += 0.25f;
-                if (Time.timeScale >= 1f) Time.timeScale = 1;
-                unpauseFrames -= 1;
-            }
         }
 
         private void BuildPlayerTank()
@@ -366,7 +355,7 @@ namespace TowerTanks.Scripts
         public void PauseToggle(int playerIndex)
         {
             //If the game is not paused, pause the game
-            if (!GameManager.Instance.isPaused && unpauseFrames <= 0)
+            if (!GameManager.Instance.isPaused)
             {
                 Time.timeScale = 0;
                 GameManager.Instance.AudioManager.PauseAllSounds();
@@ -376,7 +365,7 @@ namespace TowerTanks.Scripts
             //If the game is paused, resume the game if the person that paused the game unpauses
             else if (GameManager.Instance.isPaused && playerIndex == currentPlayerPaused)
             {
-                unpauseFrames = 4;
+                GameManager.Instance.UnpauseFrames(4);
                 GameManager.Instance.AudioManager.ResumeAllSounds();
                 currentPlayerPaused = -1;
                 OnGameResumed?.Invoke();
