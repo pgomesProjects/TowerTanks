@@ -30,41 +30,44 @@ namespace TowerTanks.Scripts
 
             if (cooldown > 0) cooldown -= Time.deltaTime;
 
-            if (isSpraying && cooldown <= 0)
+            if (spray != null)
             {
-                sprayTimer -= Time.deltaTime;
-                if (sprayTimer <= 0)
+                if (isSpraying && cooldown <= 0)
                 {
-                    if (!GameManager.Instance.AudioManager.IsPlaying("SteamExhaustLoop", this.gameObject))
+                    sprayTimer -= Time.deltaTime;
+                    if (sprayTimer <= 0)
                     {
-                        GameManager.Instance.AudioManager.Play("SteamExhaustLoop", this.gameObject);
+                        if (!GameManager.Instance.AudioManager.IsPlaying("SteamExhaustLoop", this.gameObject))
+                        {
+                            GameManager.Instance.AudioManager.Play("SteamExhaustLoop", this.gameObject);
+                        }
+                        Spray();
+                        spray.Play();
+                        sprayTimer = sprayRate;
                     }
-                    Spray();
-                    spray.Play();
-                    sprayTimer = sprayRate;
-                }
-            }
-            else
-            {
-                if (GameManager.Instance.AudioManager.IsPlaying("SteamExhaustLoop", this.gameObject))
-                {
-                    GameManager.Instance.AudioManager.Stop("SteamExhaustLoop", this.gameObject);
-                    GameManager.Instance.AudioManager.Play("SteamExhaust", this.gameObject);
-                }
-                spray.Stop();
-            }
-
-            if (isOnTank)
-            {
-                var main = spray.main;
-                if (tankTransform != null)
-                {
-                    if (main.simulationSpace != ParticleSystemSimulationSpace.Custom) main.simulationSpace = ParticleSystemSimulationSpace.Custom;
-                    main.customSimulationSpace = tankTransform;
                 }
                 else
                 {
-                    if (main.simulationSpace != ParticleSystemSimulationSpace.World) main.simulationSpace = ParticleSystemSimulationSpace.World;
+                    if (GameManager.Instance.AudioManager.IsPlaying("SteamExhaustLoop", this.gameObject))
+                    {
+                        GameManager.Instance.AudioManager.Stop("SteamExhaustLoop", this.gameObject);
+                        GameManager.Instance.AudioManager.Play("SteamExhaust", this.gameObject);
+                    }
+                    spray.Stop();
+                }
+
+                if (isOnTank)
+                {
+                    var main = spray.main;
+                    if (tankTransform != null)
+                    {
+                        if (main.simulationSpace != ParticleSystemSimulationSpace.Custom) main.simulationSpace = ParticleSystemSimulationSpace.Custom;
+                        main.customSimulationSpace = tankTransform;
+                    }
+                    else
+                    {
+                        if (main.simulationSpace != ParticleSystemSimulationSpace.World) main.simulationSpace = ParticleSystemSimulationSpace.World;
+                    }
                 }
             }
         }
@@ -84,6 +87,12 @@ namespace TowerTanks.Scripts
             {
                 nozzle.rotation = Quaternion.LookRotation(Vector3.forward, moveVector);
             }
+        }
+
+        public void OnDestroy()
+        {
+            base.OnDestroy();
+            if (spray != null) spray.Stop();
         }
 
     }

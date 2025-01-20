@@ -120,7 +120,7 @@ namespace TowerTanks.Scripts
                     CinemachineBasicMultiChannelPerlin perlin = vcam.AddCinemachineComponent<CinemachineBasicMultiChannelPerlin>(); //Add perlin noise component to camera
                     perlin.m_NoiseProfile = main.shakeNoiseProfile;                                                                 //Set noise profile to predetermined value
                     perlin.m_AmplitudeGain = 0;                                                                                     //Have camera default to no noise
-                    perlin.m_FrequencyGain = 0;                                                                                     //Have camera default to no noise
+                    perlin.m_FrequencyGain = 1;                                                                                     //Have camera default to no noise
                 }
 
                 //Cleanup:
@@ -598,7 +598,15 @@ namespace TowerTanks.Scripts
         /// <param name="tank"></param>
         public void OnTankDestroyed(TankController tank)
         {
-            //Remove tank from camSystems:
+            if (tank.tankType != TankId.TankType.PLAYER) {
+                if (main.PlayerCamSystem().tanks.Contains(tank))
+                {
+                    TankController playertank = TankManager.instance.playerTank;
+                    main.ShakeTankCamera(playertank, GameManager.Instance.SystemEffects.GetScreenShakeSetting("TankExplosionShake"));
+                }
+            }
+
+            //Remove tank from camSystems
             foreach (TankCamSystem camSystem in camSystems) if (camSystem.tanks[0] == tank) camSystem.CleanUpLater(); //Clean up main cam system for destroyed tank
         }
         /// <summary>
@@ -612,7 +620,14 @@ namespace TowerTanks.Scripts
         {
             if (tank == null) return;                                                                                  //Do not allow method to run with null camera
             CinemachineVirtualCamera cam = null;                                                                       //Initialize container to store target camera
-            foreach (TankCamSystem system in camSystems) if (system.tanks[0] == tank) { cam = system.vcam; break; }    //Try to find system for which given tank is the main one
+            foreach (TankCamSystem system in camSystems)
+            {
+                if (camSystems.Count <= 0) break;
+                if (system.tanks[0] == tank)
+                {
+                    cam = system.vcam; break; //Try to find system for which given tank is the main one
+                }
+            }
             if (cam == null) { print("Could not find camSystem for given tank when attempting screenshake"); return; } //Indicate if tank cam could not be found
             GameManager.Instance.SystemEffects.ShakeCamera(cam, intensity, duration);                                  //Shake found camera using given settings
         }

@@ -261,6 +261,13 @@ namespace TowerTanks.Scripts
             if (room.isCore || room.targetTank.isFragile) //Projectile has struck a core cell, or the tank is fragile
             {
                 Damage(projectile.remainingDamage); //Simply do normal projectile damage to the core
+                TankController tank = room?.targetTank;
+                if (tank != null)
+                {
+                    float duration = Mathf.Lerp(0.05f, 1f, projectile.remainingDamage / 100);
+                    float intensity = Mathf.Lerp(1f, 15f, projectile.remainingDamage / 100);
+                    CameraManipulator.main.ShakeTankCamera(tank, intensity, duration);
+                }
                 return 0;                           //Projectiles cannot tunnel through the core
             }
             else //Projectile has struck a non-core room
@@ -272,7 +279,18 @@ namespace TowerTanks.Scripts
                 float extraDamage = projectile.hitProperties.tunnels ? Mathf.Abs(Mathf.Max(0, health - dealtDamage)) : 0; //Get overkill damage dealt by projectile (only if projectile can tunnel, otherwise alsways destroy it after hitting a cell)
 
                 //Effects
-                if (dealtDamage > 0) HitEffects(animSpeed);
+                if (dealtDamage > 0)
+                {
+                    HitEffects(animSpeed);
+
+                    TankController tank = room?.targetTank;
+                    if (tank != null)
+                    {
+                        float duration = Mathf.Lerp(0.05f, 1f, dealtDamage / 100);
+                        float intensity = Mathf.Lerp(1f, 15f, dealtDamage / 100);
+                        CameraManipulator.main.ShakeTankCamera(tank, intensity, duration);
+                    }
+                }
                 else HitEffects(8f);
 
                 //Cleanup:
@@ -297,7 +315,17 @@ namespace TowerTanks.Scripts
             { 
                 //Deal damage:
                 health = Mathf.Max(0, health - damage); //Deal damage to cell
-                if (health <= 0) Kill(false, true);     //Kill cell if mortal damage has been dealt
+                if (health <= 0)
+                {
+                    Kill(false, true);     //Kill cell if mortal damage has been dealt
+                    TankController tank = room.targetTank;
+                    if (tank != null)
+                    {
+                        float duration = 0.5f;
+                        float intensity = 5f;
+                        CameraManipulator.main.ShakeTankCamera(tank, intensity, duration);
+                    }
+                }
                 else if (triggerHitEffect)
                 {
                     if (damage > 20) HitEffects(0.5f);

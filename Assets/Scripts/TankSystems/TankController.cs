@@ -670,6 +670,7 @@ namespace TowerTanks.Scripts
 
                 GameManager.Instance.AudioManager.Play("ExplosionSFX", treadSystem.gameObject);
                 GameManager.Instance.AudioManager.Play("LargeExplosionSFX", treadSystem.gameObject);
+                CameraManipulator.main.ShakeTankCamera(this, GameManager.Instance.SystemEffects.GetScreenShakeSetting("Jolt"));
 
                 deathSequenceTimer = Random.Range(0.1f, 0.2f);
             }
@@ -740,6 +741,10 @@ namespace TowerTanks.Scripts
             if (immediate) DestroyImmediate(gameObject);
             else
             {
+                //Trigger Screenshake Effects
+                CameraManipulator.main.ShakeTankCamera(this, GameManager.Instance.SystemEffects.GetScreenShakeSetting("TankExplosionShake"));
+                CameraManipulator.main.ShakeTankCamera(this, GameManager.Instance.SystemEffects.GetScreenShakeSetting("Explosion"));
+
                 CameraManipulator.main?.OnTankDestroyed(this);
                 TankManager.instance.tanks.Remove(myTankID);
                 Cell[] cells = GetComponentsInChildren<Cell>();

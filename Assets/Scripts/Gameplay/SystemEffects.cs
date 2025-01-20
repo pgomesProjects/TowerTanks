@@ -1,6 +1,7 @@
 using Cinemachine;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -29,6 +30,44 @@ namespace TowerTanks.Scripts
             endSlowMotionCurve.SmoothTangents(0, 0f);
             endSlowMotionCurve.SmoothTangents(1, 0.5f);
             endSlowMotionCurve.SmoothTangents(2, 0f);
+        }
+
+        private void LateUpdate()
+        {
+            foreach (ActiveCamera camera in activeCameras)
+            {
+                float totalAmpGain = 0;
+                List<ActiveEffect> effectsToRemove = new List<ActiveEffect>();
+
+                //Get total amp gain of all active effects
+                if (camera.currentEffects.Count > 0)
+                {
+                    foreach(ActiveEffect effect in camera.currentEffects)
+                    {
+                        float ampGain = Mathf.Lerp(0, effect.amplitudeGain, effect.currentDuration / effect.duration);
+                        effect.currentDuration -= Time.unscaledDeltaTime; //tick down each effect's duration
+                        if (effect.currentDuration <= 0)
+                        {
+                            ampGain = 0;
+                            effectsToRemove.Add(effect);
+                        }
+                        totalAmpGain += ampGain;
+                        Mathf.Clamp(totalAmpGain, 0, maxAmplitude); //clamp maximum applied amplitude on camera
+                    }
+                }
+
+                //Cleanup Ended Effects
+                if (effectsToRemove.Count > 0)
+                {
+                    foreach (ActiveEffect effect in effectsToRemove)
+                    {
+                        camera.currentEffects.Remove(effect);
+                    }
+                }
+
+                //Apply total amp gain to camera
+                camera.noisePerlin.m_AmplitudeGain = totalAmpGain;
+            }
         }
 
         #region TIME
@@ -255,6 +294,37 @@ namespace TowerTanks.Scripts
         }
         #endregion
         #region SCREENSHAKE
+        public class ActiveCamera : SystemEffects
+        {
+            public CinemachineVirtualCamera cam; //assigned camera
+            public CinemachineBasicMultiChannelPerlin noisePerlin; //perlin assigned to this camera
+            public List<ActiveEffect> currentEffects = new List<ActiveEffect>();
+        }
+
+        public class ActiveEffect : SystemEffects
+        {
+            public float amplitudeGain;
+            public float duration;
+            public float currentDuration;
+        }
+
+        private List<ActiveCamera> activeCameras = new List<ActiveCamera>();
+        private float maxAmplitude = 50f;
+
+        public ScreenshakeSettings[] screenshakeOptions;
+
+        public ScreenshakeSettings GetScreenShakeSetting(string id)
+        {
+            ScreenshakeSettings setting = null;
+
+            foreach (ScreenshakeSettings settings in screenshakeOptions)
+            {
+                if (settings.name == id) setting = settings;
+            }
+
+            return setting;
+        }
+
         /// <summary>
         /// Shakes the Cinemachine camera given.
         /// </summary>
@@ -266,7 +336,38 @@ namespace TowerTanks.Scripts
             if (GameSettings.currentSettings.screenshakeOn == 0 || screenshakeSettings == null)
                 return;
 
-            StartCoroutine(ShakeCameraAnimation(currentCamera, screenshakeSettings.intensity, screenshakeSettings.duration));
+            bool camExists = false;
+            foreach (ActiveCamera camera in activeCameras)
+            {
+                if (camera.cam == currentCamera)
+                {
+                    camExists = true;
+
+                    //Add a new effect
+                    ActiveEffect effect = new ActiveEffect();
+                    effect.amplitudeGain = screenshakeSettings.intensity;
+                    effect.duration = screenshakeSettings.duration;
+                    effect.currentDuration = effect.duration;
+                    camera.currentEffects.Add(effect);
+                }
+            }
+
+            if (!camExists)
+            {
+                //Create a new Cam
+                ActiveCamera newCam = new ActiveCamera();
+                newCam.cam = currentCamera;
+                newCam.noisePerlin = currentCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+                activeCameras.Add(newCam);
+
+                //Add it's first effect
+                ActiveEffect effect = new ActiveEffect();
+                effect.amplitudeGain = screenshakeSettings.intensity;
+                effect.duration = screenshakeSettings.duration;
+                effect.currentDuration = effect.duration;
+                newCam.currentEffects.Add(effect);
+            }
+            //StartCoroutine(ShakeCameraAnimation(currentCamera, screenshakeSettings.intensity, screenshakeSettings.duration));
         }
         /// <summary>
         /// Override for ShakeCamera that accepts raw values instead of a scriptable object.
@@ -278,7 +379,38 @@ namespace TowerTanks.Scripts
             if (GameSettings.currentSettings.screenshakeOn == 0)
                 return;
 
-            StartCoroutine(ShakeCameraAnimation(currentCamera, intensity, duration));
+            bool camExists = false;
+            foreach (ActiveCamera camera in activeCameras)
+            {
+                if (camera.cam == currentCamera)
+                {
+                    camExists = true;
+
+                    //Add a new effect
+                    ActiveEffect effect = new ActiveEffect();
+                    effect.amplitudeGain = intensity;
+                    effect.duration = duration;
+                    effect.currentDuration = effect.duration;
+                    camera.currentEffects.Add(effect);
+                }
+            }
+
+            if (!camExists)
+            {
+                //Create a new Cam
+                ActiveCamera newCam = new ActiveCamera();
+                newCam.cam = currentCamera;
+                newCam.noisePerlin = currentCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+                activeCameras.Add(newCam);
+
+                //Add it's first effect
+                ActiveEffect effect = new ActiveEffect();
+                effect.amplitudeGain = intensity;
+                effect.duration = duration;
+                effect.currentDuration = effect.duration;
+                newCam.currentEffects.Add(effect);
+            }
+            //StartCoroutine(ShakeCameraAnimation(currentCamera, intensity, duration));
         }
 
         /// <summary>
@@ -297,6 +429,7 @@ namespace TowerTanks.Scripts
             {
                 // Set initial shake intensity
                 noise.m_AmplitudeGain = intensity;
+
                 yield return new WaitForSecondsRealtime(duration);
 
                 // Reset the shake intensity after the shake duration

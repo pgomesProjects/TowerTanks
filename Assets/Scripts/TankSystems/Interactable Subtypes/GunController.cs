@@ -426,6 +426,7 @@ namespace TowerTanks.Scripts
                     GameManager.Instance.ParticleSpawner.SpawnParticle(random, particleSpots[0].position, particleScale, null);
                     GameManager.Instance.AudioManager.Play("CannonFire", gameObject);
                     GameManager.Instance.AudioManager.Play("CannonThunk", gameObject); //Play firing audioclips
+                    CameraManipulator.main.ShakeTankCamera(tank, GameManager.Instance.SystemEffects.GetScreenShakeSetting("Jolt"));
                     GameManager.Instance.UIManager.AddTaskBar(gameObject, new Vector2(-0.4f, -0.55f), rateOfFire, true);
                     ShowFirePrompt(false);
                     isCooldownActive = true;
@@ -454,6 +455,7 @@ namespace TowerTanks.Scripts
                     GameManager.Instance.ParticleSpawner.SpawnParticle(random, particleSpots[0].position, particleScale, null);
                     GameManager.Instance.AudioManager.Play("CannonThunk", gameObject);
                     GameManager.Instance.AudioManager.Play("ProjectileInAirSFX", gameObject);
+                    CameraManipulator.main.ShakeTankCamera(tank, GameManager.Instance.SystemEffects.GetScreenShakeSetting("Jolt"));
                     GameManager.Instance.UIManager.AddTaskBar(gameObject, new Vector2(-0.4f, -0.55f), rateOfFire, true);
                     ShowFirePrompt(false);
                     isCooldownActive = true;

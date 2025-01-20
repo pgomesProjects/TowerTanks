@@ -44,6 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92d6de14122beea4a82565e83cf4070e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  screenshakeOptions:
+  - {fileID: 11400000, guid: 1888f390f558a224db448bcc54300d2a, type: 2}
+  - {fileID: 11400000, guid: 1bc21f1211f207a438f9bb21db5fe19c, type: 2}
+  - {fileID: 11400000, guid: aaaa2b3da6865ce409489b503459f340, type: 2}
+  - {fileID: 11400000, guid: 93a498258f4586e4a85a55acc2c92398, type: 2}
 --- !u!1 &942814128700547141
 GameObject:
   m_ObjectHideFlags: 0
@@ -224,7 +229,7 @@ MonoBehaviour:
   isPaused: 0
   inBugReportMenu: 0
   inDebugMenu: 0
-  ignoreTutorials: 0
+  ignoreTutorials: 1
   _shopChance: 0
   tankDesign:
     TankName: 

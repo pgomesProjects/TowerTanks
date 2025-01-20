@@ -94,6 +94,15 @@ namespace TowerTanks.Scripts
             GameManager.Instance.AudioManager.Play("CannonFire", gameObject);
             GameManager.Instance.AudioManager.Play("MedExplosionSFX", gameObject);
 
+            if (isOnTank)
+            {
+                if (tankTransform != null)
+                {
+                    CameraManipulator.main.ShakeTankCamera(tankTransform.GetComponent<TankController>(), 
+                        GameManager.Instance.SystemEffects.GetScreenShakeSetting("Explosion"));
+                }
+            }
+
             Destroy(gameObject);
         }
 

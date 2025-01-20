@@ -377,6 +377,15 @@ namespace TowerTanks.Scripts
 
             //Other effects:
             GameManager.Instance.AudioManager.Play("TankImpact", gameObject); //Play tread impact sound
+            TankController tank = this.tankController;
+            if (tank != null)
+            {
+                float duration = Mathf.Lerp(0.05f, 1f, projectile.remainingDamage / 100);
+                float intensity = Mathf.Lerp(1f, 15f, projectile.remainingDamage / 100);
+                CameraManipulator.main.ShakeTankCamera(tank, intensity, duration);
+
+                if (overrideRelative) CameraManipulator.main.ShakeTankCamera(tank, GameManager.Instance.SystemEffects.GetScreenShakeSetting("Explosion"));
+            }
 
             //Cleanup:
             return 0; //Never allow projectiles to pass through treads
@@ -581,6 +590,8 @@ namespace TowerTanks.Scripts
                         Vector2 offset = Random.insideUnitCircle * 0.20f;
                         GameManager.Instance.ParticleSpawner.SpawnParticle(7, contact.point + offset, 0.6f);
                     }
+
+                    CameraManipulator.main.ShakeTankCamera(tankController, GameManager.Instance.SystemEffects.GetScreenShakeSetting("Impact"));
                 }
             }
 
@@ -617,6 +628,9 @@ namespace TowerTanks.Scripts
                         Vector2 offset = Random.insideUnitCircle * 0.20f;
                         GameManager.Instance.ParticleSpawner.SpawnParticle(7, contact.point + offset, 0.6f);
                     }
+
+                    if (!ramming) CameraManipulator.main.ShakeTankCamera(tankController, GameManager.Instance.SystemEffects.GetScreenShakeSetting("Jolt"));
+                    CameraManipulator.main.ShakeTankCamera(tankController, GameManager.Instance.SystemEffects.GetScreenShakeSetting("Jolt"));
                 }
             }
         }
