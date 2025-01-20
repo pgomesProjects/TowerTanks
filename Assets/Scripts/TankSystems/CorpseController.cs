@@ -62,14 +62,14 @@ namespace TowerTanks.Scripts
 
                 //Calculate Direction based on relative position
                 Vector2 direction = _object.dummyObject.transform.position - transform.position;
-                float force = 1f;
+                float force = Random.Range(2f, 6f);
 
                 //Calculate Torque
                 int sign = 1;
                 float randomSign = Random.Range(0, 1f);
                 if (randomSign < 0.5f) sign = -1;
 
-                float randomRotation = Random.Range(5f, 10f);
+                float randomRotation = Random.Range(2f, 5f);
                 randomRotation *= sign;
 
                 //Launch the Object

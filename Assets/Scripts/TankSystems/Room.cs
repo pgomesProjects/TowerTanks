@@ -873,6 +873,10 @@ namespace TowerTanks.Scripts
             GameObject _fireball = Instantiate(fireball, localAverage, Quaternion.identity, this.transform);
             _fireball.transform.localPosition = localAverage;
 
+            //Create Dummy Script
+            DummyObject dummyScript = this.gameObject.AddComponent<DummyObject>();
+            dummyScript.centerPoint = localAverage;
+
             //Add Rigidbody to Room
             Rigidbody2D rb = this.gameObject.AddComponent<Rigidbody2D>();
             rb.sharedMaterial = dummyMat;
