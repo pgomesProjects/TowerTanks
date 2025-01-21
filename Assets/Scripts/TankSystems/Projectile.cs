@@ -168,6 +168,8 @@ namespace TowerTanks.Scripts
                 }
             }
 
+            bool hitGround = false;
+
             //Handle projectile collision:
             if (hitCollider != null) //Projectile has actually hit something
             {
@@ -181,7 +183,8 @@ namespace TowerTanks.Scripts
                     if (!hitProperties.tunnels) remainingDamage = 0;           //Make sure non-tunneling projectiles are terminated upon hit
                 }
                 else if (hitCollider.CompareTag("Ground")) //Hit the Ground
-                { 
+                {
+                    hitGround = true;
                     remainingDamage = 0; //Always destroy projectiles that hit the ground (by reducing their remaining damage to zero)
                 }
                 else if (hitCollider.CompareTag("Shell")) //Hit another projectile
@@ -242,7 +245,7 @@ namespace TowerTanks.Scripts
                     }
                 }
 
-                if (destroyImmediate != true) HitEffects();
+                if (destroyImmediate != true) HitEffects(hitGround);
 
                 //Seperate smoketrail
                 if (smokeTrail != null)
@@ -258,26 +261,38 @@ namespace TowerTanks.Scripts
             }
         }
 
-        private void HitEffects()
+        private void HitEffects(bool hitGround = false)
         {
             if (type == ProjectileType.SHELL)
             {
                 GameManager.Instance.AudioManager.Play("ExplosionSFX", gameObject);
 
                 if (hitProperties.fireChance >= 0.9) GameManager.Instance.ParticleSpawner.SpawnParticle(17, transform.position, particleScale, null);
-                else GameManager.Instance.ParticleSpawner.SpawnParticle(Random.Range(0, 2), transform.position, particleScale, null);
+                else if (!hitGround)
+                {
+                    GameManager.Instance.ParticleSpawner.SpawnParticle(Random.Range(0, 2), transform.position, particleScale, null);
+                }
+
+                if (hitGround) GameManager.Instance.ParticleSpawner.SpawnParticle(23, transform.position, particleScale + 1f, null);
             }
 
             if (type == ProjectileType.BULLET)
             {
                 GameManager.Instance.AudioManager.Play("BulletImpactDirt", gameObject);
 
-                GameObject particle = GameManager.Instance.ParticleSpawner.SpawnParticle(13, transform.position, particleScale, null);
-                particle.transform.rotation = transform.rotation;
-
+                if (!hitGround)
+                {
+                    GameObject particle = GameManager.Instance.ParticleSpawner.SpawnParticle(13, transform.position, particleScale, null);
+                    particle.transform.rotation = transform.rotation;
+                }
+                else
+                {
+                    GameManager.Instance.ParticleSpawner.SpawnParticle(22, transform.position, 1, null);
+                }
+                
                 float randomScale = Random.Range(0.05f, 0.1f);
-                particle = GameManager.Instance.ParticleSpawner.SpawnParticle(14, transform.position, randomScale, null);
-                particle.transform.rotation = transform.rotation;
+                GameObject _particle = GameManager.Instance.ParticleSpawner.SpawnParticle(14, transform.position, randomScale, null);
+                _particle.transform.rotation = transform.rotation;
             }
 
             if (type == ProjectileType.OTHER)
@@ -285,6 +300,7 @@ namespace TowerTanks.Scripts
                 GameManager.Instance.AudioManager.Play("ExplosionSFX", gameObject);
                 GameManager.Instance.AudioManager.Play("MedExplosionSFX", gameObject);
                 GameManager.Instance.ParticleSpawner.SpawnParticle(Random.Range(0, 2), transform.position, particleScale, null);
+                GameManager.Instance.ParticleSpawner.SpawnParticle(23, transform.position, 1.5f, null);
             }
         }
 
