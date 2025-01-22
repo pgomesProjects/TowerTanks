@@ -36,6 +36,9 @@ namespace TowerTanks.Scripts
         internal float compressionValue;     //Value between 0 - 1 representing how compressed this wheel currently is
         internal float prevCompressionValue; //Compression value from last update
 
+        internal float particleTimer;
+        internal bool createParticle;
+
         //RUNTIME METHODS:
         private void Awake()
         {
@@ -78,6 +81,9 @@ namespace TowerTanks.Scripts
                     grounded = true;                                                                               //Indicate that wheel is grounded
                     targetPosition = backstopPos + (Vector2)(-transform.parent.up * lastGroundHit.distance);       //Get position that would put wheel exactly on the ground
                     transform.position = Vector2.MoveTowards(transform.position, targetPosition, maxSqueezeSpeed); //Use squeeze speed to move wheel toward grounded position
+                    if (createParticle) {
+                        CreateDustParticle();
+                    }
                 }
                 else //Wheel is unobstructed
                 {
@@ -100,6 +106,40 @@ namespace TowerTanks.Scripts
             //Testing updates:
             if (Application.isEditor) wheelGuard.transform.localPosition = (Vector3)basePosition + (Vector3.up * maxSuspensionDepth); //Update guard position in case the suspension depth setting has been tweaked
         }
+
+        private void FixedUpdate()
+        {
+            if (particleTimer > 0)
+            {
+                particleTimer -= Time.fixedDeltaTime;
+            }
+            else
+            {
+                particleTimer = 0;
+                if (grounded)
+                {
+                    if (Mathf.Abs(angularVelocity) > 100f)
+                    {
+                        if (!createParticle)
+                        {
+                            createParticle = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        public void CreateDustParticle()
+        {
+            float particleScale = Mathf.Lerp(0.2f, 2f, Mathf.Abs(angularVelocity) / 10000f);
+            GameObject particle = GameManager.Instance.ParticleSpawner.SpawnParticle(26, lastGroundHit.point, particleScale, treadSystem.transform);
+            createParticle = false;
+            float rotation = -30 * Mathf.Sign(angularVelocity);
+            particle.transform.Rotate(new Vector3(0, 0, rotation));
+
+            particleTimer = Mathf.Lerp(0.1f, 0.005f, Mathf.Abs(angularVelocity) / 10000f);
+        }
+
         private void OnDrawGizmos()
         {
             if (!hideDebugs) //Debugs are not currently hidden
