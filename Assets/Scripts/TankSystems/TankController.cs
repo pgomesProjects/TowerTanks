@@ -852,10 +852,16 @@ namespace TowerTanks.Scripts
 
         public void DestructionEffects()
         {
+            //Big Explosion
             GameObject particle = GameManager.Instance.ParticleSpawner.SpawnParticle(18, treadSystem.transform.position, 1.25f);
             particle.transform.rotation = towerJoint.transform.rotation;
-            GameManager.Instance.AudioManager.PlayRandomPitch("MedExplosionSFX", 0.4f, 0.8f, treadSystem.gameObject);
-            GameManager.Instance.AudioManager.PlayRandomPitch("CannonFire", 0.6f, 0.7f, treadSystem.gameObject);
+            Vector2 particlePos = new Vector2(treadSystem.transform.position.x, treadSystem.transform.position.y - 0.25f);
+            GameObject _particle = GameManager.Instance.ParticleSpawner.SpawnParticle(24, particlePos, 1f);
+            _particle.transform.rotation = towerJoint.transform.rotation;
+
+            //Big Sounds
+            GameManager.Instance.AudioManager.PlayRandomPitch("MedExplosionSFX", 0.7f, 0.9f, treadSystem.gameObject);
+            GameManager.Instance.AudioManager.PlayRandomPitch("CannonFire", 0.8f, 1f, treadSystem.gameObject);
             GameManager.Instance.AudioManager.Play("LargeExplosionSFX", treadSystem.gameObject);
 
             //Apply haptics to all players

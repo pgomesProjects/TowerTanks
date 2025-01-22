@@ -132,10 +132,10 @@ namespace TowerTanks.Scripts
                     //Other effects:
                     GameManager.Instance.AudioManager.Play("ExplosionSFX", gameObject);
                     GameManager.Instance.AudioManager.Play("TankImpact", gameObject);
-                    for (int x = 0; x < 3; x++) //Spawn cloud of particle effects
+                    for (int x = 0; x < 3; x++) //Spawn particle effect
                     {
                         Vector2 offset = Random.insideUnitCircle * 0.20f;
-                        GameManager.Instance.ParticleSpawner.SpawnParticle(7, contact.point + offset, 0.6f, collision.collider.GetComponent<CollisionTransmitter>().target.GetComponent<Cell>().transform);
+                        GameManager.Instance.ParticleSpawner.SpawnParticle(25, contact.point + offset, 1f, collision.collider.GetComponent<CollisionTransmitter>().target.GetComponent<Cell>().transform);
                     }
                     float impactSpeed = contact.relativeVelocity.magnitude;                  //Get speed of impact from which to derive screenshake values
                     float duration = Mathf.Lerp(0.1f, 0.5f, impactSpeed / 10);               //Use a clamped lerp to increase duration of screenshake proportionately to speed of impact, up to a certain maximum speed
@@ -185,8 +185,8 @@ namespace TowerTanks.Scripts
                     GameManager.Instance.AudioManager.Play("TankImpact", obstacle.gameObject);
                     for (int x = 0; x < 3; x++) //Spawn cloud of particle effects
                     {
-                        Vector2 offset = Random.insideUnitCircle * 0.20f;
-                        GameManager.Instance.ParticleSpawner.SpawnParticle(7, contact.point + offset, 0.6f);
+                        Vector2 offset = Random.insideUnitCircle * 0.10f;
+                        GameManager.Instance.ParticleSpawner.SpawnParticle(25, contact.point + offset, 1f);
                     }
                     float _impactSpeed = contact.relativeVelocity.magnitude;                  //Get speed of impact from which to derive screenshake values
                     float duration = Mathf.Lerp(0.1f, 0.5f, _impactSpeed / 10);               //Use a clamped lerp to increase duration of screenshake proportionately to speed of impact, up to a certain maximum speed

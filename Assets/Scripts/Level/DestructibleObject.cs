@@ -110,6 +110,12 @@ namespace TowerTanks.Scripts
             GameManager.Instance.ParticleSpawner.SpawnParticle((int)Random.Range(0, 3), particleSpot[0].position, particleScale);
             GameManager.Instance.AudioManager.Play("MedExplosionSFX", this.gameObject);
 
+            if (isObstacle)
+            {
+                GameObject particle = GameManager.Instance.ParticleSpawner.SpawnParticle(23, transform.position, 1f, null);
+                particle.transform.rotation = this.transform.rotation;
+            }
+
             if (debrisParticleId != -1)
             {
                 int random = Random.Range(3, 6);

@@ -602,7 +602,7 @@ namespace TowerTanks.Scripts
                     for (int x = 0; x < 3; x++) //Spawn cloud of particle effects
                     {
                         Vector2 offset = Random.insideUnitCircle * 0.20f;
-                        GameManager.Instance.ParticleSpawner.SpawnParticle(7, contact.point + offset, 0.6f);
+                        GameManager.Instance.ParticleSpawner.SpawnParticle(25, contact.point + offset, 1f);
                     }
 
                     //Camera Shake
@@ -651,8 +651,8 @@ namespace TowerTanks.Scripts
                     GameManager.Instance.AudioManager.Play("TankImpact", obstacle.gameObject);
                     for (int x = 0; x < 3; x++) //Spawn cloud of particle effects
                     {
-                        Vector2 offset = Random.insideUnitCircle * 0.20f;
-                        GameManager.Instance.ParticleSpawner.SpawnParticle(7, contact.point + offset, 0.6f);
+                        Vector2 offset = Random.insideUnitCircle * 0.10f;
+                        GameManager.Instance.ParticleSpawner.SpawnParticle(25, contact.point + offset, 1f);
                     }
 
                     //Camera Shake

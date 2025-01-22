@@ -1229,6 +1229,8 @@ MonoBehaviour:
   - {fileID: 3815389945650851114, guid: dee77c6f392aa644dbed3ffa65f1aea7, type: 3}
   - {fileID: 6386050088336659746, guid: b666181ece776e14dabb0d5ba65cdced, type: 3}
   - {fileID: 3383504061911244479, guid: 9444c84a0b622234bb27dc7e92069fba, type: 3}
+  - {fileID: 4765593436645753330, guid: c9a8ec1a4e0d55d4eab11998ab2c886c, type: 3}
+  - {fileID: 6091165463565973090, guid: b23a8c8f9c8a4c84ea5526027831d50e, type: 3}
   particleFolderPath: 
 --- !u!1 &6359139974781729948
 GameObject:
