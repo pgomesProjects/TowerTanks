@@ -50,28 +50,12 @@ namespace TowerTanks.Scripts
 
         protected virtual void OnEnable()
         {
-            LevelManager.OnGamePaused += ShowPauseMenu;
-            LevelManager.OnGameResumed += HidePauseMenu;
             LevelManager.OnResourcesUpdated += UpdateResources;
         }
 
         protected virtual void OnDisable()
         {
-            LevelManager.OnGamePaused -= ShowPauseMenu;
-            LevelManager.OnGameResumed -= HidePauseMenu;
             LevelManager.OnResourcesUpdated -= UpdateResources;
-        }
-
-        protected void ShowPauseMenu(int playerPaused)
-        {
-            pauseMenu.gameObject.SetActive(true);
-            pauseMenu.UpdatePausedPlayer(playerPaused);
-        }
-
-        protected void HidePauseMenu()
-        {
-            pauseMenu.ReactivateAllPlayerInput();
-            pauseMenu.gameObject.SetActive(false);
         }
 
         /// <summary>

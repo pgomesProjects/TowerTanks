@@ -1582,7 +1582,7 @@ MonoBehaviour:
     tankType: 0
     gameObject: {fileID: 1411317892}
     design: {fileID: 4900000, guid: 0ae7f54292a46314da4951bdac3723a3, type: 3}
-    buildOnStart: 0
+    buildOnStart: 1
 --- !u!1 &511407189
 GameObject:
   m_ObjectHideFlags: 0
@@ -6460,7 +6460,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4653194584031756664, guid: 6737c50766a366e44bde6a7c03e708ad, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4653194584532075988, guid: 6737c50766a366e44bde6a7c03e708ad, type: 3}
       propertyPath: m_IsActive

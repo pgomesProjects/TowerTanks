@@ -136,6 +136,11 @@ namespace TowerTanks.Scripts
             isAlive = true;
             permaDeath = false;
             dismountPoint = transform;
+
+            //If there is a radar camera in the scene, assign it to the offscreen tracker
+            GameObject radarCam = GameObject.FindGameObjectWithTag("RadarCam");
+            if (radarCam != null)
+                GetComponent<OffscreenTracker>()?.AssignCamera(radarCam.GetComponent<Camera>());
         }
 
         protected virtual void OnEnable()
@@ -495,6 +500,8 @@ namespace TowerTanks.Scripts
             }
 
             transform.parent = null;
+            rb.velocity = Vector2.zero;
+            moveInput = Vector2.zero;
         }
 
         protected virtual IEnumerator ResetAtEndOfFrame()
@@ -543,7 +550,8 @@ namespace TowerTanks.Scripts
             //TODO: (Ryan) Freeze
         }
 
-        public bool IsDead() => permaDeath;
+        public bool IsDead() => !isAlive;
+        public bool IsPermanentDead() => permaDeath;
 
         [Button(ButtonSizes.Medium)]
         public void Ignite()
@@ -587,6 +595,7 @@ namespace TowerTanks.Scripts
         }
 
         public PlayerHUD GetCharacterHUD() => characterHUD;
+        public CharacterSettings GetCharacterSettings() => characterSettings;
 
         protected virtual void OnDestroy()
         {

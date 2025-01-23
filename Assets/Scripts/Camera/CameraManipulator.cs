@@ -89,6 +89,7 @@ namespace TowerTanks.Scripts
                 else //Settings for radar cam
                 {
                     radar = true;
+                    cam.transform.tag = "RadarCam";
                     CinemachineTransposer transposer = vcam.AddCinemachineComponent<CinemachineTransposer>(); //Use a simpler transposer to track tank in radar screen
                     transposer.m_XDamping = 0; transposer.m_YDamping = 0; transposer.m_ZDamping = 0;          //Turn off all camera damping
                 }

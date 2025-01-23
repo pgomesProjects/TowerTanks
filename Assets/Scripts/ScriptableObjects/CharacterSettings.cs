@@ -9,4 +9,5 @@ public class CharacterSettings : ScriptableObject
     [Tooltip("The maximum amount of health for a character.")] public float maxHealth = 100f;
     [Tooltip("The maximum amount of fuel for a character.")] public float fuelAmount = 100f;
     [Tooltip("The time it takes the character to build an interactable.")] public float buildTime = 1f;
+    [Tooltip("The amount of time to allow a player to be offscreen for.")] public float offscreenTime = 3f;
 }

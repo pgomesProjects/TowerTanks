@@ -808,22 +808,13 @@ namespace TowerTanks.Scripts
                     }
                 }
 
-                if(tankType == TankId.TankType.PLAYER)
+                RemovePlayersFromTank();
+
+                if (tankType == TankId.TankType.PLAYER)
                 {
                     //If there are no players in the scene, immediately game over
                     if (GameManager.Instance.MultiplayerManager.GetAllPlayers().Length == 0)
                         LevelManager.Instance?.GameOver();
-                }
-
-                //Unassign all characters from this tank
-                foreach (Character character in GetCharactersAssignedToTank(this))
-                    character.SetAssignedTank(null);
-
-                //Detach the characters that are still in the tank and kill them
-                foreach (Character character in GetCharactersInTank())
-                {
-                    character.transform.SetParent(null);
-                    character.KillCharacterImmediate();
                 }
 
                 //Handle Destruction Logic
@@ -848,6 +839,23 @@ namespace TowerTanks.Scripts
                 //GameManager.Instance.SystemEffects.ActivateSlowMotion(0.05f, 0.4f, 1.5f, 0.4f);
                 Destroy(gameObject);
             }
+        }
+
+        /// <summary>
+        /// Removes all of the players in the tank by killing them or unassigning them.
+        /// </summary>
+        private void RemovePlayersFromTank()
+        {
+            //Detach the characters that are still in the tank and kill them
+            foreach (Character character in GetCharactersInTank())
+            {
+                character.transform.SetParent(null);
+                character.KillCharacterImmediate();
+            }
+
+            //Unassign all characters from this tank
+            foreach (Character character in GetCharactersAssignedToTank(this))
+                character.SetAssignedTank(null);
         }
 
         public void DestructionEffects()
@@ -890,16 +898,7 @@ namespace TowerTanks.Scripts
             if (tankType == TankId.TankType.ENEMY) spawner.EnemyDestroyed(this);
             if (tankType == TankId.TankType.NEUTRAL) spawner.EncounterEnded(EventSpawnerManager.EventType.FRIENDLY);
 
-            //Unassign all characters from this tank
-            foreach (Character character in GetCharactersAssignedToTank(this))
-                character.SetAssignedTank(null);
-
-            //Detach the characters that are still in the tank and kill them
-            foreach (Character character in GetCharactersInTank())
-            {
-                character.transform.SetParent(null);
-                character.KillCharacterImmediate();
-            }
+            RemovePlayersFromTank();
 
             //GameManager.Instance.SystemEffects.ActivateSlowMotion(0.05f, 0.4f, 1.5f, 0.4f);
             Destroy(gameObject);

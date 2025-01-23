@@ -74,13 +74,21 @@ namespace TowerTanks.Scripts
         {
             playerColor = GameManager.Instance.MultiplayerManager.GetPlayerColors()[characterIndex];
             transform.name = playerName + "HUD";
-            hudRectTransform.anchoredPosition = new Vector2((hudRectTransform.sizeDelta.x + 35f) * characterIndex, 0f);
-            hudPosition = hudRectTransform.localPosition;
-
+            transform.SetSiblingIndex(Mathf.Max(characterIndex, transform.parent.childCount - 1));
+            //hudRectTransform.anchoredPosition = new Vector2((hudRectTransform.sizeDelta.x + 35f) * characterIndex, 0f);
             playerNameBackground.color = playerColor;
             playerBorder.color = playerColor;
             playerNameText.text = playerName;
             playerDeathImage.color = new Color(0, 0, 0, 0);
+            StartCoroutine(SetHUDPosition());
+        }
+
+        private IEnumerator SetHUDPosition()
+        {
+            yield return null;
+            LayoutRebuilder.ForceRebuildLayoutImmediate(hudRectTransform);
+            hudPosition = hudRectTransform.localPosition;
+            Debug.Log("HUD Position: " + hudPosition);
         }
 
         private void Update()
@@ -109,11 +117,10 @@ namespace TowerTanks.Scripts
 
                 // Decrease shake timer
                 shakeTimer -= Time.deltaTime;
-            }
-            else
-            {
-                // Reset position after shake duration is over
-                hudRectTransform.localPosition = hudPosition;
+
+                //Reset position after shake duration is over
+                if (shakeTimer <= 0f)
+                    hudRectTransform.localPosition = hudPosition;
             }
         }
 

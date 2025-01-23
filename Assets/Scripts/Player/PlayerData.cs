@@ -52,10 +52,10 @@ namespace TowerTanks.Scripts
             switch (ctx.action.name)
             {
                 case "Move": OnMove(ctx); break;
+                case "Pause": OnPause(ctx); break;
                 case "Rotate": OnRotate(ctx); break;
                 case "Mount": OnMount(ctx); break;
                 case "ReadyUp": OnReadyUp(ctx); break;
-                case "Undo": OnUndo(ctx); break;
             }
         }
 
@@ -73,6 +73,20 @@ namespace TowerTanks.Scripts
         private void OnMove(InputAction.CallbackContext ctx)
         {
             movementData = ctx.ReadValue<Vector2>();
+        }
+
+        private void OnPause(InputAction.CallbackContext ctx)
+        {
+            //If the player presses the pause button
+            if (ctx.started)
+            {
+                //Pause the game if not paused
+                if (!GameManager.Instance.isPaused)
+                {
+                    Debug.Log("Player " + (playerInput.playerIndex + 1).ToString() + " Paused.");
+                    PauseController.Instance?.PauseToggle(playerInput.playerIndex);
+                }
+            }
         }
 
         private void OnRotate(InputAction.CallbackContext ctx)
@@ -96,7 +110,7 @@ namespace TowerTanks.Scripts
 
         private void OnUndo(InputAction.CallbackContext ctx)
         {
-            if (ctx.performed)
+/*            if (ctx.performed)
             {
                 if (!undoActionAvailable)
                     return;
@@ -106,7 +120,7 @@ namespace TowerTanks.Scripts
             }
 
             if (ctx.canceled)
-                undoActionAvailable = true;
+                undoActionAvailable = true;*/
         }
 
         private void OnReadyUp(InputAction.CallbackContext ctx)

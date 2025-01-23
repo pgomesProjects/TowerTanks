@@ -41,6 +41,7 @@ TagManager:
   - GameUI
   - PlayerName
   - PlayerAvatars
+  - RadarCam
   layers:
   - Default
   - TransparentFX

@@ -549,9 +549,6 @@ namespace TowerTanks.Scripts
                 case "Move":
                     OnMove(ctx);
                     break;
-                case "Pause":
-                    OnPause(ctx);
-                    break;
                 case "Jetpack":
                     OnJetpack(ctx);
                     break;
@@ -587,9 +584,6 @@ namespace TowerTanks.Scripts
             {
                 case "Move":
                     OnMove(ctx);
-                    break;
-                case "Pause":
-                    OnPause(ctx);
                     break;
                 case "1":
                     OnJetpack(ctx);
@@ -640,17 +634,6 @@ namespace TowerTanks.Scripts
                         collSwitcher.DisableCollision(GetComponent<Collider2D>())); //Disable collision with platform
                 } // if leg floater is present, 
                 // disable use on platform  (leg floater floats the character collider by a few pixels which means the character won't slip and also won't trip over small changes in terrain collision)
-            }
-        }
-
-        public void OnPause(InputAction.CallbackContext ctx)
-        {
-            //If the player presses the pause button
-            if (ctx.started)
-            {
-                //Pause the game
-                Debug.Log("Player " + characterIndex + " Paused.");
-                LevelManager.Instance?.PauseToggle(characterIndex);
             }
         }
 

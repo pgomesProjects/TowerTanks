@@ -5029,6 +5029,7 @@ GameObject:
   - component: {fileID: 448350889}
   - component: {fileID: -2921341399011078923}
   - component: {fileID: 7728548045243753777}
+  - component: {fileID: -8157118454374190011}
   m_Layer: 3
   m_Name: PlayerNewMovement
   m_TagString: Untagged
@@ -5110,6 +5111,7 @@ MonoBehaviour:
   cannonScrollSensitivity: 3
   isSpinningJoystick: 0
   spinningForce: 0
+  isUsingCompositeAiming: 0
   carryableObjects:
     serializedVersion: 2
     m_Bits: 512
@@ -5260,6 +5262,20 @@ MonoBehaviour:
   scalingFactor: 1
   m_posOffsetData: {fileID: 0}
   listenerMask: 1
+--- !u!114 &-8157118454374190011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5332867684925448264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a0f787b504a7f948b787715a153f4da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCam: {fileID: 0}
+  screenBuffer: 0.01
 --- !u!1 &5332867685461826562
 GameObject:
   m_ObjectHideFlags: 0

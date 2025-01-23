@@ -61,6 +61,9 @@ namespace TowerTanks.Scripts
 
         public void ReadyPlayer(int playerIndex, bool isReady = true)
         {
+            if (GameManager.Instance.InGameMenu)
+                return;
+
             if (allReady || !canReady)
                 return;
 

@@ -34,7 +34,6 @@ namespace TowerTanks.Scripts
         internal bool readingTutorial;
         internal GAMESTATE levelPhase = GAMESTATE.BUILDING;
         internal WeatherConditions currentWeatherConditions;
-        private int currentPlayerPaused;
         internal int currentRound;
         internal int totalLayers;
         internal bool isSettingUpOnStart;
@@ -52,8 +51,6 @@ namespace TowerTanks.Scripts
         public static Action<LevelEvents> OnEnemyDefeated;
         public static Action<int, bool> OnResourcesUpdated;
         public static Action OnCombatEnded;
-        public static Action<int> OnGamePaused;
-        public static Action OnGameResumed;
         public static Action OnGameOver;
 
         //Debug Tools
@@ -81,7 +78,6 @@ namespace TowerTanks.Scripts
         {
             Instance = this;
             readingTutorial = false;
-            currentPlayerPaused = -1;
             totalLayers = 1;
             currentRound = 0;
             itemPrice = new Dictionary<string, int>();
@@ -352,26 +348,6 @@ namespace TowerTanks.Scripts
 
         public void RemoveGhostLayer() => Destroy(currentGhostLayer);
 
-        public void PauseToggle(int playerIndex)
-        {
-            //If the game is not paused, pause the game
-            if (!GameManager.Instance.isPaused)
-            {
-                Time.timeScale = 0;
-                GameManager.Instance.AudioManager.PauseAllSounds();
-                currentPlayerPaused = playerIndex;
-                OnGamePaused?.Invoke(playerIndex);
-            }
-            //If the game is paused, resume the game if the person that paused the game unpauses
-            else if (GameManager.Instance.isPaused && playerIndex == currentPlayerPaused)
-            {
-                GameManager.Instance.UnpauseFrames(4);
-                GameManager.Instance.AudioManager.ResumeAllSounds();
-                currentPlayerPaused = -1;
-                OnGameResumed?.Invoke();
-            }
-        }
-
         /// <summary>
         /// Cancels repairs for all players.
         /// </summary>
@@ -484,7 +460,7 @@ namespace TowerTanks.Scripts
             //Check if any players are alive
             foreach (PlayerMovement player in FindObjectsOfType<PlayerMovement>())
             {
-                if (!player.IsDead())
+                if (!player.IsPermanentDead())
                     return;
             }
 

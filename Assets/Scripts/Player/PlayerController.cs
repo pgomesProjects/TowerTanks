@@ -567,8 +567,8 @@ namespace TowerTanks.Scripts.Deprecated
                 if (LevelManager.Instance != null && !GameManager.Instance.isPaused)
                 {
                     //Pause the game
-                    Debug.Log("Player " + playerIndex + " Paused.");
-                    LevelManager.Instance?.PauseToggle(playerIndex);
+                    Debug.Log("Player " + (playerIndex + 1).ToString() + " Paused.");
+                    //LevelManager.Instance?.PauseToggle(playerIndex);
                 }
             }
         }
