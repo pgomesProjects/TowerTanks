@@ -415,7 +415,7 @@ namespace TowerTanks.Scripts
             GameManager.Instance.ParticleSpawner.SpawnParticle(17, particleSpots[1].position, 0.2f, null);
             GameManager.Instance.AudioManager.Play("CoalLoad", this.gameObject);
             GameManager.Instance.AudioManager.Play("LargeExplosionSFX", this.gameObject);
-            CameraManipulator.main.ShakeTankCamera(tank, GameManager.Instance.SystemEffects.GetScreenShakeSetting("Explosion"));
+            CameraManipulator.main?.ShakeTankCamera(tank, GameManager.Instance.SystemEffects.GetScreenShakeSetting("Explosion"));
             //parentCell.Damage(100);
 
             //Apply Haptics to Players inside this tank
