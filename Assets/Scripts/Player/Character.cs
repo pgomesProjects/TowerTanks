@@ -399,7 +399,7 @@ namespace TowerTanks.Scripts
         public void ShowPromptOnHUD(GameAction gameAction)
         {
             ClearButtonPrompts();
-            currentButtonPrompt = GameManager.Instance.UIManager.AddButtonPrompt(characterHUD.gameObject, new Vector2(-57.59997f, 17.79999f), 105f, gameAction, PlatformType.Gamepad, false);
+            currentButtonPrompt = GameManager.Instance.UIManager.AddButtonPrompt(characterHUD.gameObject, new Vector2(-57.59997f, 17.79999f), 105f, gameAction, PlatformType.Gamepad, GameUIManager.PromptDisplayType.Button, false);
         }
 
         public void ClearButtonPrompts()

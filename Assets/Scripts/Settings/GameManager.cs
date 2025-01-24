@@ -51,7 +51,6 @@ namespace TowerTanks.Scripts
         public bool isPaused;
         public bool inBugReportMenu;
         public bool inDebugMenu;
-        public bool ignoreTutorials;
         public bool InGameMenu
         {
             get { return isPaused || inBugReportMenu || inDebugMenu || tutorialWindowActive; }
@@ -276,7 +275,7 @@ namespace TowerTanks.Scripts
         /// <param name="overrideViewedInGame">If true, the tutorial can be viewed even if it has already been viewed.</param>
         public void DisplayTutorial(int tutorialIndex, bool overrideViewedInGame = false, float delay = 0)
         {
-            if (ignoreTutorials) return;
+            if (GameSettings.skipTutorials) return;
 
             if (delay == 0)
             {

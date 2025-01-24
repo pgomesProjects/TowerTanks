@@ -156,3 +156,16 @@ MonoBehaviour:
       promptInfo: {fileID: 0}
     - platform: 4
       promptInfo: {fileID: 11400000, guid: 0dd2d2f9f9f768f499a2a700bd3b6e93, type: 2}
+  - action: 11
+    actionType: 1
+    prompts:
+    - platform: 0
+      promptInfo: {fileID: 0}
+    - platform: 1
+      promptInfo: {fileID: 11400000, guid: 43ea819d0d3600f4fabb87135e8b2e4e, type: 2}
+    - platform: 2
+      promptInfo: {fileID: 11400000, guid: 56288b07223172d4fafaae8f02aa8b7c, type: 2}
+    - platform: 3
+      promptInfo: {fileID: 0}
+    - platform: 4
+      promptInfo: {fileID: 11400000, guid: 43ea819d0d3600f4fabb87135e8b2e4e, type: 2}

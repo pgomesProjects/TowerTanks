@@ -72,6 +72,21 @@ namespace TowerTanks.Scripts
             set => promptInfo.promptSprite = value;
         }
 
+        public string GetPromptActionType()
+        {
+            switch (promptInfo.actionType)
+            {
+                case ActionType.Press:
+                    return "Press";
+                case ActionType.Hold:
+                    return "Hold";
+                case ActionType.Rotate:
+                    return "Rotate";
+                default:
+                    return "";
+            }
+        }
+
         public string GetPromptText() => promptInfo.name;
         public void SetPromptText(string newPromptText) => promptInfo.name = newPromptText;
     }
@@ -88,7 +103,8 @@ namespace TowerTanks.Scripts
         Repair,
         AddFuel,
         ReleaseSteam,
-        ReadyUp
+        ReadyUp,
+        AdvanceTutorial
     }
 
     public enum PlatformType

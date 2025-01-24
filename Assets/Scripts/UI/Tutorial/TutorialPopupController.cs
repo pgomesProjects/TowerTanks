@@ -17,6 +17,7 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("The advance tutorial task bar.")] private TaskProgressBar advanceTaskBar;
         [SerializeField, Tooltip("The duration to hold the advance button for.")] private float advanceTutorialDuration;
         [SerializeField, Tooltip("The current tutorial settings to display.")] private TutorialPopupSettings currentTutorial;
+        [SerializeField, Tooltip("The container for the advance prompt.")] private RectTransform promptContainer;
         [Space()]
         [Header("Tutorial Animation Settings")]
         [SerializeField, Tooltip("The canvas group for the tutorial window.")] private CanvasGroup tutorialWindowCanvasGroup;
@@ -48,6 +49,8 @@ namespace TowerTanks.Scripts
             playerControls = new PlayerControlSystem();
             playerControls.Player.AdvanceTutorialText.started += _ => StartAdvance();
             playerControls.Player.AdvanceTutorialText.canceled += _ => CancelAdvance();
+
+            GameManager.Instance.UIManager.AddButtonPrompt(promptContainer.gameObject, Vector2.zero, 50f, GameAction.AdvanceTutorial, PlatformType.Gamepad, GameUIManager.PromptDisplayType.Button, false);
 
             ActivateTutorial();
         }
