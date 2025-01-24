@@ -536,21 +536,25 @@ namespace TowerTanks.Scripts
         /// <param name="range">How many chunks to affect in each direction.</param>
         public void DespawnObstacles(int baseChunk, int range)
         {
-            if (groundPool[baseChunk].currentObstacle != null)
+            //Debug.Log("Despawning obstacles at Chunk #:" + baseChunk);
+
+            int target = baseChunk - 1;
+
+            if (groundPool[target].currentObstacle != null)
             {
-                groundPool[baseChunk].currentObstacle.SetActive(false);
+                groundPool[target].currentObstacle.SetActive(false);
             }
 
             for(int i = 0; i < range; i++)
             {
-                if (groundPool[baseChunk + i].currentObstacle != null)
+                if (groundPool[target + i].currentObstacle != null)
                 {
-                    groundPool[baseChunk + i].currentObstacle.SetActive(false);
+                    groundPool[target + i].currentObstacle.SetActive(false);
                 }
 
-                if (groundPool[baseChunk - i].currentObstacle != null)
+                if (groundPool[target - i].currentObstacle != null)
                 {
-                    groundPool[baseChunk - i].currentObstacle.SetActive(false);
+                    groundPool[target - i].currentObstacle.SetActive(false);
                 }
             }
         }
