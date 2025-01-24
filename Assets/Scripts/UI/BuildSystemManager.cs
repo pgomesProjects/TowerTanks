@@ -313,6 +313,7 @@ namespace TowerTanks.Scripts
 
                 PlayerMovement playerObject = playerRoom.playerSelector.GetCurrentPlayerData().SpawnPlayerInScene(playerPos);
                 playerObject.SetAssignedTank(defaultTank);
+                PlayerData.ToPlayerData(playerInput).SetPlayerState(PlayerData.PlayerState.InTank);
 
                 //If all rooms from all players are mounted, note that all of them are ready and start the ready up manager
                 if (AllRoomsMounted())

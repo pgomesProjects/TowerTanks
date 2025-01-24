@@ -13,7 +13,7 @@ namespace TowerTanks.Scripts
         public InputActionMap playerUIMap { get; private set; }
         public Vector2 movementData { get; private set; }
 
-        public enum PlayerState { SettingUp, NameReady, PickingRooms, PickedRooms, IsBuilding, ReadyForCombat };
+        public enum PlayerState { SettingUp, NameReady, PickingRooms, PickedRooms, IsBuilding, InTank, ReadyForCombat };
         private PlayerState currentPlayerState;
         internal bool undoActionAvailable;
 
