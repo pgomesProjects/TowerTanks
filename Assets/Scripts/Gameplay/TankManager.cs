@@ -84,6 +84,10 @@ namespace TowerTanks.Scripts
             newtank.tankScript.tankType = newtank.tankType;
             newtank.gameObject.transform.parent = null;
 
+            //Despawn Obstacles
+            int baseChunk = ChunkLoader.Instance.GetChunkAtPosition(tankSpawnPoint.position).chunkNumber;
+            ChunkLoader.Instance.DespawnObstacles(baseChunk, 2);
+
             tanks.Add(newtank);
             return newtank.tankScript;
         }

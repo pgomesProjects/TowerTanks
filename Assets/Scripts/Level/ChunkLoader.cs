@@ -14,6 +14,7 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("The parent to keep all ground pieces in when spawned.")] private Transform groundParentTransform;
         [SerializeField, Tooltip("The chunk that the level starts with.")] private ChunkData[] startingChunks;
 
+        public static ChunkLoader Instance;
         public Transform playerTank;
         public int currentChunk; //which chunk the player is currently on
         private TankManager tankManager;
@@ -62,6 +63,7 @@ namespace TowerTanks.Scripts
 
         private void Awake()
         {
+            Instance = this;
             playerInputComponent = GetComponent<PlayerInput>();
             if (playerInputComponent != null) LinkPlayerInput(playerInputComponent);
             tankManager = GameObject.Find("TankManager")?.GetComponent<TankManager>();
@@ -525,6 +527,32 @@ namespace TowerTanks.Scripts
             }
 
             return hasRedFlag;
+        }
+
+        /// <summary>
+        /// Despawns obstacles beginning at [BaseChunk], extending [range] chunks in both directions
+        /// </summary>
+        /// <param name="baseChunk">The chunk to begin despawning at.</param>
+        /// <param name="range">How many chunks to affect in each direction.</param>
+        public void DespawnObstacles(int baseChunk, int range)
+        {
+            if (groundPool[baseChunk].currentObstacle != null)
+            {
+                groundPool[baseChunk].currentObstacle.SetActive(false);
+            }
+
+            for(int i = 0; i < range; i++)
+            {
+                if (groundPool[baseChunk + i].currentObstacle != null)
+                {
+                    groundPool[baseChunk + i].currentObstacle.SetActive(false);
+                }
+
+                if (groundPool[baseChunk - i].currentObstacle != null)
+                {
+                    groundPool[baseChunk - i].currentObstacle.SetActive(false);
+                }
+            }
         }
 
         #region LevelBuilder
