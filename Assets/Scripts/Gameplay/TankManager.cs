@@ -18,6 +18,7 @@ namespace TowerTanks.Scripts
         [PropertySpace]
         public List<EnemyTankDesign> enemyTankDesigns = new List<EnemyTankDesign>();
         public List<EnemyTankDesign> merchantTankDesigns = new List<EnemyTankDesign>();
+        private List<TextAsset> spawnedThisMission = new List<TextAsset>();
 
         public List<Sprite> tankFlagSprites = new List<Sprite>();
 
@@ -45,8 +46,33 @@ namespace TowerTanks.Scripts
                 }
 
                 //Determine tank design
-                int random = Random.Range(0, 4);
-                newtank.design = enemyTankDesigns[tier - 1].designs[random];
+                TextAsset design = null;
+                int counter = 100;
+                while (design == null)
+                {
+                    //Roll for a design
+                    int random = Random.Range(0, enemyTankDesigns[tier - 1].designs.Count);
+                    
+                    design = enemyTankDesigns[tier - 1].designs[random];
+
+                    if (!spawnedThisMission.Contains(design)) //if we haven't spawned this design yet
+                    {
+                        spawnedThisMission.Add(design);
+                        break;
+                    }
+                    else //we have already spawned this design
+                    {
+                        counter -= 1;
+                        if (counter <= 0) //break potentially infinite loop
+                        {
+                            break;
+                        }
+                        design = null;
+                        continue;
+                    }
+                }
+
+                newtank.design = design;
                 newtank.TankName = newtank.design.name;
                 newtank.gameObject.name = newtank.TankName;
 
