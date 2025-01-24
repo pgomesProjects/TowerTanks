@@ -278,7 +278,7 @@ namespace TowerTanks.Scripts
                 return false;
 
             //If the current building subphase is not in a phase that allows for building, return false
-            if (CurrentSubPhase == BuildingSubphase.Naming || CurrentSubPhase == BuildingSubphase.PickRooms)
+            if (CurrentSubPhase != BuildingSubphase.BuildTank)
                 return false;
 
             //Get the room from the player and mount it
