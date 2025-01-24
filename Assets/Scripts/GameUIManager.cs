@@ -9,6 +9,7 @@ namespace TowerTanks.Scripts
     {
         private const string CANVAS_TAG_NAME = "GameUI";
         public enum UIType { TaskBar, RadialTaskBar, TimingGauge, RadialTimingGauge, ButtonPrompt, Damage, SymbolDisplay }
+        public enum PromptDisplayType { Button, Text };
 
         [SerializeField, Tooltip("The prefabs of the different UI elements (only one of each type should exist).")] private UIPrefab[] uiPrefabs;
         [SerializeField, Tooltip("The button prompt settings.")] private ButtonPromptSettings buttonPromptSettings;
@@ -297,9 +298,10 @@ namespace TowerTanks.Scripts
         /// <param name="imageSize">The size of the button image in pixels (applies to both width and height).</param>
         /// <param name="gameAction">The action to display the prompt for.</param>
         /// <param name="platform">The platform the game is being played on.</param>
+        /// <param name="promptDisplayType">The type of display for the button prompt (button or text).</param>
         /// <param name="inGameWorld">Determines whether the canvas is to be treated as an overlay or in the game world.</param>
         /// <returns>Returns the GameObject created.</returns>
-        public GameObject AddButtonPrompt(GameObject gameObject, Vector2 position, float imageSize, GameAction gameAction, PlatformType platform, bool inGameWorld)
+        public GameObject AddButtonPrompt(GameObject gameObject, Vector2 position, float imageSize, GameAction gameAction, PlatformType platform, PromptDisplayType promptDisplayType, bool inGameWorld)
         {
             //If there are no button settings, return null
             if (buttonPromptSettings == null)
@@ -314,16 +316,20 @@ namespace TowerTanks.Scripts
             GameObject buttonPrompt = Instantiate(GetPrefabFromList(UIType.ButtonPrompt), canvas.transform);
             Image buttonImage = buttonPrompt.GetComponentInChildren<Image>();
             buttonPrompt.GetComponent<RectTransform>().sizeDelta = new Vector2(imageSize, imageSize);
-            TextMeshProUGUI buttonText = buttonPrompt.GetComponentInChildren<TextMeshProUGUI>();
+            TextMeshProUGUI buttonText = buttonPrompt.transform.Find("Text").GetComponent<TextMeshProUGUI>();
 
             PlatformPrompt currentPrompt = buttonPromptSettings.GetButtonPrompt(gameAction, platform);
 
-            if (currentPrompt.PromptSprite == null)
+            if (currentPrompt.PromptSprite == null || promptDisplayType == PromptDisplayType.Text)
                 buttonImage.color = new Color(0, 0, 0, 0);
             else
                 buttonImage.sprite = currentPrompt.PromptSprite;
 
-            buttonText.text = currentPrompt.GetPromptText();
+            buttonText.text = promptDisplayType == PromptDisplayType.Button? "" : currentPrompt.GetPromptText();
+
+            TextMeshProUGUI buttonTypeText = buttonPrompt.transform.Find("Type").GetComponent<TextMeshProUGUI>();
+            Debug.Log("Current Prompt For " + gameAction + ": " + currentPrompt.GetPromptActionType());
+            buttonTypeText.text = "";
 
             return buttonPrompt.gameObject;
         }

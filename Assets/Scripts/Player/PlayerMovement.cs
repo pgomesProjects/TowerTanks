@@ -827,8 +827,8 @@ namespace TowerTanks.Scripts
 
         public void OnSelfDestruct(InputAction.CallbackContext ctx)
         {
-            //If the player is not alive or in the build scene, ignore this
-            if (!isAlive || GameManager.Instance.currentSceneState == SCENESTATE.BuildScene) return;
+            //If the player is not alive, ignore this
+            if (!isAlive) return;
 
             if (ctx.started)
             {

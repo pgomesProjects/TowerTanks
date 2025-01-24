@@ -18,6 +18,7 @@ public static class GameSettings
     public static bool debugMode = false;
     public static bool customPlayerNames = false;
     public static bool sendUserData = false;
+    public static bool skipTutorials = false;
 
     public static string controlSchemeUI = "Gamepad";
 
@@ -25,7 +26,6 @@ public static class GameSettings
     public static ConfigurationSettings currentSettings;
 
     public static bool mainMenuEntered = false;
-    public static bool skipTutorial = true;
     public static bool showGamepadCursors = true;
 
     //0.5 = Easy, 1 = Normal, 1.5 = Hard

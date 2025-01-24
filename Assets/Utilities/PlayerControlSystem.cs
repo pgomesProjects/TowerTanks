@@ -204,7 +204,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""id"": ""8023a4e2-3693-4e27-afe4-95d2740fa2ce"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""MultiTap(tapCount=20)"",
+                    ""interactions"": ""Hold(duration=3)"",
                     ""initialStateCheck"": false
                 },
                 {
@@ -1961,7 +1961,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""81020498-8832-4479-b546-1e24c8e72957"",
-                    ""path"": ""<Gamepad>/start"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
