@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7130366683585124416}
   - component: {fileID: 366714970463999054}
   - component: {fileID: 2123950108671277801}
+  - component: {fileID: 8912725279528273258}
   m_Layer: 0
   m_Name: ThrottleGhost
   m_TagString: Untagged
@@ -138,6 +139,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parameter: Small
   boolSetting: 1
+--- !u!210 &8912725279528273258
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 290175256944868708}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 4
 --- !u!1 &4984889534721172553
 GameObject:
   m_ObjectHideFlags: 0

@@ -350,6 +350,7 @@ GameObject:
   - component: {fileID: 3156152847208086381}
   - component: {fileID: 2308480311030663002}
   - component: {fileID: 422440430950715433}
+  - component: {fileID: 7834800494931079483}
   m_Layer: 0
   m_Name: EngineGhost
   m_TagString: Untagged
@@ -461,6 +462,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parameter: Slow
   boolSetting: 1
+--- !u!210 &7834800494931079483
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5114841227109737086}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 4
 --- !u!1001 &4033382012090848568
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6114995352889930460}
   - component: {fileID: 6852619400494747371}
   - component: {fileID: 4106041388229755621}
+  - component: {fileID: 6322324277489771039}
   m_Layer: 0
   m_Name: MortarGhost
   m_TagString: Untagged
@@ -123,6 +124,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parameter: Vertical
   boolSetting: 1
+--- !u!210 &6322324277489771039
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4173617951693466575}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 4
 --- !u!1 &4730651063307163527
 GameObject:
   m_ObjectHideFlags: 0

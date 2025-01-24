@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6499983839082921956}
   - component: {fileID: 8886810196494020625}
   - component: {fileID: 8111541602587233318}
+  - component: {fileID: 8926238548912068927}
   m_Layer: 0
   m_Name: MachineGunGhost
   m_TagString: Untagged
@@ -108,6 +109,17 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!210 &8926238548912068927
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1613188616573593858}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 4
 --- !u!1 &5457757021710554753
 GameObject:
   m_ObjectHideFlags: 0
