@@ -278,7 +278,7 @@ namespace TowerTanks.Scripts
                 return false;
 
             //If the current building subphase is not in a phase that allows for building, return false
-            if (CurrentSubPhase != BuildingSubphase.BuildTank)
+            if (CurrentSubPhase != BuildingSubphase.BuildTank || PlayerData.ToPlayerData(playerInput).GetCurrentPlayerState() != PlayerData.PlayerState.IsBuilding)
                 return false;
 
             //Get the room from the player and mount it
