@@ -32,7 +32,7 @@ namespace TowerTanks.Scripts
 
             if (spray != null)
             {
-                if (isSpraying && cooldown <= 0)
+                if (isSpraying && cooldown <= 0 && currentHolder != null)
                 {
                     sprayTimer -= Time.deltaTime;
                     if (sprayTimer <= 0)

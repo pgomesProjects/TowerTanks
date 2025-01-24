@@ -673,5 +673,11 @@ namespace TowerTanks.Scripts
                 }
             }
         }
+
+        public void OnDestroy()
+        {
+            if (GameManager.Instance.AudioManager.IsPlaying("TankIdle", this.gameObject)) GameManager.Instance.AudioManager.Stop("TankIdle", this.gameObject);
+            if (GameManager.Instance.AudioManager.IsPlaying("TreadsRolling", this.gameObject)) GameManager.Instance.AudioManager.Stop("TreadsRolling", this.gameObject);
+        }
     }
 }

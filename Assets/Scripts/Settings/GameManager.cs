@@ -82,6 +82,7 @@ namespace TowerTanks.Scripts
 
         public TankDesign tankDesign;
         public CargoManifest cargoManifest;
+        private static CargoManifest defaultManifest;
 
         public bool CheatsMenuActive { get; private set; }
 
@@ -102,6 +103,7 @@ namespace TowerTanks.Scripts
             UIManager = GetComponentInChildren<GameUIManager>();
             currentSessionStats = new SessionStats();
             gameFixedDeltaTimeStep = Time.fixedDeltaTime;
+            defaultManifest = cargoManifest;
 
             //LoadBearingCheck();
         }
@@ -436,7 +438,7 @@ namespace TowerTanks.Scripts
         {
             LevelManager.totalEnemiesDestroyed = 0;
             tankDesign = null;
-            cargoManifest = null;
+            cargoManifest = defaultManifest;
             StackManager.ClearStack();
         }
 
