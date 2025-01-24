@@ -619,6 +619,7 @@ namespace TowerTanks.Scripts
         }
         public void ShakeTankCamera(TankController tank, float intensity, float duration)
         {
+            if (camSystems == null) return;
             if (tank == null) return;                                                                                  //Do not allow method to run with null camera
             CinemachineVirtualCamera cam = null;                                                                       //Initialize container to store target camera
             foreach (TankCamSystem system in camSystems)

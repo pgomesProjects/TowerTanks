@@ -300,7 +300,7 @@ namespace TowerTanks.Scripts
                     {
                         float duration = Mathf.Lerp(0.05f, 1f, dealtDamage / 100);
                         float intensity = Mathf.Lerp(1f, 15f, dealtDamage / 100);
-                        CameraManipulator.main.ShakeTankCamera(tank, intensity, duration);
+                        CameraManipulator.main?.ShakeTankCamera(tank, intensity, duration);
 
                         //Apply Haptics to Players inside this tank
                         foreach (Character character in room.targetTank.GetCharactersInTank())
