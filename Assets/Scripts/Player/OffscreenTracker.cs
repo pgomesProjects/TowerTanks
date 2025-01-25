@@ -41,7 +41,7 @@ namespace TowerTanks.Scripts
             if (currentCharacter.IsDead())
                 return;
 
-            OffscreenCheck();
+            //OffscreenCheck();
         }
 
         /// <summary>
