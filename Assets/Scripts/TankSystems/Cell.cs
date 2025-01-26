@@ -234,6 +234,8 @@ namespace TowerTanks.Scripts
         /// <returns>Returns leftover damage from impact (if projectile destroys cell).</returns>
         public float Damage(Projectile projectile, Vector2 position)
         {
+            if (room.mounted != true) return 0; //hit a room that isn't built yet
+
             //Do projectile impact:
             room.targetTank.treadSystem.HandleImpact(projectile, position); //Use treadsystem impact handler to calculate impact force from projectile
             float animSpeed = 1;
@@ -266,7 +268,7 @@ namespace TowerTanks.Scripts
                 {
                     float duration = Mathf.Lerp(0.05f, 1f, projectile.remainingDamage / 100);
                     float intensity = Mathf.Lerp(1f, 15f, projectile.remainingDamage / 100);
-                    CameraManipulator.main.ShakeTankCamera(tank, intensity, duration);
+                    CameraManipulator.main?.ShakeTankCamera(tank, intensity, duration);
 
                     //Apply Haptics to Players inside this tank
                     foreach (Character character in tank.GetCharactersInTank())
@@ -327,6 +329,8 @@ namespace TowerTanks.Scripts
         /// </summary>
         public void Damage(float damage, bool triggerHitEffect = false)
         {
+            if (room.mounted != true) return;
+
             //If the current scene is the build scene, return
             if (GameManager.Instance.currentSceneState == SCENESTATE.BuildScene)
                 return;
@@ -347,7 +351,7 @@ namespace TowerTanks.Scripts
                     {
                         float duration = 0.5f;
                         float intensity = 5f;
-                        CameraManipulator.main.ShakeTankCamera(tank, intensity, duration);
+                        CameraManipulator.main?.ShakeTankCamera(tank, intensity, duration);
                     }
                 }
                 else if (triggerHitEffect)

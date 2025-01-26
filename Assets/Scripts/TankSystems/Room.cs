@@ -140,7 +140,7 @@ namespace TowerTanks.Scripts
                     float impactSpeed = contact.relativeVelocity.magnitude;                  //Get speed of impact from which to derive screenshake values
                     float duration = Mathf.Lerp(0.1f, 0.5f, impactSpeed / 10);               //Use a clamped lerp to increase duration of screenshake proportionately to speed of impact, up to a certain maximum speed
                     float intensity = Mathf.Lerp(0.1f, 1, impactSpeed / 10);                 //Use a clamped lerp to increase magnitude of screenshake proportionately to speed of impact, up to a certain maximum speed
-                    CameraManipulator.main.ShakeTankCamera(targetTank, intensity, duration); //Send shake command to be handled by camera manipulator (which can find the camera associated with this tank)
+                    CameraManipulator.main?.ShakeTankCamera(targetTank, intensity, duration); //Send shake command to be handled by camera manipulator (which can find the camera associated with this tank)
 
                     //Apply Haptics to Players inside this tank
                     foreach (Character character in targetTank.GetCharactersInTank())
@@ -191,7 +191,7 @@ namespace TowerTanks.Scripts
                     float _impactSpeed = contact.relativeVelocity.magnitude;                  //Get speed of impact from which to derive screenshake values
                     float duration = Mathf.Lerp(0.1f, 0.5f, _impactSpeed / 10);               //Use a clamped lerp to increase duration of screenshake proportionately to speed of impact, up to a certain maximum speed
                     float intensity = Mathf.Lerp(0.1f, 1, _impactSpeed / 10);                 //Use a clamped lerp to increase magnitude of screenshake proportionately to speed of impact, up to a certain maximum speed
-                    CameraManipulator.main.ShakeTankCamera(targetTank, intensity, duration); //Send shake command to be handled by camera manipulator (which can find the camera associated with this tank)
+                    CameraManipulator.main?.ShakeTankCamera(targetTank, intensity, duration); //Send shake command to be handled by camera manipulator (which can find the camera associated with this tank)
 
                     //Apply Haptics to Players inside this tank
                     foreach (Character character in targetTank.GetCharactersInTank())

@@ -670,7 +670,7 @@ namespace TowerTanks.Scripts
 
                 GameManager.Instance.AudioManager.Play("ExplosionSFX", treadSystem.gameObject);
                 GameManager.Instance.AudioManager.Play("LargeExplosionSFX", treadSystem.gameObject);
-                CameraManipulator.main.ShakeTankCamera(this, GameManager.Instance.SystemEffects.GetScreenShakeSetting("Jolt"));
+                CameraManipulator.main?.ShakeTankCamera(this, GameManager.Instance.SystemEffects.GetScreenShakeSetting("Jolt"));
 
                 //Apply Haptics to Players inside this tank
                 foreach (Character character in this.GetCharactersInTank())
@@ -753,8 +753,8 @@ namespace TowerTanks.Scripts
             else
             {
                 //Trigger Screenshake Effects
-                CameraManipulator.main.ShakeTankCamera(this, GameManager.Instance.SystemEffects.GetScreenShakeSetting("TankExplosionShake"));
-                CameraManipulator.main.ShakeTankCamera(this, GameManager.Instance.SystemEffects.GetScreenShakeSetting("Explosion"));
+                CameraManipulator.main?.ShakeTankCamera(this, GameManager.Instance.SystemEffects.GetScreenShakeSetting("TankExplosionShake"));
+                CameraManipulator.main?.ShakeTankCamera(this, GameManager.Instance.SystemEffects.GetScreenShakeSetting("Explosion"));
 
                 CameraManipulator.main?.OnTankDestroyed(this);
                 TankManager.instance.tanks.Remove(myTankID);

@@ -98,11 +98,16 @@ namespace TowerTanks.Scripts
             {
                 if (tankTransform != null)
                 {
-                    CameraManipulator.main.ShakeTankCamera(tankTransform.GetComponent<TankController>(), 
-                        GameManager.Instance.SystemEffects.GetScreenShakeSetting("Explosion"));
+                    TankController tank = tankTransform.GetComponentInParent<TankController>();
+
+                    CameraManipulator.main?.ShakeTankCamera(tank, GameManager.Instance.SystemEffects.GetScreenShakeSetting("Explosion"));
 
                     //Apply Haptics to Players inside this tank
-                    foreach (Character character in tankTransform.GetComponent<TankController>().GetCharactersInTank())
+                    Character[] charactersInTank = new Character[0]; 
+                    charactersInTank = tank.GetCharactersInTank();
+                    if (charactersInTank == null) return;
+                    if (charactersInTank.Length <= 0) return;
+                    foreach (Character character in charactersInTank)
                     {
                         PlayerMovement player = character.GetComponent<PlayerMovement>();
                         if (player != null)

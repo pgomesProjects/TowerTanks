@@ -382,11 +382,11 @@ namespace TowerTanks.Scripts
             {
                 float duration = Mathf.Lerp(0.05f, 1f, projectile.remainingDamage / 100);
                 float intensity = Mathf.Lerp(1f, 15f, projectile.remainingDamage / 100);
-                CameraManipulator.main.ShakeTankCamera(tank, intensity, duration);
+                CameraManipulator.main?.ShakeTankCamera(tank, intensity, duration);
 
                 if (overrideRelative)
                 {
-                    CameraManipulator.main.ShakeTankCamera(tank, GameManager.Instance.SystemEffects.GetScreenShakeSetting("Explosion"));
+                    CameraManipulator.main?.ShakeTankCamera(tank, GameManager.Instance.SystemEffects.GetScreenShakeSetting("Explosion"));
 
                     //Apply Haptics to Players inside this tank
                     foreach (Character character in tank.GetCharactersInTank())
@@ -606,7 +606,7 @@ namespace TowerTanks.Scripts
                     }
 
                     //Camera Shake
-                    CameraManipulator.main.ShakeTankCamera(tankController, GameManager.Instance.SystemEffects.GetScreenShakeSetting("Impact"));
+                    CameraManipulator.main?.ShakeTankCamera(tankController, GameManager.Instance.SystemEffects.GetScreenShakeSetting("Impact"));
 
                     //Apply Haptics to Players inside this tank
                     foreach (Character character in tankController.GetCharactersInTank())
@@ -656,8 +656,8 @@ namespace TowerTanks.Scripts
                     }
 
                     //Camera Shake
-                    if (!ramming) CameraManipulator.main.ShakeTankCamera(tankController, GameManager.Instance.SystemEffects.GetScreenShakeSetting("Jolt"));
-                    CameraManipulator.main.ShakeTankCamera(tankController, GameManager.Instance.SystemEffects.GetScreenShakeSetting("Jolt"));
+                    if (!ramming) CameraManipulator.main?.ShakeTankCamera(tankController, GameManager.Instance.SystemEffects.GetScreenShakeSetting("Jolt"));
+                    CameraManipulator.main?.ShakeTankCamera(tankController, GameManager.Instance.SystemEffects.GetScreenShakeSetting("Jolt"));
 
                     //Apply Haptics to Players inside this tank
                     foreach (Character character in tankController.GetCharactersInTank())
