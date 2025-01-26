@@ -25,6 +25,7 @@ namespace TowerTanks.Scripts
         [Header("Level Settings")]
         [SerializeField, Tooltip("The procedural settings to use when generating the level.")] public LevelSettings levelSettings;
         [Tooltip("Set to true to ignore the assigned levelSettings.")] public bool ignoreSettings;
+        private bool spawnDangerFlag;
 
         [Header("Chunk Pool")]
         [SerializeField, Tooltip("The chunk prefabs to use for spawning new chunks.")] private ChunkWeight[] chunkPrefabs;
@@ -72,6 +73,7 @@ namespace TowerTanks.Scripts
             {
                 levelSettings = LevelManager.Instance.GetLevelSettings(true);
                 GetSpawnerValuesFromSettings(levelSettings);
+                if (levelSettings.name.Contains("Dangerous")) spawnDangerFlag = true;
             }
 
             // Create and initialize the object pool
@@ -254,6 +256,14 @@ namespace TowerTanks.Scripts
                 {
                     //chunkData.SpawnFlag(Color.blue);
                 }
+            }
+
+            //Spawn danger flag
+            if (spawnDangerFlag)
+            {
+                int chunkNo = startingChunks.Length;
+                ChunkData chunk = GetChunkAtIndex(chunkNo);
+                chunk.SpawnFlag(Color.white, 3);
             }
         }
 

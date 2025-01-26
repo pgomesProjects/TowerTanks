@@ -68,16 +68,17 @@ namespace TowerTanks.Scripts
             }
         }
 
-        public void SpawnFlag(Color color)
+        public void SpawnFlag(Color color, int flagSpriteIndex = 2)
         {
             var newflag = Instantiate(flag, flagSpawn);
+            newflag.transform.Rotate(new Vector3(0, 180, 0));
             SpriteRenderer flagSprite = newflag.transform.Find("Visuals").Find("FlagSprite").GetComponent<SpriteRenderer>();
             flagSprite.color = color;
 
             if (color == Color.red) { newflag.name = "Flag (End)"; }
 
             FlagSettings settings = newflag.GetComponent<FlagSettings>();
-            Sprite _sprite = TankManager.instance.tankFlagSprites[2];
+            Sprite _sprite = TankManager.instance.tankFlagSprites[flagSpriteIndex];
             settings.flagSprite = _sprite;
 
             currentFlag = newflag.transform;
