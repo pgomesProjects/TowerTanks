@@ -70,6 +70,7 @@ namespace TowerTanks.Scripts
 
             if (!ignoreSettings)
             {
+                levelSettings = LevelManager.Instance.GetLevelSettings(true);
                 GetSpawnerValuesFromSettings(levelSettings);
             }
 
@@ -98,6 +99,8 @@ namespace TowerTanks.Scripts
 
         public void GetSpawnerValuesFromSettings(LevelSettings settings)
         {
+            if (settings == null) return;
+
             //Chunks
             chunkPrefabs = settings.chunkPrefabs;
             poolSize = settings.poolSize;

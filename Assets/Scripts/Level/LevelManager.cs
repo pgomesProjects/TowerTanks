@@ -15,16 +15,20 @@ namespace TowerTanks.Scripts
 
     public class LevelManager : SerializedMonoBehaviour
     {
+        [Header("Objects & Components:")]
         [SerializeField] public TankController playerTank;
         [SerializeField] private Transform layerParent;
         [SerializeField] private Transform playerParent;
         [SerializeField] private GameObject layerPrefab;
         [SerializeField] private GameObject ghostLayerPrefab;
-        [SerializeField, Tooltip("The list of possible rooms for the players to pick.")] public GameObject[] roomList { get; private set; }
-        [SerializeField, Tooltip("The value of a singular scrap piece.")] private int scrapValue;
         [SerializeField, Tooltip("The component that tracks the objective information.")] private ObjectiveTracker objectiveTracker;
         [SerializeField, Tooltip("The component that tracks encounter & event information.")] public EventSpawnerManager eventManager;
         [SerializeField, Tooltip("The component that tracks tank information.")] public TankManager tankManager;
+
+        [Header("Data:")]
+        [SerializeField, Tooltip("List of possible level settings to use when generating a level")] public LevelSettings[] levelSettings;
+        [SerializeField, Tooltip("The list of possible rooms for the players to pick.")] public GameObject[] roomList { get; private set; }
+        [Tooltip("The value of a singular scrap piece.")] private int scrapValue;
         [SerializeField] public float enemiesDestroyed;
         public static float totalEnemiesDestroyed;
         public int enemyTierOffset;
@@ -205,6 +209,34 @@ namespace TowerTanks.Scripts
             }
 
             return newInt + enemyTierOffset;
+        }
+
+        public LevelSettings GetLevelSettings(bool random = true, int index = 0)
+        {
+            LevelSettings settings = null;
+
+            if (random)
+            {
+                //Get List of all possible Level Layouts depending on Enemy Tier
+                List<LevelSettings> settingsPool = new List<LevelSettings>();
+                int currentTier = GetEnemyTier();
+                if (currentTier < 3) { settingsPool.Add(levelSettings[0]); } //Tier 1 & 2 only = +Desert Flat
+                if (currentTier > 1 && currentTier < 5) { settingsPool.Add(levelSettings[1]); } //Tier 2-4 = +Desert Hills
+                if (currentTier > 2) { settingsPool.Add(levelSettings[2]); } //Tier 3+ = +Desert City
+                if (currentTier > 3) { settingsPool.Add(levelSettings[3]); } //Tier 4+ = +Desert Dangerous
+
+                //Randomly pick one from the List
+                int _random = UnityEngine.Random.Range(0, settingsPool.Count);
+                settings = settingsPool[_random];
+
+                settingsPool.Clear();
+            }
+            else
+            {
+                settings = levelSettings[index];
+            }
+
+            return settings;
         }
 
         /// <summary>

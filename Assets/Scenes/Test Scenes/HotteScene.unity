@@ -3449,10 +3449,14 @@ MonoBehaviour:
   playerParent: {fileID: 303283892}
   layerPrefab: {fileID: 5955183963202136393, guid: ebaf71e98151f254aa3c0146e0054874, type: 3}
   ghostLayerPrefab: {fileID: 1362854724604262610, guid: f5ceebe7143a8944ba73657ee0a2fc33, type: 3}
-  scrapValue: 25
   objectiveTracker: {fileID: 0}
   eventManager: {fileID: 0}
   tankManager: {fileID: 0}
+  levelSettings:
+  - {fileID: 11400000, guid: 08436347c7dff5b4c8792b4156c68406, type: 2}
+  - {fileID: 11400000, guid: 5dc004839108a7b47b316235625f6ec7, type: 2}
+  - {fileID: 11400000, guid: 72eedd21ed3a73f468a0faa32c63e269, type: 2}
+  - {fileID: 11400000, guid: 62a1b2447744bde49a23354aa8d849d7, type: 2}
   enemiesDestroyed: 0
   enemyTierOffset: 0
   resourcesToAdd: 100
