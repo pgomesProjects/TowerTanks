@@ -237,7 +237,6 @@ MonoBehaviour:
   isPaused: 0
   inBugReportMenu: 0
   inDebugMenu: 0
-  ignoreTutorials: 0
   _shopChance: 0
   tankDesign:
     TankName: 
@@ -1019,6 +1018,16 @@ MonoBehaviour:
       idInternal: 0
       valueGuidInternal: 
       WwiseObjectReference: {fileID: 11400000, guid: e0e9abf135f76cc40a145c2fa5a97a34, type: 2}
+  - name: Mission_3
+    audioEvent:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: bc66b0a475fde1a438cb9a4cdafa6a6d, type: 2}
+  - name: Combat_3
+    audioEvent:
+      idInternal: 0
+      valueGuidInternal: 
+      WwiseObjectReference: {fileID: 11400000, guid: 79bbf1516254cee4d9a7b3078aafa141, type: 2}
   currentTrack:
     name: 
     audioEvent:

@@ -98,9 +98,7 @@ namespace TowerTanks.Scripts
             isSettingUpOnStart = true;
             GameManager.Instance.AudioManager.Play("MainMenuWindAmbience");
 
-            int random = UnityEngine.Random.Range(0, 2);
-            if (random == 0) GameManager.Instance.AudioManager.Play("Mission_1", null, true);
-            if (random == 1) GameManager.Instance.AudioManager.Play("Mission_2", null, true);
+            PickLevelMusic();
 
             /*        if (GameSettings.skipTutorial)
                     {
@@ -237,6 +235,19 @@ namespace TowerTanks.Scripts
             }
 
             return settings;
+        }
+
+        public void PickLevelMusic()
+        {
+            int max = GetEnemyTier();
+            if (max < 3) max = 2;
+            int min = 0;
+            if (max > 3) min = 1;
+
+            int random = UnityEngine.Random.Range(min, max);
+            if (random == 0) GameManager.Instance.AudioManager.Play("Mission_1", null, true);
+            if (random == 1) GameManager.Instance.AudioManager.Play("Mission_2", null, true);
+            if (random > 1) GameManager.Instance.AudioManager.Play("Mission_3", null, true);
         }
 
         /// <summary>

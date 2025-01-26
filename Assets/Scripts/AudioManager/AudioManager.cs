@@ -211,12 +211,14 @@ namespace TowerTanks.Scripts
         {
             if (this.IsPlaying("Mission_1")) Play("Combat_1", null, true);
             if (this.IsPlaying("Mission_2")) Play("Combat_2", null, true);
+            if (this.IsPlaying("Mission_3")) Play("Combat_3", null, true);
         }
 
         public void StopCombatMusic()
         {
             if (this.IsPlaying("Combat_1")) Play("Mission_1", null, true);
             if (this.IsPlaying("Combat_2")) Play("Mission_2", null, true);
+            if (this.IsPlaying("Combat_3")) Play("Mission_3", null, true);
         }
 
         public void StartBuildMusic()

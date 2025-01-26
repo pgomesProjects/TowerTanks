@@ -10,6 +10,7 @@
 						<ObjectRef Name="ladder_climb" ID="{D9B8CBC5-2F10-40B6-A6C5-14C2BB9FEAD7}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="button_cancel" ID="{AEEA5AB5-3C7D-40DE-8036-F16A9C2F48EC}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="room_connect" ID="{55BFBF14-931B-410C-A337-F862ECA73117}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Into_the_Breach_Combat_3" ID="{3121B30E-C89C-414E-A12E-EC4F484A97D0}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="wrench" ID="{8E5DA4BE-911D-4180-8475-AB50D5E117E0}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="death_stinger" ID="{523B71FA-9405-422B-90CF-33DC261857B4}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="large_explosion" ID="{B0E2F9CD-8B6C-423D-BA85-4817A123FEBA}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
@@ -29,6 +30,7 @@
 						<ObjectRef Name="main_menu_ambience" ID="{8E257765-A532-44DE-939A-64179F12AA6D}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="projectile_in_air" ID="{E18FDAAA-EC61-4508-83D6-A7FD5B68DAA3}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="metal_footstep" ID="{1F1329A9-B5A7-4549-B2F0-97EE22BC9347}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Into_the_Breach_3" ID="{0861D965-F8E3-45A3-86C9-D8C7BD8690B7}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="cannon_fire_recycled" ID="{6FCCF39D-806F-45C8-8D76-24434DFCF154}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Into_the_Breach" ID="{453FF2BB-8FF6-4613-A342-768610111B9B}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="rotate_room" ID="{EC3DDBB4-7FB2-4619-830E-0DC7B33C2930}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>

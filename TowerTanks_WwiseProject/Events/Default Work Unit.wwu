@@ -712,6 +712,34 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="Into_the_Breach_3" ID="{0861D965-F8E3-45A3-86C9-D8C7BD8690B7}">
+					<ChildrenList>
+						<Action Name="" ID="{34CECC96-7133-4D3F-A33B-1A4346229AA1}" ShortID="828590376">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_BGM_Into_the_Breach_3" ID="{434C8AE1-39EC-4993-BC69-E04A5108602B}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Into_the_Breach_Combat_3" ID="{3121B30E-C89C-414E-A12E-EC4F484A97D0}">
+					<ChildrenList>
+						<Action Name="" ID="{9955ADEA-331A-45A1-987B-3025BC0D453A}" ShortID="517626477">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_BGM_Into_the_Breach_Combat_3" ID="{00F2A27D-09B6-429F-BF0E-47960315F4C1}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

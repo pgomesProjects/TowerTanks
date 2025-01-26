@@ -124,7 +124,7 @@
     "Type": "User",
     "GUID": "{37497F3A-0B2B-421A-8CAB-0ADBE8B1C2B4}",
     "Language": "SFX",
-    "Hash": "{EDA1B10D-8E69-44A7-9C36-20CF59EC5DF3}",
+    "Hash": "{ED39E159-C874-2711-D610-D1E85455AB91}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\mainbank",
     "ShortName": "mainbank",
     "Path": "mainbank.bnk",
@@ -466,6 +466,14 @@
       "CachePath": "F5/{F5A54A0E-31B1-9CA9-D89B-80013612A1A2}.wem"
      },
      {
+      "Id": "595896350",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Into the Breach_ Advanced Edition Pinnacle OST [HQ].wav",
+      "CachePath": "78/{780D3FC5-3C4C-6EA0-7F8E-632810DA0B43}.wem"
+     },
+     {
       "Id": "608069065",
       "Language": "SFX",
       "Streaming": "false",
@@ -519,7 +527,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "The Blast Garden  Into the Breach OST.wav",
-      "CachePath": "E8/{E80D9B2E-0949-E77B-7B26-56399318843C}.wem"
+      "CachePath": "C3/{C3AB9D46-5054-565F-AD76-6722E4FBDEAB}.wem"
      },
      {
       "Id": "661803067",
@@ -608,6 +616,14 @@
       "Location": "Memory",
       "ShortName": "TT_SFX_room-connect_v1.wav",
       "CachePath": "62/{628A81AF-6D20-B9F9-CB4F-A20D73153BE1}.wem"
+     },
+     {
+      "Id": "774110394",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "Into the Breach_ Advanced Edition Pinnacle OST [HQ].wav",
+      "CachePath": "DE/{DEC5A207-5161-54CF-8EA5-C833490598DB}.wem"
      },
      {
       "Id": "792905054",
@@ -1269,6 +1285,19 @@
       ]
      },
      {
+      "Id": "3947822155",
+      "Name": "Into_the_Breach_3",
+      "ObjectPath": "\\Events\\Default Work Unit\\Into_the_Breach_3",
+      "GUID": "{0861D965-F8E3-45A3-86C9-D8C7BD8690B7}",
+      "Color": "13",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "595896350"
+       }
+      ]
+     },
+     {
       "Id": "2264166104",
       "Name": "Into_the_Breach_Build",
       "ObjectPath": "\\Events\\Default Work Unit\\Into_the_Breach_Build",
@@ -1304,6 +1333,19 @@
       "MediaRefs": [
        {
         "Id": "483113004"
+       }
+      ]
+     },
+     {
+      "Id": "3620024678",
+      "Name": "Into_the_Breach_Combat_3",
+      "ObjectPath": "\\Events\\Default Work Unit\\Into_the_Breach_Combat_3",
+      "GUID": "{3121B30E-C89C-414E-A12E-EC4F484A97D0}",
+      "Color": "13",
+      "DurationType": "Infinite",
+      "MediaRefs": [
+       {
+        "Id": "774110394"
        }
       ]
      },
@@ -1849,6 +1891,6 @@
     ]
    }
   ],
-  "FileHash": "{1178CF49-5067-66A9-0270-62A7F527EDD8}"
+  "FileHash": "{C1C997B7-81E2-0528-299D-E9C8D3745075}"
  }
 }
