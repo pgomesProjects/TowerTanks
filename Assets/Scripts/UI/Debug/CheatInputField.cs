@@ -36,7 +36,7 @@ namespace TowerTanks.Scripts.DebugTools
         {
             playerControls?.Disable();
             inputField.text = string.Empty;
-            GameManager.Instance.MultiplayerManager.DisableDebugInput();
+            GameManager.Instance.MultiplayerManager?.DisableDebugInput();
             GameManager.Instance.inDebugMenu = false;
         }
 
@@ -111,6 +111,15 @@ namespace TowerTanks.Scripts.DebugTools
                     else
                         AddToLog("'debug' command requires additional parameters.", MessageType.Error);
                     break;
+                case "tutorials":
+                    if (commandParts.Length > 1)
+                    {
+                        string subCommand = commandParts[1].ToLower();
+                        ToggleTutorials(subCommand);
+                    }
+                    else
+                        AddToLog("'tutorials' command requires additional parameters.", MessageType.Error);
+                    break;
                 case "scene":
                     if (commandParts.Length > 1)
                     {
@@ -168,6 +177,34 @@ namespace TowerTanks.Scripts.DebugTools
             }
         }
 
+        private void ToggleTutorials(string skipTutorials)
+        {
+            switch (skipTutorials)
+            {
+                case "on":
+                    if (!GameSettings.skipTutorials)
+                        AddToLog("Tutorials already enabled.", MessageType.Warning);
+                    else
+                    {
+                        GameSettings.skipTutorials = false;
+                        AddToLog("Tutorials enabled.", MessageType.Log);
+                    }
+                    break;
+                case "off":
+                    if (GameSettings.skipTutorials)
+                        AddToLog("Tutorials already disabled.", MessageType.Warning);
+                    else
+                    {
+                        GameSettings.skipTutorials = true;
+                        AddToLog("Tutorials disabled.", MessageType.Log);
+                    }
+                    break;
+                default:
+                    AddToLog("'" + skipTutorials + "' is not a valid parameter for 'tutorials' command.", MessageType.Error);
+                    break;
+            }
+        }
+
         /// <summary>
         /// Provides a list of commands and explanation for the commands.
         /// </summary>
@@ -178,6 +215,7 @@ namespace TowerTanks.Scripts.DebugTools
 
             helpMessage += "help - Provides a list of commands.<br>";
             helpMessage += "debug [on:off] - Turns debug mode on or off.<br>";
+            helpMessage += "tutorials [on:off] - Turns tutorials on or off.<br>";
             helpMessage += "scene [combat:build] - Switches between the combat and build scenes.<br>";
             helpMessage += "clear - Clears the command log.";
             AddToLog(helpMessage);
