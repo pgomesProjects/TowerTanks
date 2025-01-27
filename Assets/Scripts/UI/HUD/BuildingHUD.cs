@@ -37,6 +37,7 @@ namespace TowerTanks.Scripts
         {
             base.Start();
             InitializePlayerNamepads();
+            CheckForAllPlayersConnectedAndReady();
         }
 
         protected override void OnEnable()

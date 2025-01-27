@@ -220,6 +220,14 @@ namespace TowerTanks.Scripts
         public Color[] GetPlayerColors() => playerColors;
         public PlayerInput[] GetPlayerInputs() => transform.GetComponentsInChildren<PlayerInput>();
         public PlayerData[] GetAllPlayers() => transform.GetComponentsInChildren<PlayerData>();
+        public PlayerData GetPlayerDataAt(int index)
+        {
+            foreach (PlayerData playerData in transform.GetComponentsInChildren<PlayerData>())
+                if (playerData.playerInput.playerIndex == index)
+                    return playerData;
+
+            return null;
+        }
         public PlayerMovement GetPlayerPrefab() => playerPrefab;
     }
 }

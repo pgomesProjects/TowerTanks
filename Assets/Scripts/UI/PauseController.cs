@@ -46,8 +46,6 @@ namespace TowerTanks.Scripts
 
         public void PauseToggle(int playerIndex)
         {
-            Debug.Log("Womp");
-
             //If the game is not paused, pause the game
             if (!GameManager.Instance.isPaused)
             {
@@ -211,6 +209,7 @@ namespace TowerTanks.Scripts
             GameManager.Instance.LoadScene("Title", LevelTransition.LevelTransitionType.FADE, false, true, true);
             Time.timeScale = 1.0f;
             GameManager.Instance.AudioManager.StopAllSounds();
+            GameManager.Instance.isPaused = false;
         }
 
         public void PlayButtonSFX(string name)
@@ -278,5 +277,6 @@ namespace TowerTanks.Scripts
             SwitchMenu(MenuState.PAUSE);
         }
 
+        public int GetCurrentPlayerPaused() => currentPlayerPaused;
     }
 }

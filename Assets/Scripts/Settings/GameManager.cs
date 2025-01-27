@@ -56,6 +56,10 @@ namespace TowerTanks.Scripts
             get { return isPaused || inBugReportMenu || inDebugMenu || tutorialWindowActive; }
         }
 
+        [Space()]
+        public bool ignoreTutorials;
+        [Space()]
+
         //Global Static Variables
         public static float gameTimeScale = 1.0f;
         private static float gameDeltaTime;
@@ -104,6 +108,7 @@ namespace TowerTanks.Scripts
             currentSessionStats = new SessionStats();
             gameFixedDeltaTimeStep = Time.fixedDeltaTime;
             defaultManifest = cargoManifest;
+            GameSettings.skipTutorials = ignoreTutorials;
 
             //LoadBearingCheck();
         }
@@ -135,6 +140,11 @@ namespace TowerTanks.Scripts
             SceneManager.sceneUnloaded -= OnSceneUnloaded;
         }
 
+        private void OnValidate()
+        {
+            GameSettings.skipTutorials = ignoreTutorials;
+        }
+
         private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
         {
             switch ((GAMESCENE)scene.buildIndex)
@@ -145,6 +155,10 @@ namespace TowerTanks.Scripts
                     //End the campaign if it has not ended already
                     if (CampaignManager.Instance.HasCampaignStarted)
                         CampaignManager.Instance.EndCampaign();
+
+                    //Reset any existing players's player states
+                    foreach (PlayerData player in MultiplayerManager.GetAllPlayers())
+                        player.SetPlayerState(PlayerData.PlayerState.NameReady);
 
                     currentSceneState = SCENESTATE.Menu;
                     break;

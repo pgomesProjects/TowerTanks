@@ -210,6 +210,10 @@ namespace TowerTanks.Scripts
         /// <param name="hapticsSettings">The settings for the haptics event.</param>
         public void ApplyControllerHaptics(PlayerInput playerInput, HapticsSettings hapticsSettings)
         {
+            //If the player has rumble turned off, return
+            if (GameSettings.currentSettings.rumbleOn == 0)
+                return;
+            
             Gamepad gamepad = playerInput.devices[0] as Gamepad;
 
             //Return if the player does not have a gamepad or there are no settings

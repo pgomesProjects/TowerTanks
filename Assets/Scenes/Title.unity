@@ -2573,6 +2573,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isDefaultListener: 1
+  bOverrideScalingFactor: 0
+  scalingFactor: -1
   listenerId: 0
 --- !u!114 &519420035
 MonoBehaviour:
@@ -2591,9 +2593,11 @@ MonoBehaviour:
     useDefaultListeners: 1
   isEnvironmentAware: 0
   isStaticObject: 0
+  usePositionOffsetData: 0
   m_positionOffsetData:
     KeepMe: 0
     positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
   m_posOffsetData: {fileID: 0}
   listenerMask: 1
 --- !u!1 &531366814
@@ -3023,6 +3027,7 @@ MonoBehaviour:
     valueGuidInternal: 
     WwiseObjectReference: {fileID: 11400000, guid: 5cd56c9f97b22944faa48c87210bb050, type: 2}
   decodeBank: 0
+  overrideLoadSetting: 0
   loadAsynchronous: 0
   saveDecodedBank: 0
   unloadTriggerList: 958ca0ea
@@ -4869,11 +4874,11 @@ RectTransform:
   m_Father: {fileID: 745978161}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: -90, y: 0}
   m_SizeDelta: {x: 1160, y: 1494}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 1, y: 0.5}
 --- !u!223 &1051059449
 Canvas:
   m_ObjectHideFlags: 0
@@ -9774,10 +9779,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1070365772}
     m_Modifications:
+    - target: {fileID: 3929235000289783235, guid: a87bebb78c06ef9488bf50a11736cb4a, type: 3}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4830483758311634908, guid: a87bebb78c06ef9488bf50a11736cb4a, type: 3}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 4830483758528240609, guid: a87bebb78c06ef9488bf50a11736cb4a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1070365773}
+    - target: {fileID: 4830483758716644776, guid: a87bebb78c06ef9488bf50a11736cb4a, type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 4830483758987302150, guid: a87bebb78c06ef9488bf50a11736cb4a, type: 3}
       propertyPath: m_Name
       value: OptionsMenu
@@ -9816,11 +9833,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4830483758987302151, guid: a87bebb78c06ef9488bf50a11736cb4a, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 1920
       objectReference: {fileID: 0}
     - target: {fileID: 4830483758987302151, guid: a87bebb78c06ef9488bf50a11736cb4a, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 1080
       objectReference: {fileID: 0}
     - target: {fileID: 4830483758987302151, guid: a87bebb78c06ef9488bf50a11736cb4a, type: 3}
       propertyPath: m_LocalPosition.x

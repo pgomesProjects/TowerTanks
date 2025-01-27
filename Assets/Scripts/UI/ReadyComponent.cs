@@ -19,7 +19,7 @@ namespace TowerTanks.Scripts
 
         private void Awake()
         {
-            readyPrompt = GameManager.Instance.UIManager.AddButtonPrompt(gameObject, new Vector2(50f, 0f), 85f, GameAction.ReadyUp, PlatformType.Gamepad, GameUIManager.PromptDisplayType.Button, false);
+            readyPrompt = GameManager.Instance.UIManager.AddButtonPrompt(gameObject, new Vector2(50f, 0f), 65f, GameAction.ReadyUp, PlatformType.Gamepad, GameUIManager.PromptDisplayType.Button, false);
         }
 
         public void UpdatePlayerNumber(int playerIndex)

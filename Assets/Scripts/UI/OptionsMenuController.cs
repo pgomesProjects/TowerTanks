@@ -16,6 +16,10 @@ namespace TowerTanks.Scripts
         [SerializeField] private MenuController resController;
         [SerializeField] private MenuController fullscreenController;
         [SerializeField] private MenuController shakeController;
+        [SerializeField] private MenuController rumbleController;
+
+        [Space()]
+        [SerializeField, Tooltip("The test rumble used in the settings.")] private HapticsSettings testRumble;
 
         private void OnEnable()
         {
@@ -46,6 +50,9 @@ namespace TowerTanks.Scripts
 
             //Screenshake Settings
             shakeController.SetIndex(GameSettings.currentSettings.screenshakeOn);
+
+            //Rumble Settings
+            rumbleController.SetIndex(GameSettings.currentSettings.rumbleOn);
         }
 
         public void ChangeMaster(int val)
@@ -90,6 +97,27 @@ namespace TowerTanks.Scripts
         {
             PlayerPrefs.SetInt("Screenshake", val);
             GameSettings.currentSettings.SetScreenshakeOn(val);
+        }
+
+        public void ChangeRumble(int val)
+        {
+            PlayerPrefs.SetInt("Rumble", val);
+            GameSettings.currentSettings.SetRumbleOn(val);
+
+            //If the value is 1, provide a test rumble
+            if (val == 1)
+            {
+                int playerIndex = 0;
+
+                if(PauseController.Instance != null)
+                {
+                    playerIndex = PauseController.Instance.GetCurrentPlayerPaused();
+                    if (playerIndex < 0)
+                        playerIndex = 0;
+                }
+
+                GameManager.Instance.SystemEffects.ApplyControllerHaptics(GameManager.Instance.MultiplayerManager.GetPlayerDataAt(playerIndex).playerInput, testRumble);
+            }
         }
     }
 }

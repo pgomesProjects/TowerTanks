@@ -19,6 +19,9 @@ public class ConfigurationSettings
     //Screenshake Settings
     public int screenshakeOn { get; private set; }
 
+    //Rumble Settings
+    public int rumbleOn { get; private set; }
+
     /// <summary>
     /// The default settings for the configuration.
     /// </summary>
@@ -29,6 +32,7 @@ public class ConfigurationSettings
         sfxVolume = 0.5f;
         isFullScreen = 1;
         screenshakeOn = 1;
+        rumbleOn = 1;
         GetDefaultResolutionSettings();
     }
 
@@ -74,6 +78,7 @@ public class ConfigurationSettings
     public void SetFullscreen(int isFullScreen) => this.isFullScreen = isFullScreen;
 
     public void SetScreenshakeOn(int screenshakeOn) => this.screenshakeOn = screenshakeOn;
+    public void SetRumbleOn(int rumbleOn) => this.rumbleOn = rumbleOn;
 
     /// <summary>
     /// Prints all of the user's configuration settings.
@@ -89,6 +94,7 @@ public class ConfigurationSettings
         log += "Resolution: " + possibleResolutions[resolution, 0] + " x " + possibleResolutions[resolution, 1] + "\n";
         log += "Is Fullscreen: " + (isFullScreen == 1? "True" : "False") + "\n";
         log += "Screenshake On: " + (screenshakeOn == 1 ? "True" : "False") + "\n";
+        log += "Rumble On: " + (rumbleOn == 1 ? "True" : "False") + "\n";
 
         return log;
     }
