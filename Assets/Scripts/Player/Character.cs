@@ -289,20 +289,6 @@ namespace TowerTanks.Scripts
         {
             LayerMask bothLayers = (1 << LayerMask.NameToLayer("Ground")) | (1 << LayerMask.NameToLayer("Coupler"));
 
-            /*foreach (var collider in currentOtherColliders)
-            {
-                if (collider.gameObject.layer == LayerMask.NameToLayer("Ground") || //if we are touching ground
-                    collider.gameObject.layer == LayerMask.NameToLayer("Coupler"))
-                {
-                    
-                    return Physics2D.OverlapBox(new Vector2(transform.position.x, //if our position is over that ground
-                            transform.position.y - groundedBoxOffset),
-                        new Vector2(groundedBoxX, groundedBoxY),
-                        0f,
-                        bothLayers);
-                }
-            }*/
-
             return Physics2D.OverlapBox(new Vector2(transform.position.x, //if our position is over that ground
                     transform.position.y - groundedBoxOffset),
                 new Vector2(groundedBoxX, groundedBoxY),
