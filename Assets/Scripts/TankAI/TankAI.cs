@@ -51,6 +51,7 @@ namespace TowerTanks.Scripts
         public TankAISettings aiSettings;
         private bool alerted; //AI is alerted when taking damage from a player-source for the first time
         private float viewRangeOffset = 0;
+        public PlayerMovement[] players;
 
         private void Awake()
         {
@@ -60,6 +61,7 @@ namespace TowerTanks.Scripts
         private IEnumerator Start()
         {
             yield return new WaitForSeconds(0.1f); // AI Waits before initialization to give time for any tank room generation
+            
             currentTokenCount = aiSettings.tankEconomy;
             fsm = new StateMachine();
             /////////////// State Instance Creation ///////////////
@@ -260,9 +262,19 @@ namespace TowerTanks.Scripts
                 .ToList();
         }
         
+        public PlayerMovement GetNearestPlayer()
+        {
+            
+            return players.OrderBy(x => Vector3.Distance(x.transform.position, tank.treadSystem.transform.position)).First();
+        }
+        
         public bool TankIsRightOfTarget()
         {
-            return tank != null && tank.treadSystem.transform.position.x > targetTank.treadSystem.transform.position.x;
+            if (targetTank == tank || targetTank == null || tank == null)
+            {
+                return true;
+            }
+            return tank.treadSystem.transform.position.x > targetTank.treadSystem.transform.position.x;
         }
         
         

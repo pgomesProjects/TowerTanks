@@ -116,30 +116,34 @@ namespace TowerTanks.Scripts
         {
             while (tokenActivated)
             {
-                var targetTankTransform = myTankAI.targetTank.treadSystem.transform;
-                var upmostCell = myTankAI.targetTank.upMostCell.transform;
-                // get random number between 0 and aimfactor
-                float randomX = Random.Range(0, 100);
-                bool hit = randomX <= aimFactor;
+                if (overrideTarget == null && myTankAI.targetTank != myTankAI.tank && myTankAI.targetTank != null && myTankAI.targetTank.treadSystem != null)
+                {
+                    var targetTankTransform = myTankAI.targetTank.treadSystem.transform;
+                    var upmostCell = myTankAI.targetTank.upMostCell.transform;
+                    // get random number between 0 and aimfactor
+                    float randomX = Random.Range(0, 100);
+                    bool hit = randomX <= aimFactor;
                 
-                if (hit)
-                {
-                    miss = false;
-                    targetPoint = GetRandomPointBetweenVectors(targetTankTransform.position + targetTankTransform.up * 1.5f, upmostCell.position);
-                    targetPointOffset = targetPoint - targetTankTransform.position;
-                    Debug.DrawLine(targetTankTransform.position, targetPoint, Color.green, 5);
+                    if (hit)
+                    {
+                        miss = false;
+                        targetPoint = GetRandomPointBetweenVectors(targetTankTransform.position + targetTankTransform.up * 1.5f, upmostCell.position);
+                        targetPointOffset = targetPoint - targetTankTransform.position;
+                        Debug.DrawLine(targetTankTransform.position, targetPoint, Color.green, 5);
+                    }
+                    else
+                    {
+                        miss = true;
+                        Debug.DrawLine(targetTankTransform.position, targetPoint, Color.green, 3);
+                        var pointBelowTarget = targetTankTransform.position - targetTankTransform.up * 2f;
+                        var pointAboveTarget = upmostCell.position + targetTankTransform.up * 4f;
+                        var rand = Random.Range(0, 2);
+                        if (rand == 0) targetPoint = GetRandomPointBetweenVectors(upmostCell.position + targetTankTransform.up * 1.5f, pointAboveTarget);
+                        else           targetPoint = GetRandomPointBetweenVectors(targetTankTransform.position - targetTankTransform.up, pointBelowTarget);
+                        targetPointOffset = targetPoint - targetTankTransform.position;
+                    }
                 }
-                else
-                {
-                    miss = true;
-                    Debug.DrawLine(targetTankTransform.position, targetPoint, Color.green, 3);
-                    var pointBelowTarget = targetTankTransform.position - targetTankTransform.up * 2f;
-                    var pointAboveTarget = upmostCell.position + targetTankTransform.up * 4f;
-                    var rand = Random.Range(0, 2);
-                    if (rand == 0) targetPoint = GetRandomPointBetweenVectors(upmostCell.position + targetTankTransform.up * 1.5f, pointAboveTarget);
-                    else           targetPoint = GetRandomPointBetweenVectors(targetTankTransform.position - targetTankTransform.up, pointBelowTarget);
-                    targetPointOffset = targetPoint - targetTankTransform.position;
-                }
+                
 
                 var time = 3f;
                 if (overrideTarget != null)
@@ -156,8 +160,6 @@ namespace TowerTanks.Scripts
         {
             while (tokenActivated)
             {
-                if (myTankAI.targetTank == null) yield break;
-
                 var trajectoryPoints = Trajectory.GetTrajectory(gunScript.barrel.position, gunScript.barrel.right * gunScript.muzzleVelocity, myProjectile.gravity, 100);
                 aimHit = Trajectory.GetHitPoint(trajectoryPoints);
 
@@ -170,7 +172,7 @@ namespace TowerTanks.Scripts
                 bool hitPointIsRightOfTarget = aimHit.point.x > targetPoint.x;
 
                 // if our projected hitpoint is past the tank we're fighting, the hitpoint is set right in front of the barrel, because in that scenario we want to aim based on our gun's general direction and not our hitpoint (this doesnt apply to mortars)
-                if ((!myTankAI.TankIsRightOfTarget() && hitPointIsRightOfTarget) || (myTankAI.TankIsRightOfTarget() && !hitPointIsRightOfTarget) || aimHit.collider == null || AimingAtMyself() && overrideTarget == null)
+                if ((!myTankAI.TankIsRightOfTarget() && hitPointIsRightOfTarget) || (myTankAI.TankIsRightOfTarget() && !hitPointIsRightOfTarget) || aimHit.collider == null || AimingAtMyself())
                 {
                     aimHit.point = trajectoryPoints[2];
                 }
@@ -237,7 +239,7 @@ namespace TowerTanks.Scripts
             for (int i = 0; i < trajPoints.Count - 1; i++)
             {
                 if (Vector3.Distance(trajPoints[i], aimHit.point) < 0.25f) break; // stops projecting line at target
-                Gizmos.color = myTankAI.TankIsRightOfTarget() ? Color.red : Color.blue;
+                Gizmos.color = myTankAI.TankIsRightOfTarget() ? Color.red : Color.blue; //make tank is right of target change to player if the only tank is itself
                 Gizmos.DrawLine(trajPoints[i], trajPoints[i + 1]);
                 
             }

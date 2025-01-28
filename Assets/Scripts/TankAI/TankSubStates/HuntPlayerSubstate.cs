@@ -37,6 +37,7 @@ namespace TowerTanks.Scripts
 
         public void OnEnter()
         {
+            
             Debug.Log("HuntPlayerSubstate OnEnter");
             var players = GameObject.FindObjectsOfType<PlayerMovement>();
             var nearestPlayer = players.OrderBy(x => Vector3.Distance(x.transform.position, _tank.treadSystem.transform.position)).First();
@@ -64,8 +65,13 @@ namespace TowerTanks.Scripts
                 }
             }
             targetBrain?.OverrideTargetPoint(nearestPlayer.transform);
-            targetBrain?.StopCoroutine(targetBrain.updateAimTarget);
+            if (targetBrain != null)
+            {
+                if (targetBrain.updateAimTarget != null) targetBrain.StopCoroutine(targetBrain.updateAimTarget);
+            }
             targetBrain.updateAimTarget = targetBrain.StartCoroutine(targetBrain.UpdateTargetPoint(_tankAI.aiSettings.tankAccuracy));
+            if (targetBrain != null) targetBrain.updateAimTarget = targetBrain.StartCoroutine(targetBrain.UpdateTargetPoint(_tankAI.aiSettings.tankAccuracy));
+            
              
         }
 
