@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ea903d9b1b0c834c990915fdaf5cb15, type: 3}
   m_Name: HitProperties_Shell_thumper
   m_EditorClassIdentifier: 
-  damage: 20
-  mass: 5
+  damage: 0
+  mass: 1
   hasSplashDamage: 0
   splashData:
   - splashDamage: 50
     splashRadius: 0.75
   tunnels: 0
-  fireChance: 0.02
+  fireChance: 0
   ignoresArmor: 0
-  slamForce: 2
+  slamForce: 20

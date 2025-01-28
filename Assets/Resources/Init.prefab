@@ -1300,6 +1300,9 @@ MonoBehaviour:
   - id: Fire Extinguisher
     cargoPrefab: {fileID: 8695668838568183417, guid: 61afdcf2de5e52d4785c259326d39da4, type: 3}
     weight: 1
+  - id: Thumper Shells
+    cargoPrefab: {fileID: 1066636517055270470, guid: 45936e9a5d72a6448872f8a79b0dbf47, type: 3}
+    weight: 1
   projectileList:
   - type: 0
     ammoTypes:
