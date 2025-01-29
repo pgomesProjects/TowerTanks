@@ -73,7 +73,7 @@ namespace TowerTanks.Scripts
             //currentForce = diff.x >= 0 ? .5f : -.5f; //with the mortar, positive force is right, negative force is left
         }
 
-        protected override IEnumerator UpdateTargetPoint(float aimFactor)
+        public override IEnumerator UpdateTargetPoint(float aimFactor)
         {
             while (enabled)
             {

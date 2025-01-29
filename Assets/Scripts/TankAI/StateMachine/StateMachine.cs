@@ -7,10 +7,15 @@ using Object = System.Object;
 public class StateMachine 
 {  // handles it's own state transitions and updates the current state
    public IState _currentState { get; private set; }
+   public ISubState _currentSubState { get; private set; }
 
    private Dictionary<Type, List<Transition>> _transitions = new Dictionary<Type,List<Transition>>(); //all transitions
    private List<Transition> _currentTransitions = new List<Transition>(); //current state's transitions
    private List<Transition> _anyTransitions = new List<Transition>(); //Transitions that can be made from any state
+   
+   private Dictionary<Type, List<ISubState>> _stateToSubstate = new Dictionary<Type, List<ISubState>>(); 
+   private Dictionary<Type, SubstateConditions> _substateConditionsMap = new Dictionary<Type, SubstateConditions>();
+   private List<ISubState> _currentSubstates = new List<ISubState>();
    
    private static List<Transition> EmptyTransitions = new List<Transition>(0);
 
@@ -19,13 +24,16 @@ public class StateMachine
       var transition = GetTransition();
       if (transition != null) //will only not be null for the first frame of any valid transition condition being true
          SetState(transition.To);
+      CheckSubstateConditions();
       
       _currentState?.FrameUpdate();
+      _currentSubState?.FrameUpdate();
    }
 
    public void PhysicsUpdate()
    {
       _currentState?.PhysicsUpdate();
+      _currentSubState?.PhysicsUpdate();
    }
 
    public void SetState(IState state) // runs exit and enter methods for states and updates current state
@@ -34,7 +42,10 @@ public class StateMachine
          return;
       
       _currentState?.OnExit();
+      _currentSubState?.OnExit();
+      _currentSubState = null;
       _currentState = state;
+      _currentSubstates = _stateToSubstate.TryGetValue(_currentState.GetType(), out var substates) ? substates : new List<ISubState>();
       
       _transitions.TryGetValue(_currentState.GetType(), out _currentTransitions);
       if (_currentTransitions == null)
@@ -58,6 +69,27 @@ public class StateMachine
    {
       _anyTransitions.Add(new Transition(state, predicate));
    }
+   
+   public void AddSubstate(IState parentState, ISubState subState, Func<bool> enterCondition, Func<bool> exitCondition)
+   {
+      if (_stateToSubstate.TryGetValue(parentState.GetType(), out var substates) == false)
+      {
+         substates = new List<ISubState>();
+         _stateToSubstate[parentState.GetType()] = substates;
+      }
+      
+      substates.Add(subState);
+      _substateConditionsMap[subState.GetType()] = new SubstateConditions(enterCondition, exitCondition);
+   }
+   
+   public void SetSubstate(ISubState substate)
+   {
+      if (_currentSubState != null) return;
+      
+      
+      _currentSubState = substate;
+      _currentSubState.OnEnter();
+   }
 
    private class Transition
    {
@@ -69,6 +101,18 @@ public class StateMachine
          To = to;
          Condition = condition;
       }
+   }
+   
+   private class SubstateConditions {
+      public Func<bool> EnterCondition { get; }
+      public Func<bool> ExitCondition { get; }
+
+      public SubstateConditions(Func<bool> enter, Func<bool> exit)
+      {
+         EnterCondition = enter;
+         ExitCondition = exit;
+      }
+      
    }
 
    private Transition GetTransition()
@@ -82,5 +126,37 @@ public class StateMachine
             return transition;
 
       return null;
+   }
+   
+   public void CheckSubstateConditions()
+   {
+      Debug.Log($"Current Substates: {_currentSubstates.Count}");
+      if (_currentSubState == null)
+      {
+         foreach (var substate in _currentSubstates)
+         {
+            if (_substateConditionsMap.TryGetValue(substate.GetType(), out var conditions))
+            {
+               if (conditions.EnterCondition())
+               {
+                  SetSubstate(substate);
+               }
+            }
+         }
+      }
+      else
+      {
+         var substateType = _currentSubState.GetType();
+         if (_substateConditionsMap.TryGetValue(substateType, out var conditions))
+         {
+            if (conditions.ExitCondition())
+            {
+               _currentSubState.OnExit();
+               _currentSubState = null;
+            }
+         }
+      }
+      
+      
    }
 }

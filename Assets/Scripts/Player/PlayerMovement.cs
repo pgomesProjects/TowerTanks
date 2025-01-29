@@ -450,17 +450,21 @@ namespace TowerTanks.Scripts
 
         protected override void ClimbLadder()
         {
-            var onCoupler = Physics2D.OverlapBox(transform.position, Vector3.one * .33f, transform.eulerAngles.z,
+
+            Collider2D onCoupler = Physics2D.OverlapBox(transform.position, Vector3.one * .33f, transform.eulerAngles.z,
                 1 << LayerMask.NameToLayer("Coupler"));
-            var onLadder = Physics2D.OverlapBox(transform.position, Vector3.one * .33f, transform.eulerAngles.z,
+            Collider2D onLadder = Physics2D.OverlapBox(transform.position, Vector3.one * .33f, transform.eulerAngles.z,
                 1 << LayerMask.NameToLayer("Ladder"));
-            var hitGround = Physics2D.Raycast(transform.position, -transform.up, transform.localScale.y * .7f,
+            RaycastHit2D hitGround = Physics2D.Raycast(transform.position, -transform.up, transform.localScale.y * .7f,
                 1 << LayerMask.NameToLayer("Ground"));
-            var ladderUnderMe = Physics2D.OverlapBox(transform.position - transform.up, Vector3.one * .33f, transform.eulerAngles.z,
+            Collider2D ladderUnderMe = Physics2D.OverlapBox(transform.position - transform.up, Vector3.one * .33f, transform.eulerAngles.z,
                 1 << LayerMask.NameToLayer("Ladder"));
 
             Vector3 displacement = transform.up * ((moveInput.y > 0 ? ladderClimbUpSpeed : ladderClimbDownSpeed) *
-                                                   moveInput.y * Time.deltaTime);
+                                                   moveInput.y * Time.fixedDeltaTime);
+            bool inGroundNextFrame = false;
+            if (moveInput.y < 0) inGroundNextFrame = Physics2D.OverlapBox(transform.position + displacement, Vector3.one * .33f,
+                transform.eulerAngles.z, 1 << LayerMask.NameToLayer("Ground"));
 
             // If you hit ground, and you're trying to move down, stop climbing.
             // If you're not on a coupler or ladder, and you're trying to move up, stop climbing.
@@ -468,14 +472,21 @@ namespace TowerTanks.Scripts
             if (((hitGround && !ladderUnderMe) && moveInput.y < 0) || (!onCoupler && !onLadder && moveInput.y > 0))
             {
                 displacement = Vector3.zero;
+                if (inGroundNextFrame)
+                {
+                    // this gets rid of any inconsitencies with where the player stops on the ground from climbing down the ladder.
+                    transform.position = new Vector3(transform.position.x, hitGround.point.y + transform.localScale.y / 2, transform.position.z);
+                }
             }
+
+            
             
             if (!onCoupler &&
                 !onLadder && !ladderUnderMe) //final failsafe for if you're somehow in this state and not in a ladder or coupler
             {
                 CancelInteraction();
             }
-            currentFuel += fuelRegenerationRate * Time.deltaTime;
+            currentFuel += fuelRegenerationRate * Time.fixedDeltaTime;
             Vector3 newPosition = transform.position + displacement;
             rb.MovePosition(newPosition);
             
@@ -620,9 +631,12 @@ namespace TowerTanks.Scripts
             SetCharacterMovement(ctx.ReadValue<Vector2>());
 
             if ((moveInput.y > ladderEnterDeadzone || moveInput.y < -ladderEnterDeadzone) &&
-                currentLadder != null && currentState != CharacterState.CLIMBING && currentState != CharacterState.OPERATING)
+                currentLadder != null && currentState != CharacterState.CLIMBING && currentState != CharacterState.OPERATING 
+                && (!jetpackInputHeld || CheckSurfaceCollider(LayerMask.NameToLayer("Ground"))))
             {
-                //if up is pressed above the deadzone, if down is pressed under the deadzone and we aren't grounded, and if we are near a ladder and we aren't already climbing
+                //if up is pressed above the deadzone,
+                //if down is pressed under the deadzone and we aren't grounded, if we are near a ladder and we aren't already climbing,
+                // and if we arent trying to jetpack mid-air currently.
                 SetLadder();
             }
 

@@ -29,6 +29,14 @@ namespace TowerTanks.Scripts
         public bool TargetAtFightingDistance() => targetTank != null &&
                                                     Mathf.Abs(GetDistanceToTarget() - aiSettings.preferredFightDistance) <= 5; 
         bool NoGuns() => !tank.interactableList.Any(i => i.script is GunController);
+        
+        //func bool to check if there are any objects of NewPlayerMovement near tank.treadsystem.transform.position
+        public bool PlayerNearby() => Physics2D.OverlapCircleAll(tank.treadSystem.transform.position, 40f)
+            .Any(collider => collider.GetComponent<PlayerMovement>() != null);
+        
+        public bool NoPlayerNearby() => !Physics2D.OverlapCircleAll(tank.treadSystem.transform.position, 40f)
+            .Any(collider => collider.GetComponent<PlayerMovement>() != null);
+        
         #endregion
         
         public StateMachine fsm;
@@ -43,6 +51,7 @@ namespace TowerTanks.Scripts
         public TankAISettings aiSettings;
         private bool alerted; //AI is alerted when taking damage from a player-source for the first time
         private float viewRangeOffset = 0;
+        public PlayerMovement[] players;
 
         private void Awake()
         {
@@ -52,12 +61,17 @@ namespace TowerTanks.Scripts
         private IEnumerator Start()
         {
             yield return new WaitForSeconds(0.1f); // AI Waits before initialization to give time for any tank room generation
+            
             currentTokenCount = aiSettings.tankEconomy;
             fsm = new StateMachine();
+            /////////////// State Instance Creation ///////////////
             var patrolState = new TankPatrolState(this);
             var pursueState = new TankPursueState(this);
             var engageState = new TankEngageState(this);
             var surrenderState = new TankSurrenderState(this);
+            /////////////// Substate Instance Creation ////////////
+            var huntSubState = new HuntPlayerSubstate(this);
+            //////////////////////////////////////////////////////
             
             void At(IState from, IState to, Func<bool> condition) => fsm.AddTransition(from, to, condition);
             void AnyAt(IState to, Func<bool> condition) => fsm.AddAnyTransition(to, condition);
@@ -69,6 +83,9 @@ namespace TowerTanks.Scripts
             At(pursueState, patrolState ,TargetOutOfView);
 
             AnyAt(surrenderState, NoGuns); //this being an "any transition" means that it can be triggered from any state
+            
+            fsm.AddSubstate(patrolState, huntSubState, PlayerNearby, () => !PlayerNearby());
+            fsm.AddSubstate(pursueState, huntSubState, PlayerNearby, () => !PlayerNearby());
             
             fsm.SetState(patrolState);
         }
@@ -151,6 +168,34 @@ namespace TowerTanks.Scripts
             }
             
         }
+
+        public bool CheckIfHasToken(INTERACTABLE interactable)
+        {
+            if (tokenActivatedInteractables.Any(i => i.brain.mySpecificType == interactable))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public bool CheckIfAvailable(INTERACTABLE interactable)
+        {
+            // if there is one of these in the interactable list and it is not in the token activated interactables list
+            return tank.interactableList.Any(i => i.brain.mySpecificType == interactable);
+        }
+
+        public bool CheckIfTypeHasToken(TankInteractable.InteractableType interactableType)
+        {
+            List<INTERACTABLE> ints = InteractableLookups.typesInGroup[interactableType];
+            foreach (INTERACTABLE interactable in ints)
+            {
+                if (tokenActivatedInteractables.Any(i => i.brain.mySpecificType == interactable))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
         
         public void RetrieveAllTokens()
         {
@@ -217,9 +262,19 @@ namespace TowerTanks.Scripts
                 .ToList();
         }
         
+        public PlayerMovement GetNearestPlayer()
+        {
+            
+            return players.OrderBy(x => Vector3.Distance(x.transform.position, tank.treadSystem.transform.position)).First();
+        }
+        
         public bool TankIsRightOfTarget()
         {
-            return tank != null && tank.treadSystem.transform.position.x > targetTank.treadSystem.transform.position.x;
+            if (targetTank == tank || targetTank == null || tank == null)
+            {
+                return true;
+            }
+            return tank.treadSystem.transform.position.x > targetTank.treadSystem.transform.position.x;
         }
         
         
@@ -303,6 +358,12 @@ namespace TowerTanks.Scripts
             style.fontStyle = FontStyle.Bold;
             style.normal.textColor = Color.cyan;
             Handles.Label(tank.treadSystem.transform.position + Vector3.up * 25, $"AI STATE: {fsm._currentState.GetType().Name}", style: style);
+            if (fsm._currentSubState != null)
+            {
+                style.normal.textColor = Color.green;
+                Handles.Label(tank.treadSystem.transform.position + Vector3.up * 29, $"SUBSTATE: {fsm._currentSubState.GetType().Name}",
+                    style: style);
+            }
             style.normal.textColor = Color.yellow;
             Handles.Label(tank.treadSystem.transform.position + Vector3.up * 22, $"Available Tokens: {currentTokenCount}", style: style);
             style.normal.textColor = Color.red;
