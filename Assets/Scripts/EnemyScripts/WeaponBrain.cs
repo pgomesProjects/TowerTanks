@@ -9,10 +9,7 @@ namespace TowerTanks.Scripts
         internal GunController gunScript;
         private Projectile myProjectile;
         
-        internal float fireTimer;
-        public float cooldownOffset;
-        
-        public bool isRotating;
+
         internal float currentForce;
         internal RaycastHit2D aimHit;
         
@@ -38,7 +35,6 @@ namespace TowerTanks.Scripts
 
         public override void Init()
         {
-            fireTimer = 0;
             gunScript.usingAIbrain = true;
             StartCoroutine(AimAtTarget());
             updateAimTarget = StartCoroutine(UpdateTargetPoint(myTankAI.aiSettings.tankAccuracy));
@@ -63,8 +59,7 @@ namespace TowerTanks.Scripts
                         aggroCooldownTimer = 0 + GetAggroOffset();
                     }
                 }
-                    
-                fireTimer = 0;
+                
             }
             if (DirectionToTargetBlocked() && gunScript.gunType != GunController.GunType.MORTAR)
             {
@@ -83,7 +78,6 @@ namespace TowerTanks.Scripts
 
         protected virtual void FixedUpdate()
         {
-            fireTimer += Time.fixedDeltaTime; //firetimer is used for rate of fire
             if (myTankAI.aiSettings.aggression != 0 && gunScript.fireCooldownTimer <= 0) aggroCooldownTimer += Time.fixedDeltaTime;
         }
 
@@ -174,7 +168,7 @@ namespace TowerTanks.Scripts
                 // if our projected hitpoint is past the tank we're fighting, the hitpoint is set right in front of the barrel, because in that scenario we want to aim based on our gun's general direction and not our hitpoint (this doesnt apply to mortars)
                 if ((!myTankAI.TankIsRightOfTarget() && hitPointIsRightOfTarget) || (myTankAI.TankIsRightOfTarget() && !hitPointIsRightOfTarget) || aimHit.collider == null || AimingAtMyself())
                 {
-                    aimHit.point = trajectoryPoints[2];
+                    aimHit.point = trajectoryPoints[1];
                 }
 
                 Vector3 direction = targetPoint - myTankPosition;

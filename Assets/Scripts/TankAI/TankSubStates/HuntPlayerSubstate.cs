@@ -68,8 +68,9 @@ namespace TowerTanks.Scripts
             if (targetBrain != null)
             {
                 if (targetBrain.updateAimTarget != null) targetBrain.StopCoroutine(targetBrain.updateAimTarget);
+                targetBrain.updateAimTarget = targetBrain.StartCoroutine(targetBrain.UpdateTargetPoint(_tankAI.aiSettings.tankAccuracy));
             }
-            targetBrain.updateAimTarget = targetBrain.StartCoroutine(targetBrain.UpdateTargetPoint(_tankAI.aiSettings.tankAccuracy));
+            
             if (targetBrain != null) targetBrain.updateAimTarget = targetBrain.StartCoroutine(targetBrain.UpdateTargetPoint(_tankAI.aiSettings.tankAccuracy));
             
              
