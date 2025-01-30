@@ -6,22 +6,19 @@
   <component name="ChangeListManager">
     <list default="true" id="5398b79a-e478-4a7d-b865-f9c27d850513" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TowerTanks/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TowerTanks/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Demos/Custom Attribute Processors.unitypackage.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Demos/Custom Drawers.unitypackage.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Demos/Editor Windows.unitypackage.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Plugins/Sirenix/Demos/Sample - RPG Editor.unitypackage.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/Character.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/Character.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Camera/CameraManipulator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Camera/CameraManipulator.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Wwise/Editor/ProjectData/AkWwiseProjectData.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Wwise/Editor/ProjectData/AkWwiseProjectData.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Wwise/Editor/ProjectData/AkWwiseProjectData.asset.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Wwise/Editor/ProjectData/AkWwiseProjectData.asset.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Wwise/ScriptableObjects/Event/0199D9E5-3AFA-4337-A6F6-B40AC7EFB6E6.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Wwise/ScriptableObjects/Event/0199D9E5-3AFA-4337-A6F6-B40AC7EFB6E6.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Wwise/ScriptableObjects/Event/046075E0-D4E9-494D-B0D5-6CF418F4F4BD.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Wwise/ScriptableObjects/Event/046075E0-D4E9-494D-B0D5-6CF418F4F4BD.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Wwise/ScriptableObjects/Event/054C3506-B4B9-4EC3-96AA-A1AE33050767.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Wwise/ScriptableObjects/Event/054C3506-B4B9-4EC3-96AA-A1AE33050767.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Wwise/ScriptableObjects/Event/0861D965-F8E3-45A3-86C9-D8C7BD8690B7.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Wwise/ScriptableObjects/Event/0861D965-F8E3-45A3-86C9-D8C7BD8690B7.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Wwise/ScriptableObjects/Event/17F53DE3-AF24-42EB-BC87-C2A9662EE9D1.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Wwise/ScriptableObjects/Event/17F53DE3-AF24-42EB-BC87-C2A9662EE9D1.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Wwise/ScriptableObjects/Event/196A0EF4-A5F5-4A78-A653-76AFC3A8B73E.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Wwise/ScriptableObjects/Event/196A0EF4-A5F5-4A78-A653-76AFC3A8B73E.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Wwise/ScriptableObjects/Event/19CE2F4C-A2EC-47FD-B2A4-D4F519A72B95.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Wwise/ScriptableObjects/Event/19CE2F4C-A2EC-47FD-B2A4-D4F519A72B95.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Wwise/ScriptableObjects/Event/1B81058F-C12F-4937-8329-6958F1C3820A.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Wwise/ScriptableObjects/Event/1B81058F-C12F-4937-8329-6958F1C3820A.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Wwise/ScriptableObjects/Event/1F1329A9-B5A7-4549-B2F0-97EE22BC9347.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Wwise/ScriptableObjects/Event/1F1329A9-B5A7-4549-B2F0-97EE22BC9347.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Wwise/ScriptableObjects/Event/27C4FC18-1358-42B2-9E71-AC888FF3C503.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Wwise/ScriptableObjects/Event/27C4FC18-1358-42B2-9E71-AC888FF3C503.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Wwise/ScriptableObjects/Event/3121B30E-C89C-414E-A12E-EC4F484A97D0.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Wwise/ScriptableObjects/Event/3121B30E-C89C-414E-A12E-EC4F484A97D0.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Wwise/ScriptableObjects/Event/32DB5705-A07D-47A0-9A62-61E902CEDE4A.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Wwise/ScriptableObjects/Event/32DB5705-A07D-47A0-9A62-61E902CEDE4A.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Wwise/ScriptableObjects/Event/3442E508-B6C4-47FE-8890-CA74D9251E62.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Wwise/ScriptableObjects/Event/3442E508-B6C4-47FE-8890-CA74D9251E62.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Wwise/ScriptableObjects/Event/3E7B3363-CECC-43B7-AACF-914165D0DC06.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Wwise/ScriptableObjects/Event/3E7B3363-CECC-43B7-AACF-914165D0DC06.asset" afterDir="false" />
@@ -66,6 +63,7 @@
       <change beforePath="$PROJECT_DIR$/Assets/Wwise/ScriptableObjects/Event/EC3DDBB4-7FB2-4619-830E-0DC7B33C2930.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Wwise/ScriptableObjects/Event/EC3DDBB4-7FB2-4619-830E-0DC7B33C2930.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Wwise/ScriptableObjects/Event/EFF23527-200A-4A30-87B9-C1CF628AAF2B.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Wwise/ScriptableObjects/Event/EFF23527-200A-4A30-87B9-C1CF628AAF2B.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Wwise/ScriptableObjects/Event/F1546671-8424-4414-A7AA-E773BA3308EE.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Wwise/ScriptableObjects/Event/F1546671-8424-4414-A7AA-E773BA3308EE.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Wwise/ScriptableObjects/Event/F4B0D818-4D6B-4B8B-AB95-B111A6ADA2A0.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Wwise/ScriptableObjects/Event/F4B0D818-4D6B-4B8B-AB95-B111A6ADA2A0.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Wwise/ScriptableObjects/Event/F51EEE53-E391-42DA-A04C-05A9461C9E2B.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Wwise/ScriptableObjects/Event/F51EEE53-E391-42DA-A04C-05A9461C9E2B.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Wwise/ScriptableObjects/Event/FB6F1FAF-4C04-4D7F-9632-9943CC9FA0B2.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Wwise/ScriptableObjects/Event/FB6F1FAF-4C04-4D7F-9632-9943CC9FA0B2.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Wwise/ScriptableObjects/Event/FE7A8EAE-7228-4C8A-B011-AABDE40F2AC6.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Wwise/ScriptableObjects/Event/FE7A8EAE-7228-4C8A-B011-AABDE40F2AC6.asset" afterDir="false" />
@@ -150,21 +148,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Attach to Unity Editor.Attach to Unity Editor.executor": "Debug",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "ToolWindowGitHub Copilot Chat.ShowToolbar": "false",
-    "git-widget-placeholder": "keegan-dev",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Attach to Unity Editor.Attach to Unity Editor.executor&quot;: &quot;Debug&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;ToolWindowGitHub Copilot Chat.ShowToolbar&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;keegan-dev&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
       <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\2021.3.8f1\Editor\Unity.exe" />

@@ -625,7 +625,7 @@ namespace TowerTanks.Scripts
             foreach (TankCamSystem system in camSystems)
             {
                 if (camSystems.Count <= 0) break;
-                if (system.tanks[0] == tank)
+                if (system.tanks.Count > 0 && system.tanks[0] == tank)
                 {
                     cam = system.vcam; break; //Try to find system for which given tank is the main one
                 }
