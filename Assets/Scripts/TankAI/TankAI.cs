@@ -86,7 +86,8 @@ namespace TowerTanks.Scripts
             
             fsm.AddSubstate(patrolState, huntSubState, PlayerNearby, () => !PlayerNearby());
             fsm.AddSubstate(pursueState, huntSubState, PlayerNearby, () => !PlayerNearby());
-            
+            fsm.AddSubstate(engageState, huntSubState, PlayerNearby, () => !PlayerNearby());
+
             fsm.SetState(patrolState);
         }
 

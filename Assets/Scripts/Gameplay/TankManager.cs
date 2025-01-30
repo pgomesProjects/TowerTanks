@@ -27,7 +27,7 @@ namespace TowerTanks.Scripts
 
         [TabGroup("Runtime Actions")]
         [Button("Spawn New Tank", ButtonSizes.Small)]
-        public TankController SpawnTank(int tier = 1, TankId.TankType typeToSpawn = TankId.TankType.NEUTRAL, bool spawnBuilt = true)
+        public TankController SpawnTank(int tier = 1, TankId.TankType typeToSpawn = TankId.TankType.NEUTRAL, bool spawnBuilt = true, bool spawnedFromEditor = true)
         {
             TankId newtank = new TankId();
 
@@ -110,9 +110,12 @@ namespace TowerTanks.Scripts
             newtank.tankScript.tankType = newtank.tankType;
             newtank.gameObject.transform.parent = null;
 
-            //Despawn Obstacles
-            int baseChunk = ChunkLoader.Instance.GetChunkAtPosition(tankSpawnPoint.position).chunkNumber;
-            ChunkLoader.Instance.DespawnObstacles(baseChunk, 2);
+            if (!spawnedFromEditor)
+            {
+                //Despawn Obstacles
+                int baseChunk = ChunkLoader.Instance.GetChunkAtPosition(tankSpawnPoint.position).chunkNumber;
+                ChunkLoader.Instance.DespawnObstacles(baseChunk, 2);
+            }
 
             tanks.Add(newtank);
             return newtank.tankScript;
