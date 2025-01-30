@@ -182,7 +182,7 @@ namespace TowerTanks.Scripts
         public bool CheckIfAvailable(INTERACTABLE interactable)
         {
             // if there is one of these in the interactable list and it is not in the token activated interactables list
-            return tank.interactableList.Any(i => i.brain.mySpecificType == interactable);
+            return tank.interactableList.Any(i => i.brain != null && i.brain.mySpecificType == interactable);
         }
 
         public bool CheckIfTypeHasToken(TankInteractable.InteractableType interactableType)
