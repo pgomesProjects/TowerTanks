@@ -10,7 +10,7 @@ namespace TowerTanks.Scripts
     {
         #region Fields and Properties
 
-        public enum CharacterState { CLIMBING, NONCLIMBING, OPERATING, REPAIRING }; //Simple state system, in the future this will probably be refactored
+        public enum CharacterState { CLIMBING, NONCLIMBING, OPERATING }; //Simple state system, in the future this will probably be refactored
 
         public CharacterState currentState;                  //to an FSM.
 
@@ -36,6 +36,7 @@ namespace TowerTanks.Scripts
         [FormerlySerializedAs("moveSpeed")]
         [Header("Movement")]
         [SerializeField] protected float groundMoveSpeed;
+        protected float faceDirection = 1;
 
         protected float currentGroundMoveSpeed;
         [SerializeField] protected float horizontalAirSpeed;
@@ -248,8 +249,6 @@ namespace TowerTanks.Scripts
             else if (currentState == CharacterState.CLIMBING) ClimbLadder();
 
             else if (currentState == CharacterState.OPERATING) OperateInteractable();
-
-            else if (currentState == CharacterState.REPAIRING) RepairCell();
         }
 
         protected virtual void OnDrawGizmos()
@@ -346,11 +345,6 @@ namespace TowerTanks.Scripts
         }
 
         protected virtual void OperateInteractable()
-        {
-            rb.velocity = Vector2.zero;
-        }
-
-        protected virtual void RepairCell()
         {
             rb.velocity = Vector2.zero;
         }

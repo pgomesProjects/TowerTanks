@@ -186,7 +186,7 @@ namespace TowerTanks.Scripts
             //Interactable building:
             if (buildCell != null) //Player is currently in build mode
             {
-                currentState = CharacterState.REPAIRING;
+                currentState = CharacterState.OPERATING;
                 transform.position = buildCell.repairSpot.position;
                 StartBuilding();
 
@@ -210,28 +210,6 @@ namespace TowerTanks.Scripts
 
                     //Add the interactable built to the stats
                     GetComponentInParent<TankController>()?.AddInteractableToStats(currentInteractable);
-                }
-            }
-
-            //Repairing Something
-            if (currentRepairJob != null)
-            {
-                currentState = CharacterState.REPAIRING;
-                transform.position = currentRepairJob.repairSpot.position;
-
-                repairTimer += Time.deltaTime;
-                if (repairTimer >= repairTime)
-                {
-                    currentRepairJob.Repair(repairAmount);
-                    repairTimer = 0;
-                }
-
-                if (currentRepairJob.health >= currentRepairJob.maxHealth) //Fully fixed!
-                {
-                    GameManager.Instance.AudioManager.Play("ItemPickup", gameObject);
-                    currentRepairJob.repairMan = null;
-                    currentRepairJob = null;
-                    CancelInteraction(startJump:true);
                 }
             }
 
@@ -327,6 +305,8 @@ namespace TowerTanks.Scripts
 
             if (moveInput.y <= -0.5) isHoldingDown = true;
             else isHoldingDown = false;
+
+            UpdateCharacterDirection();
         }
 
         protected override void FixedUpdate()
@@ -352,8 +332,22 @@ namespace TowerTanks.Scripts
                 characterHUD?.SetButtonPrompt(GameAction.Jetpack, jetpackCanBeUsed);
         }
 
-        
+        public void UpdateCharacterDirection()
+        {
+            if (moveInput.x > 0.2) faceDirection = 1; //right
+            else if (moveInput.x < -0.2) faceDirection = -1; //left
 
+            Vector2 newPos = new Vector2(Mathf.Abs(hands.transform.localPosition.x) * faceDirection, hands.transform.localPosition.y);
+            hands.transform.localPosition = newPos;
+        }
+
+        public float GetCharacterDirection()
+        {
+            float direction = faceDirection;
+
+            return direction;
+        }
+        
         #endregion
 
         #region Movement
@@ -572,8 +566,8 @@ namespace TowerTanks.Scripts
                 case "Cancel":
                     OnCancel(ctx);
                     break;
-                case "Repair":
-                    OnRepair(ctx);
+                case "Pickup":
+                    OnPickup(ctx);
                     break;
                 case "Build":
                     OnBuild(ctx);
@@ -606,7 +600,7 @@ namespace TowerTanks.Scripts
                     OnInteract(ctx);
                     break;
                 case "3":
-                    OnRepair(ctx);
+                    OnPickup(ctx);
                     break;
                 case "4":
                     OnCancel(ctx);
@@ -671,7 +665,7 @@ namespace TowerTanks.Scripts
 
             interactInputHeld = ctx.ReadValue<float>() > 0;
 
-            if (ctx.started && currentState != CharacterState.REPAIRING)
+            if (ctx.started)
             {
                 if (currentZone != null && !isHoldingDown && !isCarryingSomething)
                 {
@@ -694,7 +688,6 @@ namespace TowerTanks.Scripts
                     {
                         if (currentObject != null) currentObject.Use();
                     }
-                    else if (isHoldingDown) Pickup();
                 }
             }
 
@@ -792,34 +785,17 @@ namespace TowerTanks.Scripts
             }
         }
 
-        public void OnRepair(InputAction.CallbackContext ctx)
+        public void OnPickup(InputAction.CallbackContext ctx)
         {
+            if (!isAlive) return;
             if (buildCell != null) return;
 
-            if (ctx.started) //Tapped
+            if (ctx.performed) //Button Pressed
             {
-                
-            }
-
-            if (ctx.performed) //Held for 0.4 sec
-            {
-                //Repairing
-                if (currentInteractable == null && currentState != CharacterState.OPERATING && currentObject == null)
+                if (currentInteractable == null)
                 {
-                    LayerMask mask = LayerMask.GetMask("Cell");
-                    Collider2D cell = Physics2D.OverlapPoint(transform.position, mask);
-                    if (cell != null)
-                    {
-                        Cell cellscript = cell.GetComponent<Cell>();
-                        if (cellscript.health < cellscript.maxHealth && cellscript.repairMan == null &&
-                            cellscript.room.isCore == false)
-                        {
-                            GameManager.Instance.AudioManager.Play("UseSFX");
-                            currentRepairJob = cell.GetComponent<Cell>();
-                            currentRepairJob.repairMan = this.gameObject;
-                            repairTimer = 0;
-                        }
-                    }
+                    //Items
+                    Pickup();
                 }
 
                 //Interactables
@@ -829,13 +805,6 @@ namespace TowerTanks.Scripts
             if (ctx.canceled) //Let go
             {
                 if (currentInteractable != null) currentInteractable.SecondaryUse(false);
-
-                if (currentState == CharacterState.REPAIRING)
-                {
-                    currentRepairJob.repairMan = null;
-                    currentRepairJob = null;
-                    CancelInteraction(startJump:true);
-                }
             }
         }
 
@@ -981,7 +950,10 @@ namespace TowerTanks.Scripts
                     if (_distance == distance)
                     {
                         if (!Physics2D.Linecast(transform.position, item.transform.position, obstructionMask))
+                        {
+                            if (currentObject != null) { currentObject.Drop(this, false, moveInput); } //drop what we're currently holding before grabbing the next thing
                             item.Pickup(this);
+                        }
                         else
                         {
                             Debug.Log("Object is obstructed!");

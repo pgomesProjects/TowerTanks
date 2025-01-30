@@ -21,6 +21,7 @@ namespace TowerTanks.Scripts
         public bool ignoreInit; //set to true if we want to just have this object instantiate normally
         private float initCooldown; //time it takes for collider to enable
         internal float cooldown = 0.3f; //time it takes after pickup before this can be used
+        public float holdRotationOffset = 0; //rotate this object by Z degrees when held by a character
 
         private TrailRenderer trail;
         private float trailCooldown; //time it takes for trail to disable
@@ -93,7 +94,14 @@ namespace TowerTanks.Scripts
                 if (box2D != null && box2D.enabled == true) box2D.enabled = false;
                 if (circle2D != null && circle2D.enabled == true) circle2D.enabled = false;
                 if (capsule2D != null && capsule2D.enabled == true) capsule2D.enabled = false;
-                transform.rotation = new Quaternion(0, 0, 0, 0);
+
+                float yRot = currentHolder.GetCharacterDirection();
+                if (yRot == 1) yRot = 0;
+                if (yRot == -1) yRot = -180;
+
+                Vector3 rot = new Vector3(0, yRot, holdRotationOffset);
+                Quaternion euler = Quaternion.Euler(rot);
+                transform.rotation = euler;
             }
 
             CheckForOnboard();
@@ -148,7 +156,7 @@ namespace TowerTanks.Scripts
             GameManager.Instance.AudioManager.Play("ButtonCancel");
         }
 
-        public void Use(bool held = false) //called from Holder when pressing Interact
+        public virtual void Use(bool held = false) //called from Holder when pressing Interact
         {
             if (type == CargoType.EXPLOSIVE)
             {

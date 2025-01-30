@@ -42,12 +42,12 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Repair",
+                    "name": "Pickup",
                     "type": "Button",
                     "id": "fe096cfd-c2cb-4a1e-8a90-f7987940ae6e",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Hold(duration=0.2)",
+                    "interactions": "",
                     "initialStateCheck": false
                 },
                 {
@@ -929,7 +929,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Repair",
+                    "action": "Pickup",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -940,7 +940,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard and Mouse",
-                    "action": "Repair",
+                    "action": "Pickup",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

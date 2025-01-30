@@ -28,15 +28,17 @@ namespace TowerTanks.Scripts
         {
             if (players.Contains(playerID) && interactable.seat != null)
             {
-                if (interactable.hasOperator == false)
+                if (interactable.hasOperator) //Already someone on it
                 {
-                    interactable.LockIn(playerID);
-                    players.Remove(playerID);
-                    PlayerMovement currentPlayer = playerID.GetComponent<PlayerMovement>();
-                    currentPlayer.currentZone = null;
-                    currentPlayer.GetCharacterHUD()?.SetButtonPrompt(GameAction.Interact, false);
+                    interactable.Exit(true);
                 }
-                else GameManager.Instance.AudioManager.Play("InvalidAlert");
+
+                interactable.LockIn(playerID);
+                players.Remove(playerID);
+                PlayerMovement currentPlayer = playerID.GetComponent<PlayerMovement>();
+                currentPlayer.currentZone = null;
+                currentPlayer.GetCharacterHUD()?.SetButtonPrompt(GameAction.Interact, false);
+                //else GameManager.Instance.AudioManager.Play("InvalidAlert");
             }
         }
 

@@ -64,12 +64,12 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Repair"",
+                    ""name"": ""Pickup"",
                     ""type"": ""Button"",
                     ""id"": ""fe096cfd-c2cb-4a1e-8a90-f7987940ae6e"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Hold(duration=0.2)"",
+                    ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
@@ -951,7 +951,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Repair"",
+                    ""action"": ""Pickup"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -962,7 +962,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
-                    ""action"": ""Repair"",
+                    ""action"": ""Pickup"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -3502,7 +3502,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
         m_Player_Join = m_Player.FindAction("Join", throwIfNotFound: true);
-        m_Player_Repair = m_Player.FindAction("Repair", throwIfNotFound: true);
+        m_Player_Pickup = m_Player.FindAction("Pickup", throwIfNotFound: true);
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         m_Player_Build = m_Player.FindAction("Build", throwIfNotFound: true);
         m_Player_Cancel = m_Player.FindAction("Cancel", throwIfNotFound: true);
@@ -3630,7 +3630,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_Fire;
     private readonly InputAction m_Player_Join;
-    private readonly InputAction m_Player_Repair;
+    private readonly InputAction m_Player_Pickup;
     private readonly InputAction m_Player_Interact;
     private readonly InputAction m_Player_Build;
     private readonly InputAction m_Player_Cancel;
@@ -3655,7 +3655,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @Fire => m_Wrapper.m_Player_Fire;
         public InputAction @Join => m_Wrapper.m_Player_Join;
-        public InputAction @Repair => m_Wrapper.m_Player_Repair;
+        public InputAction @Pickup => m_Wrapper.m_Player_Pickup;
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
         public InputAction @Build => m_Wrapper.m_Player_Build;
         public InputAction @Cancel => m_Wrapper.m_Player_Cancel;
@@ -3693,9 +3693,9 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @Join.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJoin;
                 @Join.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJoin;
                 @Join.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJoin;
-                @Repair.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRepair;
-                @Repair.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRepair;
-                @Repair.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRepair;
+                @Pickup.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPickup;
+                @Pickup.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPickup;
+                @Pickup.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPickup;
                 @Interact.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
                 @Interact.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
                 @Interact.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
@@ -3760,9 +3760,9 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @Join.started += instance.OnJoin;
                 @Join.performed += instance.OnJoin;
                 @Join.canceled += instance.OnJoin;
-                @Repair.started += instance.OnRepair;
-                @Repair.performed += instance.OnRepair;
-                @Repair.canceled += instance.OnRepair;
+                @Pickup.started += instance.OnPickup;
+                @Pickup.performed += instance.OnPickup;
+                @Pickup.canceled += instance.OnPickup;
                 @Interact.started += instance.OnInteract;
                 @Interact.performed += instance.OnInteract;
                 @Interact.canceled += instance.OnInteract;
@@ -4277,7 +4277,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         void OnLook(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
         void OnJoin(InputAction.CallbackContext context);
-        void OnRepair(InputAction.CallbackContext context);
+        void OnPickup(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnBuild(InputAction.CallbackContext context);
         void OnCancel(InputAction.CallbackContext context);

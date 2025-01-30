@@ -248,6 +248,8 @@ MonoBehaviour:
     items:
     - itemID: Fire Extinguisher
       localSpawnVector: {x: -1, y: 0, z: 0}
+    - itemID: Wrench
+      localSpawnVector: {x: 1, y: 0, z: 0}
 --- !u!114 &2776762177459489224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1296,10 +1298,13 @@ MonoBehaviour:
     weight: 1
   - id: Incendiary Shells
     cargoPrefab: {fileID: 8368367451371843906, guid: 3dfacf7975c2dea4bb777510128ff977, type: 3}
-    weight: 2
+    weight: 3
   - id: Fire Extinguisher
     cargoPrefab: {fileID: 8695668838568183417, guid: 61afdcf2de5e52d4785c259326d39da4, type: 3}
     weight: 1
+  - id: Wrench
+    cargoPrefab: {fileID: 2049292779684075303, guid: 7b3d84804bd392449a93445ecd1e9edd, type: 3}
+    weight: 2
   projectileList:
   - type: 0
     ammoTypes:

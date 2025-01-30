@@ -634,18 +634,26 @@ namespace TowerTanks.Scripts
             Repair(25);
         }
 
-        public void Repair(float amount)
+        public float Repair(float amount)
         {
+            float difference = 0;
             if (health < maxHealth)
             {
                 health += amount;
+
+                if (health > maxHealth)
+                {
+                    difference = amount + (maxHealth - health);
+                    health = maxHealth;
+                }
+                else difference = amount;
                 HitEffects(1.5f);
                 GameManager.Instance.AudioManager.Play("UseWrench", gameObject);
                 GameManager.Instance.ParticleSpawner.SpawnParticle(6, transform.position, 0.25f, null);
                 GameManager.Instance.ParticleSpawner.SpawnParticle(7, transform.position, 0.25f, null);
             }
 
-            if (health > maxHealth) { health = maxHealth; }
+            return difference;
         }
 
         [Button("Ignite")]

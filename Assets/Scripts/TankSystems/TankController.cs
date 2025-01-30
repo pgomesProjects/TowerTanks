@@ -231,6 +231,16 @@ namespace TowerTanks.Scripts
             }
         }
         [PropertySpace]
+        [Button(" This Is Fine", ButtonSizes.Small, Icon = SdfIconType.ThermometerHigh), Tooltip("Don't worry about it")]
+        public void IgniteAllRooms()
+        {
+            Cell[] cells = GetComponentsInChildren<Cell>();
+            foreach (Cell cell in cells)
+            {
+                cell.Ignite();
+            }
+        }
+        [PropertySpace]
         #endregion
 
         //Runtime Variables:
