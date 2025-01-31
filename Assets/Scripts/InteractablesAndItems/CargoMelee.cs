@@ -36,6 +36,13 @@ namespace TowerTanks.Scripts
         protected override void Update()
         {
             base.Update();
+
+            if (currentHolder == null && meleeAnimator.enabled == true)
+            {
+                meleeAnimator.Play("Default", 0, 0);
+                meleeAnimator.enabled = false;
+            }
+            else if (meleeAnimator.enabled == false) meleeAnimator.enabled = true;
         }
 
         private void FixedUpdate()

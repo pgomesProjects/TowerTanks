@@ -58,9 +58,9 @@ namespace TowerTanks.Scripts
                     spray.Stop();
                 }
 
+                var main = spray.main;
                 if (isOnTank)
                 {
-                    var main = spray.main;
                     if (tankTransform != null)
                     {
                         if (main.simulationSpace != ParticleSystemSimulationSpace.Custom) main.simulationSpace = ParticleSystemSimulationSpace.Custom;
@@ -70,6 +70,10 @@ namespace TowerTanks.Scripts
                     {
                         if (main.simulationSpace != ParticleSystemSimulationSpace.World) main.simulationSpace = ParticleSystemSimulationSpace.World;
                     }
+                }
+                else
+                {
+                    if (main.simulationSpace != ParticleSystemSimulationSpace.World) main.simulationSpace = ParticleSystemSimulationSpace.World;
                 }
             }
         }

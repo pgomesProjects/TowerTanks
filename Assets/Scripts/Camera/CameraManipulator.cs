@@ -358,6 +358,7 @@ namespace TowerTanks.Scripts
                     //Update offset:
                     float leftEdgeBuffer = ((frameWidth / 2) - main.radarEdgeBuffer.x) - tanks[0].tankSizeValues.y; //Get half of frame width so that tank is pinned to edge of screen, then adjust based on edge buffer (also apply tank left side width so that full tank is in frame by default)
                     float bottomEdgeBuffer = cam.orthographicSize - main.radarEdgeBuffer.y; //Get vertical follow offset so that tank is pinned to bottom of screen (offset by entire ortho size) and apply edge buffer for more control
+                    if (tanks[0].treadSystem != null)
                     bottomEdgeBuffer -= Mathf.Abs(tanks[0].treadSystem.transform.position.y - lowestTank.treadSystem.transform.position.y) + lowestTank.tankSizeValues.z; //Offset by difference between lowest tank and player tank and apply tank depth value so that all engaged tanks are visible in radar
                     transposer.m_FollowOffset.x = leftEdgeBuffer;                           //Set horizontal follow offset so tank is pinned to side of radar screen
                     transposer.m_FollowOffset.y = bottomEdgeBuffer;                         //Set vertical follow offset so tank is pinned to bottom of radar screen

@@ -930,5 +930,18 @@ namespace TowerTanks.Scripts
             foreach (Cell cell in cells) bounds.Encapsulate(cell.c.bounds); //Encapsulate bounds of each cell
             return bounds;                                                  //Return calculated bounds
         }
+
+        public void ClearItems()
+        {
+            //Remove Items
+            Cargo[] items = GetComponentsInChildren<Cargo>();
+            if (items.Length > 0)
+            {
+                foreach (Cargo item in items)
+                {
+                    item.transform.parent = null; //removes the item from the cell before destruction
+                }
+            }
+        }
     }
 }

@@ -538,6 +538,7 @@ namespace TowerTanks.Scripts
             if (!proxy) room.targetTank.treadSystem.ReCalculateMass(); //Re-calculate tank mass based on new cell configuration (only needs to be done once for group cell destructions)
 
             //Cleanup:
+            //Remove Players
             Character[] characters = GetComponentsInChildren<Character>();
             if (characters.Length > 0)
             {
@@ -547,6 +548,17 @@ namespace TowerTanks.Scripts
                     if (!proxy) character.KillCharacterImmediate();
                 }
             }
+
+            //Remove Items
+            Cargo[] items = GetComponentsInChildren<Cargo>();
+            if (items.Length > 0)
+            {
+                foreach (Cargo item in items)
+                {
+                    item.transform.parent = null; //removes the item from the cell before destruction
+                }
+            }
+
             CleanUpCollision();                 //Remove cell collision
             if (lethal)                         //Blow up engines first
             {
@@ -566,6 +578,7 @@ namespace TowerTanks.Scripts
             if (room.cells.Count <= 0) //Parent room now has no cells
             {
                 room.targetTank.rooms.Remove(room); //Remove room from parent tank's list of rooms
+                room.ClearItems();
                 Destroy(room.gameObject);           //Destroy room (simple because it is composed of no cells)
             }
             Destroy(gameObject); //Destroy this cell

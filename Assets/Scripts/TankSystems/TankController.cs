@@ -819,6 +819,7 @@ namespace TowerTanks.Scripts
                 }
 
                 RemovePlayersFromTank();
+                RemoveItemsFromTank();
 
                 if (tankType == TankId.TankType.PLAYER)
                 {
@@ -866,6 +867,19 @@ namespace TowerTanks.Scripts
             //Unassign all characters from this tank
             foreach (Character character in GetCharactersAssignedToTank(this))
                 character.SetAssignedTank(null);
+        }
+
+        private void RemoveItemsFromTank()
+        {
+            //Remove Items
+            Cargo[] items = GetComponentsInChildren<Cargo>();
+            if (items.Length > 0)
+            {
+                foreach (Cargo item in items)
+                {
+                    item.transform.SetParent(null); //removes the item from the cell before destruction
+                }
+            }
         }
 
         public void DestructionEffects()
