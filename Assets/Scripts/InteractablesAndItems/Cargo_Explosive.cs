@@ -103,17 +103,18 @@ namespace TowerTanks.Scripts
                     CameraManipulator.main?.ShakeTankCamera(tank, GameManager.Instance.SystemEffects.GetScreenShakeSetting("Explosion"));
 
                     //Apply Haptics to Players inside this tank
-                    Character[] charactersInTank = new Character[0]; 
+                    Character[] charactersInTank = new Character[0];
                     charactersInTank = tank.GetCharactersInTank();
-                    if (charactersInTank == null) return;
-                    if (charactersInTank.Length <= 0) return;
-                    foreach (Character character in charactersInTank)
+                    if (charactersInTank.Length > 0)
                     {
-                        PlayerMovement player = character.GetComponent<PlayerMovement>();
-                        if (player != null)
+                        foreach (Character character in charactersInTank)
                         {
-                            HapticsSettings setting = GameManager.Instance.SystemEffects.GetHapticsSetting("BigRumble");
-                            GameManager.Instance.SystemEffects.ApplyControllerHaptics(player.GetPlayerData().playerInput, setting); //Apply haptics
+                            PlayerMovement player = character.GetComponent<PlayerMovement>();
+                            if (player != null)
+                            {
+                                HapticsSettings setting = GameManager.Instance.SystemEffects.GetHapticsSetting("BigRumble");
+                                GameManager.Instance.SystemEffects.ApplyControllerHaptics(player.GetPlayerData().playerInput, setting); //Apply haptics
+                            }
                         }
                     }
                 }
@@ -135,12 +136,14 @@ namespace TowerTanks.Scripts
             if (GameManager.Instance.currentSceneState == SCENESTATE.BuildScene)
                 return 0;
 
+            if (isExploding) return 0;
+
             animator.Play("BombFlash", 0, 0);
 
             float damage = projectile.remainingDamage;
             if (damage > 20) 
             {
-                if (!isExploding) StartCoroutine(ExplodeAfterDelay(Random.Range(0.1f, 0.2f)));
+                StartCoroutine(ExplodeAfterDelay(Random.Range(0.1f, 0.2f)));
             }
             else
             {
@@ -156,11 +159,13 @@ namespace TowerTanks.Scripts
             if (GameManager.Instance.currentSceneState == SCENESTATE.BuildScene)
                 return;
 
+            if (isExploding) return;
+
             animator.Play("BombFlash", 0, 0);
 
             if (damage > 20)
             {
-                if (!isExploding) StartCoroutine(ExplodeAfterDelay(Random.Range(0.1f, 0.2f)));
+                StartCoroutine(ExplodeAfterDelay(Random.Range(0.1f, 0.2f)));
             }
             else
             {
