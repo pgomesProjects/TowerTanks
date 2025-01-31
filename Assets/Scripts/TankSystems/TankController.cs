@@ -626,7 +626,7 @@ namespace TowerTanks.Scripts
         public void MakeFragile()
         {
             isFragile = true;
-            currentCoreHealth = 10;
+            currentCoreHealth = 25;
         }
 
         public void Damage(float amount)

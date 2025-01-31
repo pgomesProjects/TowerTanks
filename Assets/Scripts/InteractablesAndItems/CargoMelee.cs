@@ -7,6 +7,7 @@ namespace TowerTanks.Scripts
     public class CargoMelee : Cargo
     {
         [Header("Melee Settings:")]
+        public bool isWrench;
         [Tooltip("Damage dealt from a single hit of this weapon.")] public float meleeDamage;
         [Tooltip("Cooldown between when this weapon can be used.")] public float meleeCooldown;
         [Tooltip("Radius of the hitbox of this weapon.")] public float hitBoxRadius;
@@ -76,15 +77,42 @@ namespace TowerTanks.Scripts
                 foreach (Collider2D hit in hits)
                 {
                     Cell cell = hit.gameObject.GetComponent<Cell>();
-                    if (cell != null)
+                    TreadSystem treads = hit.gameObject.GetComponentInParent<TreadSystem>();
+                    if (isWrench)
                     {
-                        float amountRepaired = cell.Repair(25);
-                        durability -= (int)amountRepaired;
-                        if (durability <= 0)
+                        if (cell != null)
                         {
-                            GameManager.Instance.AudioManager.Play("TankImpact", this.gameObject);
-                            Destroy(this.gameObject);   
+                            float amountRepaired = cell.Repair(25);
+                            durability -= (int)amountRepaired;
                         }
+                    }
+                    else
+                    {
+                        if (hit.gameObject.GetComponent<Character>() == currentHolder) break; //Don't hit yourself
+
+                        //Handle melee damage:
+                        IDamageable target = hit.GetComponent<IDamageable>();                 //Try to get damage receipt component from collider object
+                        if (target == null) target = hit.GetComponentInParent<IDamageable>(); //If damage receipt component is not in collider object, look in parent objects
+                        if (target != null) //Tool has hit a target
+                        {
+                            //damagedThisHit.Add(target);                                //Indicate that target is being damaged now so it is not hit by splash damage later
+                            float damage = meleeDamage;
+                            if (cell != null || treads != null)
+                            {
+                                GameManager.Instance.AudioManager.Play("TankImpact", this.gameObject);
+                                damage *= 3f;
+                            }
+
+                            float damageDealt = target.Damage(damage, true);             //Strike target & return damage dealt
+                            durability -= (int)damageDealt;                              //Subtract damage dealt from durability of tool
+                        }
+                    }
+
+                    //Check Durability
+                    if (durability <= 0)
+                    {
+                        GameManager.Instance.AudioManager.Play("TankImpact", this.gameObject);
+                        Destroy(this.gameObject);
                     }
                 }
             }

@@ -404,7 +404,7 @@ namespace TowerTanks.Scripts
             //Cleanup:
             return 0; //Never allow projectiles to pass through treads
         }
-        public void Damage(float damage, bool triggerHitEffects = false)
+        public float Damage(float damage, bool triggerHitEffects = false)
         {
             treadHealth -= damage; //Reduce tread health
 
@@ -421,6 +421,8 @@ namespace TowerTanks.Scripts
                 treadHealth = 0; //Clamp tread health to zero
                 Jam();           //Jam treads
             }
+
+            return damage;
         }
 
         public void HitEffects(float speedScale)

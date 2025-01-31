@@ -327,13 +327,13 @@ namespace TowerTanks.Scripts
         /// <summary>
         /// Simply deals given amount of damage to cell (used for non-projectile damage, ALWAYS IGNORES ARMOR).
         /// </summary>
-        public void Damage(float damage, bool triggerHitEffect = false)
+        public float Damage(float damage, bool triggerHitEffect = false)
         {
-            if (room.mounted != true) return;
+            if (room.mounted != true) return 0;
 
             //If the current scene is the build scene, return
             if (GameManager.Instance.currentSceneState == SCENESTATE.BuildScene)
-                return;
+                return 0;
 
             if (room.isCore || room.targetTank.isFragile) //Damage is being dealt to core cell
             {
@@ -362,6 +362,8 @@ namespace TowerTanks.Scripts
             }
 
             UpdateUI();
+
+            return damage;
         }
 
         public void HitEffects(float speedScale)

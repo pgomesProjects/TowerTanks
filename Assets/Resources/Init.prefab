@@ -252,6 +252,9 @@ MonoBehaviour:
     - itemID: Wrench
       localSpawnVector: {x: 1, y: 0, z: 0}
       persistentValue: -1
+    - itemID: Crowbar
+      localSpawnVector: {x: 0, y: 0, z: 0}
+      persistentValue: -1
 --- !u!114 &2776762177459489224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1294,7 +1297,7 @@ MonoBehaviour:
   cargoList:
   - id: Scrap Crate
     cargoPrefab: {fileID: 3642906957018620649, guid: 3fced5b46cb66c44f99395b2f109e3ad, type: 3}
-    weight: 6
+    weight: 10
   - id: Bomb
     cargoPrefab: {fileID: 6075565973188652431, guid: 3f169db2fab03e84497edc54b1373a5d, type: 3}
     weight: 1
@@ -1303,10 +1306,13 @@ MonoBehaviour:
     weight: 3
   - id: Fire Extinguisher
     cargoPrefab: {fileID: 8695668838568183417, guid: 61afdcf2de5e52d4785c259326d39da4, type: 3}
-    weight: 1
+    weight: 2
   - id: Wrench
     cargoPrefab: {fileID: 2049292779684075303, guid: 7b3d84804bd392449a93445ecd1e9edd, type: 3}
     weight: 2
+  - id: Crowbar
+    cargoPrefab: {fileID: 2597980276526825376, guid: 74cbd67fb794ffe49b582fb274d1cf2b, type: 3}
+    weight: 1
   projectileList:
   - type: 0
     ammoTypes:

@@ -397,9 +397,10 @@ namespace TowerTanks.Scripts
         {
             return ModifyHealth(-projectile.remainingDamage); //Reduce health by given amount of damage and return remainder
         }
-        public void Damage(float damage, bool triggerHitEffects = false)
+        public float Damage(float damage, bool triggerHitEffects = false)
         {
             ModifyHealth(-damage); //Reduce health by given amount of damage
+            return damage;
         }
 
         private float SetCharacterHealth(float characterHealth)

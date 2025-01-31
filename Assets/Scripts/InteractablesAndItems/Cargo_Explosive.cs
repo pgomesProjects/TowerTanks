@@ -153,13 +153,13 @@ namespace TowerTanks.Scripts
             return 0;
         }
 
-        public void Damage(float damage, bool triggerHitEffect = false)
+        public float Damage(float damage, bool triggerHitEffect = false)
         {
             //If the current scene is the build scene, return
             if (GameManager.Instance.currentSceneState == SCENESTATE.BuildScene)
-                return;
+                return 0;
 
-            if (isExploding) return;
+            if (isExploding) return 0;
 
             animator.Play("BombFlash", 0, 0);
 
@@ -171,6 +171,8 @@ namespace TowerTanks.Scripts
             {
                 Use();
             }
+
+            return damage;
         }
 
         public void OnDrawGizmos()

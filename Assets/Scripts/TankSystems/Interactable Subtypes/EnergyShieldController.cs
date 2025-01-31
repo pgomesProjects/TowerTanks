@@ -111,7 +111,7 @@ namespace TowerTanks.Scripts
             return Mathf.Max(0, extraDamage);
         }
 
-        public void Damage(float damage, bool triggerHitEffects = false)
+        public float Damage(float damage, bool triggerHitEffects = false)
         {
             shieldHealth -= damage;
             shieldStunTimer = shieldStunTime;
@@ -125,6 +125,8 @@ namespace TowerTanks.Scripts
                 shieldHealth = 0;
                 if (!shieldDisabled) DisableShield(6f);
             }
+
+            return damage;
         }
 
         public override void Use(bool overrideConditions = false)
