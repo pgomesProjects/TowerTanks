@@ -39,8 +39,7 @@ namespace TowerTanks.Scripts
 
             if (currentHolder == null && meleeAnimator.enabled == true)
             {
-                meleeAnimator.Play("Default", 0, 0);
-                meleeAnimator.enabled = false;
+                CancelMelee();
             }
             else if (meleeAnimator.enabled == false) meleeAnimator.enabled = true;
         }
@@ -74,6 +73,12 @@ namespace TowerTanks.Scripts
                 meleeAnimator.Play("WrenchSwing", 0, 0);
                 canSwing = false;
             }
+        }
+
+        public void CancelMelee()
+        {
+            meleeAnimator.Play("Default", 0, 0);
+            meleeAnimator.enabled = false;
         }
 
         public void CheckMeleeHit()

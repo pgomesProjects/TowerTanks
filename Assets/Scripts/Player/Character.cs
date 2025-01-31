@@ -74,6 +74,7 @@ namespace TowerTanks.Scripts
         public bool isOperator; //true if player is currently operating an interactable
         public TankInteractable currentInteractable; //what interactable player is currently operating
         public LayerMask obstructionMask; //layers that block players from interacting with things
+        public TankInteractable currentJob; //what interactable the character is currently fixing/breaking - NOT the same as currentInteractable
 
         [Header("Conditions")]
         [SerializeField] public bool isOnFire;
@@ -473,6 +474,7 @@ namespace TowerTanks.Scripts
             characterHUD?.UpdateFuelBar((currentFuel / characterSettings.fuelAmount) * 100f);
             characterHUD?.ClearButtonPrompts();
             currentState = CharacterState.NONCLIMBING;
+            currentJob = null;
 
             if (currentInteractable != null)
             {

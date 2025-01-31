@@ -50,7 +50,6 @@ namespace TowerTanks.Scripts
         [Header("Building & Repairing")]
         [SerializeField, Tooltip("What cell the player is currently repairing")]
         private GameObject buildGhost; //current ghost the player is using to build
-        private Cell currentRepairJob; //what cell the player is currently repairing
 
         [SerializeField, Tooltip("Time it takes the player to complete one repair tick")]
         private float repairTime;
@@ -288,6 +287,13 @@ namespace TowerTanks.Scripts
                 }
             }
 
+            //If we've got a job
+            if (currentJob != null)
+            {
+                currentState = CharacterState.OPERATING;
+                transform.position = currentJob.transform.position;
+            }
+
             //If we're carrying something
             if (currentObject != null)
             {
@@ -356,6 +362,9 @@ namespace TowerTanks.Scripts
         {
             if (!isAlive)
                 return;
+
+            if (currentJob != null) currentJob = null;
+            if (buildCell != null) buildCell = null;
 
             var slope = transform.eulerAngles.z < 180 ? transform.eulerAngles.z : transform.eulerAngles.z - 360;
             //^ im gonna change this to use a raycast and a normal, but for now this is fine and works for checking in-tank slopes
@@ -649,6 +658,7 @@ namespace TowerTanks.Scripts
         {
             if (!isAlive) return;
             if (buildCell != null) return;
+            if (currentJob != null) return;
 
             jetpackInputHeld = ctx.ReadValue<float>() > 0;
             if (ctx.ReadValue<float>() > 0 && currentState != CharacterState.OPERATING)
@@ -662,16 +672,18 @@ namespace TowerTanks.Scripts
         {
             if (!isAlive) return;
             if (buildCell != null) return;
+            if (currentJob != null) return;
 
             interactInputHeld = ctx.ReadValue<float>() > 0;
 
             if (ctx.started)
             {
-                if (currentZone != null && !isHoldingDown && !isCarryingSomething)
+                if (currentZone != null && !isCarryingSomething)
                 {
                     if (!Physics2D.Linecast(transform.position, currentZone.transform.position, obstructionMask))
                         currentZone.Interact(this.gameObject);
-                    else {
+                    else
+                    {
                         Debug.Log("Interactable is obstructed!");
                         //GameManager.Instance.AudioManager.Play("InvalidAlert"); 
                     }
@@ -684,7 +696,7 @@ namespace TowerTanks.Scripts
 
                 if (currentInteractable == null)
                 {
-                    if (isCarryingSomething)
+                    if (isCarryingSomething && currentJob == null)
                     {
                         if (currentObject != null) currentObject.Use();
                     }
@@ -731,6 +743,23 @@ namespace TowerTanks.Scripts
                 {
                     currentObject.Use(true);
                 }
+                else if (currentObject.type == Cargo.CargoType.TOOL)
+                {
+                    if (currentZone != null) //if we're standing near an Interactable
+                    {
+                        //Try to start a job
+                        if (!Physics2D.Linecast(transform.position, currentZone.transform.position, obstructionMask))
+                        {
+                            currentObject.GetComponent<CargoMelee>()?.CancelMelee();
+                            currentJob = currentZone.GetComponentInParent<TankInteractable>();
+                        }
+                        else
+                        {
+                            Debug.Log("Interactable is obstructed!");
+                            //GameManager.Instance.AudioManager.Play("InvalidAlert"); 
+                        }
+                    }
+                }
             }
 
             if (ctx.canceled) //Released Button
@@ -744,6 +773,12 @@ namespace TowerTanks.Scripts
                 {
                     StopBuilding();
                     StackManager.EndBuildingStackItem(0, this);
+                }
+
+                if (currentJob != null)
+                {
+                    currentJob = null;
+                    if (currentState == CharacterState.OPERATING) currentState = CharacterState.NONCLIMBING;
                 }
             }
         }
@@ -759,13 +794,9 @@ namespace TowerTanks.Scripts
                     currentInteractable.Exit(true);
                 }
 
-                if (currentObject != null)
+                if (currentObject != null && currentJob == null)
                 {
-                    if (isHoldingDown)
-                    {
-                        currentObject.Drop(this, false, moveInput);
-                    }
-                    else currentObject.Drop(this, true, moveInput);
+                    currentObject.Drop(this, true, moveInput);
                 }
             }
         }
@@ -789,6 +820,7 @@ namespace TowerTanks.Scripts
         {
             if (!isAlive) return;
             if (buildCell != null) return;
+            if (currentJob != null) return;
 
             if (ctx.performed) //Button Pressed
             {
