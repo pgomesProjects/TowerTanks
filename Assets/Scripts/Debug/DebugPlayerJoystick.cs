@@ -34,19 +34,19 @@ namespace TowerTanks.Scripts
             if (currentPlayer == null || !GameSettings.debugMode)
                 return;
 
-            joystickPos = new Vector2(currentPlayer.movementData.x, currentPlayer.movementData.y) * radius;
+            joystickPos = new Vector2(currentPlayer.playerMovementData.x, currentPlayer.playerMovementData.y) * radius;
             joystickTransform.anchoredPosition = joystickPos;
 
             if (currentRefreshRate >= angleRefreshRate)
             {
-                angle = Vector2.SignedAngle(lastJoystickPos, currentPlayer.movementData);
+                angle = Vector2.SignedAngle(lastJoystickPos, currentPlayer.playerMovementData);
                 currentRefreshRate = 0f;
-                lastJoystickPos = currentPlayer.movementData;
+                lastJoystickPos = currentPlayer.playerMovementData;
             }
             else
                 currentRefreshRate += Time.unscaledDeltaTime;
 
-            UpdateText(currentPlayer.GetPlayerName(), currentPlayer.movementData, angle);
+            UpdateText(currentPlayer.GetPlayerName(), currentPlayer.playerMovementData, angle);
         }
 
         private void UpdateText(string playerName, Vector2 movementData, float angle)

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 namespace TowerTanks.Scripts
 {
@@ -11,7 +12,8 @@ namespace TowerTanks.Scripts
         public PlayerInput playerInput { get; private set; }
         public InputActionMap playerInputMap { get; private set; }
         public InputActionMap playerUIMap { get; private set; }
-        public Vector2 movementData { get; private set; }
+        public Vector2 cursorMovementData { get; private set; }
+        public Vector2 playerMovementData { get; private set; }
 
         public enum PlayerState { SettingUp, NameReady, PickingRooms, PickedRooms, IsBuilding, InTank, ReadyForCombat };
         private PlayerState currentPlayerState;
@@ -38,12 +40,19 @@ namespace TowerTanks.Scripts
         {
             playerInputMap.actionTriggered += OnPlayerInput;
             playerUIMap.actionTriggered += OnPlayerUIInput;
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
         private void OnDisable()
         {
             playerInputMap.actionTriggered -= OnPlayerInput;
             playerUIMap.actionTriggered -= OnPlayerUIInput;
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+
+        private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
+        {
+
         }
 
         private void OnPlayerInput(InputAction.CallbackContext ctx)
@@ -67,12 +76,14 @@ namespace TowerTanks.Scripts
                 case "Navigate": OnNavigate(ctx); break;
                 case "Submit": OnSubmit(ctx); break;
                 case "Cancel": OnCancel(ctx); break;
+                case "Rotate": OnRotate(ctx); break;
+                case "Mount": OnMount(ctx); break;
             }
         }
 
         private void OnMove(InputAction.CallbackContext ctx)
         {
-            movementData = ctx.ReadValue<Vector2>();
+            playerMovementData = ctx.ReadValue<Vector2>();
         }
 
         private void OnPause(InputAction.CallbackContext ctx)
@@ -99,12 +110,9 @@ namespace TowerTanks.Scripts
 
         private void OnMount(InputAction.CallbackContext ctx)
         {
-            if (ctx.started)
+            if (currentPlayerState == PlayerState.IsBuilding && ctx.started)
             {
-                if (currentPlayerState == PlayerState.IsBuilding)
-                {
-                    BuildSystemManager.Instance?.MountRoom(playerInput);
-                }
+                BuildSystemManager.Instance.MountRoom(playerInput);
             }
         }
 
@@ -134,7 +142,9 @@ namespace TowerTanks.Scripts
 
         private void OnNavigate(InputAction.CallbackContext ctx)
         {
-            playerNamepad?.OnNavigate(playerInput, ctx.ReadValue<Vector2>());
+            Debug.Log("Cursor Movement");
+            cursorMovementData = ctx.ReadValue<Vector2>();
+            playerNamepad?.OnNavigate(playerInput, cursorMovementData);
         }
 
         private void OnSubmit(InputAction.CallbackContext ctx)
@@ -192,15 +202,14 @@ namespace TowerTanks.Scripts
             return null;
         }
 
+        public void ChangePlayerActionMap(string actionMapName) => playerInput.SwitchCurrentActionMap(actionMapName);
         public void SetDefaultPlayerName() => SetPlayerName("Player " + (playerInput.playerIndex + 1).ToString());
-
         public string GetPlayerName() => playerName;
         public void SetPlayerName(string playerName)
         {
             this.playerName = playerName;
             playerInput.name = playerName;
         }
-
         public PlayerMovement GetCurrentPlayerObject() => currentPlayer;
         public PlayerState GetCurrentPlayerState() => currentPlayerState;
         public void SetPlayerState(PlayerState currentPlayerState)

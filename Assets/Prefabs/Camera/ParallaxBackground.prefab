@@ -227,7 +227,9 @@ MonoBehaviour:
     infiniteVertical: 1
     chunkParent: {fileID: 0}
     chunkPrefab: {fileID: 0}
-    spawnFrequency: 0
+    chunkWidth: 0
+    yPosition: {x: 0, y: 0}
+    spawnFrequency: {x: 0, y: 0}
     poolSize: 0
   - layerType: 0
     parallaxSpriteRenderer: {fileID: 3696405528355790694}
@@ -237,7 +239,9 @@ MonoBehaviour:
     infiniteVertical: 0
     chunkParent: {fileID: 0}
     chunkPrefab: {fileID: 0}
-    spawnFrequency: 0
+    chunkWidth: 0
+    yPosition: {x: 0, y: 0}
+    spawnFrequency: {x: 0, y: 0}
     poolSize: 0
   - layerType: 0
     parallaxSpriteRenderer: {fileID: 3696405527914470451}
@@ -247,18 +251,22 @@ MonoBehaviour:
     infiniteVertical: 0
     chunkParent: {fileID: 0}
     chunkPrefab: {fileID: 0}
-    spawnFrequency: 0
+    chunkWidth: 0
+    yPosition: {x: 0, y: 0}
+    spawnFrequency: {x: 0, y: 0}
     poolSize: 0
-  - layerType: 0
-    parallaxSpriteRenderer: {fileID: 3696405527362995913}
-    parallaxSpeed: {x: -0.9, y: 0}
+  - layerType: 1
+    parallaxSpriteRenderer: {fileID: 0}
+    parallaxSpeed: {x: -0.9, y: 1.3}
     automaticSpeed: {x: 0, y: 0}
     infiniteHorizontal: 1
     infiniteVertical: 0
-    chunkParent: {fileID: 0}
-    chunkPrefab: {fileID: 0}
-    spawnFrequency: 0
-    poolSize: 0
+    chunkParent: {fileID: 8691455531486725043}
+    chunkPrefab: {fileID: 2772024294091155003, guid: 509987a3cbfea7143ac4b8f28f05734b, type: 3}
+    chunkWidth: 15
+    yPosition: {x: 0, y: 0}
+    spawnFrequency: {x: 3, y: 5}
+    poolSize: 100
   RENDER_DISTANCE: 100
   desertColorPalette:
   - {r: 0.9607844, g: 0.92549026, b: 0.627451, a: 1}
@@ -458,7 +466,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6086539686815460681}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 46.3, y: -10, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
