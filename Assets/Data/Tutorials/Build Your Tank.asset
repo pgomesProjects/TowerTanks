@@ -15,7 +15,7 @@ MonoBehaviour:
   header: Build Your Tank
   tutorialPages:
   - tutorialImage: {fileID: 21300000, guid: dc099476933a28141a83d2caab9853a9, type: 3}
-    tutorialText: Place rooms onto the tank using [Build] .<br><br>You can rotate
+    tutorialText: Place rooms onto the tank using [Jetpack] .<br><br>You can rotate
       rooms before placing them using [Repair] .
   - tutorialImage: {fileID: 21300000, guid: 2e3cf92da9633f14b9d0391758179a1e, type: 3}
     tutorialText: 'IMPORTANT: Make sure to line up rooms so that a link forms between
