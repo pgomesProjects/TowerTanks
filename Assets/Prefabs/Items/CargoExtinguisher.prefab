@@ -10690,12 +10690,15 @@ MonoBehaviour:
   contents: []
   amount: 50
   ignoreInit: 0
+  holdRotationOffset: 0
   isOnTank: 0
   onTankMask:
     serializedVersion: 2
     m_Bits: 32768
   throwForce: 400
   isContinuous: 1
+  fuel: 400
+  fuelDrainRate: 30
   nozzle: {fileID: 2649729051069445483}
   isSpraying: 0
 --- !u!114 &8133749437585792149

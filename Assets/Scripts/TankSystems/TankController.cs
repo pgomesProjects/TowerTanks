@@ -1156,10 +1156,13 @@ namespace TowerTanks.Scripts
                     }
 
                     GameObject _item = Instantiate(prefab, towerJoint, false); //spawn the object
-                    _item.GetComponent<Cargo>().ignoreInit = true;
+                    Cargo script = _item.GetComponent<Cargo>();
+                    script.ignoreInit = true;
 
+                    //Assign Values
                     Vector3 spawnVector = item.localSpawnVector;
                     _item.transform.localPosition = spawnVector;
+                    script.AssignValue(item.persistentValue);
                 }
             }
         }
@@ -1192,7 +1195,9 @@ namespace TowerTanks.Scripts
                         Transform temp = item.transform.parent;
                         item.transform.parent = towerJoint.transform; //set new temp parent
 
+                        //Get Item Information
                         _item.localSpawnVector = item.transform.localPosition; //Get it's current localPosition
+                        _item.persistentValue = item.GetPersistentValue();
 
                         item.transform.parent = temp;
                         manifest.items.Add(_item); //add it to the manifest

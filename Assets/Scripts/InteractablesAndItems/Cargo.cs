@@ -273,6 +273,18 @@ namespace TowerTanks.Scripts
             Destroy(gameObject);
         }
 
+        public virtual void AssignValue(int value)
+        {
+            if (value == -1) return;
+        }
+
+        public virtual int GetPersistentValue()
+        {
+            int value = -1;
+
+            return value;
+        }
+
         protected virtual void OnDestroy()
         {
             if (currentHolder != null)

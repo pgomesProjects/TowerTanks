@@ -248,8 +248,10 @@ MonoBehaviour:
     items:
     - itemID: Fire Extinguisher
       localSpawnVector: {x: -1, y: 0, z: 0}
+      persistentValue: -1
     - itemID: Wrench
       localSpawnVector: {x: 1, y: 0, z: 0}
+      persistentValue: -1
 --- !u!114 &2776762177459489224
 MonoBehaviour:
   m_ObjectHideFlags: 0

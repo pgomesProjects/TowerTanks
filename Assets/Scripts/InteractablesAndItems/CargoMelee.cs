@@ -90,6 +90,26 @@ namespace TowerTanks.Scripts
             }
         }
 
+        public override void AssignValue(int value)
+        {
+            base.AssignValue(value);
+
+            float defaultValue = durability;
+            int defaultAmount = amount;
+
+            if (value == -1) return;
+            durability = value;
+
+            amount = Mathf.RoundToInt(defaultAmount * (durability / defaultValue)); //scale sale price based on how 'used' this object is
+        }
+
+        public override int GetPersistentValue()
+        {
+            int value = durability;
+
+            return value;
+        }
+
         public void OnDrawGizmos()
         {
             Gizmos.color = Color.red;
