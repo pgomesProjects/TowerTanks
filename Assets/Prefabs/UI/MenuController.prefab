@@ -191,8 +191,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuOptions: []
-  disabledColor: {r: 0.38679248, g: 0.38679248, b: 0.38679248, a: 0.5019608}
-  highlightColor: {r: 0.6132076, g: 0.48444518, b: 0.41362587, a: 1}
+  disabledColor: {r: 0.3882353, g: 0.3882353, b: 0.3882353, a: 0.5019608}
+  highlightColor: {r: 1, g: 0.73333335, b: 0.12941177, a: 1}
   OnValueChanged:
     m_PersistentCalls:
       m_Calls: []

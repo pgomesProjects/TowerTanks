@@ -20,7 +20,9 @@ namespace TowerTanks.Scripts
         [Header("Chunk Settings")]
         [Tooltip("The parent for the chunk layers.")]public Transform chunkParent;
         [Tooltip("Prefab to spawn for chunk layers.")] public GameObject chunkPrefab;
-        [Tooltip("Frequency at which chunks are spawned.")] public float spawnFrequency = 5f;
+        [Tooltip("The width for each chunk.")] public float chunkWidth;
+        [Tooltip("Y-position for each chunk.")] public Vector2 yPosition = new Vector2(-1f, 1f);
+        [Tooltip("Frequency at which chunks are spawned.")] public Vector2 spawnFrequency = new Vector2(3f, 5f);
         [Tooltip("The pool size of the background layer.")] public int poolSize;
 
         private Vector2 textureUnitSize;
@@ -33,7 +35,7 @@ namespace TowerTanks.Scripts
 
         public void ResetSpawnTimer()
         {
-            nextSpawnTime = spawnFrequency;
+            nextSpawnTime = Random.Range(spawnFrequency.x, spawnFrequency.y);
             currentDistanceTraveled = 0f;
         }
 
@@ -42,8 +44,10 @@ namespace TowerTanks.Scripts
         public bool CanSpawnChunk() => currentDistanceTraveled >= nextSpawnTime;
         public GameObject GetNextChunk(Vector2 position)
         {
-            GameObject newChunk = GameObject.Instantiate(chunkPrefab, chunkParent);
-            newChunk.transform.localPosition = position;
+            GameObject newChunk = GameObject.Instantiate(chunkPrefab);
+            newChunk.transform.position = position;
+            newChunk.transform.parent = chunkParent;
+            newChunk.layer = chunkParent.gameObject.layer;
             chunkPool.Add(newChunk);
             return newChunk;
         }
@@ -59,7 +63,7 @@ namespace TowerTanks.Scripts
     {
         [SerializeField, Tooltip("The camera to follow.")] private Camera followCamera;
         [SerializeField, Tooltip("The layers of the parallax background.")] private List<ParallaxLayer> parallaxLayers = new List<ParallaxLayer>();
-        [SerializeField, Tooltip("How far away from the tank a chunk is allowed to render from.")] public float RENDER_DISTANCE = 100f;
+        [SerializeField, Tooltip("How far away from the tank a chunk is allowed to render from.")] public float RENDER_DISTANCE = 300f;
 
         private Vector3 lastCameraPosition;
         private bool camInitialized;
@@ -81,10 +85,16 @@ namespace TowerTanks.Scripts
                         break;
                     case ParallaxLayer.LayerType.CHUNK:
 
-                        for(int i = 0; i < layer.poolSize; i++)
+                        layer.chunkParent.transform.position = Vector2.zero;
+                        Vector2 chunkPosition = Vector2.zero;
+
+                        layer.GetNextChunk(chunkPosition);
+
+                        for (int i = 1; i < layer.poolSize / 2; i++)
                         {
-                            float xOffset = ChunkData.CHUNK_WIDTH * i;
-                            layer.GetNextChunk(new Vector2(xOffset, 0));
+                            chunkPosition.x = layer.chunkWidth * Random.Range(layer.spawnFrequency.x, layer.spawnFrequency.y) * i;
+                            layer.GetNextChunk(new Vector2(chunkPosition.x, Random.Range(layer.yPosition.x, layer.yPosition.y)));
+                            layer.GetNextChunk(new Vector2(-chunkPosition.x, Random.Range(layer.yPosition.x, layer.yPosition.y)));
                         }
 
                         layer.ResetSpawnTimer();
@@ -180,7 +190,9 @@ namespace TowerTanks.Scripts
                             float chunkDistance = Vector3.Distance(followCamera.transform.position, chunk.position);
 
                             if (chunkDistance <= RENDER_DISTANCE)
+                            {
                                 chunk.gameObject.SetActive(true);
+                            }
 
                             if (chunkDistance > RENDER_DISTANCE)
                                 chunksToRecycle.Add(chunk);
@@ -198,6 +210,35 @@ namespace TowerTanks.Scripts
         public void AddCameraToParallax(Camera newCamera)
         {
             followCamera = newCamera;
+        }
+
+        private void OnDrawGizmos()
+        {
+#if UNITY_EDITOR
+            if (followCamera == null)
+                return;
+
+            if (followCamera.tag == "RadarCam")
+            {
+                Gizmos.color = Color.blue;
+                Gizmos.DrawWireCube(followCamera.transform.position, Vector3.one * RENDER_DISTANCE * 2);
+
+                foreach (ParallaxLayer layer in parallaxLayers)
+                {
+                    if (layer.layerType == ParallaxLayer.LayerType.CHUNK)
+                    {
+                        foreach (Transform chunk in layer.chunkParent)
+                        {
+                            if (chunk.gameObject.activeInHierarchy)
+                                Gizmos.color = Color.green;
+                            else
+                                Gizmos.color = Color.red;
+                            Gizmos.DrawWireCube(chunk.position, Vector3.one * 10f);
+                        }
+                    }
+                }
+            }
+#endif
         }
     }
 }

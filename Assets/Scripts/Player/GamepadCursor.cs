@@ -105,7 +105,7 @@ namespace TowerTanks.Scripts
             else if (currentDevice is Gamepad)
             {
                 // Delta of the gamepad cursor
-                deltaValue = GetComponent<PlayerData>().movementData;
+                deltaValue = GetComponent<PlayerData>().playerMovementData;
                 deltaValue *= cursorSpeed * Time.deltaTime;
 
                 Vector2 currentPosition = virtualMouse.position.ReadValue();

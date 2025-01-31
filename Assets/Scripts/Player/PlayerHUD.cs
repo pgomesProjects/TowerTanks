@@ -30,7 +30,6 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("The duration of the minigame screen animation.")] private float miniGameScreenStartDuration;
 
         private Color playerColor;
-
         private Color startingColor;
         private RectTransform hudRectTransform;
         private Vector3 hudPosition;
@@ -42,6 +41,7 @@ namespace TowerTanks.Scripts
         private bool isMinigameActive;
 
         private FaceButtons playerFaceButtons;
+        private CanvasGroup playerHUDCanvasGroup;
 
         [Button]
         private void DebugStartMinigame()
@@ -58,6 +58,7 @@ namespace TowerTanks.Scripts
         private void Awake()
         {
             hudRectTransform = GetComponent<RectTransform>();
+            playerHUDCanvasGroup = GetComponent<CanvasGroup>();
             playerFaceButtons = GetComponentInChildren<FaceButtons>();
             startingColor = playerAvatar.color;
             startingMinigameScreenYPos = miniGameRectTransform.anchoredPosition.y;
@@ -83,12 +84,16 @@ namespace TowerTanks.Scripts
             StartCoroutine(SetHUDPosition());
         }
 
+        public void SetHUDActive(bool isHUDActive)
+        {
+            playerHUDCanvasGroup.alpha = isHUDActive ? 1 : 0;
+        }
+
         private IEnumerator SetHUDPosition()
         {
             yield return null;
             LayoutRebuilder.ForceRebuildLayoutImmediate(hudRectTransform);
             hudPosition = hudRectTransform.localPosition;
-            Debug.Log("HUD Position: " + hudPosition);
         }
 
         private void Update()
