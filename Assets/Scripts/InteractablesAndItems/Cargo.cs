@@ -138,6 +138,7 @@ namespace TowerTanks.Scripts
 
         public void Drop(PlayerMovement player, bool throwing, Vector2 direction)
         {
+            transform.position = player.transform.position;
             rb.isKinematic = false;
             if (box2D != null) box2D.enabled = true;
             if (circle2D != null) circle2D.enabled = true;
