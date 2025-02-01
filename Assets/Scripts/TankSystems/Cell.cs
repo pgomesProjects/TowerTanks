@@ -668,6 +668,11 @@ namespace TowerTanks.Scripts
                 GameManager.Instance.ParticleSpawner.SpawnParticle(7, transform.position, 0.25f, null);
             }
 
+            if (room.isCore)
+            {
+                difference = room.targetTank.Repair(amount);
+            }
+
             return difference;
         }
 
