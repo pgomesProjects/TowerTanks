@@ -237,7 +237,7 @@ MonoBehaviour:
   isPaused: 0
   inBugReportMenu: 0
   inDebugMenu: 0
-  ignoreTutorials: 1
+  ignoreTutorials: 0
   _shopChance: 0
   tankDesign:
     TankName: 

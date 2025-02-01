@@ -104,7 +104,9 @@ namespace TowerTanks.Scripts
         AddFuel,
         ReleaseSteam,
         ReadyUp,
-        AdvanceTutorial
+        AdvanceTutorial,
+        MoveG,
+        MoveD
     }
 
     public enum PlatformType

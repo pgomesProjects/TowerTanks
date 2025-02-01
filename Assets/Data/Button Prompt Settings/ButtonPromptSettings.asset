@@ -169,3 +169,29 @@ MonoBehaviour:
       promptInfo: {fileID: 0}
     - platform: 4
       promptInfo: {fileID: 11400000, guid: 43ea819d0d3600f4fabb87135e8b2e4e, type: 2}
+  - action: 12
+    actionType: 0
+    prompts:
+    - platform: 0
+      promptInfo: {fileID: 0}
+    - platform: 1
+      promptInfo: {fileID: 11400000, guid: 3e12985c43cd42c4b8575e1716de4b8c, type: 2}
+    - platform: 2
+      promptInfo: {fileID: 11400000, guid: 3e12985c43cd42c4b8575e1716de4b8c, type: 2}
+    - platform: 3
+      promptInfo: {fileID: 0}
+    - platform: 4
+      promptInfo: {fileID: 11400000, guid: 3e12985c43cd42c4b8575e1716de4b8c, type: 2}
+  - action: 13
+    actionType: 0
+    prompts:
+    - platform: 0
+      promptInfo: {fileID: 0}
+    - platform: 1
+      promptInfo: {fileID: 11400000, guid: f8cbfc20c9a2d1145ac3724f6e7bb353, type: 2}
+    - platform: 2
+      promptInfo: {fileID: 11400000, guid: f8cbfc20c9a2d1145ac3724f6e7bb353, type: 2}
+    - platform: 3
+      promptInfo: {fileID: 0}
+    - platform: 4
+      promptInfo: {fileID: 11400000, guid: f8cbfc20c9a2d1145ac3724f6e7bb353, type: 2}

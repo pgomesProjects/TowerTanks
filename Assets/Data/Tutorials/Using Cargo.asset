@@ -15,11 +15,10 @@ MonoBehaviour:
   header: Using Cargo
   tutorialPages:
   - tutorialImage: {fileID: 21300000, guid: b7d8c4b97f22e8846b799e8d10ea7fbe, type: 3}
-    tutorialText: The spoils of war! Defeated enemies drop Cargo that you can transport
-      inside your tank!<br><br>Pickup Cargo by pressing [Repair] .
-  - tutorialImage: {fileID: 21300000, guid: b61602aab32401b4a82e184d4349f36a, type: 3}
-    tutorialText: Some Cargo items have different uses!<br><br>To use Cargo, press
-      [Interact] while holding it.
+    tutorialText: 'Cargo Items:<br><br>PICKUP ITEM: [Repair]<br><br>USE ITEM: [Interact]'
+  - tutorialImage: {fileID: 21300000, guid: b6085e6d9e2825847bf50b41e53f205e, type: 3}
+    tutorialText: '<br><br>TIP: For certain items, try holding [Interact] instead!
+      Some items have multiple uses!'
   - tutorialImage: {fileID: 21300000, guid: c62fd08e7d6140149b38e16bed327c07, type: 3}
-    tutorialText: 'To drop something you''re carrying, press [Cancel] .<br><br>TIP:
-      You can also throw objects by holding a direction when dropping it!'
+    tutorialText: 'Dropping & Throwing:<br><br>DROP ITEM: [Cancel]<br><br>THROW:
+      [Cancel] + [MoveG] or [MoveD]'
