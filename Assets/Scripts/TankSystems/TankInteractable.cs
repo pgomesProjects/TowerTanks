@@ -52,6 +52,8 @@ namespace TowerTanks.Scripts
         [Tooltip("Whether or not this interactable can be aimed in some way"), SerializeField]                      public bool canAim;
         [Tooltip("Direction this interactable is facing. (1 = right; -1 = left)")]                                  public float direction = 1;
         [Tooltip("Unique identifier associating this interactable with a stack item")]                              internal int stackId = 0;
+        [Tooltip("Whether this Interactable is currently broken or not.")]                                          public bool isBroken = false;
+                                                                                                                    private SpriteRenderer overlay;
 
         //Debug
         internal bool debugMoveUp;
@@ -75,6 +77,9 @@ namespace TowerTanks.Scripts
             engineScript = GetComponent<EngineController>();
             throttleScript = GetComponent<ThrottleController>();
             consumableScript = GetComponent<TankConsumable>();
+
+            overlay = transform.Find("Visuals/Overlay")?.GetComponent<SpriteRenderer>();
+            if (overlay != null) overlay.enabled = false;
         }
         public virtual void OnDestroy()
         {
@@ -185,11 +190,13 @@ namespace TowerTanks.Scripts
 
         public virtual void Use(bool overrideConditions = false) //Called from operator when they press Interact
         {
+            if (isBroken) return;
             //Debug.Log("Interact Started");
         }
 
         public virtual void CancelUse() //Called from operator when they release Interact
         {
+            if (isBroken) return;
             if (gunScript != null && gunScript.gunType == GunController.GunType.MORTAR && cooldown <= 0)
             {
                 gunScript.Fire(false, tank.tankType);
@@ -198,6 +205,7 @@ namespace TowerTanks.Scripts
 
         public void Shift(int direction) //Called from operator when they flick L-Stick L/R
         {
+            if (isBroken) return;
             if (throttleScript != null && cooldown <= 0)
             {
                 throttleScript.UseThrottle(direction);
@@ -207,6 +215,7 @@ namespace TowerTanks.Scripts
 
         public virtual void Rotate(float force) //Called from operator when they rotate the joystick
         {
+            if (isBroken) return;
             if (gunScript != null && cooldown <= 0) gunScript.RotateBarrel(force, true);
         }
 
@@ -294,6 +303,26 @@ namespace TowerTanks.Scripts
             }
 
             return specialAmmoRef;
+        }
+
+        [Button("Break")]
+        public virtual void Break()
+        {
+            if (!isBroken)
+            {
+                isBroken = true;
+                overlay.enabled = true;
+            }
+        }
+
+        [Button("Fix")]
+        public virtual void Fix()
+        {
+            if (isBroken)
+            {
+                isBroken = false;
+                overlay.enabled = false;
+            }
         }
     }
 }

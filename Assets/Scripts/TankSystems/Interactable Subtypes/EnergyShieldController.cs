@@ -73,19 +73,20 @@ namespace TowerTanks.Scripts
             }
         }
 
-        public void DisableShield(float duration)
+        public void DisableShield(float duration = -1)
         {
             GameManager.Instance.AudioManager.Play("EngineDyingSFX", this.gameObject);
             HitEffects(transform.position, 0.5f, true);
 
-            StartCoroutine(ShieldDown(duration));
+            if (shieldHealth != 0) shieldHealth = 0;
+            shieldDisabled = true;
+            if (duration > 0) StartCoroutine(ShieldDown(duration));
         }
 
         public IEnumerator ShieldDown(float duration)
         {
-            shieldDisabled = true;
             yield return new WaitForSeconds(duration);
-            shieldDisabled = false;
+            if (!isBroken) shieldDisabled = false;
         }
 
         public float Damage(Projectile projectile, Vector2 position)
@@ -133,6 +134,8 @@ namespace TowerTanks.Scripts
         {
             base.Use(overrideConditions);
 
+            if (isBroken) return;
+
             if (cooldown <= 0 && !shieldDisabled)
             {
                 AddShieldCharge(15);
@@ -165,6 +168,20 @@ namespace TowerTanks.Scripts
                 ParticleSystem particleSystem = particle.GetComponent<ParticleSystem>();
                 particleSystem.GetComponent<ParticleSystemRenderer>().maskInteraction = SpriteMaskInteraction.None;
             }
+        }
+
+        public override void Break()
+        {
+            base.Break();
+
+            DisableShield();
+        }
+
+        public override void Fix()
+        {
+            base.Fix();
+
+            shieldDisabled = false;
         }
     }
 }
