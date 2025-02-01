@@ -813,7 +813,7 @@ namespace TowerTanks.Scripts
                                 tool?.CancelMelee();
                                 tool?.AnimateJob(animationHash);
                                 currentJob = interactable;
-                                taskProgressBar = GameManager.Instance.UIManager.AddRadialTaskBar(this.gameObject, new Vector2(0, 2.4f), characterSettings.buildTime, GetCharacterColor(), true);
+                                taskProgressBar = GameManager.Instance.UIManager.AddRadialTaskBar(this.gameObject, new Vector2(0, 0), characterSettings.buildTime, GetCharacterColor(), true);
                                 taskProgressBar?.StartTask(characterSettings.buildTime);
                                 taskProgressBar.transform.localScale = new Vector3(1.8f, 1.8f, 1);
                             }
