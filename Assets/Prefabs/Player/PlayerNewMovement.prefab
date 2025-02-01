@@ -5099,6 +5099,7 @@ MonoBehaviour:
   obstructionMask:
     serializedVersion: 2
     m_Bits: 256
+  currentJob: {fileID: 0}
   isOnFire: 0
   isDebugPlayer: 0
   jetpackInputHeld: 0

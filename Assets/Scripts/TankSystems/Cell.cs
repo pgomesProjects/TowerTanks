@@ -590,12 +590,13 @@ namespace TowerTanks.Scripts
         /// <summary>
         /// Removes the interactables from a player tank's cell and returns them to the stack.
         /// </summary>
-        public void AddInteractablesFromCell()
+        public void AddInteractablesFromCell(bool overrideType = false)
         {
             //Stack update:
             if (interactable != null && interactable.interactableType != TankInteractable.InteractableType.CONSUMABLE)
             {
-                if (room.targetTank != null && room.targetTank.tankType == TankId.TankType.PLAYER) StackManager.AddToStack(GameManager.Instance.TankInteractableToEnum(interactable)); //Add interactable data to stack upon destruction (if it is in a player tank)
+                if (room.targetTank != null && room.targetTank.tankType == TankId.TankType.PLAYER && !overrideType) StackManager.AddToStack(GameManager.Instance.TankInteractableToEnum(interactable)); //Add interactable data to stack upon destruction (if it is in a player tank)
+                if (overrideType) StackManager.AddToStack(GameManager.Instance.TankInteractableToEnum(interactable));
                 Destroy(interactable.gameObject); //Destroy this interactable
             }
         }
@@ -660,6 +661,7 @@ namespace TowerTanks.Scripts
                 {
                     difference = amount + (maxHealth - health);
                     health = maxHealth;
+                    GameManager.Instance.AudioManager.Play("ItemPickup", gameObject);
                 }
                 else difference = amount;
                 HitEffects(1.5f);

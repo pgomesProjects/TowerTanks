@@ -51,13 +51,8 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("What cell the player is currently repairing")]
         private GameObject buildGhost; //current ghost the player is using to build
 
-        [SerializeField, Tooltip("Time it takes the player to complete one repair tick")]
-        private float repairTime;
-
-        private float repairTimer = 0;
-
-        [SerializeField, Tooltip("How much health the player repairs each completed tick")]
-        private float repairAmount;
+        [SerializeField, Tooltip("Active timer used to gauge time spent on a job.")]
+        private float jobTimer = 0;
 
         private float maxShakeIntensity = 0.5f;
         private float currentShakeTime;
@@ -292,6 +287,54 @@ namespace TowerTanks.Scripts
             {
                 currentState = CharacterState.OPERATING;
                 transform.position = currentJob.transform.position;
+                StartNewJob(currentJobType);
+
+                jobTimer += Time.deltaTime; //Increment job time tracker
+                if (jobTimer >= characterSettings.buildTime) //Player has finished job
+                {
+                    //Which tool are we using?
+                    CargoMelee tool = currentObject.GetComponent<CargoMelee>();
+                    float durabilityLoss = 50f;
+
+                    //Job Effects
+                    switch (currentJobType)
+                    {
+                        case CharacterJobType.FIX:
+                            {
+                                //Fix a Broken Interactable
+                                currentJob.Fix();
+                                GameManager.Instance.AudioManager.Play("ItemPickup", currentJob.gameObject);
+                                GameManager.Instance.AudioManager.Play("UseWrench", currentJob.gameObject);
+                                Vector2 particlePos = new Vector2(currentJob.transform.position.x, currentJob.transform.position.y);
+                                GameManager.Instance.ParticleSpawner.SpawnParticle(6, particlePos, 0.4f, currentJob.transform);
+                                GameManager.Instance.ParticleSpawner.SpawnParticle(7, particlePos, 0.4f, currentJob.transform);
+                            }
+                            break;
+                        case CharacterJobType.UNINSTALL:
+                            {
+                                //Uninstall an Interactable from a cell
+                                GameManager.Instance.AudioManager.Play("ConnectRoom", currentJob.gameObject);
+                                Vector2 particlePos = new Vector2(currentJob.transform.position.x, currentJob.transform.position.y - 0.5f);
+                                GameManager.Instance.ParticleSpawner.SpawnParticle(6, particlePos, 0.35f, currentJob.tank.treadSystem.transform);
+                                GameManager.Instance.ParticleSpawner.SpawnParticle(19, particlePos, 0.1f, currentJob.tank.treadSystem.transform);
+
+                                HapticsSettings setting = GameManager.Instance.SystemEffects.GetHapticsSetting("QuickJolt");
+                                GameManager.Instance.SystemEffects.ApplyControllerHaptics(this.GetPlayerData().playerInput, setting); //Apply haptics
+                                GameManager.Instance.ParticleSpawner.SpawnParticle(25, currentJob.transform.position, 0.3f, currentJob.tank.treadSystem.transform);
+                                currentJob.parentCell.AddInteractablesFromCell(true);
+
+                                durabilityLoss *= 4f;
+                            }
+                            break;
+                    }
+                    StopCurrentJob(); //Indicate that job has stopped
+                    CancelInteraction(startJump: true);
+                    if (tool != null)
+                    {
+                        tool.durability -= (int)durabilityLoss;
+                        tool.CheckDurability();
+                    }
+                }
             }
 
             //If we're carrying something
@@ -716,7 +759,7 @@ namespace TowerTanks.Scripts
         {
             if (!isAlive) return;
 
-            if (StackManager.stack.Count > 0 && ctx.performed && !isOperator && !isCarryingSomething && !isHoldingDown)
+            if (StackManager.stack.Count > 0 && ctx.performed && !isOperator && !isCarryingSomething)
             {
                 //Check if build is valid:
                 Collider2D cellColl =
@@ -730,6 +773,7 @@ namespace TowerTanks.Scripts
                         buildCell = cell; //Indicate that player is building in this cell
                         cell.playerBuilding = this; //Indicate that this player is building in given cell
                         print("started building");
+                        taskProgressBar = GameManager.Instance.UIManager.AddRadialTaskBar(this.gameObject, new Vector2(0.5f, 0.5f), characterSettings.buildTime, GetCharacterColor(), true);
                         taskProgressBar?.StartTask(characterSettings.buildTime);
                         StackManager.StartBuildingStackItem(0, this, characterSettings.buildTime);
                     }
@@ -750,8 +794,24 @@ namespace TowerTanks.Scripts
                         //Try to start a job
                         if (!Physics2D.Linecast(transform.position, currentZone.transform.position, obstructionMask))
                         {
-                            currentObject.GetComponent<CargoMelee>()?.CancelMelee();
-                            currentJob = currentZone.GetComponentInParent<TankInteractable>();
+                            CargoMelee tool = currentObject.GetComponent<CargoMelee>();
+                            if (tool != null)
+                            {
+                                if (tool.isWrench) currentJobType = CharacterJobType.FIX;
+                                else currentJobType = CharacterJobType.UNINSTALL;
+                            }
+                            TankInteractable interactable = currentZone.GetComponentInParent<TankInteractable>();
+
+                            bool jobsGood = true;
+                            if (currentJobType == CharacterJobType.FIX) { if (!interactable.isBroken) jobsGood = false; } //If it ain't broke don't fix it
+                            if (jobsGood)
+                            {
+                                tool?.CancelMelee();
+                                currentJob = interactable;
+                                taskProgressBar = GameManager.Instance.UIManager.AddRadialTaskBar(this.gameObject, new Vector2(0, 2.4f), characterSettings.buildTime, GetCharacterColor(), true);
+                                taskProgressBar?.StartTask(characterSettings.buildTime);
+                                taskProgressBar.transform.localScale = new Vector3(1.8f, 1.8f, 1);
+                            }
                         }
                         else
                         {
@@ -777,8 +837,9 @@ namespace TowerTanks.Scripts
 
                 if (currentJob != null)
                 {
-                    currentJob = null;
+                    StopCurrentJob();
                     if (currentState == CharacterState.OPERATING) currentState = CharacterState.NONCLIMBING;
+                    if (taskProgressBar != null) taskProgressBar.EndTask();
                 }
             }
         }
@@ -1039,6 +1100,23 @@ namespace TowerTanks.Scripts
             if(!forceStopBuild)
                 taskProgressBar?.EndTask();
             print("stopped building");
+        }
+
+        public void StartNewJob(CharacterJobType jobType)
+        {
+            if (currentJob == null) return;
+
+            currentJobType = jobType;
+        }
+
+        public void StopCurrentJob(bool forceStop = false)
+        {
+            if (currentJob == null) return;
+            currentJob = null;
+            currentState = CharacterState.NONCLIMBING;
+            jobTimer = 0;
+            if (!forceStop)
+                if (taskProgressBar != null) taskProgressBar.EndTask();
         }
 
         public void UpdatePlayerNameDisplay()

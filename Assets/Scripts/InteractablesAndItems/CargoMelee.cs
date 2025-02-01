@@ -121,12 +121,23 @@ namespace TowerTanks.Scripts
                     }
 
                     //Check Durability
-                    if (durability <= 0)
-                    {
-                        GameManager.Instance.AudioManager.Play("TankImpact", this.gameObject);
-                        Destroy(this.gameObject);
-                    }
+                    CheckDurability();
                 }
+            }
+        }
+
+        public void CheckDurability()
+        {
+            if (durability <= 0)
+            {
+                if (currentHolder != null)
+                {
+                    HapticsSettings setting = GameManager.Instance.SystemEffects.GetHapticsSetting("QuickJolt");
+                    GameManager.Instance.SystemEffects.ApplyControllerHaptics(currentHolder.GetPlayerData().playerInput, setting); //Apply haptics
+                }
+                GameManager.Instance.ParticleSpawner.SpawnParticle(25, transform.position, 0.4f, null);
+                GameManager.Instance.AudioManager.Play("TankImpact", this.gameObject);
+                Destroy(this.gameObject);
             }
         }
 

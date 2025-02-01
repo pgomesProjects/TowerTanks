@@ -11,8 +11,10 @@ namespace TowerTanks.Scripts
         #region Fields and Properties
 
         public enum CharacterState { CLIMBING, NONCLIMBING, OPERATING }; //Simple state system, in the future this will probably be refactored
+        public enum CharacterJobType { FIX, UNINSTALL }; //jobs characters are capable of executing
 
         public CharacterState currentState;                  //to an FSM.
+        protected CharacterJobType currentJobType;
 
         //Components
         protected Rigidbody2D rb;
