@@ -806,7 +806,12 @@ namespace TowerTanks.Scripts
                             if (currentJobType == CharacterJobType.FIX) { if (!interactable.isBroken) jobsGood = false; } //If it ain't broke don't fix it
                             if (jobsGood)
                             {
+                                //Determine What Animation to do
+                                string animationHash = "";
+                                if (currentJobType == CharacterJobType.FIX) animationHash = "WrenchFix";
+                                if (currentJobType == CharacterJobType.UNINSTALL) animationHash = "CrowbarPull";
                                 tool?.CancelMelee();
+                                tool?.AnimateJob(animationHash);
                                 currentJob = interactable;
                                 taskProgressBar = GameManager.Instance.UIManager.AddRadialTaskBar(this.gameObject, new Vector2(0, 2.4f), characterSettings.buildTime, GetCharacterColor(), true);
                                 taskProgressBar?.StartTask(characterSettings.buildTime);

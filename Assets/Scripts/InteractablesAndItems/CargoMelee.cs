@@ -17,6 +17,7 @@ namespace TowerTanks.Scripts
         private float meleeCooldownTimer = 0;
         private Animator meleeAnimator;
         private bool canSwing;
+        private bool doingJob;
 
         protected override void Awake()
         {
@@ -31,6 +32,7 @@ namespace TowerTanks.Scripts
             base.Start();
 
             canSwing = true;
+            doingJob = false;
         }
 
         protected override void Update()
@@ -42,6 +44,14 @@ namespace TowerTanks.Scripts
                 CancelMelee();
             }
             else if (meleeAnimator.enabled == false) meleeAnimator.enabled = true;
+
+            if (currentHolder != null)
+            {
+                if (currentHolder.currentJob == null)
+                {
+                    if (doingJob) CancelMelee();
+                }
+            }
         }
 
         private void FixedUpdate()
@@ -65,9 +75,16 @@ namespace TowerTanks.Scripts
             Swing();
         }
 
+        public void AnimateJob(string animationClipHash)
+        {
+            if (meleeAnimator.enabled == false) meleeAnimator.enabled = true;
+            meleeAnimator.Play(animationClipHash, 0, 0);
+            doingJob = true;
+        }
+
         public void Swing()
         {
-            if (canSwing)
+            if (canSwing && !doingJob)
             {
                 meleeCooldownTimer = meleeCooldown;
                 meleeAnimator.Play("WrenchSwing", 0, 0);
@@ -79,6 +96,7 @@ namespace TowerTanks.Scripts
         {
             meleeAnimator.Play("Default", 0, 0);
             meleeAnimator.enabled = false;
+            doingJob = false;
         }
 
         public void CheckMeleeHit()
