@@ -41,9 +41,16 @@ public class StateMachine
       if (state == _currentState)
          return;
       
-      _currentState?.OnExit();
-      _currentSubState?.OnExit();
-      _currentSubState = null;
+      
+      if (_currentSubState != null && !_stateToSubstate[state.GetType()].Contains(_currentSubState)) 
+      { // if the next state doesnt have the current substate as a valid substate, exit the substate
+         _currentSubState.OnExit();
+         _currentSubState = null;
+      }
+      _currentState?.OnExit(); // this deliberately should be after the substate check so that 
+      // when a state is exited from setstate, onexit can check if the current substate is valid for the next state
+      // by just seeing if a substate exists during it's onexit() call
+      
       _currentState = state;
       _currentSubstates = _stateToSubstate.TryGetValue(_currentState.GetType(), out var substates) ? substates : new List<ISubState>();
       
@@ -130,14 +137,13 @@ public class StateMachine
    
    public void CheckSubstateConditions()
    {
-      Debug.Log($"Current Substates: {_currentSubstates.Count}");
       if (_currentSubState == null)
       {
          foreach (var substate in _currentSubstates)
          {
             if (_substateConditionsMap.TryGetValue(substate.GetType(), out var conditions))
             {
-               if (conditions.EnterCondition())
+               if (conditions.EnterCondition() && !conditions.ExitCondition())
                {
                   SetSubstate(substate);
                }

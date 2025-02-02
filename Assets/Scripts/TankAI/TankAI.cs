@@ -43,7 +43,7 @@ namespace TowerTanks.Scripts
         [HideInInspector] public TankController tank;
         [HideInInspector] public TankController targetTank;
         private GunController[] _guns;
-        private int currentTokenCount;
+        public int currentTokenCount { get; private set; }
         [HideInInspector] public List<InteractableId> tokenActivatedInteractables = new List<InteractableId>();
         private Vector3 movePoint;
 
@@ -128,11 +128,11 @@ namespace TowerTanks.Scripts
 
         #region Tank AI Token System
         
-        public void DistributeToken(INTERACTABLE toInteractable)
+        public InteractableId DistributeToken(INTERACTABLE toInteractable)
         {
             if (currentTokenCount <= 0)
             {
-                return;
+                return null;
             }
 
             List<InteractableId> commonInteractables = tank.interactableList
@@ -142,7 +142,7 @@ namespace TowerTanks.Scripts
 
             if (!commonInteractables.Any())
             {
-                return;
+                return null;
             }
 
             InteractableId interactable = commonInteractables[Random.Range(0, commonInteractables.Count)];
@@ -155,8 +155,9 @@ namespace TowerTanks.Scripts
                 interactable.brain.mySpecificType = toInteractable;
                 interactable.brain.Init();
                 currentTokenCount--;
+                return interactable;
             }
-
+            return null;
         }
 
         public void RetrieveToken(InteractableId interactableToTakeFrom)
@@ -198,13 +199,21 @@ namespace TowerTanks.Scripts
             return false;
         }
         
-        public void RetrieveAllTokens()
+        public void RetrieveAllTokens(bool excludeSubstateInteractables = false)
         {
             // Create a temporary list to store interactables to be removed.
             // This avoids removing elements from the same list that we are iterating over,
             // which would cause an exception.
+            
             List<InteractableId> interactablesToRemove = new List<InteractableId>(tokenActivatedInteractables);
-
+            
+            if (excludeSubstateInteractables)
+            {
+                interactablesToRemove = tokenActivatedInteractables
+                    .Where(i => !(i.brain is WeaponBrain weaponBrain && weaponBrain.AimIsOverridden()))
+                    .ToList();// doesn't retrieve tokens from interactables that are being overridden by a substate
+            }
+            
             // Iterate over the temporary list and remove interactables from the original list
             foreach (var interactable in interactablesToRemove)
             {
@@ -347,6 +356,13 @@ namespace TowerTanks.Scripts
             {
                 //draw a box for each of their bounds
                 Gizmos.color = Color.blue;
+                if (interactable.groupType == TankInteractable.InteractableType.WEAPONS)
+                {
+                    WeaponBrain brain = interactable.brain as WeaponBrain;
+                    Debug.Log("My Type is Weapon BRain");
+                    if (brain.AimIsOverridden()) Gizmos.color = Color.magenta;
+                }
+                
                 Bounds bnds = interactable.script.thisCollider.bounds;
                 Gizmos.DrawWireCube(interactable.script.transform.position, bnds.size);
                 

@@ -220,6 +220,11 @@ namespace TowerTanks.Scripts
             overrideTarget = null;
         }
 
+        public bool AimIsOverridden()
+        {
+            return overrideTarget != null;
+        }
+
         private void OnDrawGizmos()
         {
             bool mortar = mySpecificType == INTERACTABLE.Mortar;

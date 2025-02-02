@@ -17,6 +17,9 @@ namespace TowerTanks.Scripts
             INTERACTABLE.Cannon,
             INTERACTABLE.Mortar
         };
+
+        private INTERACTABLE interactableTakenFrom;
+        private bool tokenBorrowed;
         
         public HuntPlayerSubstate(TankAI tank)
         {
@@ -34,36 +37,85 @@ namespace TowerTanks.Scripts
         {
             
         }
+        
+        public void SetTargetWeapon(InteractableId weapon)
+        {
+            targetWeapon = weapon;
+            targetBrain = targetWeapon.brain as WeaponBrain;
+        }
+        
+        public void SetTargetWeapon(INTERACTABLE interactable)
+        {//overloaded method to allow for different parameter types
+            targetWeapon = _tankAI.tokenActivatedInteractables.First(x => x.brain.mySpecificType == interactable);
+            targetBrain = targetWeapon.brain as WeaponBrain;
+        }
+
+        public void SwitchToken(InteractableId from, INTERACTABLE to)
+        {
+            _tankAI.RetrieveToken(from);
+            var intId = _tankAI.DistributeToken(to);
+            interactableTakenFrom = from.brain.mySpecificType;
+            tokenBorrowed = true;
+            SetTargetWeapon(intId);
+        }
 
         public void OnEnter()
         {
-            
-            Debug.Log("HuntPlayerSubstate OnEnter");
             var players = GameObject.FindObjectsOfType<PlayerMovement>();
             var nearestPlayer = players.OrderBy(x => Vector3.Distance(x.transform.position, _tank.treadSystem.transform.position)).First();
-            foreach (var interactable in weaponPriorityList)
+            
+            for (int i = 0; i < weaponPriorityList.Count; i++)
             {
+                var interactable = weaponPriorityList[i];
                 if (_tankAI.CheckIfAvailable(interactable))
                 {
                     if (_tankAI.CheckIfHasToken(interactable))
                     {
-                        targetWeapon = _tankAI.tokenActivatedInteractables.First(x => x.brain.mySpecificType == interactable);
+                        // Check for higher priority interactables. if any exist on this tank, unused, switch to it
+                        for (int j = 0; j < i; j++)
+                        {
+                            var higherPriorityInteractable = weaponPriorityList[j];
+                            if (_tankAI.CheckIfAvailable(higherPriorityInteractable))
+                            {
+                                var currentInteractable = _tankAI.tokenActivatedInteractables.First(x => x.brain.mySpecificType == interactable);
+                                SwitchToken(currentInteractable, higherPriorityInteractable);
+                                break;
+                            }
+                        }
+
+                        if (targetWeapon == null) //nothing higher priority found, so use this one
+                        {
+                            SetTargetWeapon(interactable);
+                            break;
+                        
+                        }
+                    }
+                    //at this point, if we have an open token, and we have the gun, we should use it. note: at this point, we have NO tokens on our desired interactable
+                    if (_tankAI.currentTokenCount > 0)
+                    {
+                        var intId = _tankAI.DistributeToken(interactable);
+                        SetTargetWeapon(intId);
                         break;
                     }
-                    
-                    if (_tankAI.CheckIfHasToken(INTERACTABLE.Boiler))
+                }
+            }
+
+            if (targetWeapon == null)
+            {
+                foreach (var interactable in weaponPriorityList)
+                { //if the last checks fail, see if we have a boiler we can redistribute from instead
+                    if (_tankAI.CheckIfAvailable(interactable) && _tankAI.CheckIfHasToken(INTERACTABLE.Boiler))
                     {
                         var boiler = _tankAI.tokenActivatedInteractables.First(x =>
                             x.brain.mySpecificType == INTERACTABLE.Boiler);
-                        _tankAI.RetrieveToken(boiler);
-                        _tankAI.DistributeToken(interactable);
-                        targetWeapon = _tankAI.tokenActivatedInteractables.First(x => x.brain.mySpecificType == interactable);
-                        targetBrain = targetWeapon.brain as WeaponBrain;
+                        SwitchToken(boiler, interactable);
                         break;
+                        
                     }
-                    
                 }
             }
+            
+            
             targetBrain?.OverrideTargetPoint(nearestPlayer.transform);
             if (targetBrain != null)
             {
@@ -81,7 +133,11 @@ namespace TowerTanks.Scripts
             Debug.Log("HuntPlayerSubstate OnExit");
             targetBrain?.ResetTargetPoint();
             _tankAI.RetrieveToken(targetWeapon);
-            _tankAI.DistributeToken(INTERACTABLE.Boiler);
+            if (tokenBorrowed)
+            {
+                _tankAI.DistributeToken(interactableTakenFrom);
+                tokenBorrowed = false;
+            }
         }
     }
 }

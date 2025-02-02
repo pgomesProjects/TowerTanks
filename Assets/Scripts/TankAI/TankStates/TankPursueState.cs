@@ -48,7 +48,7 @@ namespace TowerTanks.Scripts
 
         public void OnExit()
         {
-            _tankAI.RetrieveAllTokens();
+            _tankAI.RetrieveAllTokens(true);
             _tank.StopAllCoroutines();
         }
 
