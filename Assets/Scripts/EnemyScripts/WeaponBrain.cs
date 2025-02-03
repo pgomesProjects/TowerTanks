@@ -23,7 +23,7 @@ namespace TowerTanks.Scripts
         private bool obstruction;
         protected float aggroCooldownTimer;
         public float aggroCooldown;
-        private Transform overrideTarget;
+        protected Transform overrideTarget;
         public Coroutine updateAimTarget;
 
         private void Awake()
@@ -110,7 +110,7 @@ namespace TowerTanks.Scripts
         {
             while (tokenActivated)
             {
-                if (overrideTarget == null && myTankAI.targetTank != myTankAI.tank && myTankAI.targetTank != null && myTankAI.targetTank.treadSystem != null)
+                if (overrideTarget == null && myTankAI.targetTank != myTankAI.tank && myTankAI.targetTank != null)
                 {
                     var targetTankTransform = myTankAI.targetTank.treadSystem.transform;
                     var upmostCell = myTankAI.targetTank.upMostCell.transform;
@@ -132,8 +132,8 @@ namespace TowerTanks.Scripts
                         var pointBelowTarget = targetTankTransform.position - targetTankTransform.up * 2f;
                         var pointAboveTarget = upmostCell.position + targetTankTransform.up * 4f;
                         var rand = Random.Range(0, 2);
-                        if (rand == 0) targetPoint = GetRandomPointBetweenVectors(upmostCell.position + targetTankTransform.up * 1.5f, pointAboveTarget);
-                        else           targetPoint = GetRandomPointBetweenVectors(targetTankTransform.position - targetTankTransform.up, pointBelowTarget);
+                        if (rand == 0) targetPoint = GetRandomPointBetweenVectors(upmostCell.position + targetTankTransform.up * 1.5f, pointAboveTarget); //misses the tank by aiming too high
+                        else           targetPoint = GetRandomPointBetweenVectors(targetTankTransform.position - targetTankTransform.up, pointBelowTarget); //misses the tank by aiming too low
                         targetPointOffset = targetPoint - targetTankTransform.position;
                     }
                 }

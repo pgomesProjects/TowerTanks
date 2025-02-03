@@ -132,9 +132,9 @@ namespace TowerTanks.Scripts
         {
             Debug.Log("HuntPlayerSubstate OnExit");
             targetBrain?.ResetTargetPoint();
-            _tankAI.RetrieveToken(targetWeapon);
             if (tokenBorrowed)
             {
+                _tankAI.RetrieveToken(targetWeapon);
                 _tankAI.DistributeToken(interactableTakenFrom);
                 tokenBorrowed = false;
             }
