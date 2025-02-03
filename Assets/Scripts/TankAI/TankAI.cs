@@ -359,9 +359,9 @@ namespace TowerTanks.Scripts
                 if (interactable.groupType == TankInteractable.InteractableType.WEAPONS)
                 {
                     WeaponBrain brain = interactable.brain as WeaponBrain;
-                    Debug.Log("My Type is Weapon BRain");
-                    if (brain.AimIsOverridden()) Gizmos.color = Color.magenta;
+                    if (brain != null && brain.AimIsOverridden()) Gizmos.color = Color.magenta;
                 }
+                
                 
                 Bounds bnds = interactable.script.thisCollider.bounds;
                 Gizmos.DrawWireCube(interactable.script.transform.position, bnds.size);

@@ -20,6 +20,7 @@ namespace TowerTanks.Scripts
 
         private INTERACTABLE interactableTakenFrom;
         private bool tokenBorrowed;
+        private bool couldntOverride;
         
         public HuntPlayerSubstate(TankAI tank)
         {
@@ -30,7 +31,13 @@ namespace TowerTanks.Scripts
         public bool PauseParentState { get; set; }
         public void FrameUpdate()
         {
-            
+            if (!couldntOverride && targetBrain == null)
+            {
+                OnEnter(); //if our original override was successful, but targetbrain ends up becoming null,
+                // that means the hunt weapon has been destroyed, so we need to assign a new one. if a new one
+                // can't be assigned, couldntOverride will be set to true, and it wont try again.
+                // this should only ever run for one frame thanks to the bool
+            }
         }
 
         public void PhysicsUpdate()
@@ -61,6 +68,7 @@ namespace TowerTanks.Scripts
 
         public void OnEnter()
         {
+            Debug.Log("Hunt Entered");
             var players = GameObject.FindObjectsOfType<PlayerMovement>();
             var nearestPlayer = players.OrderBy(x => Vector3.Distance(x.transform.position, _tank.treadSystem.transform.position)).First();
             
@@ -97,6 +105,7 @@ namespace TowerTanks.Scripts
                         SetTargetWeapon(intId);
                         break;
                     }
+                    
                 }
             }
 
@@ -110,7 +119,6 @@ namespace TowerTanks.Scripts
                             x.brain.mySpecificType == INTERACTABLE.Boiler);
                         SwitchToken(boiler, interactable);
                         break;
-                        
                     }
                 }
             }
@@ -124,8 +132,7 @@ namespace TowerTanks.Scripts
             }
             
             if (targetBrain != null) targetBrain.updateAimTarget = targetBrain.StartCoroutine(targetBrain.UpdateTargetPoint(_tankAI.aiSettings.tankAccuracy));
-            
-             
+            else couldntOverride = true;
         }
 
         public void OnExit()
@@ -137,6 +144,7 @@ namespace TowerTanks.Scripts
                 _tankAI.RetrieveToken(targetWeapon);
                 _tankAI.DistributeToken(interactableTakenFrom);
                 tokenBorrowed = false;
+                couldntOverride = false;
             }
         }
     }
