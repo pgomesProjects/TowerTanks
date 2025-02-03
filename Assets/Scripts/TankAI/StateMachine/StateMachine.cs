@@ -41,9 +41,10 @@ public class StateMachine
       if (state == _currentState)
          return;
       
-      
-      if (_currentSubState != null && !_stateToSubstate[state.GetType()].Contains(_currentSubState)) 
-      { // if the next state doesnt have the current substate as a valid substate, exit the substate
+      if (_currentSubState != null && 
+          (!_stateToSubstate.ContainsKey(state.GetType()) ||
+           !_stateToSubstate[state.GetType()].Contains(_currentSubState)))
+      {
          _currentSubState.OnExit();
          _currentSubState = null;
       }
