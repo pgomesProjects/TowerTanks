@@ -1539,10 +1539,10 @@ MonoBehaviour:
   enemyTankDesigns:
   - tier: 1
     designs:
-    - {fileID: 4900000, guid: 60995db5b3c7cc34b8413bb4155356cf, type: 3}
-    - {fileID: 4900000, guid: 5f378c4a49bc7c543b03756a5917095f, type: 3}
+    - {fileID: 4900000, guid: 7f6afdf81b4733c42b64a45f672b0bf9, type: 3}
+    - {fileID: 4900000, guid: 96ff5734814bdcb4ab747972b6d53313, type: 3}
     - {fileID: 4900000, guid: 32947dfb516b30d4aa7ecefed753630e, type: 3}
-    - {fileID: 4900000, guid: e4a4b2cff2a8ed84caf6d14275621189, type: 3}
+    - {fileID: 4900000, guid: 6ee20ed44623c014aa7f2fd1d026aeec, type: 3}
   - tier: 2
     designs:
     - {fileID: 4900000, guid: aecb783de59916340b00ac621243d679, type: 3}

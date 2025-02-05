@@ -22,28 +22,31 @@ namespace TowerTanks.Scripts
             int length = 0;
             foreach (CargoId cargo in cargoList) //Get weights from every available chunk in the spawner
             {
-                int finalWeight = cargo.weight; //get default weight
-                if (scarcityBalancing && cargo.scarcityBalanced) //if we're balancing for scarcity,
+                if (cargo.weight > 0)
                 {
-                    CargoManifest tempManifest = LevelManager.Instance.playerTank.GetCurrentManifest(); //get temp current tank manifest
-                    int itemCount = 0; 
-                    foreach(CargoManifest.ManifestItem item in tempManifest.items) //iterate through each item in the temp manifest
+                    int finalWeight = cargo.weight; //get default weight
+                    if (scarcityBalancing && cargo.scarcityBalanced) //if we're balancing for scarcity,
                     {
-                        if (item.itemID == cargo.id) //if it matches the id of the weight we're trying to get
+                        CargoManifest tempManifest = LevelManager.Instance.playerTank.GetCurrentManifest(); //get temp current tank manifest
+                        int itemCount = 0;
+                        foreach (CargoManifest.ManifestItem item in tempManifest.items) //iterate through each item in the temp manifest
                         {
-                            itemCount++; //add it to the count
+                            if (item.itemID == cargo.id) //if it matches the id of the weight we're trying to get
+                            {
+                                itemCount++; //add it to the count
+                            }
                         }
+
+                        float multiplier = Mathf.Lerp(1f, 0, (itemCount / 4f)); //determine negative multiplier on item weight based on count. Lower count = higher multiplier
+
+                        float calculatedWeight = finalWeight * multiplier;
+                        calculatedWeight = Mathf.Clamp(calculatedWeight, 1, finalWeight); //calculate new weight based on multiplier applied to the previous weight, Min 1, Max Default Weight
+
+                        finalWeight = Mathf.RoundToInt(calculatedWeight);
                     }
 
-                    float multiplier = Mathf.Lerp(1f, 0, (itemCount / 4f)); //determine negative multiplier on item weight based on count. Lower count = higher multiplier
-
-                    float calculatedWeight = finalWeight * multiplier; 
-                    calculatedWeight = Mathf.Clamp(calculatedWeight, 1, finalWeight); //calculate new weight based on multiplier applied to the previous weight, Min 1, Max Default Weight
-
-                    finalWeight = Mathf.RoundToInt(calculatedWeight);
+                    length += finalWeight;
                 }
-
-                length += finalWeight;
             }
 
             string[] weights = new string[length]; //sets up total weight values
@@ -52,7 +55,28 @@ namespace TowerTanks.Scripts
             {
                 if (cargo.weight > 0)
                 {
-                    for (int i = 0; i < cargo.weight; i++)
+                    int finalWeight = cargo.weight; //get default weight
+                    if (scarcityBalancing && cargo.scarcityBalanced) //if we're balancing for scarcity,
+                    {
+                        CargoManifest tempManifest = LevelManager.Instance.playerTank.GetCurrentManifest(); //get temp current tank manifest
+                        int itemCount = 0;
+                        foreach (CargoManifest.ManifestItem item in tempManifest.items) //iterate through each item in the temp manifest
+                        {
+                            if (item.itemID == cargo.id) //if it matches the id of the weight we're trying to get
+                            {
+                                itemCount++; //add it to the count
+                            }
+                        }
+
+                        float multiplier = Mathf.Lerp(1f, 0, (itemCount / 4f)); //determine negative multiplier on item weight based on count. Lower count = higher multiplier
+
+                        float calculatedWeight = finalWeight * multiplier;
+                        calculatedWeight = Mathf.Clamp(calculatedWeight, 1, finalWeight); //calculate new weight based on multiplier applied to the previous weight, Min 1, Max Default Weight
+
+                        finalWeight = Mathf.RoundToInt(calculatedWeight);
+                    }
+
+                    for (int i = 0; i < finalWeight; i++) //assign weights
                     {
                         weights[count] = cargo.cargoPrefab.name;
                         count++;
