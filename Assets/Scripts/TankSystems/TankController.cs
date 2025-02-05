@@ -1269,15 +1269,18 @@ namespace TowerTanks.Scripts
             }
             else
             {
-                foreach(Vector2 node in cargoNodes)
-                {
-                    CargoManifest.ManifestItem _item = new CargoManifest.ManifestItem();
-                    CargoId random = GameManager.Instance.CargoManager.GetRandomCargo();
-                    _item.itemID = random.id;
-                    _item.localSpawnVector.x = node.x;
-                    _item.localSpawnVector.y = node.y;
+                if (cargoNodes?.Length > 0) 
+                { 
+                    foreach (Vector2 node in cargoNodes)
+                    {
+                        CargoManifest.ManifestItem _item = new CargoManifest.ManifestItem();
+                        CargoId random = GameManager.Instance.CargoManager.GetRandomCargo(true);
+                        _item.itemID = random.id;
+                        _item.localSpawnVector.x = node.x;
+                        _item.localSpawnVector.y = node.y;
 
-                    manifest.items.Add(_item);
+                        manifest.items.Add(_item);
+                    }
                 }
             }
 
