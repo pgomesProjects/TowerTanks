@@ -40,9 +40,9 @@ namespace TowerTanks.Scripts
             }
         }
 
-        public GameObject GetRandomCargo()
+        public CargoId GetRandomCargo()
         {
-            GameObject cargo = null;
+            CargoId cargo = null;
 
             int random = Random.Range(0, cargoWeights.Length);
 
@@ -50,7 +50,7 @@ namespace TowerTanks.Scripts
             {
                 if (weight.cargoPrefab.name == cargoWeights[random])
                 {
-                    cargo = weight.cargoPrefab;
+                    cargo = weight;
                 }
             }
 

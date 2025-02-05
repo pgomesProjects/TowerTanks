@@ -51,10 +51,8 @@ namespace TowerTanks.Scripts
         public GameObject surrenderFlag;
         private Animator tankAnimator;
         public GameObject corpsePrefab;
-        public List<Coupler> hatches = new List<Coupler>();  
-
-        [Header("Cargo")]
-        public GameObject[] cargoHold;
+        public List<Coupler> hatches = new List<Coupler>();
+        private Vector2[] cargoNodes;
 
         //Settings:
         [Header("Visual Settings:")]
@@ -326,6 +324,7 @@ namespace TowerTanks.Scripts
                                 TankDesign _design = JsonUtility.FromJson<TankDesign>(json);
                                 //Debug.Log("" + layout.chunks[0] + ", " + layout.chunks[1] + "...");
                                 Build(_design); //Build the tank
+                                cargoNodes = _design.cargoNodes;
                             }
                         }
                     }
@@ -372,7 +371,8 @@ namespace TowerTanks.Scripts
             {
                 coreHealth *= 0.5f;
                 EnableCannonBrains(false);
-                AddCargo();
+                CargoManifest nodeManifest = GetCurrentManifest(true);
+                SpawnCargo(nodeManifest);
                 int toLoad = LevelManager.Instance.RollSpecialAmmo();
                 if (toLoad > 0)
                 {
@@ -805,8 +805,8 @@ namespace TowerTanks.Scripts
                 }
 
                 //Spawn Cargo
-                if (cargoHold.Length > 0) { GameManager.Instance.DisplayTutorial(4, false, 5); }
-                foreach (GameObject _cargo in cargoHold)
+                //if (cargoHold.Length > 0) { GameManager.Instance.DisplayTutorial(4, false, 5); }
+                /*foreach (GameObject _cargo in cargoHold)
                 {
                     GameObject flyingCargo = Instantiate(_cargo, treadSystem.transform.position, treadSystem.transform.rotation, null);
                     float randomX = Random.Range(-10f, 10f);
@@ -817,7 +817,7 @@ namespace TowerTanks.Scripts
                     Rigidbody2D rb = flyingCargo.GetComponent<Rigidbody2D>();
                     rb.AddForce(_random * 40);
                     rb.AddTorque(randomT * 10);
-                }
+                }*/
 
                 if (tankType == TankId.TankType.ENEMY)
                 {
@@ -980,11 +980,11 @@ namespace TowerTanks.Scripts
         public void AddCargo()
         {
             int random = Random.Range(2, 8);
-            cargoHold = new GameObject[random];
+            /*cargoHold = new GameObject[random];
             for (int i = 0; i < cargoHold.Length; i++)
             {
                 cargoHold[i] = GameManager.Instance.CargoManager.GetRandomCargo();
-            }
+            }*/
         }
 
         public void TriggerTankAlarm()
@@ -1111,6 +1111,7 @@ namespace TowerTanks.Scripts
             TankDesign design = new TankDesign();
 
             int roomCount = 0;
+            int cargoCount = 0;
             //Find out how many steps are needed for this design
             foreach(Transform room in towerJoint)
             {
@@ -1119,9 +1120,15 @@ namespace TowerTanks.Scripts
                 {
                     roomCount++;
                 }
+
+                if (room.name.Contains("CargoNode"))
+                {
+                    cargoCount++;
+                }
             }
 
             design.buildingSteps = new BuildStep[roomCount]; //Set up the instructions
+            design.cargoNodes = new Vector2[cargoCount]; //Set up nodes
 
             for (int i = 0; i < design.buildingSteps.Length; i++)
             {
@@ -1129,11 +1136,12 @@ namespace TowerTanks.Scripts
             }
 
             roomCount = 0;
+            cargoCount = 0;
 
             //Fill out instructions with details
-            foreach(Transform room in towerJoint)
+            foreach (Transform node in towerJoint)
             {
-                Room roomScript = room.GetComponent<Room>();
+                Room roomScript = node.GetComponent<Room>();
                 if (roomScript != null)
                 {
                     //Get interactables:
@@ -1154,10 +1162,10 @@ namespace TowerTanks.Scripts
                     design.buildingSteps[roomCount].cellInteractables = cellInters.ToArray(); //Save interactables to design
 
                     //Get room info:
-                    string roomID = room.name.Replace("(Clone)", "");
+                    string roomID = node.name.Replace("(Clone)", "");
                     design.buildingSteps[roomCount].roomID = roomID; //Name of the room's prefab
                     design.buildingSteps[roomCount].roomType = roomScript.type; //The room's current type
-                    design.buildingSteps[roomCount].localSpawnVector = room.transform.localPosition; //The room's local position relative to the tank
+                    design.buildingSteps[roomCount].localSpawnVector = node.transform.localPosition; //The room's local position relative to the tank
                     design.buildingSteps[roomCount].rotate = roomScript.rotTracker; //How many times the room has been rotated before being placed
 
                     //Get missing cells:
@@ -1168,6 +1176,16 @@ namespace TowerTanks.Scripts
                     //Cell damage values?
                     
                     roomCount++;
+                }
+
+                //Get Cargo Nodes
+                if (node.name.Contains("CargoNode"))
+                {
+                    Vector2 pos = new Vector2(node.transform.localPosition.x, node.transform.localPosition.y);
+                    design.cargoNodes[cargoCount] = pos;
+                    node.gameObject.SetActive(false);
+
+                    cargoCount++;
                 }
             }
 
@@ -1181,7 +1199,7 @@ namespace TowerTanks.Scripts
         {
             if (GameManager.Instance.cargoManifest?.items.Count > 0) //if we have any cargo
             {
-                foreach (CargoManifest.ManifestItem item in GameManager.Instance.cargoManifest.items) //go through each item in the manifest
+                foreach (CargoManifest.ManifestItem item in manifest.items) //go through each item in the manifest
                 {
                     GameObject prefab = null;
                     foreach (CargoId cargoItem in GameManager.Instance.CargoManager.cargoList)
@@ -1204,41 +1222,62 @@ namespace TowerTanks.Scripts
             }
         }
 
-        public CargoManifest GetCurrentManifest()
+        /// <summary>
+        /// Gets the current layout of spawned items in the tank.
+        /// </summary>
+        /// <param name="nodeManifest">Whether this manifest is exclusively looking at existing CargoNodes or not.</param>
+        /// <returns>Current manifest of items in the tank.</returns>
+        public CargoManifest GetCurrentManifest(bool nodeManifest = false)
         {
             CargoManifest manifest = new CargoManifest();
 
-            //Find All Cargo Items currently inside the Tank
-            Cargo[] cargoItems = GetComponentsInChildren<Cargo>();
-
-            if (cargoItems.Length > 0)
+            if (!nodeManifest)
             {
-                foreach(Cargo item in cargoItems) //go through each item in the tank
+                //Find All Cargo Items currently inside the Tank
+                Cargo[] cargoItems = GetComponentsInChildren<Cargo>();
+
+                if (cargoItems.Length > 0)
                 {
-                    string itemID = "";
-                    foreach(CargoId _cargo in GameManager.Instance.CargoManager.cargoList)
+                    foreach (Cargo item in cargoItems) //go through each item in the tank
                     {
-                        if(_cargo.id == item.cargoID) //if it's on the list of valid cargo items
+                        string itemID = "";
+                        foreach (CargoId _cargo in GameManager.Instance.CargoManager.cargoList)
                         {
-                            itemID = item.cargoID;
+                            if (_cargo.id == item.cargoID) //if it's on the list of valid cargo items
+                            {
+                                itemID = item.cargoID;
+                            }
+                        }
+
+                        if (itemID != "")
+                        {
+                            CargoManifest.ManifestItem _item = new CargoManifest.ManifestItem();
+                            _item.itemID = itemID; //update id
+
+                            Transform temp = item.transform.parent;
+                            item.transform.parent = towerJoint.transform; //set new temp parent
+
+                            //Get Item Information
+                            _item.localSpawnVector = item.transform.localPosition; //Get it's current localPosition
+                            _item.persistentValue = item.GetPersistentValue();
+
+                            item.transform.parent = temp;
+                            manifest.items.Add(_item); //add it to the manifest
                         }
                     }
+                }
+            }
+            else
+            {
+                foreach(Vector2 node in cargoNodes)
+                {
+                    CargoManifest.ManifestItem _item = new CargoManifest.ManifestItem();
+                    CargoId random = GameManager.Instance.CargoManager.GetRandomCargo();
+                    _item.itemID = random.id;
+                    _item.localSpawnVector.x = node.x;
+                    _item.localSpawnVector.y = node.y;
 
-                    if (itemID != "")
-                    {
-                        CargoManifest.ManifestItem _item = new CargoManifest.ManifestItem();
-                        _item.itemID = itemID; //update id
-
-                        Transform temp = item.transform.parent;
-                        item.transform.parent = towerJoint.transform; //set new temp parent
-
-                        //Get Item Information
-                        _item.localSpawnVector = item.transform.localPosition; //Get it's current localPosition
-                        _item.persistentValue = item.GetPersistentValue();
-
-                        item.transform.parent = temp;
-                        manifest.items.Add(_item); //add it to the manifest
-                    }
+                    manifest.items.Add(_item);
                 }
             }
 

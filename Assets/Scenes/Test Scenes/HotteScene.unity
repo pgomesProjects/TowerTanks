@@ -1541,7 +1541,7 @@ MonoBehaviour:
     designs:
     - {fileID: 4900000, guid: 60995db5b3c7cc34b8413bb4155356cf, type: 3}
     - {fileID: 4900000, guid: 5f378c4a49bc7c543b03756a5917095f, type: 3}
-    - {fileID: 4900000, guid: 0dcba3895f9f2bc4b9dbc8f50e42291e, type: 3}
+    - {fileID: 4900000, guid: 32947dfb516b30d4aa7ecefed753630e, type: 3}
     - {fileID: 4900000, guid: e4a4b2cff2a8ed84caf6d14275621189, type: 3}
   - tier: 2
     designs:
@@ -1583,7 +1583,7 @@ MonoBehaviour:
     tankType: 0
     gameObject: {fileID: 1411317892}
     design: {fileID: 4900000, guid: 0ae7f54292a46314da4951bdac3723a3, type: 3}
-    buildOnStart: 0
+    buildOnStart: 1
 --- !u!1 &511407189
 GameObject:
   m_ObjectHideFlags: 0
