@@ -5,7 +5,8 @@
         {
             "cellName": "Cell_2",
             "interRef": "InterCommand_Throttle",
-            "flipped": false
+            "flipped": false,
+            "specialAmmo": []
         }
     ],
     "buildingSteps": [
@@ -39,7 +40,8 @@
                 {
                     "cellName": "Cell_1",
                     "interRef": "InterEngineer_Boiler",
-                    "flipped": false
+                    "flipped": false,
+                    "specialAmmo": []
                 }
             ],
             "cellManifest": [
@@ -62,7 +64,8 @@
                 {
                     "cellName": "Cell_0",
                     "interRef": "InterEngineer_Boiler",
-                    "flipped": false
+                    "flipped": false,
+                    "specialAmmo": []
                 }
             ],
             "cellManifest": [
@@ -85,7 +88,8 @@
                 {
                     "cellName": "Cell_1",
                     "interRef": "InterWeapon_MachineGun",
-                    "flipped": true
+                    "flipped": true,
+                    "specialAmmo": []
                 }
             ],
             "cellManifest": [
@@ -125,7 +129,8 @@
                 {
                     "cellName": "Cell_0",
                     "interRef": "InterWeapon_MachineGun",
-                    "flipped": true
+                    "flipped": true,
+                    "specialAmmo": []
                 }
             ],
             "cellManifest": [
@@ -148,13 +153,32 @@
                 {
                     "cellName": "Cell_0",
                     "interRef": "InterWeapon_MachineGun",
-                    "flipped": true
+                    "flipped": true,
+                    "specialAmmo": []
                 }
             ],
             "cellManifest": [
                 true,
                 true
             ]
+        }
+    ],
+    "cargoNodes": [
+        {
+            "x": 0.0,
+            "y": 2.5
+        },
+        {
+            "x": 1.0,
+            "y": 2.5
+        },
+        {
+            "x": 0.5,
+            "y": 3.25
+        },
+        {
+            "x": 3.5,
+            "y": 0.0
         }
     ]
 }
