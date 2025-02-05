@@ -1557,16 +1557,16 @@ MonoBehaviour:
     - {fileID: 4900000, guid: dc6119b49acdd4d4ea704c2f694e89d9, type: 3}
   - tier: 4
     designs:
-    - {fileID: 4900000, guid: 248a10c6b833f4d4ebe34d0c5b4f8765, type: 3}
-    - {fileID: 4900000, guid: c4e1b006506b07c4ea82e25a31b586e6, type: 3}
-    - {fileID: 4900000, guid: 9c38265d0767b1141bf8cc348890cb6e, type: 3}
-    - {fileID: 4900000, guid: 0fd4e86b07d4d334fb8b9c93e2988d86, type: 3}
+    - {fileID: 4900000, guid: b4dbd82ccf4d15f429c93e640ad4823a, type: 3}
+    - {fileID: 4900000, guid: 9118b73652ab5bf46b2a953cd30e3f38, type: 3}
+    - {fileID: 4900000, guid: bd9c64442761aad459487a4981ca25c2, type: 3}
+    - {fileID: 4900000, guid: 8a5721222ba462a44b507743ce5fe01a, type: 3}
   - tier: 5
     designs:
-    - {fileID: 4900000, guid: 871697c44b6024a4abb06b2b3938c926, type: 3}
-    - {fileID: 4900000, guid: 566d1a856563b8643a920316711eaaa5, type: 3}
-    - {fileID: 4900000, guid: 94857bee71ba89c4984ad4797a726802, type: 3}
-    - {fileID: 4900000, guid: e4780146a8a95224498ded04bd0d63ce, type: 3}
+    - {fileID: 4900000, guid: 1908c25ebc734cf478c8c68b55b69ff8, type: 3}
+    - {fileID: 4900000, guid: e48d85c963ab0e441890246b81e3b89b, type: 3}
+    - {fileID: 4900000, guid: 70e254a539814c24ebff2ced23ee2069, type: 3}
+    - {fileID: 4900000, guid: 619bb801ab4b8084aa9e6632ffc4e193, type: 3}
   merchantTankDesigns:
   - tier: 1
     designs:
