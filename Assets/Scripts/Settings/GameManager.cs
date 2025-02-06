@@ -58,6 +58,7 @@ namespace TowerTanks.Scripts
 
         [Space()]
         public bool ignoreTutorials;
+        public bool fireBreaksInteractables;
         [Space()]
 
         //Global Static Variables

@@ -79,7 +79,7 @@ namespace TowerTanks.Scripts
             Collider2D hit = Physics2D.OverlapCircle(transform.position, radius, layerMask);
             if (hit == null)
             {
-                hit = Physics2D.CircleCast(transform.position, radius, velocity, (velocity.magnitude * Time.deltaTime), layerMask).collider;
+                hit = Physics2D.CircleCast(transform.position, (radius * 1.5f), velocity, (velocity.magnitude * Time.deltaTime), layerMask).collider;
             }
             if (hit != null)
             {

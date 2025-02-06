@@ -254,6 +254,7 @@ namespace TowerTanks.Scripts
             {
                 //Pre-flight checks:
                 if (!enabled) return; //Do nothing if disabled
+                if (tanks[0] == null) return;
 
                 if (!radar) //Updates for engagement cameras
                 {
@@ -642,6 +643,7 @@ namespace TowerTanks.Scripts
         public void OnTankDestroyed(TankController tank)
         {
             if (tank.tankType != TankId.TankType.PLAYER) {
+                if (main.PlayerCamSystem() == null) return;
                 if (main.PlayerCamSystem().tanks.Contains(tank))
                 {
                     TankController playertank = TankManager.instance.playerTank;

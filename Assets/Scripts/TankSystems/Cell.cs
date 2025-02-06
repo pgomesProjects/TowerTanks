@@ -757,21 +757,36 @@ namespace TowerTanks.Scripts
                 float burnTimeMult = 1.5f;
                 burnTimer = Random.Range(minBurnTime * burnTimeMult, maxBurnTime * burnTimeMult);
 
-                //Destroy Cell Contents
+                //Destroy/Break Cell Contents
                 if (interactable != null)
                 {
+                    bool triggerEffects = true;
                     if (engine != null)
                     {
                         engine.Explode();
                     }
                     else
                     {
-                        if (room.targetTank != null && room.targetTank.tankType == TankId.TankType.PLAYER) StackManager.AddToStack(GameManager.Instance.TankInteractableToEnum(interactable)); //Add interactable data to stack upon destruction (if it is in a player tank)
-                        interactable.DebugDestroy();
+                        if (GameManager.Instance.fireBreaksInteractables == false)
+                        {
+                            if (room.targetTank != null && room.targetTank.tankType == TankId.TankType.PLAYER) StackManager.AddToStack(GameManager.Instance.TankInteractableToEnum(interactable)); //Add interactable data to stack upon destruction (if it is in a player tank)
+                            interactable.DebugDestroy();
+                        }
+                        else
+                        {
+                            if (!interactable.isBroken)
+                            {
+                                interactable.Break();
+                            }
+                            else triggerEffects = false;
+                        }
                     }
 
-                    GameManager.Instance.ParticleSpawner.SpawnParticle(0, transform.position, 0.15f, null);
-                    GameManager.Instance.AudioManager.Play("ExplosionSFX", gameObject);
+                    if (triggerEffects)
+                    {
+                        GameManager.Instance.ParticleSpawner.SpawnParticle(0, transform.position, 0.15f, null);
+                        GameManager.Instance.AudioManager.Play("ExplosionSFX", gameObject);
+                    }
                 }
 
 
@@ -802,7 +817,7 @@ namespace TowerTanks.Scripts
         public void Extinguish()
         {
             isOnFire = false;
-            flames.SetActive(false);
+            flames?.SetActive(false);
 
             Vector2 pos = new Vector2(transform.position.x, transform.position.y - 0.3f);
             GameManager.Instance.ParticleSpawner.SpawnParticle(3, pos, 0.2f, this.transform);

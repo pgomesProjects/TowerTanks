@@ -63,6 +63,11 @@ namespace TowerTanks.Scripts
         }
         private void Update()
         {
+            
+        }
+
+        private void FixedUpdate()
+        {
             //Update wheel position:
             Vector2 backstopPos = transform.parent.TransformPoint(basePosition + (Vector2.up * maxSuspensionDepth)); //Get position wheel will move to when most compressed
             Vector2 extendPos = transform.parent.TransformPoint(basePosition);                                       //Get position wheel could be at when most extended
@@ -81,7 +86,8 @@ namespace TowerTanks.Scripts
                     grounded = true;                                                                               //Indicate that wheel is grounded
                     targetPosition = backstopPos + (Vector2)(-transform.parent.up * lastGroundHit.distance);       //Get position that would put wheel exactly on the ground
                     transform.position = Vector2.MoveTowards(transform.position, targetPosition, maxSqueezeSpeed); //Use squeeze speed to move wheel toward grounded position
-                    if (createParticle) {
+                    if (createParticle)
+                    {
                         CreateDustParticle();
                     }
                 }
@@ -94,21 +100,18 @@ namespace TowerTanks.Scripts
             }
 
             //Update wheel rotation:
-            float newRotation = transform.localEulerAngles.z + (angularVelocity * Time.deltaTime); //Get new rotation value for wheel based on angular velocity
+            float newRotation = transform.localEulerAngles.z + (angularVelocity * Time.fixedDeltaTime); //Get new rotation value for wheel based on angular velocity
             transform.localEulerAngles = Vector3.forward * newRotation;                            //Update rotation of wheels
 
             //Get compression value:
             prevCompressionValue = compressionValue;                                                              //Store previous compression value
             if (!grounded) compressionValue = 0;                                                                  //No force is exerted on tank by wheels which are not grounded
             else compressionValue = 1 - (Vector2.Distance(backstopPos, transform.position) / maxSuspensionDepth); //Use distance from backstop to determine how compressed wheel is
-            springSpeed = (compressionValue - prevCompressionValue) / Time.deltaTime;                             //Get current speed at which suspension is moving (while compressed)
+            springSpeed = (compressionValue - prevCompressionValue) / Time.fixedDeltaTime;                             //Get current speed at which suspension is moving (while compressed)
 
             //Testing updates:
             if (Application.isEditor) wheelGuard.transform.localPosition = (Vector3)basePosition + (Vector3.up * maxSuspensionDepth); //Update guard position in case the suspension depth setting has been tweaked
-        }
 
-        private void FixedUpdate()
-        {
             if (particleTimer > 0)
             {
                 particleTimer -= Time.fixedDeltaTime;
