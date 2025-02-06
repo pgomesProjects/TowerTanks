@@ -8,16 +8,16 @@ namespace TowerTanks.Scripts
     [System.Serializable]
     public class ChunkParallaxLayer : ParallaxLayer
     {
-        [Tooltip("The parent for the chunk layers.")] public Transform chunkParent;
-        [Tooltip("Prefab to spawn for chunk layers.")] public GameObject chunkPrefab;
-        [Tooltip("The width for each chunk.")] public float chunkWidth;
-        [Tooltip("Y-position for each chunk.")] public Vector2 yPosition = new Vector2(-1f, 1f);
-        [Tooltip("Frequency at which chunks are spawned.")] public Vector2 spawnFrequency = new Vector2(3f, 5f);
-        [Tooltip("The pool size of the background layer.")] public int poolSize;
+        [Tooltip("The parent for the chunk pieces.")] public Transform chunkParent;
+        [Tooltip("Prefab to spawn for chunk piece layers.")] public GameObject piecePrefab;
+        [Tooltip("The width for each chunk piece.")] public float pieceWidth;
+        [Tooltip("Y-position for each chunk piece.")] public Vector2 yPosition = new Vector2(-1f, 1f);
+        [Tooltip("Frequency at which chunk pieces are spawned.")] public Vector2 spawnFrequency = new Vector2(3f, 5f);
+        [Tooltip("The pool size of the chunk piece layer.")] public int poolSize;
 
         private float nextSpawnTime;
         private float currentDistanceTraveled;
-        private List<GameObject> chunkPool = new List<GameObject>();
+        private List<GameObject> piecePool = new List<GameObject>();
 
         public void ResetSpawnTimer()
         {
@@ -27,18 +27,18 @@ namespace TowerTanks.Scripts
 
         public float GetCurrentDistanceTraveled() => currentDistanceTraveled;
         public void SetDistanceTraveled(float distanceTraveled) => currentDistanceTraveled = distanceTraveled;
-        public bool CanSpawnChunk() => currentDistanceTraveled >= nextSpawnTime;
-        public GameObject GetNextChunk(Vector2 position)
+        public bool CanSpawnChunkPiece() => currentDistanceTraveled >= nextSpawnTime;
+        public GameObject GetNextChunkPiece(Vector2 position)
         {
-            GameObject newChunk = GameObject.Instantiate(chunkPrefab);
+            GameObject newChunk = GameObject.Instantiate(piecePrefab);
             newChunk.transform.position = position;
             newChunk.transform.parent = chunkParent;
             newChunk.layer = chunkParent.gameObject.layer;
-            chunkPool.Add(newChunk);
+            piecePool.Add(newChunk);
             return newChunk;
         }
 
-        public void ReturnChunkToPool(GameObject chunk)
+        public void ReturnChunkPieceToPool(GameObject chunk)
         {
             //Set inactive
             chunk.SetActive(false);
@@ -47,7 +47,7 @@ namespace TowerTanks.Scripts
 
     public class ChunkCameraParallaxController : MultiCameraParallaxController
     {
-        [SerializeField, Tooltip("How far away from the tank a chunk is allowed to render from.")] private float RENDER_DISTANCE = 300f;
+        [SerializeField, Tooltip("How far away from the tank a chunk is allowed to render from.")] private float RENDER_DISTANCE = 100f;
         [SerializeField, Tooltip("The layers of the parallax background")] private List<ChunkParallaxLayer> chunkParallaxLayers = new List<ChunkParallaxLayer>();
         protected override List<ParallaxLayer> parallaxLayers => chunkParallaxLayers.Cast<ParallaxLayer>().ToList();
 
@@ -64,13 +64,16 @@ namespace TowerTanks.Scripts
             chunkLayer.chunkParent.transform.position = Vector2.zero;
             Vector2 chunkPosition = Vector2.zero;
 
-            chunkLayer.GetNextChunk(chunkPosition);
+            //Create the starting chunk
+            chunkLayer.GetNextChunkPiece(chunkPosition);
 
+            //Create the chunks for the pool size
             for (int i = 1; i < chunkLayer.poolSize / 2; i++)
             {
-                chunkPosition.x = chunkLayer.chunkWidth * Random.Range(chunkLayer.spawnFrequency.x, chunkLayer.spawnFrequency.y) * i;
-                chunkLayer.GetNextChunk(new Vector2(chunkPosition.x, Random.Range(chunkLayer.yPosition.x, chunkLayer.yPosition.y)));
-                chunkLayer.GetNextChunk(new Vector2(-chunkPosition.x, Random.Range(chunkLayer.yPosition.x, chunkLayer.yPosition.y)));
+                chunkPosition.x = chunkLayer.pieceWidth * Random.Range(chunkLayer.spawnFrequency.x, chunkLayer.spawnFrequency.y) * i;
+                //Alternate between the right and left of the starting position
+                chunkLayer.GetNextChunkPiece(new Vector2(chunkPosition.x, Random.Range(chunkLayer.yPosition.x, chunkLayer.yPosition.y)));
+                chunkLayer.GetNextChunkPiece(new Vector2(-chunkPosition.x, Random.Range(chunkLayer.yPosition.x, chunkLayer.yPosition.y)));
             }
 
             chunkLayer.ResetSpawnTimer();
@@ -96,30 +99,32 @@ namespace TowerTanks.Scripts
 
             chunkLayer.SetDistanceTraveled(chunkLayer.GetCurrentDistanceTraveled() + distanceMoved.x);
 
-            //If the layer can spawn a new chunk, spawn one
-            if (chunkLayer.CanSpawnChunk())
+            //If the layer can spawn a new chunk piece, spawn one
+            if (chunkLayer.CanSpawnChunkPiece())
             {
                 chunkLayer.ResetSpawnTimer();
             }
 
-            List<Transform> chunksToRecycle = new List<Transform>();
+            List<Transform> piecesToRecycle = new List<Transform>();
             //If there are chunks outside of the layer's render distance, add them to a list to recycle
-            foreach (Transform chunk in chunkLayer.chunkParent)
+            foreach (Transform piece in chunkLayer.chunkParent)
             {
-                float chunkDistance = Vector3.Distance(followCamera.transform.position, chunk.position);
+                float pieceDistance = Vector3.Distance(followCamera.transform.position, piece.position);
 
-                if (chunkDistance <= RENDER_DISTANCE)
+                //If a piece is within the render distance, show it
+                if (pieceDistance <= RENDER_DISTANCE)
                 {
-                    chunk.gameObject.SetActive(true);
+                    piece.gameObject.SetActive(true);
                 }
 
-                if (chunkDistance > RENDER_DISTANCE)
-                    chunksToRecycle.Add(chunk);
+                //If not, add it to the pile to hide
+                if (pieceDistance > RENDER_DISTANCE)
+                    piecesToRecycle.Add(piece);
             }
 
-            //Return all chunks outside of the render distance to the chunk pool
-            foreach (Transform chunk in chunksToRecycle)
-                chunkLayer.ReturnChunkToPool(chunk.gameObject);
+            //Return all chunk pieces outside of the render distance to the chunk pool
+            foreach (Transform piece in piecesToRecycle)
+                chunkLayer.ReturnChunkPieceToPool(piece.gameObject);
         }
 
         private void OnDrawGizmos()
