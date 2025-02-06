@@ -238,7 +238,7 @@ MonoBehaviour:
   inBugReportMenu: 0
   inDebugMenu: 0
   ignoreTutorials: 1
-  fireBreaksInteractables: 1
+  fireBreaksInteractables: 0
   _shopChance: 0
   tankDesign:
     TankName: 
@@ -253,9 +253,6 @@ MonoBehaviour:
       persistentValue: -1
     - itemID: Wrench
       localSpawnVector: {x: 1, y: 0, z: 0}
-      persistentValue: -1
-    - itemID: Crowbar
-      localSpawnVector: {x: 0, y: 0, z: 0}
       persistentValue: -1
 --- !u!114 &2776762177459489224
 MonoBehaviour:
