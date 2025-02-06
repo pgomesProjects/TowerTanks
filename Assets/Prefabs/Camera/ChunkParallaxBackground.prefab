@@ -81,13 +81,13 @@ MonoBehaviour:
   useDesertPalette: 0
   RENDER_DISTANCE: 100
   chunkParallaxLayers:
-  - parallaxSpeed: {x: -0.9, y: 1.3}
+  - parallaxSpeed: {x: -0.9, y: 0}
     automaticSpeed: {x: 0, y: 0}
     infiniteHorizontal: 1
     infiniteVertical: 0
     chunkParent: {fileID: 3696405527914470448}
-    chunkPrefab: {fileID: 2772024294091155003, guid: 509987a3cbfea7143ac4b8f28f05734b, type: 3}
-    chunkWidth: 15
-    yPosition: {x: 0, y: 0}
+    piecePrefab: {fileID: 2772024294091155003, guid: 509987a3cbfea7143ac4b8f28f05734b, type: 3}
+    pieceWidth: 15
+    yPosition: {x: 10, y: 10}
     spawnFrequency: {x: 3, y: 5}
     poolSize: 100

@@ -26,7 +26,7 @@ namespace TowerTanks.Scripts
             [Tooltip("Virtual camera pointed at the tank.")]                                                    internal CinemachineVirtualCamera vcam;
             [Tooltip("Collider used to manage offscreen visualization system.")]                                private BoxCollider2D boundCollider;
             [Tooltip("Generated transform used to point camera when following multiple tanks.")]                private Transform followDummy;
-            [Tooltip("Script controlling the parallax background for this cam system.")]                        private MultiCameraParallaxController parallaxController;
+            [Tooltip("Scripts controlling the parallax background sfor this cam system.")]                      private List<MultiCameraParallaxController> parallaxControllers = new List<MultiCameraParallaxController>();
 
             //Runtime variables:
             [Tooltip("True if this is the primary camera system for the current player tank.")]       public bool isPlayerCam;
@@ -107,13 +107,24 @@ namespace TowerTanks.Scripts
                 }
 
                 //Parallax setup:
-                parallaxController = Instantiate(main.parallaxPrefab).GetComponent<MultiCameraParallaxController>();                    //Instantiate a parallax background for this camera and get a reference
-                parallaxController.transform.parent = main.transform;                                                                   //Child parallax object to camera container
-                parallaxController.gameObject.name = "Parallax_" + cam.name;                                                            //Rename parallax object for clarity
-                parallaxController.AddCameraToParallax(cam);                                                                            //Add this camera to controller so it is tracked properly
-                parallaxController.transform.position = Vector3.zero;                                                                   //Zero out position of parallax system
-                if (parallaxController.useDesertPalette) cam.backgroundColor = parallaxController.desertColorPalette[0];                //Use alternate background color if bool is checked
-                foreach (Transform child in parallaxController.transform) child.gameObject.layer = LayerMask.NameToLayer(camLayerName); //Put each parallax layer on a layer which can only be seen by this camera
+                int chunkLayerCounter = 0;
+                for(int i = 0; i < main.parallaxPrefabs.Length; i++)
+                {
+                    parallaxControllers.Add(Instantiate(main.parallaxPrefabs[i]).GetComponent<MultiCameraParallaxController>());                //Instantiate a parallax background for this camera and get a reference
+                    parallaxControllers[i].transform.parent = main.transform;                                                                   //Child parallax object to camera container
+                    parallaxControllers[i].gameObject.name = "Parallax_" + cam.name + "_[" + i + "]";                                           //Rename parallax object for clarity
+                    parallaxControllers[i].AddCameraToParallax(cam);                                                                            //Add this camera to controller so it is tracked properly
+                    parallaxControllers[i].transform.position = Vector3.zero;                                                                   //Zero out position of parallax system
+                    if (parallaxControllers[i].useDesertPalette) cam.backgroundColor = parallaxControllers[i].desertColorPalette[0];            //Use alternate background color if bool is checked
+                    foreach (Transform child in parallaxControllers[i].transform) child.gameObject.layer = LayerMask.NameToLayer(camLayerName); //Put each parallax layer on a layer which can only be seen by this camera
+
+                    if(parallaxControllers[i].GetType() == typeof(ChunkCameraParallaxController))                                               //Check if the parallax background is a chunk parallax
+                    {
+                        ChunkCameraParallaxController chunkParallaxController = (ChunkCameraParallaxController)parallaxControllers[i];          //Cast the parallax controller to the chunk parallax controller
+                        chunkParallaxController.PositionLayers(main.chunkCameraPositions[chunkLayerCounter]);                                   //Reposition all of the chunk pieces
+                        chunkLayerCounter++;                                                                                                    //Iterate on the chunk layer counter
+                    }
+                }
 
                 //Perlin setup:
                 if (!radar) //The radar does not need to shake
@@ -394,7 +405,12 @@ namespace TowerTanks.Scripts
                 }
                 if (cam.gameObject != null) Destroy(cam.gameObject);                    //Destroy camera object (also destroys bound collider)
                 if (vcam.gameObject != null) Destroy(vcam.gameObject);                  //Destroy virtual camera object
-                if (parallaxController != null) Destroy(parallaxController.gameObject); //Destroy parallax system when destroying camera
+                if (parallaxControllers.Count > 0)                                      //Destroy parallax system when destroying camera
+                {
+                    foreach(MultiCameraParallaxController parallaxCamera in parallaxControllers) //Iterate through all parallax cameras
+                        Destroy(parallaxCamera.gameObject);                                      //Destroy the camera object reference
+                    parallaxControllers.Clear();                                        //Clear the parallax camera list
+                }
                 engaged = false; main.CheckIfStillEngaged();                  //Have camera manipulator check if destroying this cam system ends engagement
             }
             /// <summary>
@@ -458,7 +474,7 @@ namespace TowerTanks.Scripts
         [Tooltip("Singleton instance of camera manipulator in scene.")]                                   public static CameraManipulator main;
         [SerializeField, Tooltip("List of camera systems being used to actively render tanks in scene.")] private List<TankCamSystem> camSystems = new List<TankCamSystem>();
         [Tooltip("Cam system used to control the radar camera.")]                                         private TankCamSystem radarSystem;
-        [SerializeField, Tooltip("Prefab for parallax system instantiated for each camera.")]             private GameObject parallaxPrefab;
+        [SerializeField, Tooltip("Prefabs for parallax systems instantiated for each camera.")]           private GameObject[] parallaxPrefabs;
         [SerializeField, Tooltip("Noise profile asset describing behavior of camera shake events.")]      private NoiseSettings shakeNoiseProfile;
 
         //Settings:
@@ -492,11 +508,12 @@ namespace TowerTanks.Scripts
         [Button("ShakeCamera", Icon = SdfIconType.PhoneVibrate)] private void TestShakeCam() { ShakeTankCamera(camSystems[0].tanks[0], testShakeIntensity, testShakeDuration); }
 
         //Runtime Variables:
-        private Canvas zoneVisCanvas;          //Generated canvas which contains visualizers for camera zones (used to position where cameras will render)
-        private string[] camLayers;            //Array of all user-assigned camera layers in the game (used to make each separate cam exclusive of others)
-        private Rect normalizedEngagementArea; //Normalized rectangle representing area on screen that engagement cameras are confined to and rendered in
-        private Rect normalizedRadarArea;      //Normalized rectangle representing area on screen that radar camera is confined to and rendered in
-        private bool engaged;                  //True if player tank is within engagement range of another tank
+        private Canvas zoneVisCanvas;                                                                   //Generated canvas which contains visualizers for camera zones (used to position where cameras will render)
+        private string[] camLayers;                                                                     //Array of all user-assigned camera layers in the game (used to make each separate cam exclusive of others)
+        private Rect normalizedEngagementArea;                                                          //Normalized rectangle representing area on screen that engagement cameras are confined to and rendered in
+        private Rect normalizedRadarArea;                                                               //Normalized rectangle representing area on screen that radar camera is confined to and rendered in
+        private bool engaged;                                                                           //True if player tank is within engagement range of another tank
+        private List<List<List<Vector2>>> chunkCameraPositions = new List<List<List<Vector2>>>();       //List of all positions for the chunk parallax layers to spawn objects on
 
         //UNITY METHODS:
         private void Awake()
@@ -511,6 +528,30 @@ namespace TowerTanks.Scripts
             //Hide visualizers:
             engagementZoneTargeter.GetComponent<Image>().enabled = false;          //Disable image for engagement zone camera targeter
             if (useRadar) radarZoneTargeter.GetComponent<Image>().enabled = false; //Disable image for radar zone camera targeter
+
+            //Generate chunk layer positions:
+            int chunkLayerCounter = 0;
+            for (int i = 0; i < parallaxPrefabs.Length; i++)
+            {
+                if (parallaxPrefabs[i].TryGetComponent(out ChunkCameraParallaxController chunkController))                                                              //Check to see if the current parallax layer has a chunk parallax component
+                {
+                    chunkCameraPositions.Add(new List<List<Vector2>>());                                                                                                //Create a new list for the chunk controller
+                    List<ChunkParallaxLayer> chunkLayers = chunkController.GetParallaxLayers();                                                                         //Get the parallax layers from the controller
+                    for (int j = 0; j < chunkLayers.Count; j++)
+                    {
+                        chunkCameraPositions[j].Add(new List<Vector2>());                                                                                               //Create a new list for the positions
+                        Vector2 chunkPosition = Vector2.zero;                                                                                                           //Create a tracker for the chunk piece positions
+                        for (int k = 0; k < chunkLayers[j].poolSize; k++)                                                                                               //Iterate through the chunk piece pool
+                        {
+                            if(k % 2 == 1)                                                                                                                              //On odd iterations, generate a new x-position
+                                chunkPosition.x = chunkLayers[j].pieceWidth * Random.Range(chunkLayers[j].spawnFrequency.x, chunkLayers[j].spawnFrequency.y) * k;       //Get a random position based on the layer's spawn frequency
+                            chunkCameraPositions[chunkLayerCounter][j].Add(
+                                new Vector2(k % 2 == 1 ? chunkPosition.x : -chunkPosition.x, Random.Range(chunkLayers[j].yPosition.x, chunkLayers[j].yPosition.y)));    //Alternate between the right and left of the starting position
+                        }
+                    }
+                    chunkLayerCounter++;                                                                                                                                //Iterate the chunk layer counter
+                }
+            }
         }
         private void Start()
         {

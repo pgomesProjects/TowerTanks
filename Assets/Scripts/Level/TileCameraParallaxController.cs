@@ -20,9 +20,9 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("The layers of the parallax background")] private List<TileParallaxLayer> tileParallaxLayers = new List<TileParallaxLayer>();
         protected override List<ParallaxLayer> parallaxLayers => tileParallaxLayers.Cast<ParallaxLayer>().ToList();
 
-        protected override void Start()
+        protected override void Awake()
         {
-            base.Start();
+            base.Awake();
         }
 
         protected override void SetupLayer(int index)

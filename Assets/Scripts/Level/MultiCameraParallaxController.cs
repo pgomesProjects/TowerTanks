@@ -25,7 +25,7 @@ namespace TowerTanks.Scripts
         private Vector3 lastCameraPosition;
         private bool camInitialized;
 
-        protected virtual void Start()
+        protected virtual void Awake()
         {
             for (int i = 0; i < parallaxLayers.Count; i++)
             {
