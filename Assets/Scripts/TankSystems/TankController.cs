@@ -932,6 +932,8 @@ namespace TowerTanks.Scripts
             corpse.transform.position = towerJoint.transform.position;
             corpse.name = TankName + " (Corpse)"; //Name it accordingly
             corpseInstance = corpse;
+
+            if (tankType == TankId.TankType.PLAYER) corpseInstance.GetComponent<CorpseController>().akListener.SetActive(true); //transfer new listener to corpse
         }
 
         public void DespawnTank()
