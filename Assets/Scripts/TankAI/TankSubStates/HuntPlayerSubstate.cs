@@ -21,6 +21,7 @@ namespace TowerTanks.Scripts
         private INTERACTABLE interactableTakenFrom;
         private bool tokenBorrowed;
         private bool couldntOverride;
+        private bool returnTokenLater;
         
         public HuntPlayerSubstate(TankAI tank)
         {
@@ -45,7 +46,7 @@ namespace TowerTanks.Scripts
             
         }
         
-        public void SetTargetWeapon(InteractableId weapon)
+        public void SetTargetWeapon(InteractableId weapon) // our "target weapon" is the one we want to hunt the player with
         {
             targetWeapon = weapon;
             targetBrain = targetWeapon.brain as WeaponBrain;
@@ -60,7 +61,7 @@ namespace TowerTanks.Scripts
         public void SwitchToken(InteractableId from, INTERACTABLE to)
         {
             _tankAI.RetrieveToken(from);
-            var intId = _tankAI.DistributeToken(to);
+            var intId = _tankAI.DistributeToken(to); // this sets intID to the interactable that was distributed to
             interactableTakenFrom = from.brain.mySpecificType;
             tokenBorrowed = true;
             SetTargetWeapon(intId);
@@ -74,9 +75,19 @@ namespace TowerTanks.Scripts
             
             for (int i = 0; i < weaponPriorityList.Count; i++)
             {
+                if (targetWeapon != null) break;
                 var interactable = weaponPriorityList[i];
-                if (_tankAI.CheckIfAvailable(interactable))
+                if (_tankAI.CheckIfAvailable(interactable)) // if we have the interactable available
                 {
+                    //if we have an open token, and we have the gun, not being used, we should use it.
+                    if (_tankAI.currentTokenCount > 0 && !_tankAI.CheckIfHasToken(interactable))
+                    {
+                        var intId = _tankAI.DistributeToken(interactable);
+                        SetTargetWeapon(intId);
+                        returnTokenLater = true;
+                        break;
+                    }
+                    
                     if (_tankAI.CheckIfHasToken(interactable))
                     {
                         // Check for higher priority interactables. if any exist on this tank, unused, switch to it
@@ -98,13 +109,7 @@ namespace TowerTanks.Scripts
                         
                         }
                     }
-                    //at this point, if we have an open token, and we have the gun, we should use it. note: at this point, we have NO tokens on our desired interactable
-                    if (_tankAI.currentTokenCount > 0)
-                    {
-                        var intId = _tankAI.DistributeToken(interactable);
-                        SetTargetWeapon(intId);
-                        break;
-                    }
+                    
                     
                 }
             }
@@ -139,13 +144,15 @@ namespace TowerTanks.Scripts
         {
             Debug.Log("HuntPlayerSubstate OnExit");
             targetBrain?.ResetTargetPoint();
-            if (tokenBorrowed)
+            if (returnTokenLater || tokenBorrowed)
             {
                 _tankAI.RetrieveToken(targetWeapon);
-                _tankAI.DistributeToken(interactableTakenFrom);
+                if (tokenBorrowed) _tankAI.DistributeToken(interactableTakenFrom);
                 tokenBorrowed = false;
+                returnTokenLater = false;
                 couldntOverride = false;
             }
+            targetWeapon = null;
         }
     }
 }
