@@ -10,9 +10,10 @@ namespace TowerTanks.Scripts
 {
     public class GamepadCursor : MonoBehaviour
     {
-        [SerializeField] private RectTransform cursorTransform;
-        [SerializeField] private float cursorSpeed = 1000f;
-        [SerializeField] private float padding = 50f;
+        [SerializeField, Tooltip("The Gamepad Cursor asset.")] private RectTransform cursorTransform;
+        [SerializeField, Tooltip("The speed of the cursor movement.")] private float cursorSpeed = 1000f;
+        [SerializeField, Tooltip("The screen padding for the cursor.")] private float padding = 50f;
+        [SerializeField, Tooltip("The Gamepad Cursor settings.")] private GamepadCursorSettings gamepadCursorSettings;
 
         private bool previousButtonSouthState;
         private Mouse virtualMouse;
@@ -23,7 +24,10 @@ namespace TowerTanks.Scripts
         private Canvas canvas;
         private RectTransform canvasRectTransform;
         private RectTransform localGamepadCursorTransform;
+        private Image cursorHand, cursorHandOutline;
         private Color cursorColor;
+
+        private GamepadCursorState currentCursorState;
 
         private bool cursorActive;
         private bool cursorCanMove;
@@ -105,7 +109,7 @@ namespace TowerTanks.Scripts
             else if (currentDevice is Gamepad)
             {
                 // Delta of the gamepad cursor
-                deltaValue = GetComponent<PlayerData>().movementData;
+                deltaValue = GetComponent<PlayerData>().playerMovementData;
                 deltaValue *= cursorSpeed * Time.deltaTime;
 
                 Vector2 currentPosition = virtualMouse.position.ReadValue();
@@ -288,10 +292,15 @@ namespace TowerTanks.Scripts
         /// <param name="newColor">The color for the gamepad cursor (which corresponds to the player color).</param>
         public void CreateGamepadCursor(Color newColor)
         {
-            cursorColor = newColor;
             InitializeCursor();
+
+            cursorColor = newColor;
             localGamepadCursorTransform = Instantiate(cursorTransform, canvasRectTransform);
-            localGamepadCursorTransform.GetComponent<Image>().color = cursorColor;
+            cursorHand = localGamepadCursorTransform.Find("Hand").GetComponent<Image>();
+            cursorHandOutline = localGamepadCursorTransform.Find("Outline").GetComponent<Image>();
+            cursorHandOutline.color = cursorColor;
+
+            SetGamepadCursorState(GamepadCursorState.DEFAULT);
             RefreshCursor(GameSettings.showGamepadCursors);
         }
 
@@ -325,8 +334,42 @@ namespace TowerTanks.Scripts
             cursorCanMove = cursorActive;
         }
 
+        /// <summary>
+        /// Changes the gamepad cursor sprite to a specific state.
+        /// </summary>
+        /// <param name="gamepadCursorState">The state to change the sprite into.</param>
+        public void SetGamepadCursorState(GamepadCursorState gamepadCursorState)
+        {
+            //If there are no settings, return
+            if (gamepadCursorSettings == null)
+                return;
+
+            currentCursorState = gamepadCursorState;
+
+            switch (gamepadCursorState)
+            {
+                case GamepadCursorState.DEFAULT:
+                    cursorHand.sprite = gamepadCursorSettings.defaultSprite.mainSprite;
+                    cursorHandOutline.sprite = gamepadCursorSettings.defaultSprite.outlineSprite;
+                    break;
+                case GamepadCursorState.SELECT:
+                    cursorHand.sprite = gamepadCursorSettings.selectSprite.mainSprite;
+                    cursorHandOutline.sprite = gamepadCursorSettings.selectSprite.outlineSprite;
+                    break;
+                case GamepadCursorState.GRAB:
+                    cursorHand.sprite = gamepadCursorSettings.grabSprite.mainSprite;
+                    cursorHandOutline.sprite = gamepadCursorSettings.grabSprite.outlineSprite;
+                    break;
+                case GamepadCursorState.DISABLED:
+                    cursorHand.sprite = gamepadCursorSettings.disabledSprite.mainSprite;
+                    cursorHandOutline.sprite = gamepadCursorSettings.disabledSprite.outlineSprite;
+                    break;
+            }
+        }
+
         public void SetCursorMove(bool cursorMove) => cursorCanMove = cursorMove;
 
+        public GamepadCursorState GetGamepadCursorState() => currentCursorState;
         public RectTransform GetCursorTransform() => localGamepadCursorTransform;
         public int GetOwnerIndex() => playerInput.playerIndex;
     }

@@ -15,6 +15,7 @@ namespace TowerTanks.Scripts
         public List<DummyObject> objects = new List<DummyObject>();
         public bool countDown = false;
         private float shrinkTime = 1.0f;
+        public GameObject akListener;
 
         // Start is called before the first frame update
         void Start()

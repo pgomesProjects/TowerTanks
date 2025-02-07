@@ -5,7 +5,8 @@
         {
             "cellName": "Cell_2",
             "interRef": "InterCommand_Throttle",
-            "flipped": false
+            "flipped": false,
+            "specialAmmo": []
         }
     ],
     "buildingSteps": [
@@ -39,7 +40,8 @@
                 {
                     "cellName": "Cell_0",
                     "interRef": "InterDefense_EnergyShield",
-                    "flipped": false
+                    "flipped": false,
+                    "specialAmmo": []
                 }
             ],
             "cellManifest": [
@@ -113,12 +115,14 @@
                 {
                     "cellName": "Cell_0",
                     "interRef": "InterWeapon_Cannon",
-                    "flipped": true
+                    "flipped": true,
+                    "specialAmmo": []
                 },
                 {
                     "cellName": "Cell_1",
                     "interRef": "InterWeapon_Cannon",
-                    "flipped": true
+                    "flipped": true,
+                    "specialAmmo": []
                 }
             ],
             "cellManifest": [
@@ -158,7 +162,8 @@
                 {
                     "cellName": "Cell_0",
                     "interRef": "InterCommand_Throttle",
-                    "flipped": false
+                    "flipped": false,
+                    "specialAmmo": []
                 }
             ],
             "cellManifest": [
@@ -179,7 +184,8 @@
                 {
                     "cellName": "Cell_1",
                     "interRef": "InterCommand_Throttle",
-                    "flipped": false
+                    "flipped": false,
+                    "specialAmmo": []
                 }
             ],
             "cellManifest": [
@@ -215,12 +221,14 @@
                 {
                     "cellName": "Cell_0",
                     "interRef": "InterEngineer_Boiler",
-                    "flipped": false
+                    "flipped": false,
+                    "specialAmmo": []
                 },
                 {
                     "cellName": "Cell_1",
                     "interRef": "InterEngineer_Boiler",
-                    "flipped": false
+                    "flipped": false,
+                    "specialAmmo": []
                 }
             ],
             "cellManifest": [
@@ -256,12 +264,14 @@
                 {
                     "cellName": "Cell_0",
                     "interRef": "InterEngineer_Boiler",
-                    "flipped": false
+                    "flipped": false,
+                    "specialAmmo": []
                 },
                 {
                     "cellName": "Cell_1",
                     "interRef": "InterEngineer_Boiler",
-                    "flipped": false
+                    "flipped": false,
+                    "specialAmmo": []
                 }
             ],
             "cellManifest": [
@@ -299,7 +309,8 @@
                 {
                     "cellName": "Cell_0",
                     "interRef": "InterWeapon_Mortar",
-                    "flipped": false
+                    "flipped": false,
+                    "specialAmmo": []
                 }
             ],
             "cellManifest": [
@@ -322,12 +333,14 @@
                 {
                     "cellName": "Cell_0",
                     "interRef": "InterWeapon_Cannon",
-                    "flipped": true
+                    "flipped": true,
+                    "specialAmmo": []
                 },
                 {
                     "cellName": "Cell_1",
                     "interRef": "InterWeapon_Cannon",
-                    "flipped": true
+                    "flipped": true,
+                    "specialAmmo": []
                 }
             ],
             "cellManifest": [
@@ -367,7 +380,8 @@
                 {
                     "cellName": "Cell_0",
                     "interRef": "InterDefense_EnergyShield",
-                    "flipped": false
+                    "flipped": false,
+                    "specialAmmo": []
                 }
             ],
             "cellManifest": [
@@ -403,18 +417,46 @@
                 {
                     "cellName": "Cell_0",
                     "interRef": "InterWeapon_MachineGun",
-                    "flipped": true
+                    "flipped": true,
+                    "specialAmmo": []
                 },
                 {
                     "cellName": "Cell_1",
                     "interRef": "InterWeapon_MachineGun",
-                    "flipped": true
+                    "flipped": true,
+                    "specialAmmo": []
                 }
             ],
             "cellManifest": [
                 true,
                 true
             ]
+        }
+    ],
+    "cargoNodes": [
+        {
+            "x": 1.25,
+            "y": 9.5
+        },
+        {
+            "x": 1.9299999475479127,
+            "y": 9.5
+        },
+        {
+            "x": 3.6600000858306886,
+            "y": 9.5
+        },
+        {
+            "x": 4.289999961853027,
+            "y": 9.5
+        },
+        {
+            "x": 3.509999990463257,
+            "y": 7.0
+        },
+        {
+            "x": 3.5,
+            "y": 7.619999885559082
         }
     ]
 }

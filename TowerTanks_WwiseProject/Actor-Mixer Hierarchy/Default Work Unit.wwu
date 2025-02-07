@@ -2958,7 +2958,7 @@
 									<PropertyList>
 										<Property Name="LoopBegin" Type="Real64" Value="17.2935756232116"/>
 										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-										<Property Name="TrimEnd" Type="Real64" Value="59.0089676955323"/>
+										<Property Name="TrimEnd" Type="Real64" Value="75.7654003291121"/>
 									</PropertyList>
 									<Language>SFX</Language>
 									<AudioFile>Into the Breach_ Advanced Edition Pinnacle OST [HQ].wav</AudioFile>

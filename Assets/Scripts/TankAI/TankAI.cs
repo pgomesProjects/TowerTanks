@@ -29,13 +29,21 @@ namespace TowerTanks.Scripts
         public bool TargetAtFightingDistance() => targetTank != null &&
                                                     Mathf.Abs(GetDistanceToTarget() - aiSettings.preferredFightDistance) <= 5; 
         bool NoGuns() => !tank.interactableList.Any(i => i.script is GunController);
+        
+        //func bool to check if there are any objects of NewPlayerMovement near tank.treadsystem.transform.position
+        public bool PlayerNearby() => Physics2D.OverlapCircleAll(tank.treadSystem.transform.position, 40f)
+            .Any(collider => collider.GetComponent<PlayerMovement>() != null);
+        
+        public bool NoPlayerNearby() => !Physics2D.OverlapCircleAll(tank.treadSystem.transform.position, 40f)
+            .Any(collider => collider.GetComponent<PlayerMovement>() != null);
+        
         #endregion
         
         public StateMachine fsm;
         [HideInInspector] public TankController tank;
         [HideInInspector] public TankController targetTank;
         private GunController[] _guns;
-        private int currentTokenCount;
+        public int currentTokenCount { get; private set; }
         [HideInInspector] public List<InteractableId> tokenActivatedInteractables = new List<InteractableId>();
         private Vector3 movePoint;
 
@@ -43,6 +51,7 @@ namespace TowerTanks.Scripts
         public TankAISettings aiSettings;
         private bool alerted; //AI is alerted when taking damage from a player-source for the first time
         private float viewRangeOffset = 0;
+        public PlayerMovement[] players;
 
         private void Awake()
         {
@@ -52,12 +61,17 @@ namespace TowerTanks.Scripts
         private IEnumerator Start()
         {
             yield return new WaitForSeconds(0.1f); // AI Waits before initialization to give time for any tank room generation
+            
             currentTokenCount = aiSettings.tankEconomy;
             fsm = new StateMachine();
+            /////////////// State Instance Creation ///////////////
             var patrolState = new TankPatrolState(this);
             var pursueState = new TankPursueState(this);
             var engageState = new TankEngageState(this);
             var surrenderState = new TankSurrenderState(this);
+            /////////////// Substate Instance Creation ////////////
+            var huntSubState = new HuntPlayerSubstate(this);
+            //////////////////////////////////////////////////////
             
             void At(IState from, IState to, Func<bool> condition) => fsm.AddTransition(from, to, condition);
             void AnyAt(IState to, Func<bool> condition) => fsm.AddAnyTransition(to, condition);
@@ -70,6 +84,10 @@ namespace TowerTanks.Scripts
 
             AnyAt(surrenderState, NoGuns); //this being an "any transition" means that it can be triggered from any state
             
+            fsm.AddSubstate(patrolState, huntSubState, PlayerNearby, () => !PlayerNearby());
+            fsm.AddSubstate(pursueState, huntSubState, PlayerNearby, () => !PlayerNearby());
+            fsm.AddSubstate(engageState, huntSubState, PlayerNearby, () => !PlayerNearby());
+
             fsm.SetState(patrolState);
         }
 
@@ -110,11 +128,11 @@ namespace TowerTanks.Scripts
 
         #region Tank AI Token System
         
-        public void DistributeToken(INTERACTABLE toInteractable)
+        public InteractableId DistributeToken(INTERACTABLE toInteractable)
         {
             if (currentTokenCount <= 0)
             {
-                return;
+                return null;
             }
 
             List<InteractableId> commonInteractables = tank.interactableList
@@ -124,7 +142,7 @@ namespace TowerTanks.Scripts
 
             if (!commonInteractables.Any())
             {
-                return;
+                return null;
             }
 
             InteractableId interactable = commonInteractables[Random.Range(0, commonInteractables.Count)];
@@ -137,8 +155,9 @@ namespace TowerTanks.Scripts
                 interactable.brain.mySpecificType = toInteractable;
                 interactable.brain.Init();
                 currentTokenCount--;
+                return interactable;
             }
-
+            return null;
         }
 
         public void RetrieveToken(InteractableId interactableToTakeFrom)
@@ -151,14 +170,50 @@ namespace TowerTanks.Scripts
             }
             
         }
+
+        public bool CheckIfHasToken(INTERACTABLE interactable)
+        {
+            if (tokenActivatedInteractables.Any(i => i.brain.mySpecificType == interactable))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public bool CheckIfAvailable(INTERACTABLE interactable)
+        {
+            // if there is one of these in the interactable list and it is not in the token activated interactables list
+            return tank.interactableList.Any(i => i.brain != null && i.brain.mySpecificType == interactable);
+        }
+
+        public bool CheckIfTypeHasToken(TankInteractable.InteractableType interactableType)
+        {
+            List<INTERACTABLE> ints = InteractableLookups.typesInGroup[interactableType];
+            foreach (INTERACTABLE interactable in ints)
+            {
+                if (tokenActivatedInteractables.Any(i => i.brain.mySpecificType == interactable))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
         
-        public void RetrieveAllTokens()
+        public void RetrieveAllTokens(bool excludeSubstateInteractables = false)
         {
             // Create a temporary list to store interactables to be removed.
             // This avoids removing elements from the same list that we are iterating over,
             // which would cause an exception.
+            
             List<InteractableId> interactablesToRemove = new List<InteractableId>(tokenActivatedInteractables);
-
+            
+            if (excludeSubstateInteractables)
+            {
+                interactablesToRemove = tokenActivatedInteractables
+                    .Where(i => !(i.brain is WeaponBrain weaponBrain && weaponBrain.AimIsOverridden()))
+                    .ToList();// doesn't retrieve tokens from interactables that are being overridden by a substate
+            }
+            
             // Iterate over the temporary list and remove interactables from the original list
             foreach (var interactable in interactablesToRemove)
             {
@@ -217,9 +272,19 @@ namespace TowerTanks.Scripts
                 .ToList();
         }
         
+        public PlayerMovement GetNearestPlayer()
+        {
+            
+            return players.OrderBy(x => Vector3.Distance(x.transform.position, tank.treadSystem.transform.position)).First();
+        }
+        
         public bool TankIsRightOfTarget()
         {
-            return tank != null && tank.treadSystem.transform.position.x > targetTank.treadSystem.transform.position.x;
+            if (targetTank == tank || targetTank == null || tank == null)
+            {
+                return true;
+            }
+            return tank.treadSystem.transform.position.x > targetTank.treadSystem.transform.position.x;
         }
         
         
@@ -291,6 +356,13 @@ namespace TowerTanks.Scripts
             {
                 //draw a box for each of their bounds
                 Gizmos.color = Color.blue;
+                if (interactable.groupType == TankInteractable.InteractableType.WEAPONS)
+                {
+                    WeaponBrain brain = interactable.brain as WeaponBrain;
+                    if (brain != null && brain.AimIsOverridden()) Gizmos.color = Color.magenta;
+                }
+                
+                
                 Bounds bnds = interactable.script.thisCollider.bounds;
                 Gizmos.DrawWireCube(interactable.script.transform.position, bnds.size);
                 
@@ -303,6 +375,12 @@ namespace TowerTanks.Scripts
             style.fontStyle = FontStyle.Bold;
             style.normal.textColor = Color.cyan;
             Handles.Label(tank.treadSystem.transform.position + Vector3.up * 25, $"AI STATE: {fsm._currentState.GetType().Name}", style: style);
+            if (fsm._currentSubState != null)
+            {
+                style.normal.textColor = Color.green;
+                Handles.Label(tank.treadSystem.transform.position + Vector3.up * 29, $"SUBSTATE: {fsm._currentSubState.GetType().Name}",
+                    style: style);
+            }
             style.normal.textColor = Color.yellow;
             Handles.Label(tank.treadSystem.transform.position + Vector3.up * 22, $"Available Tokens: {currentTokenCount}", style: style);
             style.normal.textColor = Color.red;

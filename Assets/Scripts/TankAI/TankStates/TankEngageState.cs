@@ -40,7 +40,7 @@ namespace TowerTanks.Scripts
         private IEnumerator RedistributeTokens()
         {
             yield return new WaitForSeconds(_tankAI.aiSettings.redistributeTokensCooldown);
-            _tankAI.RetrieveAllTokens();
+            _tankAI.RetrieveAllTokens(true);
             _tankAI.DistributeAllWeightedTokens(_tankAI.aiSettings.engageStateInteractableWeights);
             _tank.StartCoroutine(RedistributeTokens());
         }
@@ -58,7 +58,7 @@ namespace TowerTanks.Scripts
 
         public void OnExit()
         {
-            _tankAI.RetrieveAllTokens();
+            _tankAI.RetrieveAllTokens(true);
             _tank.StopAllCoroutines();
         }
 

@@ -15,11 +15,11 @@ MonoBehaviour:
   header: To Arms!
   tutorialPages:
   - tutorialImage: {fileID: 21300000, guid: 7610aa51fe0a4b34e9828f3c098ba41e, type: 3}
-    tutorialText: 'Mission Complete! Well done! Advance to the red flag to continue
-      to the next mission!<br><br>This is the final tutorial of the Demo.<br><br>TIP:
-      You can view any previous tutorials in the Pause Menu.'
+    tutorialText: 'Mission Complete!<br><br>Advance to the red flag to continue to
+      the next mission!<br><br>TIP: You can view any previous tutorials in the Pause
+      Menu. (Press START)'
   - tutorialImage: {fileID: 21300000, guid: 7312eb3ae081223498124af7caf4bb66, type: 3}
     tutorialText: Bug Reports:<br><br>If you see or find any issues, please report
-      them using our Bug Report feature, which can also be found on the Pause Screen.
+      them using our Bug Report feature. (Press SELECT)
   - tutorialImage: {fileID: 21300000, guid: 9986e86bca4d0974d91bee2037214a81, type: 3}
-    tutorialText: Thank you for playing!<br><br>Now, get back to blowing things up!
+    tutorialText: <br><br>Thank you for playing!

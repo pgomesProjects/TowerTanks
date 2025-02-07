@@ -64,12 +64,12 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Repair"",
+                    ""name"": ""Pickup"",
                     ""type"": ""Button"",
                     ""id"": ""fe096cfd-c2cb-4a1e-8a90-f7987940ae6e"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Hold(duration=0.2)"",
+                    ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
@@ -172,18 +172,18 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Mount"",
+                    ""name"": ""ReadyUp"",
                     ""type"": ""Button"",
-                    ""id"": ""c55ef5c2-8d1f-4ae5-bbd8-8bd5281a346f"",
+                    ""id"": ""a0686885-8b23-4d55-a3f9-6a25125c770f"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""ReadyUp"",
+                    ""name"": ""Mount"",
                     ""type"": ""Button"",
-                    ""id"": ""a0686885-8b23-4d55-a3f9-6a25125c770f"",
+                    ""id"": ""c55ef5c2-8d1f-4ae5-bbd8-8bd5281a346f"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -926,7 +926,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""3df3bf15-9b85-466e-8b41-9abbe2c4761a"",
                     ""path"": ""<Gamepad>/buttonWest"",
-                    ""interactions"": ""SlowTap"",
+                    ""interactions"": ""SlowTap(duration=0.1)"",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Interact"",
@@ -937,7 +937,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""4fc1aaa0-35f0-430f-bdf8-bc07c4919cd3"",
                     ""path"": ""<Keyboard>/e"",
-                    ""interactions"": ""SlowTap"",
+                    ""interactions"": ""SlowTap(duration=0.1)"",
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
                     ""action"": ""Interact"",
@@ -951,7 +951,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Repair"",
+                    ""action"": ""Pickup"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -962,7 +962,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
-                    ""action"": ""Repair"",
+                    ""action"": ""Pickup"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -1122,50 +1122,6 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""440ec6c4-49ab-44a3-8e88-81fa3ce885a9"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard and Mouse"",
-                    ""action"": ""Mount"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""3ea01933-d6db-4f55-a9fa-620dd3792474"",
-                    ""path"": ""<Keyboard>/e"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard and Mouse"",
-                    ""action"": ""Mount"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""85b665d0-8d43-41ec-bfb7-48675bc9de3b"",
-                    ""path"": ""<Keyboard>/space"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard and Mouse"",
-                    ""action"": ""Mount"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""6510e3f7-2c9c-4739-916b-8ebbabd68e48"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Mount"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""9a19eb1d-afea-43b3-865d-5cb005c5b4a6"",
                     ""path"": ""<Gamepad>/buttonNorth"",
                     ""interactions"": """",
@@ -1260,6 +1216,50 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
                     ""action"": ""Undo"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3ea01933-d6db-4f55-a9fa-620dd3792474"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Mount"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""440ec6c4-49ab-44a3-8e88-81fa3ce885a9"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Mount"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""85b665d0-8d43-41ec-bfb7-48675bc9de3b"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Mount"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6510e3f7-2c9c-4739-916b-8ebbabd68e48"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Mount"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -2034,6 +2034,24 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Rotate"",
+                    ""type"": ""Button"",
+                    ""id"": ""fe65e4e3-ac42-4a18-bb3e-fec3a59a401e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Mount"",
+                    ""type"": ""Button"",
+                    ""id"": ""e0122dbc-4bba-4f70-a5d3-0f7ad9b2448f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -2342,6 +2360,83 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
                     ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ef222e8b-914e-4516-963c-5d247de97e21"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Mount"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c485ce66-b994-4371-a1e5-4d5ca2ab266b"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Mount"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""81e6b632-530f-4302-90e6-03421cada59e"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Mount"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0d1ed743-1fae-4033-8c97-1857e23fc45a"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Mount"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0b6c4094-b901-4eb6-9e91-33834d96cff7"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Rotate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4afce5e2-8bd3-42d2-aa51-372a32b8e489"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Rotate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d7c84f77-cff5-4469-b996-5468eaf78092"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -3502,7 +3597,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
         m_Player_Join = m_Player.FindAction("Join", throwIfNotFound: true);
-        m_Player_Repair = m_Player.FindAction("Repair", throwIfNotFound: true);
+        m_Player_Pickup = m_Player.FindAction("Pickup", throwIfNotFound: true);
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         m_Player_Build = m_Player.FindAction("Build", throwIfNotFound: true);
         m_Player_Cancel = m_Player.FindAction("Cancel", throwIfNotFound: true);
@@ -3514,8 +3609,8 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         m_Player_OnLadderExit = m_Player.FindAction("On Ladder Exit", throwIfNotFound: true);
         m_Player_CannonScroll = m_Player.FindAction("Cannon Scroll", throwIfNotFound: true);
         m_Player_Jetpack = m_Player.FindAction("Jetpack", throwIfNotFound: true);
-        m_Player_Mount = m_Player.FindAction("Mount", throwIfNotFound: true);
         m_Player_ReadyUp = m_Player.FindAction("ReadyUp", throwIfNotFound: true);
+        m_Player_Mount = m_Player.FindAction("Mount", throwIfNotFound: true);
         m_Player_Rotate = m_Player.FindAction("Rotate", throwIfNotFound: true);
         m_Player_Persona3 = m_Player.FindAction("Persona3", throwIfNotFound: true);
         m_Player_Undo = m_Player.FindAction("Undo", throwIfNotFound: true);
@@ -3540,6 +3635,8 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         m_GameCursor_Navigate = m_GameCursor.FindAction("Navigate", throwIfNotFound: true);
         m_GameCursor_Submit = m_GameCursor.FindAction("Submit", throwIfNotFound: true);
         m_GameCursor_Cancel = m_GameCursor.FindAction("Cancel", throwIfNotFound: true);
+        m_GameCursor_Rotate = m_GameCursor.FindAction("Rotate", throwIfNotFound: true);
+        m_GameCursor_Mount = m_GameCursor.FindAction("Mount", throwIfNotFound: true);
         // Debug
         m_Debug = asset.FindActionMap("Debug", throwIfNotFound: true);
         m_Debug_ToggleGamepadCursors = m_Debug.FindAction("ToggleGamepadCursors", throwIfNotFound: true);
@@ -3630,7 +3727,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_Fire;
     private readonly InputAction m_Player_Join;
-    private readonly InputAction m_Player_Repair;
+    private readonly InputAction m_Player_Pickup;
     private readonly InputAction m_Player_Interact;
     private readonly InputAction m_Player_Build;
     private readonly InputAction m_Player_Cancel;
@@ -3642,8 +3739,8 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_OnLadderExit;
     private readonly InputAction m_Player_CannonScroll;
     private readonly InputAction m_Player_Jetpack;
-    private readonly InputAction m_Player_Mount;
     private readonly InputAction m_Player_ReadyUp;
+    private readonly InputAction m_Player_Mount;
     private readonly InputAction m_Player_Rotate;
     private readonly InputAction m_Player_Persona3;
     private readonly InputAction m_Player_Undo;
@@ -3655,7 +3752,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @Fire => m_Wrapper.m_Player_Fire;
         public InputAction @Join => m_Wrapper.m_Player_Join;
-        public InputAction @Repair => m_Wrapper.m_Player_Repair;
+        public InputAction @Pickup => m_Wrapper.m_Player_Pickup;
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
         public InputAction @Build => m_Wrapper.m_Player_Build;
         public InputAction @Cancel => m_Wrapper.m_Player_Cancel;
@@ -3667,8 +3764,8 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         public InputAction @OnLadderExit => m_Wrapper.m_Player_OnLadderExit;
         public InputAction @CannonScroll => m_Wrapper.m_Player_CannonScroll;
         public InputAction @Jetpack => m_Wrapper.m_Player_Jetpack;
-        public InputAction @Mount => m_Wrapper.m_Player_Mount;
         public InputAction @ReadyUp => m_Wrapper.m_Player_ReadyUp;
+        public InputAction @Mount => m_Wrapper.m_Player_Mount;
         public InputAction @Rotate => m_Wrapper.m_Player_Rotate;
         public InputAction @Persona3 => m_Wrapper.m_Player_Persona3;
         public InputAction @Undo => m_Wrapper.m_Player_Undo;
@@ -3693,9 +3790,9 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @Join.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJoin;
                 @Join.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJoin;
                 @Join.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJoin;
-                @Repair.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRepair;
-                @Repair.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRepair;
-                @Repair.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRepair;
+                @Pickup.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPickup;
+                @Pickup.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPickup;
+                @Pickup.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPickup;
                 @Interact.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
                 @Interact.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
                 @Interact.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
@@ -3729,12 +3826,12 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @Jetpack.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJetpack;
                 @Jetpack.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJetpack;
                 @Jetpack.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJetpack;
-                @Mount.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMount;
-                @Mount.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMount;
-                @Mount.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMount;
                 @ReadyUp.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReadyUp;
                 @ReadyUp.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReadyUp;
                 @ReadyUp.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReadyUp;
+                @Mount.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMount;
+                @Mount.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMount;
+                @Mount.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMount;
                 @Rotate.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRotate;
                 @Rotate.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRotate;
                 @Rotate.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRotate;
@@ -3760,9 +3857,9 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @Join.started += instance.OnJoin;
                 @Join.performed += instance.OnJoin;
                 @Join.canceled += instance.OnJoin;
-                @Repair.started += instance.OnRepair;
-                @Repair.performed += instance.OnRepair;
-                @Repair.canceled += instance.OnRepair;
+                @Pickup.started += instance.OnPickup;
+                @Pickup.performed += instance.OnPickup;
+                @Pickup.canceled += instance.OnPickup;
                 @Interact.started += instance.OnInteract;
                 @Interact.performed += instance.OnInteract;
                 @Interact.canceled += instance.OnInteract;
@@ -3796,12 +3893,12 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @Jetpack.started += instance.OnJetpack;
                 @Jetpack.performed += instance.OnJetpack;
                 @Jetpack.canceled += instance.OnJetpack;
-                @Mount.started += instance.OnMount;
-                @Mount.performed += instance.OnMount;
-                @Mount.canceled += instance.OnMount;
                 @ReadyUp.started += instance.OnReadyUp;
                 @ReadyUp.performed += instance.OnReadyUp;
                 @ReadyUp.canceled += instance.OnReadyUp;
+                @Mount.started += instance.OnMount;
+                @Mount.performed += instance.OnMount;
+                @Mount.canceled += instance.OnMount;
                 @Rotate.started += instance.OnRotate;
                 @Rotate.performed += instance.OnRotate;
                 @Rotate.canceled += instance.OnRotate;
@@ -3959,6 +4056,8 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
     private readonly InputAction m_GameCursor_Navigate;
     private readonly InputAction m_GameCursor_Submit;
     private readonly InputAction m_GameCursor_Cancel;
+    private readonly InputAction m_GameCursor_Rotate;
+    private readonly InputAction m_GameCursor_Mount;
     public struct GameCursorActions
     {
         private @PlayerControlSystem m_Wrapper;
@@ -3966,6 +4065,8 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         public InputAction @Navigate => m_Wrapper.m_GameCursor_Navigate;
         public InputAction @Submit => m_Wrapper.m_GameCursor_Submit;
         public InputAction @Cancel => m_Wrapper.m_GameCursor_Cancel;
+        public InputAction @Rotate => m_Wrapper.m_GameCursor_Rotate;
+        public InputAction @Mount => m_Wrapper.m_GameCursor_Mount;
         public InputActionMap Get() { return m_Wrapper.m_GameCursor; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -3984,6 +4085,12 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @Cancel.started -= m_Wrapper.m_GameCursorActionsCallbackInterface.OnCancel;
                 @Cancel.performed -= m_Wrapper.m_GameCursorActionsCallbackInterface.OnCancel;
                 @Cancel.canceled -= m_Wrapper.m_GameCursorActionsCallbackInterface.OnCancel;
+                @Rotate.started -= m_Wrapper.m_GameCursorActionsCallbackInterface.OnRotate;
+                @Rotate.performed -= m_Wrapper.m_GameCursorActionsCallbackInterface.OnRotate;
+                @Rotate.canceled -= m_Wrapper.m_GameCursorActionsCallbackInterface.OnRotate;
+                @Mount.started -= m_Wrapper.m_GameCursorActionsCallbackInterface.OnMount;
+                @Mount.performed -= m_Wrapper.m_GameCursorActionsCallbackInterface.OnMount;
+                @Mount.canceled -= m_Wrapper.m_GameCursorActionsCallbackInterface.OnMount;
             }
             m_Wrapper.m_GameCursorActionsCallbackInterface = instance;
             if (instance != null)
@@ -3997,6 +4104,12 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 @Cancel.started += instance.OnCancel;
                 @Cancel.performed += instance.OnCancel;
                 @Cancel.canceled += instance.OnCancel;
+                @Rotate.started += instance.OnRotate;
+                @Rotate.performed += instance.OnRotate;
+                @Rotate.canceled += instance.OnRotate;
+                @Mount.started += instance.OnMount;
+                @Mount.performed += instance.OnMount;
+                @Mount.canceled += instance.OnMount;
             }
         }
     }
@@ -4277,7 +4390,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         void OnLook(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
         void OnJoin(InputAction.CallbackContext context);
-        void OnRepair(InputAction.CallbackContext context);
+        void OnPickup(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnBuild(InputAction.CallbackContext context);
         void OnCancel(InputAction.CallbackContext context);
@@ -4289,8 +4402,8 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         void OnOnLadderExit(InputAction.CallbackContext context);
         void OnCannonScroll(InputAction.CallbackContext context);
         void OnJetpack(InputAction.CallbackContext context);
-        void OnMount(InputAction.CallbackContext context);
         void OnReadyUp(InputAction.CallbackContext context);
+        void OnMount(InputAction.CallbackContext context);
         void OnRotate(InputAction.CallbackContext context);
         void OnPersona3(InputAction.CallbackContext context);
         void OnUndo(InputAction.CallbackContext context);
@@ -4317,6 +4430,8 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
         void OnNavigate(InputAction.CallbackContext context);
         void OnSubmit(InputAction.CallbackContext context);
         void OnCancel(InputAction.CallbackContext context);
+        void OnRotate(InputAction.CallbackContext context);
+        void OnMount(InputAction.CallbackContext context);
     }
     public interface IDebugActions
     {

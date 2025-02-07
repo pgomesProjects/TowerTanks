@@ -15,20 +15,15 @@ MonoBehaviour:
   header: Manning Stations
   tutorialPages:
   - tutorialImage: {fileID: 21300000, guid: a1cd9ad967aa7c646b5e094b92d7ad6f, type: 3}
-    tutorialText: Time to get rolling!<br><br>You'll need to man your tank's Stations
-      in order for it to function!<br><br>To enter a Station, move up to it and press
-      [Interact] .
+    tutorialText: '<br><br>IMPORTANT: You''ll need to man your tank''s Stations in
+      order for it to function!<br><br>MAN STATION: [Interact] '
   - tutorialImage: {fileID: 21300000, guid: 5e9c84b5df19b474787df101b86888af, type: 3}
-    tutorialText: Engines:<br><br>Your tank won't move unless you keep the Engines
-      powered!<br><br>While manning an Engine, hold [Interact] and release it to
-      add power to the tank's treads.
+    tutorialText: 'Engine Controls:<br><br>ADD POWER: [Interact] (Hold and Release)<br><br>RELEASE
+      STEAM: [Repair] (Hold)'
   - tutorialImage: {fileID: 21300000, guid: b7293e5361b1c7b42bcb4a0fb21af643, type: 3}
-    tutorialText: Throttle:<br><br>To steer the tank, shift the tank's gear by moving
-      the Throttle left and right.<br><br>To do this, man the Throttle and flick
-      the L-Stick left and right.
+    tutorialText: 'Throttle Controls:<br><br>STEER: [MoveG] or [MoveD]'
   - tutorialImage: {fileID: 21300000, guid: 5f9ad540ea94bd94a83ebb2f9e46437d, type: 3}
-    tutorialText: Weapons:<br><br>Fight off enemy tanks using your powerful arsenal
-      of Weapons!<br><br>While manning a Weapon, you can aim by rotating the L-Stick
-      in a circular motion.<br><br>Press [Interact] to fire!
+    tutorialText: 'Weapon Controls:<br><br>AIM: [MoveG] (Rotate Stick in a Circle)<br><br>FIRE:
+      [Interact]'
   - tutorialImage: {fileID: 21300000, guid: 68765316d996b5d4b86e594f61e431d6, type: 3}
-    tutorialText: To exit a station, press [Cancel].<br><br>Good luck!
+    tutorialText: 'For All:<br><br>EXIT STATION: [Cancel]'

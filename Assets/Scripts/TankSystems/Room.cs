@@ -70,6 +70,7 @@ namespace TowerTanks.Scripts
 
         private bool initialized = false;          //Becomes true once one-time initial room setup has been completed (indicates room is ready to be used)
         internal bool heldDuringPlacement = false; //True if this room is currently being manipulated by a player in the build scene
+        private bool canBeMounted = false;         //True if the room is not mounted but cannot be mounted
 
         private float maxBurnTime = 24f;
         private float minBurnTime = 12f;
@@ -294,6 +295,7 @@ namespace TowerTanks.Scripts
                 newSections.Add(thisGroup); //Add group to sections list
             }
             sections = newSections.Select(eachList => eachList.ToArray()).ToArray(); //Convert lists into stored array
+            ChangeRoomColor(roomData.roomTypeColors[(int)type]);                     //Change the color of the room to the matching type
         }
 
         /// <summary>
@@ -349,6 +351,7 @@ namespace TowerTanks.Scripts
                     {
                         if (otherCell.room.targetTank == null) continue; //Collider is overlapping with a ghost room
                         //print("Cell obstructed");
+                        ValidateMount();
                         return newPoint; //Generate no new couplers
                     }
                 }
@@ -446,7 +449,21 @@ namespace TowerTanks.Scripts
                 for (int y = 1; y < group.Count();) { Coupler redundantCoupler = group.ElementAt(y); ghostCouplers.Remove(redundantCoupler); Destroy(redundantCoupler.gameObject); } //Delete all other couplers in group
             }
 
+            //Check to see if the room can be mounted
+            ValidateMount();
+
             return newPoint;
+        }
+
+        private void ValidateMount()
+        {
+            //If the room is already mounted, return
+            if (mounted)
+                return;
+
+            //If there are ghost couplers, it can be mounted
+            canBeMounted = ghostCouplers.Count > 0;
+            ChangeRoomColor(canBeMounted ? roomData.roomTypeColors[(int)type] : Color.red);
         }
 
         public void MountCouplers(List<Coupler> couplersToMount)
@@ -912,6 +929,19 @@ namespace TowerTanks.Scripts
             bounds.size = Vector2.zero;                                     //Zero out side of bounds in case it still goes outside room
             foreach (Cell cell in cells) bounds.Encapsulate(cell.c.bounds); //Encapsulate bounds of each cell
             return bounds;                                                  //Return calculated bounds
+        }
+
+        public void ClearItems()
+        {
+            //Remove Items
+            Cargo[] items = GetComponentsInChildren<Cargo>();
+            if (items.Length > 0)
+            {
+                foreach (Cargo item in items)
+                {
+                    item.transform.parent = null; //removes the item from the cell before destruction
+                }
+            }
         }
     }
 }

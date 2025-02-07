@@ -327,13 +327,13 @@ namespace TowerTanks.Scripts
         /// <summary>
         /// Simply deals given amount of damage to cell (used for non-projectile damage, ALWAYS IGNORES ARMOR).
         /// </summary>
-        public void Damage(float damage, bool triggerHitEffect = false)
+        public float Damage(float damage, bool triggerHitEffect = false)
         {
-            if (room.mounted != true) return;
+            if (room.mounted != true) return 0;
 
             //If the current scene is the build scene, return
             if (GameManager.Instance.currentSceneState == SCENESTATE.BuildScene)
-                return;
+                return 0;
 
             if (room.isCore || room.targetTank.isFragile) //Damage is being dealt to core cell
             {
@@ -362,6 +362,8 @@ namespace TowerTanks.Scripts
             }
 
             UpdateUI();
+
+            return damage;
         }
 
         public void HitEffects(float speedScale)
@@ -536,6 +538,7 @@ namespace TowerTanks.Scripts
             if (!proxy) room.targetTank.treadSystem.ReCalculateMass(); //Re-calculate tank mass based on new cell configuration (only needs to be done once for group cell destructions)
 
             //Cleanup:
+            //Remove Players
             Character[] characters = GetComponentsInChildren<Character>();
             if (characters.Length > 0)
             {
@@ -545,6 +548,17 @@ namespace TowerTanks.Scripts
                     if (!proxy) character.KillCharacterImmediate();
                 }
             }
+
+            //Remove Items
+            Cargo[] items = GetComponentsInChildren<Cargo>();
+            if (items.Length > 0)
+            {
+                foreach (Cargo item in items)
+                {
+                    item.transform.parent = null; //removes the item from the cell before destruction
+                }
+            }
+
             CleanUpCollision();                 //Remove cell collision
             if (lethal)                         //Blow up engines first
             {
@@ -564,6 +578,7 @@ namespace TowerTanks.Scripts
             if (room.cells.Count <= 0) //Parent room now has no cells
             {
                 room.targetTank.rooms.Remove(room); //Remove room from parent tank's list of rooms
+                room.ClearItems();
                 Destroy(room.gameObject);           //Destroy room (simple because it is composed of no cells)
             }
             Destroy(gameObject); //Destroy this cell
@@ -575,12 +590,13 @@ namespace TowerTanks.Scripts
         /// <summary>
         /// Removes the interactables from a player tank's cell and returns them to the stack.
         /// </summary>
-        public void AddInteractablesFromCell()
+        public void AddInteractablesFromCell(bool overrideType = false)
         {
             //Stack update:
             if (interactable != null && interactable.interactableType != TankInteractable.InteractableType.CONSUMABLE)
             {
-                if (room.targetTank != null && room.targetTank.tankType == TankId.TankType.PLAYER) StackManager.AddToStack(GameManager.Instance.TankInteractableToEnum(interactable)); //Add interactable data to stack upon destruction (if it is in a player tank)
+                if (room.targetTank != null && room.targetTank.tankType == TankId.TankType.PLAYER && !overrideType) StackManager.AddToStack(GameManager.Instance.TankInteractableToEnum(interactable)); //Add interactable data to stack upon destruction (if it is in a player tank)
+                if (overrideType) StackManager.AddToStack(GameManager.Instance.TankInteractableToEnum(interactable));
                 Destroy(interactable.gameObject); //Destroy this interactable
             }
         }
@@ -634,18 +650,32 @@ namespace TowerTanks.Scripts
             Repair(25);
         }
 
-        public void Repair(float amount)
+        public float Repair(float amount)
         {
+            float difference = 0;
             if (health < maxHealth)
             {
                 health += amount;
+
+                if (health > maxHealth)
+                {
+                    difference = amount + (maxHealth - health);
+                    health = maxHealth;
+                    GameManager.Instance.AudioManager.Play("ItemPickup", gameObject);
+                }
+                else difference = amount;
                 HitEffects(1.5f);
                 GameManager.Instance.AudioManager.Play("UseWrench", gameObject);
                 GameManager.Instance.ParticleSpawner.SpawnParticle(6, transform.position, 0.25f, null);
                 GameManager.Instance.ParticleSpawner.SpawnParticle(7, transform.position, 0.25f, null);
             }
 
-            if (health > maxHealth) { health = maxHealth; }
+            if (room.isCore)
+            {
+                difference = room.targetTank.Repair(amount);
+            }
+
+            return difference;
         }
 
         [Button("Ignite")]
@@ -727,21 +757,36 @@ namespace TowerTanks.Scripts
                 float burnTimeMult = 1.5f;
                 burnTimer = Random.Range(minBurnTime * burnTimeMult, maxBurnTime * burnTimeMult);
 
-                //Destroy Cell Contents
+                //Destroy/Break Cell Contents
                 if (interactable != null)
                 {
+                    bool triggerEffects = true;
                     if (engine != null)
                     {
                         engine.Explode();
                     }
                     else
                     {
-                        if (room.targetTank != null && room.targetTank.tankType == TankId.TankType.PLAYER) StackManager.AddToStack(GameManager.Instance.TankInteractableToEnum(interactable)); //Add interactable data to stack upon destruction (if it is in a player tank)
-                        interactable.DebugDestroy();
+                        if (GameManager.Instance.fireBreaksInteractables == false)
+                        {
+                            if (room.targetTank != null && room.targetTank.tankType == TankId.TankType.PLAYER) StackManager.AddToStack(GameManager.Instance.TankInteractableToEnum(interactable)); //Add interactable data to stack upon destruction (if it is in a player tank)
+                            interactable.DebugDestroy();
+                        }
+                        else
+                        {
+                            if (!interactable.isBroken)
+                            {
+                                interactable.Break();
+                            }
+                            else triggerEffects = false;
+                        }
                     }
 
-                    GameManager.Instance.ParticleSpawner.SpawnParticle(0, transform.position, 0.15f, null);
-                    GameManager.Instance.AudioManager.Play("ExplosionSFX", gameObject);
+                    if (triggerEffects)
+                    {
+                        GameManager.Instance.ParticleSpawner.SpawnParticle(0, transform.position, 0.15f, null);
+                        GameManager.Instance.AudioManager.Play("ExplosionSFX", gameObject);
+                    }
                 }
 
 
@@ -772,7 +817,7 @@ namespace TowerTanks.Scripts
         public void Extinguish()
         {
             isOnFire = false;
-            flames.SetActive(false);
+            flames?.SetActive(false);
 
             Vector2 pos = new Vector2(transform.position.x, transform.position.y - 0.3f);
             GameManager.Instance.ParticleSpawner.SpawnParticle(3, pos, 0.2f, this.transform);

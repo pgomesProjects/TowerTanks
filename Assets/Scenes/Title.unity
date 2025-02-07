@@ -626,7 +626,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.7075472, g: 0.62584317, b: 0.5840602, a: 1}
+    m_SelectedColor: {r: 1, g: 0.73333335, b: 0.12941177, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -798,7 +798,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flashSpeed: 0.1
-  onFlashColor: {r: 0.90588236, g: 0.8156863, b: 0.7490196, a: 1}
+  onFlashColor: {r: 1, g: 0.73333335, b: 0.12941177, a: 1}
 --- !u!1 &87416193
 GameObject:
   m_ObjectHideFlags: 0
@@ -4667,7 +4667,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.7075472, g: 0.62584317, b: 0.5840602, a: 1}
+    m_SelectedColor: {r: 1, g: 0.73333335, b: 0.12941177, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -4839,7 +4839,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flashSpeed: 0.1
-  onFlashColor: {r: 0.90588236, g: 0.8156863, b: 0.7490196, a: 1}
+  onFlashColor: {r: 1, g: 0.73333335, b: 0.12941177, a: 1}
 --- !u!1 &1051059447
 GameObject:
   m_ObjectHideFlags: 0
@@ -5361,7 +5361,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.7075472, g: 0.62584317, b: 0.5840602, a: 1}
+    m_SelectedColor: {r: 1, g: 0.73333335, b: 0.12941177, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -5533,7 +5533,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flashSpeed: 0.1
-  onFlashColor: {r: 0.90588236, g: 0.8156863, b: 0.7490196, a: 1}
+  onFlashColor: {r: 1, g: 0.73333335, b: 0.12941177, a: 1}
 --- !u!1001 &1190907040
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9150,7 +9150,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.7075472, g: 0.62584317, b: 0.5840602, a: 1}
+    m_SelectedColor: {r: 1, g: 0.73333335, b: 0.12941177, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -9322,7 +9322,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flashSpeed: 0.1
-  onFlashColor: {r: 0.90588236, g: 0.8156863, b: 0.7490196, a: 1}
+  onFlashColor: {r: 1, g: 0.73333335, b: 0.12941177, a: 1}
 --- !u!1 &2115304846
 GameObject:
   m_ObjectHideFlags: 0

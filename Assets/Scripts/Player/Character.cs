@@ -10,9 +10,11 @@ namespace TowerTanks.Scripts
     {
         #region Fields and Properties
 
-        public enum CharacterState { CLIMBING, NONCLIMBING, OPERATING, REPAIRING }; //Simple state system, in the future this will probably be refactored
+        public enum CharacterState { CLIMBING, NONCLIMBING, OPERATING }; //Simple state system, in the future this will probably be refactored
+        public enum CharacterJobType { FIX, UNINSTALL }; //jobs characters are capable of executing
 
         public CharacterState currentState;                  //to an FSM.
+        protected CharacterJobType currentJobType;
 
         //Components
         protected Rigidbody2D rb;
@@ -36,6 +38,7 @@ namespace TowerTanks.Scripts
         [FormerlySerializedAs("moveSpeed")]
         [Header("Movement")]
         [SerializeField] protected float groundMoveSpeed;
+        protected float faceDirection = 1;
 
         protected float currentGroundMoveSpeed;
         [SerializeField] protected float horizontalAirSpeed;
@@ -73,6 +76,7 @@ namespace TowerTanks.Scripts
         public bool isOperator; //true if player is currently operating an interactable
         public TankInteractable currentInteractable; //what interactable player is currently operating
         public LayerMask obstructionMask; //layers that block players from interacting with things
+        public TankInteractable currentJob; //what interactable the character is currently fixing/breaking - NOT the same as currentInteractable
 
         [Header("Conditions")]
         [SerializeField] public bool isOnFire;
@@ -248,8 +252,6 @@ namespace TowerTanks.Scripts
             else if (currentState == CharacterState.CLIMBING) ClimbLadder();
 
             else if (currentState == CharacterState.OPERATING) OperateInteractable();
-
-            else if (currentState == CharacterState.REPAIRING) RepairCell();
         }
 
         protected virtual void OnDrawGizmos()
@@ -288,20 +290,6 @@ namespace TowerTanks.Scripts
         public bool CheckGround()
         {
             LayerMask bothLayers = (1 << LayerMask.NameToLayer("Ground")) | (1 << LayerMask.NameToLayer("Coupler"));
-
-            /*foreach (var collider in currentOtherColliders)
-            {
-                if (collider.gameObject.layer == LayerMask.NameToLayer("Ground") || //if we are touching ground
-                    collider.gameObject.layer == LayerMask.NameToLayer("Coupler"))
-                {
-                    
-                    return Physics2D.OverlapBox(new Vector2(transform.position.x, //if our position is over that ground
-                            transform.position.y - groundedBoxOffset),
-                        new Vector2(groundedBoxX, groundedBoxY),
-                        0f,
-                        bothLayers);
-                }
-            }*/
 
             return Physics2D.OverlapBox(new Vector2(transform.position.x, //if our position is over that ground
                     transform.position.y - groundedBoxOffset),
@@ -364,11 +352,6 @@ namespace TowerTanks.Scripts
             rb.velocity = Vector2.zero;
         }
 
-        protected virtual void RepairCell()
-        {
-            rb.velocity = Vector2.zero;
-        }
-
         public void CancelInteraction(bool startJump = false)
         {
             currentState = CharacterState.NONCLIMBING;
@@ -417,9 +400,10 @@ namespace TowerTanks.Scripts
         {
             return ModifyHealth(-projectile.remainingDamage); //Reduce health by given amount of damage and return remainder
         }
-        public void Damage(float damage, bool triggerHitEffects = false)
+        public float Damage(float damage, bool triggerHitEffects = false)
         {
             ModifyHealth(-damage); //Reduce health by given amount of damage
+            return damage;
         }
 
         private float SetCharacterHealth(float characterHealth)
@@ -492,6 +476,7 @@ namespace TowerTanks.Scripts
             characterHUD?.UpdateFuelBar((currentFuel / characterSettings.fuelAmount) * 100f);
             characterHUD?.ClearButtonPrompts();
             currentState = CharacterState.NONCLIMBING;
+            currentJob = null;
 
             if (currentInteractable != null)
             {

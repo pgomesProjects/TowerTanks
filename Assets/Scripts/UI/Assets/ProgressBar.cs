@@ -78,7 +78,12 @@ public class ProgressBar : MonoBehaviour
     /// <param name="displayColor">The new color of the progress bar.</param>
     public void ChangeColor(Color displayColor)
     {
-        progressBarFill.GetComponentInChildren<Image>().color = displayColor;
+        progressBarFill.transform.Find("Fill").GetComponent<Image>().color = displayColor;
+
+        Color newColor = Color.white;
+        newColor.a = 0.6f;
+
+        transform.Find("Background").GetComponent<Image>().color = newColor; 
     }
 
     /// <summary>

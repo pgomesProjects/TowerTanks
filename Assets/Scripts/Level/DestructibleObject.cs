@@ -51,7 +51,7 @@ namespace TowerTanks.Scripts
             return 0;
         }
 
-        public void Damage(float damage, bool triggerHitEffects = false)
+        public float Damage(float damage, bool triggerHitEffects = false)
         {
             float tempHealth = health;
             float healthLost = 0;
@@ -91,6 +91,8 @@ namespace TowerTanks.Scripts
                 //MakeDummy(); (TODO) This isn't really working correctly - needs more work
                 //ApplyForces(impactDirection, impactPoint);
             }
+
+            return healthLost;
         }
 
         private void EvaluateDamage()

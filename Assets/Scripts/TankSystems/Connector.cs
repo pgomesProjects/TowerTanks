@@ -68,7 +68,7 @@ namespace TowerTanks.Scripts
                 return GetOtherCell(null).Damage(projectile, point); //Damage cell connector is attached to as a substitute for damaging connector
             }
         }
-        public void Damage(float damage, bool triggerHitEffects = false) { } //Connectors cannot be damaged by conventional means
+        public float Damage(float damage, bool triggerHitEffects = false) { return 0; } //Connectors cannot be damaged by conventional means
         /// <summary>
         /// Converts connector into its damaged form, done when cell on one side is destroyed.
         /// </summary>

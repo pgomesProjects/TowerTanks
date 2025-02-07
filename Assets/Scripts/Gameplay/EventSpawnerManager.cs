@@ -158,7 +158,7 @@ namespace TowerTanks.Scripts
             int tier = 1;
 
             //Spawn new enemy tank
-            TankController newtank = levelManager.tankManager.SpawnTank(tier, TankId.TankType.NEUTRAL, true);
+            TankController newtank = levelManager.tankManager.SpawnTank(tier, TankId.TankType.NEUTRAL, true, false);
             //enemies.Add(newtank);
         }
 
@@ -178,7 +178,7 @@ namespace TowerTanks.Scripts
             int tier = levelManager.GetEnemyTier();
 
             //Spawn new enemy tank
-            TankController newtank = levelManager.tankManager.SpawnTank(tier, TankId.TankType.ENEMY, true);
+            TankController newtank = levelManager.tankManager.SpawnTank(tier, TankId.TankType.ENEMY, true, false);
             enemies.Add(newtank);
         }
 

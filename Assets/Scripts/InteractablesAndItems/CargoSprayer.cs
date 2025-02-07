@@ -7,6 +7,8 @@ namespace TowerTanks.Scripts
     public class CargoSprayer : Cargo
     {
         [Header("Sprayer Settings:")]
+        public float fuel;
+        public float fuelDrainRate; //how fast spray fuel drains over time
         public Transform nozzle;
         public bool isSpraying;
 
@@ -56,9 +58,9 @@ namespace TowerTanks.Scripts
                     spray.Stop();
                 }
 
+                var main = spray.main;
                 if (isOnTank)
                 {
-                    var main = spray.main;
                     if (tankTransform != null)
                     {
                         if (main.simulationSpace != ParticleSystemSimulationSpace.Custom) main.simulationSpace = ParticleSystemSimulationSpace.Custom;
@@ -69,7 +71,49 @@ namespace TowerTanks.Scripts
                         if (main.simulationSpace != ParticleSystemSimulationSpace.World) main.simulationSpace = ParticleSystemSimulationSpace.World;
                     }
                 }
+                else
+                {
+                    if (main.simulationSpace != ParticleSystemSimulationSpace.World) main.simulationSpace = ParticleSystemSimulationSpace.World;
+                }
             }
+        }
+
+        public void FixedUpdate()
+        {
+            if (isSpraying)
+            {
+                fuel -= Time.fixedDeltaTime * fuelDrainRate;
+                if (fuel <= 0) {
+                    GameManager.Instance.AudioManager.Play("ExplosionSFX", this.gameObject);
+                    if (GameManager.Instance.AudioManager.IsPlaying("SteamExhaustLoop", this.gameObject))
+                    {
+                        GameManager.Instance.AudioManager.Stop("SteamExhaustLoop", this.gameObject);
+                        GameManager.Instance.AudioManager.Play("SteamExhaust", this.gameObject);
+                    }
+                    fuel = 0;
+                    Destroy(this.gameObject);
+                }
+            }
+        }
+
+        public override void AssignValue(int value)
+        {
+            base.AssignValue(value);
+
+            float defaultValue = fuel;
+            int defaultAmount = amount;
+
+            if (value == -1) return;
+            fuel = value;
+
+            amount = Mathf.RoundToInt(defaultAmount * (fuel / defaultValue)); //scale sale price based on how 'used' this object is
+        }
+
+        public override int GetPersistentValue()
+        {
+            int value = Mathf.RoundToInt(fuel);
+
+            return value;
         }
 
 

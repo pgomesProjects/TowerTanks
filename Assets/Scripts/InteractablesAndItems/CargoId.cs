@@ -8,6 +8,7 @@ public class CargoId
 {
     public string id; //identifier for this item
     public GameObject cargoPrefab;
+    [Tooltip("If true, this item's weight is affected by the player's current inventory of loot.")] public bool scarcityBalanced;
 
     [InlineButton("SubOne", "-1")]
     [InlineButton("SubFive", "-5")]

@@ -50,7 +50,7 @@ namespace TowerTanks.Scripts
         public void OnExit()
         {
             _tank.StopAllCoroutines();
-            _tankAI.RetrieveAllTokens();
+            _tankAI.RetrieveAllTokens(true);
             Debug.Log("OnExit patrol called.");
         }
 

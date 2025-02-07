@@ -50,15 +50,9 @@ namespace TowerTanks.Scripts
         [Header("Building & Repairing")]
         [SerializeField, Tooltip("What cell the player is currently repairing")]
         private GameObject buildGhost; //current ghost the player is using to build
-        private Cell currentRepairJob; //what cell the player is currently repairing
 
-        [SerializeField, Tooltip("Time it takes the player to complete one repair tick")]
-        private float repairTime;
-
-        private float repairTimer = 0;
-
-        [SerializeField, Tooltip("How much health the player repairs each completed tick")]
-        private float repairAmount;
+        [SerializeField, Tooltip("Active timer used to gauge time spent on a job.")]
+        private float jobTimer = 0;
 
         private float maxShakeIntensity = 0.5f;
         private float currentShakeTime;
@@ -186,7 +180,7 @@ namespace TowerTanks.Scripts
             //Interactable building:
             if (buildCell != null) //Player is currently in build mode
             {
-                currentState = CharacterState.REPAIRING;
+                currentState = CharacterState.OPERATING;
                 transform.position = buildCell.repairSpot.position;
                 StartBuilding();
 
@@ -210,28 +204,6 @@ namespace TowerTanks.Scripts
 
                     //Add the interactable built to the stats
                     GetComponentInParent<TankController>()?.AddInteractableToStats(currentInteractable);
-                }
-            }
-
-            //Repairing Something
-            if (currentRepairJob != null)
-            {
-                currentState = CharacterState.REPAIRING;
-                transform.position = currentRepairJob.repairSpot.position;
-
-                repairTimer += Time.deltaTime;
-                if (repairTimer >= repairTime)
-                {
-                    currentRepairJob.Repair(repairAmount);
-                    repairTimer = 0;
-                }
-
-                if (currentRepairJob.health >= currentRepairJob.maxHealth) //Fully fixed!
-                {
-                    GameManager.Instance.AudioManager.Play("ItemPickup", gameObject);
-                    currentRepairJob.repairMan = null;
-                    currentRepairJob = null;
-                    CancelInteraction(startJump:true);
                 }
             }
 
@@ -310,6 +282,61 @@ namespace TowerTanks.Scripts
                 }
             }
 
+            //If we've got a job
+            if (currentJob != null)
+            {
+                currentState = CharacterState.OPERATING;
+                transform.position = currentJob.transform.position;
+                StartNewJob(currentJobType);
+
+                jobTimer += Time.deltaTime; //Increment job time tracker
+                if (jobTimer >= characterSettings.buildTime) //Player has finished job
+                {
+                    //Which tool are we using?
+                    CargoMelee tool = currentObject.GetComponent<CargoMelee>();
+                    float durabilityLoss = 50f;
+
+                    //Job Effects
+                    switch (currentJobType)
+                    {
+                        case CharacterJobType.FIX:
+                            {
+                                //Fix a Broken Interactable
+                                currentJob.Fix();
+                                GameManager.Instance.AudioManager.Play("ItemPickup", currentJob.gameObject);
+                                GameManager.Instance.AudioManager.Play("UseWrench", currentJob.gameObject);
+                                Vector2 particlePos = new Vector2(currentJob.transform.position.x, currentJob.transform.position.y);
+                                GameManager.Instance.ParticleSpawner.SpawnParticle(6, particlePos, 0.4f, currentJob.transform);
+                                GameManager.Instance.ParticleSpawner.SpawnParticle(7, particlePos, 0.4f, currentJob.transform);
+                            }
+                            break;
+                        case CharacterJobType.UNINSTALL:
+                            {
+                                //Uninstall an Interactable from a cell
+                                GameManager.Instance.AudioManager.Play("ConnectRoom", currentJob.gameObject);
+                                Vector2 particlePos = new Vector2(currentJob.transform.position.x, currentJob.transform.position.y - 0.5f);
+                                GameManager.Instance.ParticleSpawner.SpawnParticle(6, particlePos, 0.35f, currentJob.tank.treadSystem.transform);
+                                GameManager.Instance.ParticleSpawner.SpawnParticle(19, particlePos, 0.1f, currentJob.tank.treadSystem.transform);
+
+                                HapticsSettings setting = GameManager.Instance.SystemEffects.GetHapticsSetting("QuickJolt");
+                                GameManager.Instance.SystemEffects.ApplyControllerHaptics(this.GetPlayerData().playerInput, setting); //Apply haptics
+                                GameManager.Instance.ParticleSpawner.SpawnParticle(25, currentJob.transform.position, 0.3f, currentJob.tank.treadSystem.transform);
+                                currentJob.parentCell.AddInteractablesFromCell(true);
+
+                                durabilityLoss *= 4f;
+                            }
+                            break;
+                    }
+                    StopCurrentJob(); //Indicate that job has stopped
+                    CancelInteraction(startJump: true);
+                    if (tool != null)
+                    {
+                        tool.durability -= (int)durabilityLoss;
+                        tool.CheckDurability();
+                    }
+                }
+            }
+
             //If we're carrying something
             if (currentObject != null)
             {
@@ -327,6 +354,8 @@ namespace TowerTanks.Scripts
 
             if (moveInput.y <= -0.5) isHoldingDown = true;
             else isHoldingDown = false;
+
+            UpdateCharacterDirection();
         }
 
         protected override void FixedUpdate()
@@ -352,8 +381,22 @@ namespace TowerTanks.Scripts
                 characterHUD?.SetButtonPrompt(GameAction.Jetpack, jetpackCanBeUsed);
         }
 
-        
+        public void UpdateCharacterDirection()
+        {
+            if (moveInput.x > 0.2) faceDirection = 1; //right
+            else if (moveInput.x < -0.2) faceDirection = -1; //left
 
+            Vector2 newPos = new Vector2(Mathf.Abs(hands.transform.localPosition.x) * faceDirection, hands.transform.localPosition.y);
+            hands.transform.localPosition = newPos;
+        }
+
+        public float GetCharacterDirection()
+        {
+            float direction = faceDirection;
+
+            return direction;
+        }
+        
         #endregion
 
         #region Movement
@@ -362,6 +405,9 @@ namespace TowerTanks.Scripts
         {
             if (!isAlive)
                 return;
+
+            if (currentJob != null) currentJob = null;
+            if (buildCell != null) buildCell = null;
 
             var slope = transform.eulerAngles.z < 180 ? transform.eulerAngles.z : transform.eulerAngles.z - 360;
             //^ im gonna change this to use a raycast and a normal, but for now this is fine and works for checking in-tank slopes
@@ -450,17 +496,21 @@ namespace TowerTanks.Scripts
 
         protected override void ClimbLadder()
         {
-            var onCoupler = Physics2D.OverlapBox(transform.position, Vector3.one * .33f, transform.eulerAngles.z,
+
+            Collider2D onCoupler = Physics2D.OverlapBox(transform.position, Vector3.one * .33f, transform.eulerAngles.z,
                 1 << LayerMask.NameToLayer("Coupler"));
-            var onLadder = Physics2D.OverlapBox(transform.position, Vector3.one * .33f, transform.eulerAngles.z,
+            Collider2D onLadder = Physics2D.OverlapBox(transform.position, Vector3.one * .33f, transform.eulerAngles.z,
                 1 << LayerMask.NameToLayer("Ladder"));
-            var hitGround = Physics2D.Raycast(transform.position, -transform.up, transform.localScale.y * .7f,
+            RaycastHit2D hitGround = Physics2D.Raycast(transform.position, -transform.up, transform.localScale.y * .7f,
                 1 << LayerMask.NameToLayer("Ground"));
-            var ladderUnderMe = Physics2D.OverlapBox(transform.position - transform.up, Vector3.one * .33f, transform.eulerAngles.z,
+            Collider2D ladderUnderMe = Physics2D.OverlapBox(transform.position - transform.up, Vector3.one * .33f, transform.eulerAngles.z,
                 1 << LayerMask.NameToLayer("Ladder"));
 
             Vector3 displacement = transform.up * ((moveInput.y > 0 ? ladderClimbUpSpeed : ladderClimbDownSpeed) *
-                                                   moveInput.y * Time.deltaTime);
+                                                   moveInput.y * Time.fixedDeltaTime);
+            bool inGroundNextFrame = false;
+            if (moveInput.y < 0) inGroundNextFrame = Physics2D.OverlapBox(transform.position + displacement, Vector3.one * .33f,
+                transform.eulerAngles.z, 1 << LayerMask.NameToLayer("Ground"));
 
             // If you hit ground, and you're trying to move down, stop climbing.
             // If you're not on a coupler or ladder, and you're trying to move up, stop climbing.
@@ -468,14 +518,21 @@ namespace TowerTanks.Scripts
             if (((hitGround && !ladderUnderMe) && moveInput.y < 0) || (!onCoupler && !onLadder && moveInput.y > 0))
             {
                 displacement = Vector3.zero;
+                if (inGroundNextFrame)
+                {
+                    // this gets rid of any inconsitencies with where the player stops on the ground from climbing down the ladder.
+                    transform.position = new Vector3(transform.position.x, hitGround.point.y + transform.localScale.y / 2, transform.position.z);
+                }
             }
+
+            
             
             if (!onCoupler &&
                 !onLadder && !ladderUnderMe) //final failsafe for if you're somehow in this state and not in a ladder or coupler
             {
                 CancelInteraction();
             }
-            currentFuel += fuelRegenerationRate * Time.deltaTime;
+            currentFuel += fuelRegenerationRate * Time.fixedDeltaTime;
             Vector3 newPosition = transform.position + displacement;
             rb.MovePosition(newPosition);
             
@@ -561,8 +618,8 @@ namespace TowerTanks.Scripts
                 case "Cancel":
                     OnCancel(ctx);
                     break;
-                case "Repair":
-                    OnRepair(ctx);
+                case "Pickup":
+                    OnPickup(ctx);
                     break;
                 case "Build":
                     OnBuild(ctx);
@@ -595,7 +652,7 @@ namespace TowerTanks.Scripts
                     OnInteract(ctx);
                     break;
                 case "3":
-                    OnRepair(ctx);
+                    OnPickup(ctx);
                     break;
                 case "4":
                     OnCancel(ctx);
@@ -620,9 +677,12 @@ namespace TowerTanks.Scripts
             SetCharacterMovement(ctx.ReadValue<Vector2>());
 
             if ((moveInput.y > ladderEnterDeadzone || moveInput.y < -ladderEnterDeadzone) &&
-                currentLadder != null && currentState != CharacterState.CLIMBING && currentState != CharacterState.OPERATING)
+                currentLadder != null && currentState != CharacterState.CLIMBING && currentState != CharacterState.OPERATING 
+                && (!jetpackInputHeld || CheckSurfaceCollider(LayerMask.NameToLayer("Ground"))))
             {
-                //if up is pressed above the deadzone, if down is pressed under the deadzone and we aren't grounded, and if we are near a ladder and we aren't already climbing
+                //if up is pressed above the deadzone,
+                //if down is pressed under the deadzone and we aren't grounded, if we are near a ladder and we aren't already climbing,
+                // and if we arent trying to jetpack mid-air currently.
                 SetLadder();
             }
 
@@ -641,6 +701,7 @@ namespace TowerTanks.Scripts
         {
             if (!isAlive) return;
             if (buildCell != null) return;
+            if (currentJob != null) return;
 
             jetpackInputHeld = ctx.ReadValue<float>() > 0;
             if (ctx.ReadValue<float>() > 0 && currentState != CharacterState.OPERATING)
@@ -654,16 +715,18 @@ namespace TowerTanks.Scripts
         {
             if (!isAlive) return;
             if (buildCell != null) return;
+            if (currentJob != null) return;
 
             interactInputHeld = ctx.ReadValue<float>() > 0;
 
-            if (ctx.started && currentState != CharacterState.REPAIRING)
+            if (ctx.started)
             {
-                if (currentZone != null && !isHoldingDown && !isCarryingSomething)
+                if (currentZone != null && !isCarryingSomething)
                 {
                     if (!Physics2D.Linecast(transform.position, currentZone.transform.position, obstructionMask))
                         currentZone.Interact(this.gameObject);
-                    else {
+                    else
+                    {
                         Debug.Log("Interactable is obstructed!");
                         //GameManager.Instance.AudioManager.Play("InvalidAlert"); 
                     }
@@ -676,11 +739,10 @@ namespace TowerTanks.Scripts
 
                 if (currentInteractable == null)
                 {
-                    if (isCarryingSomething)
+                    if (isCarryingSomething && currentJob == null)
                     {
                         if (currentObject != null) currentObject.Use();
                     }
-                    else if (isHoldingDown) Pickup();
                 }
             }
 
@@ -697,7 +759,7 @@ namespace TowerTanks.Scripts
         {
             if (!isAlive) return;
 
-            if (StackManager.stack.Count > 0 && ctx.performed && !isOperator && !isCarryingSomething && !isHoldingDown)
+            if (StackManager.stack.Count > 0 && ctx.performed && !isOperator && !isCarryingSomething)
             {
                 //Check if build is valid:
                 Collider2D cellColl =
@@ -711,6 +773,7 @@ namespace TowerTanks.Scripts
                         buildCell = cell; //Indicate that player is building in this cell
                         cell.playerBuilding = this; //Indicate that this player is building in given cell
                         print("started building");
+                        taskProgressBar = GameManager.Instance.UIManager.AddRadialTaskBar(this.gameObject, new Vector2(0.5f, 0.5f), characterSettings.buildTime, GetCharacterColor(), true);
                         taskProgressBar?.StartTask(characterSettings.buildTime);
                         StackManager.StartBuildingStackItem(0, this, characterSettings.buildTime);
                     }
@@ -723,6 +786,44 @@ namespace TowerTanks.Scripts
                 if (currentObject.isContinuous)
                 {
                     currentObject.Use(true);
+                }
+                else if (currentObject.type == Cargo.CargoType.TOOL)
+                {
+                    if (currentZone != null) //if we're standing near an Interactable
+                    {
+                        //Try to start a job
+                        if (!Physics2D.Linecast(transform.position, currentZone.transform.position, obstructionMask))
+                        {
+                            CargoMelee tool = currentObject.GetComponent<CargoMelee>();
+                            if (tool != null)
+                            {
+                                if (tool.isWrench) currentJobType = CharacterJobType.FIX;
+                                else currentJobType = CharacterJobType.UNINSTALL;
+                            }
+                            TankInteractable interactable = currentZone.GetComponentInParent<TankInteractable>();
+
+                            bool jobsGood = true;
+                            if (currentJobType == CharacterJobType.FIX) { if (!interactable.isBroken) jobsGood = false; } //If it ain't broke don't fix it
+                            if (jobsGood)
+                            {
+                                //Determine What Animation to do
+                                string animationHash = "";
+                                if (currentJobType == CharacterJobType.FIX) animationHash = "WrenchFix";
+                                if (currentJobType == CharacterJobType.UNINSTALL) animationHash = "CrowbarPull";
+                                tool?.CancelMelee();
+                                tool?.AnimateJob(animationHash);
+                                currentJob = interactable;
+                                taskProgressBar = GameManager.Instance.UIManager.AddRadialTaskBar(this.gameObject, new Vector2(0, 0), characterSettings.buildTime, GetCharacterColor(), true);
+                                taskProgressBar?.StartTask(characterSettings.buildTime);
+                                taskProgressBar.transform.localScale = new Vector3(1.8f, 1.8f, 1);
+                            }
+                        }
+                        else
+                        {
+                            Debug.Log("Interactable is obstructed!");
+                            //GameManager.Instance.AudioManager.Play("InvalidAlert"); 
+                        }
+                    }
                 }
             }
 
@@ -738,6 +839,13 @@ namespace TowerTanks.Scripts
                     StopBuilding();
                     StackManager.EndBuildingStackItem(0, this);
                 }
+
+                if (currentJob != null)
+                {
+                    StopCurrentJob();
+                    if (currentState == CharacterState.OPERATING) currentState = CharacterState.NONCLIMBING;
+                    if (taskProgressBar != null) taskProgressBar.EndTask();
+                }
             }
         }
 
@@ -752,13 +860,9 @@ namespace TowerTanks.Scripts
                     currentInteractable.Exit(true);
                 }
 
-                if (currentObject != null)
+                if (currentObject != null && currentJob == null)
                 {
-                    if (isHoldingDown)
-                    {
-                        currentObject.Drop(this, false, moveInput);
-                    }
-                    else currentObject.Drop(this, true, moveInput);
+                    currentObject.Drop(this, true, moveInput);
                 }
             }
         }
@@ -778,34 +882,18 @@ namespace TowerTanks.Scripts
             }
         }
 
-        public void OnRepair(InputAction.CallbackContext ctx)
+        public void OnPickup(InputAction.CallbackContext ctx)
         {
+            if (!isAlive) return;
             if (buildCell != null) return;
+            if (currentJob != null) return;
 
-            if (ctx.started) //Tapped
+            if (ctx.performed) //Button Pressed
             {
-                
-            }
-
-            if (ctx.performed) //Held for 0.4 sec
-            {
-                //Repairing
-                if (currentInteractable == null && currentState != CharacterState.OPERATING && currentObject == null)
+                if (currentInteractable == null)
                 {
-                    LayerMask mask = LayerMask.GetMask("Cell");
-                    Collider2D cell = Physics2D.OverlapPoint(transform.position, mask);
-                    if (cell != null)
-                    {
-                        Cell cellscript = cell.GetComponent<Cell>();
-                        if (cellscript.health < cellscript.maxHealth && cellscript.repairMan == null &&
-                            cellscript.room.isCore == false)
-                        {
-                            GameManager.Instance.AudioManager.Play("UseSFX");
-                            currentRepairJob = cell.GetComponent<Cell>();
-                            currentRepairJob.repairMan = this.gameObject;
-                            repairTimer = 0;
-                        }
-                    }
+                    //Items
+                    Pickup();
                 }
 
                 //Interactables
@@ -815,13 +903,6 @@ namespace TowerTanks.Scripts
             if (ctx.canceled) //Let go
             {
                 if (currentInteractable != null) currentInteractable.SecondaryUse(false);
-
-                if (currentState == CharacterState.REPAIRING)
-                {
-                    currentRepairJob.repairMan = null;
-                    currentRepairJob = null;
-                    CancelInteraction(startJump:true);
-                }
             }
         }
 
@@ -967,7 +1048,10 @@ namespace TowerTanks.Scripts
                     if (_distance == distance)
                     {
                         if (!Physics2D.Linecast(transform.position, item.transform.position, obstructionMask))
+                        {
+                            if (currentObject != null) { currentObject.Drop(this, false, moveInput); } //drop what we're currently holding before grabbing the next thing
                             item.Pickup(this);
+                        }
                         else
                         {
                             Debug.Log("Object is obstructed!");
@@ -1021,6 +1105,23 @@ namespace TowerTanks.Scripts
             if(!forceStopBuild)
                 taskProgressBar?.EndTask();
             print("stopped building");
+        }
+
+        public void StartNewJob(CharacterJobType jobType)
+        {
+            if (currentJob == null) return;
+
+            currentJobType = jobType;
+        }
+
+        public void StopCurrentJob(bool forceStop = false)
+        {
+            if (currentJob == null) return;
+            currentJob = null;
+            currentState = CharacterState.NONCLIMBING;
+            jobTimer = 0;
+            if (!forceStop)
+                if (taskProgressBar != null) taskProgressBar.EndTask();
         }
 
         public void UpdatePlayerNameDisplay()

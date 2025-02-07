@@ -238,16 +238,22 @@ MonoBehaviour:
   inBugReportMenu: 0
   inDebugMenu: 0
   ignoreTutorials: 1
+  fireBreaksInteractables: 0
   _shopChance: 0
   tankDesign:
     TankName: 
     aiSettings: 
     coreInteractables: []
     buildingSteps: []
+    cargoNodes: []
   cargoManifest:
     items:
     - itemID: Fire Extinguisher
       localSpawnVector: {x: -1, y: 0, z: 0}
+      persistentValue: -1
+    - itemID: Wrench
+      localSpawnVector: {x: 1, y: 0, z: 0}
+      persistentValue: -1
 --- !u!114 &2776762177459489224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1290,19 +1296,28 @@ MonoBehaviour:
   cargoList:
   - id: Scrap Crate
     cargoPrefab: {fileID: 3642906957018620649, guid: 3fced5b46cb66c44f99395b2f109e3ad, type: 3}
-    weight: 6
+    scarcityBalanced: 0
+    weight: 50
   - id: Bomb
     cargoPrefab: {fileID: 6075565973188652431, guid: 3f169db2fab03e84497edc54b1373a5d, type: 3}
-    weight: 1
+    scarcityBalanced: 1
+    weight: 5
   - id: Incendiary Shells
     cargoPrefab: {fileID: 8368367451371843906, guid: 3dfacf7975c2dea4bb777510128ff977, type: 3}
-    weight: 2
+    scarcityBalanced: 1
+    weight: 15
   - id: Fire Extinguisher
     cargoPrefab: {fileID: 8695668838568183417, guid: 61afdcf2de5e52d4785c259326d39da4, type: 3}
-    weight: 1
-  - id: Thumper Shells
-    cargoPrefab: {fileID: 1066636517055270470, guid: 45936e9a5d72a6448872f8a79b0dbf47, type: 3}
-    weight: 1
+    scarcityBalanced: 1
+    weight: 10
+  - id: Wrench
+    cargoPrefab: {fileID: 2049292779684075303, guid: 7b3d84804bd392449a93445ecd1e9edd, type: 3}
+    scarcityBalanced: 1
+    weight: 10
+  - id: Crowbar
+    cargoPrefab: {fileID: 2597980276526825376, guid: 74cbd67fb794ffe49b582fb274d1cf2b, type: 3}
+    scarcityBalanced: 1
+    weight: 5
   projectileList:
   - type: 0
     ammoTypes:

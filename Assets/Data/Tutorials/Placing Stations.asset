@@ -12,15 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbf9a243000ae4742a753411665e3bc0, type: 3}
   m_Name: Placing Stations
   m_EditorClassIdentifier: 
-  header: Placing Stations
+  header: Building Stations
   tutorialPages:
   - tutorialImage: {fileID: 21300000, guid: cbb1f1eba61ecf24ba328b50b796c465, type: 3}
-    tutorialText: You need to place Stations in order for your tank to run!<br><br>On
-      the left side of the screen, you'll see an inventory of placeable Stations.
+    tutorialText: '<br><br>IMPORTANT: You need to build Stations in order for your
+      tank to run!<br><br>On the left side of the screen, you''ll see an inventory
+      of placeable Stations.'
   - tutorialImage: {fileID: 21300000, guid: 0dcc9287b33a8494d96617fb07107ce3, type: 3}
-    tutorialText: 'To place a Station, move to an empty cell and hold [Build].<br><br>IMPORTANT:
+    tutorialText: 'Building Stations:<br><br>BUILD: [Build] (Hold)<br><br>IMPORTANT:
       You''ll always be placing the Station at the TOP of the Inventory List. '
-  - tutorialImage: {fileID: 21300000, guid: 0832808838947844ebb64225fa4f6f86, type: 3}
-    tutorialText: 'Choose where to place your Stations wisely!<br><br>TIP: Weapon
-      Stations like the Cannon or Mortar need to extend OUTSIDE of the tank. Try
-      placing these on cells where they can be used properly.'

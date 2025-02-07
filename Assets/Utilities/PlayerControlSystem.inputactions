@@ -42,12 +42,12 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Repair",
+                    "name": "Pickup",
                     "type": "Button",
                     "id": "fe096cfd-c2cb-4a1e-8a90-f7987940ae6e",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Hold(duration=0.2)",
+                    "interactions": "",
                     "initialStateCheck": false
                 },
                 {
@@ -150,18 +150,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Mount",
+                    "name": "ReadyUp",
                     "type": "Button",
-                    "id": "c55ef5c2-8d1f-4ae5-bbd8-8bd5281a346f",
+                    "id": "a0686885-8b23-4d55-a3f9-6a25125c770f",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "ReadyUp",
+                    "name": "Mount",
                     "type": "Button",
-                    "id": "a0686885-8b23-4d55-a3f9-6a25125c770f",
+                    "id": "c55ef5c2-8d1f-4ae5-bbd8-8bd5281a346f",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -904,7 +904,7 @@
                     "name": "",
                     "id": "3df3bf15-9b85-466e-8b41-9abbe2c4761a",
                     "path": "<Gamepad>/buttonWest",
-                    "interactions": "SlowTap",
+                    "interactions": "SlowTap(duration=0.1)",
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Interact",
@@ -915,7 +915,7 @@
                     "name": "",
                     "id": "4fc1aaa0-35f0-430f-bdf8-bc07c4919cd3",
                     "path": "<Keyboard>/e",
-                    "interactions": "SlowTap",
+                    "interactions": "SlowTap(duration=0.1)",
                     "processors": "",
                     "groups": "Keyboard and Mouse",
                     "action": "Interact",
@@ -929,7 +929,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Repair",
+                    "action": "Pickup",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -940,7 +940,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard and Mouse",
-                    "action": "Repair",
+                    "action": "Pickup",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -1100,50 +1100,6 @@
                 },
                 {
                     "name": "",
-                    "id": "440ec6c4-49ab-44a3-8e88-81fa3ce885a9",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard and Mouse",
-                    "action": "Mount",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "3ea01933-d6db-4f55-a9fa-620dd3792474",
-                    "path": "<Keyboard>/e",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard and Mouse",
-                    "action": "Mount",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "85b665d0-8d43-41ec-bfb7-48675bc9de3b",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard and Mouse",
-                    "action": "Mount",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "6510e3f7-2c9c-4739-916b-8ebbabd68e48",
-                    "path": "<Gamepad>/buttonSouth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Mount",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "9a19eb1d-afea-43b3-865d-5cb005c5b4a6",
                     "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
@@ -1238,6 +1194,50 @@
                     "processors": "",
                     "groups": "Keyboard and Mouse",
                     "action": "Undo",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3ea01933-d6db-4f55-a9fa-620dd3792474",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard and Mouse",
+                    "action": "Mount",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "440ec6c4-49ab-44a3-8e88-81fa3ce885a9",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard and Mouse",
+                    "action": "Mount",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "85b665d0-8d43-41ec-bfb7-48675bc9de3b",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard and Mouse",
+                    "action": "Mount",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6510e3f7-2c9c-4739-916b-8ebbabd68e48",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Mount",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -2012,6 +2012,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Rotate",
+                    "type": "Button",
+                    "id": "fe65e4e3-ac42-4a18-bb3e-fec3a59a401e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Mount",
+                    "type": "Button",
+                    "id": "e0122dbc-4bba-4f70-a5d3-0f7ad9b2448f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -2320,6 +2338,83 @@
                     "processors": "",
                     "groups": "Keyboard and Mouse",
                     "action": "Cancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ef222e8b-914e-4516-963c-5d247de97e21",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard and Mouse",
+                    "action": "Mount",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c485ce66-b994-4371-a1e5-4d5ca2ab266b",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard and Mouse",
+                    "action": "Mount",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "81e6b632-530f-4302-90e6-03421cada59e",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard and Mouse",
+                    "action": "Mount",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0d1ed743-1fae-4033-8c97-1857e23fc45a",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Mount",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0b6c4094-b901-4eb6-9e91-33834d96cff7",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Rotate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4afce5e2-8bd3-42d2-aa51-372a32b8e489",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard and Mouse",
+                    "action": "Rotate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d7c84f77-cff5-4469-b996-5468eaf78092",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Rotate",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

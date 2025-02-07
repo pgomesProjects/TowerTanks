@@ -127,6 +127,7 @@ namespace TowerTanks.Scripts
         {
             base.Use(overrideConditions);
 
+            if (isBroken) return;
             if (cooldown <= 0)
                 Fire(overrideConditions, tank.tankType);
         }
@@ -157,7 +158,7 @@ namespace TowerTanks.Scripts
 
             if (gunType == GunType.MORTAR)
             {
-                if (operatorID != null && fireCooldownTimer <= 0 && tank.tankType == TankId.TankType.PLAYER)
+                if (operatorID != null && fireCooldownTimer <= 0 && tank.tankType == TankId.TankType.PLAYER && !isBroken)
                 {
                     ToggleTrajectory(true);
                 }
@@ -316,6 +317,7 @@ namespace TowerTanks.Scripts
         /// </summary>
         public void Fire(bool overrideConditions, TankId.TankType inheritance = TankId.TankType.PLAYER, bool bypassSpinup = false)
         {
+            if (isBroken) return;
             bool canFire = true;
             if (tank == null) tank = GetComponentInParent<TankController>();
 

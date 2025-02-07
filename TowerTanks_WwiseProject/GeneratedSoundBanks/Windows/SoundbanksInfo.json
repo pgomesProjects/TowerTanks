@@ -124,7 +124,7 @@
     "Type": "User",
     "GUID": "{37497F3A-0B2B-421A-8CAB-0ADBE8B1C2B4}",
     "Language": "SFX",
-    "Hash": "{933343CB-0460-4351-31F1-DB8AB5B52CB4}",
+    "Hash": "{0C0E4ED9-4643-79A5-90CE-04FC0916D796}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\mainbank",
     "ShortName": "mainbank",
     "Path": "mainbank.bnk",
@@ -471,7 +471,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "Into the Breach_ Advanced Edition Pinnacle OST [HQ].wav",
-      "CachePath": "72/{72950AE7-A965-9B5D-F5D1-36F8C01CFBF5}.wem"
+      "CachePath": "8D/{8D33DEDB-EE37-BF42-AB9F-85BAF139FEF9}.wem"
      },
      {
       "Id": "608069065",
@@ -527,7 +527,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "The Blast Garden  Into the Breach OST.wav",
-      "CachePath": "69/{69695118-EE4F-9596-AE2D-03B8E4DD5EFE}.wem"
+      "CachePath": "B5/{B5525C23-D0D9-B882-1229-E3296B5184F3}.wem"
      },
      {
       "Id": "661803067",
@@ -623,7 +623,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "Into the Breach_ Advanced Edition Pinnacle OST [HQ].wav",
-      "CachePath": "58/{58ED0AD2-D327-0435-16EF-91AAF5E47B94}.wem"
+      "CachePath": "FC/{FCE6EF0E-31D7-91C0-C58F-CA559826F496}.wem"
      },
      {
       "Id": "792905054",
@@ -1891,6 +1891,6 @@
     ]
    }
   ],
-  "FileHash": "{5ED72294-BC1A-D46D-B873-7A2662C7FA1E}"
+  "FileHash": "{F79CB9BE-C875-E3A4-4810-ACEFDEA2C8CE}"
  }
 }

@@ -9,10 +9,7 @@ namespace TowerTanks.Scripts
         internal GunController gunScript;
         private Projectile myProjectile;
         
-        internal float fireTimer;
-        public float cooldownOffset;
-        
-        public bool isRotating;
+
         internal float currentForce;
         internal RaycastHit2D aimHit;
         
@@ -26,6 +23,8 @@ namespace TowerTanks.Scripts
         private bool obstruction;
         protected float aggroCooldownTimer;
         public float aggroCooldown;
+        protected Transform overrideTarget;
+        public Coroutine updateAimTarget;
 
         private void Awake()
         {
@@ -36,10 +35,9 @@ namespace TowerTanks.Scripts
 
         public override void Init()
         {
-            fireTimer = 0;
             gunScript.usingAIbrain = true;
             StartCoroutine(AimAtTarget());
-            StartCoroutine(UpdateTargetPoint(myTankAI.aiSettings.tankAccuracy));
+            updateAimTarget = StartCoroutine(UpdateTargetPoint(myTankAI.aiSettings.tankAccuracy));
             aggroCooldown = Mathf.Lerp(myTankAI.aiSettings.maxFireCooldown, 0, myTankAI.aiSettings.aggression);
             gunScript.fireCooldownTimer = aggroCooldown + GetAggroOffset();
         }
@@ -61,8 +59,7 @@ namespace TowerTanks.Scripts
                         aggroCooldownTimer = 0 + GetAggroOffset();
                     }
                 }
-                    
-                fireTimer = 0;
+                
             }
             if (DirectionToTargetBlocked() && gunScript.gunType != GunController.GunType.MORTAR)
             {
@@ -72,7 +69,7 @@ namespace TowerTanks.Scripts
                 obstruction = false;
             }
             
-            if (myTankAI.targetTank != null)
+            if (myTankAI.targetTank != null && overrideTarget == null)
             {
                 targetPoint = myTankAI.targetTank.treadSystem.transform.position + targetPointOffset;
             }
@@ -81,7 +78,6 @@ namespace TowerTanks.Scripts
 
         protected virtual void FixedUpdate()
         {
-            fireTimer += Time.fixedDeltaTime; //firetimer is used for rate of fire
             if (myTankAI.aiSettings.aggression != 0 && gunScript.fireCooldownTimer <= 0) aggroCooldownTimer += Time.fixedDeltaTime;
         }
 
@@ -110,35 +106,46 @@ namespace TowerTanks.Scripts
         /// <param name="aimFactor">
         ///  A value between 0 and 100 which determines accuracy. 100 is the most accurate, 0 is the least accurate.
         /// </param>
-        protected virtual IEnumerator UpdateTargetPoint(float aimFactor)
+        public virtual IEnumerator UpdateTargetPoint(float aimFactor)
         {
             while (tokenActivated)
             {
-                var targetTankTransform = myTankAI.targetTank.treadSystem.transform;
-                var upmostCell = myTankAI.targetTank.upMostCell.transform;
-                // get random number between 0 and aimfactor
-                float randomX = Random.Range(0, 100);
-                bool hit = randomX <= aimFactor;
+                if (overrideTarget == null && myTankAI.targetTank != myTankAI.tank && myTankAI.targetTank != null)
+                {
+                    var targetTankTransform = myTankAI.targetTank.treadSystem.transform;
+                    var upmostCell = myTankAI.targetTank.upMostCell.transform;
+                    // get random number between 0 and aimfactor
+                    float randomX = Random.Range(0, 100);
+                    bool hit = randomX <= aimFactor;
                 
-                if (hit)
-                {
-                    miss = false;
-                    targetPoint = GetRandomPointBetweenVectors(targetTankTransform.position + targetTankTransform.up * 1.5f, upmostCell.position);
-                    targetPointOffset = targetPoint - targetTankTransform.position;
-                    Debug.DrawLine(targetTankTransform.position, targetPoint, Color.green, 5);
+                    if (hit)
+                    {
+                        miss = false;
+                        targetPoint = GetRandomPointBetweenVectors(targetTankTransform.position + targetTankTransform.up * 1.5f, upmostCell.position);
+                        targetPointOffset = targetPoint - targetTankTransform.position;
+                        Debug.DrawLine(targetTankTransform.position, targetPoint, Color.green, 5);
+                    }
+                    else
+                    {
+                        miss = true;
+                        Debug.DrawLine(targetTankTransform.position, targetPoint, Color.green, 3);
+                        var pointBelowTarget = targetTankTransform.position - targetTankTransform.up * 2f;
+                        var pointAboveTarget = upmostCell.position + targetTankTransform.up * 4f;
+                        var rand = Random.Range(0, 2);
+                        if (rand == 0) targetPoint = GetRandomPointBetweenVectors(upmostCell.position + targetTankTransform.up * 1.5f, pointAboveTarget); //misses the tank by aiming too high
+                        else           targetPoint = GetRandomPointBetweenVectors(targetTankTransform.position - targetTankTransform.up, pointBelowTarget); //misses the tank by aiming too low
+                        targetPointOffset = targetPoint - targetTankTransform.position;
+                    }
                 }
-                else
+                
+
+                var time = 3f;
+                if (overrideTarget != null)
                 {
-                    miss = true;
-                    Debug.DrawLine(targetTankTransform.position, targetPoint, Color.green, 3);
-                    var pointBelowTarget = targetTankTransform.position - targetTankTransform.up * 2f;
-                    var pointAboveTarget = upmostCell.position + targetTankTransform.up * 4f;
-                    var rand = Random.Range(0, 2);
-                    if (rand == 0) targetPoint = GetRandomPointBetweenVectors(upmostCell.position + targetTankTransform.up * 1.5f, pointAboveTarget);
-                    else           targetPoint = GetRandomPointBetweenVectors(targetTankTransform.position - targetTankTransform.up, pointBelowTarget);
-                    targetPointOffset = targetPoint - targetTankTransform.position;
-                }
-                yield return new WaitForSeconds(3);
+                    targetPoint = overrideTarget.position;
+                    time = .03f;
+                } 
+                yield return new WaitForSeconds(time);
             }
             
         }
@@ -147,14 +154,12 @@ namespace TowerTanks.Scripts
         {
             while (tokenActivated)
             {
-                if (myTankAI.targetTank == null) yield break;
-
                 var trajectoryPoints = Trajectory.GetTrajectory(gunScript.barrel.position, gunScript.barrel.right * gunScript.muzzleVelocity, myProjectile.gravity, 100);
                 aimHit = Trajectory.GetHitPoint(trajectoryPoints);
 
                 Vector3 myTankPosition = myTankAI.tank.treadSystem.transform.position + Vector3.up * 2.5f;
 
-                if (DirectionToTargetBlocked() && !miss) targetPoint = gunScript.transform.right; // basically if the direction from our weapon
+                if (DirectionToTargetBlocked() && !miss && overrideTarget == null) targetPoint = gunScript.transform.right; // basically if the direction from our weapon
                                                                                             // to its target point is obstructed by the weapon's tank, 
                                                                                             // this will aim the weapon forward instead of at the target
                 
@@ -163,7 +168,7 @@ namespace TowerTanks.Scripts
                 // if our projected hitpoint is past the tank we're fighting, the hitpoint is set right in front of the barrel, because in that scenario we want to aim based on our gun's general direction and not our hitpoint (this doesnt apply to mortars)
                 if ((!myTankAI.TankIsRightOfTarget() && hitPointIsRightOfTarget) || (myTankAI.TankIsRightOfTarget() && !hitPointIsRightOfTarget) || aimHit.collider == null || AimingAtMyself())
                 {
-                    aimHit.point = trajectoryPoints[2];
+                    aimHit.point = trajectoryPoints[1];
                 }
 
                 Vector3 direction = targetPoint - myTankPosition;
@@ -171,7 +176,7 @@ namespace TowerTanks.Scripts
                 // Project the hit point onto the direction vector
                 Vector3 aimHitPoint = aimHit.point; //converts to vec3 (using vec3 for project function)
                 Vector3 projectedPoint = myTankPosition + Vector3.Project(aimHitPoint - myTankPosition, direction);
-                if (DirectionToTargetBlocked()) projectedPoint = gunScript.barrel.position;
+                if (DirectionToTargetBlocked() && overrideTarget == null) projectedPoint = gunScript.barrel.position;
                 float HowFarFromTarget() => Vector3.Distance(aimHit.point, projectedPoint);
                 
                 var distFactor = Mathf.InverseLerp(0, 2, HowFarFromTarget());
@@ -185,6 +190,7 @@ namespace TowerTanks.Scripts
                 {
                     currentForce = myTankAI.TankIsRightOfTarget() ? -moveSpeed : moveSpeed;
                 }
+                
                 yield return new WaitForSeconds(refreshRate);
             }
             
@@ -203,6 +209,21 @@ namespace TowerTanks.Scripts
 
             return number;
         }
+        
+        public void OverrideTargetPoint(Transform target)
+        {
+            overrideTarget = target;
+        }
+
+        public void ResetTargetPoint()
+        {
+            overrideTarget = null;
+        }
+
+        public bool AimIsOverridden()
+        {
+            return overrideTarget != null;
+        }
 
         private void OnDrawGizmos()
         {
@@ -217,7 +238,7 @@ namespace TowerTanks.Scripts
             for (int i = 0; i < trajPoints.Count - 1; i++)
             {
                 if (Vector3.Distance(trajPoints[i], aimHit.point) < 0.25f) break; // stops projecting line at target
-                Gizmos.color = myTankAI.TankIsRightOfTarget() ? Color.red : Color.blue;
+                Gizmos.color = myTankAI.TankIsRightOfTarget() ? Color.red : Color.blue; //make tank is right of target change to player if the only tank is itself
                 Gizmos.DrawLine(trajPoints[i], trajPoints[i + 1]);
                 
             }

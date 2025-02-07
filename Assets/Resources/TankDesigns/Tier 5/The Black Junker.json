@@ -12,18 +12,7 @@
                 "z": 0.0
             },
             "rotate": 0,
-            "cellInteractables": [
-                {
-                    "cellName": "Cell_0",
-                    "interRef": "InterWeapon_MachineGun",
-                    "flipped": true
-                },
-                {
-                    "cellName": "Cell_1",
-                    "interRef": "InterWeapon_MachineGun",
-                    "flipped": true
-                }
-            ],
+            "cellInteractables": [],
             "cellManifest": [
                 true,
                 true,
@@ -44,22 +33,26 @@
                 {
                     "cellName": "Cell_0",
                     "interRef": "InterEngineer_Boiler",
-                    "flipped": false
+                    "flipped": false,
+                    "specialAmmo": []
                 },
                 {
                     "cellName": "Cell_1",
                     "interRef": "InterCommand_Throttle",
-                    "flipped": false
+                    "flipped": false,
+                    "specialAmmo": []
                 },
                 {
                     "cellName": "Cell_2",
                     "interRef": "InterEngineer_Boiler",
-                    "flipped": false
+                    "flipped": false,
+                    "specialAmmo": []
                 },
                 {
                     "cellName": "Cell_3",
                     "interRef": "InterEngineer_Boiler",
-                    "flipped": false
+                    "flipped": false,
+                    "specialAmmo": []
                 }
             ],
             "cellManifest": [
@@ -82,7 +75,12 @@
                 {
                     "cellName": "Cell_0",
                     "interRef": "InterWeapon_Cannon",
-                    "flipped": true
+                    "flipped": true,
+                    "specialAmmo": [
+                        "Shell (Incendiary)",
+                        "Shell (Incendiary)",
+                        "Shell (Incendiary)"
+                    ]
                 }
             ],
             "cellManifest": [
@@ -120,7 +118,8 @@
                 {
                     "cellName": "Cell_0",
                     "interRef": "InterDefense_EnergyShield",
-                    "flipped": false
+                    "flipped": false,
+                    "specialAmmo": []
                 }
             ],
             "cellManifest": [
@@ -143,12 +142,75 @@
                 {
                     "cellName": "Cell_0",
                     "interRef": "InterWeapon_Cannon",
-                    "flipped": true
+                    "flipped": true,
+                    "specialAmmo": []
                 },
                 {
                     "cellName": "Cell_1",
                     "interRef": "InterWeapon_MachineGun",
-                    "flipped": true
+                    "flipped": true,
+                    "specialAmmo": [
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)"
+                    ]
                 }
             ],
             "cellManifest": [
@@ -167,13 +229,7 @@
                 "z": 0.0
             },
             "rotate": 0,
-            "cellInteractables": [
-                {
-                    "cellName": "Cell_0",
-                    "interRef": "InterWeapon_Cannon",
-                    "flipped": true
-                }
-            ],
+            "cellInteractables": [],
             "cellManifest": [
                 true,
                 true,
@@ -211,12 +267,195 @@
                 {
                     "cellName": "Cell_0",
                     "interRef": "InterWeapon_Cannon",
-                    "flipped": true
+                    "flipped": true,
+                    "specialAmmo": []
                 },
                 {
                     "cellName": "Cell_1",
                     "interRef": "InterWeapon_MachineGun",
-                    "flipped": true
+                    "flipped": true,
+                    "specialAmmo": [
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)",
+                        "Bullet (Incendiary)"
+                    ]
                 }
             ],
             "cellManifest": [
@@ -254,17 +493,20 @@
                 {
                     "cellName": "Cell_1",
                     "interRef": "InterCommand_Throttle",
-                    "flipped": false
+                    "flipped": false,
+                    "specialAmmo": []
                 },
                 {
                     "cellName": "Cell_2",
                     "interRef": "InterEngineer_Boiler",
-                    "flipped": false
+                    "flipped": false,
+                    "specialAmmo": []
                 },
                 {
                     "cellName": "Cell_3",
                     "interRef": "InterEngineer_Boiler",
-                    "flipped": false
+                    "flipped": false,
+                    "specialAmmo": []
                 }
             ],
             "cellManifest": [
@@ -352,17 +594,24 @@
                 {
                     "cellName": "Cell_0",
                     "interRef": "InterWeapon_Mortar",
-                    "flipped": true
+                    "flipped": true,
+                    "specialAmmo": []
                 },
                 {
                     "cellName": "Cell_1",
                     "interRef": "InterDefense_EnergyShield",
-                    "flipped": false
+                    "flipped": false,
+                    "specialAmmo": []
                 },
                 {
                     "cellName": "Cell_3",
                     "interRef": "InterWeapon_Mortar",
-                    "flipped": true
+                    "flipped": true,
+                    "specialAmmo": [
+                        "Mortar Shell (Incendiary)",
+                        "Mortar Shell (Incendiary)",
+                        "Mortar Shell (Incendiary)"
+                    ]
                 }
             ],
             "cellManifest": [
@@ -468,17 +717,20 @@
                 {
                     "cellName": "Cell_0",
                     "interRef": "InterWeapon_Cannon",
-                    "flipped": true
+                    "flipped": true,
+                    "specialAmmo": []
                 },
                 {
                     "cellName": "Cell_1",
                     "interRef": "InterWeapon_MachineGun",
-                    "flipped": true
+                    "flipped": true,
+                    "specialAmmo": []
                 },
                 {
                     "cellName": "Cell_2",
                     "interRef": "InterDefense_EnergyShield",
-                    "flipped": false
+                    "flipped": false,
+                    "specialAmmo": []
                 }
             ],
             "cellManifest": [
@@ -518,6 +770,36 @@
                 true,
                 true
             ]
+        }
+    ],
+    "cargoNodes": [
+        {
+            "x": 6.099999904632568,
+            "y": 6.75
+        },
+        {
+            "x": 5.400000095367432,
+            "y": 6.75
+        },
+        {
+            "x": 0.6299999952316284,
+            "y": 3.440000057220459
+        },
+        {
+            "x": 0.0,
+            "y": 3.440000057220459
+        },
+        {
+            "x": 3.569999933242798,
+            "y": 1.2000000476837159
+        },
+        {
+            "x": 4.260000228881836,
+            "y": 1.1999998092651368
+        },
+        {
+            "x": 3.9200000762939455,
+            "y": 1.7400000095367432
         }
     ]
 }

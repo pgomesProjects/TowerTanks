@@ -6,27 +6,11 @@ namespace TowerTanks.Scripts
 {
     public class SimpleMortarBrain : WeaponBrain
     {
-        
         private float HowFarFromTarget() => Mathf.Abs(aimHit.point.x - targetPoint.x);
 
         protected override void Update()
         {
             base.Update();
-            Vector3 aimHitPoint = aimHit.point;
-            var diff = aimHit.point.x - targetPoint.x;
-            
-            bool diffIsPositive = diff >= 0;
-            
-            if (myTankAI.TankIsRightOfTarget())
-            {
-                //gunScript.ChargeMortar(diffIsPositive);
-            } else
-            {
-                //gunScript.ChargeMortar(!diffIsPositive);
-            }
-            
-            
-
             if (HowFarFromTarget() > 15)
             {
                 stopFiring = true; //mortar wont fire if its way way off from hitting 
@@ -73,38 +57,50 @@ namespace TowerTanks.Scripts
             //currentForce = diff.x >= 0 ? .5f : -.5f; //with the mortar, positive force is right, negative force is left
         }
 
-        protected override IEnumerator UpdateTargetPoint(float aimFactor)
+        public override IEnumerator UpdateTargetPoint(float aimFactor)
         {
             while (enabled)
             {
-                var leftMostCell = myTankAI.targetTank.leftMostCell.transform;
-                var rightMostCell = myTankAI.targetTank.rightMostCell.transform;
-                var targetTankTransform = myTankAI.targetTank.treadSystem.transform;
-                // get random number between 0 and aimfactor
-                float randomX = Random.Range(0, 100);
-                bool hit = randomX <= aimFactor;
+                if (overrideTarget == null && myTankAI.targetTank != myTankAI.tank && myTankAI.targetTank != null)
+                {
+                    var leftMostCell = myTankAI.targetTank.leftMostCell.transform;
+                    var rightMostCell = myTankAI.targetTank.rightMostCell.transform;
+                    var targetTankTransform = myTankAI.targetTank.treadSystem.transform;
+                    // get random number between 0 and aimfactor
+                    float randomX = Random.Range(0, 100);
+                    bool hit = randomX <= aimFactor;
                 
-                if (hit)
-                {
-                    miss = false;
-                    targetPoint = GetRandomPointBetweenVectors(leftMostCell.position + (Vector3.right * 2), rightMostCell.position + (Vector3.left * 2));
-                }
-                else
-                {
-                    miss = true;
-                    var pointLeftOfTarget = leftMostCell.position - leftMostCell.right * 4f;
-                    var pointRightTarget = rightMostCell.position + rightMostCell.right * 4f;
-                    if (myTankAI.TankIsRightOfTarget())
+                    if (hit)
                     {
-                        targetPoint = GetRandomPointBetweenVectors(leftMostCell.position - leftMostCell.right * 2f, pointLeftOfTarget);
+                        miss = false;
+                        targetPoint = GetRandomPointBetweenVectors(leftMostCell.position + Vector3.right * 2, rightMostCell.position + Vector3.left * 2);
+                        targetPointOffset = targetPoint - targetTankTransform.position;
                     }
                     else
                     {
-                        targetPoint = GetRandomPointBetweenVectors(rightMostCell.position + rightMostCell.right * 2f, pointRightTarget);
+                        miss = true;
+                        var pointLeftOfTarget = leftMostCell.position - leftMostCell.right * 4f;
+                        var pointRightTarget = rightMostCell.position + rightMostCell.right * 4f;
+                        if (myTankAI.TankIsRightOfTarget())
+                        {
+                            targetPoint = GetRandomPointBetweenVectors(leftMostCell.position - leftMostCell.right * 2f, pointLeftOfTarget);
+                        }
+                        else
+                        {
+                            targetPoint = GetRandomPointBetweenVectors(rightMostCell.position + rightMostCell.right * 2f, pointRightTarget);
+                        }
+                        targetPointOffset = targetPoint - targetTankTransform.position;
+                        
                     }
                 }
-                targetPointOffset = targetPoint - targetTankTransform.position;
-                yield return new WaitForSeconds(3);
+                
+                var time = 3f;
+                if (overrideTarget != null)
+                {
+                    targetPoint = overrideTarget.position;
+                    time = .03f;
+                } 
+                yield return new WaitForSeconds(time);
             }
         }
         

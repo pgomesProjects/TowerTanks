@@ -175,7 +175,7 @@ namespace TowerTanks.Scripts
             float pressureDif = (50f + (pressure * 0.5f)) / 100f; //slows down the closer it gets to 0
             float smokeMultiplier = 1f;
 
-            if (!chargeStarted && repairInputHeld && isPowered)
+            if (!chargeStarted && repairInputHeld && isPowered && !isBroken)
             {
                 lowerSpeed *= 10f;
                 smokeMultiplier = 10f;
@@ -280,8 +280,9 @@ namespace TowerTanks.Scripts
 
         public void StartCharge()
         {
+            if (isBroken) return;
             //If there is no operator, just add pressure
-            if(operatorID == null)
+            if (operatorID == null)
             {
                 AddPressure(25, false, false);
                 return;

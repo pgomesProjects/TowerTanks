@@ -166,23 +166,13 @@ namespace TowerTanks.Scripts
         }
 
         /// <summary>
-        /// Switches the action map of a player.
-        /// </summary>
-        /// <param name="playerIndex">The index of the player.</param>
-        /// <param name="newActionMap">The name of the new action map.</param>
-        public void SwitchPlayerActionMap(int playerIndex, string newActionMap)
-        {
-            GetAllPlayers()[playerIndex].playerInput.SwitchCurrentActionMap(newActionMap);
-        }
-
-        /// <summary>
         /// Switches the action map of all players.
         /// </summary>
         /// <param name="newActionMap">The name of the new action map.</param>
         public void SwitchAllPlayerActionMaps(string newActionMap)
         {
             foreach (PlayerData playerData in GetAllPlayers())
-                playerData.playerInput.SwitchCurrentActionMap(newActionMap);
+                playerData.ChangePlayerActionMap(newActionMap);
         }
 
         public void SaveCurrentActionMaps()

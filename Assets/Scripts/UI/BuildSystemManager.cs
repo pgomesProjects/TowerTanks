@@ -209,7 +209,7 @@ namespace TowerTanks.Scripts
         {
             //Get the movement data from the player
             PlayerData player = PlayerData.ToPlayerData(room.playerSelector.GetCurrentPlayerInput());
-            Vector2 playerMovement = player.movementData;
+            Vector2 playerMovement = player.playerMovementData;
 
             //If the movement vector is not zero and the room isn't moving, start moving
             if (playerMovement != Vector2.zero && room.currentRoomState == WorldRoom.RoomState.FLOATING)
