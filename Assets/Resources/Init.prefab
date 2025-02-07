@@ -1318,6 +1318,10 @@ MonoBehaviour:
     cargoPrefab: {fileID: 2597980276526825376, guid: 74cbd67fb794ffe49b582fb274d1cf2b, type: 3}
     scarcityBalanced: 1
     weight: 5
+  - id: Thumper Shells
+    cargoPrefab: {fileID: 2472505212490362192, guid: 6aceb43af5fb8414bb39082152e62264, type: 3}
+    scarcityBalanced: 1
+    weight: 10
   projectileList:
   - type: 0
     ammoTypes:

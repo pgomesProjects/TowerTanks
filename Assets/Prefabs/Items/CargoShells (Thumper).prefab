@@ -322,10 +322,11 @@ MonoBehaviour:
   type: 1
   contents:
   - {fileID: 1066636517055270470, guid: 45936e9a5d72a6448872f8a79b0dbf47, type: 3}
-  - {fileID: 2446699370988271855, guid: b442068e42cdd1248879a0fdf7930b2e, type: 3}
-  - {fileID: 2367129227070595597, guid: 85691ddecc678de4d8ae87a0b48575ba, type: 3}
+  - {fileID: 2446699370988271855, guid: 970cd994c8bfb7a4eae7cd7de39de6d4, type: 3}
+  - {fileID: 2367129227070595597, guid: 66cc3340619b33f428edbe79233e401e, type: 3}
   amount: 30
   ignoreInit: 0
+  holdRotationOffset: 0
   isOnTank: 0
   onTankMask:
     serializedVersion: 2

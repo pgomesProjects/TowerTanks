@@ -29,6 +29,7 @@ namespace TowerTanks.Scripts
 
         [Header("Other Properties:")]
         [SerializeField, Tooltip("Which faction this projectile belongs to")] public TankId.TankType factionId;
+        bool reflected = false;
 
         //Runtime Variables:
         internal Vector2 velocity;                                                                                                                           //Speed and trajectory of projectile
@@ -192,8 +193,9 @@ namespace TowerTanks.Scripts
                     Projectile other = hitCollider.GetComponent<Projectile>();
                     if (other?.factionId != factionId) //Only process collisions between unfriendly projectiles
                     {
-                        remainingDamage = 0; //Always destroy projectiles that hit the ground (by reducing their remaining damage to zero)
-                        other.remainingDamage = 0;
+                        if (other.hitProperties.damage != 0) remainingDamage = 0; //Always destroy projectiles that hit the ground (by reducing their remaining damage to zero)
+                        if (this.hitProperties.damage == 0) other.Reflect();
+                        else other.remainingDamage = 0;
                         //other.Hit(gameObject.GetComponent<Collider2D>());
                     }
                 }
@@ -302,6 +304,14 @@ namespace TowerTanks.Scripts
                 GameManager.Instance.ParticleSpawner.SpawnParticle(Random.Range(0, 2), transform.position, particleScale, null);
                 GameManager.Instance.ParticleSpawner.SpawnParticle(23, transform.position, 1.5f, null);
             }
+        }
+
+        public void Reflect()
+        {
+            if (reflected) return;
+            GameManager.Instance.ParticleSpawner.SpawnParticle(25, transform.position, 0.7f);
+            velocity = -velocity;
+            reflected = true;
         }
 
         //INTERFACE METHODS:
