@@ -5182,6 +5182,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: -410
       objectReference: {fileID: 0}
+    - target: {fileID: 1619288457016717428, guid: f2f281eab74c581478c656c02b4fcc31, type: 3}
+      propertyPath: parallaxPrefabs.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1619288457016717428, guid: f2f281eab74c581478c656c02b4fcc31, type: 3}
+      propertyPath: parallaxPrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 3696405528154087446, guid: 2e6fa989fcf68194b8fc6210a215df86, type: 3}
+    - target: {fileID: 1619288457016717428, guid: f2f281eab74c581478c656c02b4fcc31, type: 3}
+      propertyPath: parallaxPrefabs.Array.data[1]
+      value: 
+      objectReference: {fileID: 3696405528154087446, guid: dff00cf4d6cad774c89cafa4d6a00da3, type: 3}
     - target: {fileID: 3030082561400441972, guid: f2f281eab74c581478c656c02b4fcc31, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -5630,6 +5642,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 975085553}
     m_Modifications:
+    - target: {fileID: 1785981223193074459, guid: 52431615c5dd61041b96f28f49089538, type: 3}
+      propertyPath: m_Points.Array.data[10].y
+      value: 14.7818365
+      objectReference: {fileID: 0}
+    - target: {fileID: 1785981223193074459, guid: 52431615c5dd61041b96f28f49089538, type: 3}
+      propertyPath: m_Points.Array.data[15].x
+      value: 0.00026096497
+      objectReference: {fileID: 0}
+    - target: {fileID: 1785981223193074459, guid: 52431615c5dd61041b96f28f49089538, type: 3}
+      propertyPath: m_Points.Array.data[16].x
+      value: 2.9081085
+      objectReference: {fileID: 0}
+    - target: {fileID: 1785981223193074459, guid: 52431615c5dd61041b96f28f49089538, type: 3}
+      propertyPath: m_Points.Array.data[19].x
+      value: 9.96171
+      objectReference: {fileID: 0}
+    - target: {fileID: 1785981223193074459, guid: 52431615c5dd61041b96f28f49089538, type: 3}
+      propertyPath: m_Points.Array.data[19].y
+      value: 20.036095
+      objectReference: {fileID: 0}
     - target: {fileID: 3766360497705465845, guid: 52431615c5dd61041b96f28f49089538, type: 3}
       propertyPath: m_Name
       value: TestChunkCliffUP

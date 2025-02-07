@@ -19,21 +19,13 @@ namespace TowerTanks.Scripts
         private float currentDistanceTraveled;
         private List<GameObject> piecePool = new List<GameObject>();
 
-        public void ResetSpawnTimer()
-        {
-            nextSpawnTime = Random.Range(spawnFrequency.x, spawnFrequency.y);
-            currentDistanceTraveled = 0f;
-        }
-
         public float GetCurrentDistanceTraveled() => currentDistanceTraveled;
         public void SetDistanceTraveled(float distanceTraveled) => currentDistanceTraveled = distanceTraveled;
-        public bool CanSpawnChunkPiece() => currentDistanceTraveled >= nextSpawnTime;
         public GameObject GetNextChunkPiece(Vector2 position)
         {
             GameObject newChunk = GameObject.Instantiate(piecePrefab);
             newChunk.transform.position = position;
             newChunk.transform.parent = chunkParent;
-            newChunk.layer = chunkParent.gameObject.layer;
             piecePool.Add(newChunk);
             return newChunk;
         }
@@ -51,10 +43,9 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("The layers of the parallax background")] private List<ChunkParallaxLayer> chunkParallaxLayers = new List<ChunkParallaxLayer>();
         protected override List<ParallaxLayer> parallaxLayers => chunkParallaxLayers.Cast<ParallaxLayer>().ToList();
 
-
-        protected override void Start()
+        protected override void Awake()
         {
-            base.Start();
+            base.Awake();
         }
 
         protected override void SetupLayer(int index)
@@ -62,21 +53,24 @@ namespace TowerTanks.Scripts
             ChunkParallaxLayer chunkLayer = chunkParallaxLayers[index];
 
             chunkLayer.chunkParent.transform.position = Vector2.zero;
-            Vector2 chunkPosition = Vector2.zero;
+            //Create the chunks for the pool
+            for (int i = 0; i < chunkLayer.poolSize; i++)
+                chunkLayer.GetNextChunkPiece(Vector2.zero);
+        }
 
-            //Create the starting chunk
-            chunkLayer.GetNextChunkPiece(chunkPosition);
-
-            //Create the chunks for the pool size
-            for (int i = 1; i < chunkLayer.poolSize / 2; i++)
+        public void PositionLayers(List<List<Vector2>> positions)
+        {
+            //Get all of the layers in the chunk controller
+            for (int i = 0; i < chunkParallaxLayers.Count; i++)
             {
-                chunkPosition.x = chunkLayer.pieceWidth * Random.Range(chunkLayer.spawnFrequency.x, chunkLayer.spawnFrequency.y) * i;
-                //Alternate between the right and left of the starting position
-                chunkLayer.GetNextChunkPiece(new Vector2(chunkPosition.x, Random.Range(chunkLayer.yPosition.x, chunkLayer.yPosition.y)));
-                chunkLayer.GetNextChunkPiece(new Vector2(-chunkPosition.x, Random.Range(chunkLayer.yPosition.x, chunkLayer.yPosition.y)));
+                ChunkParallaxLayer currentLayer = chunkParallaxLayers[i];
+                //Place all of the positions of the chunk pieces
+                for(int j = 0; j < currentLayer.poolSize; j++)
+                {
+                    currentLayer.chunkParent.GetChild(j).localPosition = positions[i][j];
+                    currentLayer.chunkParent.GetChild(j).gameObject.layer = currentLayer.chunkParent.gameObject.layer;
+                }
             }
-
-            chunkLayer.ResetSpawnTimer();
         }
 
         protected override void ColorLayer(int index, Color newColor)
@@ -99,12 +93,6 @@ namespace TowerTanks.Scripts
 
             chunkLayer.SetDistanceTraveled(chunkLayer.GetCurrentDistanceTraveled() + distanceMoved.x);
 
-            //If the layer can spawn a new chunk piece, spawn one
-            if (chunkLayer.CanSpawnChunkPiece())
-            {
-                chunkLayer.ResetSpawnTimer();
-            }
-
             List<Transform> piecesToRecycle = new List<Transform>();
             //If there are chunks outside of the layer's render distance, add them to a list to recycle
             foreach (Transform piece in chunkLayer.chunkParent)
@@ -126,6 +114,8 @@ namespace TowerTanks.Scripts
             foreach (Transform piece in piecesToRecycle)
                 chunkLayer.ReturnChunkPieceToPool(piece.gameObject);
         }
+
+        public List<ChunkParallaxLayer> GetParallaxLayers() => chunkParallaxLayers;
 
         private void OnDrawGizmos()
         {
