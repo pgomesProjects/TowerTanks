@@ -1131,9 +1131,9 @@ namespace TowerTanks.Scripts
 
         public PlayerData GetPlayerData() => playerData;
 
-        protected override void OnCharacterDeath()
+        protected override void OnCharacterDeath(bool respawn = false)
         {
-            base.OnCharacterDeath();
+            base.OnCharacterDeath(respawn);
 
             //Death Haptics
             HapticsSettings setting = GameManager.Instance.SystemEffects.GetHapticsSetting("ImpactRumble");
@@ -1143,6 +1143,13 @@ namespace TowerTanks.Scripts
             {
                 OnPlayerDeath?.Invoke();
             }
+        }
+
+        public override void InterruptRespawn()
+        {
+            base.InterruptRespawn();
+
+            OnPlayerDeath?.Invoke();
         }
 
         protected override void ResetPlayer()

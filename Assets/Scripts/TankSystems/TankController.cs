@@ -880,16 +880,19 @@ namespace TowerTanks.Scripts
         /// </summary>
         private void RemovePlayersFromTank()
         {
+            //Unassign all characters from this tank
+            foreach (Character character in GetCharactersAssignedToTank(this))
+            {
+                character.SetAssignedTank(null);
+                character.InterruptRespawn();
+            }
+
             //Detach the characters that are still in the tank and kill them
             foreach (Character character in GetCharactersInTank())
             {
                 character.transform.SetParent(null);
                 character.KillCharacterImmediate();
             }
-
-            //Unassign all characters from this tank
-            foreach (Character character in GetCharactersAssignedToTank(this))
-                character.SetAssignedTank(null);
         }
 
         private void RemoveItemsFromTank()
