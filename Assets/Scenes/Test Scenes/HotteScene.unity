@@ -1583,7 +1583,7 @@ MonoBehaviour:
     tankType: 0
     gameObject: {fileID: 1411317892}
     design: {fileID: 4900000, guid: 0ae7f54292a46314da4951bdac3723a3, type: 3}
-    buildOnStart: 1
+    buildOnStart: 0
 --- !u!1 &511407189
 GameObject:
   m_ObjectHideFlags: 0

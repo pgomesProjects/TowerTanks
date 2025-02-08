@@ -237,7 +237,7 @@ MonoBehaviour:
   isPaused: 0
   inBugReportMenu: 0
   inDebugMenu: 0
-  ignoreTutorials: 1
+  ignoreTutorials: 0
   fireBreaksInteractables: 0
   _shopChance: 0
   tankDesign:
@@ -1317,7 +1317,7 @@ MonoBehaviour:
   - id: Crowbar
     cargoPrefab: {fileID: 2597980276526825376, guid: 74cbd67fb794ffe49b582fb274d1cf2b, type: 3}
     scarcityBalanced: 1
-    weight: 5
+    weight: 10
   projectileList:
   - type: 0
     ammoTypes:
