@@ -71,6 +71,8 @@ namespace TowerTanks.Scripts
         private bool initialized = false;          //Becomes true once one-time initial room setup has been completed (indicates room is ready to be used)
         internal bool heldDuringPlacement = false; //True if this room is currently being manipulated by a player in the build scene
         private bool canBeMounted = false;         //True if the room is not mounted but cannot be mounted
+        private bool canRotate = true;
+        private float rotateTimer = 0;
 
         private float maxBurnTime = 24f;
         private float minBurnTime = 12f;
@@ -102,6 +104,16 @@ namespace TowerTanks.Scripts
         {
             if (cells.Count > 0) CheckFire();
         }
+
+        private void FixedUpdate()
+        {
+            if (rotateTimer > 0)
+            {
+                rotateTimer -= Time.fixedDeltaTime;
+            }
+            else if (!canRotate) { canRotate = true; }
+        }
+
         private void OnDrawGizmos()
         {
             if (Application.isPlaying)
@@ -588,6 +600,10 @@ namespace TowerTanks.Scripts
         {
             //Validity checks:
             if (mounted) { Debug.LogError("Tried to rotate room while mounted!"); return; } //Do not allow mounted rooms to be rotated
+            if (!canRotate) return;
+
+            rotateTimer = 0.1f;
+            canRotate = false;
 
             //Move cells:
             Vector3 eulers = 90 * (clockwise ? -1 : 1) * Vector3.forward;                                                      //Get euler to rotate assembly with
