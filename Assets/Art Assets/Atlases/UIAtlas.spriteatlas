@@ -1,0 +1,146 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UIAtlas
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 8192
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 0
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 2800000, guid: 29f609df99f0fd745994b1db0746b39c, type: 3}
+    - {fileID: 2800000, guid: be2f9d983c31cc54b83ca8b7e0fed2e6, type: 3}
+    - {fileID: 2800000, guid: 29f609df99f0fd745994b1db0746b39c, type: 3}
+    - {fileID: 2800000, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
+    - {fileID: 2800000, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
+    - {fileID: 2800000, guid: 80b74a073fa3027458f3b3ff5346f10b, type: 3}
+    - {fileID: 2800000, guid: 37e93113453ac0d46863acd4090899c8, type: 3}
+    - {fileID: 2800000, guid: 87aaca0a643d54397ba969dab4fc8875, type: 3}
+    - {fileID: 2800000, guid: 4adeaf2d2b1c7417e89f026626d8264f, type: 3}
+    - {fileID: 2800000, guid: be2f9d983c31cc54b83ca8b7e0fed2e6, type: 3}
+    - {fileID: 2800000, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
+    - {fileID: 2800000, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+    - {fileID: 2800000, guid: db750325989564987a34393247d883b4, type: 3}
+    - {fileID: 2800000, guid: 5ec69ff0287064c4bb3666edf9a96597, type: 3}
+    - {fileID: 2800000, guid: a3efce20cbc1e4349ac37d8171b94e36, type: 3}
+    - {fileID: 2800000, guid: 6a8bd4cdc785a6344bbd41ad7f240b8a, type: 3}
+    - {fileID: 2800000, guid: 814e7e96bb3e71742934c75ceca86c0f, type: 3}
+    - {fileID: 2800000, guid: 26f1eb4d59cdbc44caa8c380f40066a4, type: 3}
+    - {fileID: 2800000, guid: 33ff936bd3ff5ca4e83fd7cafa061526, type: 3}
+    - {fileID: 2800000, guid: 57268164af32d0a4eaadf20a23a3cea5, type: 3}
+    - {fileID: 2800000, guid: 7a95c2277a53db844aceacb1860eb683, type: 3}
+    - {fileID: 2800000, guid: b68bbc3cf4f4635499c1c7226ee8a560, type: 3}
+    - {fileID: 2800000, guid: 11152d2db7abead46a7b9c4e82468985, type: 3}
+    - {fileID: 2800000, guid: 5028031b6dfeb294bbb6b9e9e2f7db42, type: 3}
+    - {fileID: 2800000, guid: fc944387b1d387c45b38f517181987c7, type: 3}
+    - {fileID: 2800000, guid: 5b39a44e4515906468b9d75910ca6795, type: 3}
+    - {fileID: 2800000, guid: f9295bcaf085f834da6b85c1dfd9b554, type: 3}
+    - {fileID: 2800000, guid: af03793be42dbf74282eda6fae64d8cc, type: 3}
+    - {fileID: 2800000, guid: 4d79cdaad3b12f54e967b3cae022d392, type: 3}
+    - {fileID: 2800000, guid: ae8fe729db4f4d141a32b6e6fa0394ef, type: 3}
+    - {fileID: 2800000, guid: a6dc5521a43527f4e81303f47ff27684, type: 3}
+    - {fileID: 2800000, guid: b3bfb63d22e99744d89bf7bd16118da9, type: 3}
+    - {fileID: 2800000, guid: d7ad95aa466c88745a0bdb444aec705a, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: a3efce20cbc1e4349ac37d8171b94e36, type: 3}
+  - {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  - {fileID: 21300000, guid: 5ec69ff0287064c4bb3666edf9a96597, type: 3}
+  - {fileID: 21300000, guid: a6dc5521a43527f4e81303f47ff27684, type: 3}
+  - {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
+  - {fileID: 21300000, guid: 57268164af32d0a4eaadf20a23a3cea5, type: 3}
+  - {fileID: 7482667652216324306, guid: db750325989564987a34393247d883b4, type: 3}
+  - {fileID: 21300000, guid: 814e7e96bb3e71742934c75ceca86c0f, type: 3}
+  - {fileID: 21300000, guid: 7a95c2277a53db844aceacb1860eb683, type: 3}
+  - {fileID: 21300000, guid: fc944387b1d387c45b38f517181987c7, type: 3}
+  - {fileID: 21300000, guid: be2f9d983c31cc54b83ca8b7e0fed2e6, type: 3}
+  - {fileID: 21300000, guid: ae8fe729db4f4d141a32b6e6fa0394ef, type: 3}
+  - {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
+  - {fileID: 8177471321811730583, guid: 87aaca0a643d54397ba969dab4fc8875, type: 3}
+  - {fileID: 21300000, guid: d7ad95aa466c88745a0bdb444aec705a, type: 3}
+  - {fileID: 21300000, guid: 4d79cdaad3b12f54e967b3cae022d392, type: 3}
+  - {fileID: 21300000, guid: f9295bcaf085f834da6b85c1dfd9b554, type: 3}
+  - {fileID: 21300000, guid: 5028031b6dfeb294bbb6b9e9e2f7db42, type: 3}
+  - {fileID: 21300000, guid: af03793be42dbf74282eda6fae64d8cc, type: 3}
+  - {fileID: 21300000, guid: 33ff936bd3ff5ca4e83fd7cafa061526, type: 3}
+  - {fileID: 21300000, guid: b68bbc3cf4f4635499c1c7226ee8a560, type: 3}
+  - {fileID: 21300000, guid: 11152d2db7abead46a7b9c4e82468985, type: 3}
+  - {fileID: -2413806693520163455, guid: 4adeaf2d2b1c7417e89f026626d8264f, type: 3}
+  - {fileID: 21300000, guid: b3bfb63d22e99744d89bf7bd16118da9, type: 3}
+  - {fileID: 21300000, guid: 26f1eb4d59cdbc44caa8c380f40066a4, type: 3}
+  - {fileID: 21300000, guid: 6a8bd4cdc785a6344bbd41ad7f240b8a, type: 3}
+  - {fileID: 21300000, guid: 5b39a44e4515906468b9d75910ca6795, type: 3}
+  - {fileID: -2413806693520163455, guid: 29f609df99f0fd745994b1db0746b39c, type: 3}
+  - {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - hand
+  - Square
+  - triangle
+  - dice_symbol
+  - Circle
+  - flagmockup2
+  - Square
+  - dangerFlag
+  - DogTag_Small
+  - Slider_1_no_notches
+  - whiteCircle
+  - Armor_1
+  - Circle
+  - Circle Mask
+  - Scrap_1
+  - Verticle_Slider
+  - Slider_2
+  - Slider_1
+  - Slider_2_no_notches
+  - flagmockup1
+  - Menu_Panel_Long
+  - Menu_Panel_Short
+  - Circle
+  - pointer
+  - flag3
+  - hand_outline
+  - Slider_1_Stuttered
+  - Circle
+  - Square
+  m_RenderDataMap: {}
+  m_Tag: UIAtlas
+  m_IsVariant: 0

@@ -1,0 +1,145 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: EnvironmentAtlas
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 0
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 2800000, guid: edbbe3c14d00f1d4b932696e99f64081, type: 3}
+    - {fileID: 2800000, guid: 463c4c0974d6b54448d97c5d8968821f, type: 3}
+    - {fileID: 2800000, guid: 78d609220b9eed744beb3b696c4e8d9d, type: 3}
+    - {fileID: 2800000, guid: a0e6970305dbf6546bc9fa85bdec28da, type: 3}
+    - {fileID: 2800000, guid: c241402c5b755a94ca4feb3183419454, type: 3}
+    - {fileID: 2800000, guid: 581481c2031d9eb4ca204581f9256398, type: 3}
+    - {fileID: 2800000, guid: a8f308551044bcc49951bf89e8daba3b, type: 3}
+    - {fileID: 2800000, guid: 97885537db1db4441baf1e9013258a8e, type: 3}
+    - {fileID: 2800000, guid: f514ed3e89842bf46884f76ca4a2d777, type: 3}
+    - {fileID: 2800000, guid: 019674db7aa67744f83c7eefbf54ade7, type: 3}
+    - {fileID: 2800000, guid: facf4e5045f8cef4ba96acc4692b9bbe, type: 3}
+    - {fileID: 2800000, guid: a7611edcb2466ff4ab81267322db6c7a, type: 3}
+    - {fileID: 2800000, guid: eef134d6062b5b340abc958d09975e09, type: 3}
+    - {fileID: 2800000, guid: 633aa6ca2a1268f4994e1132bb7ad41f, type: 3}
+    - {fileID: 2800000, guid: ce4b9b409e087114288dfedfbe734d33, type: 3}
+    - {fileID: 2800000, guid: eba2e0fead130cd45a470741931cbd9a, type: 3}
+    - {fileID: 2800000, guid: 6787be1832e1b054c9fdab7720ca2e7d, type: 3}
+    - {fileID: 2800000, guid: 0ebf36439cdced548a6dba67111497de, type: 3}
+    - {fileID: 2800000, guid: 23e5172198d59574a9f71b51a68cb246, type: 3}
+    - {fileID: 2800000, guid: 35b8722bd5cfaa9489dfce6b272498d4, type: 3}
+    - {fileID: 2800000, guid: 27f10641ab0af9a42a4650ae70e1eab2, type: 3}
+    - {fileID: 2800000, guid: 40b189d333b306f4fa81c8f6eda63929, type: 3}
+    - {fileID: 2800000, guid: 97baa3f924fd23f488111afe6bfb49ab, type: 3}
+    - {fileID: 2800000, guid: cd0bbdadc402526459977f3ab4b86b49, type: 3}
+    - {fileID: 2800000, guid: f40a78e10ae542542a094c9bfbb45dd1, type: 3}
+    - {fileID: 2800000, guid: fba1b16cc83f32e4ea587c077193933d, type: 3}
+    - {fileID: 2800000, guid: 9a51bcb725ef5cf4fa4e1a45abfa4ce9, type: 3}
+    - {fileID: 2800000, guid: d0dc3817de45e2b4d827c92d9ac71958, type: 3}
+    - {fileID: 2800000, guid: 71ee308220421164db49f49cab9025a4, type: 3}
+    - {fileID: 2800000, guid: 59ab6c39f26755947a8df3d3bccff042, type: 3}
+    - {fileID: 2800000, guid: 05364b2c4b2eb82449938dabfd3da687, type: 3}
+    - {fileID: 2800000, guid: 87fe94051ae20c744b66f0f98726c36c, type: 3}
+    - {fileID: 2800000, guid: 109013ae027ca4a4e827e068ebadea20, type: 3}
+    - {fileID: 2800000, guid: 9f890336c30e99b4da65999a9b5ef04f, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: ce4b9b409e087114288dfedfbe734d33, type: 3}
+  - {fileID: 21300000, guid: facf4e5045f8cef4ba96acc4692b9bbe, type: 3}
+  - {fileID: 21300000, guid: 23e5172198d59574a9f71b51a68cb246, type: 3}
+  - {fileID: 21300000, guid: 27f10641ab0af9a42a4650ae70e1eab2, type: 3}
+  - {fileID: 21300000, guid: edbbe3c14d00f1d4b932696e99f64081, type: 3}
+  - {fileID: 21300000, guid: f40a78e10ae542542a094c9bfbb45dd1, type: 3}
+  - {fileID: 21300000, guid: 78d609220b9eed744beb3b696c4e8d9d, type: 3}
+  - {fileID: 21300000, guid: 71ee308220421164db49f49cab9025a4, type: 3}
+  - {fileID: 21300000, guid: 581481c2031d9eb4ca204581f9256398, type: 3}
+  - {fileID: 21300000, guid: a0e6970305dbf6546bc9fa85bdec28da, type: 3}
+  - {fileID: 21300000, guid: 0ebf36439cdced548a6dba67111497de, type: 3}
+  - {fileID: 21300000, guid: 40b189d333b306f4fa81c8f6eda63929, type: 3}
+  - {fileID: 21300000, guid: 87fe94051ae20c744b66f0f98726c36c, type: 3}
+  - {fileID: 21300000, guid: a8f308551044bcc49951bf89e8daba3b, type: 3}
+  - {fileID: 21300000, guid: 9f890336c30e99b4da65999a9b5ef04f, type: 3}
+  - {fileID: 21300000, guid: eef134d6062b5b340abc958d09975e09, type: 3}
+  - {fileID: 21300000, guid: d0dc3817de45e2b4d827c92d9ac71958, type: 3}
+  - {fileID: 21300000, guid: 97885537db1db4441baf1e9013258a8e, type: 3}
+  - {fileID: 21300000, guid: 9a51bcb725ef5cf4fa4e1a45abfa4ce9, type: 3}
+  - {fileID: 21300000, guid: 6787be1832e1b054c9fdab7720ca2e7d, type: 3}
+  - {fileID: 21300000, guid: 463c4c0974d6b54448d97c5d8968821f, type: 3}
+  - {fileID: 21300000, guid: 59ab6c39f26755947a8df3d3bccff042, type: 3}
+  - {fileID: 21300000, guid: 97baa3f924fd23f488111afe6bfb49ab, type: 3}
+  - {fileID: 21300000, guid: 633aa6ca2a1268f4994e1132bb7ad41f, type: 3}
+  - {fileID: 21300000, guid: 35b8722bd5cfaa9489dfce6b272498d4, type: 3}
+  - {fileID: 21300000, guid: 019674db7aa67744f83c7eefbf54ade7, type: 3}
+  - {fileID: 21300000, guid: c241402c5b755a94ca4feb3183419454, type: 3}
+  - {fileID: 21300000, guid: 05364b2c4b2eb82449938dabfd3da687, type: 3}
+  - {fileID: 21300000, guid: fba1b16cc83f32e4ea587c077193933d, type: 3}
+  - {fileID: 21300000, guid: a7611edcb2466ff4ab81267322db6c7a, type: 3}
+  - {fileID: 21300000, guid: cd0bbdadc402526459977f3ab4b86b49, type: 3}
+  - {fileID: 21300000, guid: f514ed3e89842bf46884f76ca4a2d777, type: 3}
+  - {fileID: 21300000, guid: 109013ae027ca4a4e827e068ebadea20, type: 3}
+  - {fileID: 21300000, guid: eba2e0fead130cd45a470741931cbd9a, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - Layer 27
+  - Layer 11
+  - Mountain_Tile_tall
+  - Tower Tanks Cactus
+  - Back Plate
+  - Tower_Tanks_Cactus
+  - Buildings Varied Distance copy
+  - Layer 84
+  - Ground2
+  - Buildings Varied Distance
+  - Mountain_Tile
+  - Tower Tanks Cloud Assets 1 copy
+  - Layer 87
+  - Hills
+  - Crust2
+  - Layer 25
+  - Layer 83
+  - Hills_Tile
+  - Tower_Tanks_Ground
+  - Layer 29
+  - BG Whisps
+  - Layer 85
+  - Tower_Tanks_BG_buildings
+  - Layer 26
+  - Mountains
+  - Layer 10
+  - Rocks copy 2
+  - Layer 86
+  - Tower_Tanks_Clouds
+  - Layer 24
+  - Tower_Tanks_BG_Mountains
+  - Hills_Tile_tall
+  - Layer 88
+  - Layer 28
+  m_RenderDataMap: {}
+  m_Tag: EnvironmentAtlas
+  m_IsVariant: 0
