@@ -596,11 +596,11 @@ namespace TowerTanks.Scripts
         /// <summary>
         /// Rotates unmounted room around its pivot.
         /// </summary>
-        public void Rotate(bool clockwise = true)
+        public void Rotate(bool clockwise = true, bool useCooldown = false)
         {
             //Validity checks:
             if (mounted) { Debug.LogError("Tried to rotate room while mounted!"); return; } //Do not allow mounted rooms to be rotated
-            if (!canRotate) return;
+            if (!canRotate && useCooldown) return;
 
             rotateTimer = 0.1f;
             canRotate = false;
@@ -946,6 +946,8 @@ namespace TowerTanks.Scripts
             foreach (Cell cell in cells) bounds.Encapsulate(cell.c.bounds); //Encapsulate bounds of each cell
             return bounds;                                                  //Return calculated bounds
         }
+
+        public bool GetCanRotate() => canRotate;
 
         public void ClearItems()
         {

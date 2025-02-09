@@ -261,8 +261,11 @@ namespace TowerTanks.Scripts
             //If the room is not mounted, rotate the room
             if (!(playerRoom.currentRoomState == WorldRoom.RoomState.MOUNTED))
             {
-                GameManager.Instance.AudioManager.Play("RotateRoom");
-                playerRoom.roomObject.Rotate();
+                if (playerRoom.roomObject.GetCanRotate())
+                {
+                    GameManager.Instance.AudioManager.Play("RotateRoom");
+                    playerRoom.roomObject.Rotate(useCooldown: true);
+                }
             }
         }
 
