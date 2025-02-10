@@ -6,7 +6,8 @@ namespace TowerTanks.Scripts
 {
     public class SimpleMortarBrain : WeaponBrain
     {
-        private float HowFarFromTarget() => Mathf.Abs(aimHit.point.x - targetPoint.x);
+        private float HowFarFromTarget() => Mathf.Abs(aimHit.point.x - (overrideTarget == null ? leadTargetPoint.x : targetPoint.x));
+        Vector3 leadTargetPoint;
 
         protected override void Update()
         {
@@ -19,6 +20,8 @@ namespace TowerTanks.Scripts
             {
                 stopFiring = false;
             }
+
+            //leadTargetPoint += targetPointOffset;
         }
 
         protected override IEnumerator AimAtTarget(float refreshRate = .001f, bool everyFrame = true)
@@ -29,18 +32,25 @@ namespace TowerTanks.Scripts
                 
                 var proj = gunScript.projectilePrefab.GetComponent<Projectile>();
                 Vector2 fireVelocity = gunScript.barrel.up * gunScript.muzzleVelocity;
-                fireVelocity += myTankAI.tank.treadSystem.r.velocity;
+                //fireVelocity += myTankAI.tank.treadSystem.r.velocity;
                 var trajectoryPoints = Trajectory.GetTrajectory(gunScript.barrel.position,
                     fireVelocity, proj.gravity, 100);
                 aimHit = Trajectory.GetHitPoint(trajectoryPoints);
+                
 
                 Vector3 aimHitPoint = aimHit.point;
                 if (aimHitPoint == Vector3.zero) aimHitPoint = trajectoryPoints[^1];
                 
-                var distFactor = Mathf.InverseLerp(0, 5, HowFarFromTarget());
+                float leadTime = Trajectory.CalculateTimeToHitGround(gunScript.barrel.up, gunScript.barrel.transform.position, gunScript.muzzleVelocity, proj.gravity, aimHit.point.y);
+                
+                Vector3 leadDisplacement = myTankAI.targetTank.treadSystem.r.velocity * leadTime;
+                
+                leadTargetPoint = targetPoint + leadDisplacement;
+                
+                var distFactor = Mathf.InverseLerp(0, 10, HowFarFromTarget());
                 var moveSpeed = Mathf.Lerp(minTurnSpeed, maxTurnSpeed, distFactor);
                 // Determine if the hit point is above or below the projected point
-                if (aimHitPoint.x > targetPoint.x)
+                if (aimHitPoint.x > (overrideTarget == null ? leadTargetPoint.x : targetPoint.x))
                 {
                     currentForce = moveSpeed;
                 }
@@ -102,6 +112,14 @@ namespace TowerTanks.Scripts
                 yield return new WaitForSeconds(time);
             }
         }
-        
+
+        protected override void OnDrawGizmos()
+        {
+            base.OnDrawGizmos();
+            Gizmos.color = Color.magenta;
+            
+            Gizmos.DrawWireSphere(leadTargetPoint, 1f);
+            
+        }
     }
 }

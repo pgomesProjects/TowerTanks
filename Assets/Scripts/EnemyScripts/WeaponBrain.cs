@@ -62,7 +62,7 @@ namespace TowerTanks.Scripts
             }
             
             
-            if (myTankAI.targetTank != null && overrideTarget == null && !DirectionToTargetBlocked())
+            if (myTankAI.targetTank != null && overrideTarget == null && (!DirectionToTargetBlocked() || gunScript.gunType == GunController.GunType.MORTAR))
             {
                 targetPoint = myTankAI.targetTank.treadSystem.transform.position + targetPointOffset;
             }
@@ -196,7 +196,7 @@ namespace TowerTanks.Scripts
                 Vector3 projectedPoint = myTankPosition + Vector3.Project(aimHitPoint - myTankPosition, direction);
                 //if (DirectionToTargetBlocked() && overrideTarget == null) projectedPoint = gunScript.barrel.position;
                 
-                var distFactor = Mathf.InverseLerp(0, 3, HowFarFromTarget());
+                var distFactor = Mathf.InverseLerp(0, 2, HowFarFromTarget());
                 var moveSpeed = Mathf.Lerp(minTurnSpeed, maxTurnSpeed, distFactor);
                 
                 // Determine if the hit point is above or below the projected point
@@ -243,7 +243,7 @@ namespace TowerTanks.Scripts
             return overrideTarget != null;
         }
 
-        private void OnDrawGizmos()
+        protected virtual void OnDrawGizmos()
         {
             bool mortar = mySpecificType == INTERACTABLE.Mortar;
             Vector2 fireVelocity = (mortar ? gunScript.barrel.up : gunScript.barrel.right) * gunScript.muzzleVelocity;
