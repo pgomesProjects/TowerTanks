@@ -23,7 +23,6 @@ namespace TowerTanks.Scripts
 
         protected override IEnumerator AimAtTarget(float refreshRate = .001f, bool everyFrame = true)
         {
-            everyFrame = true;
             while (tokenActivated)
             {
                 if (myTankAI.targetTank == null) yield break;
