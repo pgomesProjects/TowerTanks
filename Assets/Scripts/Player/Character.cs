@@ -421,7 +421,10 @@ namespace TowerTanks.Scripts
             characterHUD?.DamageAvatar(1f - (currentHealth / characterSettings.maxHealth), 0.25f);
 
             if (currentHealth <= 0)
-                OnCharacterDeath();
+            {
+                bool hasTank = GetAssignedTank() != null;
+                OnCharacterDeath(hasTank);
+            }
 
             return healthDif;
         }
@@ -431,17 +434,27 @@ namespace TowerTanks.Scripts
             currentHealth = 0;
             characterHUD?.DamageAvatar(1f - (currentHealth / characterSettings.maxHealth), 0.01f);
             characterHUD?.ClearButtonPrompts();
-            OnCharacterDeath();
+            bool hasTank = GetAssignedTank() != null;
+            OnCharacterDeath(hasTank);
         }
 
-        protected virtual void OnCharacterDeath()
+        public virtual void InterruptRespawn()
+        {
+            if (isRespawning)
+            {
+                isRespawning = false;
+                PermaKill();
+            }
+        }
+
+        protected virtual void OnCharacterDeath(bool respawn = false)
         {
             GameManager.Instance.AudioManager.Play("ExplosionSFX", gameObject);
             GameManager.Instance.ParticleSpawner.SpawnParticle(Random.Range(0, 2), transform.position, characterDeathParticleSize, null);
 
             if (isOnFire) Extinguish();
 
-            isRespawning = assignedTank != null;
+            isRespawning = respawn;
 
             if (isRespawning)
             {
@@ -450,6 +463,7 @@ namespace TowerTanks.Scripts
             }
             else
             {
+                characterHUD?.ShowRespawnTimer(false);
                 PermaKill();
             }
 

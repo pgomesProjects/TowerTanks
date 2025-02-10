@@ -254,7 +254,7 @@ namespace TowerTanks.Scripts
 
                 if (heatRenderer != null) //update heat sprite renderer
                 {
-                    float alpha = Mathf.Lerp(0, 150f, (overheatTimer / overheatTime) * Time.deltaTime);
+                    float alpha = Mathf.Lerp(0, 150f, (overheatTimer / overheatTime) * Time.fixedDeltaTime);
                     Color newColor = heatRenderer.color;
                     newColor.a = alpha;
                     heatRenderer.color = newColor;
