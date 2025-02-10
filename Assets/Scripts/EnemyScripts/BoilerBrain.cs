@@ -28,7 +28,6 @@ namespace TowerTanks.Scripts
             engineController.CheckCharge(); //this is what actually applies the charge
             yield return new WaitForSeconds(5);
             var rand = Random.Range(0f, 1.0f);
-            Debug.Log($"Waiting for {rand} seconds.");
             yield return new WaitForSeconds(rand);
             
             StartCoroutine(Heartbeat());
