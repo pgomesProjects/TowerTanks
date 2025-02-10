@@ -43,7 +43,8 @@ namespace TowerTanks.Scripts
                 
                 float leadTime = Trajectory.CalculateTimeToHitGround(gunScript.barrel.up, gunScript.barrel.transform.position, gunScript.muzzleVelocity, proj.gravity, aimHit.point.y);
                 
-                Vector3 leadDisplacement = myTankAI.targetTank.treadSystem.r.velocity * leadTime;
+                Vector3 leadDisplacement = Vector3.zero;
+                if (myTankAI.targetTank != null) leadDisplacement = myTankAI.targetTank.treadSystem.r.velocity * leadTime;
                 
                 leadTargetPoint = targetPoint + leadDisplacement;
                 
