@@ -1050,6 +1050,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5015744295284597709}
   - component: {fileID: 4851524355622524968}
+  - component: {fileID: 4193322628701284484}
+  - component: {fileID: 7960974804701735048}
   m_Layer: 0
   m_Name: Visuals
   m_TagString: Untagged
@@ -1087,6 +1089,39 @@ SortingGroup:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 6
+--- !u!95 &4193322628701284484
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5015744295284597708}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 052e573a489082a4b96e54cd63c8ee81, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &7960974804701735048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5015744295284597708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93b9f14660cf16d4e90d24fa9e137c64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  overlayColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &5015744295796166023
 GameObject:
   m_ObjectHideFlags: 0
@@ -1149,6 +1184,7 @@ MonoBehaviour:
   canAim: 1
   direction: 1
   isBroken: 0
+  overlayAnimator: {fileID: 4193322628701284484}
   debugFlip: 0
   projectilePrefab: {fileID: 8367798314348147069, guid: d44124302ce9eb347aab35655450f0ab, type: 3}
   specialAmmo: []

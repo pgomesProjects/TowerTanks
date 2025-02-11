@@ -409,6 +409,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2372463515868702283}
   - component: {fileID: 6192017465738209812}
+  - component: {fileID: 3609145542819791514}
+  - component: {fileID: 2518600935294142674}
   m_Layer: 0
   m_Name: Visuals
   m_TagString: Untagged
@@ -449,6 +451,39 @@ SortingGroup:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 15
+--- !u!95 &3609145542819791514
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3463629423510812366}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 052e573a489082a4b96e54cd63c8ee81, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &2518600935294142674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3463629423510812366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93b9f14660cf16d4e90d24fa9e137c64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  overlayColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &4237181359393863979
 GameObject:
   m_ObjectHideFlags: 0
@@ -667,6 +702,7 @@ MonoBehaviour:
   canAim: 0
   direction: 1
   isBroken: 0
+  overlayAnimator: {fileID: 3609145542819791514}
   debugFlip: 0
   particleSpots: []
   pivot: {fileID: 7149395123773397907}

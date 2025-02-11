@@ -437,6 +437,7 @@ MonoBehaviour:
   canAim: 1
   direction: 1
   isBroken: 0
+  overlayAnimator: {fileID: 7290136342316471653}
   debugFlip: 0
   projectilePrefab: {fileID: 2367129227070595597, guid: ad2c16d34a64efd4ab5a6515dab7366a, type: 3}
   specialAmmo: []
@@ -693,6 +694,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1789302743089487921}
   - component: {fileID: 6652651635603284580}
+  - component: {fileID: 7290136342316471653}
+  - component: {fileID: 1360146358290327207}
   m_Layer: 0
   m_Name: Visuals
   m_TagString: Untagged
@@ -732,6 +735,39 @@ SortingGroup:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 5
+--- !u!95 &7290136342316471653
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1789302743089487920}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 052e573a489082a4b96e54cd63c8ee81, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1360146358290327207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1789302743089487920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93b9f14660cf16d4e90d24fa9e137c64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  overlayColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &2180265690409174588
 GameObject:
   m_ObjectHideFlags: 0

@@ -166,6 +166,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2372463515868702283}
+  - component: {fileID: 8128718830677496624}
+  - component: {fileID: 190946760345065031}
   m_Layer: 0
   m_Name: Visuals
   m_TagString: Untagged
@@ -190,6 +192,39 @@ Transform:
   m_Father: {fileID: 6311746647435508950}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &8128718830677496624
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3463629423510812366}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 052e573a489082a4b96e54cd63c8ee81, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &190946760345065031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3463629423510812366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93b9f14660cf16d4e90d24fa9e137c64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  overlayColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &4776213715410519971
 GameObject:
   m_ObjectHideFlags: 0
@@ -360,9 +395,12 @@ MonoBehaviour:
   stackName: MISSING
   prefabRef: {fileID: 7281501281902775960}
   uiImage: {fileID: 0}
+  ghostPrefab: {fileID: 0}
   isContinuous: 0
   canAim: 0
   direction: 1
+  isBroken: 0
+  overlayAnimator: {fileID: 8128718830677496624}
   debugFlip: 0
 --- !u!114 &653371748279612046
 MonoBehaviour:
@@ -381,8 +419,10 @@ MonoBehaviour:
     useDefaultListeners: 1
   isEnvironmentAware: 0
   isStaticObject: 0
+  usePositionOffsetData: 0
   m_positionOffsetData:
     KeepMe: 0
     positionOffset: {x: 0, y: 0, z: 0}
+  scalingFactor: 1
   m_posOffsetData: {fileID: 0}
   listenerMask: 1
