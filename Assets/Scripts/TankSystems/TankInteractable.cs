@@ -53,7 +53,6 @@ namespace TowerTanks.Scripts
         [Tooltip("Direction this interactable is facing. (1 = right; -1 = left)")]                                  public float direction = 1;
         [Tooltip("Unique identifier associating this interactable with a stack item")]                              internal int stackId = 0;
         [Tooltip("Whether this Interactable is currently broken or not.")]                                          public bool isBroken = false;
-                                                                                                                    private SpriteRenderer overlay;
 
         //Debug
         internal bool debugMoveUp;
@@ -78,8 +77,8 @@ namespace TowerTanks.Scripts
             throttleScript = GetComponent<ThrottleController>();
             consumableScript = GetComponent<TankConsumable>();
 
-            overlay = transform.Find("Visuals/Overlay")?.GetComponent<SpriteRenderer>();
-            if (overlay != null) overlay.enabled = false;
+            //overlay = transform.Find("Visuals/Overlay")?.GetComponent<SpriteRenderer>();
+            //if (overlay != null) overlay.enabled = false;
         }
         public virtual void OnDestroy()
         {
@@ -311,7 +310,7 @@ namespace TowerTanks.Scripts
             if (!isBroken)
             {
                 isBroken = true;
-                overlay.enabled = true;
+                //overlay.enabled = true;
             }
         }
 
@@ -321,7 +320,7 @@ namespace TowerTanks.Scripts
             if (isBroken)
             {
                 isBroken = false;
-                overlay.enabled = false;
+                //overlay.enabled = false;
             }
         }
     }
