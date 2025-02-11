@@ -386,7 +386,7 @@ namespace TowerTanks.Scripts
 
                 //Adjust velocity:
                 Vector2 fireVelocity = barrel.up * muzzleVelocity;
-                fireVelocity += tank.treadSystem.r.GetPointVelocity(barrel.position);
+                //fireVelocity += tank.treadSystem.r.GetPointVelocity(barrel.position); This line of code is what adds the tank's velocity to the projectile. Commented out for now, will probably be useful later.
 
                 //Fire projectile:
                 Projectile newProjectile = Instantiate(projectile).GetComponent<Projectile>();

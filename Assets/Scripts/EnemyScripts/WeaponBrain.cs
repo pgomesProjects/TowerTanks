@@ -20,7 +20,6 @@ namespace TowerTanks.Scripts
         protected bool miss;
         private bool started;
         protected bool stopFiring = false;
-        private bool obstruction;
         protected float aggroCooldownTimer;
         public float aggroCooldown;
         protected Transform overrideTarget;
@@ -48,7 +47,7 @@ namespace TowerTanks.Scripts
             gunScript.RotateBarrel(currentForce, false);
 
             if (myTankAI.aiSettings.aggression == 0) stopFiring = true;
-            if (!AimingAtMyself() && !stopFiring && !obstruction)
+            if (!AimingAtMyself() && !stopFiring)
             {
                 if (gunScript.gunType == GunController.GunType.MACHINEGUN ||
                     aggroCooldownTimer > aggroCooldown)
@@ -61,15 +60,9 @@ namespace TowerTanks.Scripts
                 }
                 
             }
-            if (DirectionToTargetBlocked() && gunScript.gunType != GunController.GunType.MORTAR)
-            {
-                obstruction = true;
-            } else
-            {
-                obstruction = false;
-            }
             
-            if (myTankAI.targetTank != null && overrideTarget == null)
+            
+            if (myTankAI.targetTank != null && overrideTarget == null && (!DirectionToTargetBlocked() || gunScript.gunType == GunController.GunType.MORTAR))
             {
                 targetPoint = myTankAI.targetTank.treadSystem.transform.position + targetPointOffset;
             }
@@ -91,7 +84,9 @@ namespace TowerTanks.Scripts
         {                                       // just tells you if the CURRENT aim will hit the tank or not
             var excludeLayer = (1 << LayerMask.NameToLayer("Camera")) |
                                (1 << LayerMask.NameToLayer("Projectiles"));
-            return Physics2D.Raycast(gunScript.barrel.position, targetPoint - gunScript.barrel.position, 5, ~excludeLayer).collider != null;
+            var targetTankTransform = myTankAI.targetTank.treadSystem.transform;
+            Vector3 direction = targetTankTransform.position + targetTankTransform.up * 3f - gunScript.transform.position;
+            return Physics2D.CircleCast(gunScript.barrel.position, .01f, direction, 5, ~excludeLayer).collider != null;
         }
         
         protected Vector2 GetRandomPointBetweenVectors(Vector2 pointA, Vector2 pointB)
@@ -110,7 +105,7 @@ namespace TowerTanks.Scripts
         {
             while (tokenActivated)
             {
-                if (overrideTarget == null && myTankAI.targetTank != myTankAI.tank && myTankAI.targetTank != null)
+                if (overrideTarget == null && myTankAI.targetTank != myTankAI.tank && myTankAI.targetTank != null && !DirectionToTargetBlocked())
                 {
                     var targetTankTransform = myTankAI.targetTank.treadSystem.transform;
                     var upmostCell = myTankAI.targetTank.upMostCell.transform;
@@ -144,11 +139,16 @@ namespace TowerTanks.Scripts
                 {
                     targetPoint = overrideTarget.position;
                     time = .03f;
-                } 
+                } else if (DirectionToTargetBlocked())
+                {
+                    targetPoint = gunScript.transform.position + gunScript.transform.right * 20f;
+                }
                 yield return new WaitForSeconds(time);
             }
             
         }
+        
+        private float HowFarFromTarget() => Mathf.Abs(aimHit.point.y - targetPoint.y);
 
         protected virtual IEnumerator AimAtTarget(float refreshRate = 0.1f, bool everyFrame = false)
         {
@@ -157,18 +157,36 @@ namespace TowerTanks.Scripts
                 var trajectoryPoints = Trajectory.GetTrajectory(gunScript.barrel.position, gunScript.barrel.right * gunScript.muzzleVelocity, myProjectile.gravity, 100);
                 aimHit = Trajectory.GetHitPoint(trajectoryPoints);
 
-                Vector3 myTankPosition = myTankAI.tank.treadSystem.transform.position + Vector3.up * 2.5f;
+                Vector3 myTankPosition = myTankAI.tank.treadSystem.transform.position + myTankAI.tank.treadSystem.transform.up * 2.5f;
 
-                if (DirectionToTargetBlocked() && !miss && overrideTarget == null) targetPoint = gunScript.transform.right; // basically if the direction from our weapon
-                                                                                            // to its target point is obstructed by the weapon's tank, 
-                                                                                            // this will aim the weapon forward instead of at the target
+                if (DirectionToTargetBlocked() && overrideTarget == null) 
+                {
+                    targetPoint = gunScript.transform.position + gunScript.transform.right * 20f; // this will aim the weapon forward instead of at the target
+                }
+                                                                                            
                 
                 bool hitPointIsRightOfTarget = aimHit.point.x > targetPoint.x;
 
-                // if our projected hitpoint is past the tank we're fighting, the hitpoint is set right in front of the barrel, because in that scenario we want to aim based on our gun's general direction and not our hitpoint (this doesnt apply to mortars)
+                // if our projected hitpoint is past the tank we're fighting, we use the intersection between our projected aim and our target's position to determine our aim
                 if ((!myTankAI.TankIsRightOfTarget() && hitPointIsRightOfTarget) || (myTankAI.TankIsRightOfTarget() && !hitPointIsRightOfTarget) || aimHit.collider == null || AimingAtMyself())
                 {
-                    aimHit.point = trajectoryPoints[1];
+                    for (int i = 0; i < trajectoryPoints.Count - 1; i++)
+                    {
+                        Vector3 p1 = trajectoryPoints[i];
+                        Vector3 p2 = trajectoryPoints[i + 1];
+
+                        //checks if the line segment between p1 and p2 intersects with targetpoint's Y axis
+                        if ((p1.x <= targetPoint.x && p2.x >= targetPoint.x) || (p1.x >= targetPoint.x && p2.x <= targetPoint.x))
+                        {
+                            // Calculate the intersection point
+                            float t = (targetPoint.x - p1.x) / (p2.x - p1.x); // how far along the line segment the intersection is at. 0 means exactly the 1st point, 1 means the 2nd, .5 is between the two
+                            Vector3 intersectionPoint = p1 + t * (p2 - p1); // p2 - p1 gives the direction, mult by t scales to correct length, added to p1 to get the exact coordinate
+
+                            // Set aimHit.point to the intersection point
+                            aimHit.point = intersectionPoint;
+                            break;
+                        }
+                    }
                 }
 
                 Vector3 direction = targetPoint - myTankPosition;
@@ -176,11 +194,11 @@ namespace TowerTanks.Scripts
                 // Project the hit point onto the direction vector
                 Vector3 aimHitPoint = aimHit.point; //converts to vec3 (using vec3 for project function)
                 Vector3 projectedPoint = myTankPosition + Vector3.Project(aimHitPoint - myTankPosition, direction);
-                if (DirectionToTargetBlocked() && overrideTarget == null) projectedPoint = gunScript.barrel.position;
-                float HowFarFromTarget() => Vector3.Distance(aimHit.point, projectedPoint);
+                //if (DirectionToTargetBlocked() && overrideTarget == null) projectedPoint = gunScript.barrel.position;
                 
                 var distFactor = Mathf.InverseLerp(0, 2, HowFarFromTarget());
                 var moveSpeed = Mathf.Lerp(minTurnSpeed, maxTurnSpeed, distFactor);
+                
                 // Determine if the hit point is above or below the projected point
                 if (aimHit.point.y > projectedPoint.y)
                 {
@@ -225,7 +243,7 @@ namespace TowerTanks.Scripts
             return overrideTarget != null;
         }
 
-        private void OnDrawGizmos()
+        protected virtual void OnDrawGizmos()
         {
             bool mortar = mySpecificType == INTERACTABLE.Mortar;
             Vector2 fireVelocity = (mortar ? gunScript.barrel.up : gunScript.barrel.right) * gunScript.muzzleVelocity;

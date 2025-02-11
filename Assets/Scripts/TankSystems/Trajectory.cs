@@ -53,4 +53,36 @@ public class Trajectory : MonoBehaviour
 
         return new RaycastHit2D();
     }
+    /// <summary>
+    ///  Calculates the time it will take for a projectile to hit the ground.
+    /// </summary>
+    /// <param name="dir">The local direction this projectile is being launched</param>
+    /// <param name="pos">The position from where the projectile is being launched from</param>
+    /// <param name="velocity">The starting velocity of the projectile</param>
+    /// <param name="gravity">Projectile's gravity value</param>
+    /// <param name="targetHeight">The Y height of the projectile's projected hit point</param>
+    /// <returns></returns>
+    public static float CalculateTimeToHitGround(Vector3 dir, Vector3 pos, float velocity, float gravity, float targetHeight)
+    { 
+        float initialVerticalVelocity = dir.y * velocity;
+        float initialHeight = pos.y;
+
+        if (initialVerticalVelocity > 0)
+        {
+            // Time to reach the highest point
+            float timeToHighestPoint = initialVerticalVelocity / gravity;
+            float highestPoint = initialHeight + (initialVerticalVelocity * timeToHighestPoint) - (0.5f * gravity * Mathf.Pow(timeToHighestPoint, 2));
+            float heightDifference = highestPoint - targetHeight;
+
+            // Time to fall from the highest point to the target height
+            float timeToFall = Mathf.Sqrt(2 * heightDifference / gravity);
+            return timeToHighestPoint + timeToFall;
+        }
+        else
+        {
+            // Time to hit the target height directly
+            float heightDifference = initialHeight - targetHeight;
+            return Mathf.Sqrt(2 * heightDifference / gravity);
+        }
+    }
 }

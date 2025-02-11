@@ -33,7 +33,7 @@ namespace TowerTanks.Scripts
             {
                 //Clean up walls:
                 Destroy(backWall);                                                   //Destroy back wall object (will probably be childed to back wall sprite object in room)
-                print("oog");
+                //print("oog");
                 deathWallMask.transform.parent = room.outerWallController.transform; //Child death mask to the wall spriteRenderer which it will be masking out 
                 deathWallMask.SetActive(true);                                       //Activate mask
             }
