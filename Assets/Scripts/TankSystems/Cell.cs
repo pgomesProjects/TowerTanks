@@ -91,7 +91,7 @@ namespace TowerTanks.Scripts
         private void Start()
         {
             //Assign Values
-            if (room.type == Room.RoomType.Armor) maxHealth += 25f; //Armor has +25 hitpoints
+            if (room.type == Room.RoomType.Armor) maxHealth += 50f; //Armor has +50 hitpoints
             health = maxHealth;
         }
 

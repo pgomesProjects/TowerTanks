@@ -6376,7 +6376,7 @@ MonoBehaviour:
   - {fileID: 8649729793389381387}
   - {fileID: 2933006898984494589}
   - {fileID: 8321182884778767086}
-  maxHealth: 75
+  maxHealth: 150
   health: 0
   isOnFire: 0
   flames: {fileID: 1803023897372635609}
