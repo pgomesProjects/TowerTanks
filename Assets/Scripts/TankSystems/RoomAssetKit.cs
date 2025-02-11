@@ -37,6 +37,8 @@ namespace TowerTanks.Scripts
         [Tooltip("Scale of back wall sprite."), Min(0)]                      public float backWallScale = 1;
         [Header("Side Walls:")]
         [Tooltip("Prefab containing sprite shape asset to be used for external wall.")] public GameObject spriteShapeProfile;
+        [Header("Materials:")]
+        [Tooltip("Material used for GPU instancing of all room assets. IMPORTANT for performance.")] public Material defaultMaterial;
 
         //FUNCTIONALITY METHODS:
         /// <summary>
@@ -80,6 +82,7 @@ namespace TowerTanks.Scripts
                 room.backWallSprite.drawMode = SpriteDrawMode.Tiled;                           //Set sprite to tile mode so that it repeats if necessary
                 room.backWallSprite.tileMode = SpriteTileMode.Continuous;                      //Use continuous mode for tiling (adaptive messes with scaling calculation
                 room.backWallSprite.maskInteraction = SpriteMaskInteraction.VisibleInsideMask; //Make wall sprite only visible inside masks (will be back walls of cells and connectors)
+                room.backWallSprite.sharedMaterial = defaultMaterial;                                //Apply universal renderer material
 
                 //Setup Room Animator
                 GameObject animator = room.roomData.roomAnimator;

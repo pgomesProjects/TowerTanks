@@ -15,3 +15,4 @@ MonoBehaviour:
   backWallSprite: {fileID: 21300000, guid: 1bbf546d786084e48940a5407eea8722, type: 3}
   backWallScale: 0.12
   spriteShapeProfile: {fileID: 8868930450414127114, guid: b9bc4a53f8cde4e4e8012d6548e73b10, type: 3}
+  defaultMaterial: {fileID: 2100000, guid: c216ee7a144f7fd41918b80aa94fca0b, type: 2}

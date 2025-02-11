@@ -86,6 +86,9 @@ SpriteAtlas:
     - {fileID: 2800000, guid: 49abb2db1dbf3cf428a533426b9bf11d, type: 3}
     - {fileID: 2800000, guid: 7f64089600215a34abe1fc2c45f56bdc, type: 3}
     - {fileID: 2800000, guid: 725afe8385afbe7488db488183c5e789, type: 3}
+    - {fileID: 2800000, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+    - {fileID: 2800000, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
+    - {fileID: 2800000, guid: db750325989564987a34393247d883b4, type: 3}
     bindAsDefault: 1
     isAtlasV2: 0
     cachedData: {fileID: 0}
@@ -93,6 +96,7 @@ SpriteAtlas:
   m_PackedSprites:
   - {fileID: 21300000, guid: 45dd9d00e2690464e8e9c2a8886f7fe9, type: 3}
   - {fileID: 21300000, guid: 90bf4730c478860479c6aefa3c4a04f1, type: 3}
+  - {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   - {fileID: 21300000, guid: d4608de074b409440b043247eeb8ca14, type: 3}
   - {fileID: 21300000, guid: b194c02196d01b544ac917fce957a9c4, type: 3}
   - {fileID: 21300000, guid: 6c6684a1f3e876747a002797be1633ef, type: 3}
@@ -105,6 +109,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: c3916e24175a58a45aba509c788e1d4f, type: 3}
   - {fileID: 21300000, guid: 106b9e746d8c5b8448dc30c875160260, type: 3}
   - {fileID: 21300000, guid: 6a8f1405bc9d9cb4f8e5a7de0702061e, type: 3}
+  - {fileID: 7482667652216324306, guid: db750325989564987a34393247d883b4, type: 3}
   - {fileID: 21300000, guid: 7f64089600215a34abe1fc2c45f56bdc, type: 3}
   - {fileID: 21300000, guid: 843fc1078f0567543adeafdad90b2183, type: 3}
   - {fileID: 21300000, guid: 4372d89772d0804429e5324dc7339628, type: 3}
@@ -139,9 +144,11 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 85fcddfeb3e4a3a449f901dea2de74cc, type: 3}
   - {fileID: 21300000, guid: d5edbf6fba931a84badcb35c7f0bcbf9, type: 3}
   - {fileID: 21300000, guid: 4648388fe74fc0d4b984dbc51b3c068c, type: 3}
+  - {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
   m_PackedSpriteNamesToIndex:
   - Wall Corner 90 BR
   - Wall Leading to Connector left
+  - Square
   - Smoke Stack 1 Exterior
   - Back Wall 3
   - Connector Wall Horizontal
@@ -154,6 +161,7 @@ SpriteAtlas:
   - Connector Caution Tape
   - Wall Corner 180 Bottom
   - Pillar 1
+  - Square
   - Wall Top
   - Pipe BG 2
   - Wall 1x Bevel
@@ -188,6 +196,7 @@ SpriteAtlas:
   - Floor Screw
   - Back Wall 2
   - Knob 1 Exterior
+  - Square
   m_RenderDataMap: {}
   m_Tag: TankAtlas
   m_IsVariant: 0
