@@ -349,7 +349,7 @@ namespace TowerTanks.Scripts
 
         protected virtual void OperateInteractable()
         {
-            rb.velocity = Vector2.zero;
+            rb.bodyType = RigidbodyType2D.Kinematic;
         }
 
         public void CancelInteraction(bool startJump = false)
