@@ -407,6 +407,8 @@ namespace TowerTanks.Scripts
 
             if (currentJob != null) currentJob = null;
             if (buildCell != null) buildCell = null;
+            
+            if (rb.bodyType != RigidbodyType2D.Dynamic) rb.bodyType = RigidbodyType2D.Dynamic;
 
             var slope = transform.eulerAngles.z < 180 ? transform.eulerAngles.z : transform.eulerAngles.z - 360;
             //^ im gonna change this to use a raycast and a normal, but for now this is fine and works for checking in-tank slopes
