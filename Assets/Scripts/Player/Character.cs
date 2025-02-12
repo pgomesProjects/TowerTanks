@@ -173,13 +173,20 @@ namespace TowerTanks.Scripts
             
             if (softTankDismount && !fullTankDismount) // if we left the tank, but we're still near the tank
             {
-                if (CheckGround())
+                var t = CheckSurfaceCollider(LayerMask.NameToLayer("Ground"));
+                if (t != null)
                 {
-                    FullyDismountTank();
+                    if (t.transform.parent.gameObject.layer != LayerMask.NameToLayer("Cell") && !CheckSurfaceCollider(LayerMask.NameToLayer("Coupler")))
+                    {
+                        FullyDismountTank();
+                    }
                 }
-                if (Vector3.Distance(transform.position, dismountPoint ? dismountPoint.position : transform.position) > tankDistanceToFullDismount)
+                else
                 {
-                    FullyDismountTank(lastFoundTankRb);
+                    if (Vector3.Distance(transform.position, dismountPoint.position) > tankDistanceToFullDismount)
+                    {
+                        FullyDismountTank(lastFoundTankRb);
+                    }
                 }
                 
             }
