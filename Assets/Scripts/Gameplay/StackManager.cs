@@ -109,7 +109,7 @@ namespace TowerTanks.Scripts
                 if (buildProgressBar != null)
                     buildProgressBar.EndTask();
 
-                buildProgressBar = GameManager.Instance.UIManager.AddRadialTaskBar(uiPanel.gameObject, new Vector2(80f, 42f), duration, false);
+                buildProgressBar = GameManager.Instance.UIManager.AddRadialTaskBar(uiPanel.gameObject, new Vector2(123.3f, 0f), duration, false);
             }
 
             /// <summary>
