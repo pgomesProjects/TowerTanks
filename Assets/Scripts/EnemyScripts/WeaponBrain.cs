@@ -167,8 +167,8 @@ namespace TowerTanks.Scripts
                 
                 bool hitPointIsRightOfTarget = aimHit.point.x > targetPoint.x;
 
-                // if our projected hitpoint is past the tank we're fighting, we use the intersection between our projected aim and our target's position to determine our aim
-                if ((!myTankAI.TankIsRightOfTarget() && hitPointIsRightOfTarget) || (myTankAI.TankIsRightOfTarget() && !hitPointIsRightOfTarget) || aimHit.collider == null || AimingAtMyself())
+                // if our projected hitpoint is past the tank we're fighting, we use the intersection between our projected aim and our target's Y axis to determine our aim
+                if ((!myTankAI.TankIsRightOfTarget() && hitPointIsRightOfTarget) || (myTankAI.TankIsRightOfTarget() && !hitPointIsRightOfTarget) || aimHit.collider == null)
                 {
                     for (int i = 0; i < trajectoryPoints.Count - 1; i++)
                     {
@@ -181,8 +181,7 @@ namespace TowerTanks.Scripts
                             // Calculate the intersection point
                             float t = (targetPoint.x - p1.x) / (p2.x - p1.x); // how far along the line segment the intersection is at. 0 means exactly the 1st point, 1 means the 2nd, .5 is between the two
                             Vector3 intersectionPoint = p1 + t * (p2 - p1); // p2 - p1 gives the direction, mult by t scales to correct length, added to p1 to get the exact coordinate
-
-                            // Set aimHit.point to the intersection point
+                            
                             aimHit.point = intersectionPoint;
                             break;
                         }

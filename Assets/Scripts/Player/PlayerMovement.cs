@@ -192,7 +192,6 @@ namespace TowerTanks.Scripts
                     currentInteractable.InstallInCell(buildCell); //Install interactable from top of stack into designated build cell
                     if (currentInteractable.interactableType == TankInteractable.InteractableType.CONSUMABLE) currentInteractable.gameObject.GetComponent<TankConsumable>().Use();
                     StopBuilding(); //Indicate that build has stopped
-                    CancelInteraction(startJump:true);
 
                     //Build Effects
                     GameManager.Instance.AudioManager.Play("UseWrench", currentInteractable.gameObject);
@@ -524,8 +523,6 @@ namespace TowerTanks.Scripts
                     transform.position = new Vector3(transform.position.x, hitGround.point.y + transform.localScale.y / 2, transform.position.z);
                 }
             }
-
-            
             
             if (!onCoupler &&
                 !onLadder && !ladderUnderMe) //final failsafe for if you're somehow in this state and not in a ladder or coupler
@@ -1101,7 +1098,7 @@ namespace TowerTanks.Scripts
             buildCell.playerBuilding = null; //Indicate to cell that it is no longer being built in
             buildCell = null; //Clear cell reference
             timeBuilding = 0; //Reset build time tracker
-            currentState = CharacterState.NONCLIMBING;
+            CancelInteraction(true);
             if(!forceStopBuild)
                 taskProgressBar?.EndTask();
             print("stopped building");
