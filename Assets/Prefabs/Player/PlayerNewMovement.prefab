@@ -5092,7 +5092,7 @@ MonoBehaviour:
   fuelRegenerationRate: 80
   characterDeathParticleSize: 0.18
   respawnTime: 3
-  tankDistanceToFullDismount: 5
+  tankDistanceToFullDismount: 11
   currentZone: {fileID: 0}
   isOperator: 0
   currentInteractable: {fileID: 0}
@@ -5119,8 +5119,7 @@ MonoBehaviour:
   isCarryingSomething: 0
   currentObject: {fileID: 0}
   buildGhost: {fileID: 0}
-  repairTime: 0.5
-  repairAmount: 10
+  jobTimer: 0
   couplerStickDeadzone: 0.5
   ladderDismountDeadzone: 0.5
   ladderEnterDeadzone: 0.75

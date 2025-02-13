@@ -179,6 +179,11 @@ namespace TowerTanks.Scripts
             return value;
         }
 
+        public void FixSound() //triggered in animator
+        {
+            GameManager.Instance.AudioManager.Play("UseWrench", this.gameObject);
+        }
+
         public void OnDrawGizmos()
         {
             Gizmos.color = Color.red;

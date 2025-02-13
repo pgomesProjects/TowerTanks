@@ -53,8 +53,8 @@ SpriteShapeRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: c216ee7a144f7fd41918b80aa94fca0b, type: 2}
+  - {fileID: 2100000, guid: c216ee7a144f7fd41918b80aa94fca0b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -210,8 +210,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2772648001194541117}
   m_LocalRotation: {x: -0, y: -0, z: 0.5873583, w: 0.809327}
-  m_LocalPosition: {x: -12.06, y: 20.39, z: 0.2311372}
-  m_LocalScale: {x: 45.24818, y: 19.456718, z: 36.198544}
+  m_LocalPosition: {x: -12.06, y: 20.39, z: 0}
+  m_LocalScale: {x: 45.24818, y: 19.456718, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5259366190194711448}
@@ -266,7 +266,7 @@ SpriteMask:
   m_BackSortingLayer: -1
   m_FrontSortingOrder: -4
   m_BackSortingOrder: -6
-  m_IsCustomRangeActive: 1
+  m_IsCustomRangeActive: 0
   m_SpriteSortPoint: 0
 --- !u!1 &3766360497705465845
 GameObject:
@@ -281,6 +281,7 @@ GameObject:
   - component: {fileID: 6657773278462411101}
   - component: {fileID: 6842422756364451918}
   - component: {fileID: 1785981223193074459}
+  - component: {fileID: 7907484532238158175}
   m_Layer: 8
   m_Name: TestChunkCliffUP
   m_TagString: Ground
@@ -330,6 +331,7 @@ MonoBehaviour:
   obstacleSpawns:
   - {fileID: 9190537855465215165}
   - {fileID: 7602278658303684119}
+  currentObstacle: {fileID: 0}
   canSpawnLandmarks: 0
 --- !u!1971053207 &6657773278462411101
 SpriteShapeRenderer:
@@ -338,7 +340,7 @@ SpriteShapeRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3766360497705465845}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -396,7 +398,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3766360497705465845}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 90539df1cd5704abcb25fec9f3f5f84b, type: 3}
   m_Name: 
@@ -493,6 +495,17 @@ EdgeCollider2D:
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
+--- !u!210 &7907484532238158175
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3766360497705465845}
+  m_Enabled: 1
+  m_SortingLayerID: -1960476501
+  m_SortingLayer: 1
+  m_SortingOrder: -1
 --- !u!1 &4299953281272889617
 GameObject:
   m_ObjectHideFlags: 0
@@ -715,7 +728,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: c216ee7a144f7fd41918b80aa94fca0b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

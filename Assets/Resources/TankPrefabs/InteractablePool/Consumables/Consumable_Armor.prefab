@@ -125,7 +125,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: c216ee7a144f7fd41918b80aa94fca0b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -166,6 +166,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 152840455745673400}
+  - component: {fileID: 4798106945120451564}
   m_Layer: 0
   m_Name: Visuals
   m_TagString: Untagged
@@ -193,6 +194,19 @@ Transform:
   m_Father: {fileID: 8459314020465099301}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4798106945120451564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1360960060172912701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96caaffa6145be147ba962ecd0804c8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  material: {fileID: 2100000, guid: c216ee7a144f7fd41918b80aa94fca0b, type: 2}
 --- !u!1 &3829666803160624799
 GameObject:
   m_ObjectHideFlags: 0
@@ -245,7 +259,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: c216ee7a144f7fd41918b80aa94fca0b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -329,7 +343,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: c216ee7a144f7fd41918b80aa94fca0b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -411,17 +425,16 @@ MonoBehaviour:
   tank: {fileID: 0}
   seat: {fileID: 0}
   interactableType: 4
+  thisCollider: {fileID: 0}
   stackName: Armor
   prefabRef: {fileID: 5187944172739883115}
   uiImage: {fileID: 21300000, guid: ae8fe729db4f4d141a32b6e6fa0394ef, type: 3}
-  hasOperator: 0
+  ghostPrefab: {fileID: 0}
   isContinuous: 0
   canAim: 0
   direction: 1
-  debugMoveUp: 0
-  debugMoveDown: 0
-  debugMoveLeft: 0
-  debugMoveRight: 0
+  isBroken: 0
+  overlayAnimator: {fileID: 0}
   debugFlip: 0
   conversionType: 1
 --- !u!1 &6839646745432047300
@@ -476,7 +489,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: c216ee7a144f7fd41918b80aa94fca0b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

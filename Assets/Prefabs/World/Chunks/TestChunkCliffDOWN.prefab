@@ -53,8 +53,8 @@ SpriteShapeRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: c216ee7a144f7fd41918b80aa94fca0b, type: 2}
+  - {fileID: 2100000, guid: c216ee7a144f7fd41918b80aa94fca0b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -229,6 +229,7 @@ GameObject:
   - component: {fileID: 6657773278462411101}
   - component: {fileID: 6842422756364451918}
   - component: {fileID: 1785981223193074459}
+  - component: {fileID: 5311933339282235841}
   m_Layer: 8
   m_Name: TestChunkCliffDOWN
   m_TagString: Ground
@@ -251,8 +252,8 @@ Transform:
   - {fileID: 965601613653935538}
   - {fileID: 2560037405484284606}
   - {fileID: 3924530911422741464}
-  - {fileID: 169836251486664680}
   - {fileID: 8919631627144647464}
+  - {fileID: 169836251486664680}
   - {fileID: 7713226715571044332}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -279,6 +280,7 @@ MonoBehaviour:
   - {fileID: 9190537855465215165}
   - {fileID: 7602278658303684119}
   - {fileID: 1461379401561532572}
+  currentObstacle: {fileID: 0}
   canSpawnLandmarks: 0
 --- !u!1971053207 &6657773278462411101
 SpriteShapeRenderer:
@@ -287,7 +289,7 @@ SpriteShapeRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3766360497705465845}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 0
@@ -345,7 +347,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3766360497705465845}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 90539df1cd5704abcb25fec9f3f5f84b, type: 3}
   m_Name: 
@@ -437,6 +439,17 @@ EdgeCollider2D:
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
+--- !u!210 &5311933339282235841
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3766360497705465845}
+  m_Enabled: 1
+  m_SortingLayerID: -1960476501
+  m_SortingLayer: 1
+  m_SortingOrder: -1
 --- !u!1 &4299953281272889617
 GameObject:
   m_ObjectHideFlags: 0
@@ -461,7 +474,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4299953281272889617}
   m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
-  m_LocalPosition: {x: 10, y: 8.5, z: 0}
+  m_LocalPosition: {x: 10, y: -20.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -563,7 +576,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5259366190194711448}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5767563314419812039
 SpriteRenderer:
@@ -585,7 +598,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: c216ee7a144f7fd41918b80aa94fca0b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -712,12 +725,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9174431942759900608}
   m_LocalRotation: {x: 0.655506, y: 0.75518996, z: -0, w: 0}
-  m_LocalPosition: {x: 6.38, y: 0.46, z: 0.2311372}
-  m_LocalScale: {x: 43.8, y: 37, z: 36.198544}
+  m_LocalPosition: {x: 6.38, y: 0.46, z: 0}
+  m_LocalScale: {x: 43.8, y: 37, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5259366190194711448}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 81.916}
 --- !u!331 &720089058425715892
 SpriteMask:
@@ -768,5 +781,5 @@ SpriteMask:
   m_BackSortingLayer: -1
   m_FrontSortingOrder: -3
   m_BackSortingOrder: -6
-  m_IsCustomRangeActive: 1
+  m_IsCustomRangeActive: 0
   m_SpriteSortPoint: 0
