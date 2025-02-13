@@ -1822,7 +1822,7 @@ MonoBehaviour:
   hitboxMask:
     serializedVersion: 2
     m_Bits: 33544
-  explosionDamage: 75
+  explosionDamage: 150
   explosionRadius: 0.8
   addPressure: 0
   repairInputHeld: 0

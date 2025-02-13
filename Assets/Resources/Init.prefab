@@ -238,7 +238,7 @@ MonoBehaviour:
   inBugReportMenu: 0
   inDebugMenu: 0
   ignoreTutorials: 1
-  fireBreaksInteractables: 0
+  fireBreaksInteractables: 1
   _shopChance: 0
   tankDesign:
     TankName: 

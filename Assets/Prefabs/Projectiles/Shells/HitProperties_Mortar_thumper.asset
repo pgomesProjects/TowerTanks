@@ -22,3 +22,4 @@ MonoBehaviour:
   fireChance: 0
   ignoresArmor: 0
   slamForce: 30
+  breakChance: 100

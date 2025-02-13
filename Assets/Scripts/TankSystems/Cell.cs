@@ -259,6 +259,12 @@ namespace TowerTanks.Scripts
                 if (ai != null) ai.TriggerAlerted();
             }
 
+            //Roll for Break
+            if (projectile.hitProperties.breakChance > 0)
+            {
+                if (interactable != null) RollBreakChance(0, projectile.hitProperties.breakChance);
+            }
+
             //Deal damage:
             if (room.isCore || room.targetTank.isFragile) //Projectile has struck a core cell, or the tank is fragile
             {
@@ -335,6 +341,12 @@ namespace TowerTanks.Scripts
             if (GameManager.Instance.currentSceneState == SCENESTATE.BuildScene)
                 return 0;
 
+            //Roll for Break
+            if (interactable != null)
+            {
+                RollBreakChance(damage);
+            }
+
             if (room.isCore || room.targetTank.isFragile) //Damage is being dealt to core cell
             {
                 if (!room.targetTank.isInvincible) room.targetTank.Damage(damage); //Deal all core cell damage directly to tank instead of destroying cells (unless tank is invincible)
@@ -371,6 +383,18 @@ namespace TowerTanks.Scripts
             UpdateUI();
             cellAnimator.SetFloat("SpeedScale", speedScale);
             cellAnimator.Play("DamageFlash", 0, 0);
+        }
+
+        /// <summary>
+        /// Rolls for a chance to break the cell's current interactable, scaling with amount of damage taken.
+        /// </summary>
+        /// <param name="damage"></param>
+        public void RollBreakChance(float damage, float overrideChance = 0)
+        {
+            float chance = Mathf.Lerp(0, 60, (damage / maxHealth));
+            if (overrideChance > 0) chance = overrideChance;
+            float random = Random.Range(0, 100f);
+            if (chance > random) interactable.Break();
         }
 
         /*
