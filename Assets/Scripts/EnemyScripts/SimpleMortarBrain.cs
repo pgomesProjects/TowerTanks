@@ -8,6 +8,7 @@ namespace TowerTanks.Scripts
     {
         private float HowFarFromTarget() => Mathf.Abs(aimHit.point.x - (overrideTarget == null ? leadTargetPoint.x : targetPoint.x));
         Vector3 leadTargetPoint;
+        private Vector2 highPoint;
 
         protected override void Update()
         {
@@ -40,8 +41,15 @@ namespace TowerTanks.Scripts
 
                 Vector3 aimHitPoint = aimHit.point;
                 if (aimHitPoint == Vector3.zero) aimHitPoint = trajectoryPoints[^1];
+
+                float targetHighPoint = myTankAI.targetTank.treadSystem.transform.position.y + myTankAI.targetTank.GetHighestPoint() + 5;
                 
-                float leadTime = Trajectory.CalculateTimeToHitGround(gunScript.barrel.up, gunScript.barrel.transform.position, gunScript.muzzleVelocity, proj.gravity, aimHit.point.y);
+                highPoint = new Vector2(targetPoint.x, targetHighPoint);
+                var heightCast = Physics2D.Raycast(highPoint, Vector2.down, 100, 1 << LayerMask.NameToLayer("Ground"));
+                
+                float targetHeight = heightCast.collider ? heightCast.point.y : aimHit.point.y;
+                
+                float leadTime = Trajectory.CalculateTimeToHitGround(gunScript.barrel.up, gunScript.barrel.transform.position, gunScript.muzzleVelocity, proj.gravity, targetHeight);
                 
                 Vector3 leadDisplacement = Vector3.zero;
                 if (myTankAI.targetTank != null) leadDisplacement = myTankAI.targetTank.treadSystem.r.velocity * leadTime;
@@ -120,6 +128,9 @@ namespace TowerTanks.Scripts
             Gizmos.color = Color.magenta;
             
             Gizmos.DrawWireSphere(leadTargetPoint, 1f);
+            
+            // Gizmos.color = Color.yellow;
+            // Gizmos.DrawWireSphere(highPoint, 1f);
             
         }
     }

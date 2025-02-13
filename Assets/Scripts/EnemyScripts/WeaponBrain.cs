@@ -246,7 +246,7 @@ namespace TowerTanks.Scripts
         {
             bool mortar = mySpecificType == INTERACTABLE.Mortar;
             Vector2 fireVelocity = (mortar ? gunScript.barrel.up : gunScript.barrel.right) * gunScript.muzzleVelocity;
-            if (mortar) fireVelocity += myTankAI.tank.treadSystem.r.velocity;
+            //if (mortar) fireVelocity += myTankAI.tank.treadSystem.r.velocity;
             var trajPoints = Trajectory.GetTrajectory(gunScript.barrel.position, 
                                                     fireVelocity,
                                                                    myProjectile.gravity,
