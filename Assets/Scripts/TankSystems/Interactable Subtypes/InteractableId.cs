@@ -24,6 +24,12 @@ namespace TowerTanks.Scripts
         {
             script.Use(true);
         }
+        [VerticalGroup("Horizontal Buttons/Column 1")]
+        [Button("  Break", ButtonSizes.Small, Icon = SdfIconType.Hammer), Tooltip("Break this interactable.")]
+        public void Break()
+        {
+            script.Break();
+        }
         [VerticalGroup("Horizontal Buttons/Column 2")]
         [Button("  Secondary", ButtonSizes.Small, Icon = SdfIconType.Triangle), Tooltip("Uses Interactable's secondary function")]
         public void Secondary()

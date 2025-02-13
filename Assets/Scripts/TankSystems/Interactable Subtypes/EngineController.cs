@@ -140,9 +140,10 @@ namespace TowerTanks.Scripts
             if (checkFire) CheckForFire();
 
             if (enableSounds)
-            { 
+            {
                 //Other effects:
-                GameManager.Instance.ParticleSpawner.SpawnParticle(3, particleSpots[0].position, 0.15f, null);
+                //animator.Play("BoilerPulse", 0, 0);
+                GameManager.Instance.ParticleSpawner.SpawnParticle(3, particleSpots[0].position, 0.2f, null);
                 GameManager.Instance.AudioManager.Play("CoalLoad", this.gameObject); //Play loading clip
                 if (operatorID != null) GameManager.Instance.SystemEffects.ApplyControllerHaptics(operatorID.GetPlayerData().playerInput, enginePressureHaptics); //Apply haptics
             }
@@ -174,11 +175,13 @@ namespace TowerTanks.Scripts
             float lowerSpeed = pressureReleaseSpeed * Time.deltaTime;
             float pressureDif = (50f + (pressure * 0.5f)) / 100f; //slows down the closer it gets to 0
             float smokeMultiplier = 1f;
+            bool isDraining = false;
 
             if (!chargeStarted && repairInputHeld && isPowered && !isBroken)
             {
                 lowerSpeed *= 10f;
                 smokeMultiplier = 10f;
+                isDraining = true;
                 if (!GameManager.Instance.AudioManager.IsPlaying("SteamExhaustLoop", this.gameObject)) GameManager.Instance.AudioManager.Play("SteamExhaustLoop", this.gameObject);
             }
             else if (GameManager.Instance.AudioManager.IsPlaying("SteamExhaustLoop", this.gameObject)) GameManager.Instance.AudioManager.Stop("SteamExhaustLoop", this.gameObject);
@@ -189,6 +192,7 @@ namespace TowerTanks.Scripts
                 {
                     isPowered = true;
                     particleSpots[2].gameObject.SetActive(true);
+                    animator.Play("BoilerIdle", 0, 0);
                 }
                 pressure -= lowerSpeed * pressureDif;
 
@@ -197,7 +201,7 @@ namespace TowerTanks.Scripts
                 if (smokePuffTimer >= smokePuffRate)
                 {
                     smokePuffTimer = 0;
-                    GameManager.Instance.ParticleSpawner.SpawnParticle(3, particleSpots[0].position, 0.1f, null);
+                    if (isDraining) PuffSmoke();
                 }
             }
             else
@@ -208,6 +212,8 @@ namespace TowerTanks.Scripts
                     GameManager.Instance.AudioManager.Play("SteamExhaust", this.gameObject);
                     GameManager.Instance.ParticleSpawner.SpawnParticle(19, particleSpots[0].position, 0.1f, transform);
                     particleSpots[2].gameObject.SetActive(false);
+
+                    animator.Play("Default", 0, 0);
                     isPowered = false;
                 }
                 pressure = 0;
@@ -218,18 +224,35 @@ namespace TowerTanks.Scripts
                 if (fireChance != fireChanceOriginal) { fireChance = fireChanceOriginal; }
                 if (isOverheating) { 
                     isOverheating = false;
-                    animator.Play("Default", 0, 0);
+                    animator.SetBool("Overheat", false);
+                    if (isPowered) animator.Play("BoilerIdle", 0, 0);
+                    //animator.Play("Default", 0, 0);
                 }
             }
             else
             {
                 if (!isOverheating) {
                     isOverheating = true;
+                    animator.SetBool("Overheat", true);
                     animator.Play("Overheat", 0, 0); 
                 }
 
             }
 
+        }
+
+        public void PuffSmoke()
+        {
+            GameObject particle = GameManager.Instance.ParticleSpawner.SpawnParticle(3, particleSpots[0].position, 0.1f, null);
+
+            /*
+            var main = particle.GetComponent<ParticleSystem>().main;
+            if (tank != null)
+            {
+                if (main.simulationSpace != ParticleSystemSimulationSpace.Custom) main.simulationSpace = ParticleSystemSimulationSpace.Custom;
+                main.customSimulationSpace = tank.treadSystem.transform;
+            }*/
+            
         }
 
         public IEnumerator SpeedSurge(float duration, float force)
