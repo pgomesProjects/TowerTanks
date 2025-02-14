@@ -47,7 +47,7 @@ namespace TowerTanks.Scripts
 
             if (currentHolder != null)
             {
-                if (currentHolder.currentJob == null)
+                if (currentHolder.currentJob.jobType == Character.CharacterJobType.NONE)
                 {
                     if (doingJob) CancelMelee();
                 }

@@ -529,7 +529,8 @@ namespace TowerTanks.Scripts
             else
             {
                 Sprite sprite = GameManager.Instance.CargoManager.ammoSymbols[0];
-                currentSpecialAmmo = GameManager.Instance.UIManager.AddSymbolDisplay(gameObject, new Vector2(0f, 0.6f), sprite, quantity.ToString());
+                Color color = Color.white;
+                currentSpecialAmmo = GameManager.Instance.UIManager.AddSymbolDisplay(gameObject, new Vector2(0f, 0.6f), sprite, quantity.ToString(), color);
             }
             if (enableSounds) GameManager.Instance.AudioManager.Play("CannonReload", this.gameObject);
         }

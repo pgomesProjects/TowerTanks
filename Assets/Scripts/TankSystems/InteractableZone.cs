@@ -11,21 +11,22 @@ namespace TowerTanks.Scripts
         public List<GameObject> players = new List<GameObject>(); //players currently inside this interaction zone
 
         // Start is called before the first frame update
-        void Start()
+        protected virtual void Start()
         {
             playerIsColliding = false;
             interactable = GetComponentInParent<TankInteractable>();
         }
 
         // Update is called once per frame
-        void Update()
+        protected virtual void Update()
         {
             if (players.Count > 0) playerIsColliding = true;
             else playerIsColliding = false;
         }
 
-        public void Interact(GameObject playerID) //Try to operate the thing
+        public virtual void Interact(GameObject playerID) //Try to operate the thing
         {
+            if (interactable == null) return;
             if (players.Contains(playerID) && interactable.seat != null)
             {
                 if (interactable.hasOperator) //Already someone on it

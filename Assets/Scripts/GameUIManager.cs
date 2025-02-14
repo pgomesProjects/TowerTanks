@@ -368,7 +368,7 @@ namespace TowerTanks.Scripts
         /// <param name="symbolSprite">The sprite to show on the display.</param>
         /// <param name="displayText">The initial text to show on the display.</param>
         /// <returns>Returns the symbol display created.</returns>
-        public SymbolDisplay AddSymbolDisplay(GameObject gameObject, Vector2 position, Sprite symbolSprite, string displayText)
+        public SymbolDisplay AddSymbolDisplay(GameObject gameObject, Vector2 position, Sprite symbolSprite, string displayText, Color textColor)
         {
             Canvas canvas = GetCanvasFromGameObject(gameObject, position, true);
 
@@ -377,7 +377,7 @@ namespace TowerTanks.Scripts
                 return null;
 
             SymbolDisplay symbolObj = Instantiate(GetPrefabFromList(UIType.SymbolDisplay), canvas.transform).GetComponent<SymbolDisplay>();
-            symbolObj.Init(symbolSprite, displayText);
+            symbolObj.Init(symbolSprite, displayText, textColor);
 
             return symbolObj;
         }

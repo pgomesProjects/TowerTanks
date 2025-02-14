@@ -18,9 +18,7 @@ namespace TowerTanks.Scripts
         public void OnEnter()
         {
             _tank.SetTankGearOverTime(0, .15f); //stop moving
-            _tank.surrenderFlag.SetActive(true);
-            if (_tank.tankFlag != null) _tank.tankFlag.SetActive(false);
-            _tank.MakeFragile();
+            _tank.Surrender();
         }
 
         public void FrameUpdate() { }

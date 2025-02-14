@@ -11,10 +11,9 @@ namespace TowerTanks.Scripts
         #region Fields and Properties
 
         public enum CharacterState { CLIMBING, NONCLIMBING, OPERATING }; //Simple state system, in the future this will probably be refactored
-        public enum CharacterJobType { FIX, UNINSTALL }; //jobs characters are capable of executing
+        public enum CharacterJobType { NONE, FIX, UNINSTALL, CLAIM }; //jobs characters are capable of executing
 
         public CharacterState currentState;                  //to an FSM.
-        protected CharacterJobType currentJobType;
 
         //Components
         protected Rigidbody2D rb;
@@ -76,7 +75,50 @@ namespace TowerTanks.Scripts
         public bool isOperator; //true if player is currently operating an interactable
         public TankInteractable currentInteractable; //what interactable player is currently operating
         public LayerMask obstructionMask; //layers that block players from interacting with things
-        public TankInteractable currentJob; //what interactable the character is currently fixing/breaking - NOT the same as currentInteractable
+        
+        /// <summary>
+        /// Information about a task this character is performing.
+        /// </summary>
+        [System.Serializable]
+        public class CharacterJob
+        {
+            [Tooltip("Type of job this is.")] public Character.CharacterJobType jobType = CharacterJobType.NONE;
+            [Tooltip("Interactable associated with this job.")] public TankInteractable interactable;
+            [Tooltip("JobZone associated with this job.")] public JobZone zone;
+            [Tooltip("Time in seconds it takes for a character to complete this job.")] public float jobTime;
+
+            public Vector2 GetJobPosition()
+            {
+                Vector2 position = new Vector2(0, 0);
+                if (zone != null) { position = zone.jobSpot.position; }
+                if (interactable != null) { position = interactable.transform.position; }
+
+                return position;
+            }
+
+            public float GetJobTime()
+            {
+                float jobTime = 1f;
+
+                switch (jobType)
+                {
+                    case CharacterJobType.FIX:
+                        jobTime = 1.5f;
+                        break;
+                    case CharacterJobType.UNINSTALL:
+                        jobTime = 1f;
+                        break;
+                    case CharacterJobType.CLAIM:
+                        jobTime = 3f;
+                        break;
+                }
+
+                return jobTime;
+            }
+        }
+
+        [Header("Jobs")]
+        public CharacterJob currentJob = null; //what interactable the character is currently fixing/breaking - NOT the same as currentInteractable
 
         [Header("Conditions")]
         [SerializeField] public bool isOnFire;
@@ -497,7 +539,7 @@ namespace TowerTanks.Scripts
             characterHUD?.UpdateFuelBar((currentFuel / characterSettings.fuelAmount) * 100f);
             characterHUD?.ClearButtonPrompts();
             currentState = CharacterState.NONCLIMBING;
-            currentJob = null;
+            currentJob.jobType = CharacterJobType.NONE;
 
             if (currentInteractable != null)
             {

@@ -1432,6 +1432,21 @@ namespace TowerTanks.Scripts
             return characters;
         }
 
+        public void Surrender()
+        {
+            surrenderFlag.SetActive(true);
+            if (tankFlag != null) tankFlag.SetActive(false);
+
+            //Enable/Disable interact zone for tank claiming - only triggers for specifically Enemy Tanks
+            Transform interactZone = surrenderFlag.transform.Find("InteractZone");
+            if (tankType != TankId.TankType.ENEMY)
+            {
+                interactZone.gameObject.SetActive(false);
+            }
+
+            MakeFragile();
+        }
+
         //UTILITY METHODS:
         public void SetTankName(string newTankName)
         {

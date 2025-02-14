@@ -16,10 +16,11 @@ namespace TowerTanks.Scripts
         /// </summary>
         /// <param name="symbolSprite">The symbol to show on the sprite.</param>
         /// <param name="display">The initial display text to show.</param>
-        public void Init(Sprite symbolSprite, string display)
+        public void Init(Sprite symbolSprite, string display, Color displayColor)
         {
             symbolImage.sprite = symbolSprite;
             displayText.text = display;
+            displayText.color = displayColor;
         }
         
         /// <summary>
