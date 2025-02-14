@@ -26,7 +26,7 @@ public static class Bootstrapper
     private static void GetCurrentSettings()
     {
         ConfigurationSettings currentSettings = new ConfigurationSettings();
-        currentSettings.SetBGMVolume(PlayerPrefs.GetFloat("MasterVolume", GameSettings.defaultSettings.masterVolume));
+        currentSettings.SetMasterVolume(PlayerPrefs.GetFloat("MasterVolume", GameSettings.defaultSettings.masterVolume));
         currentSettings.SetBGMVolume(PlayerPrefs.GetFloat("BGMVolume", GameSettings.defaultSettings.bgmVolume));
         currentSettings.SetSFXVolume(PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSettings.sfxVolume));
         currentSettings.SetResolution(PlayerPrefs.GetInt("CurrentRes", GameSettings.defaultSettings.resolution));

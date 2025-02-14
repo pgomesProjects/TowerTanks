@@ -60,7 +60,7 @@ namespace TowerTanks.Scripts
             PlayerPrefs.SetFloat("MasterVolume", val * 0.1f);
             GameSettings.currentSettings.SetMasterVolume(val * 0.1f);
             GameSettings.CheckBGM();
-            GameManager.Instance.AudioManager.UpdateMusicVolume();
+            GameManager.Instance.AudioManager.UpdateMasterVolume();
         }
 
         public void ChangeBGM(int val)

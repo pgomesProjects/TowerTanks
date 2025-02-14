@@ -36,11 +36,13 @@ public static class GameSettings
     public static void CheckBGM()
     {
         AkSoundEngine.SetRTPCValue("MusicVolume", currentSettings.masterVolume * currentSettings.bgmVolume * 100f);
+        Debug.Log("Current Setting For Music: " + currentSettings.masterVolume * currentSettings.bgmVolume * 100f);
     }
 
     public static void CheckSFX()
     {
         AkSoundEngine.SetRTPCValue("SFXVolume", currentSettings.masterVolume * currentSettings.sfxVolume * 100f);
+        Debug.Log("Current Setting For SFX: " + currentSettings.masterVolume * currentSettings.bgmVolume * 100f);
     }
 
     public static void CheckFullscreen()

@@ -55,6 +55,18 @@ namespace TowerTanks.Scripts
             StartCoroutine(OpenForm());
             playerControls?.Enable();
             GameManager.Instance.inBugReportMenu = true;
+            ResetFields();
+        }
+
+        /// <summary>
+        /// Resets the fields of the bug report to their default values.
+        /// </summary>
+        private void ResetFields()
+        {
+            titleField.text = string.Empty;
+            severityField.value = 0;
+            descriptionField.text = string.Empty;
+            screenshotToggle.isOn = true;
         }
 
         private void OnDisable()

@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 namespace TowerTanks.Scripts.DebugTools
@@ -17,6 +16,8 @@ namespace TowerTanks.Scripts.DebugTools
         private BugReportForm currentBugReportForm;
 
         internal string logHistory;
+
+        private GameObject previouslySelected;
 
         private void Awake()
         {
@@ -63,13 +64,17 @@ namespace TowerTanks.Scripts.DebugTools
         {
             //If the user is in the debug menu already, disable it
             if (GameManager.Instance.inDebugMenu)
+            {
                 currentDebugMenu.gameObject.SetActive(false);
+                EventSystem.current.SetSelectedGameObject(previouslySelected);
+            }
             else
             {
                 //If the game has another menu up, return
                 if (GameManager.Instance.InGameMenu)
                     return;
 
+                previouslySelected = EventSystem.current.currentSelectedGameObject;
                 if (currentDebugMenu == null)
                 {
                     currentDebugMenu = Instantiate(commandMenuPrefab, GameObject.FindGameObjectWithTag("CursorCanvas").transform);
@@ -89,6 +94,7 @@ namespace TowerTanks.Scripts.DebugTools
             {
                 currentBugReportForm.gameObject.SetActive(false);
                 GameManager.Instance.MultiplayerManager.RestoreCurrentActionMaps();
+                EventSystem.current.SetSelectedGameObject(previouslySelected);
             }
             else
             {
@@ -96,6 +102,7 @@ namespace TowerTanks.Scripts.DebugTools
                 if (GameManager.Instance.InGameMenu)
                     return;
 
+                previouslySelected = EventSystem.current.currentSelectedGameObject;
                 if (currentBugReportForm == null)
                 {
                     currentBugReportForm = Instantiate(bugReportScreenPrefab, GameObject.FindGameObjectWithTag("CursorCanvas").transform);

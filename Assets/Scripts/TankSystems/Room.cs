@@ -71,8 +71,6 @@ namespace TowerTanks.Scripts
         private bool initialized = false;          //Becomes true once one-time initial room setup has been completed (indicates room is ready to be used)
         internal bool heldDuringPlacement = false; //True if this room is currently being manipulated by a player in the build scene
         private bool canBeMounted = false;         //True if the room is not mounted but cannot be mounted
-        private bool canRotate = true;
-        private float rotateTimer = 0;
 
         private float maxBurnTime = 24f;
         private float minBurnTime = 12f;
@@ -103,15 +101,6 @@ namespace TowerTanks.Scripts
         private void Update()
         {
             if (cells.Count > 0) CheckFire();
-        }
-
-        private void FixedUpdate()
-        {
-            if (rotateTimer > 0)
-            {
-                rotateTimer -= Time.fixedDeltaTime;
-            }
-            else if (!canRotate) { canRotate = true; }
         }
 
         private void OnDrawGizmos()
@@ -475,6 +464,38 @@ namespace TowerTanks.Scripts
 
             //If there are ghost couplers, it can be mounted
             canBeMounted = ghostCouplers.Count > 0;
+
+            //If the room can be mounted, check to see if other conditions apply
+            if (canBeMounted)
+            {
+                foreach (Coupler coupler in ghostCouplers)
+                {
+                    //If room B is the core
+                    if (coupler.roomB.isCore)
+                    {
+                        float coreYPos = coupler.roomB.transform.position.y - 0.5f;
+                        float marginOfError = 0.01f;    //Allow for a margin of error due to float point approximation
+
+                        foreach (Cell cell in coupler.roomA.cells)
+                        {
+                            //If a cell is positioned lower than the core, the room cannot be mounted
+                            if (cell.transform.position.y < coreYPos - marginOfError)
+                            {
+                                canBeMounted = false;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            //If the room can't be mounted, ensure that the ghost couplers are cleared
+            if (!canBeMounted)
+            {
+                foreach (Coupler coupler in ghostCouplers) Destroy(coupler.gameObject); //Destroy each ghost coupler
+                ghostCouplers.Clear();                                                  //Clear list of references to ghosts
+            }
+
             ChangeRoomColor(canBeMounted ? roomData.roomTypeColors[(int)type] : Color.red);
         }
 
@@ -596,14 +617,10 @@ namespace TowerTanks.Scripts
         /// <summary>
         /// Rotates unmounted room around its pivot.
         /// </summary>
-        public void Rotate(bool clockwise = true, bool useCooldown = false)
+        public void Rotate(bool clockwise = true)
         {
             //Validity checks:
             if (mounted) { Debug.LogError("Tried to rotate room while mounted!"); return; } //Do not allow mounted rooms to be rotated
-            if (!canRotate && useCooldown) return;
-
-            rotateTimer = 0.1f;
-            canRotate = false;
 
             //Move cells:
             Vector3 eulers = 90 * (clockwise ? -1 : 1) * Vector3.forward;                                                      //Get euler to rotate assembly with
@@ -946,8 +963,6 @@ namespace TowerTanks.Scripts
             foreach (Cell cell in cells) bounds.Encapsulate(cell.c.bounds); //Encapsulate bounds of each cell
             return bounds;                                                  //Return calculated bounds
         }
-
-        public bool GetCanRotate() => canRotate;
 
         public void ClearItems()
         {

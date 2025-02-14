@@ -24,12 +24,17 @@ namespace TowerTanks.Scripts
             private float elapsedTime;
             private float cooldownTimer;
 
+            private bool canRotateRoom;
+            private float rotateCooldownTimer;
+            private float currentRotateTimer;
+
             public WorldRoom(PlayerRoomSelection playerSelector, Room roomObject, Transform roomTransform)
             {
                 this.playerSelector = playerSelector;
                 this.roomObject = roomObject;
                 cursorTransform = playerSelector.GetCurrentPlayerInput().GetComponent<GamepadCursor>().GetCursorTransform();
                 this.roomTransform = roomTransform;
+                canRotateRoom = true;
             }
 
             public Room Mount()
@@ -49,15 +54,44 @@ namespace TowerTanks.Scripts
                 return roomObject;
             }
 
+            public void Rotate()
+            {
+                //If the player cannot rotate the room yet, return
+                if (!canRotateRoom)
+                    return;
+
+                //If the room is not mounted, rotate the room
+                if (!(currentRoomState == RoomState.MOUNTED))
+                {
+                    GameManager.Instance.AudioManager.Play("RotateRoom");
+                    roomObject.Rotate();
+                }
+
+                currentRotateTimer = rotateCooldownTimer;
+                canRotateRoom = false;
+            }
+
             public void UpdateTick()
             {
-                elapsedTime += Time.deltaTime;
-
-                if (elapsedTime >= cooldownTimer)
+                if(currentRoomState == RoomState.ONCOOLDOWN)
                 {
-                    currentRoomState = RoomState.MOVING;
-                    if (!isMovementRepeating)
-                        isMovementRepeating = true;
+                    elapsedTime += Time.deltaTime;
+
+                    if (elapsedTime >= cooldownTimer)
+                    {
+                        currentRoomState = RoomState.MOVING;
+                        if (!isMovementRepeating)
+                            isMovementRepeating = true;
+                    }
+                }
+
+                //Decrement the rotate room timer if on cooldown
+                if (!canRotateRoom)
+                {
+                    currentRotateTimer -= Time.deltaTime;
+
+                    if (currentRotateTimer < 0)
+                        canRotateRoom = true;
                 }
             }
 
@@ -69,6 +103,7 @@ namespace TowerTanks.Scripts
                 elapsedTime = 0f;
                 this.cooldownTimer = cooldownTimer;
             }
+            public void SetRoomRotateCooldown(float rotateCooldownTimer) => this.rotateCooldownTimer = rotateCooldownTimer;
             public void SetRoomState(RoomState currentRoomState) => this.currentRoomState = currentRoomState;
             public void SetIsMovementRepeating(bool isMovementRepeating) => this.isMovementRepeating = isMovementRepeating;
         }
@@ -81,6 +116,7 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("The Ready Up Manager that lets players display that they are ready.")] private ReadyUpManager readyUpManager;
         [SerializeField, Tooltip("The delay between the first input made for room movement and repeated tick movement.")] private float roomMoveDelay = 0.5f;
         [SerializeField, Tooltip("The tick rate for moving a room.")] private float roomMoveTickRate = 0.35f;
+        [SerializeField, Tooltip("The delay between room rotations.")] private float roomRotateDelay = 0.2f;
 
         private TankController defaultPlayerTank;
         private List<WorldRoom> worldRoomObjects;
@@ -157,7 +193,8 @@ namespace TowerTanks.Scripts
             if (GameManager.Instance.tankDesign != null)
                 defaultPlayerTank.Build(GameManager.Instance.tankDesign);
 
-            GameManager.Instance.AudioManager.StartBuildMusic();
+            //Play the default build music
+            GameManager.Instance.AudioManager.Play("Build_1", null, true);
         }
 
         private void OnEnable()
@@ -181,6 +218,7 @@ namespace TowerTanks.Scripts
         {
             Room roomObject = Instantiate(roomToSpawn.roomObject, roomParentTransform);
             WorldRoom room = new WorldRoom(playerSelector, roomObject, roomObject.transform);
+            room.SetRoomRotateCooldown(roomRotateDelay);
             roomObject.heldDuringPlacement = true;
             worldRoomObjects.Add(room);
             MoveRoomInScene(room, Vector2.zero);
@@ -198,6 +236,9 @@ namespace TowerTanks.Scripts
             {
                 if (!(room.currentRoomState == WorldRoom.RoomState.MOUNTED))
                     MoveRoom(room);
+
+                //Call the update tick method for all players
+                room.UpdateTick();
             }
         }
 
@@ -229,10 +270,6 @@ namespace TowerTanks.Scripts
                     MoveRoomInScene(room, playerMovement * 0.25f);
                     room.ResetCooldown(room.isMovementRepeating ? roomMoveTickRate : roomMoveDelay);
                     break;
-                //If the room movement is on cooldown, tick the cooldown
-                case WorldRoom.RoomState.ONCOOLDOWN:
-                    room.UpdateTick();
-                    break;
             }
         }
 
@@ -257,16 +294,7 @@ namespace TowerTanks.Scripts
                 return;
 
             WorldRoom playerRoom = GetPlayerRoom(playerInput);
-
-            //If the room is not mounted, rotate the room
-            if (!(playerRoom.currentRoomState == WorldRoom.RoomState.MOUNTED))
-            {
-                if (playerRoom.roomObject.GetCanRotate())
-                {
-                    GameManager.Instance.AudioManager.Play("RotateRoom");
-                    playerRoom.roomObject.Rotate(useCooldown: true);
-                }
-            }
+            playerRoom.Rotate();
         }
 
         /// <summary>

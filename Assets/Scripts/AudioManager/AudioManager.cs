@@ -31,6 +31,8 @@ namespace TowerTanks.Scripts
         /// <param name="audioLocation">The game object that the event will be played on.</param>
         public void Play(string name, GameObject audioLocation = null, bool music = false)
         {
+            UpdateMasterVolume();
+
             Sound s = GetSound(name);
             if (audioLocation != null)
             {
@@ -197,6 +199,13 @@ namespace TowerTanks.Scripts
             AkSoundEngine.SetRTPCValue("SFXPitch", Mathf.Clamp01(pitch));
         }
 
+        public void UpdateMasterVolume()
+        {
+            Debug.Log("Master Volume: " + GameSettings.currentSettings.masterVolume);
+            UpdateMusicVolume();
+            UpdateSFXVolume();
+        }
+
         public void UpdateMusicVolume()
         {
             AkSoundEngine.SetRTPCValue("MusicVolume", GameSettings.currentSettings.masterVolume * GameSettings.currentSettings.bgmVolume * 100f);
@@ -219,11 +228,6 @@ namespace TowerTanks.Scripts
             if (this.IsPlaying("Combat_1")) Play("Mission_1", null, true);
             if (this.IsPlaying("Combat_2")) Play("Mission_2", null, true);
             if (this.IsPlaying("Combat_3")) Play("Mission_3", null, true);
-        }
-
-        public void StartBuildMusic()
-        {
-            Play("Build_1", null, true);
         }
 
         public void UpdateRTPCValue(string name, float value, GameObject audioLocation)
