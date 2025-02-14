@@ -78,7 +78,7 @@ public class StateMachine
       _anyTransitions.Add(new Transition(state, predicate));
    }
    
-   public void AddSubstate(IState parentState, ISubState subState, Func<bool> enterCondition, Func<bool> exitCondition)
+   public void AddSubstate(IState parentState, ISubState subState, Func<bool>[] enterConditions, Func<bool>[] exitConditions)
    {
       if (_stateToSubstate.TryGetValue(parentState.GetType(), out var substates) == false)
       {
@@ -87,7 +87,7 @@ public class StateMachine
       }
       
       substates.Add(subState);
-      _substateConditionsMap[subState.GetType()] = new SubstateConditions(enterCondition, exitCondition);
+      _substateConditionsMap[subState.GetType()] = new SubstateConditions(enterConditions, exitConditions);
    }
    
    public void SetSubstate(ISubState substate)
@@ -112,13 +112,13 @@ public class StateMachine
    }
    
    private class SubstateConditions {
-      public Func<bool> EnterCondition { get; }
-      public Func<bool> ExitCondition { get; }
+      public Func<bool>[] EnterConditions { get; }
+      public Func<bool>[] ExitConditions { get; }
 
-      public SubstateConditions(Func<bool> enter, Func<bool> exit)
+      public SubstateConditions(Func<bool>[] enter, Func<bool>[] exit)
       {
-         EnterCondition = enter;
-         ExitCondition = exit;
+         EnterConditions = enter;
+         ExitConditions = exit;
       }
       
    }
@@ -144,9 +144,25 @@ public class StateMachine
          {
             if (_substateConditionsMap.TryGetValue(substate.GetType(), out var conditions))
             {
-               if (conditions.EnterCondition() && !conditions.ExitCondition())
+               foreach (var enterCond in conditions.EnterConditions)
                {
-                  SetSubstate(substate);
+                  if (enterCond())
+                  {
+                     bool exit = false;
+                     foreach (var exitCond in conditions.ExitConditions)
+                     {
+                        if (exitCond())
+                        {
+                           exit = true;
+                           break;
+                        }
+                     }
+                     if (!exit)
+                     {
+                        SetSubstate(substate);
+                        break;
+                     }
+                  }
                }
             }
          }
@@ -156,10 +172,14 @@ public class StateMachine
          var substateType = _currentSubState.GetType();
          if (_substateConditionsMap.TryGetValue(substateType, out var conditions))
          {
-            if (conditions.ExitCondition())
+            foreach (var exitCond in conditions.ExitConditions)
             {
-               _currentSubState.OnExit();
-               _currentSubState = null;
+               if (exitCond()) //if exit condition is true, exit the substate
+               {
+                  _currentSubState.OnExit();
+                  _currentSubState = null;
+                  break;
+               }
             }
          }
       }

@@ -10,7 +10,7 @@ namespace TowerTanks.Scripts
         private TankAI _tankAI;
         private TankController _tank;
         private InteractableId targetWeapon;
-        private WeaponBrain targetBrain;
+        public WeaponBrain targetBrain;
         private List<INTERACTABLE> weaponPriorityList = new List<INTERACTABLE>
         {
             INTERACTABLE.MachineGun, // from top to bottom, which weapon to prioritize killing player with
@@ -22,6 +22,7 @@ namespace TowerTanks.Scripts
         private bool tokenBorrowed;
         private bool couldntOverride;
         private bool returnTokenLater;
+        public PlayerMovement targetPlayer;
         
         public HuntPlayerSubstate(TankAI tank)
         {
@@ -71,7 +72,7 @@ namespace TowerTanks.Scripts
         {
             Debug.Log("Hunt Entered");
             var players = GameObject.FindObjectsOfType<PlayerMovement>();
-            var nearestPlayer = players.OrderBy(x => Vector3.Distance(x.transform.position, _tank.treadSystem.transform.position)).First();
+            targetPlayer = players.OrderBy(x => Vector3.Distance(x.transform.position, _tank.treadSystem.transform.position)).First();
             
             for (int i = 0; i < weaponPriorityList.Count; i++)
             {
@@ -129,7 +130,7 @@ namespace TowerTanks.Scripts
             }
             
             
-            targetBrain?.OverrideTargetPoint(nearestPlayer.transform);
+            targetBrain?.OverrideTargetPoint(targetPlayer.transform);
             if (targetBrain != null)
             {
                 if (targetBrain.updateAimTarget != null) targetBrain.StopCoroutine(targetBrain.updateAimTarget);

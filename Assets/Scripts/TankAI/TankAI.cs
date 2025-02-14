@@ -33,9 +33,9 @@ namespace TowerTanks.Scripts
         //func bool to check if there are any objects of NewPlayerMovement near tank.treadsystem.transform.position
         public bool PlayerNearby() => Physics2D.OverlapCircleAll(tank.treadSystem.transform.position, 40f)
             .Any(collider => collider.GetComponent<PlayerMovement>() != null);
+
         
-        public bool NoPlayerNearby() => !Physics2D.OverlapCircleAll(tank.treadSystem.transform.position, 40f)
-            .Any(collider => collider.GetComponent<PlayerMovement>() != null);
+        
         
         #endregion
         
@@ -84,9 +84,17 @@ namespace TowerTanks.Scripts
 
             AnyAt(surrenderState, NoGuns); //this being an "any transition" means that it can be triggered from any state
             
-            fsm.AddSubstate(patrolState, huntSubState, PlayerNearby, () => !PlayerNearby());
-            fsm.AddSubstate(pursueState, huntSubState, PlayerNearby, () => !PlayerNearby());
-            fsm.AddSubstate(engageState, huntSubState, PlayerNearby, () => !PlayerNearby());
+            bool MortarOverrideAndPlayerInTank() => targetTank != null &&
+                                                    huntSubState.targetBrain?.mySpecificType == INTERACTABLE.Mortar &&
+                                                    huntSubState.targetPlayer != null &&
+                                                    huntSubState.targetPlayer.transform.IsChildOf(targetTank.transform);
+            
+            var huntEnterConds = new Func<bool>[] {PlayerNearby};
+            var huntExitConds = new Func<bool>[] { () => !PlayerNearby(), MortarOverrideAndPlayerInTank};
+            
+            fsm.AddSubstate(patrolState, huntSubState, huntEnterConds, huntExitConds);
+            fsm.AddSubstate(pursueState, huntSubState, huntEnterConds, huntExitConds);
+            fsm.AddSubstate(engageState, huntSubState, huntEnterConds, huntExitConds);
 
             fsm.SetState(patrolState);
         }
