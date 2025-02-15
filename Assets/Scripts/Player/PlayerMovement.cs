@@ -328,7 +328,8 @@ namespace TowerTanks.Scripts
                         case CharacterJobType.CLAIM:
                             {
                                 //Claim a Tank
-                                //zone.GetComponentInParent<TankController>().Claim();
+                                TankController tank = currentJob.zone.GetComponentInParent<TankController>();
+                                if (tank != null) { TankManager.instance.TransferPlayerTank(tank); }
                                 Debug.Log("Tried to claim a tank!");
                             }
                             break;

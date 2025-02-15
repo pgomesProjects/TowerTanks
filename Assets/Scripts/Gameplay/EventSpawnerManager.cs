@@ -54,7 +54,7 @@ namespace TowerTanks.Scripts
         // Start is called before the first frame update
         void Start()
         {
-            playerTank = levelManager.playerTank;
+            UpdatePlayerTank();
             eventSpawnTimer = eventSpawnCooldown;
             triggerDistanceCheck = Random.Range(minTriggerDistance, maxTriggerDistance);
             //shopChance = 0;
@@ -215,6 +215,12 @@ namespace TowerTanks.Scripts
             Debug.Log("Spawned Flag!");
             int flagOffset = lastChunk + 3;
             chunkLoader.SpawnEndFlag(flagOffset);
+        }
+
+        public void UpdatePlayerTank()
+        {
+            playerTank = LevelManager.Instance.playerTank;
+            chunksTraveled = 0;
         }
     }
 }

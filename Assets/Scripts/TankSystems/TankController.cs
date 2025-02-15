@@ -980,6 +980,12 @@ namespace TowerTanks.Scripts
 
                             tankFlag.transform.Rotate(0, 180, 0);
                         }
+
+                        //Change my flag if I'm a player
+                        if (tankType == TankId.TankType.PLAYER)
+                        {
+                            surrenderFlag?.SetActive(false);
+                        }
                     }
                 }
             }
@@ -1439,7 +1445,7 @@ namespace TowerTanks.Scripts
 
             //Enable/Disable interact zone for tank claiming - only triggers for specifically Enemy Tanks
             Transform interactZone = surrenderFlag.transform.Find("InteractZone");
-            if (tankType != TankId.TankType.ENEMY)
+            if (tankType != TankId.TankType.ENEMY || !GameManager.Instance.tankClaiming)
             {
                 interactZone.gameObject.SetActive(false);
             }

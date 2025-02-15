@@ -27,7 +27,7 @@ namespace TowerTanks.Scripts
 
         public IEnumerator DisableCollision(Collider2D playerCollider)
         {
-            Debug.Log("Disabling collision");
+            //Debug.Log("Disabling collision");
             CharacterLegFloater legFloater = playerCollider.GetComponent<CharacterLegFloater>();
             if (legFloater != null) legFloater.DisableFloater(true);
             Physics2D.IgnoreCollision(playerCollider, platformCollider);

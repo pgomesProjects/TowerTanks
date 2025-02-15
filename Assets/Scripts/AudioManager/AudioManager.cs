@@ -201,7 +201,7 @@ namespace TowerTanks.Scripts
 
         public void UpdateMasterVolume()
         {
-            Debug.Log("Master Volume: " + GameSettings.currentSettings.masterVolume);
+            //Debug.Log("Master Volume: " + GameSettings.currentSettings.masterVolume);
             UpdateMusicVolume();
             UpdateSFXVolume();
         }

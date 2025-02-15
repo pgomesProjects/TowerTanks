@@ -57,8 +57,12 @@ namespace TowerTanks.Scripts
         }
 
         [Space()]
-        public bool ignoreTutorials;
-        public bool fireBreaksInteractables;
+        [Header("Gameplay Options:")]
+        [Tooltip("When On, Skip any tutorials that would otherwise trigger.")]                                  public bool ignoreTutorials;
+        [Tooltip("When On, Interactables are broken when burned by fire instead of returned to the Stack.")]    public bool fireBreaksInteractables;
+        [Tooltip("When On, Interactables can be broken when their parent cell takes damage.")]                  public bool damageBreaksInteractables;
+        [Tooltip("When On, Cells spawn with double their normal health.")]                                      public bool cellDoubleHealth;
+        [Tooltip("When On, Surrendered tanks can be 'Claimed', making them the new Player Tank.")]              public bool tankClaiming;
         [Space()]
 
         //Global Static Variables
@@ -85,6 +89,7 @@ namespace TowerTanks.Scripts
         private float loadMaxDelta = 3f;
         private bool loadingScene = false;
 
+        [Header("Player Tank Info:")]
         public TankDesign tankDesign;
         public CargoManifest cargoManifest;
         private static CargoManifest defaultManifest;

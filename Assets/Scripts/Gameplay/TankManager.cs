@@ -126,6 +126,42 @@ namespace TowerTanks.Scripts
             return Resources.Load<TankAISettings>($"TankAISettings/Tier {tier} AI Settings");
         }
 
+        /// <summary>
+        /// Transfers the current playertank to a new tank, abandoning the old one.
+        /// </summary>
+        /// <param name="newTank">The tank the playertank is transferring to.</param>
+        public void TransferPlayerTank(TankController newTank)
+        {
+            TankId updatedTank = GetTank(newTank);
+            if (updatedTank == null) return; //couldn't find a tank
+
+            TankId oldTank = GetTank(playerTank);
+
+            //Reassign new Tank values
+            if (updatedTank.tankType != TankId.TankType.PLAYER)
+            {
+                updatedTank.tankBrain.enabled = false; //disable Ai brain
+                updatedTank.tankType = TankId.TankType.PLAYER; //update type
+            }
+
+            updatedTank.tankScript.GetTankInfo();
+            playerTank = newTank; //this tank is now the 'Player' tank
+
+            //Unassign old Tank values
+            if (oldTank != null)
+            {
+                if (oldTank.tankType == TankId.TankType.PLAYER)
+                {
+                    oldTank.tankType = TankId.TankType.NEUTRAL; //old tank is now 'Neutral'
+                }
+                oldTank.tankScript.GetTankInfo();
+            }
+
+            LevelManager.Instance.UpdatePlayerTank(newTank);
+            //CameraManipulator.main?.OnPlayerTankTransfer(newTank);
+            OnPlayerTankAssigned?.Invoke(newTank);
+        }
+
         //UNITY METHODS:
         private void Awake()
         {
@@ -147,6 +183,21 @@ namespace TowerTanks.Scripts
         public void MoveSpawnPoint(Vector3 newPosition)
         {
             tankSpawnPoint.position = newPosition;
+        }
+
+        public TankId GetTank(TankController tank)
+        {
+            TankId id = null;
+
+            foreach(TankId _id in tanks)
+            {
+                if (_id.tankScript == tank) //found a matching tank
+                {
+                    id = _id; 
+                }
+            }
+
+            return id;
         }
     }
 }

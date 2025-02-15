@@ -150,6 +150,13 @@ namespace TowerTanks.Scripts
             }
         }
 
+        public void UpdatePlayerTank(TankController newTank)
+        {
+            playerTank = newTank;
+            eventManager.UpdatePlayerTank();
+            ChunkLoader.Instance.playerTank = newTank.treadSystem.transform;
+        }
+
         private void SpawnAllPlayers()
         {
             playerParent = GameObject.FindGameObjectWithTag("PlayerContainer")?.transform;

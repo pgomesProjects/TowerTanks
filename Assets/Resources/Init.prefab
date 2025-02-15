@@ -239,6 +239,9 @@ MonoBehaviour:
   inDebugMenu: 0
   ignoreTutorials: 1
   fireBreaksInteractables: 0
+  damageBreaksInteractables: 0
+  cellDoubleHealth: 0
+  tankClaiming: 0
   _shopChance: 0
   tankDesign:
     TankName: 

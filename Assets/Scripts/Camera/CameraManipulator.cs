@@ -654,6 +654,32 @@ namespace TowerTanks.Scripts
             //Remove tank from camSystems
             foreach (TankCamSystem camSystem in camSystems) if (camSystem.tanks[0] == tank) camSystem.CleanUpLater(); //Clean up main cam system for destroyed tank
         }
+
+        /// <summary>
+        /// Called by TankManager when the playertank is transferred to a new tank
+        /// </summary>
+        public void OnPlayerTankTransfer(TankController newTank)
+        {
+            foreach(TankCamSystem camSystem in camSystems) //Reassign cameras, accounting for current player tank
+            {
+                camSystem.isPlayerCam = false;
+                bool isPlayer = false;
+                foreach(TankController tank in camSystem.tanks)
+                {
+                    if (tank.tankType == TankId.TankType.PLAYER)
+                    {
+                        camSystem.isPlayerCam = true;
+                        isPlayer = true;
+                    }
+                }
+
+                if (!isPlayer) camSystem.CleanUpLater();
+            }
+            radarSystem.tanks.Clear();
+            radarSystem.tanks.Add(newTank); //assign new player tank for radar to follow
+            radarSystem.tanks[0].TriggerTankAlarm();
+        }
+        
         /// <summary>
         /// Finds tank for which this is the primary camera and shakes it according to given settings.
         /// </summary>
