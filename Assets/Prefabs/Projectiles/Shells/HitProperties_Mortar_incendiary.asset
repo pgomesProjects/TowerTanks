@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ea903d9b1b0c834c990915fdaf5cb15, type: 3}
   m_Name: HitProperties_Mortar_incendiary
   m_EditorClassIdentifier: 
-  damage: 50
+  damage: 150
   mass: 1
   hasSplashDamage: 1
   splashData:
-  - splashDamage: 15
+  - splashDamage: 50
     splashRadius: 2.25
   tunnels: 0
   fireChance: 1

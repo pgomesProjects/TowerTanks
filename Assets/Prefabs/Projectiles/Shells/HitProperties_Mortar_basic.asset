@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ea903d9b1b0c834c990915fdaf5cb15, type: 3}
   m_Name: HitProperties_Mortar_basic
   m_EditorClassIdentifier: 
-  damage: 100
+  damage: 200
   mass: 1
   hasSplashDamage: 1
   splashData:
-  - splashDamage: 50
+  - splashDamage: 75
     splashRadius: 1.25
   - splashDamage: 25
     splashRadius: 2
   tunnels: 0
-  fireChance: 0.02
+  fireChance: 0.04
   ignoresArmor: 0
   slamForce: 0

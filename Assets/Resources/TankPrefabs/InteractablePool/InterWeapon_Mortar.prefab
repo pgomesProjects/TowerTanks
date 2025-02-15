@@ -1210,11 +1210,11 @@ MonoBehaviour:
   trajectoryLine: {fileID: 1850942337884954217}
   reciprocatingBarrel: {fileID: 0}
   gunType: 2
-  muzzleVelocity: 60
+  muzzleVelocity: 65
   recoil: 0
   rotateSpeed: 20
-  gimbalRange: 20
-  rateOfFire: 4.5
+  gimbalRange: 25
+  rateOfFire: 5
   reciprocationDistance: 0
   reciprocationTime: 0
   reciprocationCurve:
