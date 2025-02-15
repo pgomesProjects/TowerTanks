@@ -232,6 +232,10 @@ namespace TowerTanks.Scripts
                             {
                                 damagedThisHit.Add(splashTarget);               //Add target to list so it cannot be damaged again by same explosion
                                 splashTarget.Damage(splash.splashDamage, true); //Deal direct damage to each target
+                                if (hitProperties.breakChance > 0 && GameManager.Instance.damageBreaksInteractables)
+                                {
+                                    //handle override break chance for splash damage here
+                                }
                             }
 
                             //Fire check:

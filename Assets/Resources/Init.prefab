@@ -1321,17 +1321,24 @@ MonoBehaviour:
     cargoPrefab: {fileID: 2597980276526825376, guid: 74cbd67fb794ffe49b582fb274d1cf2b, type: 3}
     scarcityBalanced: 1
     weight: 10
+  - id: Thumper Shells
+    cargoPrefab: {fileID: 2472505212490362192, guid: 6aceb43af5fb8414bb39082152e62264, type: 3}
+    scarcityBalanced: 1
+    weight: 0
   projectileList:
   - type: 0
     ammoTypes:
     - {fileID: 2367129227070595597, guid: ad2c16d34a64efd4ab5a6515dab7366a, type: 3}
     - {fileID: 2367129227070595597, guid: 85691ddecc678de4d8ae87a0b48575ba, type: 3}
+    - {fileID: 2367129227070595597, guid: 66cc3340619b33f428edbe79233e401e, type: 3}
   - type: 1
     ammoTypes:
     - {fileID: 2026841927693228562, guid: 0192140aff1560b4687b143a3b7cd16b, type: 3}
     - {fileID: 3640374074342539547, guid: 1e93586965860dd45b48c21673aea549, type: 3}
+    - {fileID: 1066636517055270470, guid: 45936e9a5d72a6448872f8a79b0dbf47, type: 3}
     - {fileID: 8367798314348147069, guid: d44124302ce9eb347aab35655450f0ab, type: 3}
     - {fileID: 2446699370988271855, guid: b442068e42cdd1248879a0fdf7930b2e, type: 3}
+    - {fileID: 2446699370988271855, guid: 970cd994c8bfb7a4eae7cd7de39de6d4, type: 3}
   ammoSymbols:
   - {fileID: 21300000, guid: 969de49ca82e3ab488e7fe2dc8191e2a, type: 2}
 --- !u!1 &6961505860283407432
