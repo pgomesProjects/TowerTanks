@@ -18,5 +18,6 @@ namespace TowerTanks.Scripts
         [Tooltip("Chance this projectile lights things on fire when dealing damage"), Range(0, 1)]                                   public float fireChance;
         [Tooltip("If true, projectile will deal a normal amount of damage to armor.")]                                               public bool ignoresArmor;
         [Tooltip("Additional non-torque-inducing force applied to tanks by this projectile (used to push enemies around)."), Min(0)] public float slamForce;
+        [Tooltip("Artificial chance to break interactables hit by this projectile and it's splash zones."), Range(0, 100f)]          public float breakChance;
     }
 }

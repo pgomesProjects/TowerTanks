@@ -10,16 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ea903d9b1b0c834c990915fdaf5cb15, type: 3}
-  m_Name: HitProperties_Shell_thumper
+  m_Name: HitProperties_Bullet_thumper
   m_EditorClassIdentifier: 
   damage: 0
-  mass: 1
+  mass: 0.1
   hasSplashDamage: 0
-  splashData:
-  - splashDamage: 50
-    splashRadius: 0.75
+  splashData: []
   tunnels: 0
   fireChance: 0
   ignoresArmor: 0
-  slamForce: 20
-  breakChance: 100
+  slamForce: 5
+  breakChance: 20

@@ -65,6 +65,8 @@ namespace TowerTanks.Scripts
         public int gear;
         public System.Action<float> OnCoreDamaged;
         private bool alarmTriggered;
+        public bool overrideWeaponROF;
+        public bool overrideWeaponRecoil;
 
         public void ShiftRight()
         {
@@ -1094,15 +1096,18 @@ namespace TowerTanks.Scripts
 
                     if (interactable.interactableType == TankInteractable.InteractableType.WEAPONS)
                     {
-                        if(cellInter.specialAmmo?.Length > 0)
+                        GunController gun = interactable.gameObject.GetComponent<GunController>();
+
+                        if (cellInter.specialAmmo?.Length > 0)
                         {
                             for(int a = 0; a < cellInter.specialAmmo.Length; a++)
                             {
-                                GunController gun = interactable.gameObject.GetComponent<GunController>();
                                 GameObject ammoToLoad = GameManager.Instance.CargoManager.GetProjectileByNameHash(cellInter.specialAmmo[a]);
                                 gun.AddSpecialAmmo(ammoToLoad, 1, false);
                             }
                         }
+
+                        if (overrideWeaponROF) gun.rateOfFire = 0;
                     }
 
                     if (!CampaignManager.Instance.HasCampaignStarted) //Add the interactable to the stats if joining the combat scene first
