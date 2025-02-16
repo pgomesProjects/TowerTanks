@@ -88,7 +88,10 @@ namespace TowerTanks.Scripts
                     transform.position = Vector2.MoveTowards(transform.position, targetPosition, maxSqueezeSpeed); //Use squeeze speed to move wheel toward grounded position
                     if (createParticle)
                     {
-                        CreateDustParticle();
+                        int id = 27;
+                        SurfaceManager surface = lastGroundHit.collider.gameObject.GetComponent<SurfaceManager>();
+                        if (surface?.surfaceMaterial == SurfaceManager.SurfaceMaterial.SAND) id = 26;
+                        CreateDustParticle(id);
                     }
                 }
                 else //Wheel is unobstructed
@@ -132,10 +135,11 @@ namespace TowerTanks.Scripts
             }
         }
 
-        public void CreateDustParticle()
+        public void CreateDustParticle(int id = 27)
         {
             float particleScale = Mathf.Lerp(0.2f, 2f, Mathf.Abs(angularVelocity) / 10000f);
-            GameObject particle = GameManager.Instance.ParticleSpawner.SpawnParticle(26, lastGroundHit.point, particleScale, treadSystem.transform);
+
+            GameObject particle = GameManager.Instance.ParticleSpawner.SpawnParticle(id, lastGroundHit.point, particleScale, treadSystem.transform);
             createParticle = false;
             float rotation = -30 * Mathf.Sign(angularVelocity);
             particle.transform.Rotate(new Vector3(0, 0, rotation));

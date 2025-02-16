@@ -48,13 +48,17 @@ namespace TowerTanks.Scripts
         [Tooltip("True if interactable is a ghost and is currently unuseable.")]                                    internal bool ghosted;
         [Tooltip("True if a user is currently operating this system")]                                              internal bool hasOperator;
         [Tooltip("User currently interacting with this system.")]                                                   internal PlayerMovement operatorID;
+        [Header("General Settings:")]
         [Tooltip("Whether or not interact can be held down to use this interactable continuously"), SerializeField] public bool isContinuous;
         [Tooltip("Whether or not this interactable can be aimed in some way"), SerializeField]                      public bool canAim;
         [Tooltip("Direction this interactable is facing. (1 = right; -1 = left)")]                                  public float direction = 1;
         [Tooltip("Unique identifier associating this interactable with a stack item")]                              internal int stackId = 0;
         [Tooltip("Whether this Interactable is currently broken or not.")]                                          public bool isBroken = false;
+
+        [Header("Visual Settings:")]
         public Animator overlayAnimator;
         private SpriteOverlay overlay;
+        public GameObject particleOverlay;
 
         //Debug
         internal bool debugMoveUp;
@@ -80,6 +84,7 @@ namespace TowerTanks.Scripts
             consumableScript = GetComponent<TankConsumable>();
             
             overlay = transform.Find("Visuals")?.GetComponent<SpriteOverlay>();
+            
             if (overlay != null) overlay.enabled = false;
             if (overlayAnimator != null) overlayAnimator.enabled = false;
         }
@@ -316,6 +321,9 @@ namespace TowerTanks.Scripts
                 if (overlay == null) return;
                 overlay.enabled = true;
                 overlayAnimator.enabled = true;
+
+                GameManager.Instance.ParticleSpawner.SpawnParticle(28, transform.position, 0.4f, this.transform);
+                particleOverlay?.SetActive(true);
             }
         }
 
@@ -329,6 +337,8 @@ namespace TowerTanks.Scripts
                 overlay.ResetOverlay();
                 overlay.enabled = false;
                 overlayAnimator.enabled = false;
+
+                particleOverlay?.SetActive(false);
             }
         }
     }

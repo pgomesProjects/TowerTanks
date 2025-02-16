@@ -319,7 +319,7 @@ namespace TowerTanks.Scripts
 
                                 HapticsSettings setting = GameManager.Instance.SystemEffects.GetHapticsSetting("QuickJolt");
                                 GameManager.Instance.SystemEffects.ApplyControllerHaptics(this.GetPlayerData().playerInput, setting); //Apply haptics
-                                GameManager.Instance.ParticleSpawner.SpawnParticle(25, currentJob.interactable.transform.position, 0.3f, currentJob.interactable.tank.treadSystem.transform);
+                                GameManager.Instance.ParticleSpawner.SpawnParticle(28, currentJob.interactable.transform.position, 0.3f, currentJob.interactable.tank.treadSystem.transform);
                                 currentJob.interactable.parentCell.AddInteractablesFromCell(true);
 
                                 durabilityLoss *= 4f;

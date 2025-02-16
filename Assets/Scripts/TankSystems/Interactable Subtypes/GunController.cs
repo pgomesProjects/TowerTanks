@@ -7,6 +7,7 @@ namespace TowerTanks.Scripts
     public class GunController : TankInteractable
     {
         //Objects & Components:
+        [Header("Weapon Components:")]
         [Tooltip("Default projectile which will be fired by this weapon")]                                      public GameObject projectilePrefab;
         [Tooltip("List containing special Ammo loaded into this weapon"), SerializeField]                       public List<GameObject> specialAmmo = new List<GameObject>();
         [Tooltip("Transform indicating direction and position in which projectiles are fired"), SerializeField] internal Transform barrel;

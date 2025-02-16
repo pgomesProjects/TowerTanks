@@ -185,7 +185,8 @@ namespace TowerTanks.Scripts
                 }
                 else if (hitCollider.CompareTag("Ground")) //Hit the Ground
                 {
-                    hitGround = true;
+                    SurfaceManager surface = hitCollider.GetComponent<SurfaceManager>();
+                    if (surface?.surfaceMaterial == SurfaceManager.SurfaceMaterial.SAND) hitGround = true;
                     remainingDamage = 0; //Always destroy projectiles that hit the ground (by reducing their remaining damage to zero)
                 }
                 else if (hitCollider.CompareTag("Shell")) //Hit another projectile

@@ -56,6 +56,9 @@ SpriteAtlas:
     - {fileID: 2800000, guid: a2188e6c2c650114ca307f80205566ed, type: 3}
     - {fileID: 2800000, guid: d207db38f15a14746948c3d9e3311331, type: 3}
     - {fileID: 2800000, guid: 33507b54df102ff49bdbf96b6883a4d2, type: 3}
+    - {fileID: 2800000, guid: 1e79c3db19ab74d4bac95454d6c4b861, type: 3}
+    - {fileID: 2800000, guid: 136b02a6821df9f4da5efe6a5d4b11fa, type: 3}
+    - {fileID: 2800000, guid: c0073c6c739cbe1449d51fe2e41e69d9, type: 3}
     bindAsDefault: 1
     isAtlasV2: 0
     cachedData: {fileID: 0}
@@ -73,6 +76,7 @@ SpriteAtlas:
   - {fileID: 1109334655, guid: 74bb0036153cddd4bbceecec61620844, type: 3}
   - {fileID: 1993483698, guid: 74bb0036153cddd4bbceecec61620844, type: 3}
   - {fileID: 21300000, guid: d12df886d4b735d428c5f69f98116e68, type: 3}
+  - {fileID: 21300000, guid: 136b02a6821df9f4da5efe6a5d4b11fa, type: 3}
   - {fileID: 21300000, guid: af0cade667f815240b619986a84033d2, type: 3}
   - {fileID: 21300000, guid: da276357276c9e143b2cd6a47f8fd23a, type: 3}
   - {fileID: 21300000, guid: d207db38f15a14746948c3d9e3311331, type: 3}
@@ -82,7 +86,9 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 9279a8c9a552cf448bd48acbe0fce2e1, type: 3}
   - {fileID: 21300000, guid: 7688300a9cad4b7459c7db281cb8912a, type: 3}
   - {fileID: 21300000, guid: be8104da9fa64e84d9db03909e3b5999, type: 3}
+  - {fileID: 21300000, guid: 1e79c3db19ab74d4bac95454d6c4b861, type: 3}
   - {fileID: 21300000, guid: fff0e0eb9dae080469a72e74903080de, type: 3}
+  - {fileID: 21300000, guid: c0073c6c739cbe1449d51fe2e41e69d9, type: 3}
   - {fileID: 21300000, guid: 0a64cd6c8bb5db14ca83a9fe25817c07, type: 3}
   - {fileID: 21300000, guid: a2188e6c2c650114ca307f80205566ed, type: 3}
   - {fileID: 21300000, guid: 7599801f093cb4647961823e50597438, type: 3}
@@ -101,6 +107,7 @@ SpriteAtlas:
   - dirtParticles_2
   - dirtParticles_3
   - spr_flame
+  - nut
   - mediumcloud1
   - bigcluod2
   - sparkparticle12-12
@@ -110,7 +117,9 @@ SpriteAtlas:
   - scraparticle12-13
   - explodespark3
   - spr_fireBall1
+  - lightSmoke
   - explodespark1
+  - screw
   - bigcloud1
   - smokeparticle12-13
   - smallcloud1
