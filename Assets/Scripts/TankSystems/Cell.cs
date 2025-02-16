@@ -686,7 +686,7 @@ namespace TowerTanks.Scripts
             {
                 health += amount;
 
-                if (health > maxHealth)
+                if (health >= maxHealth)
                 {
                     difference = amount + (maxHealth - health);
                     health = maxHealth;
@@ -695,13 +695,20 @@ namespace TowerTanks.Scripts
                 else difference = amount;
                 HitEffects(1.5f);
                 GameManager.Instance.AudioManager.Play("UseWrench", gameObject);
-                GameManager.Instance.ParticleSpawner.SpawnParticle(6, transform.position, 0.25f, null);
-                GameManager.Instance.ParticleSpawner.SpawnParticle(7, transform.position, 0.25f, null);
+                GameManager.Instance.ParticleSpawner.SpawnParticle(6, transform.position, 0.4f, this.transform);
+                GameManager.Instance.ParticleSpawner.SpawnParticle(7, transform.position, 0.3f, this.transform);
             }
 
             if (room.isCore)
             {
                 difference = room.targetTank.Repair(amount);
+                //GameManager.Instance.AudioManager.Play("UseWrench", gameObject);
+
+                if (room.targetTank.currentCoreHealth < room.targetTank.coreHealth)
+                {
+                    GameManager.Instance.ParticleSpawner.SpawnParticle(6, transform.position, 0.4f, this.transform);
+                    GameManager.Instance.ParticleSpawner.SpawnParticle(7, transform.position, 0.3f, this.transform);
+                }
             }
 
             return difference;

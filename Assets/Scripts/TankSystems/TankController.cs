@@ -665,16 +665,15 @@ namespace TowerTanks.Scripts
             {
                 currentCoreHealth += amount;
 
-                if (currentCoreHealth > coreHealth)
+                if (currentCoreHealth >= coreHealth)
                 {
                     difference = amount + (coreHealth - currentCoreHealth);
                     currentCoreHealth = coreHealth;
+                    GameManager.Instance.AudioManager.Play("ItemPickup", treadSystem.gameObject);
                 }
                 else difference = amount;
                 HitEffects(1.5f);
                 GameManager.Instance.AudioManager.Play("UseWrench", treadSystem.gameObject);
-                GameManager.Instance.ParticleSpawner.SpawnParticle(6, transform.position, 0.25f, null);
-                GameManager.Instance.ParticleSpawner.SpawnParticle(7, transform.position, 0.25f, null);
 
                 OnCoreDamaged?.Invoke(currentCoreHealth / coreHealth);
             }
@@ -1519,6 +1518,8 @@ namespace TowerTanks.Scripts
         public Vector3 GetPlayerSpawnPointPosition() => playerSpawnPoint.position;
         public Character[] GetCharactersInTank() => GetComponentsInChildren<Character>();
         public float GetHighestPoint() => tankSizeValues.x;
+
+        public float GetMaxHealth() => coreHealth;
 
         public void UpdateFlagPosition(Transform target)
         {
