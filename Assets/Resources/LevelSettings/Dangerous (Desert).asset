@@ -75,6 +75,6 @@ MonoBehaviour:
   - {fileID: 8932742379166886923, guid: 679a62c20f9cc254e80d090efe65fe1d, type: 3}
   - {fileID: 8777832819200820924, guid: 8e3554b25045ed044a8d6a50399b3272, type: 3}
   - {fileID: 8192493426788629729, guid: eedacc86461baec4e80f20cfbdc875d1, type: 3}
-  landmarkChance: 40
+  landmarkChance: 0
   landMarkOffset: 6
   biasesCanRepeat: 0

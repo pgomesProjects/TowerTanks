@@ -3459,7 +3459,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 72eedd21ed3a73f468a0faa32c63e269, type: 2}
   - {fileID: 11400000, guid: 62a1b2447744bde49a23354aa8d849d7, type: 2}
   enemiesDestroyed: 0
-  enemyTierOffset: 2
+  enemyTierOffset: 0
   resourcesToAdd: 100
 --- !u!4 &1152782961
 Transform:

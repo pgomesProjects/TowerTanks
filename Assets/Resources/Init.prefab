@@ -238,10 +238,10 @@ MonoBehaviour:
   inBugReportMenu: 0
   inDebugMenu: 0
   ignoreTutorials: 1
-  fireBreaksInteractables: 0
-  damageBreaksInteractables: 0
-  cellDoubleHealth: 0
-  tankClaiming: 0
+  fireBreaksInteractables: 1
+  damageBreaksInteractables: 1
+  cellDoubleHealth: 1
+  tankClaiming: 1
   _shopChance: 0
   tankDesign:
     TankName: 
@@ -1324,7 +1324,7 @@ MonoBehaviour:
   - id: Thumper Shells
     cargoPrefab: {fileID: 2472505212490362192, guid: 6aceb43af5fb8414bb39082152e62264, type: 3}
     scarcityBalanced: 1
-    weight: 0
+    weight: 10
   projectileList:
   - type: 0
     ammoTypes:
