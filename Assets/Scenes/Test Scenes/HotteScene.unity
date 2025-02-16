@@ -1582,7 +1582,7 @@ MonoBehaviour:
     tankBrain: {fileID: 0}
     tankType: 0
     gameObject: {fileID: 1411317892}
-    design: {fileID: 4900000, guid: 0ae7f54292a46314da4951bdac3723a3, type: 3}
+    design: {fileID: 4900000, guid: 0a28da0727ec03748acf085175eb0317, type: 3}
     buildOnStart: 0
 --- !u!1 &511407189
 GameObject:
@@ -6152,18 +6152,10 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 530fa040df4a8014d8d7b5abd56e4bdf, type: 2}
     - target: {fileID: 1677695872598849027, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
       propertyPath: TankName
-      value: The Wall of Gun
+      value: The Supreme Potato
       objectReference: {fileID: 0}
     - target: {fileID: 1677695872598849027, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
       propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1677695872598849027, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
-      propertyPath: overrideWeaponROF
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1677695872598849027, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
-      propertyPath: overrideWeaponRecoil
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1677695872598849027, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
