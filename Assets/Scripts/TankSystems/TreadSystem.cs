@@ -87,7 +87,7 @@ namespace TowerTanks.Scripts
         
         private float treadHealth;         //Current tread health value
         private float jamEffectTimer = 0f; //Timer used to space out jam particle effect spawns
-        private bool isJammed = false;     //Whether or not treads are currently jammed 
+        public bool isJammed = false;     //Whether or not treads are currently jammed 
 
         //RUNTIME METHODS:
         private void Awake()
@@ -429,6 +429,20 @@ namespace TowerTanks.Scripts
         {
             animator.SetFloat("SpeedScale", speedScale);
             animator.Play("TreadFlash", 0, 0);
+        }
+
+        public void Unjam()
+        {
+            isJammed = false;
+            jammedSprite.gameObject.SetActive(false);
+            if (treadHealth < treadMaxHealth)
+            {
+                treadHealth = treadMaxHealth;
+                GameManager.Instance.AudioManager.Play("ItemPickup", gameObject);
+               
+                HitEffects(1.5f);
+                GameManager.Instance.AudioManager.Play("UseWrench", gameObject);
+            }
         }
 
         /// <summary>

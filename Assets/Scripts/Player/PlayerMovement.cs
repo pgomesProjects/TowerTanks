@@ -300,13 +300,16 @@ namespace TowerTanks.Scripts
                     {
                         case CharacterJobType.FIX:
                             {
-                                //Fix a Broken Interactable
-                                currentJob.interactable.Fix();
-                                GameManager.Instance.AudioManager.Play("ItemPickup", currentJob.interactable.gameObject);
-                                GameManager.Instance.AudioManager.Play("UseWrench", currentJob.interactable.gameObject);
-                                Vector2 particlePos = new Vector2(currentJob.interactable.transform.position.x, currentJob.interactable.transform.position.y);
-                                GameManager.Instance.ParticleSpawner.SpawnParticle(6, particlePos, 0.4f, currentJob.interactable.transform);
-                                GameManager.Instance.ParticleSpawner.SpawnParticle(7, particlePos, 0.4f, currentJob.interactable.transform);
+                                //Fix a Broken Interactable or Treadsystem
+                                GameObject targetObject = currentJob.interactable?.gameObject;
+                                currentJob.interactable?.Fix();
+                                TreadSystem treads = currentJob.zone?.transform.GetComponentInParent<TreadSystem>();
+                                if (treads != null) { treads.Unjam(); targetObject = treads.gameObject; }
+                                GameManager.Instance.AudioManager.Play("ItemPickup", targetObject);
+                                GameManager.Instance.AudioManager.Play("UseWrench", targetObject);
+                                Vector2 particlePos = new Vector2(targetObject.transform.position.x, targetObject.transform.position.y);
+                                GameManager.Instance.ParticleSpawner.SpawnParticle(6, particlePos, 0.5f, targetObject.transform);
+                                GameManager.Instance.ParticleSpawner.SpawnParticle(7, particlePos, 0.4f, targetObject.transform);
                             }
                             break;
                         case CharacterJobType.UNINSTALL:
@@ -811,10 +814,12 @@ namespace TowerTanks.Scripts
                                 else type = CharacterJobType.UNINSTALL;
                             }
                             TankInteractable interactable = currentZone.GetComponentInParent<TankInteractable>();
+                            TreadSystem treads = currentZone.GetComponentInParent<TreadSystem>();
                             JobZone zone = currentZone.GetComponent<JobZone>();
 
                             bool jobsGood = true;
-                            if (type == CharacterJobType.FIX) { if (!interactable.isBroken) jobsGood = false; } //If it ain't broke don't fix it
+                            if (type == CharacterJobType.FIX && interactable != null) { if (!interactable.isBroken) jobsGood = false; } //If it ain't broke don't fix it
+                            if (type == CharacterJobType.FIX && treads != null) { if (!treads.isJammed) jobsGood = false; } //If it ain't jammed don't unjam it
                             if (zone != null)
                             {
                                 type = zone.jobType;
