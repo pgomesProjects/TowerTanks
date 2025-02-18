@@ -10,6 +10,7 @@ namespace TowerTanks.Scripts
         private TankAI _tankAI;
         private TankController _tank;
         private Vector2 _timeBetweenMovesRange = new Vector2(4.00f, 8.00f);
+        private float patrolPoint;
 
         public TankPatrolState(TankAI tank)
         {
@@ -20,7 +21,22 @@ namespace TowerTanks.Scripts
         {
             if (_tankAI.HasActiveThrottle())
             {
-                _tankAI.MoveRandom(1);
+                float dist = _tank.treadSystem.transform.position.x - patrolPoint;
+                if (Mathf.Abs(dist) > 15)
+                {
+                    if (Mathf.Sign(dist) > 0)
+                    {
+                        _tank.SetTankGearOverTime(-1, .15f);
+                    }
+                    else
+                    {
+                        _tank.SetTankGearOverTime(1, .15f);
+                    }
+                }
+                else
+                {
+                    _tankAI.MoveRandom(1);
+                }
             }
 
             yield return new WaitForSeconds(Random.Range(_timeBetweenMovesRange.x, _timeBetweenMovesRange.y));
@@ -38,6 +54,7 @@ namespace TowerTanks.Scripts
         public void OnEnter()
         {
             Debug.Log($"OnEnter called. _tank: {_tank}");
+            patrolPoint = _tank.treadSystem.transform.position.x;
             _tankAI.DistributeAllWeightedTokens(_tankAI.aiSettings.patrolStateInteractableWeights);
             _tank.StartCoroutine(SetTankMovement());
             _tank.StartCoroutine(RefreshTarget());
