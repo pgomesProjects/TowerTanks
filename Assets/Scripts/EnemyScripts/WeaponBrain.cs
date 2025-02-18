@@ -25,8 +25,9 @@ namespace TowerTanks.Scripts
         protected Transform overrideTarget;
         public Coroutine updateAimTarget;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             gunScript = GetComponent<GunController>();
             myProjectile = gunScript.projectilePrefab.GetComponent<Projectile>();
             
@@ -42,8 +43,9 @@ namespace TowerTanks.Scripts
         }
 
         // Update is called once per frame
-        protected virtual void Update()
+        public override void Update()
         {
+            base.Update();
             gunScript.RotateBarrel(currentForce, false);
 
             if (myTankAI.aiSettings.aggression == 0) stopFiring = true;

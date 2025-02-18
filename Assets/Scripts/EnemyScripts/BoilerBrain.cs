@@ -10,8 +10,9 @@ namespace TowerTanks.Scripts
     {
         private EngineController engineController;
         
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             engineController = GetComponent<EngineController>();
         }
         

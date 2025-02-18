@@ -19,7 +19,7 @@ namespace TowerTanks.Scripts
         
         public bool tokenActivated;
 
-        private void Awake()
+        protected virtual void Awake()
         {
             interactableController = GetComponent<TankInteractable>();
         }
@@ -28,7 +28,16 @@ namespace TowerTanks.Scripts
         {
             //this empty method just needs to be here for now for the override call in DistributeToken() to work
         }
-        
+
+        public virtual void Update()
+        {
+            if (interactableController.isBroken || interactableController.operatorID != null)
+            {
+                myTankAI.pausedInteractables.Add(myInteractableID);
+                myTankAI.RetrieveToken(myInteractableID);
+            }
+        }
+
         public void ReceiveToken() 
         {
             tokenActivated = true;

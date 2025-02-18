@@ -10,7 +10,7 @@ namespace TowerTanks.Scripts
         Vector3 leadTargetPoint;
         private Vector2 highPoint;
 
-        protected override void Update()
+        public override void Update()
         {
             base.Update();
             if (HowFarFromTarget() > 15)

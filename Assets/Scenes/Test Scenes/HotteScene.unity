@@ -1540,9 +1540,6 @@ MonoBehaviour:
   - tier: 1
     designs:
     - {fileID: 4900000, guid: 7f6afdf81b4733c42b64a45f672b0bf9, type: 3}
-    - {fileID: 4900000, guid: 96ff5734814bdcb4ab747972b6d53313, type: 3}
-    - {fileID: 4900000, guid: 32947dfb516b30d4aa7ecefed753630e, type: 3}
-    - {fileID: 4900000, guid: 6ee20ed44623c014aa7f2fd1d026aeec, type: 3}
   - tier: 2
     designs:
     - {fileID: 4900000, guid: 8084697efe73ce54c96c20e919c7e09b, type: 3}
@@ -1583,7 +1580,7 @@ MonoBehaviour:
     tankType: 0
     gameObject: {fileID: 1411317892}
     design: {fileID: 4900000, guid: 0a28da0727ec03748acf085175eb0317, type: 3}
-    buildOnStart: 0
+    buildOnStart: 1
 --- !u!1 &511407189
 GameObject:
   m_ObjectHideFlags: 0
@@ -6161,7 +6158,7 @@ PrefabInstance:
     - target: {fileID: 1677695872598849027, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
       propertyPath: serializationData.Prefab
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1677695872598849027, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
     - target: {fileID: 1677695872598849027, guid: a084e9508160f954892ad5aabfee5c66, type: 3}
       propertyPath: interactableList.Array.size
       value: 0

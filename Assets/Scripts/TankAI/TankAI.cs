@@ -30,13 +30,11 @@ namespace TowerTanks.Scripts
                                                     Mathf.Abs(GetDistanceToTarget() - aiSettings.preferredFightDistance) <= 5; 
         bool NoGuns() => !tank.interactableList.Any(i => i.script is GunController);
         
+        bool NoGunsWithoutOperators() => !tank.interactableList.Any(i => i.script is GunController && i.script.operatorID == null);
+        
         //func bool to check if there are any objects of NewPlayerMovement near tank.treadsystem.transform.position
         public bool PlayerNearby() => Physics2D.OverlapCircleAll(tank.treadSystem.transform.position, 40f)
             .Any(collider => collider.GetComponent<PlayerMovement>() != null);
-
-        
-        
-        
         #endregion
         
         public StateMachine fsm;
@@ -52,6 +50,8 @@ namespace TowerTanks.Scripts
         private bool alerted; //AI is alerted when taking damage from a player-source for the first time
         private float viewRangeOffset = 0;
         public PlayerMovement[] players;
+        public List<InteractableId> pausedInteractables;
+        private static List<InteractableId> EmptyPauseList = new List<InteractableId>(0);
 
         private void Awake()
         {
@@ -82,7 +82,7 @@ namespace TowerTanks.Scripts
             At(engageState, pursueState ,TargetOutOfEngageRange);
             At(pursueState, patrolState ,TargetOutOfView);
 
-            AnyAt(surrenderState, NoGuns); //this being an "any transition" means that it can be triggered from any state
+            AnyAt(surrenderState, NoGunsWithoutOperators); //this being an "any transition" means that it can be triggered from any state
             
             bool MortarOverrideAndPlayerInTank() => targetTank != null &&
                                                     huntSubState.targetBrain?.mySpecificType == INTERACTABLE.Mortar &&
@@ -126,6 +126,24 @@ namespace TowerTanks.Scripts
             if (fsm == null) return;
             if (targetTank == null) SetClosestTarget();
             fsm.FrameUpdate();
+            
+            var pauseList = new List<InteractableId>(pausedInteractables);
+            //creating a copied list to avoid iterating through the same list we are removing from, which would
+            //cause an exception
+            if (fsm._currentState.GetType() == typeof(TankSurrenderState))
+            {
+                pauseList = EmptyPauseList;
+                pausedInteractables = EmptyPauseList;
+            }
+            foreach (var interactable in pauseList) //an interactable is paused if it's broken or manned by a player
+                                                    //while the AI has the token active. will be returned in this for
+            {                                       //loop when it's no longer broken or manned
+                if (!interactable.script.isBroken && interactable.script.operatorID == null)
+                {
+                    DistributeToken(interactable.brain.mySpecificType);
+                    pausedInteractables.Remove(interactable);
+                }
+            }
         }
 
         private void FixedUpdate()
@@ -145,7 +163,8 @@ namespace TowerTanks.Scripts
 
             List<InteractableId> commonInteractables = tank.interactableList
                 .Where(i => i.brain != null && i.brain.GetType() == InteractableLookups.enumToBrainMap[toInteractable]
-                                            && !tokenActivatedInteractables.Contains(i))
+                                            && !tokenActivatedInteractables.Contains(i) &&
+                                            !i.script.isBroken && i.script.operatorID == null)
                 .ToList();
 
             if (!commonInteractables.Any())
@@ -239,7 +258,9 @@ namespace TowerTanks.Scripts
                 // Check if the interactable type is present on the tank
                 bool interactablePresent = tank.interactableList.Any(i => i.brain != null &&
                                                                          i.brain.mySpecificType == tokenDistribution.Key &&
-                                                                         !tokenActivatedInteractables.Contains(i));
+                                                                         !tokenActivatedInteractables.Contains(i) &&
+                                                                         !i.script.isBroken &&
+                                                                         i.script.operatorID == null);
 
                 if (interactablePresent)
                 {
