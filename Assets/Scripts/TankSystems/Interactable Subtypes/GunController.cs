@@ -346,14 +346,14 @@ namespace TowerTanks.Scripts
                     }
                 }
 
-                if (overheatTimer > overheatTime)
+                if (overheatTimer > overheatTime && !isOverheating)
                 {
                     isOverheating = true;
                     if (GameManager.Instance.AudioManager.IsPlaying("SteamExhaust", gameObject) == false) {
                         GameManager.Instance.AudioManager.Play("SteamExhaust", gameObject);
                     }
 
-                    GameManager.Instance.UIManager.AddTaskBar(gameObject, new Vector2(-0.4f, -0.55f), overheatTime / (1 / overheatCooldownMultiplier), true);
+                    GameManager.Instance.UIManager.AddTaskBar(gameObject, new Vector2(0f, -45f), overheatTime / (1 / overheatCooldownMultiplier), true);
                     ShowFirePrompt(false);
                     isCooldownActive = true;
                 }
@@ -433,7 +433,7 @@ namespace TowerTanks.Scripts
                     GameManager.Instance.AudioManager.Play("CannonFire", gameObject);
                     GameManager.Instance.AudioManager.Play("CannonThunk", gameObject); //Play firing audioclips
                     CameraManipulator.main?.ShakeTankCamera(tank, GameManager.Instance.SystemEffects.GetScreenShakeSetting("Jolt"));
-                    GameManager.Instance.UIManager.AddTaskBar(gameObject, new Vector2(-0.4f, -0.55f), rateOfFire, true);
+                    GameManager.Instance.UIManager.AddTaskBar(gameObject, new Vector2(-15f, -50f), rateOfFire, true);
                     ShowFirePrompt(false);
                     isCooldownActive = true;
 
@@ -476,7 +476,7 @@ namespace TowerTanks.Scripts
                     GameManager.Instance.AudioManager.Play("CannonThunk", gameObject);
                     GameManager.Instance.AudioManager.Play("ProjectileInAirSFX", gameObject);
                     CameraManipulator.main?.ShakeTankCamera(tank, GameManager.Instance.SystemEffects.GetScreenShakeSetting("Jolt"));
-                    GameManager.Instance.UIManager.AddTaskBar(gameObject, new Vector2(-0.4f, -0.55f), rateOfFire, true);
+                    GameManager.Instance.UIManager.AddTaskBar(gameObject, new Vector2(-40f, -45f), rateOfFire, true);
                     ShowFirePrompt(false);
                     isCooldownActive = true;
 
@@ -534,7 +534,23 @@ namespace TowerTanks.Scripts
             {
                 Sprite sprite = GameManager.Instance.CargoManager.ammoSymbols[0];
                 Color color = Color.white;
-                currentSpecialAmmo = GameManager.Instance.UIManager.AddSymbolDisplay(gameObject, new Vector2(1f, 0.6f), sprite, quantity.ToString(), color);
+
+                //Change the display position based on the type of gun
+                Vector2 displayPos = Vector2.zero;
+                switch (gunType)
+                {
+                    case GunType.CANNON:
+                        displayPos = new Vector2(0f, 70f); 
+                        break;
+                    case GunType.MACHINEGUN:
+                        displayPos = new Vector2(0f, 70f);
+                        break;
+                    case GunType.MORTAR:
+                        displayPos = new Vector2(0f, -60f);
+                        break;
+                }
+
+                currentSpecialAmmo = GameManager.Instance.UIManager.AddSymbolDisplay(gameObject, displayPos, sprite, quantity.ToString(), color);
             }
             if (enableSounds) GameManager.Instance.AudioManager.Play("CannonReload", this.gameObject);
         }

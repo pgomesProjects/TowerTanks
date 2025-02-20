@@ -114,13 +114,14 @@ namespace TowerTanks.Scripts
         /// <returns>Returns the task bar created.</returns>
         public TaskProgressBar AddTaskBar(GameObject gameObject, Vector2 position, float duration, bool inGameWorld)
         {
-            Canvas canvas = GetCanvasFromGameObject(gameObject, position, inGameWorld);
+            Canvas canvas = GetCanvasFromGameObject(gameObject, inGameWorld);
 
             //If no canvas is found, return
             if (canvas == null)
                 return null;
 
             TaskProgressBar taskBar = Instantiate(GetPrefabFromList(UIType.TaskBar), canvas.transform).GetComponent<TaskProgressBar>();
+            taskBar.GetComponent<RectTransform>().anchoredPosition = position;
             taskBar.StartTask(duration);
             return taskBar;
         }
@@ -136,13 +137,14 @@ namespace TowerTanks.Scripts
         /// <returns>Returns the task bar created.</returns>
         public TaskProgressBar AddTaskBar(GameObject gameObject, Vector2 position, float duration, Color barColor, bool inGameWorld)
         {
-            Canvas canvas = GetCanvasFromGameObject(gameObject, position, inGameWorld);
+            Canvas canvas = GetCanvasFromGameObject(gameObject, inGameWorld);
 
             //If no canvas is found, return null
             if (canvas == null)
                 return null;
 
             TaskProgressBar taskBar = Instantiate(GetPrefabFromList(UIType.TaskBar), canvas.transform).GetComponent<TaskProgressBar>();
+            taskBar.GetComponent<RectTransform>().anchoredPosition = position;
             taskBar.ChangeColor(barColor);
             taskBar.StartTask(duration);
             return taskBar;
@@ -158,13 +160,14 @@ namespace TowerTanks.Scripts
         /// <returns>Returns the task bar created.</returns>
         public TaskProgressBar AddRadialTaskBar(GameObject gameObject, Vector2 position, float duration, bool inGameWorld)
         {
-            Canvas canvas = GetCanvasFromGameObject(gameObject, position, inGameWorld);
+            Canvas canvas = GetCanvasFromGameObject(gameObject, inGameWorld);
 
             //If no canvas is found, return
             if (canvas == null)
                 return null;
 
             TaskProgressBar taskBar = Instantiate(GetPrefabFromList(UIType.RadialTaskBar), canvas.transform).GetComponent<TaskProgressBar>();
+            taskBar.GetComponent<RectTransform>().anchoredPosition = position;
             taskBar.StartTask(duration);
             return taskBar;
         }
@@ -180,13 +183,14 @@ namespace TowerTanks.Scripts
         /// <returns>Returns the task bar created.</returns>
         public TaskProgressBar AddRadialTaskBar(GameObject gameObject, Vector2 position, float duration, Color barColor, bool inGameWorld)
         {
-            Canvas canvas = GetCanvasFromGameObject(gameObject, position, inGameWorld);
+            Canvas canvas = GetCanvasFromGameObject(gameObject, inGameWorld);
 
             //If no canvas is found, return null
             if (canvas == null)
                 return null;
 
             TaskProgressBar taskBar = Instantiate(GetPrefabFromList(UIType.RadialTaskBar), canvas.transform).GetComponent<TaskProgressBar>();
+            taskBar.GetComponent<RectTransform>().anchoredPosition = position;
             taskBar.ChangeColor(barColor);
             taskBar.StartTask(duration);
             return taskBar;
@@ -204,13 +208,14 @@ namespace TowerTanks.Scripts
         /// <returns>Returns the timing gauge created.</returns>
         public TimingGauge AddTimingGauge(GameObject gameObject, Vector2 position, float tickSpeed, float minimumRange, float maximumRange, bool inGameWorld)
         {
-            Canvas canvas = GetCanvasFromGameObject(gameObject, position, inGameWorld);
+            Canvas canvas = GetCanvasFromGameObject(gameObject, inGameWorld);
 
             //If no canvas is found, return null
             if (canvas == null)
                 return null;
 
             TimingGauge timingGauge = Instantiate(GetPrefabFromList(UIType.TimingGauge), canvas.transform).GetComponent<TimingGauge>();
+            timingGauge.GetComponent<RectTransform>().anchoredPosition = position;
             timingGauge.CreateTimer(tickSpeed, minimumRange, maximumRange);
             return timingGauge;
         }
@@ -229,13 +234,14 @@ namespace TowerTanks.Scripts
         /// <returns>Returns the timing gauge created.</returns>
         public TimingGauge AddTimingGauge(GameObject gameObject, Vector2 position, float tickSpeed, float minimumRange, float maximumRange, Color hitZoneColor, Color noHitZoneColor, bool inGameWorld)
         {
-            Canvas canvas = GetCanvasFromGameObject(gameObject, position, inGameWorld);
+            Canvas canvas = GetCanvasFromGameObject(gameObject, inGameWorld);
 
             //If no canvas is found, return null
             if (canvas == null)
                 return null;
 
             TimingGauge timingGauge = Instantiate(GetPrefabFromList(UIType.TimingGauge), canvas.transform).GetComponent<TimingGauge>();
+            timingGauge.GetComponent<RectTransform>().anchoredPosition = position;
             timingGauge.ChangeColor(hitZoneColor, noHitZoneColor);
             timingGauge.CreateTimer(tickSpeed, minimumRange, maximumRange);
             return timingGauge;
@@ -253,13 +259,14 @@ namespace TowerTanks.Scripts
         /// <returns>Returns the timing gauge created.</returns>
         public RadialTimingGauge AddRadialTimingGauge(GameObject gameObject, Vector2 position, float tickSpeed, float minimumRange, float maximumRange, bool inGameWorld)
         {
-            Canvas canvas = GetCanvasFromGameObject(gameObject, position, inGameWorld);
+            Canvas canvas = GetCanvasFromGameObject(gameObject, inGameWorld);
 
             //If no canvas is found, return null
             if (canvas == null)
                 return null;
 
             RadialTimingGauge timingGauge = Instantiate(GetPrefabFromList(UIType.RadialTimingGauge), canvas.transform).GetComponent<RadialTimingGauge>();
+            timingGauge.GetComponent<RectTransform>().anchoredPosition = position;
             timingGauge.CreateTimer(tickSpeed, minimumRange, maximumRange);
             return timingGauge;
         }
@@ -278,13 +285,14 @@ namespace TowerTanks.Scripts
         /// <returns>Returns the timing gauge created.</returns>
         public RadialTimingGauge AddRadialTimingGauge(GameObject gameObject, Vector2 position, float tickSpeed, float minimumRange, float maximumRange, Color hitZoneColor, Color noHitZoneColor, bool inGameWorld)
         {
-            Canvas canvas = GetCanvasFromGameObject(gameObject, position, inGameWorld);
+            Canvas canvas = GetCanvasFromGameObject(gameObject, inGameWorld);
 
             //If no canvas is found, return null
             if (canvas == null)
                 return null;
 
             RadialTimingGauge timingGauge = Instantiate(GetPrefabFromList(UIType.RadialTimingGauge), canvas.transform).GetComponent<RadialTimingGauge>();
+            timingGauge.GetComponent<RectTransform>().anchoredPosition = position;
             timingGauge.ChangeColor(hitZoneColor, noHitZoneColor);
             timingGauge.CreateTimer(tickSpeed, minimumRange, maximumRange);
             return timingGauge;
@@ -307,7 +315,7 @@ namespace TowerTanks.Scripts
             if (buttonPromptSettings == null)
                 return null;
 
-            Canvas canvas = GetCanvasFromGameObject(gameObject, position, inGameWorld);
+            Canvas canvas = GetCanvasFromGameObject(gameObject, inGameWorld);
 
             //If no canvas is found, return null
             if (canvas == null)
@@ -315,6 +323,7 @@ namespace TowerTanks.Scripts
 
             GameObject buttonPrompt = Instantiate(GetPrefabFromList(UIType.ButtonPrompt), canvas.transform);
             Image buttonImage = buttonPrompt.GetComponentInChildren<Image>();
+            buttonPrompt.GetComponent<RectTransform>().anchoredPosition = position;
             buttonPrompt.GetComponent<RectTransform>().sizeDelta = new Vector2(imageSize, imageSize);
             TextMeshProUGUI buttonText = buttonPrompt.transform.Find("Text").GetComponent<TextMeshProUGUI>();
 
@@ -344,13 +353,14 @@ namespace TowerTanks.Scripts
         /// <param name="duration">The amount of time the text should last on the screen for.</param>
         public void AddDamageNumber(GameObject gameObject, Vector2 position, Color textColor, float damage, float duration)
         {
-            Canvas canvas = GetCanvasFromGameObject(gameObject, position, true);
+            Canvas canvas = GetCanvasFromGameObject(gameObject, true);
 
             //If no canvas is found, return
             if (canvas == null)
                 return;
 
             GameObject damageObj = Instantiate(GetPrefabFromList(UIType.Damage), canvas.transform);
+            damageObj.GetComponent<RectTransform>().anchoredPosition = position;
             TextMeshProUGUI damageText = damageObj.GetComponentInChildren<TextMeshProUGUI>();
             damageText.color = textColor;
             damageText.text = damage.ToString("F0");
@@ -370,13 +380,14 @@ namespace TowerTanks.Scripts
         /// <returns>Returns the symbol display created.</returns>
         public SymbolDisplay AddSymbolDisplay(GameObject gameObject, Vector2 position, Sprite symbolSprite, string displayText, Color textColor)
         {
-            Canvas canvas = GetCanvasFromGameObject(gameObject, position, true);
+            Canvas canvas = GetCanvasFromGameObject(gameObject, true);
 
             //If no canvas is found, return null
             if (canvas == null)
                 return null;
 
             SymbolDisplay symbolObj = Instantiate(GetPrefabFromList(UIType.SymbolDisplay), canvas.transform).GetComponent<SymbolDisplay>();
+            symbolObj.GetComponent<RectTransform>().anchoredPosition = position;
             symbolObj.Init(symbolSprite, displayText, textColor);
 
             return symbolObj;
@@ -386,17 +397,19 @@ namespace TowerTanks.Scripts
         /// Gets the canvas with the standard UI tag name on a GameObject.
         /// </summary>
         /// <param name="gameObject">The GameObject to check the canvas of.</param>
-        /// <param name="position">The position of the canvas.</param>
         /// <param name="inGameWorld">If true, the canvas is in the game world. If false, the canvas is in the UI.</param>
         /// <returns>Returns a found or newly created canvas component.</returns>
-        private Canvas GetCanvasFromGameObject(GameObject gameObject, Vector2 position, bool inGameWorld)
+        private Canvas GetCanvasFromGameObject(GameObject gameObject, bool inGameWorld)
         {
             //Find the canvas on the GameObject
             foreach (Canvas canvas in gameObject.GetComponentsInChildren<Canvas>())
             {
                 if (canvas.tag == CANVAS_TAG_NAME)
                 {
-                    canvas.GetComponent<RectTransform>().anchoredPosition = position;
+                    if (canvas.GetComponent<ParentRotationUpdater>() == null)
+                        canvas.gameObject.AddComponent<ParentRotationUpdater>();
+
+                    canvas.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
                     return canvas;
                 }
             }
@@ -405,12 +418,13 @@ namespace TowerTanks.Scripts
             GameObject newCanvasObject = new GameObject("InGameCanvas");
             newCanvasObject.transform.SetParent(gameObject.transform);
             Canvas newCanvas = newCanvasObject.AddComponent<Canvas>();
+            newCanvasObject.AddComponent<ParentRotationUpdater>();
 
             //Settings
             newCanvas.renderMode = inGameWorld ? RenderMode.WorldSpace : RenderMode.ScreenSpaceOverlay;
             newCanvas.GetComponent<RectTransform>().localScale = Vector3.one * (inGameWorld ? 0.01f : 1f);
             newCanvas.tag = CANVAS_TAG_NAME;
-            newCanvas.GetComponent<RectTransform>().anchoredPosition = position;
+            newCanvas.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
             newCanvas.GetComponent<RectTransform>().sizeDelta = Vector2.zero;
 
             if (inGameWorld)

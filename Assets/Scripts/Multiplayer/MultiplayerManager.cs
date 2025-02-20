@@ -171,6 +171,8 @@ namespace TowerTanks.Scripts
         /// <param name="newActionMap">The name of the new action map.</param>
         public void SwitchAllPlayerActionMaps(string newActionMap)
         {
+            Debug.Log("Changing Action Map to " + newActionMap);
+
             foreach (PlayerData playerData in GetAllPlayers())
                 playerData.ChangePlayerActionMap(newActionMap);
         }
@@ -186,7 +188,10 @@ namespace TowerTanks.Scripts
         public void RestoreCurrentActionMaps()
         {
             foreach (var currentPlayer in currentStoredActionMaps)
+            {
                 currentPlayer.Key.SwitchCurrentActionMap(currentPlayer.Value);
+                Debug.Log("Changing Action Map to " + currentPlayer.Value);
+            }
 
             currentStoredActionMaps.Clear();
         }

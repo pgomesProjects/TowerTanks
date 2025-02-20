@@ -149,6 +149,7 @@ namespace TowerTanks.Scripts
 
         public void GoToMain()
         {
+            GameManager.Instance.MultiplayerManager.SwitchAllPlayerActionMaps("UI");
             SwitchMenu(MenuState.MAIN);
         }
 

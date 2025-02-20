@@ -88,6 +88,11 @@ namespace TowerTanks.Scripts
 
         private void OnPause(InputAction.CallbackContext ctx)
         {
+            //If the player is not in the game, ignore
+            if (!CampaignManager.Instance.HasCampaignStarted)
+                return;
+
+
             //If the player presses the pause button
             if (ctx.started)
             {

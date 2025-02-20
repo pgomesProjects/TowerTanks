@@ -74,6 +74,8 @@ namespace TowerTanks.Scripts
             SwitchMenu(MenuState.PAUSE);
             currentMenuGameObject = pauseMenu;
             GameManager.Instance.isPaused = true;
+            GameManager.Instance.MultiplayerManager.SaveCurrentActionMaps();
+            GameManager.Instance.MultiplayerManager.SwitchAllPlayerActionMaps("UI");
         }
 
         private void OnDisablePauseMenu()
@@ -82,6 +84,7 @@ namespace TowerTanks.Scripts
             ReactivateAllPlayerInput();
             masterPauseMenuContainer.SetActive(false);
             GameManager.Instance.isPaused = false;
+            GameManager.Instance.MultiplayerManager.RestoreCurrentActionMaps();
         }
 
         public void UpdatePausedPlayer(int playerIndex)

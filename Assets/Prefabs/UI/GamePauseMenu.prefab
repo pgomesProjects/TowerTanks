@@ -1855,6 +1855,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6894240314666085178}
   - component: {fileID: 6894240314666085179}
+  - component: {fileID: 4940644520319831542}
   m_Layer: 5
   m_Name: GamePauseMenu
   m_TagString: Untagged
@@ -1907,6 +1908,27 @@ MonoBehaviour:
   - {fileID: 6894240313465257401}
   - {fileID: 6894240312938639021}
   optionsMenuSelected: {fileID: 5117282999091503925}
+--- !u!223 &4940644520319831542
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6894240314666085176}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: -1960476501
+  m_SortingOrder: 98
+  m_TargetDisplay: 0
 --- !u!1001 &1392357263336597598
 PrefabInstance:
   m_ObjectHideFlags: 0

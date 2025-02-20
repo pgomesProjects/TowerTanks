@@ -45,7 +45,7 @@ namespace TowerTanks.Scripts
             mainScreen.gameObject.SetActive(false);
             playerControls = new PlayerControlSystem();
             playerControls.Debug.Tab.performed += _ => NavigateForm();
-
+            playerControls.Debug.SubmitCommand.performed += _ => SubmitBugReport();
         }
 
         private void OnEnable()
@@ -55,7 +55,6 @@ namespace TowerTanks.Scripts
             StartCoroutine(OpenForm());
             playerControls?.Enable();
             GameManager.Instance.inBugReportMenu = true;
-            ResetFields();
         }
 
         /// <summary>
@@ -67,6 +66,10 @@ namespace TowerTanks.Scripts
             severityField.value = 0;
             descriptionField.text = string.Empty;
             screenshotToggle.isOn = true;
+
+            //Force input on the title field
+            titleField.Select();
+            titleField.ActivateInputField();
         }
 
         private void OnDisable()
@@ -94,6 +97,7 @@ namespace TowerTanks.Scripts
             currentActiveTransform = null;
             SwitchFormScreen(BugReportState.Form);
             Time.timeScale = 0f;
+            ResetFields();
         }
 
         /// <summary>
