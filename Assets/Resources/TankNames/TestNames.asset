@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   articles:
   - The
-  - ST
+  - SS
   adjectives:
   - Jolly
   - Massive
@@ -56,6 +56,26 @@ MonoBehaviour:
   - Lethal
   - Screeching
   - Spry
+  - 
+  - Unsafe
+  - Untested
+  - Prototype
+  - Iconic
+  - Neighborhood
+  - Dredge
+  - Antique
+  - Giant
+  - Adaptive
+  - '"As Seen On TV"'
+  - Average
+  - Smashing
+  - Battle
+  - War
+  - Hydraulic
+  - Omnidirectional
+  - Combat
+  - Frontloaded
+  - All-Terrain
   nouns:
   - Roger
   - Machine
@@ -64,7 +84,7 @@ MonoBehaviour:
   - Frontier
   - Striker
   - Shooter
-  - Fellow
+  - Chassis
   - Buster
   - Flanker
   - Beast
@@ -98,3 +118,22 @@ MonoBehaviour:
   - Yacht
   - Puncher
   - Artillery
+  - Chariot
+  - Buggy
+  - Carrier
+  - Apparatus
+  - Sidewinder
+  - Organism
+  - Trestle
+  - Bus
+  - Beater
+  - Bumper
+  - Bobcat
+  - Carryall
+  - Hotchkiss
+  - Jerry Can
+  - Grittle
+  - Furnace
+  - Steamer
+  - Schooner
+  - Frigate
