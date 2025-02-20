@@ -1123,7 +1123,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""9a19eb1d-afea-43b3-865d-5cb005c5b4a6"",
-                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""path"": ""<Gamepad>/leftStickPress"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -1138,17 +1138,6 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard and Mouse"",
-                    ""action"": ""ReadyUp"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""4f2859d3-05e7-40d4-943f-284875142f1d"",
-                    ""path"": ""<Keyboard>/r"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
                     ""action"": ""ReadyUp"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -1961,7 +1950,7 @@ public partial class @PlayerControlSystem : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""81020498-8832-4479-b546-1e24c8e72957"",
-                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""path"": ""<Gamepad>/leftStickPress"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
