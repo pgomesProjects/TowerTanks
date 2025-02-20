@@ -89,12 +89,10 @@ namespace TowerTanks.Scripts
         
         protected bool AimingAtGround()
         {
-            bool groundHit = !aimHit.collider.transform.IsChildOf(myTankAI.targetTank.transform) &&
+            return aimHit.collider != null &&
+                !aimHit.collider.transform.IsChildOf(myTankAI.targetTank.transform) &&
                    aimHit.collider.gameObject.layer == LayerMask.NameToLayer("Ground") &&
                    !aimingPastOurTarget && !AimingAtMyself();
-            Debug.Log($"Aiming at ground: {groundHit}");
-            return groundHit;
-            
         }
         
         protected bool DirectionToTargetBlocked() // this is necessary because we want to check if we WOULD hit our own tank
@@ -180,7 +178,7 @@ namespace TowerTanks.Scripts
         {
             while (tokenActivated)
             {
-                var trajectoryPoints = Trajectory.GetTrajectory(gunScript.barrel.position, gunScript.barrel.right * gunScript.muzzleVelocity, myProjectile.gravity, 100);
+                var trajectoryPoints = Trajectory.GetTrajectory(gunScript.barrel.position, gunScript.barrel.right * gunScript.muzzleVelocity, myProjectile.gravity, 150);
                 aimHit = Trajectory.GetHitPoint(trajectoryPoints);
 
                 if (DirectionToTargetBlocked()) 
@@ -189,9 +187,8 @@ namespace TowerTanks.Scripts
                 }
                 
                 bool hitPointIsRightOfTarget = aimHit.point.x > targetPoint.x;
-                
                 // if our projected hitpoint is past the tank we're fighting, we use the intersection between our projected aim and our target's Y axis to determine our aim
-                if ((!myTankAI.TankIsRightOfTarget() && hitPointIsRightOfTarget) || (myTankAI.TankIsRightOfTarget() && !hitPointIsRightOfTarget) || AimingAtMyself())
+                if ((!myTankAI.TankIsRightOfTarget() && hitPointIsRightOfTarget) || (myTankAI.TankIsRightOfTarget() && !hitPointIsRightOfTarget) || AimingAtMyself() || aimHit.collider?.gameObject == null)
                 {
                     if (!AimingAtMyself()) aimingPastOurTarget = true;
                     for (int i = 0; i < trajectoryPoints.Count - 1; i++)
