@@ -24,7 +24,7 @@ namespace TowerTanks.Scripts
                 float dist = _tank.treadSystem.transform.position.x - patrolPoint;
                 if (Mathf.Abs(dist) > 15)
                 {
-                    if (Mathf.Sign(dist) > 0)
+                    if (dist > 0) //if positive, we want to move left, cause we are too far right from our patrol point
                     {
                         _tank.SetTankGearOverTime(-1, .15f);
                     }
