@@ -1583,7 +1583,7 @@ MonoBehaviour:
     tankType: 0
     gameObject: {fileID: 1411317892}
     design: {fileID: 4900000, guid: 0a28da0727ec03748acf085175eb0317, type: 3}
-    buildOnStart: 0
+    buildOnStart: 1
 --- !u!1 &511407189
 GameObject:
   m_ObjectHideFlags: 0
@@ -3497,7 +3497,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1152782959}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5caba13bbcd110f4a8251e2622b5b659, type: 3}
   m_Name: 
@@ -4338,7 +4338,7 @@ MonoBehaviour:
   - {fileID: 8932742379166886923, guid: 679a62c20f9cc254e80d090efe65fe1d, type: 3}
   - {fileID: 8777832819200820924, guid: 8e3554b25045ed044a8d6a50399b3272, type: 3}
   - {fileID: 8192493426788629729, guid: eedacc86461baec4e80f20cfbdc875d1, type: 3}
-  landmarkChance: 20
+  landmarkChance: 0
   landMarkOffset: 3
   biasesCanRepeat: 0
   enableLevelBuilder: 0
