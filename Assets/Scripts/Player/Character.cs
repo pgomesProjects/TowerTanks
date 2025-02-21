@@ -310,7 +310,7 @@ namespace TowerTanks.Scripts
             Gizmos.DrawWireCube(new Vector2(transform.position.x, transform.position.y - groundedBoxOffset), new Vector3(groundedBoxX, groundedBoxY, 0));
             if (!softTankDismount || fullTankDismount) return;
             Gizmos.color = Color.Lerp(Color.blue, Color.red, Mathf.InverseLerp(0, tankDistanceToFullDismount, Vector3.Distance(transform.position, dismountPoint ? dismountPoint.position : transform.position)));
-            Gizmos.DrawWireSphere(dismountPoint.position, tankDistanceToFullDismount);
+            if (dismountPoint != null) Gizmos.DrawWireSphere(dismountPoint.position, tankDistanceToFullDismount);
             Gizmos.DrawWireCube(transform.position, transform.localScale);
             
         }
