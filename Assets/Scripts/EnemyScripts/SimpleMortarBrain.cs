@@ -21,8 +21,6 @@ namespace TowerTanks.Scripts
             {
                 stopFiring = false;
             }
-
-            //leadTargetPoint += targetPointOffset;
         }
 
         protected override IEnumerator AimAtTarget(float refreshRate = .001f, bool everyFrame = true)
@@ -56,8 +54,8 @@ namespace TowerTanks.Scripts
                 
                 leadTargetPoint = targetPoint + leadDisplacement;
                 
-                var distFactor = Mathf.InverseLerp(0, 10, HowFarFromTarget());
-                var moveSpeed = Mathf.Lerp(minTurnSpeed, maxTurnSpeed, distFactor);
+                var distFactor = Mathf.InverseLerp(0, 15, HowFarFromTarget());
+                var moveSpeed = Mathf.Lerp(minTurnSpeed, maxTurnSpeed, AimingCurve.Evaluate(distFactor));
                 // Determine if the hit point is above or below the projected point
                 if (aimHitPoint.x > (overrideTarget == null ? leadTargetPoint.x : targetPoint.x))
                 {
@@ -112,13 +110,16 @@ namespace TowerTanks.Scripts
                     }
                 }
                 
-                var time = 3f;
-                if (overrideTarget != null)
+                if (overrideTarget != null) // if we have an override target, we want to update the target point very quickly
                 {
                     targetPoint = overrideTarget.position;
-                    time = .03f;
-                } 
-                yield return new WaitForSeconds(time);
+                    yield return new WaitForSeconds(.03f);
+                } else  // we want to wait until we have fired before updating to a new target point
+                {
+                    yield return new WaitUntil(() => shotFired);
+                    shotFired = false;
+                }
+                yield return null;
             }
         }
 

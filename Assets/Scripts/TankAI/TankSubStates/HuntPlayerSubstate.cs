@@ -24,6 +24,7 @@ namespace TowerTanks.Scripts
         private bool returnTokenLater;
         public PlayerMovement targetPlayer;
         
+        
         public HuntPlayerSubstate(TankAI tank)
         {
             _tankAI = tank;
@@ -70,9 +71,6 @@ namespace TowerTanks.Scripts
 
         public void OnEnter()
         {
-            Debug.Log("Hunt Entered");
-            var players = GameObject.FindObjectsOfType<PlayerMovement>();
-            targetPlayer = players.OrderBy(x => Vector3.Distance(x.transform.position, _tank.treadSystem.transform.position)).First();
             
             for (int i = 0; i < weaponPriorityList.Count; i++)
             {
@@ -110,8 +108,6 @@ namespace TowerTanks.Scripts
                         
                         }
                     }
-                    
-                    
                 }
             }
 
@@ -128,22 +124,41 @@ namespace TowerTanks.Scripts
                     }
                 }
             }
+            if (targetBrain != null)
+            {
+                targetBrain.updateAimTarget = targetBrain.StartCoroutine(targetBrain.UpdateTargetPoint(_tankAI.aiSettings.tankAccuracy));
+                var players = GameObject.FindObjectsOfType<PlayerMovement>();
+
+                if (_tankAI.TankIsRightOfTarget())
+                {
+                    players = players.Where(x => x.transform.position.x < targetBrain?.transform.position.x).ToArray();
+                }
+                else
+                {
+                    players = players.Where(x => x.transform.position.x > targetBrain?.transform.position.x).ToArray();
+                }
+
+                targetPlayer = players
+                    .OrderBy(x => Vector3.Distance(x.transform.position, _tank.treadSystem.transform.position))
+                    .FirstOrDefault();
             
-            
+                if (targetPlayer == null)
+                {
+                    _tankAI.fsm.ExitSubstate(); // force exit the substate if we can't find a player
+                    return;
+                }
+            }
             targetBrain?.OverrideTargetPoint(targetPlayer.transform);
             if (targetBrain != null)
             {
                 if (targetBrain.updateAimTarget != null) targetBrain.StopCoroutine(targetBrain.updateAimTarget);
                 targetBrain.updateAimTarget = targetBrain.StartCoroutine(targetBrain.UpdateTargetPoint(_tankAI.aiSettings.tankAccuracy));
             }
-            
-            if (targetBrain != null) targetBrain.updateAimTarget = targetBrain.StartCoroutine(targetBrain.UpdateTargetPoint(_tankAI.aiSettings.tankAccuracy));
             else couldntOverride = true;
         }
 
         public void OnExit()
         {
-            Debug.Log("HuntPlayerSubstate OnExit");
             targetBrain?.ResetTargetPoint();
             if (returnTokenLater || tokenBorrowed)
             {
@@ -154,6 +169,7 @@ namespace TowerTanks.Scripts
                 couldntOverride = false;
             }
             targetWeapon = null;
+            targetPlayer = null;
         }
     }
 }

@@ -88,9 +88,17 @@ namespace TowerTanks.Scripts
                                                     huntSubState.targetBrain?.mySpecificType == INTERACTABLE.Mortar &&
                                                     huntSubState.targetPlayer != null &&
                                                     huntSubState.targetPlayer.transform.IsChildOf(targetTank.transform);
+           
+            bool PlayerIsOnOtherSideOfWeapon() => 
+                                                  targetTank != null &&
+                                                  huntSubState.targetPlayer != null &&
+                                                  TankIsRightOfTarget() ? 
+                                                  huntSubState.targetPlayer?.transform.position.x > huntSubState.targetBrain?.transform.position.x : 
+                                                  huntSubState.targetPlayer?.transform.position.x < huntSubState.targetBrain?.transform.position.x;
+            
             
             var huntEnterConds = new Func<bool>[] {PlayerNearby};
-            var huntExitConds = new Func<bool>[] { () => !PlayerNearby(), MortarOverrideAndPlayerInTank};
+            var huntExitConds = new Func<bool>[] { () => !PlayerNearby(), MortarOverrideAndPlayerInTank, PlayerIsOnOtherSideOfWeapon};
             
             fsm.AddSubstate(patrolState, huntSubState, huntEnterConds, huntExitConds);
             fsm.AddSubstate(pursueState, huntSubState, huntEnterConds, huntExitConds);
@@ -309,7 +317,7 @@ namespace TowerTanks.Scripts
         
         public bool TankIsRightOfTarget()
         {
-            if (targetTank == tank || targetTank == null || tank == null)
+            if (targetTank == null || tank == null)
             {
                 return true;
             }

@@ -111,6 +111,7 @@ public class StateMachine
       }
    }
    
+   
    private class SubstateConditions {
       public Func<bool>[] EnterConditions { get; }
       public Func<bool>[] ExitConditions { get; }
@@ -135,6 +136,8 @@ public class StateMachine
 
       return null;
    }
+   
+   
    
    public void CheckSubstateConditions()
    {
@@ -176,14 +179,19 @@ public class StateMachine
             {
                if (exitCond()) //if exit condition is true, exit the substate
                {
-                  _currentSubState.OnExit();
-                  _currentSubState = null;
+                  ExitSubstate();
                   break;
                }
             }
          }
       }
-      
-      
    }
+   
+   public void ExitSubstate()
+   {
+      _currentSubState.OnExit();
+      _currentSubState = null;
+   }
+   
+   
 }

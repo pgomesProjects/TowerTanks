@@ -6,7 +6,16 @@
   <component name="ChangeListManager">
     <list default="true" id="5398b79a-e478-4a7d-b865-f9c27d850513" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TowerTanks/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TowerTanks/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/TankPrefabs/InteractablePool/InterWeapon_Cannon.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/TankPrefabs/InteractablePool/InterWeapon_Cannon.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/TankPrefabs/InteractablePool/InterWeapon_MachineGun.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/TankPrefabs/InteractablePool/InterWeapon_MachineGun.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/TankPrefabs/InteractablePool/InterWeapon_Mortar.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/TankPrefabs/InteractablePool/InterWeapon_Mortar.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Test Scenes/HotteScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Test Scenes/HotteScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/EnemyScripts/SimpleMortarBrain.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/EnemyScripts/SimpleMortarBrain.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/EnemyScripts/WeaponBrain.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/EnemyScripts/WeaponBrain.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/TankAI/TankStates/TankPatrolState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TankAI/TankStates/TankPatrolState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TankSystems/Trajectory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TankSystems/Trajectory.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/default-2021.dwlt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -141,15 +150,13 @@
       </option>
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="18924">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="18924" />
+      <option name="pid" />
       <option name="projectPathOnTarget" />
       <option name="runtimes">
-        <list>
-          <MonoRuntime />
-        </list>
+        <list />
       </option>
       <option name="selectedOptions">
         <list />
@@ -211,6 +218,8 @@
       <workItem from="1739190862693" duration="18189000" />
       <workItem from="1739319367133" duration="6060000" />
       <workItem from="1739830038850" duration="7475000" />
+      <workItem from="1740071406616" duration="14286000" />
+      <workItem from="1740086785195" duration="583000" />
     </task>
     <servers />
   </component>
