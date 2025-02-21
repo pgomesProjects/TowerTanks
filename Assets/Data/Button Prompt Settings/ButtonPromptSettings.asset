@@ -149,13 +149,13 @@ MonoBehaviour:
     - platform: 0
       promptInfo: {fileID: 0}
     - platform: 1
-      promptInfo: {fileID: 11400000, guid: 0dd2d2f9f9f768f499a2a700bd3b6e93, type: 2}
+      promptInfo: {fileID: 11400000, guid: f559f920e7d97e7429424f565a0053bf, type: 2}
     - platform: 2
-      promptInfo: {fileID: 11400000, guid: b765af2297be51e4d9168beaaba87ac7, type: 2}
+      promptInfo: {fileID: 11400000, guid: f559f920e7d97e7429424f565a0053bf, type: 2}
     - platform: 3
       promptInfo: {fileID: 0}
     - platform: 4
-      promptInfo: {fileID: 11400000, guid: 0dd2d2f9f9f768f499a2a700bd3b6e93, type: 2}
+      promptInfo: {fileID: 11400000, guid: f559f920e7d97e7429424f565a0053bf, type: 2}
   - action: 11
     actionType: 1
     prompts:

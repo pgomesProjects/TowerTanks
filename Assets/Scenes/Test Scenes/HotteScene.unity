@@ -3497,7 +3497,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1152782959}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5caba13bbcd110f4a8251e2622b5b659, type: 3}
   m_Name: 
@@ -4338,7 +4338,7 @@ MonoBehaviour:
   - {fileID: 8932742379166886923, guid: 679a62c20f9cc254e80d090efe65fe1d, type: 3}
   - {fileID: 8777832819200820924, guid: 8e3554b25045ed044a8d6a50399b3272, type: 3}
   - {fileID: 8192493426788629729, guid: eedacc86461baec4e80f20cfbdc875d1, type: 3}
-  landmarkChance: 20
+  landmarkChance: 0
   landMarkOffset: 3
   biasesCanRepeat: 0
   enableLevelBuilder: 0

@@ -14,6 +14,8 @@ namespace TowerTanks.Scripts
         private bool canReady;
         private bool allReady;
 
+        public GameObject readyText;
+
         public static Action OnAllReady;
 
         // Start is called before the first frame update
@@ -39,6 +41,8 @@ namespace TowerTanks.Scripts
                 newComponent.UpdateReadyStatus(false);
                 playerReadyComponents.Add(newComponent);
             }
+
+            readyText.SetActive(true);
 
             canvasGroup.alpha = 1;
             canReady = true;

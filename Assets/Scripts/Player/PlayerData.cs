@@ -138,7 +138,7 @@ namespace TowerTanks.Scripts
 
         private void OnReadyUp(InputAction.CallbackContext ctx)
         {
-            if (currentPlayerState == PlayerState.ReadyForCombat && ctx.started)
+            if (currentPlayerState == PlayerState.ReadyForCombat && ctx.started) 
             {
                 bool isPlayerReady = !BuildSystemManager.Instance.GetReadyUpManager().IsPlayerReady(playerInput.playerIndex);
                 BuildSystemManager.Instance.GetReadyUpManager().ReadyPlayer(playerInput.playerIndex, isPlayerReady);
