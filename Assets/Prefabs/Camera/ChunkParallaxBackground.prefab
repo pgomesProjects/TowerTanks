@@ -42,7 +42,7 @@ SortingGroup:
   m_Enabled: 1
   m_SortingLayerID: -246504627
   m_SortingLayer: -1
-  m_SortingOrder: -9
+  m_SortingOrder: -11
 --- !u!1 &3696405527914470449
 GameObject:
   m_ObjectHideFlags: 0
@@ -135,49 +135,53 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   followCamera: {fileID: 0}
-  desertColorPalette: []
-  useDesertPalette: 0
+  desertColorPalette:
+  - {r: 0.9607844, g: 0.92549026, b: 0.627451, a: 1}
+  - {r: 1, g: 0.98513436, b: 0.83647794, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 1, b: 1, a: 0.5882353}
+  useDesertPalette: 1
   RENDER_DISTANCE: 100
   chunkParallaxLayers:
-  - parallaxSpeed: {x: 0.85, y: 0.6}
+  - parallaxSpeed: {x: 0.82, y: 0.61}
     automaticSpeed: {x: 0, y: 0}
     infiniteHorizontal: 1
     infiniteVertical: 0
     chunkParent: {fileID: 3696405527914470448}
     piecePrefab: {fileID: 2772024294091155003, guid: 509987a3cbfea7143ac4b8f28f05734b, type: 3}
     pieceWidth: 5
-    yPosition: {x: 1, y: 1}
+    yPosition: {x: 0, y: 1}
     spawnFrequency: {x: 4, y: 7}
     poolSize: 100
-  - parallaxSpeed: {x: 0.86, y: 0.6}
+  - parallaxSpeed: {x: 0.84, y: 0.62}
     automaticSpeed: {x: 0, y: 0}
     infiniteHorizontal: 1
     infiniteVertical: 0
     chunkParent: {fileID: 1900415411758213841}
     piecePrefab: {fileID: 2772024294091155003, guid: 968c95e0f6871d3418698268ca2a9b78, type: 3}
     pieceWidth: 5
-    yPosition: {x: 1, y: 1}
-    spawnFrequency: {x: 3, y: 5}
+    yPosition: {x: -0.5, y: 0.5}
+    spawnFrequency: {x: 2, y: 8}
     poolSize: 100
-  - parallaxSpeed: {x: 0.87, y: 0.6}
+  - parallaxSpeed: {x: 0.86, y: 0.63}
     automaticSpeed: {x: 0, y: 0}
     infiniteHorizontal: 1
     infiniteVertical: 0
     chunkParent: {fileID: 4431846795025073871}
     piecePrefab: {fileID: 2772024294091155003, guid: caaf5ee118158ea409928d78472a8aa3, type: 3}
     pieceWidth: 5
-    yPosition: {x: 1, y: 1}
-    spawnFrequency: {x: 3, y: 5}
+    yPosition: {x: -1, y: 0}
+    spawnFrequency: {x: 4, y: 9}
     poolSize: 100
-  - parallaxSpeed: {x: 0.88, y: 0.6}
+  - parallaxSpeed: {x: 0.88, y: 0.64}
     automaticSpeed: {x: 0, y: 0}
     infiniteHorizontal: 1
     infiniteVertical: 0
     chunkParent: {fileID: 7155444321584328182}
     piecePrefab: {fileID: 2772024294091155003, guid: 17d74d41a2ab3504685eb25adb15e86b, type: 3}
     pieceWidth: 5
-    yPosition: {x: 1, y: 1}
-    spawnFrequency: {x: 3, y: 5}
+    yPosition: {x: -1.5, y: -0.5}
+    spawnFrequency: {x: 3, y: 10}
     poolSize: 100
 --- !u!1 &3763829515081902560
 GameObject:
@@ -221,7 +225,7 @@ SortingGroup:
   m_Enabled: 1
   m_SortingLayerID: -246504627
   m_SortingLayer: -1
-  m_SortingOrder: -9
+  m_SortingOrder: -12
 --- !u!1 &4341611711504046668
 GameObject:
   m_ObjectHideFlags: 0
@@ -264,4 +268,4 @@ SortingGroup:
   m_Enabled: 1
   m_SortingLayerID: -246504627
   m_SortingLayer: -1
-  m_SortingOrder: -9
+  m_SortingOrder: -10

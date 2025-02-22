@@ -69,6 +69,9 @@ namespace TowerTanks.Scripts
                 {
                     currentLayer.chunkParent.GetChild(j).localPosition = positions[i][j];
                     currentLayer.chunkParent.GetChild(j).gameObject.layer = currentLayer.chunkParent.gameObject.layer;
+
+                    //Color the Chunk
+                    if (useDesertPalette) currentLayer.chunkParent.GetChild(j).gameObject.GetComponent<SpriteRenderer>().color = desertColorPalette[i];
                 }
             }
         }
