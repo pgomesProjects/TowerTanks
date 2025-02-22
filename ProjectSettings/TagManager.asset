@@ -42,6 +42,7 @@ TagManager:
   - PlayerName
   - PlayerAvatars
   - RadarCam
+  - SymbolContainer
   layers:
   - Default
   - TransparentFX

@@ -182,6 +182,9 @@ namespace TowerTanks.Scripts
             worldRoomObjects = new List<WorldRoom>();
             tankBuildHistory = new Stack<PlayerAction>();
             defaultPlayerTank = FindObjectOfType<TankController>();
+
+            //Play the default build music
+            GameManager.Instance.AudioManager.Play("Build_1", null, true);
         }
 
         // Start is called before the first frame update
@@ -192,9 +195,6 @@ namespace TowerTanks.Scripts
 
             if (GameManager.Instance.tankDesign != null)
                 defaultPlayerTank.Build(GameManager.Instance.tankDesign);
-
-            //Play the default build music
-            GameManager.Instance.AudioManager.Play("Build_1", null, true);
         }
 
         private void OnEnable()

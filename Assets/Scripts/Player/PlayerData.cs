@@ -2,8 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace TowerTanks.Scripts
 {
@@ -11,6 +13,7 @@ namespace TowerTanks.Scripts
     {
         public PlayerInput playerInput { get; private set; }
         public InputActionMap playerInputMap { get; private set; }
+        public InputActionMap playerGameCursorMap { get; private set; }
         public InputActionMap playerUIMap { get; private set; }
         public Vector2 cursorMovementData { get; private set; }
         public Vector2 playerMovementData { get; private set; }
@@ -31,7 +34,8 @@ namespace TowerTanks.Scripts
             playerInput = GetComponent<PlayerInput>();
             playerCursor = GetComponent<GamepadCursor>();
             playerInputMap = playerInput.actions.FindActionMap("Player");
-            playerUIMap = playerInput.actions.FindActionMap("GameCursor");
+            playerGameCursorMap = playerInput.actions.FindActionMap("GameCursor");
+            playerUIMap = playerInput.actions.FindActionMap("UI");
             SetDefaultPlayerName();
             currentPlayerState = PlayerState.NameReady;
         }
@@ -39,14 +43,16 @@ namespace TowerTanks.Scripts
         private void OnEnable()
         {
             playerInputMap.actionTriggered += OnPlayerInput;
-            playerUIMap.actionTriggered += OnPlayerUIInput;
+            playerGameCursorMap.actionTriggered += OnGameCursorInput;
+            playerUIMap.actionTriggered += OnUIInput;
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
         private void OnDisable()
         {
             playerInputMap.actionTriggered -= OnPlayerInput;
-            playerUIMap.actionTriggered -= OnPlayerUIInput;
+            playerGameCursorMap.actionTriggered -= OnGameCursorInput;
+            playerUIMap.actionTriggered -= OnUIInput;
             SceneManager.sceneLoaded -= OnSceneLoaded;
         }
 
@@ -68,16 +74,26 @@ namespace TowerTanks.Scripts
             }
         }
 
-        private void OnPlayerUIInput(InputAction.CallbackContext ctx)
+        private void OnGameCursorInput(InputAction.CallbackContext ctx)
         {
             //Gets the name of the action and calls the appropriate events
             switch (ctx.action.name)
             {
                 case "Navigate": OnNavigate(ctx); break;
+                case "Pause": OnPause(ctx); break;
                 case "Submit": OnSubmit(ctx); break;
                 case "Cancel": OnCancel(ctx); break;
                 case "Rotate": OnRotate(ctx); break;
                 case "Mount": OnMount(ctx); break;
+            }
+        }
+
+        private void OnUIInput(InputAction.CallbackContext ctx)
+        {
+            //Gets the name of the action and calls the appropriate events
+            switch (ctx.action.name)
+            {
+                case "Submit": OnSubmit(ctx); break;
             }
         }
 
@@ -89,19 +105,14 @@ namespace TowerTanks.Scripts
         private void OnPause(InputAction.CallbackContext ctx)
         {
             //If the player is not in the game, ignore
-            if (!CampaignManager.Instance.HasCampaignStarted)
+            if (SceneManager.GetActiveScene().name == "Title")
                 return;
-
 
             //If the player presses the pause button
             if (ctx.started)
             {
-                //Pause the game if not paused
-                if (!GameManager.Instance.isPaused)
-                {
-                    Debug.Log("Player " + (playerInput.playerIndex + 1).ToString() + " Paused.");
-                    PauseController.Instance?.PauseToggle(playerInput.playerIndex);
-                }
+                //Toggle the pause menu
+                PauseController.Instance?.PauseToggle(playerInput.playerIndex);
             }
         }
 
@@ -147,7 +158,6 @@ namespace TowerTanks.Scripts
 
         private void OnNavigate(InputAction.CallbackContext ctx)
         {
-            Debug.Log("Cursor Movement");
             cursorMovementData = ctx.ReadValue<Vector2>();
             playerNamepad?.OnNavigate(playerInput, cursorMovementData);
         }
@@ -207,7 +217,13 @@ namespace TowerTanks.Scripts
             return null;
         }
 
-        public void ChangePlayerActionMap(string actionMapName) => playerInput.SwitchCurrentActionMap(actionMapName);
+        public void ChangePlayerActionMap(string actionMapName)
+        {
+            playerInput.currentActionMap.Disable();
+            playerInput.SwitchCurrentActionMap(actionMapName);
+            playerInput.currentActionMap.Enable();
+        }
+
         public void SetDefaultPlayerName() => SetPlayerName("Player " + (playerInput.playerIndex + 1).ToString());
         public string GetPlayerName() => playerName;
         public void SetPlayerName(string playerName)

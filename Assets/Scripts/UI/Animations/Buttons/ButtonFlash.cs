@@ -23,7 +23,6 @@ public class ButtonFlash : MonoBehaviour, ISelectHandler, IDeselectHandler
 
     public void OnSelect(BaseEventData eventData)
     {
-        Debug.Log("Selecting...");
         flashButton = true;
     }
 

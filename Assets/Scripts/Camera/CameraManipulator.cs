@@ -540,7 +540,7 @@ namespace TowerTanks.Scripts
                     List<ChunkParallaxLayer> chunkLayers = chunkController.GetParallaxLayers();                                                                         //Get the parallax layers from the controller
                     for (int j = 0; j < chunkLayers.Count; j++)
                     {
-                        chunkCameraPositions[j].Add(new List<Vector2>());                                                                                               //Create a new list for the positions
+                        chunkCameraPositions[chunkCameraPositions.Count - 1].Add(new List<Vector2>());                                                                  //Create a new list for the positions
                         Vector2 chunkPosition = Vector2.zero;                                                                                                           //Create a tracker for the chunk piece positions
                         for (int k = 0; k < chunkLayers[j].poolSize; k++)                                                                                               //Iterate through the chunk piece pool
                         {

@@ -39,13 +39,26 @@ namespace TowerTanks.Scripts
         {
             Instance = this;
             playerControlSystem = new PlayerControlSystem();
+            playerControlSystem.UI.Pause.performed += _ => Resume();
             playerControlSystem.UI.Cancel.performed += _ => CancelAction();
             currentMenuState = MenuState.PAUSE;
             currentPlayerPaused = -1;
         }
 
+        private void OnEnable()
+        {
+            playerControlSystem?.Enable();
+        }
+
+        private void OnDisable()
+        {
+            playerControlSystem?.Disable();
+        }
+
         public void PauseToggle(int playerIndex)
         {
+            Debug.Log("Pause Toggle Hit!");
+
             //If the game is not paused, pause the game
             if (!GameManager.Instance.isPaused)
             {
@@ -185,6 +198,10 @@ namespace TowerTanks.Scripts
 
         public void Resume()
         {
+            //If the game is not paused already, return
+            if (!GameManager.Instance.isPaused)
+                return;
+
             EventSystem.current.SetSelectedGameObject(null);
             PauseToggle(currentPlayerPaused);
         }

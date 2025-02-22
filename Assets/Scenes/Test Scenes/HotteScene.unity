@@ -342,11 +342,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 73683966}
   m_CullTransparentMesh: 1
---- !u!1 &86763939 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4653194585202519216, guid: 6737c50766a366e44bde6a7c03e708ad, type: 3}
-  m_PrefabInstance: {fileID: 4653194585634076173}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &100914180
 GameObject:
   m_ObjectHideFlags: 0
@@ -2838,18 +2833,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4653194585202519219, guid: 6737c50766a366e44bde6a7c03e708ad, type: 3}
   m_PrefabInstance: {fileID: 4653194585634076173}
   m_PrefabAsset: {fileID: 0}
---- !u!225 &985209539
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 86763939}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 0
-  m_BlocksRaycasts: 0
-  m_IgnoreParentGroups: 0
 --- !u!1 &994684466
 GameObject:
   m_ObjectHideFlags: 0
@@ -5192,6 +5175,10 @@ PrefabInstance:
       objectReference: {fileID: 3696405528154087446, guid: 2e6fa989fcf68194b8fc6210a215df86, type: 3}
     - target: {fileID: 1619288457016717428, guid: f2f281eab74c581478c656c02b4fcc31, type: 3}
       propertyPath: parallaxPrefabs.Array.data[1]
+      value: 
+      objectReference: {fileID: 3696405528154087446, guid: dff00cf4d6cad774c89cafa4d6a00da3, type: 3}
+    - target: {fileID: 1619288457016717428, guid: f2f281eab74c581478c656c02b4fcc31, type: 3}
+      propertyPath: parallaxPrefabs.Array.data[2]
       value: 
       objectReference: {fileID: 3696405528154087446, guid: dff00cf4d6cad774c89cafa4d6a00da3, type: 3}
     - target: {fileID: 3030082561400441972, guid: f2f281eab74c581478c656c02b4fcc31, type: 3}

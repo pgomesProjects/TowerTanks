@@ -2057,6 +2057,7 @@ MonoBehaviour:
   m_TrackedDeviceOrientationAction: {fileID: -3968122554378666225, guid: d50acc852d517574b9c227bb9d9871bf, type: 3}
   m_DeselectOnBackgroundClick: 0
   m_PointerBehavior: 0
+  m_CursorLockBehavior: 0
 --- !u!1 &4653194585050282519
 GameObject:
   m_ObjectHideFlags: 0
@@ -2506,7 +2507,7 @@ CanvasGroup:
   m_GameObject: {fileID: 4653194585202519216}
   m_Enabled: 1
   m_Alpha: 1
-  m_Interactable: 0
+  m_Interactable: 1
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!1 &4653194585303375107

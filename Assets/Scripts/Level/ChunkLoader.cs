@@ -852,6 +852,10 @@ namespace TowerTanks.Scripts
 
         private void OnPlayerInput(InputAction.CallbackContext ctx)
         {
+            //If the game is not in debug mode, return
+            if (!GameSettings.debugMode)
+                return;
+
             //Gets the name of the action and calls the appropriate events
             switch (ctx.action.name)
             {
