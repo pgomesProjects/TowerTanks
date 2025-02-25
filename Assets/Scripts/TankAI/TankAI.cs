@@ -30,7 +30,9 @@ namespace TowerTanks.Scripts
                                                     Mathf.Abs(GetDistanceToTarget() - aiSettings.preferredFightDistance) <= 5; 
         bool NoGuns() => !tank.interactableList.Any(i => i.script is GunController);
         
-        bool NoGunsWithoutOperators() => !tank.interactableList.Any(i => i.script is GunController && i.script.operatorID == null);
+        bool NoValidGuns() => !tank.interactableList.Any(i => i.script is GunController && 
+                                                                          i.script.operatorID == null &&
+                                                                         !i.script.isBroken);
         
         //func bool to check if there are any objects of NewPlayerMovement near tank.treadsystem.transform.position
         public bool PlayerNearby() => Physics2D.OverlapCircleAll(tank.treadSystem.transform.position, 40f)
@@ -47,7 +49,7 @@ namespace TowerTanks.Scripts
 
         [Header("AI Configuration")]
         public TankAISettings aiSettings;
-        private bool alerted; //AI is alerted when taking damage from a player-source for the first time
+        private bool alerted;               //AI is alerted when taking damage from a player-source for the first time
         private float viewRangeOffset = 0;
         public PlayerMovement[] players;
         public List<InteractableId> pausedInteractables;
@@ -82,7 +84,7 @@ namespace TowerTanks.Scripts
             At(engageState, pursueState ,TargetOutOfEngageRange);
             At(pursueState, patrolState ,TargetOutOfView);
 
-            AnyAt(surrenderState, NoGunsWithoutOperators); //this being an "any transition" means that it can be triggered from any state
+            AnyAt(surrenderState, NoValidGuns); //this being an "any transition" means that it can be triggered from any state
             
             bool MortarOverrideAndPlayerInTank() => targetTank != null &&
                                                     huntSubState.targetBrain?.mySpecificType == INTERACTABLE.Mortar &&
