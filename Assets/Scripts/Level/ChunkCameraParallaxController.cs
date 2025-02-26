@@ -142,7 +142,7 @@ namespace TowerTanks.Scripts
                             Gizmos.color = Color.green;
                         else
                             Gizmos.color = Color.red;
-                        Gizmos.DrawWireCube(chunk.position, Vector3.one * 10f);
+                        Gizmos.DrawWireCube(chunk.position, Vector3.one * chunkLayer.pieceWidth);
                     }
                 }
             }

@@ -534,23 +534,33 @@ namespace TowerTanks.Scripts
             int chunkLayerCounter = 0;
             for (int i = 0; i < parallaxPrefabs.Length; i++)
             {
-                if (parallaxPrefabs[i].TryGetComponent(out ChunkCameraParallaxController chunkController))                                                              //Check to see if the current parallax layer has a chunk parallax component
+                if (parallaxPrefabs[i].TryGetComponent(out ChunkCameraParallaxController chunkController))                                                                                                                          //Check to see if the current parallax layer has a chunk parallax component
                 {
-                    chunkCameraPositions.Add(new List<List<Vector2>>());                                                                                                //Create a new list for the chunk controller
-                    List<ChunkParallaxLayer> chunkLayers = chunkController.GetParallaxLayers();                                                                         //Get the parallax layers from the controller
+                    chunkCameraPositions.Add(new List<List<Vector2>>());                                                                                                                                                            //Create a new list for the chunk controller
+                    List<ChunkParallaxLayer> chunkLayers = chunkController.GetParallaxLayers();                                                                                                                                     //Get the parallax layers from the controller
                     for (int j = 0; j < chunkLayers.Count; j++)
                     {
-                        chunkCameraPositions[chunkCameraPositions.Count - 1].Add(new List<Vector2>());                                                                  //Create a new list for the positions
-                        Vector2 chunkPosition = Vector2.zero;                                                                                                           //Create a tracker for the chunk piece positions
-                        for (int k = 0; k < chunkLayers[j].poolSize; k++)                                                                                               //Iterate through the chunk piece pool
+                        chunkCameraPositions[chunkCameraPositions.Count - 1].Add(new List<Vector2>());                                                                                                                              //Create a new list for the positions
+                        Vector2 chunkPosition = 
+                            new Vector2(chunkLayers[j].pieceWidth, Random.Range(chunkLayers[j].yPosition.x, chunkLayers[j].yPosition.y));          //Create a tracker for the chunk piece positions
+
+                        Vector2 chunkCounters = new Vector2(Random.Range(chunkLayers[j].spawnFrequency.x, chunkLayers[j].spawnFrequency.y), Random.Range(chunkLayers[j].spawnFrequency.x, chunkLayers[j].spawnFrequency.y));
+
+                        for (int k = 0; k < chunkLayers[j].poolSize; k++)                                                                                                                                                           //Iterate through the chunk piece pool
                         {
-                            if(k % 2 == 1)                                                                                                                              //On odd iterations, generate a new x-position
-                                chunkPosition.x = chunkLayers[j].pieceWidth * Random.Range(chunkLayers[j].spawnFrequency.x, chunkLayers[j].spawnFrequency.y) * k;       //Get a random position based on the layer's spawn frequency
-                            chunkCameraPositions[chunkLayerCounter][j].Add(
-                                new Vector2(k % 2 == 1 ? chunkPosition.x : -chunkPosition.x, Random.Range(chunkLayers[j].yPosition.x, chunkLayers[j].yPosition.y)));    //Alternate between the right and left of the starting position
+                            Vector2 newChunkPos = new Vector2(k % 2 == 1 ? chunkPosition.x * chunkCounters.y : -chunkPosition.x * chunkCounters.x, Random.Range(chunkLayers[j].yPosition.x, chunkLayers[j].yPosition.y));
+                            chunkCameraPositions[chunkLayerCounter][j].Add(newChunkPos);                            //Alternate between the right and left of the starting position
+
+                            if (k % 2 == 1)
+                            {
+                                chunkCounters.x += Random.Range(chunkLayers[j].spawnFrequency.x, chunkLayers[j].spawnFrequency.y);
+                                chunkCounters.y += Random.Range(chunkLayers[j].spawnFrequency.x, chunkLayers[j].spawnFrequency.y);
+                            }
+
+                            Debug.Log("Chunk Pos: " + newChunkPos);
                         }
                     }
-                    chunkLayerCounter++;                                                                                                                                //Iterate the chunk layer counter
+                    chunkLayerCounter++;                                                                                                                                                                                            //Iterate the chunk layer counter
                 }
             }
         }
