@@ -557,7 +557,7 @@ namespace TowerTanks.Scripts
                                 chunkCounters.y += Random.Range(chunkLayers[j].spawnFrequency.x, chunkLayers[j].spawnFrequency.y);
                             }
 
-                            Debug.Log("Chunk Pos: " + newChunkPos);
+                            //Debug.Log("Chunk Pos: " + newChunkPos);
                         }
                     }
                     chunkLayerCounter++;                                                                                                                                                                                            //Iterate the chunk layer counter
@@ -576,7 +576,7 @@ namespace TowerTanks.Scripts
         private void Update()
         {
             //Cam system updates:
-            if (useRadar) radarSystem.UpdateEverything(Time.deltaTime); //Fully update radar system
+            if (useRadar) radarSystem?.UpdateEverything(Time.deltaTime); //Fully update radar system
             if (camSystems.Count > 0) foreach (TankCamSystem system in camSystems) system.UpdateEverything(Time.deltaTime); //Fully update all values in each camera system
             for (int x = 0; x < camSystems.Count;) //Iterate manually through camsystems list (destruction check)
             {
