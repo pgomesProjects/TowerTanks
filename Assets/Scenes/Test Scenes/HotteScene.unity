@@ -4266,6 +4266,8 @@ MonoBehaviour:
   currentChunk: 0
   levelSettings: {fileID: 11400000, guid: 08436347c7dff5b4c8792b4156c68406, type: 2}
   ignoreSettings: 0
+  levelHeightLimit: 100
+  levelDepthLimit: -100
   chunkPrefabs:
   - chunkPrefab: {fileID: 3766360497705465845, guid: 55a2de1c12df41647b2333975b669960, type: 3}
     weight: 20

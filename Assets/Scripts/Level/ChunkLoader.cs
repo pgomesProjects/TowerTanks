@@ -27,6 +27,10 @@ namespace TowerTanks.Scripts
         [Tooltip("Set to true to ignore the assigned levelSettings.")] public bool ignoreSettings;
         private bool spawnDangerFlag;
 
+        [PropertySpace]
+        [SerializeField, Tooltip("The spawner will avoid spawning chunks above this point on the Y axis.")] public float levelHeightLimit;
+        [SerializeField, Tooltip("The spawner will avoid spawning chunks below this point on the Y axis.")] public float levelDepthLimit;
+
         [Header("Chunk Pool")]
         [SerializeField, Tooltip("The chunk prefabs to use for spawning new chunks.")] private ChunkWeight[] chunkPrefabs;
         [SerializeField, Tooltip("How many chunks to spawn in the level.")] public int poolSize = 50;
@@ -308,17 +312,20 @@ namespace TowerTanks.Scripts
             newChunkTransform.GenerateObstacle(randomObstacle, obstacleChance);
 
             //Roll for Landmark
-            if (landMarkCounter >= landMarkOffset)
+            if (landmarkChance > 0)
             {
-                GameObject landMark = landmarks[(int)Random.Range(0, landmarks.Length)];
-                float random = Random.Range(0, 100);
-                if ((random <= landmarkChance) && newChunkTransform.canSpawnLandmarks)
+                if (landMarkCounter >= landMarkOffset)
                 {
-                    newChunkTransform.GenerateLandmark(landMark);
-                    landMarkCounter = 0;
+                    GameObject landMark = landmarks[(int)Random.Range(0, landmarks.Length)];
+                    float random = Random.Range(0, 100);
+                    if ((random <= landmarkChance) && newChunkTransform.canSpawnLandmarks)
+                    {
+                        newChunkTransform.GenerateLandmark(landMark);
+                        landMarkCounter = 0;
+                    }
                 }
+                else landMarkCounter++;
             }
-            else landMarkCounter++;
 
             //Check for bias
             foreach (ChunkWeight weight in chunkPrefabs)
@@ -340,17 +347,50 @@ namespace TowerTanks.Scripts
         /// </summary>
         private GameObject DetermineChunkType()
         {
-            int random = Random.Range(0, spawnerWeights.Length - presetCount);
             GameObject chunkToSpawn = null;
 
+            //Get a Random Chunk
+            chunkToSpawn = GetRandomChunk();
+
+            //Check for World Bounds
+            if (previousY >= levelHeightLimit) //we're at the world height limit
+            {
+                int counter = 100;
+                while (chunkToSpawn.name.Contains("UP") && counter > 0) //keep rolling until we find a chunk that doesn't go UP, max 100 rolls
+                {
+                    chunkToSpawn = GetRandomChunk();
+                    counter -= 1;
+                }
+            }
+
+            if (previousY <= levelDepthLimit) //we're at the world depth limit
+            {
+                int counter = 100;
+                while (chunkToSpawn.name.Contains("DOWN") && counter > 0) //keep rolling until we find a chunk that doesn't go DOWN, max 100 rolls
+                {
+                    chunkToSpawn = GetRandomChunk();
+                    counter -= 1;
+                }
+            }
+
+            return chunkToSpawn;
+        }
+
+        public GameObject GetRandomChunk()
+        {
+            GameObject chunk = null;
+            int random = Random.Range(0, spawnerWeights.Length - presetCount); //roll for random chunk
+
+            //Find the randomized chunk from the loader list
             foreach (ChunkWeight weight in chunkPrefabs)
             {
                 if (weight.chunkPrefab.name == spawnerWeights[random])
                 {
-                    chunkToSpawn = weight.chunkPrefab;
+                    chunk = weight.chunkPrefab;
                 }
             }
-            return chunkToSpawn;
+
+            return chunk;
         }
 
         /// <summary>
@@ -406,6 +446,10 @@ namespace TowerTanks.Scripts
         #region Presets
         private bool CheckForPreset()
         {
+            //Don't spawn presets when we're at the world bounds
+            if (previousY >= levelHeightLimit) return false;
+            if (previousY <= levelDepthLimit) return false;
+
             int random = Random.Range(0, spawnerWeights.Length);
             string choice = spawnerWeights[random];
             foreach (ChunkWeight weight in chunkPrefabs)
