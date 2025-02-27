@@ -313,7 +313,7 @@ namespace TowerTanks.Scripts
             
             if (tankManager != null)
             {
-                myTankID = TankManager.instance.tanks.FirstOrDefault(tank => tank.tankScript == this);
+                myTankID = TankManager.Instance.tanks.FirstOrDefault(tank => tank.tankScript == this);
                 foreach (TankId tank in tankManager.tanks)
                 {
                     if (tank.gameObject == gameObject) //if I'm on the list,
@@ -791,7 +791,7 @@ namespace TowerTanks.Scripts
                 CameraManipulator.main?.ShakeTankCamera(this, GameManager.Instance.SystemEffects.GetScreenShakeSetting("Explosion"));
 
                 CameraManipulator.main?.OnTankDestroyed(this);
-                TankManager.instance.tanks.Remove(myTankID);
+                TankManager.Instance.tanks.Remove(myTankID);
                 Cell[] cells = GetComponentsInChildren<Cell>();
                 foreach (Cell cell in cells)
                 {

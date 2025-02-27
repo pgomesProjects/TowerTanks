@@ -332,7 +332,7 @@ namespace TowerTanks.Scripts
                             {
                                 //Claim a Tank
                                 TankController tank = currentJob.zone.GetComponentInParent<TankController>();
-                                if (tank != null) { TankManager.instance.TransferPlayerTank(tank); }
+                                if (tank != null) { TankManager.Instance.TransferPlayerTank(tank); }
                                 Debug.Log("Tried to claim a tank!");
                             }
                             break;
@@ -1250,8 +1250,8 @@ namespace TowerTanks.Scripts
             if (currentObject != null)
                 currentObject.Drop(this, true, moveInput);
 
-            if (TankManager.instance != null)
-                SetAssignedTank(TankManager.instance.playerTank);
+            if (TankManager.Instance != null)
+                SetAssignedTank(TankManager.Instance.playerTank);
         }
 
         protected override IEnumerator ResetAtEndOfFrame()

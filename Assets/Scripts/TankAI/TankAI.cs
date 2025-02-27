@@ -115,7 +115,7 @@ namespace TowerTanks.Scripts
         
         public void SetClosestTarget()
         {
-            targetTank = TankManager.instance.tanks
+            targetTank = TankManager.Instance.tanks
                 .Where(tankId => tankId.tankScript != tank && tankId.tankType != TankId.TankType.NEUTRAL)
                 .OrderBy(tankId => Vector2.Distance(tank.treadSystem.transform.position, tankId.tankScript.treadSystem.transform.position))
                 .FirstOrDefault()?.tankScript;

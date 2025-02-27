@@ -175,9 +175,9 @@ namespace TowerTanks.Scripts
             public void UpdateEnabledStatus()
             {
                 if (isPlayerCam) return;                             //Player cam is always enabled
-                if (TankManager.instance.playerTank == null) return; //Do nothing when the player tank is destroyed (prevents errors upon player death)x
+                if (TankManager.Instance.playerTank == null) return; //Do nothing when the player tank is destroyed (prevents errors upon player death)x
 
-                float distanceFromPlayer = Mathf.Abs(tanks[0].treadSystem.transform.position.x - TankManager.instance.playerTank.treadSystem.transform.position.x); //Get flat horizontal distance from player tank
+                float distanceFromPlayer = Mathf.Abs(tanks[0].treadSystem.transform.position.x - TankManager.Instance.playerTank.treadSystem.transform.position.x); //Get flat horizontal distance from player tank
                 if (distanceFromPlayer > main.engagementDistance) //Tank is outside engagement distance
                 {
                     ToggleEnabled(false);       //Disable camera
@@ -567,7 +567,7 @@ namespace TowerTanks.Scripts
         private void Start()
         {
             //Late generation:
-            if (useRadar) radarSystem = new TankCamSystem(TankManager.instance.playerTank, tankCameraColor, true); //Initialize radar system
+            if (useRadar) radarSystem = new TankCamSystem(TankManager.Instance.playerTank, tankCameraColor, true); //Initialize radar system
 
             //Setup:
             normalizedEngagementArea = GetNormalizedRect(engagementZoneTargeter, zoneVisCanvas); //Get area for engagement cameras to occupy
@@ -656,7 +656,7 @@ namespace TowerTanks.Scripts
                 if (main.PlayerCamSystem() == null) return;
                 if (main.PlayerCamSystem().tanks.Contains(tank))
                 {
-                    TankController playertank = TankManager.instance.playerTank;
+                    TankController playertank = TankManager.Instance.playerTank;
                     main.ShakeTankCamera(playertank, GameManager.Instance.SystemEffects.GetScreenShakeSetting("TankExplosionShake"));
                 }
             }
@@ -726,7 +726,7 @@ namespace TowerTanks.Scripts
         /// <summary>
         /// The player tank's cam system.
         /// </summary>
-        public TankCamSystem PlayerCamSystem() { return camSystems.Where(c => c.tanks.Contains(TankManager.instance.playerTank)).FirstOrDefault(); }
+        public TankCamSystem PlayerCamSystem() { return camSystems.Where(c => c.tanks.Contains(TankManager.Instance.playerTank)).FirstOrDefault(); }
         /// <summary>
         /// Creates a layermask which excludes all camera layers except the given one.
         /// </summary>

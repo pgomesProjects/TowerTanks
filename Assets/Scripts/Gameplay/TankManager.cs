@@ -8,7 +8,7 @@ namespace TowerTanks.Scripts
 {
     public class TankManager : SerializedMonoBehaviour
     {
-        public static TankManager instance;
+        public static TankManager Instance;
         public GameObject tankPrefab;
         public Transform tankSpawnPoint;
         internal TankController playerTank;
@@ -165,8 +165,9 @@ namespace TowerTanks.Scripts
         //UNITY METHODS:
         private void Awake()
         {
+            Instance = this;
+
             //Initialize:
-            instance = this; //Singleton-ize this script
             if (tanks.Count > 0)
             {
                 playerTank = tanks.FirstOrDefault(tank => tank.tankType == TankId.TankType.PLAYER)?.tankScript;
