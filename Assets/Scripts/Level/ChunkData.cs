@@ -28,7 +28,7 @@ namespace TowerTanks.Scripts
         private void Awake()
         {
             flagSpawn = transform.Find("FlagSpawn");
-            UnloadChunk();
+            if (ChunkLoader.Instance != null) UnloadChunk();
         }
 
         /// <summary>

@@ -13,14 +13,14 @@ namespace TowerTanks.Scripts
 
         private void Awake()
         {
-            cargoWeights = SetupWeights();
+            if (LevelManager.Instance != null) cargoWeights = SetupWeights();
         }
 
         public string[] SetupWeights(bool scarcityBalancing = false)
         { 
             int count = 0;
             int length = 0;
-            foreach (CargoId cargo in cargoList) //Get weights from every available chunk in the spawner
+            foreach (CargoId cargo in cargoList) //Get weights from every available item in the spawner
             {
                 if (cargo.weight > 0)
                 {
@@ -141,6 +141,27 @@ namespace TowerTanks.Scripts
             }
 
             return projectile;
+        }
+
+        public int RollSpecialAmmo()
+        {
+            int interactablesToLoad = 0;
+            int rolls = 0;
+            if (LevelManager.Instance != null) rolls = LevelManager.Instance.GetEnemyTier() - 2; //Tier 3+ get chance for special ammo
+            if (rolls > 0)
+            {
+                for (int r = 0; r < rolls; r++)
+                {
+                    int chance = 20;
+                    if (chance <= (int)UnityEngine.Random.Range(0, 100))
+                    {
+                        interactablesToLoad += 1; //Add 1 to the amount of things we're loading
+                        Debug.Log("Loaded!");
+                    };
+                }
+            }
+
+            return interactablesToLoad;
         }
     }
 }

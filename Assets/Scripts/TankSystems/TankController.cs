@@ -391,9 +391,12 @@ namespace TowerTanks.Scripts
             {
                 coreHealth *= 0.5f;
                 EnableCannonBrains(false);
-                CargoManifest nodeManifest = GetCurrentManifest(true);
-                SpawnCargo(nodeManifest);
-                int toLoad = LevelManager.Instance.RollSpecialAmmo();
+                if (LevelManager.Instance != null)
+                {
+                    CargoManifest nodeManifest = GetCurrentManifest(true);
+                    SpawnCargo(nodeManifest);
+                }
+                int toLoad = GameManager.Instance.CargoManager.RollSpecialAmmo();
                 if (toLoad > 0)
                 {
                     LoadRandomWeapons(toLoad);
@@ -667,8 +670,11 @@ namespace TowerTanks.Scripts
                 if (!isDying)
                 {
                     EventSpawnerManager spawner = GameObject.Find("LevelManager")?.GetComponent<EventSpawnerManager>();
-                    if (tankType == TankId.TankType.ENEMY) spawner.EnemyDestroyed(this);
-                    if (tankType == TankId.TankType.NEUTRAL) spawner.EncounterEnded(EventSpawnerManager.EventType.FRIENDLY);
+                    if (spawner != null)
+                    {
+                        if (tankType == TankId.TankType.ENEMY) spawner.EnemyDestroyed(this);
+                        if (tankType == TankId.TankType.NEUTRAL) spawner.EncounterEnded(EventSpawnerManager.EventType.FRIENDLY);
+                    }
                     totalDeathSequenceTimer = Random.Range(2.0f, 3.0f);
                     isDying = true;
                 }
@@ -1265,6 +1271,7 @@ namespace TowerTanks.Scripts
         /// <returns>Current manifest of items in the tank.</returns>
         public CargoManifest GetCurrentManifest(bool nodeManifest = false)
         {
+            if (LevelManager.Instance == null) return null;
             CargoManifest manifest = new CargoManifest();
 
             if (!nodeManifest)
