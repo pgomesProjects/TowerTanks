@@ -1,12 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 using System.Threading.Tasks;
 using TMPro;
 using System.Linq;
 using Sirenix.OdinInspector;
-using TowerTanks.Scripts.DebugTools;
 
 namespace TowerTanks.Scripts
 {
@@ -68,6 +66,26 @@ namespace TowerTanks.Scripts
         public bool overrideWeaponROF;
         public bool overrideWeaponRecoil;
 
+        
+        [Button]
+        public void FlipTankDesign()
+        {
+            Transform[] interactableParentList = new Transform[interactableList.Count];
+            for (int i = 0; i < interactableList.Count; i++)
+            {
+                interactableParentList[i] = interactableList[i].script.transform.parent;
+                interactableList[i].script.transform.SetParent(null);
+            }
+            Transform towerJoint = transform.Find("TowerJoint");
+            towerJoint.localScale = new Vector3(towerJoint.localScale.x * -1, towerJoint.localScale.y, towerJoint.localScale.z);
+            for (int i = 0; i < interactableList.Count; i++)
+            {
+                interactableList[i].script.transform.SetParent(interactableParentList[i]);
+                interactableList[i].script.transform.localPosition = Vector3.zero;
+                interactableList[i].script.Flip();
+            }
+        }
+        
         public void ShiftRight()
         {
             ChangeAllGear(1);
