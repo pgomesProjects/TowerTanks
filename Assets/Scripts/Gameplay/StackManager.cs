@@ -209,6 +209,7 @@ namespace TowerTanks.Scripts
         /// <param name="currentInteractable">Interactable to be added.</param>
         public static void AddToStack(INTERACTABLE currentInteractable)
         {
+            if (GameManager.Instance.currentSceneState == SCENESTATE.Menu) return;
             TankInteractable interactable = GameManager.Instance.interactableList[(int)currentInteractable];
             AddToStack(interactable);
         }
