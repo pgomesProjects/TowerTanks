@@ -1493,11 +1493,30 @@ namespace TowerTanks.Scripts
         public void SetTankAI(string newTankAi)
         {
             Object[] settings = Resources.LoadAll("TankAISettings", typeof(TankAISettings));
-            foreach (TankAISettings setting in settings)
+
+            if (GameManager.Instance.currentSceneState == SCENESTATE.Menu) //If we're in the main menu
             {
-                if (setting.name == newTankAi)
+                //Look for Alternate Tournament Ai Settings
+                string settingsToFind = "Tournament AI Settings (Balanced)";
+                if (newTankAi.Contains("(Short Range)")) settingsToFind = "Tournament AI Settings (Short Range)";
+                if (newTankAi.Contains("(Long Range)")) settingsToFind = "Tournament AI Settings (Long Range)";
+
+                foreach (TankAISettings setting in settings)
                 {
-                    _thisTankAI.aiSettings = setting;
+                    if (setting.name == settingsToFind)
+                    {
+                        _thisTankAI.aiSettings = setting;
+                    }
+                }
+            }
+            else
+            {
+                foreach (TankAISettings setting in settings)
+                {
+                    if (setting.name == newTankAi)
+                    {
+                        _thisTankAI.aiSettings = setting;
+                    }
                 }
             }
         }
