@@ -178,7 +178,7 @@ namespace TowerTanks.Scripts
             {
                 fireCooldownTimer -= Time.fixedDeltaTime;
             }
-            else if (isCooldownActive && !(gunType == GunType.MACHINEGUN))
+            else if (isCooldownActive && gunType != GunType.MACHINEGUN)
             {
                 isCooldownActive = false;
                 ShowFirePrompt(true);

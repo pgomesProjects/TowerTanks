@@ -27,7 +27,8 @@ namespace TowerTanks.Scripts
 
         [TabGroup("Runtime Actions")]
         [Button("Spawn New Tank", ButtonSizes.Small)]
-        public TankController SpawnTank(int tier = 1, TankId.TankType typeToSpawn = TankId.TankType.NEUTRAL, bool spawnBuilt = true, bool spawnedFromEditor = true)
+        public TankController SpawnTank(int tier = 1,  TankId.TankType typeToSpawn = TankId.TankType.NEUTRAL,
+            bool spawnBuilt = true, bool spawnedFromEditor = true, TextAsset tankDesign = null, Vector2 overridedSpawn = default)
         {
             TankId newtank = new TankId();
 
@@ -35,18 +36,20 @@ namespace TowerTanks.Scripts
             {
                 //TankNames nameType = Resources.Load<TankNames>("TankNames/PirateNames");
                 //newtank.TankName = new TankNameGenerator().GenerateRandomName(nameType);
-                newtank.gameObject = Instantiate(tankPrefab, tankSpawnPoint, false);
+                if (overridedSpawn == Vector2.zero)
+                {
+                    newtank.gameObject = Instantiate(tankPrefab, tankSpawnPoint, false);
+                }
+                else
+                {
+                    newtank.gameObject = Instantiate(tankPrefab, overridedSpawn, Quaternion.identity);
+                }
+                
                 newtank.tankType = TankId.TankType.ENEMY;
                 newtank.tankBrain = newtank.gameObject.GetComponent<TankAI>();
-                
-                var aiSettings = LoadTankAISettings(tier);
-                if (aiSettings != null)
-                {
-                    newtank.tankBrain.aiSettings = aiSettings;
-                }
 
                 //Determine tank design
-                TextAsset design = null;
+                TextAsset design = tankDesign;
                 int counter = 100;
                 while (design == null)
                 {
@@ -121,10 +124,7 @@ namespace TowerTanks.Scripts
             return newtank.tankScript;
         }
         
-        private TankAISettings LoadTankAISettings(int tier)
-        {
-            return Resources.Load<TankAISettings>($"TankAISettings/Tier {tier} AI Settings");
-        }
+
 
         /// <summary>
         /// Transfers the current playertank to a new tank, abandoning the old one.

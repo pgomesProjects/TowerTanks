@@ -84,7 +84,7 @@ namespace TowerTanks.Scripts
         protected bool AimingAtMyself()
         {
             return aimHit.collider != null && aimHit.collider.transform.IsChildOf(gunScript.tank.transform)
-                   || (DirectionToTargetBlocked() && gunScript.gunType != GunController.GunType.MORTAR);
+                   /*|| (DirectionToTargetBlocked() && gunScript.gunType != GunController.GunType.MORTAR)*/;
         }
         
         protected bool AimingAtGround()
@@ -101,7 +101,8 @@ namespace TowerTanks.Scripts
             var excludeLayer = (1 << LayerMask.NameToLayer("Camera")) |
                                    (1 << LayerMask.NameToLayer("Projectiles")) |
                                    (1 << LayerMask.NameToLayer("Player"));
-            var targetTankTransform = myTankAI.targetTank.treadSystem.transform;
+            var targetTankTransform = myTankAI.targetTank?.treadSystem.transform;
+            if (targetTankTransform == null) return false;
             Vector3 direction = targetTankTransform.position + targetTankTransform.up * 3f - gunScript.transform.position;
             return Physics2D.CircleCast(gunScript.barrel.position, .1f, direction, 5, ~excludeLayer).collider != null;
         }

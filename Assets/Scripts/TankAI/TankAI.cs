@@ -47,8 +47,9 @@ namespace TowerTanks.Scripts
         [HideInInspector] public List<InteractableId> tokenActivatedInteractables = new List<InteractableId>();
         private Vector3 movePoint;
 
-        [Header("AI Configuration")]
-        public TankAISettings aiSettings;
+        public TankAISettings aiSettings { get; private set; }
+
+        private TankAISettings trueAiSettings;
         private bool alerted;               //AI is alerted when taking damage from a player-source for the first time
         private float viewRangeOffset = 0;
         public PlayerMovement[] players;
@@ -63,8 +64,10 @@ namespace TowerTanks.Scripts
         private IEnumerator Start()
         {
             yield return new WaitForSeconds(0.1f); // AI Waits before initialization to give time for any tank room generation
-            
+
+            aiSettings = Instantiate(trueAiSettings); //local copy of true ai settings, so we can override values without changing the actual settings asset
             currentTokenCount = aiSettings.tankEconomy;
+            
             fsm = new StateMachine();
             /////////////// State Instance Creation ///////////////
             var patrolState = new TankPatrolState(this);
@@ -107,6 +110,11 @@ namespace TowerTanks.Scripts
             fsm.AddSubstate(engageState, huntSubState, huntEnterConds, huntExitConds);
 
             fsm.SetState(patrolState);
+        }
+        
+        public void SetAISettings(TankAISettings settings)
+        {
+            trueAiSettings = settings;
         }
 
         public bool HasActiveThrottle()

@@ -19,6 +19,7 @@ namespace TowerTanks.Scripts
         }
         private IEnumerator SetTankMovement()
         {
+            yield return new WaitForSeconds(Random.Range(_timeBetweenMovesRange.x, _timeBetweenMovesRange.y));
             if (_tankAI.HasActiveThrottle())
             {
                 float dist = _tank.treadSystem.transform.position.x - patrolPoint;
@@ -38,10 +39,7 @@ namespace TowerTanks.Scripts
                     _tankAI.MoveRandom(1);
                 }
             }
-
-            yield return new WaitForSeconds(Random.Range(_timeBetweenMovesRange.x, _timeBetweenMovesRange.y));
             _tank.StartCoroutine(SetTankMovement());
-            
         }
         
         private IEnumerator RefreshTarget()

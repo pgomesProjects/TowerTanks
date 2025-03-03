@@ -1505,7 +1505,7 @@ namespace TowerTanks.Scripts
                 {
                     if (setting.name == settingsToFind)
                     {
-                        _thisTankAI.aiSettings = setting;
+                        _thisTankAI.SetAISettings(setting);
                     }
                 }
             }
@@ -1515,7 +1515,7 @@ namespace TowerTanks.Scripts
                 {
                     if (setting.name == newTankAi)
                     {
-                        _thisTankAI.aiSettings = setting;
+                        _thisTankAI.SetAISettings(setting);
                     }
                 }
             }
