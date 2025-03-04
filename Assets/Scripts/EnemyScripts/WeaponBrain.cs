@@ -101,9 +101,8 @@ namespace TowerTanks.Scripts
             var excludeLayer = (1 << LayerMask.NameToLayer("Camera")) |
                                    (1 << LayerMask.NameToLayer("Projectiles")) |
                                    (1 << LayerMask.NameToLayer("Player"));
-            var targetTankTransform = myTankAI.targetTank?.treadSystem.transform;
-            if (targetTankTransform == null) return false;
-            Vector3 direction = targetTankTransform.position + targetTankTransform.up * 3f - gunScript.transform.position;
+            
+            Vector3 direction = targetPoint - gunScript.transform.position;
             return Physics2D.CircleCast(gunScript.barrel.position, .1f, direction, 5, ~excludeLayer).collider != null;
         }
         
@@ -191,7 +190,7 @@ namespace TowerTanks.Scripts
                 // if our projected hitpoint is past the tank we're fighting, we use the intersection between our projected aim and our target's Y axis to determine our aim
                 if ((!myTankAI.TankIsRightOfTarget() && hitPointIsRightOfTarget) || (myTankAI.TankIsRightOfTarget() && !hitPointIsRightOfTarget) || AimingAtMyself() || aimHit.collider?.gameObject == null)
                 {
-                    if (!AimingAtMyself()) aimingPastOurTarget = true;
+                    if (!AimingAtMyself() && aimHit.collider?.gameObject != null) aimingPastOurTarget = true;
                     for (int i = 0; i < trajectoryPoints.Count - 1; i++)
                     {
                         Vector3 p1 = trajectoryPoints[i];

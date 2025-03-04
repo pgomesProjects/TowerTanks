@@ -6024,6 +6024,7 @@ MonoBehaviour:
     - {fileID: 4900000, guid: 839e2b9475001464d9f0b212ef9a36b7, type: 3}
     - {fileID: 4900000, guid: ca0c68cb49abb0f4da3f7cbc4aa95ac6, type: 3}
     - {fileID: 4900000, guid: 9da97eb1ae986fa45b766c95ef4ab621, type: 3}
+  spawnTankCooldown: 3
 --- !u!4 &1075712697
 Transform:
   m_ObjectHideFlags: 0

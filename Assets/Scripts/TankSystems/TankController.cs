@@ -44,7 +44,7 @@ namespace TowerTanks.Scripts
         
         private TankManager tankManager;
         [HideInInspector] public TankId myTankID;
-        private TankAI _thisTankAI;
+        [HideInInspector] public TankAI _thisTankAI;
         public GameObject tankFlag;
         public GameObject surrenderFlag;
         private Animator tankAnimator;
@@ -328,6 +328,7 @@ namespace TowerTanks.Scripts
         private void Start()
         {
             tankManager = GameObject.Find("TankManager")?.GetComponent<TankManager>();
+            
             
             if (tankManager != null)
             {
