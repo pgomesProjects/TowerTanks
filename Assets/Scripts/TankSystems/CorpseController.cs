@@ -28,10 +28,12 @@ namespace TowerTanks.Scripts
         {
             if (countDown == true)
             {
+                bool endCorpse = true;
                 foreach(DummyObject _object in objects)
                 {
                     if (_object.dummyObject != null)
                     {
+                        endCorpse = false;
                         _object.lifetime -= Time.fixedDeltaTime;
 
                         if (_object.lifetime < shrinkTime)
@@ -43,6 +45,8 @@ namespace TowerTanks.Scripts
                         if (_object.lifetime <= 0) Destroy(_object.dummyObject);
                     }
                 }
+
+                if (endCorpse) Destroy(gameObject);
             }
         }
 

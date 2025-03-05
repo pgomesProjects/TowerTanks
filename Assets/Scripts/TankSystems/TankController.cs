@@ -890,10 +890,16 @@ namespace TowerTanks.Scripts
                 {
                     if (!room.isCore) //Except the core
                     {
+                        CorpseController corpse = corpseInstance.GetComponent<CorpseController>();
                         room.MakeDummy(corpseInstance.transform);
                         CorpseController.DummyObject _object = new CorpseController.DummyObject();
                         _object.dummyObject = room.gameObject;
-                        corpseInstance.GetComponent<CorpseController>().objects.Add(_object);
+                        if (GameManager.Instance.currentSceneState == SCENESTATE.Menu)
+                        {
+                            _object.lifetime = 10f;
+                            if (corpse.countDown == false) corpse.countDown = true;
+                        }
+                        corpse.objects.Add(_object);
                         room.enabled = false;
                     }
                 }
