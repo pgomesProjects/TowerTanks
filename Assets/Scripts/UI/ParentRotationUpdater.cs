@@ -19,9 +19,7 @@ namespace TowerTanks.Scripts
             if (parentTransform == null)
                 return;
 
-            //If the rotation is not equal to the parent transform, update it
-            if(!Equals(transform.localRotation, parentTransform.rotation))
-                transform.localRotation = parentTransform.rotation;
+            transform.localEulerAngles = new Vector3(parentTransform.eulerAngles.x, parentTransform.eulerAngles.y, parentTransform.eulerAngles.z);
         }
     }
 }

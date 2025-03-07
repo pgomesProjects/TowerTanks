@@ -25,7 +25,7 @@ namespace TowerTanks.Scripts
         [Tooltip("Actual radius of the shield's AOE")] public float shieldRadius;
         private float shieldMaxRadius = 3;
 
-        private void Awake()
+        protected override void Awake()
         {
             base.Awake();
             shieldHealth = shieldMaxHealth;
@@ -41,10 +41,26 @@ namespace TowerTanks.Scripts
             innerShield.transform.localScale = new Vector3(shieldRadius * 2, shieldRadius * 2, 1);
         }
 
-        private void FixedUpdate()
+        protected override void FixedUpdate()
         {
             base.FixedUpdate();
             UpdateShieldValues();
+        }
+
+        public override void LockIn(GameObject playerID)
+        {
+            base.LockIn(playerID);
+
+            //Add the pump shield prompt to the HUD
+            operatorID.GetCharacterHUD().SetButtonPrompt(GameAction.PumpShield, true);
+        }
+
+        public override void Exit(bool sameZone)
+        {
+            //Remove the pump shield prompt on the HUD
+            operatorID.GetCharacterHUD().SetButtonPrompt(GameAction.PumpShield, false);
+
+            base.Exit(sameZone);
         }
 
         public void UpdateShieldValues()

@@ -215,7 +215,7 @@ namespace TowerTanks.Scripts
             //If the current action exists as a game action, get the action
             if (System.Enum.TryParse(action, true, out GameAction result))
             {
-                PlatformPrompt promptInfo = GameManager.Instance.buttonPromptSettings.GetButtonPrompt(result, PlatformType.Gamepad);
+                PlatformPrompt promptInfo = GameManager.Instance.buttonPromptSettings.GetPlatformPrompt(result, GameSettings.gamePlatform);
 
                 //If the prompt exists in the system, get the sprite id from the prompt and show it in the text
                 if (promptInfo != null)

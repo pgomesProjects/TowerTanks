@@ -14,6 +14,8 @@ public static class Bootstrapper
 
         Cursor.lockState = CursorLockMode.Confined;
         GetCurrentSettings();
+        GameSettings.gamePlatform = GameSettings.GetRunningPlatform();
+        Debug.Log("Current Platform: " + GameSettings.gamePlatform);
         GameSettings.RefreshSettings();
     }
 

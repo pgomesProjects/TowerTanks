@@ -1551,5 +1551,7 @@ namespace TowerTanks.Scripts
             Vector2 newPos = target.position;
             surrenderFlag.transform.position = newPos;
         }
+
+        public Quaternion GetTankRotation() => towerJoint.rotation;
     }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TowerTanks.Scripts;
+using UnityEngine.InputSystem;
 
 public enum DIFFICULTYMODE { EASY, NORMAL, HARD }
 
@@ -13,6 +14,15 @@ public struct Difficulty
 
 public enum GAMESCENE { TITLE = 0, BUILDING = 1, COMBAT = 3 };
 
+public enum PlatformType
+{
+    PC,
+    Gamepad,
+    PlayStation,
+    Switch,
+    Xbox
+}
+
 public static class GameSettings
 {
     public static bool debugMode = false;
@@ -21,6 +31,7 @@ public static class GameSettings
     public static bool skipTutorials = false;
 
     public static string controlSchemeUI = "Gamepad";
+    public static PlatformType gamePlatform;
 
     public static ConfigurationSettings defaultSettings = new ConfigurationSettings();
     public static ConfigurationSettings currentSettings;
@@ -36,13 +47,11 @@ public static class GameSettings
     public static void CheckBGM()
     {
         AkSoundEngine.SetRTPCValue("MusicVolume", currentSettings.masterVolume * currentSettings.bgmVolume * 100f);
-        Debug.Log("Current Setting For Music: " + currentSettings.masterVolume * currentSettings.bgmVolume * 100f);
     }
 
     public static void CheckSFX()
     {
         AkSoundEngine.SetRTPCValue("SFXVolume", currentSettings.masterVolume * currentSettings.sfxVolume * 100f);
-        Debug.Log("Current Setting For SFX: " + currentSettings.masterVolume * currentSettings.bgmVolume * 100f);
     }
 
     public static void CheckFullscreen()
@@ -83,11 +92,15 @@ public static class GameSettings
         Debug.Log("Copied " + text + " to clipboard.");
     }
 
+    /// <summary>
+    /// Gets the platform based on the device running it.
+    /// </summary>
+    /// <returns>The type for the platform the game is being run on.</returns>
     public static PlatformType GetRunningPlatform()
     {
         switch (Application.platform)
         {
-            //Playstation
+            //PlayStation
             case RuntimePlatform.PS4:
             case RuntimePlatform.PS5:
                 return PlatformType.PlayStation;
@@ -101,6 +114,36 @@ public static class GameSettings
             //PC
             default:
                 return PlatformType.PC;
+        }
+    }
+
+    /// <summary>
+    /// Gets the platform based on the device.
+    /// </summary>
+    /// <param name="device">The input device being used.</param>
+    /// <returns>The type for the platform of the input device.</returns>
+    public static PlatformType GetDevicePlatform(InputDevice device)
+    {
+        //Base the platform on the device names (Note: all device names can be found in the Unity Input Debugger window)
+        switch (device.name)
+        {
+            //PC
+            case "Keyboard":
+            case "Mouse":
+                return PlatformType.PC;
+            //PlayStation
+            case "DualShock4GamepadHID":
+            case "DualSenseGamepadHID":
+                return PlatformType.PlayStation;
+            //Switch
+            case "SwitchProControllerHID":
+                return PlatformType.Switch;
+            //Xbox
+            case "XInputControllerWindows":
+                return PlatformType.Xbox;
+            //If none apply, return generic gamepad
+            default:
+                return PlatformType.Gamepad;
         }
     }
 }
