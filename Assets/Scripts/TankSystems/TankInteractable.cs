@@ -250,7 +250,7 @@ namespace TowerTanks.Scripts
 
             //Cleanup:
             tank = GetComponentInParent<TankController>(); //Get tank controller interactable is being attached to
-            if (tank != null) { tank.AddInteractable(this.gameObject); }
+            if (tank != null) { tank.AddInteractableId(this.gameObject); }
             return true;                                   //Indicate that interactable was successfully installed in target cell
         }
 

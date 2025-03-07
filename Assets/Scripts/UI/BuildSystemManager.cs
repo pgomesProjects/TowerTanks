@@ -507,6 +507,6 @@ namespace TowerTanks.Scripts
 
         public void UpdateBuildPhase(BuildingSubphase newPhase) => CurrentSubPhase = newPhase;
         public ReadyUpManager GetReadyUpManager() => readyUpManager;
-        public void RefreshPlayerTankName() => defaultPlayerTank.SetTankName(CampaignManager.Instance.PlayerTankName);
+        public void RefreshPlayerTankName() => defaultPlayerTank.SetStructureName(CampaignManager.Instance.PlayerTankName);
     }
 }

@@ -4,46 +4,33 @@ using UnityEngine;
 
 namespace TowerTanks.Scripts
 {
-    public interface ITankGridItem
+    public class StructureController : MonoBehaviour, IStructure
     {
-        Vector2[] gridSlots { get; set; }
-        void AddToGrid(Vector2 gridPos);
+        public IStructure.StructureType type = IStructure.StructureType.BUILDING;
+        public Transform towerJoint;
+        private Vector2[] cargoNodes;
+        private List<InteractableId> interactableList = new List<InteractableId>();
+        public RoomAssetKit defaultRoomKit;
 
-        /* NOTES: TankController needs to have data and functions for maintaining the grid.
-         * GridSlots represents dimensions of item relative to its transform pivot
-         * Every object that implements ITankGridItem needs to add itself to the relevant slots in its TankController grid
-         * TankController needs to have a method to check if any given position is taken up by a grid item, then return that item if so
-         * TankController needs a method for 
-         */
-    }
+        // Start is called before the first frame update
+        void Start()
+        {
 
-    public interface IDamageable
-    {
-        float Damage(Projectile projectile, Vector2 position);
-        float Damage(float damage, bool triggerHitEffect = false);
-    }
-    public interface IBurnable
-    {
-        void Ignite();
-        void BurnTick(float deltaTime);
-    }
-    public interface IImpactable
-    {
-        void HandleImpact(Vector2 force, Vector2 point);
-    }
-    public interface IMagnetizable
-    {
-        void ApplyMagnetForce(Vector2 force, Vector2 hitPoint);
-    }
-    public interface IStructure
-    {
-        public enum StructureType { TANK, BUILDING };
+        }
 
-        public StructureType GetStructureType();
+        // Update is called once per frame
+        void Update()
+        {
 
-        public Transform GetTowerJoint(); //Get Foundation/Core -> object that is going to parent all of the childed rooms & cells
+        }
 
-        public Vector2[] GetCargoNodes(); //Get Cargo Nodes -> Get list of nodes where random items can spawn
+        //INTERFACE METHODS:
+        #region IStructure
+        public IStructure.StructureType GetStructureType() => type; //Get Type -> Tank, Building
+
+        public Transform GetTowerJoint() => towerJoint; //Get Foundation/Core -> object that is going to parent all of the childed rooms & cells
+
+        public Vector2[] GetCargoNodes() => cargoNodes; //Get Cargo Nodes -> Get list of nodes where random items can spawn
 
         /// <summary>
         /// Gets the current layout of spawned items in the structure.
@@ -127,7 +114,7 @@ namespace TowerTanks.Scripts
                         }
                     }
 
-                    GameObject _item = SpawnItem(prefab); 
+                    GameObject _item = SpawnItem(prefab);
                     Cargo script = _item.GetComponent<Cargo>();
                     script.ignoreInit = true;
 
@@ -150,14 +137,9 @@ namespace TowerTanks.Scripts
 
         }
 
-        public void UnassignItemsFromStructure() //Unassign items -> Unassigns childed cargo & items from this structure before it's destroyed
-        {
-
-        }
-
         //TODO: Spawn Interactables in cells inside the structure
 
-        public List<InteractableId> GetInteractableList();
+        public List<InteractableId> GetInteractableList() => interactableList;
 
         public void AddInteractableId(GameObject interactable)
         {
@@ -202,19 +184,29 @@ namespace TowerTanks.Scripts
             }
         } ////Load Random Weapons with S. Ammo
 
-        public void Surrender(); //Surrender -> Throw up White Flag
+        public void Surrender()
+        {
+            return;
+        } //Surrender -> Throw up White Flag
 
         //TODO: Set Group Ai for Characters
 
-        public void SetStructureName(string name); //Assign Structure Name
+        public void SetStructureName(string name) //Assign Structure Name
+        {
+            return;
+        }
 
         public void UpdateSizeValues(bool flagUpdate = false)
         {
 
         } //UpdateSizeValues -> gets bounds of structure
 
-        public void GenerateCorpse();
+        public void GenerateCorpse()
+        {
+            return;
+        }
 
-        public RoomAssetKit GetRoomAssetKit();
+        public RoomAssetKit GetRoomAssetKit() => defaultRoomKit;
+        #endregion
     }
 }

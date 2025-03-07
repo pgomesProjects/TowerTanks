@@ -9,7 +9,7 @@ using Sirenix.OdinInspector;
 namespace TowerTanks.Scripts
 {
     [System.Serializable]
-    public class TankController : SerializedMonoBehaviour
+    public class TankController : SerializedMonoBehaviour, IStructure
     {
         //Static Stuff:
         /// <summary>
@@ -20,6 +20,7 @@ namespace TowerTanks.Scripts
         //Important Variables
         public string TankName;
         [SerializeField] public TankId.TankType tankType;
+        private IStructure.StructureType structureType = IStructure.StructureType.TANK;
 
         [InlineButton("KillTank", SdfIconType.EmojiDizzy, "Kill")]
         [InlineButton("DamageTank", SdfIconType.Magic, "-100")]
@@ -870,8 +871,8 @@ namespace TowerTanks.Scripts
                     GameManager.Instance.DisplayTutorial(4, false, 5);
                 }
 
-                RemovePlayersFromTank();
-                RemoveItemsFromTank();
+                UnassignCharactersFromStructure();
+                UnassignItemsFromStructure();
 
                 if (tankType == TankId.TankType.PLAYER)
                 {
@@ -910,39 +911,6 @@ namespace TowerTanks.Scripts
             }
         }
 
-        /// <summary>
-        /// Removes all of the players in the tank by killing them or unassigning them.
-        /// </summary>
-        private void RemovePlayersFromTank()
-        {
-            //Unassign all characters from this tank
-            foreach (Character character in GetCharactersAssignedToTank(this))
-            {
-                character.SetAssignedTank(null);
-                character.InterruptRespawn();
-            }
-
-            //Detach the characters that are still in the tank and kill them
-            foreach (Character character in GetCharactersInTank())
-            {
-                character.transform.SetParent(null);
-                character.KillCharacterImmediate();
-            }
-        }
-
-        private void RemoveItemsFromTank()
-        {
-            //Remove Items
-            Cargo[] items = GetComponentsInChildren<Cargo>();
-            if (items.Length > 0)
-            {
-                foreach (Cargo item in items)
-                {
-                    item.transform.SetParent(null); //removes the item from the cell before destruction
-                }
-            }
-        }
-
         public void DestructionEffects()
         {
             //Big Explosion
@@ -962,18 +930,6 @@ namespace TowerTanks.Scripts
             GameManager.Instance.SystemEffects.ApplyControllerHaptics(haptics);
         }
 
-        public void GenerateCorpse()
-        {
-            if (corpseInstance != null) return;
-
-            GameObject corpse = Instantiate(corpsePrefab, null, true); //Generate a new Corpse Parent Object
-            corpse.transform.position = towerJoint.transform.position;
-            corpse.name = TankName + " (Corpse)"; //Name it accordingly
-            corpseInstance = corpse;
-
-            if (tankType == TankId.TankType.PLAYER) corpseInstance.GetComponent<CorpseController>().akListener.SetActive(true); //transfer new listener to corpse
-        }
-
         public void DespawnTank()
         {
             //Unassign Camera
@@ -985,7 +941,7 @@ namespace TowerTanks.Scripts
             if (tankType == TankId.TankType.ENEMY) spawner.EnemyDestroyed(this);
             if (tankType == TankId.TankType.NEUTRAL) spawner.EncounterEnded(EventSpawnerManager.EventType.FRIENDLY);
 
-            RemovePlayersFromTank();
+            UnassignCharactersFromStructure();
 
             //GameManager.Instance.SystemEffects.ActivateSlowMotion(0.05f, 0.4f, 1.5f, 0.4f);
             Destroy(gameObject);
@@ -1021,16 +977,6 @@ namespace TowerTanks.Scripts
                     }
                 }
             }
-        }
-
-        public void AddCargo()
-        {
-            int random = Random.Range(2, 8);
-            /*cargoHold = new GameObject[random];
-            for (int i = 0; i < cargoHold.Length; i++)
-            {
-                cargoHold[i] = GameManager.Instance.CargoManager.GetRandomCargo();
-            }*/
         }
 
         public void TriggerTankAlarm()
@@ -1151,7 +1097,7 @@ namespace TowerTanks.Scripts
                 SetTankAI(tankDesign.aiSettings);
             }
 
-            SetTankName(tankDesign.TankName); //Assign Tank Name
+            SetStructureName(tankDesign.TankName); //Assign Tank Name
             isPrebuilding = false;
         }
 
@@ -1244,99 +1190,6 @@ namespace TowerTanks.Scripts
             return design;
         }
 
-        public void SpawnCargo(CargoManifest manifest) //Called when spawning a tank that contains cargo/items
-        {
-            if (GameManager.Instance.cargoManifest?.items.Count > 0) //if we have any cargo
-            {
-                foreach (CargoManifest.ManifestItem item in manifest.items) //go through each item in the manifest
-                {
-                    GameObject prefab = null;
-                    foreach (CargoId cargoItem in GameManager.Instance.CargoManager.cargoList)
-                    {
-                        if (cargoItem.id == item.itemID) //if the item id matches an object in the cargomanager
-                        {
-                            prefab = cargoItem.cargoPrefab; //get the object we need to spawn from the list
-                        }
-                    }
-
-                    GameObject _item = Instantiate(prefab, towerJoint, false); //spawn the object
-                    Cargo script = _item.GetComponent<Cargo>();
-                    script.ignoreInit = true;
-
-                    //Assign Values
-                    Vector3 spawnVector = item.localSpawnVector;
-                    _item.transform.localPosition = spawnVector;
-                    script.AssignValue(item.persistentValue);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets the current layout of spawned items in the tank.
-        /// </summary>
-        /// <param name="nodeManifest">Whether this manifest is exclusively looking at existing CargoNodes or not.</param>
-        /// <returns>Current manifest of items in the tank.</returns>
-        public CargoManifest GetCurrentManifest(bool nodeManifest = false)
-        {
-            if (LevelManager.Instance == null) return null;
-            CargoManifest manifest = new CargoManifest();
-
-            if (!nodeManifest)
-            {
-                //Find All Cargo Items currently inside the Tank
-                Cargo[] cargoItems = GetComponentsInChildren<Cargo>();
-
-                if (cargoItems.Length > 0)
-                {
-                    foreach (Cargo item in cargoItems) //go through each item in the tank
-                    {
-                        string itemID = "";
-                        foreach (CargoId _cargo in GameManager.Instance.CargoManager.cargoList)
-                        {
-                            if (_cargo.id == item.cargoID) //if it's on the list of valid cargo items
-                            {
-                                itemID = item.cargoID;
-                            }
-                        }
-
-                        if (itemID != "")
-                        {
-                            CargoManifest.ManifestItem _item = new CargoManifest.ManifestItem();
-                            _item.itemID = itemID; //update id
-
-                            Transform temp = item.transform.parent;
-                            item.transform.parent = towerJoint.transform; //set new temp parent
-
-                            //Get Item Information
-                            _item.localSpawnVector = item.transform.localPosition; //Get it's current localPosition
-                            _item.persistentValue = item.GetPersistentValue();
-
-                            item.transform.parent = temp;
-                            manifest.items.Add(_item); //add it to the manifest
-                        }
-                    }
-                }
-            }
-            else
-            {
-                if (cargoNodes?.Length > 0) 
-                { 
-                    foreach (Vector2 node in cargoNodes)
-                    {
-                        CargoManifest.ManifestItem _item = new CargoManifest.ManifestItem();
-                        CargoId random = GameManager.Instance.CargoManager.GetRandomCargo(true);
-                        _item.itemID = random.id;
-                        _item.localSpawnVector.x = node.x;
-                        _item.localSpawnVector.y = node.y;
-
-                        manifest.items.Add(_item);
-                    }
-                }
-            }
-
-            return manifest;
-        }
-
         public void EnableCannonBrains(bool enabled)
         {
             WeaponBrain[] brains = GetComponentsInChildren<WeaponBrain>();
@@ -1347,71 +1200,6 @@ namespace TowerTanks.Scripts
 
             //SimpleTankBrain _brain = GetComponent<SimpleTankBrain>();
             //_brain.enabled = true;
-        }
-        /// <summary>
-        /// Updates envelope describing height and width of tank relative to treadbase.
-        /// </summary>
-        public void UpdateSizeValues(bool flagUpdate = false)
-        {
-            //Find extreme cells:
-            upMostCell = null;
-            foreach (Room room in rooms) //Iterate through all rooms in tank
-            {
-                foreach (Cell cell in room.cells) //Iterate through all cells in room
-                {
-                    Vector3 cellPos = treadSystem.transform.InverseTransformPoint(cell.transform.position); //Get shorthand variable for position of cell
-                    if (upMostCell == null || treadSystem.transform.InverseTransformPoint(upMostCell.transform.position).y < cellPos.y) upMostCell = cell;          //Save cell if it is taller than tallest known cell in tank
-                    if (leftMostCell == null || treadSystem.transform.InverseTransformPoint(leftMostCell.transform.position).x > cellPos.x) leftMostCell = cell;    //Save cell if it is farther left than leftmost known cell in tank
-                    if (rightMostCell == null || treadSystem.transform.InverseTransformPoint(rightMostCell.transform.position).x < cellPos.x) rightMostCell = cell; //Save cell if it is farther right than rightmost known cell in tank
-                }
-            }
-
-            //Update Flags
-            if (flagUpdate) UpdateFlagPosition(upMostCell.transform);
-            UpdateSurrenderFlagPosition(upMostCell.transform);
-
-            //Calculate tank metrics:
-            float highestCellHeight = treadSystem.transform.InverseTransformPoint(upMostCell.transform.position).y + 0.5f;                 //Get height from treadbase to top of highest cell
-            float tankLeftSideLength = Mathf.Abs(treadSystem.transform.InverseTransformPoint(leftMostCell.transform.position).x) + 0.5f;   //Get length of tank from center of treadbase to outer edge of leftmost cell
-            float tankRightSideLength = Mathf.Abs(treadSystem.transform.InverseTransformPoint(rightMostCell.transform.position).x) + 0.5f; //Get length of tank from center of treadbase to outer edge of rightmost cell
-            tankSizeValues = new Vector4(highestCellHeight, tankRightSideLength, tankSizeValues.z, tankLeftSideLength);                    //Store found values
-
-            //If this is the player tank, call the Action
-            if (tankType == TankId.TankType.PLAYER)
-            {
-                OnPlayerTankSizeAdjusted?.Invoke();
-
-                //Add the highest point value to the tank stats
-                if (GetHighestPoint() > GameManager.Instance.currentSessionStats.maxHeight)
-                    GameManager.Instance.currentSessionStats.maxHeight = GetHighestPoint();
-            }
-
-        }
-
-        public void AddInteractable(GameObject interactable)
-        {
-            InteractableId newId = new InteractableId();
-            newId.interactable = interactable;
-            newId.script = interactable.GetComponent<TankInteractable>();
-
-            if (interactable.TryGetComponent(out InteractableBrain brain))
-            {
-                newId.brain = brain;
-                newId.brain.myTankAI = _thisTankAI;
-                newId.brain.myInteractableID = newId;
-                newId.brain.enabled = false;
-            }
-            newId.groupType = newId.script.interactableType;
-            
-            newId.stackName = newId.script.stackName;
-            interactableList.Add(newId);
-            if (tankType == TankId.TankType.ENEMY)
-            {
-                if (newId.groupType != TankInteractable.InteractableType.CONSUMABLE)
-                {
-                    interactablePool.Add(newId);
-                }
-            }
         }
 
         public void AddRoomToStats(Room currentRoom)
@@ -1474,29 +1262,9 @@ namespace TowerTanks.Scripts
             return characters;
         }
 
-        public void Surrender()
-        {
-            surrenderFlag.SetActive(true);
-            if (tankFlag != null) tankFlag.SetActive(false);
-
-            //Enable/Disable interact zone for tank claiming - only triggers for specifically Enemy Tanks
-            Transform interactZone = surrenderFlag.transform.Find("InteractZone");
-            if (tankType != TankId.TankType.ENEMY || !GameManager.Instance.tankClaiming)
-            {
-                interactZone.gameObject.SetActive(false);
-            }
-
-            MakeFragile();
-        }
+        
 
         //UTILITY METHODS:
-        public void SetTankName(string newTankName)
-        {
-            TankName = newTankName;
-            if (nameText != null) nameText.text = TankName;
-            gameObject.name = "Tank (" + TankName + ")";
-        }
-
         public void SetTankAI(string newTankAi)
         {
             Object[] settings = Resources.LoadAll("TankAISettings", typeof(TankAISettings));
@@ -1526,7 +1294,36 @@ namespace TowerTanks.Scripts
                     }
                 }
             }
+        } //TODO: ADD TO ISTRUCTURE -> RENAME TO STRUCTURE AI
+
+        public Vector3 GetPlayerSpawnPointPosition() => playerSpawnPoint.position;
+        public Character[] GetCharactersInTank() => GetComponentsInChildren<Character>();
+        public float GetHighestPoint() => tankSizeValues.x;
+
+        public float GetMaxHealth() => coreHealth;
+
+        public void UpdateFlagPosition(Transform target)
+        {
+            Vector2 newPos = target.position;
+            tankFlag.transform.position = newPos;
+            tankFlag.transform.parent = target;
         }
+
+        public void UpdateSurrenderFlagPosition(Transform target)
+        {
+            Vector2 newPos = target.position;
+            surrenderFlag.transform.position = newPos;
+        }
+
+        //INTERFACE METHODS:
+        #region IStructure
+        public IStructure.StructureType GetStructureType() => structureType;
+
+        public Transform GetTowerJoint() => towerJoint; //Get Foundation/Core -> object that is going to parent all of the childed rooms & cells
+
+        public Vector2[] GetCargoNodes() => cargoNodes; //Get Cargo Nodes -> Get list of nodes where random items can spawn
+
+        public List<InteractableId> GetInteractableList() => interactableList;
 
         public void LoadRandomWeapons(int weaponCount)
         {
@@ -1564,25 +1361,238 @@ namespace TowerTanks.Scripts
 
                 if (ammo != null) gun.AddSpecialAmmo(ammo, amount); //Load the Gun
             }
-        }
+        } 
 
-        public Vector3 GetPlayerSpawnPointPosition() => playerSpawnPoint.position;
-        public Character[] GetCharactersInTank() => GetComponentsInChildren<Character>();
-        public float GetHighestPoint() => tankSizeValues.x;
-
-        public float GetMaxHealth() => coreHealth;
-
-        public void UpdateFlagPosition(Transform target)
+        public void SetStructureName(string name) //Assign Structure Name
         {
-            Vector2 newPos = target.position;
-            tankFlag.transform.position = newPos;
-            tankFlag.transform.parent = target;
+            TankName = name;
+            if (nameText != null) nameText.text = TankName;
+            gameObject.name = "Tank (" + TankName + ")";
         }
 
-        public void UpdateSurrenderFlagPosition(Transform target)
+        /// <summary>
+        /// Updates envelope describing height and width of tank relative to treadbase.
+        /// </summary>
+        public void UpdateSizeValues(bool flagUpdate = false)
         {
-            Vector2 newPos = target.position;
-            surrenderFlag.transform.position = newPos;
+            //Find extreme cells:
+            upMostCell = null;
+            foreach (Room room in rooms) //Iterate through all rooms in tank
+            {
+                foreach (Cell cell in room.cells) //Iterate through all cells in room
+                {
+                    Vector3 cellPos = treadSystem.transform.InverseTransformPoint(cell.transform.position); //Get shorthand variable for position of cell
+                    if (upMostCell == null || treadSystem.transform.InverseTransformPoint(upMostCell.transform.position).y < cellPos.y) upMostCell = cell;          //Save cell if it is taller than tallest known cell in tank
+                    if (leftMostCell == null || treadSystem.transform.InverseTransformPoint(leftMostCell.transform.position).x > cellPos.x) leftMostCell = cell;    //Save cell if it is farther left than leftmost known cell in tank
+                    if (rightMostCell == null || treadSystem.transform.InverseTransformPoint(rightMostCell.transform.position).x < cellPos.x) rightMostCell = cell; //Save cell if it is farther right than rightmost known cell in tank
+                }
+            }
+
+            //Update Flags
+            if (flagUpdate) UpdateFlagPosition(upMostCell.transform);
+            UpdateSurrenderFlagPosition(upMostCell.transform);
+
+            //Calculate tank metrics:
+            float highestCellHeight = treadSystem.transform.InverseTransformPoint(upMostCell.transform.position).y + 0.5f;                 //Get height from treadbase to top of highest cell
+            float tankLeftSideLength = Mathf.Abs(treadSystem.transform.InverseTransformPoint(leftMostCell.transform.position).x) + 0.5f;   //Get length of tank from center of treadbase to outer edge of leftmost cell
+            float tankRightSideLength = Mathf.Abs(treadSystem.transform.InverseTransformPoint(rightMostCell.transform.position).x) + 0.5f; //Get length of tank from center of treadbase to outer edge of rightmost cell
+            tankSizeValues = new Vector4(highestCellHeight, tankRightSideLength, tankSizeValues.z, tankLeftSideLength);                    //Store found values
+
+            //If this is the player tank, call the Action
+            if (tankType == TankId.TankType.PLAYER)
+            {
+                OnPlayerTankSizeAdjusted?.Invoke();
+
+                //Add the highest point value to the tank stats
+                if (GetHighestPoint() > GameManager.Instance.currentSessionStats.maxHeight)
+                    GameManager.Instance.currentSessionStats.maxHeight = GetHighestPoint();
+            }
+
+        } 
+
+        public void AddInteractableId(GameObject interactable)
+        {
+            InteractableId newId = new InteractableId();
+            newId.interactable = interactable;
+            newId.script = interactable.GetComponent<TankInteractable>();
+
+            if (interactable.TryGetComponent(out InteractableBrain brain))
+            {
+                newId.brain = brain;
+                newId.brain.myTankAI = _thisTankAI;
+                newId.brain.myInteractableID = newId;
+                newId.brain.enabled = false;
+            }
+            newId.groupType = newId.script.interactableType;
+
+            newId.stackName = newId.script.stackName;
+            interactableList.Add(newId);
+            if (tankType == TankId.TankType.ENEMY)
+            {
+                if (newId.groupType != TankInteractable.InteractableType.CONSUMABLE)
+                {
+                    interactablePool.Add(newId);
+                }
+            }
         }
+
+        //Spawn Cargo
+        public void SpawnCargo(CargoManifest manifest) //Called when spawning a tank that contains cargo/items
+        {
+            if (GameManager.Instance.cargoManifest?.items.Count > 0) //if we have any cargo
+            {
+                foreach (CargoManifest.ManifestItem item in manifest.items) //go through each item in the manifest
+                {
+                    GameObject prefab = null;
+                    foreach (CargoId cargoItem in GameManager.Instance.CargoManager.cargoList)
+                    {
+                        if (cargoItem.id == item.itemID) //if the item id matches an object in the cargomanager
+                        {
+                            prefab = cargoItem.cargoPrefab; //get the object we need to spawn from the list
+                        }
+                    }
+
+                    GameObject _item = Instantiate(prefab, GetTowerJoint(), false);
+                    Cargo script = _item.GetComponent<Cargo>();
+                    script.ignoreInit = true;
+
+                    //Assign Values
+                    Vector3 spawnVector = item.localSpawnVector;
+                    _item.transform.localPosition = spawnVector;
+                    script.AssignValue(item.persistentValue);
+                }
+            }
+        }
+
+        //Get Manifest
+        /// <summary>
+        /// Gets the current layout of spawned items in the structure.
+        /// </summary>
+        /// <param name="nodeManifest">Whether this manifest is exclusively looking at existing CargoNodes or not.</param>
+        /// <returns>Current manifest of items in the tank.</returns>
+        public CargoManifest GetCurrentManifest(bool nodeManifest = false)
+        {
+            if (LevelManager.Instance == null) return null;
+            CargoManifest manifest = new CargoManifest();
+
+            if (!nodeManifest)
+            {
+                //Find All Cargo Items currently inside the Tank
+                Cargo[] cargoItems = GetTowerJoint().GetComponentsInChildren<Cargo>();
+
+                if (cargoItems.Length > 0)
+                {
+                    foreach (Cargo item in cargoItems) //go through each item in the tank
+                    {
+                        string itemID = "";
+                        foreach (CargoId _cargo in GameManager.Instance.CargoManager.cargoList)
+                        {
+                            if (_cargo.id == item.cargoID) //if it's on the list of valid cargo items
+                            {
+                                itemID = item.cargoID;
+                            }
+                        }
+
+                        if (itemID != "")
+                        {
+                            CargoManifest.ManifestItem _item = new CargoManifest.ManifestItem();
+                            _item.itemID = itemID; //update id
+
+                            Transform temp = item.transform.parent;
+                            item.transform.parent = GetTowerJoint().transform; //set new temp parent
+
+                            //Get Item Information
+                            _item.localSpawnVector = item.transform.localPosition; //Get it's current localPosition
+                            _item.persistentValue = item.GetPersistentValue();
+
+                            item.transform.parent = temp;
+                            manifest.items.Add(_item); //add it to the manifest
+                        }
+                    }
+                }
+            }
+            else
+            {
+                Vector2[] nodes = GetCargoNodes();
+                if (nodes?.Length > 0)
+                {
+                    foreach (Vector2 node in nodes)
+                    {
+                        CargoManifest.ManifestItem _item = new CargoManifest.ManifestItem();
+                        CargoId random = GameManager.Instance.CargoManager.GetRandomCargo(true);
+                        _item.itemID = random.id;
+                        _item.localSpawnVector.x = node.x;
+                        _item.localSpawnVector.y = node.y;
+
+                        manifest.items.Add(_item);
+                    }
+                }
+            }
+
+            return manifest;
+        } //Get Cargo Manifest -> Get Manifest of assigned cargo items & nodes that'll spawn inside the structure
+
+        /// <summary>
+        /// Removes all of the players in the structure by killing them or unassigning them.
+        /// </summary>
+        private void UnassignCharactersFromStructure(bool lethal = false)
+        {
+            //Unassign all characters from this tank
+            foreach (Character character in GetCharactersAssignedToTank(this))
+            {
+                character.SetAssignedTank(null);
+                character.InterruptRespawn();
+            }
+
+            //Detach the characters that are still in the tank and kill them
+            foreach (Character character in GetCharactersInTank())
+            {
+                character.transform.SetParent(null);
+                if (lethal) character.KillCharacterImmediate();
+            }
+        }
+
+        private void UnassignItemsFromStructure()
+        {
+            //Remove Items
+            Cargo[] items = GetComponentsInChildren<Cargo>();
+            if (items.Length > 0)
+            {
+                foreach (Cargo item in items)
+                {
+                    item.transform.SetParent(null); //removes the item from the cell before destruction
+                }
+            }
+        }
+
+        public void Surrender()
+        {
+            surrenderFlag.SetActive(true);
+            if (tankFlag != null) tankFlag.SetActive(false);
+
+            //Enable/Disable interact zone for tank claiming - only triggers for specifically Enemy Tanks
+            Transform interactZone = surrenderFlag.transform.Find("InteractZone");
+            if (tankType != TankId.TankType.ENEMY || !GameManager.Instance.tankClaiming)
+            {
+                interactZone.gameObject.SetActive(false);
+            }
+
+            MakeFragile();
+        } 
+
+        public void GenerateCorpse()
+        {
+            if (corpseInstance != null) return;
+
+            GameObject corpse = Instantiate(corpsePrefab, null, true); //Generate a new Corpse Parent Object
+            corpse.transform.position = towerJoint.transform.position;
+            corpse.name = TankName + " (Corpse)"; //Name it accordingly
+            corpseInstance = corpse;
+
+            if (tankType == TankId.TankType.PLAYER) corpseInstance.GetComponent<CorpseController>().akListener.SetActive(true); //transfer new listener to corpse
+        }
+
+        public RoomAssetKit GetRoomAssetKit() => roomKit;
+        #endregion
     }
 }
