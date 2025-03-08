@@ -43,6 +43,10 @@ namespace TowerTanks.Scripts
 
         public Transform GetTowerJoint(); //Get Foundation/Core -> object that is going to parent all of the childed rooms & cells
 
+        public List<Room> GetRooms();
+
+        public List<Coupler> GetHatches();
+
         public Vector2[] GetCargoNodes(); //Get Cargo Nodes -> Get list of nodes where random items can spawn
 
         /// <summary>
@@ -216,5 +220,7 @@ namespace TowerTanks.Scripts
         public void GenerateCorpse();
 
         public RoomAssetKit GetRoomAssetKit();
+
+        public bool GetIsInvincible();
     }
 }

@@ -238,9 +238,6 @@ namespace TowerTanks.Scripts
         public float Damage(Projectile projectile, Vector2 position)
         {
             if (room.mounted != true) return 0; //hit a room that isn't built yet
-
-            //Do projectile impact:
-            room.targetTank.treadSystem.HandleImpact(projectile, position); //Use treadsystem impact handler to calculate impact force from projectile
             float animSpeed = 1;
 
             //Do hit effects:
@@ -255,47 +252,98 @@ namespace TowerTanks.Scripts
                 animSpeed = 4f;
             }
 
-            //Check Ai Triggers
-            TankAI ai = room?.targetTank.GetComponent<TankAI>();
-            if (room.targetTank.tankType != projectile.factionId)
-            {
-                if (ai != null) ai.TriggerAlerted();
-            }
-
             //Roll for break
             if (projectile.hitProperties.breakChance > 0 && GameManager.Instance.damageBreaksInteractables)
             {
                 if (interactable != null) RollBreakChance(0, projectile.hitProperties.breakChance);
             }
 
-            //Deal damage:
-            if (room.isCore || room.targetTank.isFragile) //Projectile has struck a core cell, or the tank is fragile
+            //Tank-Specific Logic
+            if (room.targetStructure.GetStructureType() == IStructure.StructureType.TANK)
             {
-                Damage(projectile.remainingDamage); //Simply do normal projectile damage to the core
-                TankController tank = room?.targetTank;
-                if (tank != null) //Apply effects
+                //Check Ai Triggers
+                TankAI ai = room?.targetTank.GetComponent<TankAI>();
+                if (room.targetTank.tankType != projectile.factionId)
                 {
-                    float duration = Mathf.Lerp(0.05f, 1f, projectile.remainingDamage / 100);
-                    float intensity = Mathf.Lerp(1f, 15f, projectile.remainingDamage / 100);
-                    CameraManipulator.main?.ShakeTankCamera(tank, intensity, duration);
+                    if (ai != null) ai.TriggerAlerted();
+                }
 
-                    //Apply Haptics to Players inside this tank
-                    foreach (Character character in tank.GetCharactersInTank())
+                //Do projectile impact:
+                room.targetTank.treadSystem.HandleImpact(projectile, position); //Use treadsystem impact handler to calculate impact force from projectile
+
+                //Deal damage:
+                if (room.isCore || room.targetTank.isFragile) //Projectile has struck a core cell, or the tank is fragile
+                {
+                    if (room.targetStructure.GetIsInvincible()) projectile.remainingDamage = 0;
+                    Damage(projectile.remainingDamage); //Simply do normal projectile damage to the core
+                    TankController tank = room?.targetTank;
+                    if (tank != null) //Apply effects
                     {
-                        PlayerMovement player = character.GetComponent<PlayerMovement>();
-                        if (player != null)
+                        float duration = Mathf.Lerp(0.05f, 1f, projectile.remainingDamage / 100);
+                        float intensity = Mathf.Lerp(1f, 15f, projectile.remainingDamage / 100);
+                        CameraManipulator.main?.ShakeTankCamera(tank, intensity, duration);
+
+                        //Apply Haptics to Players inside this tank
+                        foreach (Character character in tank.GetCharactersInTank())
                         {
-                            HapticsSettings setting = GameManager.Instance.SystemEffects.GetHapticsSetting("QuickJolt");
-                            if (projectile.remainingDamage > 50f) setting = GameManager.Instance.SystemEffects.GetHapticsSetting("ImpactRumble");
-                            GameManager.Instance.SystemEffects.ApplyControllerHaptics(player.GetPlayerData().playerInput, setting); //Apply haptics
+                            PlayerMovement player = character.GetComponent<PlayerMovement>();
+                            if (player != null)
+                            {
+                                HapticsSettings setting = GameManager.Instance.SystemEffects.GetHapticsSetting("QuickJolt");
+                                if (projectile.remainingDamage > 50f) setting = GameManager.Instance.SystemEffects.GetHapticsSetting("ImpactRumble");
+                                GameManager.Instance.SystemEffects.ApplyControllerHaptics(player.GetPlayerData().playerInput, setting); //Apply haptics
+                            }
                         }
                     }
+                    return 0;                           //Projectiles cannot tunnel through the core
                 }
-                return 0;                           //Projectiles cannot tunnel through the core
+                else //Projectile has struck a non-core room
+                {
+                    //Get damage values:
+                    if (room.targetStructure.GetIsInvincible()) projectile.remainingDamage = 0;
+                    float incomingDamage = projectile.remainingDamage;                                                        //Get remaining damage from projectile as value to assign to damaging cell
+                    float damageMitigated = Mathf.Min(GetDamageMitigation(incomingDamage), incomingDamage);                   //Determine amount of damage mitigated by cell attributes
+                    float dealtDamage = incomingDamage - damageMitigated;                                                     //Determine the amount of unmitigated damage dealt to cell
+                    float extraDamage = projectile.hitProperties.tunnels ? Mathf.Abs(Mathf.Max(0, health - dealtDamage)) : 0; //Get overkill damage dealt by projectile (only if projectile can tunnel, otherwise alsways destroy it after hitting a cell)
+
+                    //Effects
+                    if (dealtDamage > 0)
+                    {
+                        HitEffects(animSpeed);
+
+                        TankController tank = room?.targetTank;
+                        if (tank != null)
+                        {
+                            float duration = Mathf.Lerp(0.05f, 1f, dealtDamage / 100);
+                            float intensity = Mathf.Lerp(1f, 15f, dealtDamage / 100);
+                            CameraManipulator.main?.ShakeTankCamera(tank, intensity, duration);
+
+                            //Apply Haptics to Players inside this tank
+                            foreach (Character character in room.targetTank.GetCharactersInTank())
+                            {
+                                PlayerMovement player = character.GetComponent<PlayerMovement>();
+                                if (player != null)
+                                {
+                                    HapticsSettings setting = GameManager.Instance.SystemEffects.GetHapticsSetting("QuickJolt");
+                                    if (dealtDamage > 50f) setting = GameManager.Instance.SystemEffects.GetHapticsSetting("ImpactRumble");
+                                    GameManager.Instance.SystemEffects.ApplyControllerHaptics(player.GetPlayerData().playerInput, setting); //Apply haptics
+                                }
+                            }
+                        }
+                    }
+                    else HitEffects(8f);
+
+                    //Cleanup:
+                    Damage(dealtDamage); //Assign dealt damage to cell (add armor-mitigated damage back because it needs to be processed in the damage method as well in case of explosions)
+                    return extraDamage;  //Tell the projectile how much left over damage it has
+                }
             }
-            else //Projectile has struck a non-core room
+            else
             {
+                //Non-Tank Logic
+
                 //Get damage values:
+                if (room.targetStructure.GetIsInvincible()) projectile.remainingDamage = 0;
                 float incomingDamage = projectile.remainingDamage;                                                        //Get remaining damage from projectile as value to assign to damaging cell
                 float damageMitigated = Mathf.Min(GetDamageMitigation(incomingDamage), incomingDamage);                   //Determine amount of damage mitigated by cell attributes
                 float dealtDamage = incomingDamage - damageMitigated;                                                     //Determine the amount of unmitigated damage dealt to cell
@@ -305,26 +353,6 @@ namespace TowerTanks.Scripts
                 if (dealtDamage > 0)
                 {
                     HitEffects(animSpeed);
-
-                    TankController tank = room?.targetTank;
-                    if (tank != null)
-                    {
-                        float duration = Mathf.Lerp(0.05f, 1f, dealtDamage / 100);
-                        float intensity = Mathf.Lerp(1f, 15f, dealtDamage / 100);
-                        CameraManipulator.main?.ShakeTankCamera(tank, intensity, duration);
-
-                        //Apply Haptics to Players inside this tank
-                        foreach (Character character in room.targetTank.GetCharactersInTank())
-                        {
-                            PlayerMovement player = character.GetComponent<PlayerMovement>();
-                            if (player != null)
-                            {
-                                HapticsSettings setting = GameManager.Instance.SystemEffects.GetHapticsSetting("QuickJolt");
-                                if (dealtDamage > 50f) setting = GameManager.Instance.SystemEffects.GetHapticsSetting("ImpactRumble");
-                                GameManager.Instance.SystemEffects.ApplyControllerHaptics(player.GetPlayerData().playerInput, setting); //Apply haptics
-                            }
-                        }
-                    }
                 }
                 else HitEffects(8f);
 
@@ -332,6 +360,8 @@ namespace TowerTanks.Scripts
                 Damage(dealtDamage); //Assign dealt damage to cell (add armor-mitigated damage back because it needs to be processed in the damage method as well in case of explosions)
                 return extraDamage;  //Tell the projectile how much left over damage it has
             }
+
+            
         }
         /// <summary>
         /// Simply deals given amount of damage to cell (used for non-projectile damage, ALWAYS IGNORES ARMOR).
@@ -350,24 +380,43 @@ namespace TowerTanks.Scripts
                 RollBreakChance(damage);
             }
 
-            if (room.isCore || room.targetTank.isFragile) //Damage is being dealt to core cell
+            if (room.targetStructure.GetStructureType() == IStructure.StructureType.TANK)
             {
-                if (!room.targetTank.isInvincible) room.targetTank.Damage(damage); //Deal all core cell damage directly to tank instead of destroying cells (unless tank is invincible)
+                if (room.isCore || room.targetTank.isFragile) //Damage is being dealt to core cell
+                {
+                    if (!room.targetTank.isInvincible) room.targetTank.Damage(damage); //Deal all core cell damage directly to tank instead of destroying cells (unless tank is invincible)
+                }
+                else //Damage is being dealt to normal cell
+                {
+                    if (room.targetStructure.GetIsInvincible()) damage = 0;
+                    //Deal damage:
+                    health = Mathf.Max(0, health - damage); //Deal damage to cell
+                    if (health <= 0)
+                    {
+                        Kill(false, true);     //Kill cell if mortal damage has been dealt
+                        TankController tank = room.targetTank;
+                        if (tank != null)
+                        {
+                            float duration = 0.5f;
+                            float intensity = 5f;
+                            CameraManipulator.main?.ShakeTankCamera(tank, intensity, duration);
+                        }
+                    }
+                    else if (triggerHitEffect)
+                    {
+                        if (damage > 20) HitEffects(0.5f);
+                        else HitEffects(4f);
+                    }
+                }
             }
-            else //Damage is being dealt to normal cell
-            { 
-                //Deal damage:
+            else
+            {
+                //Deal Damage Normally
+                if (room.targetStructure.GetIsInvincible()) damage = 0;
                 health = Mathf.Max(0, health - damage); //Deal damage to cell
                 if (health <= 0)
                 {
                     Kill(false, true);     //Kill cell if mortal damage has been dealt
-                    TankController tank = room.targetTank;
-                    if (tank != null)
-                    {
-                        float duration = 0.5f;
-                        float intensity = 5f;
-                        CameraManipulator.main?.ShakeTankCamera(tank, intensity, duration);
-                    }
                 }
                 else if (triggerHitEffect)
                 {
@@ -488,7 +537,7 @@ namespace TowerTanks.Scripts
         public void Kill(bool proxy = false, bool lethal = false)
         {
             //Validity checks:
-            if (room.isCore) return; //Do not allow cells in core room to be destroyed
+            if (room.isCore && room.targetStructure.GetStructureType() == IStructure.StructureType.TANK) return; //Do not allow cells in core room on tanks to be destroyed
             if (dying) return;       //Do not try to kill a cell twice (happens in certain edge cases)
             dying = true;            //Indicate that cell is now dying
 
@@ -564,7 +613,7 @@ namespace TowerTanks.Scripts
 
             //Room cleanup:
             room.cells.Remove(this);                                   //Remove this cell from room cell list
-            if (!proxy) room.targetTank.treadSystem.ReCalculateMass(); //Re-calculate tank mass based on new cell configuration (only needs to be done once for group cell destructions)
+            if (!proxy && room.targetStructure.GetStructureType() == IStructure.StructureType.TANK) room.targetTank.treadSystem.ReCalculateMass(); //Re-calculate tank mass based on new cell configuration (only needs to be done once for group cell destructions)
 
             //Cleanup:
             //Remove Players
@@ -595,7 +644,7 @@ namespace TowerTanks.Scripts
                 if (engine != null) engine.Explode();
             }                      
             AddInteractablesFromCell();         //Add cell interactables to stack
-            room.targetTank.UpdateSizeValues(false); //Update highest cell tracker
+            room.targetStructure.UpdateSizeValues(false); //Update highest cell tracker
 
             //Update walls:
             deathWallMask.transform.parent = room.outerWallController.transform; //Child death mask to the wall spriteRenderer which it will be masking out
@@ -606,7 +655,7 @@ namespace TowerTanks.Scripts
             room.cellManifest[manifestIndex] = false; //Indicate to room that this cell is missing and should be saved as such
             if (room.cells.Count <= 0) //Parent room now has no cells
             {
-                room.targetTank.rooms.Remove(room); //Remove room from parent tank's list of rooms
+                room.targetStructure.GetRooms().Remove(room); //Remove room from parent structure's list of rooms
                 room.ClearItems();
                 Destroy(room.gameObject);           //Destroy room (simple because it is composed of no cells)
             }
@@ -624,7 +673,10 @@ namespace TowerTanks.Scripts
             //Stack update:
             if (interactable != null && interactable.interactableType != TankInteractable.InteractableType.CONSUMABLE)
             {
-                if (room.targetTank != null && room.targetTank.tankType == TankId.TankType.PLAYER && !overrideType) StackManager.AddToStack(GameManager.Instance.TankInteractableToEnum(interactable)); //Add interactable data to stack upon destruction (if it is in a player tank)
+                if (room.targetTank != null)
+                {
+                    if (room.targetTank.tankType == TankId.TankType.PLAYER && !overrideType) StackManager.AddToStack(GameManager.Instance.TankInteractableToEnum(interactable)); //Add interactable data to stack upon destruction (if it is in a player tank)
+                }
                 if (overrideType) StackManager.AddToStack(GameManager.Instance.TankInteractableToEnum(interactable));
                 Destroy(interactable.gameObject); //Destroy this interactable
             }
@@ -717,6 +769,7 @@ namespace TowerTanks.Scripts
         [Button("Ignite")]
         public void Ignite()
         {
+            if (!room.isFlammable) return;
             isOnFire = true;
             flames.SetActive(true);
             burnDamageTimer = burnDamageRate;
@@ -805,7 +858,10 @@ namespace TowerTanks.Scripts
                     {
                         if (GameManager.Instance.fireBreaksInteractables == false)
                         {
-                            if (room.targetTank != null && room.targetTank.tankType == TankId.TankType.PLAYER) StackManager.AddToStack(GameManager.Instance.TankInteractableToEnum(interactable)); //Add interactable data to stack upon destruction (if it is in a player tank)
+                            if (room.targetTank != null)
+                            {
+                                if (room.targetTank.tankType == TankId.TankType.PLAYER) StackManager.AddToStack(GameManager.Instance.TankInteractableToEnum(interactable)); //Add interactable data to stack upon destruction (if it is in a player tank)
+                            }
                             interactable.DebugDestroy();
                         }
                         else

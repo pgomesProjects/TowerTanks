@@ -7,21 +7,46 @@ namespace TowerTanks.Scripts
     public class StructureController : MonoBehaviour, IStructure
     {
         public IStructure.StructureType type = IStructure.StructureType.BUILDING;
+
+        //Components
         public Transform towerJoint;
+        public List<Room> rooms = new List<Room>();
+        public List<Coupler> hatches = new List<Coupler>();
         private Vector2[] cargoNodes;
         private List<InteractableId> interactableList = new List<InteractableId>();
         public RoomAssetKit defaultRoomKit;
 
-        // Start is called before the first frame update
-        void Start()
+        //Settings
+        [Header("Structure Settings:")]
+        public bool isInvincible;
+
+        void Awake()
         {
+            //Get objects & components:
+            //_thisTankAI = GetComponent<TankAI>();
+            towerJoint = transform.Find("TowerJoint");           //Get tower joint from children
 
-        }
+            bool isPrebuilding = true;
+            //Room setup:
+            rooms = new List<Room>(GetComponentsInChildren<Room>()); //Get list of all rooms which spawn as children of structure (for prefab structures)
 
-        // Update is called once per frame
-        void Update()
-        {
-
+            foreach (Room room in rooms) //Scrub through childed room list (should be in order of appearance under towerjoint)
+            {
+                room.targetStructure = this;
+                room.targetTank = null;
+                room.Initialize();      //Prepare room for mounting
+                if (room.isCore) //Found a core room
+                {
+                    //TODO: Track Core Rooms if there are multiple
+                }
+                else //Room has been added to tank for pre-mounting
+                {
+                    //Pre-mount room:
+                    room.UpdateRoomType(room.type);              //Apply preset room type
+                    room.SnapMove(room.transform.localPosition); //Snap room to position on tank grid
+                    room.Mount();                                //Mount room to tank immediately
+                }
+            }
         }
 
         //INTERFACE METHODS:
@@ -207,6 +232,12 @@ namespace TowerTanks.Scripts
         }
 
         public RoomAssetKit GetRoomAssetKit() => defaultRoomKit;
+
+        public List<Room> GetRooms() => rooms;
+
+        public List<Coupler> GetHatches() => hatches;
+
+        public bool GetIsInvincible() => isInvincible;
         #endregion
     }
 }

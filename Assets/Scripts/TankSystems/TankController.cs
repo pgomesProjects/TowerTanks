@@ -299,6 +299,7 @@ namespace TowerTanks.Scripts
 
             foreach (Room room in rooms) //Scrub through childed room list (should be in order of appearance under towerjoint)
             {
+                room.targetStructure = this;
                 room.targetTank = this; //Make this the target tank for all childed rooms
                 room.Initialize();      //Prepare room for mounting
                 if (room.isCore) //Found a core room
@@ -1315,6 +1316,8 @@ namespace TowerTanks.Scripts
             surrenderFlag.transform.position = newPos;
         }
 
+        public TreadSystem GetTreadSystem() => treadSystem;
+
         //INTERFACE METHODS:
         #region IStructure
         public IStructure.StructureType GetStructureType() => structureType;
@@ -1593,6 +1596,12 @@ namespace TowerTanks.Scripts
         }
 
         public RoomAssetKit GetRoomAssetKit() => roomKit;
+
+        public List<Room> GetRooms() => rooms;
+
+        public List<Coupler> GetHatches() => hatches;
+
+        public bool GetIsInvincible() => isInvincible;
         #endregion
     }
 }
