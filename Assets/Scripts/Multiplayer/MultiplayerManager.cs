@@ -99,9 +99,6 @@ namespace TowerTanks.Scripts
                 Debug.Log("Current Platform Display: " + GameSettings.gamePlatform);
             }
 
-            //Change the color of the player's gamepad cursor
-            playerInput.GetComponent<GamepadCursor>()?.CreateGamepadCursor(playerColors[playerIndex]);
-
             playerInput.name = "Player " + (playerIndex + 1).ToString();
 
             playerInput.onDeviceLost += OnDeviceLost;
@@ -117,7 +114,10 @@ namespace TowerTanks.Scripts
 
         private IEnumerator InvokeOnConnected(PlayerInput playerInput)
         {
-            yield return null;
+            //Wait until the next frame
+            yield return 0;
+           //Create the gamepad cursor
+           playerInput.GetComponent<GamepadCursor>()?.CreateGamepadCursor(playerColors[playerInput.playerIndex]);
             OnPlayerConnected?.Invoke(playerInput);
         }
 
