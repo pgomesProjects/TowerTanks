@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -17,6 +18,8 @@ namespace TowerTanks.Scripts
 
         private bool previousButtonSouthState;
         private Mouse virtualMouse;
+        private Vector2 cursorHotSpot = Vector2.zero;
+        private CursorMode cursorMode = CursorMode.Auto;
         private Camera mainCamera;
         private GamepadSelectable lastHoveredObject;
 
@@ -37,30 +40,39 @@ namespace TowerTanks.Scripts
             if (playerInput == null)
                 return;
 
+            Init(playerInput);
+        }
+
+        private void Init(PlayerInput playerInput)
+        {
             mainCamera = Camera.main;
 
             //Adds the the virtual mouse to the input system
             if (virtualMouse == null)
-            {
                 virtualMouse = (Mouse)InputSystem.AddDevice("VirtualMouse");
-            }
 
             else if (!virtualMouse.added)
-            {
                 InputSystem.AddDevice(virtualMouse);
-            }
+
+            //Enables the virtual mouse
+            InputSystem.EnableDevice(virtualMouse);
+            Cursor.SetCursor(null, cursorHotSpot, cursorMode);
 
             //Connects the virtual mouse to the player input component
             InputUser.PerformPairingWithDevice(virtualMouse, playerInput.user);
-
-            //Resets the cursor to the position of the cursor rectTransform
-            if (localGamepadCursorTransform != null)
-            {
-                Vector2 position = new Vector2(Screen.width / 2, Screen.height / 2);
-                InputState.Change(virtualMouse.position, position);
-            }
+            MoveCursorToCenterScreen();
 
             InputSystem.onAfterUpdate += UpdateMotion;
+        }
+
+        /// <summary>
+        /// Moves the gamepad cursor to the center of the screen.
+        /// </summary>
+        private void MoveCursorToCenterScreen()
+        {
+            //Resets the cursor to the center of the screen
+            Vector2 position = new Vector2(Screen.width / 2, Screen.height / 2);
+            InputState.Change(virtualMouse.position, position);
         }
 
         private void OnDisable()
@@ -68,9 +80,10 @@ namespace TowerTanks.Scripts
             if (playerInput == null)
                 return;
 
-            if (virtualMouse != null && virtualMouse.added)
-                InputSystem.RemoveDevice(virtualMouse);
             InputSystem.onAfterUpdate -= UpdateMotion;
+
+            if (virtualMouse != null && virtualMouse.added)
+                InputSystem.DisableDevice(virtualMouse);
         }
 
         /// <summary>
@@ -310,6 +323,8 @@ namespace TowerTanks.Scripts
         private void InitializeCursor()
         {
             playerInput = GetComponent<PlayerInput>();
+            Init(playerInput);
+
             canvas = GameObject.FindGameObjectWithTag("CursorCanvas")?.GetComponent<Canvas>();
             if (canvas == null)
             {

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{176DD27F-5704-4BF6-9C40-75E46D49E907}" SchemaVersion="123">
+	<GameParameters>
+		<WorkUnit Name="Default Work Unit" ID="{176DD27F-5704-4BF6-9C40-75E46D49E907}" PersistMode="Standalone">
+			<ChildrenList>
+				<GameParameter Name="SFXVolume" ID="{25CD284C-DD00-4B43-AA92-DA149FFC67FE}"/>
+				<GameParameter Name="MusicVolume" ID="{8DF6A26C-6613-43E2-8BC4-629F3F26B67D}"/>
+				<GameParameter Name="CombatLayer0Volume" ID="{2C4B9F99-A135-4017-AF64-0B4D29DE9D1C}">
+					<PropertyList>
+						<Property Name="InitialValue" Type="Real64" Value="100"/>
+					</PropertyList>
+				</GameParameter>
+				<GameParameter Name="CombatLayer1Volume" ID="{2F53B7D6-1456-48C7-9401-16A556219669}">
+					<PropertyList>
+						<Property Name="InitialValue" Type="Real64" Value="100"/>
+					</PropertyList>
+				</GameParameter>
+				<GameParameter Name="CombatLayer2Volume" ID="{EDD6D978-28D6-4BC3-9335-4C1A1D3D88EE}">
+					<PropertyList>
+						<Property Name="InitialValue" Type="Real64" Value="100"/>
+					</PropertyList>
+				</GameParameter>
+				<GameParameter Name="CombatLayer3Volume" ID="{483786C4-E13A-424C-8C18-2E313B0E7B44}">
+					<PropertyList>
+						<Property Name="InitialValue" Type="Real64" Value="100"/>
+					</PropertyList>
+				</GameParameter>
+				<GameParameter Name="GlobalCombatVolume" ID="{F08B4353-5890-420F-B430-AFDA94D9DAE7}">
+					<PropertyList>
+						<Property Name="InitialValue" Type="Real64" Value="100"/>
+					</PropertyList>
+				</GameParameter>
+				<GameParameter Name="SFXPitch" ID="{98C5051B-342F-4E28-AF5E-ABE51B369CA2}">
+					<PropertyList>
+						<Property Name="InitialValue" Type="Real64" Value="1"/>
+						<Property Name="Max" Type="Real64" Value="2"/>
+					</PropertyList>
+				</GameParameter>
+				<GameParameter Name="EnginePitch" ID="{1410D1D1-D54C-4027-9FB0-57E4263F1D0F}">
+					<PropertyList>
+						<Property Name="InitialValue" Type="Real64" Value="0"/>
+					</PropertyList>
+				</GameParameter>
+			</ChildrenList>
+		</WorkUnit>
+	</GameParameters>
+</WwiseDocument>

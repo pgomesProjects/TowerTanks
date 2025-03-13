@@ -38,6 +38,14 @@ namespace TowerTanks.Scripts
             if (targetColl == null || !targetColl.TryGetComponent(out Cell cell)) { Debug.LogWarning("Could not find cell."); return; }                                             //Cancel if interactable is not on a cell
             InstallInCell(targetColl.GetComponent<Cell>());                                                                                                                         //Install interactable in target cell
         }
+
+        private bool debugSpin = false;
+        private float debugRotSpeed = 60f;
+        [Button("Debug Spin")] public void DebugSpin()
+        {
+            debugSpin = !debugSpin;
+        }
+
         [Button("Debug Destroy")] public void DebugDestroy()
         {
             Destroy(gameObject); //Destroy interactable
@@ -141,6 +149,7 @@ namespace TowerTanks.Scripts
             if (debugMoveDown) { debugMoveDown = false; SnapMoveTick(Vector2.down); }
             if (debugMoveLeft) { debugMoveLeft = false; SnapMoveTick(Vector2.left); }
             if (debugMoveRight) { debugMoveRight = false; SnapMoveTick(Vector2.right); }
+            if (debugSpin) { transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y, transform.localEulerAngles.z + (debugRotSpeed * Time.deltaTime)); }
         }
 
         public virtual void LockIn(GameObject playerID) //Called from InteractableZone.cs when a user locks in to the interactable

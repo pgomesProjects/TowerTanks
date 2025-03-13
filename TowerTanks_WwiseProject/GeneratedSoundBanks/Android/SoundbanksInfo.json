@@ -124,7 +124,7 @@
     "Type": "User",
     "GUID": "{37497F3A-0B2B-421A-8CAB-0ADBE8B1C2B4}",
     "Language": "SFX",
-    "Hash": "{4BCFF9B9-B7C2-6634-9AA8-E71BCBD8ECA0}",
+    "Hash": "{BF30AB72-81ED-1921-1280-173FF7E0CAAD}",
     "ObjectPath": "\\SoundBanks\\Default Work Unit\\mainbank",
     "ShortName": "mainbank",
     "Path": "mainbank.bnk",
@@ -471,7 +471,7 @@
       "Streaming": "false",
       "Location": "Memory",
       "ShortName": "Into the Breach_ Advanced Edition Pinnacle OST [HQ].wav",
-      "CachePath": "B6/{B665E6F2-7B11-E08B-CFFE-7898ABCD9627}.wem"
+      "CachePath": "41/{41236E72-6FC1-95CD-3644-8A6D48F7C9BF}.wem"
      },
      {
       "Id": "608069065",
@@ -1891,6 +1891,6 @@
     ]
    }
   ],
-  "FileHash": "{3D19C7E0-F5DB-B838-B2EC-94CF677E37EA}"
+  "FileHash": "{24D944F6-E2DF-9E1C-E01A-ACFF8F245BEC}"
  }
 }

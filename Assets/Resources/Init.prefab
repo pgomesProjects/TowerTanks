@@ -242,7 +242,6 @@ MonoBehaviour:
   damageBreaksInteractables: 0
   cellDoubleHealth: 0
   tankClaiming: 0
-  _shopChance: 0
   tankDesign:
     TankName: 
     aiSettings: 
@@ -257,6 +256,7 @@ MonoBehaviour:
     - itemID: Wrench
       localSpawnVector: {x: 1, y: 0, z: 0}
       persistentValue: -1
+  _shopChance: 0
 --- !u!114 &2776762177459489224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -415,7 +415,7 @@ MonoBehaviour:
       Data: 0|UnityEngine.Color[], UnityEngine.CoreModule
     - Name: 
       Entry: 12
-      Data: 4
+      Data: 10
     - Name: 
       Entry: 7
       Data: UnityEngine.Color, UnityEngine.CoreModule
@@ -482,6 +482,114 @@ MonoBehaviour:
     - Name: 
       Entry: 4
       Data: 0
+    - Name: 
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Color, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 4
+      Data: 0.5102247
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Color, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 4
+      Data: 0.959172249
+    - Name: 
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Color, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 0.93859005
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Color, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 0.4333464
+    - Name: 
+      Entry: 4
+      Data: 0.0990566
+    - Name: 
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Color, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 4
+      Data: 0.493552923
+    - Name: 
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: UnityEngine.Color, UnityEngine.CoreModule
+    - Name: 
+      Entry: 4
+      Data: 0.5660378
+    - Name: 
+      Entry: 4
+      Data: 0.438879043
+    - Name: 
+      Entry: 4
+      Data: 0.296368837
     - Name: 
       Entry: 4
       Data: 1
@@ -1700,6 +1808,12 @@ MonoBehaviour:
   - type: 6
     gameObject: {fileID: 1131269492136351833, guid: cc9ab5d260652d641a9bb6270f795219, type: 3}
   buttonPromptSettings: {fileID: 11400000, guid: d9592cc9952e7b4449964cc3e6a40d1b, type: 2}
+  platformFaceButtonsSettings:
+  - {fileID: 11400000, guid: d49b7592f82065a438988c8eac7287a4, type: 2}
+  - {fileID: 11400000, guid: 8866cb38432a6404181c5b747abeb8f6, type: 2}
+  - {fileID: 11400000, guid: 3390f8a06330f61499db38b21ddd5f3d, type: 2}
+  - {fileID: 11400000, guid: 88357e3a8713b0f4199db634eea01e77, type: 2}
+  - {fileID: 11400000, guid: 646ee32700bac1b4a925df45f064babf, type: 2}
 --- !u!1001 &7563297248085180075
 PrefabInstance:
   m_ObjectHideFlags: 0

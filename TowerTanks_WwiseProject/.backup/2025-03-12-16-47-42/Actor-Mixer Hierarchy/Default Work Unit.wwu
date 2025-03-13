@@ -1,0 +1,2979 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}" SchemaVersion="123">
+	<AudioObjects>
+		<WorkUnit Name="Default Work Unit" ID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}" PersistMode="Standalone">
+			<ChildrenList>
+				<Folder Name="SFX" ID="{F0356B89-17F1-470D-BBE5-EC3763C5642B}" ShortID="277358759">
+					<PropertyList>
+						<Property Name="Color" Type="int16" Value="20"/>
+						<Property Name="OverrideColor" Type="bool" Value="True"/>
+					</PropertyList>
+					<ChildrenList>
+						<Sound Name="TT_SFX_cannon-fires" ID="{0FD32079-BCEC-4F44-A946-CE747D14EA32}" ShortID="501759667">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="LoudBlasts" ID="{7968801A-25AF-433D-8631-BC726ABCFEAD}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="TT_SFX_cannon-fires" ID="{E382D1DF-4480-4F0A-9AA7-9CCE5EAB4D67}">
+									<Language>SFX</Language>
+									<AudioFile>TT_SFX_cannon-fires.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="806435377"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="TT_SFX_cannon-fires" ID="{E382D1DF-4480-4F0A-9AA7-9CCE5EAB4D67}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_UI_button_cancel" ID="{8E261CF9-D111-440B-893E-182EB631606C}" ShortID="59704770">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="button_cancel" ID="{472E9EB5-B267-4528-B4C9-70DE59A98B09}">
+									<Language>SFX</Language>
+									<AudioFile>button_cancel.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="188920233"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="button_cancel" ID="{472E9EB5-B267-4528-B4C9-70DE59A98B09}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_UI_button_click" ID="{9A8A5ED0-E48D-4456-A7A5-61037A9715EA}" ShortID="866214082">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="button_click" ID="{1E804E46-06D9-4618-B3C7-FC65E57E8C0D}">
+									<Language>SFX</Language>
+									<AudioFile>button_click.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="613195460"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="button_click" ID="{1E804E46-06D9-4618-B3C7-FC65E57E8C0D}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_UI_button_hover" ID="{53A35B02-1B5E-437E-8388-1404FAE0C9FC}" ShortID="792193054">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="button_hover" ID="{797A76CD-1F56-4C02-B156-C6B9B5AA516A}">
+									<Language>SFX</Language>
+									<AudioFile>button_hover.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="813749911"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="button_hover" ID="{797A76CD-1F56-4C02-B156-C6B9B5AA516A}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_SFX_metal_footstep" ID="{C61D5E36-C0FD-49CD-9E61-0215EF718E8A}" ShortID="1027171742">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="metal_footstep" ID="{994F78E3-AF29-4EA8-9A1F-51701F8E113F}">
+									<Language>SFX</Language>
+									<AudioFile>metal_footstep.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="652002572"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="metal_footstep" ID="{994F78E3-AF29-4EA8-9A1F-51701F8E113F}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_SFX_muffled_cannon_fire" ID="{CF0C094A-55C4-4E0D-A44E-458BAF527190}" ShortID="875877547">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="muffled_cannon_fire" ID="{2746067D-878D-4BBE-8981-5B47671123C9}">
+									<Language>SFX</Language>
+									<AudioFile>muffled_cannon_fire.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="680578571"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="muffled_cannon_fire" ID="{2746067D-878D-4BBE-8981-5B47671123C9}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_UI_text_beep" ID="{FDBB1941-0CC5-4B4A-B299-E8E433CF1F77}" ShortID="527650569">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="text_beep" ID="{B18C1B94-1458-42DF-A622-FE395ED94DBF}">
+									<Language>SFX</Language>
+									<AudioFile>text_beep.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="729628631"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="text_beep" ID="{B18C1B94-1458-42DF-A622-FE395ED94DBF}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_SFX_blaring-alarm" ID="{5CF46254-3ADA-45CB-9DFA-487914AC47A1}" ShortID="436214740">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="TT_SFX_blaring-alarm" ID="{9561BD2D-7ABE-4716-B767-A981A5C2DF64}">
+									<Language>SFX</Language>
+									<AudioFile>TT_SFX_blaring-alarm.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="963356657"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="TT_SFX_blaring-alarm" ID="{9561BD2D-7ABE-4716-B767-A981A5C2DF64}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_SFX_cannon-aim-system" ID="{D269794B-EBEF-4ED4-8AE4-2F52AB1DD8FE}" ShortID="658875972">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="TT_SFX_cannon-aim-system" ID="{D358C992-241C-4B32-A3FF-7D7E578140CA}">
+									<Language>SFX</Language>
+									<AudioFile>TT_SFX_cannon-aim-system.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="792905054"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="TT_SFX_cannon-aim-system" ID="{D358C992-241C-4B32-A3FF-7D7E578140CA}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_SFX_cannon-lock-in-place" ID="{3CD59B57-5421-4AB9-A8B8-5FB1443F3F9D}" ShortID="1047748085">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="TT_SFX_cannon-lock-in-place" ID="{5607FAFB-63E0-4EAB-A444-0C334F340AC0}">
+									<Language>SFX</Language>
+									<AudioFile>TT_SFX_cannon-lock-in-place.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="676306554"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="TT_SFX_cannon-lock-in-place" ID="{5607FAFB-63E0-4EAB-A444-0C334F340AC0}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_SFX_cannon-reload" ID="{1361EC5F-6709-45FD-A7A9-F7CEF7BCCE66}" ShortID="137339585">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="TT_SFX_cannon-reload" ID="{C0C69545-1B3B-4731-87FA-556410D149DE}">
+									<Language>SFX</Language>
+									<AudioFile>TT_SFX_cannon-reload.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="22366201"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="TT_SFX_cannon-reload" ID="{C0C69545-1B3B-4731-87FA-556410D149DE}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_SFX_character-use" ID="{AD89274F-05F9-4418-A220-132D02DB7ABC}" ShortID="779257968">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="TT_SFX_character-use" ID="{B1AFF1C5-0E4D-4C95-9A75-A149949C6912}">
+									<Language>SFX</Language>
+									<AudioFile>TT_SFX_character-use.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="401117418"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="TT_SFX_character-use" ID="{B1AFF1C5-0E4D-4C95-9A75-A149949C6912}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_SFX_engine-dying" ID="{176F3DED-AE08-416C-A217-36EACB0E008A}" ShortID="483577368">
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="TT_SFX_engine-dying" ID="{9183FAC7-FA55-4D10-AA0C-1900EA589709}">
+									<Language>SFX</Language>
+									<AudioFile>TT_SFX_engine-dying.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="498551846"/>
+									</MediaIDList>
+								</AudioFileSource>
+								<AudioFileSource Name="TT_SFX_jetpack_rocket_loop" ID="{D61E042B-5B39-4BFE-83D1-1653E4042C41}">
+									<Language>SFX</Language>
+									<AudioFile>TT_SFX_jetpack_rocket_loop.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="564972492"/>
+									</MediaIDList>
+								</AudioFileSource>
+								<AudioFileSource Name="TT_SFX_jetpack-startup_v1" ID="{D6062F02-E53C-4D75-8381-E739C64787D9}">
+									<Language>SFX</Language>
+									<AudioFile>TT_SFX_jetpack-startup_v1.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="428826036"/>
+									</MediaIDList>
+								</AudioFileSource>
+								<AudioFileSource Name="TT_SFX_jetpack-startup_v2" ID="{7646E459-EADA-4330-973D-B21626445028}">
+									<Language>SFX</Language>
+									<AudioFile>TT_SFX_jetpack-startup_v2.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="1036265675"/>
+									</MediaIDList>
+								</AudioFileSource>
+								<AudioFileSource Name="TT_SFX_jetpack-startup" ID="{12603392-CE43-418A-87A0-05211B331BF6}">
+									<Language>SFX</Language>
+									<AudioFile>TT_SFX_jetpack-startup.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="895375203"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="TT_SFX_jetpack-startup" ID="{12603392-CE43-418A-87A0-05211B331BF6}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_SFX_engine-dying-2" ID="{7A5627ED-10F4-4C3E-996E-62933B0899A8}" ShortID="871603152">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="TT_SFX_engine-dying-2" ID="{3E11C09D-AE14-4628-9D35-DA6ABEEC88EC}">
+									<Language>SFX</Language>
+									<AudioFile>TT_SFX_engine-dying-2.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="3469524"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="TT_SFX_engine-dying-2" ID="{3E11C09D-AE14-4628-9D35-DA6ABEEC88EC}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_SFX_fire-burning" ID="{ED854C0F-E35A-430E-AD3F-7142134842E0}" ShortID="938294677">
+							<PropertyList>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="TT_SFX_fire-burning" ID="{38D85652-F131-4241-8A6B-40C63F350DDA}">
+									<Language>SFX</Language>
+									<AudioFile>TT_SFX_fire-burning.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="579595110"/>
+									</MediaIDList>
+								</AudioFileSource>
+								<AudioFileSource Name="TT_SFX_buildRoom" ID="{C33DE269-1F19-4EA8-A08F-FDA3AEC2DE6A}">
+									<Language>SFX</Language>
+									<AudioFile>TT_SFX_buildRoom.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="981873131"/>
+									</MediaIDList>
+								</AudioFileSource>
+								<AudioFileSource Name="TT_SFX_buildRoom_v1" ID="{9B7972C9-271E-4C87-B5F8-70B312BA011D}">
+									<Language>SFX</Language>
+									<AudioFile>TT_SFX_buildRoom_v1.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="359788963"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="TT_SFX_buildRoom_v1" ID="{9B7972C9-271E-4C87-B5F8-70B312BA011D}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_SFX_item_pickup" ID="{14AFAD6C-BA5B-4D4C-899C-CF944170430E}" ShortID="540482726">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="TT_SFX_item_pickup" ID="{DB6D003A-2F59-4AEE-8C4F-068BC842B376}">
+									<Language>SFX</Language>
+									<AudioFile>TT_SFX_item_pickup.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="736230953"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="TT_SFX_item_pickup" ID="{DB6D003A-2F59-4AEE-8C4F-068BC842B376}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_SFX_large-explosion" ID="{45C0989F-AD96-42E8-9FAC-A237C72C4640}" ShortID="716959908">
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="LoudBlasts" ID="{7968801A-25AF-433D-8631-BC726ABCFEAD}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="TT_SFX_large-explosion" ID="{B3112039-A7EB-4F1B-8543-76E0FB48EA53}">
+									<Language>SFX</Language>
+									<AudioFile>TT_SFX_large-explosion.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="1046025241"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="TT_SFX_large-explosion" ID="{B3112039-A7EB-4F1B-8543-76E0FB48EA53}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_SFX_loading-coal" ID="{DD291164-8D22-4759-A3F1-D2729F48D5D8}" ShortID="644549911">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-2</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="TT_SFX_loading-coal" ID="{73C7A906-E65A-4899-9FFD-FA6462907BDB}">
+									<Language>SFX</Language>
+									<AudioFile>TT_SFX_loading-coal.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="575432004"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="TT_SFX_loading-coal" ID="{73C7A906-E65A-4899-9FFD-FA6462907BDB}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_SFX_medium-explosion" ID="{E5D35382-484C-4B8F-9BC9-D93AAF86D33A}" ShortID="1049977366">
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="LoudBlasts" ID="{7968801A-25AF-433D-8631-BC726ABCFEAD}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="TT_SFX_medium-explosion" ID="{58EACE15-5BF3-4418-9D8D-6AD4CD89BC72}">
+									<Language>SFX</Language>
+									<AudioFile>TT_SFX_medium-explosion.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="1065158661"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{8545D2FA-4CE9-4606-93EE-94828E89252E}" ShortID="155653427">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Pitch"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="SFXPitch" ID="{98C5051B-342F-4E28-AF5E-ABE51B369CA2}" WorkUnitID="{176DD27F-5704-4BF6-9C40-75E46D49E907}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{5B20850B-75CA-4875-A741-DDECDB8B1993}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="65537"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-100</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>2</XPos>
+																		<YPos>100</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+							<ActiveSourceList>
+								<ActiveSource Name="TT_SFX_medium-explosion" ID="{58EACE15-5BF3-4418-9D8D-6AD4CD89BC72}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_SFX_projectile-in-air" ID="{4E6173C7-DEEE-47B4-822F-C422CD01F98F}" ShortID="425083717">
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="LoudBlasts" ID="{7968801A-25AF-433D-8631-BC726ABCFEAD}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="TT_SFX_projectile-in-air" ID="{ACFF76B4-857F-4EF5-A324-9F71376DCD23}">
+									<Language>SFX</Language>
+									<AudioFile>TT_SFX_projectile-in-air.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="544191574"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="TT_SFX_projectile-in-air" ID="{ACFF76B4-857F-4EF5-A324-9F71376DCD23}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_SFX_small-explosion" ID="{D8194BB9-DD63-4DC6-AC27-74F88E8B0BC8}" ShortID="617253451">
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="LoudBlasts" ID="{7968801A-25AF-433D-8631-BC726ABCFEAD}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="TT_SFX_small-explosion" ID="{BD143676-D7E5-424E-BD41-696338894799}">
+									<Language>SFX</Language>
+									<AudioFile>TT_SFX_small-explosion.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="563431773"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="TT_SFX_small-explosion" ID="{BD143676-D7E5-424E-BD41-696338894799}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_SFX_tank-engine" ID="{B3FD02D0-3A6D-4DC0-975A-1BCA00BA6277}" ShortID="987040148">
+							<PropertyList>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="TT_SFX_tank-engine" ID="{A79BF59B-55AE-4762-89E9-076B54CE8650}">
+									<PropertyList>
+										<Property Name="LoopBegin" Type="Real64" Value="0.0988520408163265"/>
+										<Property Name="LoopEnd" Type="Real64" Value="3.81173469387755"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>TT_SFX_tank-engine.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="872036804"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="TT_SFX_tank-engine" ID="{A79BF59B-55AE-4762-89E9-076B54CE8650}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_SFX_tank-impact" ID="{B4352004-57EE-4107-8E6C-EA6BD09D673D}" ShortID="164088111">
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="TT_SFX_tank-impact" ID="{439FFA99-B8A3-4838-B66E-3561EFA61955}">
+									<Language>SFX</Language>
+									<AudioFile>TT_SFX_tank-impact.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="258066100"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="TT_SFX_tank-impact" ID="{439FFA99-B8A3-4838-B66E-3561EFA61955}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_SFX_tank-rolling" ID="{905E8179-80B4-4215-BC7E-9856BA26E409}" ShortID="175491346">
+							<PropertyList>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="TT_SFX_tank-rolling" ID="{47FD3C9F-C6B2-4137-BA0D-4CAB2A9CC8B5}">
+									<PropertyList>
+										<Property Name="LoopBegin" Type="Real64" Value="0.189795918367347"/>
+										<Property Name="LoopEnd" Type="Real64" Value="7.51275510204082"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>TT_SFX_tank-rolling.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="1049821619"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{1E7E5A10-FA1F-427C-9415-A1418545902E}" ShortID="360610611">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Pitch"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="EnginePitch" ID="{1410D1D1-D54C-4027-9FB0-57E4263F1D0F}" WorkUnitID="{176DD27F-5704-4BF6-9C40-75E46D49E907}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{8214B875-9166-4B8C-A126-49F8C20A55BF}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="65537"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-600</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>600</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+							<ActiveSourceList>
+								<ActiveSource Name="TT_SFX_tank-rolling" ID="{47FD3C9F-C6B2-4137-BA0D-4CAB2A9CC8B5}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_SFX_text-scroll" ID="{582C61BA-3172-4794-AE0C-FA3921A9567B}" ShortID="894343595">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="TT_SFX_text-scroll" ID="{C9359053-0915-4ACD-B870-B25C75102ED7}">
+									<Language>SFX</Language>
+									<AudioFile>TT_SFX_text-scroll.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="835123090"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="TT_SFX_text-scroll" ID="{C9359053-0915-4ACD-B870-B25C75102ED7}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_SFX_throttle-click" ID="{351884D9-8A9C-46B5-9593-001463376AA1}" ShortID="704511128">
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="TT_SFX_throttle-click" ID="{43093071-CED9-4C8C-A995-AB725F443E9C}">
+									<Language>SFX</Language>
+									<AudioFile>TT_SFX_throttle-click.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="616062773"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="TT_SFX_throttle-click" ID="{43093071-CED9-4C8C-A995-AB725F443E9C}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_SFX_throttle-shift" ID="{5384198C-E785-4EAB-AB8A-DD473AD06C94}" ShortID="868593023">
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="TT_SFX_throttle-shift" ID="{64B0BB73-F8AE-4556-A10D-38E43963D52F}">
+									<Language>SFX</Language>
+									<AudioFile>TT_SFX_throttle-shift.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="763069168"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="TT_SFX_throttle-shift" ID="{64B0BB73-F8AE-4556-A10D-38E43963D52F}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_SFX_wrench" ID="{CA7ED59F-A2C8-43CB-83B7-965EAB01EA47}" ShortID="287660241">
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="TT_SFX_wrench" ID="{A9164506-28E0-4B16-B58B-8391A3965BEF}">
+									<Language>SFX</Language>
+									<AudioFile>TT_SFX_wrench.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="882478931"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="TT_SFX_wrench" ID="{A9164506-28E0-4B16-B58B-8391A3965BEF}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_SFX_ladder_climb" ID="{9C5389D6-2866-4382-8177-8949AA94612C}" ShortID="237014397">
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="updated_ladder_climb" ID="{E9634BBA-C562-41CB-93FA-52511413D352}">
+									<Language>SFX</Language>
+									<AudioFile>updated_ladder_climb.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="608155079"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="updated_ladder_climb" ID="{E9634BBA-C562-41CB-93FA-52511413D352}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_SFX_buildUndo" ID="{81862C49-CA5D-4EAD-A6DB-3AEFAC7DA578}" ShortID="263875542">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="TT_SFX_buildUndo" ID="{7335026A-BC51-4239-9467-FA60716A718A}">
+									<Language>SFX</Language>
+									<AudioFile>TT_SFX_buildUndo.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="2061770"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="TT_SFX_buildUndo" ID="{7335026A-BC51-4239-9467-FA60716A718A}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_SFX_invalidAlert" ID="{75B49762-1676-4FA3-9CDA-C0C3A9210664}" ShortID="491355185">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="TT_SFX_invalidAlert" ID="{683CA93B-3570-4080-AA42-C0AC91E3A314}">
+									<Language>SFX</Language>
+									<AudioFile>TT_SFX_invalidAlert.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="863978555"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="TT_SFX_invalidAlert" ID="{683CA93B-3570-4080-AA42-C0AC91E3A314}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<RandomSequenceContainer Name="TT_SFX_build-room" ID="{E3B20AC6-944E-4C63-9B81-2D3ED6B48A39}" ShortID="318865392">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="TT_SFX_buildRoom" ID="{2A043D85-A759-461F-B447-99EA03553F3E}" ShortID="80627084">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TT_SFX_buildRoom" ID="{17ADD831-AA56-4F7C-B6BB-E1E0D5747A03}">
+											<Language>SFX</Language>
+											<AudioFile>TT_SFX_buildRoom.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="881076302"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TT_SFX_buildRoom" ID="{17ADD831-AA56-4F7C-B6BB-E1E0D5747A03}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="TT_SFX_buildRoom_v1" ID="{15D1F979-FACE-4744-802D-5245F4DA526E}" ShortID="704480254">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TT_SFX_buildRoom_v1" ID="{4B1DC60B-14F6-4A6F-A213-6C8462B67E8B}">
+											<Language>SFX</Language>
+											<AudioFile>TT_SFX_buildRoom_v1.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="582839826"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TT_SFX_buildRoom_v1" ID="{4B1DC60B-14F6-4A6F-A213-6C8462B67E8B}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+						<RandomSequenceContainer Name="TT_SFX_room-connect" ID="{A3899EA3-F474-40F0-92F6-6CF820DC8A68}" ShortID="354527722">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="TT_SFX_room-connect" ID="{67169091-7F83-4DAC-BABA-A6938B05222C}" ShortID="270432539">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TT_SFX_room-connect" ID="{8E2D3A2C-DF95-4A56-8D83-9E8D50CB32A8}">
+											<Language>SFX</Language>
+											<AudioFile>TT_SFX_room-connect.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="756116293"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TT_SFX_room-connect" ID="{8E2D3A2C-DF95-4A56-8D83-9E8D50CB32A8}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="TT_SFX_room-connect_v1" ID="{22EE3621-C686-4F62-915F-19F70319551B}" ShortID="486060938">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TT_SFX_room-connect_v1" ID="{686C9010-E0D2-4D14-9445-12E9C2939592}">
+											<Language>SFX</Language>
+											<AudioFile>TT_SFX_room-connect_v1.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="767659334"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TT_SFX_room-connect_v1" ID="{686C9010-E0D2-4D14-9445-12E9C2939592}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+						<RandomSequenceContainer Name="TT_SFX_rotate-room" ID="{4A4528C7-8ABF-4900-BED4-CF8E815CECC0}" ShortID="827265342">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="TT_SFX_rotate-room" ID="{CB008CAC-3B94-4AE2-9AD2-08FA1826927E}" ShortID="12020457">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TT_SFX_rotate-room" ID="{D96F6528-926E-4B53-9903-A1B5E9372560}">
+											<Language>SFX</Language>
+											<AudioFile>TT_SFX_rotate-room.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="320129091"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TT_SFX_rotate-room" ID="{D96F6528-926E-4B53-9903-A1B5E9372560}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="TT_SFX_rotate-room_v1" ID="{93583C37-988B-42E7-B617-9117E6366343}" ShortID="316090338">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TT_SFX_rotate-room_v1" ID="{0B6C3E2D-B436-4B87-8730-8BCF98A433C8}">
+											<Language>SFX</Language>
+											<AudioFile>TT_SFX_rotate-room_v1.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="305378326"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TT_SFX_rotate-room_v1" ID="{0B6C3E2D-B436-4B87-8730-8BCF98A433C8}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+						<Sound Name="TT_SFX_jetpack_rocket_loop" ID="{76567B73-C098-4156-BE95-439287CCD02E}" ShortID="991838783">
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="TT_SFX_jetpack_rocket_loop" ID="{7CAFF293-A451-45D7-90E0-301449127CB9}">
+									<Language>SFX</Language>
+									<AudioFile>TT_SFX_jetpack_rocket_loop.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="564972492"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="TT_SFX_jetpack_rocket_loop" ID="{7CAFF293-A451-45D7-90E0-301449127CB9}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<RandomSequenceContainer Name="TT_SFX_jetpack-startup" ID="{68C35D55-FCFA-4EC7-9848-125037ED2F00}" ShortID="796941217">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-14</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="TT_SFX_jetpack-startup" ID="{555B2354-DD7E-46C4-9611-D7992DB94687}" ShortID="648198636">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TT_SFX_jetpack-startup" ID="{DE13EED9-8D16-4134-8CF7-428C05492AB3}">
+											<Language>SFX</Language>
+											<AudioFile>TT_SFX_jetpack-startup.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="895375203"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TT_SFX_jetpack-startup" ID="{DE13EED9-8D16-4134-8CF7-428C05492AB3}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="TT_SFX_jetpack-startup_v1" ID="{B1F980C9-ACD7-4C42-AA92-52415A73F2FE}" ShortID="15751585">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TT_SFX_jetpack-startup_v1" ID="{518499DE-85AC-4BA5-8A6D-0C51D9CE0E2C}">
+											<Language>SFX</Language>
+											<AudioFile>TT_SFX_jetpack-startup_v1.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="428826036"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TT_SFX_jetpack-startup_v1" ID="{518499DE-85AC-4BA5-8A6D-0C51D9CE0E2C}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="TT_SFX_jetpack-startup_v2" ID="{90D4F486-859F-4EEF-9554-07BC87E70900}" ShortID="994932643">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TT_SFX_jetpack-startup_v2" ID="{F48A846B-028C-47E4-8058-ED4787CB5658}">
+											<Language>SFX</Language>
+											<AudioFile>TT_SFX_jetpack-startup_v2.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="1036265675"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TT_SFX_jetpack-startup_v2" ID="{F48A846B-028C-47E4-8058-ED4787CB5658}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+						<Sound Name="TT_SFX_jetpack_refuel_v1" ID="{8CA79DB5-B695-49EF-8C83-07F97EFF229B}" ShortID="131447319">
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="TT_SFX_jetpack_refuel_v1" ID="{0FE35D62-9871-4CBF-AA76-331E5800359D}">
+									<Language>SFX</Language>
+									<AudioFile>TT_SFX_jetpack_refuel_v1.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="608069065"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="TT_SFX_jetpack_refuel_v1" ID="{0FE35D62-9871-4CBF-AA76-331E5800359D}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_SFX_steam_exhaust_loop" ID="{CCEC4BD7-AF11-4C37-A376-8DAC346AC4C0}" ShortID="284224630">
+							<PropertyList>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="TT_SFX_steam_exhaust_loop" ID="{4F5F269B-8F60-4449-A850-D0F18211569A}">
+									<Language>SFX</Language>
+									<AudioFile>TT_SFX_steam_exhaust_loop.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="442190223"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="TT_SFX_steam_exhaust_loop" ID="{4F5F269B-8F60-4449-A850-D0F18211569A}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_SFX_cannon_rotate_v2" ID="{BAA18089-E804-4BB0-8F87-ABDA45CC5C5F}" ShortID="103481105">
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="TT_SFX_cannon_rotate_v2" ID="{AFE50092-EEA4-467B-BFFE-0324AB1518D6}">
+									<Language>SFX</Language>
+									<AudioFile>TT_SFX_cannon_rotate_v2.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="89869954"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="TT_SFX_cannon_rotate_v2" ID="{AFE50092-EEA4-467B-BFFE-0324AB1518D6}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<RandomSequenceContainer Name="TT_SFX_steam-exhaust" ID="{28EA6071-4C6E-4F48-AA9D-CED281B4AD15}" ShortID="801296412">
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="TT_SFX_steam_exhaust" ID="{6DD8A468-C2A1-4FDF-BDC8-107B7F336802}" ShortID="64675146">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TT_SFX_steam_exhaust" ID="{FE65CB7A-2082-42E9-9260-A9D95DB7BDE0}">
+											<Language>SFX</Language>
+											<AudioFile>TT_SFX_steam_exhaust.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="172496222"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TT_SFX_steam_exhaust" ID="{FE65CB7A-2082-42E9-9260-A9D95DB7BDE0}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="TT_SFX_steam_exhaust_v1" ID="{5854271B-6034-4DEA-998D-C2701836F1FB}" ShortID="79904605">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TT_SFX_steam_exhaust_v1" ID="{8C7592AE-9BEB-4182-B714-96D242F5D841}">
+											<Language>SFX</Language>
+											<AudioFile>TT_SFX_steam_exhaust_v1.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="874009170"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TT_SFX_steam_exhaust_v1" ID="{8C7592AE-9BEB-4182-B714-96D242F5D841}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="TT_SFX_steam_exhaust_v2" ID="{4DABCE8F-D2C6-41ED-BB00-CA0FC4CC28D8}" ShortID="99312456">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TT_SFX_steam_exhaust_v2" ID="{3BBE3610-4309-4214-9529-CD11A87B2862}">
+											<Language>SFX</Language>
+											<AudioFile>TT_SFX_steam_exhaust_v2.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="905378176"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TT_SFX_steam_exhaust_v2" ID="{3BBE3610-4309-4214-9529-CD11A87B2862}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+						<RandomSequenceContainer Name="TT_SFX_tank-creaking" ID="{E265F373-D1AC-472F-86AA-EA692E677BD4}" ShortID="415035234">
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="TT_SFX_tank-creaking" ID="{A02ACF91-D745-4102-98EC-7D001C805D35}" ShortID="317298298">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TT_SFX_tank-creaking" ID="{7F2061DD-4764-4651-A576-19364CB5334D}">
+											<Language>SFX</Language>
+											<AudioFile>TT_SFX_tank-creaking.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="727609140"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TT_SFX_tank-creaking" ID="{7F2061DD-4764-4651-A576-19364CB5334D}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="TT_SFX_tank-creaking_v1" ID="{B36CCC92-19A3-45AE-880B-C2D8069F4991}" ShortID="545328691">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TT_SFX_tank-creaking_v1" ID="{BC89BFA0-30F3-430B-A74A-8B22311787BA}">
+											<Language>SFX</Language>
+											<AudioFile>TT_SFX_tank-creaking_v1.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="671272586"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TT_SFX_tank-creaking_v1" ID="{BC89BFA0-30F3-430B-A74A-8B22311787BA}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="TT_SFX_tank-creaking_v2" ID="{AEDB7E2C-9BCF-4961-BA4C-7C0E535BEB3B}" ShortID="62816192">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TT_SFX_tank-creaking_v2" ID="{96EA3A9B-43A1-4398-9CC4-6F8C8B0359BE}">
+											<Language>SFX</Language>
+											<AudioFile>TT_SFX_tank-creaking_v2.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="661803067"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TT_SFX_tank-creaking_v2" ID="{96EA3A9B-43A1-4398-9CC4-6F8C8B0359BE}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+						<RandomSequenceContainer Name="TT_SFX_tank-alarm" ID="{47448F89-7072-47AE-9910-9A5733009409}" ShortID="337865011">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>10</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="TT_SFX_tank_alarm" ID="{BCA57CFC-D95A-4B56-B9D6-5264F1856CAB}" ShortID="204171529">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TT_SFX_tank_alarm" ID="{5463C445-BEEE-46F3-8154-7E5422E1DB90}">
+											<Language>SFX</Language>
+											<AudioFile>TT_SFX_tank_alarm.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="961137882"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TT_SFX_tank_alarm" ID="{5463C445-BEEE-46F3-8154-7E5422E1DB90}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="TT_SFX_tank_alarm_v1" ID="{774BFC82-E843-42CE-A921-5D2FABEF548D}" ShortID="959851167">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TT_SFX_tank_alarm_v1" ID="{60A4E1C8-E043-422B-82BD-2D3E087C95DE}">
+											<Language>SFX</Language>
+											<AudioFile>TT_SFX_tank_alarm_v1.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="828978616"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TT_SFX_tank_alarm_v1" ID="{60A4E1C8-E043-422B-82BD-2D3E087C95DE}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+						<RandomSequenceContainer Name="TT_SFX_coal_pickup" ID="{36544B48-5F79-417E-BE85-F2665064F50D}" ShortID="731465637">
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="TT_SFX_coal-pickup" ID="{653F8B3F-15EE-451C-9B73-2A315F6CDA58}" ShortID="543514095">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TT_SFX_coal-pickup" ID="{2C4EE756-1CB0-45D6-B38E-0DAB5277091D}">
+											<Language>SFX</Language>
+											<AudioFile>TT_SFX_coal-pickup.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="168215010"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TT_SFX_coal-pickup" ID="{2C4EE756-1CB0-45D6-B38E-0DAB5277091D}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="TT_SFX_coal-pickup_v1" ID="{38F49D70-CD49-4CD3-BCAB-89ECD43A0836}" ShortID="810617579">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TT_SFX_coal-pickup_v1" ID="{C8382FCA-ED33-467D-8511-45B5E42680A2}">
+											<Language>SFX</Language>
+											<AudioFile>TT_SFX_coal-pickup_v1.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="981522565"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TT_SFX_coal-pickup_v1" ID="{C8382FCA-ED33-467D-8511-45B5E42680A2}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+						<Sound Name="TT_SFX_coal-load_Engine" ID="{0BC92B9F-8B1F-44A6-9373-EAF2586DE534}" ShortID="439937570">
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="TT_SFX_coal-load_Engine" ID="{65EDB773-56B1-4F2F-9EB0-470C583BDBBA}">
+									<Language>SFX</Language>
+									<AudioFile>TT_SFX_coal-load_Engine.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="500659198"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="TT_SFX_coal-load_Engine" ID="{65EDB773-56B1-4F2F-9EB0-470C583BDBBA}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_SFX_coal-load_Fire" ID="{581051D8-D36E-453A-A629-F95B89397D4D}" ShortID="871261474">
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="TT_SFX_coal-load_Fire" ID="{25B781EE-6F3D-4410-9C35-55BC053EF668}">
+									<Language>SFX</Language>
+									<AudioFile>TT_SFX_coal-load_Fire.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="16839121"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="TT_SFX_coal-load_Fire" ID="{25B781EE-6F3D-4410-9C35-55BC053EF668}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_SFX_engine_running" ID="{AE55B66C-60EE-4714-BCC7-47D1C62E6B78}" ShortID="159975669">
+							<PropertyList>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-15</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="TT_SFX_engine_running" ID="{57254273-7388-42E1-945D-25FDFFDEADD1}">
+									<PropertyList>
+										<Property Name="LoopBegin" Type="Real64" Value="0.336734693877551"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>TT_SFX_engine_running.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="327969907"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="TT_SFX_engine_running" ID="{57254273-7388-42E1-945D-25FDFFDEADD1}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<RandomSequenceContainer Name="TT_SFX_foostep_dirt" ID="{51B6321F-DEA7-46BB-80D4-31B305B3F655}" ShortID="677438651">
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="TT_SFX_footstep-dirt" ID="{4A27E6BC-74A1-4D0A-A34F-0EAAA4B144E6}" ShortID="52338134">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TT_SFX_footstep-dirt" ID="{C9CC654C-7071-4733-879D-1381C4346969}">
+											<Language>SFX</Language>
+											<AudioFile>TT_SFX_footstep-dirt.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="838958908"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TT_SFX_footstep-dirt" ID="{C9CC654C-7071-4733-879D-1381C4346969}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="TT_SFX_footstep-dirt_v1" ID="{3E732276-7411-4D74-BEC3-2B02711081B9}" ShortID="260230399">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TT_SFX_footstep-dirt_v1" ID="{CCA1B800-2A14-4D88-9256-17C5AF26000D}">
+											<Language>SFX</Language>
+											<AudioFile>TT_SFX_footstep-dirt_v1.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="576959645"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TT_SFX_footstep-dirt_v1" ID="{CCA1B800-2A14-4D88-9256-17C5AF26000D}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="TT_SFX_footstep-dirt_v2" ID="{6286F4E8-CB48-45F6-BE86-A3D03C76F653}" ShortID="764520507">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TT_SFX_footstep-dirt_v2" ID="{AD086364-64EC-4FC1-9F66-729EC2EF727D}">
+											<Language>SFX</Language>
+											<AudioFile>TT_SFX_footstep-dirt_v2.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="378929650"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TT_SFX_footstep-dirt_v2" ID="{AD086364-64EC-4FC1-9F66-729EC2EF727D}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+						<RandomSequenceContainer Name="TT_SFX_footstep_metal" ID="{B9EB4E38-8610-4D4A-98AB-E2A78704E76F}" ShortID="892190009">
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="TT_SFX_footstep-metal" ID="{888F9B3D-9AA8-468D-812C-D083B03A5E81}" ShortID="291052597">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TT_SFX_footstep-metal" ID="{094BC02E-C4DD-418D-94C1-99B75C052BD3}">
+											<Language>SFX</Language>
+											<AudioFile>TT_SFX_footstep-metal.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="339162172"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TT_SFX_footstep-metal" ID="{094BC02E-C4DD-418D-94C1-99B75C052BD3}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="TT_SFX_footstep-metal_v1" ID="{E4CB2F1C-63EC-4096-9CBC-49B77C5E5693}" ShortID="1003320411">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TT_SFX_footstep-metal_v1" ID="{EF200064-ADDD-42F0-8614-FB5FA5AAFC47}">
+											<Language>SFX</Language>
+											<AudioFile>TT_SFX_footstep-metal_v1.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="198559233"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TT_SFX_footstep-metal_v1" ID="{EF200064-ADDD-42F0-8614-FB5FA5AAFC47}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="TT_SFX_footstep-metal_v2" ID="{71273B13-F4D5-4B26-A41D-E86D2A945B1A}" ShortID="715561146">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TT_SFX_footstep-metal_v2" ID="{1CC03EB5-144B-40A0-B159-E979FC5C3938}">
+											<Language>SFX</Language>
+											<AudioFile>TT_SFX_footstep-metal_v2.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="303346043"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TT_SFX_footstep-metal_v2" ID="{1CC03EB5-144B-40A0-B159-E979FC5C3938}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+						<RandomSequenceContainer Name="TT_SFX_cannon_fire (recycled)" ID="{1D7405C0-9D78-4BBF-8BEA-FF7B2EA3B068}" ShortID="673806766">
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="LoudBlasts" ID="{7968801A-25AF-433D-8631-BC726ABCFEAD}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="TT_SFX_cannon_fire_v3" ID="{127B3279-8E9A-4C16-ABAE-B83A7C6C0694}" ShortID="923737519">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TT_SFX_cannon_fire_v3" ID="{83DB56A2-E639-4276-8CC0-9B2B2C0FE9F9}">
+											<Language>SFX</Language>
+											<AudioFile>TT_SFX_cannon_fire_v3.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="537941924"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TT_SFX_cannon_fire_v3" ID="{83DB56A2-E639-4276-8CC0-9B2B2C0FE9F9}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="TT_SFX_cannon_fire_v4" ID="{1C0E5C9B-D892-4491-AAE4-FE748CB03CE2}" ShortID="262900099">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TT_SFX_cannon_fire_v4" ID="{4C92FCA0-34F7-4502-9660-0A92657A86D6}">
+											<Language>SFX</Language>
+											<AudioFile>TT_SFX_cannon_fire_v4.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="868853871"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TT_SFX_cannon_fire_v4" ID="{4C92FCA0-34F7-4502-9660-0A92657A86D6}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="TT_SFX_cannon_fire_v5" ID="{4DB66AFB-5B47-43EB-9863-F75120F144DD}" ShortID="453440161">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TT_SFX_cannon_fire_v5" ID="{A7DF50F7-FD7C-420F-8FC4-DB8E5D8DFB12}">
+											<Language>SFX</Language>
+											<AudioFile>TT_SFX_cannon_fire_v5.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="1032382603"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TT_SFX_cannon_fire_v5" ID="{A7DF50F7-FD7C-420F-8FC4-DB8E5D8DFB12}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="TT_SFX_cannon_fire" ID="{D49BF8AF-E5CE-44B0-A68B-3E33F327D217}" ShortID="402318654">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TT_SFX_cannon_fire" ID="{0B38FA3B-319D-4A97-9578-D48EF558EB6A}">
+											<Language>SFX</Language>
+											<AudioFile>TT_SFX_cannon_fire.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="550003302"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TT_SFX_cannon_fire" ID="{0B38FA3B-319D-4A97-9578-D48EF558EB6A}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="TT_SFX_cannon_fire_v1" ID="{54442440-C8DE-4E0C-AD73-3B04EA935DF7}" ShortID="348642834">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TT_SFX_cannon_fire_v1" ID="{E8BC7EF5-9CBE-4C06-B156-5B5FDB3B71B2}">
+											<Language>SFX</Language>
+											<AudioFile>TT_SFX_cannon_fire_v1.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="650954530"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TT_SFX_cannon_fire_v1" ID="{E8BC7EF5-9CBE-4C06-B156-5B5FDB3B71B2}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+						<RandomSequenceContainer Name="TT_SFX_cannon_fire (new)" ID="{61ECB6EC-2227-4A40-8817-837AAF6B74DF}" ShortID="236893774">
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="LoudBlasts" ID="{7968801A-25AF-433D-8631-BC726ABCFEAD}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="TT_SFX_cannon_fire[02-25]" ID="{CA99F285-22F1-458E-9EDD-59AE6870A826}" ShortID="883892918">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TT_SFX_cannon_fire[02-25]" ID="{CBC23906-000D-4D2C-88AD-C540E8385678}">
+											<Language>SFX</Language>
+											<AudioFile>TT_SFX_cannon_fire[02-25].wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="285073727"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TT_SFX_cannon_fire[02-25]" ID="{CBC23906-000D-4D2C-88AD-C540E8385678}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="TT_SFX_cannon_fire_v1[02-25]" ID="{74C31B00-C98E-4D11-A8C1-26130F4058A0}" ShortID="907385866">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TT_SFX_cannon_fire_v1[02-25]" ID="{8A246441-2C7D-430A-A9D6-BDCD6A3169B4}">
+											<Language>SFX</Language>
+											<AudioFile>TT_SFX_cannon_fire_v1[02-25].wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="608483258"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TT_SFX_cannon_fire_v1[02-25]" ID="{8A246441-2C7D-430A-A9D6-BDCD6A3169B4}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="TT_SFX_cannon_fire_v2" ID="{86933425-81C3-46A6-900D-BAD537046BBA}" ShortID="140912503">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="TT_SFX_cannon_fire_v2" ID="{D1427FC4-2502-47A5-B811-136181DF87CE}">
+											<Language>SFX</Language>
+											<AudioFile>TT_SFX_cannon_fire_v2.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="889039676"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="TT_SFX_cannon_fire_v2" ID="{D1427FC4-2502-47A5-B811-136181DF87CE}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+							<PositioningInfo>
+								<Position Name="" ID="{F45F842D-AFD2-4C6D-8562-1342AB27E59E}"/>
+							</PositioningInfo>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{C67A8B46-24CA-4DCD-877A-2C43F03F66E0}" ShortID="586391423">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Pitch"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="SFXPitch" ID="{98C5051B-342F-4E28-AF5E-ABE51B369CA2}" WorkUnitID="{176DD27F-5704-4BF6-9C40-75E46D49E907}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{2273BD9A-F13D-452D-85EF-45400743B5AA}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="65537"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-100</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>2</XPos>
+																		<YPos>100</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+						</RandomSequenceContainer>
+						<RandomSequenceContainer Name="TT_SFX_machine_gun_fire" ID="{151F9BD6-5C40-4836-AC2E-2F9847D2C5A8}" ShortID="14474389">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-15</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="LoudBlasts" ID="{7968801A-25AF-433D-8631-BC726ABCFEAD}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="TT_SFX_machine_gun_fire_1" ID="{50EC8B33-249E-4D08-A756-D975A099EA09}" ShortID="359596286">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="MachineGun GUNS01_89_2" ID="{E8C82E7E-0918-446F-812E-3EAF8364DF37}">
+											<PropertyList>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="0.138456388844846"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>MachineGun GUNS01_89_2.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="920263717"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="MachineGun GUNS01_89_2" ID="{E8C82E7E-0918-446F-812E-3EAF8364DF37}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+							<PositioningInfo>
+								<Position Name="" ID="{0DDF9AD6-335C-488F-B1DA-8BF809E076F8}"/>
+							</PositioningInfo>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{92C0C15F-DAB2-4C36-9AA5-C757DE34E142}" ShortID="110106355">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Pitch"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="SFXPitch" ID="{98C5051B-342F-4E28-AF5E-ABE51B369CA2}" WorkUnitID="{176DD27F-5704-4BF6-9C40-75E46D49E907}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{2CFEB62F-4C3E-4DB7-82D5-1AF81513B920}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="65537"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-1000</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>2</XPos>
+																		<YPos>1000</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+						</RandomSequenceContainer>
+						<RandomSequenceContainer Name="TT_SFX_bullet_impact_dirt" ID="{FFE82E7D-2D18-4472-A8A0-4A5A222B4245}" ShortID="246192117">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-20</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="TT_SFX_bullet_impact_dirt" ID="{861B9ECD-AA2E-420E-9F33-690897CCDAB0}" ShortID="877701559">
+									<PropertyList>
+										<Property Name="Weight" Type="Real64">
+											<ValueList>
+												<Value>60</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="GUN-RICOCHET_GEN-HDF-13674" ID="{F2511782-991D-4E78-A771-91E57B1B000C}">
+											<PropertyList>
+												<Property Name="FadeOutDuration" Type="Real64" Value="0.240465695712247"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="0.0857604928763958"/>
+												<Property Name="TrimEnd" Type="Real64" Value="0.380036693922852"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>GUN-RICOCHET_GEN-HDF-13674.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="421337450"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="GUN-RICOCHET_GEN-HDF-13674" ID="{F2511782-991D-4E78-A771-91E57B1B000C}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="TT_SFX_bullet_impact_dirt_01" ID="{AA8B7B62-DDD0-4668-A65B-A9DDA420669B}" ShortID="997824133">
+									<PropertyList>
+										<Property Name="Weight" Type="Real64">
+											<ValueList>
+												<Value>30</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="GUN-RICOCHET_GEN-HDF-13674" ID="{078CB681-CEE7-4B7F-99CC-239EA93F8ECA}">
+											<PropertyList>
+												<Property Name="FadeOutDuration" Type="Real64" Value="0.240465695712247"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="0.339678814922194"/>
+												<Property Name="TrimEnd" Type="Real64" Value="0.588552402092912"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>GUN-RICOCHET_GEN-HDF-13674.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="1067390579"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="GUN-RICOCHET_GEN-HDF-13674" ID="{078CB681-CEE7-4B7F-99CC-239EA93F8ECA}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="TT_SFX_bullet_impact_dirt_02" ID="{6A199478-6E68-458E-92CB-B098D0DF38D4}" ShortID="578737991">
+									<PropertyList>
+										<Property Name="Weight" Type="Real64">
+											<ValueList>
+												<Value>40</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="GUN-RICOCHET_GEN-HDF-13674" ID="{742C950A-2653-474C-886C-ED8107C81944}">
+											<PropertyList>
+												<Property Name="FadeOutDuration" Type="Real64" Value="0.238784117420553"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="0.528015583591927"/>
+												<Property Name="TrimEnd" Type="Real64" Value="0.770162857595868"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>GUN-RICOCHET_GEN-HDF-13674.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="542757787"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="GUN-RICOCHET_GEN-HDF-13674" ID="{742C950A-2653-474C-886C-ED8107C81944}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="TT_SFX_bullet_impact_dirt_03" ID="{BC74261C-66ED-4BB4-97F7-1B058EA50F9F}" ShortID="1034240328">
+									<PropertyList>
+										<Property Name="Weight" Type="Real64">
+											<ValueList>
+												<Value>30</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="GUN-RICOCHET_GEN-HDF-13674" ID="{F6B0CF15-9B64-4DB8-80FA-AAAE5892F291}">
+											<PropertyList>
+												<Property Name="FadeOutDuration" Type="Real64" Value="0.238784117420553"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="0.719715508845047"/>
+												<Property Name="TrimEnd" Type="Real64" Value="1.38730209064758"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>GUN-RICOCHET_GEN-HDF-13674.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="341912688"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="GUN-RICOCHET_GEN-HDF-13674" ID="{F6B0CF15-9B64-4DB8-80FA-AAAE5892F291}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+						<RandomSequenceContainer Name="TT_SFX_bullet_impact" ID="{AFFE189C-C83B-4613-B8CF-72F058DDEDC5}" ShortID="456873651">
+							<PropertyList>
+								<Property Name="Volume" Type="Real64">
+									<ValueList>
+										<Value>-20</Value>
+									</ValueList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="WorldLocal" ID="{94A71A5C-6D3D-409A-9A41-C9A7C4DA4D65}" WorkUnitID="{A3C94227-9C57-4BFD-B41F-75107FA20C8D}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="SFX Audio Bus" ID="{56A07EF2-6F27-4FEE-A852-F9D866A88442}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="TT_SFX_bullet_impact" ID="{DF5FE84C-B39A-4AFB-8D25-DBB3D8A64C83}" ShortID="224470534">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="GUN-BULLET_GEN-HDF-13225" ID="{4446A423-3426-4CFF-B4F9-0A11977A22F1}">
+											<PropertyList>
+												<Property Name="FadeOutDuration" Type="Real64" Value="0.0324718566671952"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="0.0633201205010306"/>
+												<Property Name="TrimEnd" Type="Real64" Value="0.259774853337561"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>GUN-BULLET_GEN-HDF-13225.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="264891926"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="GUN-BULLET_GEN-HDF-13225" ID="{4446A423-3426-4CFF-B4F9-0A11977A22F1}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="TT_SFX_bullet_impact_01" ID="{ABB1CB0A-EACC-4DF7-BD4F-FEDEFADB552D}" ShortID="297150097">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="GUN-BULLET_GEN-HDF-13225" ID="{A743E13C-450F-498C-B67E-548D3F93BE26}">
+											<PropertyList>
+												<Property Name="FadeOutDuration" Type="Real64" Value="0.0324718566671952"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="0.256527667670842"/>
+												<Property Name="TrimEnd" Type="Real64" Value="0.431875693673697"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>GUN-BULLET_GEN-HDF-13225.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="466320299"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="GUN-BULLET_GEN-HDF-13225" ID="{A743E13C-450F-498C-B67E-548D3F93BE26}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="TT_SFX_bullet_impact_02" ID="{CB41AA0E-A165-497C-A411-EAAD35C04B7A}" ShortID="528902176">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="GUN-BULLET_GEN-HDF-13225" ID="{B59D30A3-2673-4A36-9C46-01A9A8811303}">
+											<PropertyList>
+												<Property Name="FadeOutDuration" Type="Real64" Value="0.0324718566671952"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="0.401027429839861"/>
+												<Property Name="TrimEnd" Type="Real64" Value="0.54228000634216"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>GUN-BULLET_GEN-HDF-13225.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="476931074"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="GUN-BULLET_GEN-HDF-13225" ID="{B59D30A3-2673-4A36-9C46-01A9A8811303}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="TT_SFX_bullet_impact_03" ID="{6B2413D0-791F-4F54-8E3C-597AC4DE2E17}" ShortID="255781024">
+									<PropertyList>
+										<Property Name="Weight" Type="Real64">
+											<ValueList>
+												<Value>30</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="GUN-BULLET_GEN-HDF-13225" ID="{0814190F-781F-4AA4-AACC-DCD03FE0D1B2}">
+											<PropertyList>
+												<Property Name="FadeOutDuration" Type="Real64" Value="0.0324718566671952"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="0.511431742508324"/>
+												<Property Name="TrimEnd" Type="Real64" Value="0.8069256381798"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>GUN-BULLET_GEN-HDF-13225.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="508593160"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="GUN-BULLET_GEN-HDF-13225" ID="{0814190F-781F-4AA4-AACC-DCD03FE0D1B2}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="TT_SFX_bullet_impact_04" ID="{6D96A32E-0664-4B9B-A52F-3A312E8EFA4E}" ShortID="936312498">
+									<PropertyList>
+										<Property Name="Weight" Type="Real64">
+											<ValueList>
+												<Value>30</Value>
+											</ValueList>
+										</Property>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="GUN-BULLET_GEN-HDF-13225" ID="{1D979CCD-166D-4DCC-AFA5-C35554BBB4E2}">
+											<PropertyList>
+												<Property Name="FadeOutDuration" Type="Real64" Value="0.126640241002061"/>
+												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+												<Property Name="TrimBegin" Type="Real64" Value="0.766335817345806"/>
+												<Property Name="TrimEnd" Type="Real64" Value="1.14950372601871"/>
+											</PropertyList>
+											<Language>SFX</Language>
+											<AudioFile>GUN-BULLET_GEN-HDF-13225.wav</AudioFile>
+											<MediaIDList>
+												<MediaID ID="841978207"/>
+											</MediaIDList>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="GUN-BULLET_GEN-HDF-13225" ID="{1D979CCD-166D-4DCC-AFA5-C35554BBB4E2}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="BGM" ID="{2BE824B0-8D3F-4950-B4EF-7D37BEF8A834}" ShortID="185395347">
+					<PropertyList>
+						<Property Name="Color" Type="int16" Value="4"/>
+						<Property Name="OverrideColor" Type="bool" Value="True"/>
+					</PropertyList>
+					<ChildrenList>
+						<Sound Name="TTTT_Menu_Sketch_Mix" ID="{1E434762-F2CC-4409-A759-3BCFD3480C6A}" ShortID="944632069">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Music Audio Bus" ID="{35A3AADB-A99C-4462-8303-6A0F7A8CC03F}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="TTTT_Menu_Sketch_Mix" ID="{DDFFDB1E-5DF4-40D4-9DC7-D6E7D6E90066}">
+									<Language>SFX</Language>
+									<AudioFile>TTTT_Menu_Sketch_Mix.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="595583574"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="TTTT_Menu_Sketch_Mix" ID="{DDFFDB1E-5DF4-40D4-9DC7-D6E7D6E90066}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_SFX_outside-ambience" ID="{EBFFBEC8-287E-4201-BE6F-97A446CA678D}" ShortID="740556514">
+							<PropertyList>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Music Audio Bus" ID="{35A3AADB-A99C-4462-8303-6A0F7A8CC03F}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="TT_SFX_outside-ambience" ID="{4262F1BF-D8FB-4252-9CAD-AD66AF98EBB9}">
+									<Language>SFX</Language>
+									<AudioFile>TT_SFX_outside-ambience.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="476975229"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="TT_SFX_outside-ambience" ID="{4262F1BF-D8FB-4252-9CAD-AD66AF98EBB9}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TTTT_DeathStinger_Mix_Final_2_13_22" ID="{E10B7A00-91F6-4DD7-AAE5-397C90E7EF19}" ShortID="159633767">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Music Audio Bus" ID="{35A3AADB-A99C-4462-8303-6A0F7A8CC03F}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="TTTT_DeathStinger_Mix_Final_2_13_22" ID="{81B6BF29-BEBF-4E7F-9A5C-AB8AB0EE0545}">
+									<Language>SFX</Language>
+									<AudioFile>TTTT_DeathStinger_Mix_Final_2.13.22.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="354630741"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="TTTT_DeathStinger_Mix_Final_2_13_22" ID="{81B6BF29-BEBF-4E7F-9A5C-AB8AB0EE0545}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_BGM_Into_the_Breach" ID="{037E6CDC-AC4B-403D-AB1D-3FA4B008DBEA}" ShortID="410839142">
+							<PropertyList>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Music Audio Bus" ID="{35A3AADB-A99C-4462-8303-6A0F7A8CC03F}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="The Blast Garden  Into the Breach OST" ID="{26EFFB08-0410-4B0D-9B1D-3F2AAA1228BE}">
+									<PropertyList>
+										<Property Name="FadeInDuration" Type="Real64" Value="0.828999733438296"/>
+										<Property Name="FadeOutDuration" Type="Real64" Value="21.9684929361149"/>
+										<Property Name="LoopEnd" Type="Real64" Value="104.081001267156"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>The Blast Garden  Into the Breach OST.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="654213358"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{C5C4E9CD-5476-43DD-8E41-43D185DEAAB0}" ShortID="212864429">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Volume"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="MusicVolume" ID="{8DF6A26C-6613-43E2-8BC4-629F3F26B67D}" WorkUnitID="{176DD27F-5704-4BF6-9C40-75E46D49E907}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{33449E97-1207-4EA9-847F-0C3DEF32C7C6}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="3"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-200</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>0</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+							<ActiveSourceList>
+								<ActiveSource Name="The Blast Garden  Into the Breach OST" ID="{26EFFB08-0410-4B0D-9B1D-3F2AAA1228BE}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_BGM_Into_the_Breach_Combat" ID="{B0E3109A-6324-4CCD-B606-D24722669B48}" ShortID="99925374">
+							<PropertyList>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Music Audio Bus" ID="{35A3AADB-A99C-4462-8303-6A0F7A8CC03F}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="The Blast Garden  Into the Breach OST" ID="{933E0577-F2C9-49DF-92D6-B36CC53542D4}">
+									<PropertyList>
+										<Property Name="FadeOutDuration" Type="Real64" Value="19.4814937358"/>
+										<Property Name="LoopBegin" Type="Real64" Value="128.164770561929"/>
+										<Property Name="LoopEnd" Type="Real64" Value="168.170930018656"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+										<Property Name="TrimBegin" Type="Real64" Value="103.900384538674"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>The Blast Garden  Into the Breach OST.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="383822766"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{79FDEDCF-DD57-4DD4-AF78-1A05677C33D5}" ShortID="892219665">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Volume"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="MusicVolume" ID="{8DF6A26C-6613-43E2-8BC4-629F3F26B67D}" WorkUnitID="{176DD27F-5704-4BF6-9C40-75E46D49E907}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{A8177FA4-1AC3-4563-A93B-729B1CD26DFD}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="3"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-200</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>0</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+							<ActiveSourceList>
+								<ActiveSource Name="The Blast Garden  Into the Breach OST" ID="{933E0577-F2C9-49DF-92D6-B36CC53542D4}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_BGM_Into_the_Breach_2" ID="{D4FF624D-1241-40A1-B58E-2A7F93F43306}" ShortID="982006128">
+							<PropertyList>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Music Audio Bus" ID="{35A3AADB-A99C-4462-8303-6A0F7A8CC03F}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Red Sands _ Into the Breach OST [ ezmp3_cc ]" ID="{B20E4553-7AD9-44B8-BB89-297AB4DD5C2E}">
+									<PropertyList>
+										<Property Name="FadeInDuration" Type="Real64" Value="0.911297607421875"/>
+										<Property Name="FadeOutDuration" Type="Real64" Value="22.049787902832"/>
+										<Property Name="LoopBegin" Type="Real64" Value="13.7597851341091"/>
+										<Property Name="LoopEnd" Type="Real64" Value="101.64401144327"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>Red Sands _ Into the Breach OST [ ezmp3.cc ].wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="170713564"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{34EF01D9-9022-4D8D-9098-FC077CA5B35F}" ShortID="892251621">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Volume"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="MusicVolume" ID="{8DF6A26C-6613-43E2-8BC4-629F3F26B67D}" WorkUnitID="{176DD27F-5704-4BF6-9C40-75E46D49E907}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{3D7E3014-DB7E-44C5-BD17-A013962BF9EA}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="3"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-200</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>0</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+							<ActiveSourceList>
+								<ActiveSource Name="Red Sands _ Into the Breach OST [ ezmp3_cc ]" ID="{B20E4553-7AD9-44B8-BB89-297AB4DD5C2E}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_BGM_Into_the_Breach_Combat_2" ID="{C3CE5C33-C017-4953-A78D-203DC7036DB5}" ShortID="268476110">
+							<PropertyList>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Music Audio Bus" ID="{35A3AADB-A99C-4462-8303-6A0F7A8CC03F}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Pinnacle Robotics _ Into the Breach OST [ ezmp3_cc ]" ID="{5B6A88F1-80A4-4457-9B95-2977BE453857}">
+									<PropertyList>
+										<Property Name="FadeInDuration" Type="Real64" Value="0.707454198720503"/>
+										<Property Name="FadeOutDuration" Type="Real64" Value="25.2046431249502"/>
+										<Property Name="LoopBegin" Type="Real64" Value="3.85075005426438"/>
+										<Property Name="LoopEnd" Type="Real64" Value="171.365576671682"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>Pinnacle Robotics _ Into the Breach OST [ ezmp3.cc ].wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="483113004"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{1CA7B8FF-3562-46E8-9902-CA0B95AC739F}" ShortID="34922800">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Volume"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="MusicVolume" ID="{8DF6A26C-6613-43E2-8BC4-629F3F26B67D}" WorkUnitID="{176DD27F-5704-4BF6-9C40-75E46D49E907}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{0EE8F467-A655-4143-BA41-5B6040376B0F}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="3"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-200</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>0</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+							<ActiveSourceList>
+								<ActiveSource Name="Pinnacle Robotics _ Into the Breach OST [ ezmp3_cc ]" ID="{5B6A88F1-80A4-4457-9B95-2977BE453857}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_BGM_Into_the_Breach_Build" ID="{7CC01D63-C9A7-4F09-8465-C11C174E0DB4}" ShortID="369802059">
+							<PropertyList>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Music Audio Bus" ID="{35A3AADB-A99C-4462-8303-6A0F7A8CC03F}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Detritus _ Into the Breach OST [ ezmp3_cc ]" ID="{DB1F3B0B-C694-4FB1-B09E-54338DA75E51}">
+									<PropertyList>
+										<Property Name="FadeOutDuration" Type="Real64" Value="8.76162377182318"/>
+										<Property Name="LoopEnd" Type="Real64" Value="99.612916933782"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+										<Property Name="TrimEnd" Type="Real64" Value="100.286887993153"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>Detritus _ Into the Breach OST [ ezmp3.cc ].wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="318882470"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ObjectLists>
+								<ObjectList Name="RTPC">
+									<Reference>
+										<Local>
+											<RTPC Name="" ID="{7F92513F-F531-4FB1-B310-97DF3E992103}" ShortID="521582193">
+												<PropertyList>
+													<Property Name="PropertyName" Type="string" Value="Volume"/>
+												</PropertyList>
+												<ReferenceList>
+													<Reference Name="ControlInput">
+														<ObjectRef Name="MusicVolume" ID="{8DF6A26C-6613-43E2-8BC4-629F3F26B67D}" WorkUnitID="{176DD27F-5704-4BF6-9C40-75E46D49E907}"/>
+													</Reference>
+													<Reference Name="Curve">
+														<Custom>
+															<Curve Name="" ID="{F4F82C6C-49B4-4319-BC96-69D44B7AF266}">
+																<PropertyList>
+																	<Property Name="Flags" Type="int32" Value="3"/>
+																</PropertyList>
+																<PointList>
+																	<Point>
+																		<XPos>0</XPos>
+																		<YPos>-200</YPos>
+																		<Flags>5</Flags>
+																	</Point>
+																	<Point>
+																		<XPos>100</XPos>
+																		<YPos>0</YPos>
+																		<Flags>37</Flags>
+																	</Point>
+																</PointList>
+															</Curve>
+														</Custom>
+													</Reference>
+												</ReferenceList>
+											</RTPC>
+										</Local>
+									</Reference>
+								</ObjectList>
+							</ObjectLists>
+							<ActiveSourceList>
+								<ActiveSource Name="Detritus _ Into the Breach OST [ ezmp3_cc ]" ID="{DB1F3B0B-C694-4FB1-B09E-54338DA75E51}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_BGM_Into_the_Breach_Combat_3" ID="{00F2A27D-09B6-429F-BF0E-47960315F4C1}" ShortID="425853311">
+							<PropertyList>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Music Audio Bus" ID="{35A3AADB-A99C-4462-8303-6A0F7A8CC03F}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Into the Breach_ Advanced Edition Pinnacle OST [HQ]" ID="{F66A57D4-75F6-429A-9998-F3016BCB8273}">
+									<PropertyList>
+										<Property Name="FadeInDuration" Type="Real64" Value="1.41918339614836"/>
+										<Property Name="FadeOutDuration" Type="Real64" Value="7.73498859200022"/>
+										<Property Name="LoopBegin" Type="Real64" Value="80.1800187526686"/>
+										<Property Name="LoopEnd" Type="Real64" Value="155.028092350523"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+										<Property Name="TrimBegin" Type="Real64" Value="76.0899221359543"/>
+										<Property Name="TrimEnd" Type="Real64" Value="162.290053053391"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>Into the Breach_ Advanced Edition Pinnacle OST [HQ].wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="774110394"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="Into the Breach_ Advanced Edition Pinnacle OST [HQ]" ID="{F66A57D4-75F6-429A-9998-F3016BCB8273}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="TT_BGM_Into_the_Breach_3" ID="{434C8AE1-39EC-4993-BC69-E04A5108602B}" ShortID="619983751">
+							<PropertyList>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{6DA9DFB9-278B-487E-98E7-894FD2908380}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Music Audio Bus" ID="{35A3AADB-A99C-4462-8303-6A0F7A8CC03F}" WorkUnitID="{EB678435-A0F0-4095-B65B-A3CCE55D6389}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Into the Breach_ Advanced Edition Pinnacle OST [HQ]" ID="{0B137A11-79F2-4264-BFCA-C892B0692472}">
+									<PropertyList>
+										<Property Name="LoopBegin" Type="Real64" Value="17.2935756232116"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+										<Property Name="TrimEnd" Type="Real64" Value="75.7654003291121"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>Into the Breach_ Advanced Edition Pinnacle OST [HQ].wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="595896350"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="Into the Breach_ Advanced Edition Pinnacle OST [HQ]" ID="{0B137A11-79F2-4264-BFCA-C892B0692472}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+					</ChildrenList>
+				</Folder>
+			</ChildrenList>
+		</WorkUnit>
+	</AudioObjects>
+</WwiseDocument>

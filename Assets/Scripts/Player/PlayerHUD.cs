@@ -213,12 +213,12 @@ namespace TowerTanks.Scripts
 
         public void SetButtonPrompt(GameAction gameAction, bool promptSet)
         {
-            PlatformPrompt promptInfo = GameManager.Instance.buttonPromptSettings.GetButtonPrompt(gameAction, playerFaceButtons.currentPlatform);
+            PlatformPrompt promptInfo = GameManager.Instance.buttonPromptSettings.GetPlatformPrompt(gameAction, GameSettings.gamePlatform);
 
             if (promptInfo == null || playerFaceButtons == null)
                 return;
 
-            if(promptInfo.GetPromptText() != null)
+            if(promptInfo.GetPromptText() != null) 
             {
                 if (promptSet)
                     playerFaceButtons.AddFaceInput(promptInfo.GetPromptText());

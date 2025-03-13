@@ -13,6 +13,7 @@ namespace TowerTanks.Scripts
 
         [SerializeField, Tooltip("The prefabs of the different UI elements (only one of each type should exist).")] private UIPrefab[] uiPrefabs;
         [SerializeField, Tooltip("The button prompt settings.")] private ButtonPromptSettings buttonPromptSettings;
+        [SerializeField, Tooltip("A list of the face button settings.")] private PlatformFaceButtonsSettings[] platformFaceButtonsSettings;
 
         [System.Serializable]
         public class UIPrefab
@@ -327,18 +328,20 @@ namespace TowerTanks.Scripts
             buttonPrompt.GetComponent<RectTransform>().sizeDelta = new Vector2(imageSize, imageSize);
             TextMeshProUGUI buttonText = buttonPrompt.transform.Find("Text").GetComponent<TextMeshProUGUI>();
 
-            PlatformPrompt currentPrompt = buttonPromptSettings.GetButtonPrompt(gameAction, platform);
+            PlatformPrompt currentPrompt = buttonPromptSettings.GetPlatformPrompt(gameAction, platform);
 
             if (currentPrompt.PromptSprite == null || promptDisplayType == PromptDisplayType.Text)
+            {
                 buttonImage.color = new Color(0, 0, 0, 0);
+                buttonText.text = currentPrompt.GetPromptText();
+            }
             else
-                buttonImage.sprite = currentPrompt.PromptSprite;
-
-            buttonText.text = promptDisplayType == PromptDisplayType.Button? "" : currentPrompt.GetPromptText();
-
-            TextMeshProUGUI buttonTypeText = buttonPrompt.transform.Find("Type").GetComponent<TextMeshProUGUI>();
-            Debug.Log("Current Prompt For " + gameAction + ": " + currentPrompt.GetPromptActionType());
-            buttonTypeText.text = "";
+            {
+                if (buttonImage.TryGetComponent(out ImagePlatformListener platformListener))
+                    platformListener.UpdatePlatformPrompt(gameAction);
+                else
+                    buttonImage.sprite = currentPrompt.PromptSprite;
+            }
 
             return buttonPrompt.gameObject;
         }
@@ -406,8 +409,8 @@ namespace TowerTanks.Scripts
             {
                 if (canvas.tag == CANVAS_TAG_NAME)
                 {
-                    if (canvas.GetComponent<ParentRotationUpdater>() == null)
-                        canvas.gameObject.AddComponent<ParentRotationUpdater>();
+                    if (canvas.GetComponent<GyroscopeComponent>() == null)
+                        canvas.gameObject.AddComponent<GyroscopeComponent>();
 
                     canvas.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
                     return canvas;
@@ -418,7 +421,7 @@ namespace TowerTanks.Scripts
             GameObject newCanvasObject = new GameObject("InGameCanvas");
             newCanvasObject.transform.SetParent(gameObject.transform);
             Canvas newCanvas = newCanvasObject.AddComponent<Canvas>();
-            newCanvasObject.AddComponent<ParentRotationUpdater>();
+            newCanvasObject.AddComponent<GyroscopeComponent>();
 
             //Settings
             newCanvas.renderMode = inGameWorld ? RenderMode.WorldSpace : RenderMode.ScreenSpaceOverlay;
@@ -450,5 +453,25 @@ namespace TowerTanks.Scripts
             }
             return null;
         }
+
+        /// <summary>
+        /// Gets a set of face buttons for a specific platform.
+        /// </summary>
+        /// <param name="platformType">The platform to display for.</param>
+        /// <returns>The prompt info for all of the face buttons.</returns>
+        public PlatformFaceButtonsSettings GetPlatformFaceButtons(PlatformType platformType)
+        {
+            foreach(PlatformFaceButtonsSettings platformFaceButtons in platformFaceButtonsSettings)
+            {
+                //If the platform has been found in the list, return it
+                if (platformFaceButtons.platformType == platformType)
+                    return platformFaceButtons;
+            }
+
+            //If not, just use the first platform settings
+            return platformFaceButtonsSettings[0];
+        }
+
+        public ButtonPromptSettings GetButtonPromptSettings() => buttonPromptSettings;
     }
 }
