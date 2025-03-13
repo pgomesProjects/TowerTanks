@@ -409,8 +409,8 @@ namespace TowerTanks.Scripts
             {
                 if (canvas.tag == CANVAS_TAG_NAME)
                 {
-                    if (canvas.GetComponent<ParentRotationUpdater>() == null)
-                        canvas.gameObject.AddComponent<ParentRotationUpdater>();
+                    if (canvas.GetComponent<GyroscopeComponent>() == null)
+                        canvas.gameObject.AddComponent<GyroscopeComponent>();
 
                     canvas.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
                     return canvas;
@@ -421,7 +421,7 @@ namespace TowerTanks.Scripts
             GameObject newCanvasObject = new GameObject("InGameCanvas");
             newCanvasObject.transform.SetParent(gameObject.transform);
             Canvas newCanvas = newCanvasObject.AddComponent<Canvas>();
-            newCanvasObject.AddComponent<ParentRotationUpdater>();
+            newCanvasObject.AddComponent<GyroscopeComponent>();
 
             //Settings
             newCanvas.renderMode = inGameWorld ? RenderMode.WorldSpace : RenderMode.ScreenSpaceOverlay;
