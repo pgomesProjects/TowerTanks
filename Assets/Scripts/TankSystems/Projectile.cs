@@ -138,14 +138,23 @@ namespace TowerTanks.Scripts
             transform.position = position;
             //transform.rotation = Quaternion.AngleAxis(Vector3.Angle(Vector2.right, velocity), Vector3.back);
 
+            //Energy Shield Checks
+            Collider2D[] hits = Physics2D.OverlapCircleAll(position, radius, layerMask);
+            if (hits.Length > 0)
+            {
+                foreach (Collider2D _hit in hits)
+                {
+                    if (_hit.CompareTag("EnergyShield"))
+                    {
+                        shieldsIgnored.Add(_hit);
+                        shieldsIgnoreCooldownTimer = 2f;
+                    }
+                }
+            }
+
             Collider2D hit = Physics2D.OverlapCircle(position, radius, layerMask);
             if (hit != null)
             {
-                if (hit.CompareTag("EnergyShield"))
-                {
-                    shieldsIgnored.Add(hit);
-                    shieldsIgnoreCooldownTimer = 2f;
-                }
                 Hit(hit);
             }
         }
