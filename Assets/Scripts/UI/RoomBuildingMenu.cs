@@ -43,12 +43,13 @@ namespace TowerTanks.Scripts
 
         public PlayerData GetCurrentPlayerData() => currentPlayer;
         public PlayerInput GetCurrentPlayerInput() => currentPlayer.playerInput;
+        public int GetNumberOfRoomsGiven() => currentRooms.Count;
         public RoomInfo GetRoomAt(int index) => currentRooms[index];
         public int GetMaxRoomsToPlace() => maxRoomsToPlace;
         public int GetNumberOfRoomsPlaced() => roomsPlaced;
         public Room GetRoomToPlace() => currentRooms[roomsPlaced].roomObject;
         public bool AllRoomsSelected() => currentRooms.Count >= maxRoomsToPlace;
-        public bool AllRoomsMounted() => roomsPlaced >= maxRoomsToPlace;
+        public bool AllRoomsMounted() => roomsPlaced >= maxRoomsToPlace || currentRooms.Count == 0;
 
         public void SetMaxRoomsToPlace(int maxRoomsToPlace)
         {
@@ -96,6 +97,7 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("The transform to store the selectable rooms.")] private Transform roomListTransform;
         [SerializeField, Tooltip("The RectTransform for the building menu.")] private RectTransform buildingMenuRectTransform;
         [SerializeField, Tooltip("The RectTransform for the building background.")] private RectTransform buildingBackgroundRectTransform;
+        [SerializeField, Tooltip("The text showing the rooms remaining.")] private TextMeshProUGUI roomsRemainingText;
         [SerializeField, Tooltip("The ending position for the background.")] private Vector3 backgroundEndingPos;
         [SerializeField, Tooltip("The ending position for the menu.")] private Vector3 menuEndingPos;
         [SerializeField, Tooltip("The duration for the background animation.")] private float backgroundAniDuration = 0.5f;
@@ -247,6 +249,15 @@ namespace TowerTanks.Scripts
             }
 
             SetRoomSelections();
+            UpdateRoomsRemainingDisplay();
+        }
+
+        /// <summary>
+        /// Updates the display for the amount of rooms the players can pick.
+        /// </summary>
+        private void UpdateRoomsRemainingDisplay()
+        {
+            roomsRemainingText.text = "Rooms Remaining: " + (MAX_ROOMS_TO_PLACE - roomsSelected).ToString();
         }
 
         /// <summary>
@@ -278,6 +289,7 @@ namespace TowerTanks.Scripts
         private void OnRoomSelected(PlayerInput playerSelected, int currentRoomID, bool hasHatch)
         {
             roomsSelected++;
+            UpdateRoomsRemainingDisplay();
             PlayerRoomSelection currentSelector = GetPlayerSelectionData(playerSelected);
             if (hatchRoomIDToInfo.Keys.Contains(currentRoomID) && hatchRoomIDToInfo[currentRoomID].Count > 0 && hasHatch)
             {
@@ -296,7 +308,7 @@ namespace TowerTanks.Scripts
                 PlayerData currentPlayerData = PlayerData.ToPlayerData(playerSelected);
                 currentPlayerData.SetPlayerState(PlayerData.PlayerState.PickedRooms);
 
-                //Debug.Log("Player " + (currentPlayerData.playerInput.playerIndex + 1).ToString() + " Has Stopped Selecting.");
+                Debug.Log("Player " + (currentPlayerData.playerInput.playerIndex + 1).ToString() + " Has Stopped Selecting.");
                 playerSelected.GetComponent<GamepadCursor>().SetCursorMove(false);
             }
 
@@ -314,8 +326,12 @@ namespace TowerTanks.Scripts
         /// </summary>
         private void StartBuilding()
         {
+            //Let the players build
             foreach (PlayerData player in GameManager.Instance.MultiplayerManager.GetAllPlayers())
                 player.SetPlayerState(PlayerData.PlayerState.IsBuilding);
+
+            //Check to see if any players need to be moved to the tank
+            BuildSystemManager.Instance.ValidatePlayers();
         }
 
         /// <summary>
@@ -324,7 +340,16 @@ namespace TowerTanks.Scripts
         private void GivePlayersRooms()
         {
             foreach (var room in roomSelections)
-                BuildSystemManager.Instance.SpawnRoom(room.GetRoomAt(0), room);
+            {
+                //If the player has a room, spawn it for them
+                if (room.GetNumberOfRoomsGiven() > 0)
+                    BuildSystemManager.Instance.SpawnRoom(room.GetRoomAt(0), room);
+                //If not, add them to the list without any rooms
+                else
+                {
+                    BuildSystemManager.Instance.AddEmptyPlayerRoom(room);
+                }
+            }
         }
 
         /// <summary>

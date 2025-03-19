@@ -92,8 +92,12 @@ namespace TowerTanks.Scripts
             Debug.Log("Connecting Player " + (playerIndex + 1).ToString() + "...");
             connectedControllers[playerIndex] = true;
 
-            //Change the color of the player's gamepad cursor
-            playerInput.GetComponent<GamepadCursor>()?.CreateGamepadCursor(playerColors[playerIndex]);
+            //If this is Player 1
+            if(playerIndex == 0)
+            {
+                GameSettings.gamePlatform = GameSettings.GetDevicePlatform(playerInput.devices[0]);
+                Debug.Log("Current Platform Display: " + GameSettings.gamePlatform);
+            }
 
             playerInput.name = "Player " + (playerIndex + 1).ToString();
 
@@ -110,7 +114,10 @@ namespace TowerTanks.Scripts
 
         private IEnumerator InvokeOnConnected(PlayerInput playerInput)
         {
-            yield return null;
+            //Wait until the next frame
+            yield return 0;
+           //Create the gamepad cursor
+           playerInput.GetComponent<GamepadCursor>()?.CreateGamepadCursor(playerColors[playerInput.playerIndex]);
             OnPlayerConnected?.Invoke(playerInput);
         }
 

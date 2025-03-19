@@ -8,14 +8,14 @@ namespace TowerTanks.Scripts
     {
         Press,
         Hold,
-        Rotate
+        Rotate,
+        RapidPress
     }
 
     [CreateAssetMenu(fileName = "New Prompt", menuName = "ScriptableObjects/Prompt Info")]
     public class PromptInfo : ScriptableObject
     {
         public new string name;
-        public ActionType actionType;
         public int spriteID;
         public Sprite promptSprite;
     }

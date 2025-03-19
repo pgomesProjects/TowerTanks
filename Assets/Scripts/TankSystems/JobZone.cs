@@ -45,7 +45,7 @@ namespace TowerTanks.Scripts
                     if (prompt == null)
                     {
                         Vector2 pos = new Vector2(0, 1);
-                        Sprite button = GameManager.Instance.buttonPromptSettings.GetButtonPrompt(GameAction.Interact, PlatformType.Gamepad).PromptSprite;
+                        Sprite button = GameManager.Instance.buttonPromptSettings.GetPlatformPrompt(GameAction.Interact, PlatformType.Gamepad).PromptSprite;
                         
                         prompt = GameManager.Instance.UIManager.AddSymbolDisplay(this.gameObject, pos, button, "HOLD TO CLAIM", color);
                     }

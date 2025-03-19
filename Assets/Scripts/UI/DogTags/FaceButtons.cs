@@ -13,18 +13,27 @@ namespace TowerTanks.Scripts
         [SerializeField] private Image westFaceButton;
         [SerializeField] private Color disabledFaceInputColor;
 
-        [SerializeField] private PlatformFaceButtonsSettings platformFaceButtons;
-
-        internal PlatformType currentPlatform { get; private set; }
-
         private Dictionary<string, int> activeFaceInputs = new Dictionary<string, int>();
+        private PlatformFaceButtonsSettings currentPlatformFaceButtons;
 
-        // Start is called before the first frame update
-        void Start()
+        private void Awake()
         {
-            BuildFaceButtons(platformFaceButtons);
+            currentPlatformFaceButtons = GameManager.Instance.UIManager.GetPlatformFaceButtons(GameSettings.gamePlatform);
+            BuildFaceButtons(currentPlatformFaceButtons);
             RefreshFaceButtons();
         }
+
+        private void OnEnable()
+        {
+            GameManager.OnPlatformUpdated += OnPlatformUpdated;
+        }
+
+        private void OnDisable()
+        {
+            GameManager.OnPlatformUpdated -= OnPlatformUpdated;
+        }
+
+        private void OnPlatformUpdated() => UpdatePlatformSprites(GameManager.Instance.UIManager.GetPlatformFaceButtons(GameSettings.gamePlatform));
 
         private void BuildFaceButtons(PlatformFaceButtonsSettings platformFaceButtonsSettings)
         {
@@ -34,13 +43,16 @@ namespace TowerTanks.Scripts
             activeFaceInputs.Add(platformFaceButtonsSettings.eastPrompt.name, 0);
             activeFaceInputs.Add(platformFaceButtonsSettings.southPrompt.name, 0);
             activeFaceInputs.Add(platformFaceButtonsSettings.westPrompt.name, 0);
+            UpdatePlatformSprites(platformFaceButtonsSettings);
+        }
 
+        private void UpdatePlatformSprites(PlatformFaceButtonsSettings platformFaceButtonsSettings)
+        {
             northFaceButton.sprite = platformFaceButtonsSettings.northPrompt.promptSprite;
             eastFaceButton.sprite = platformFaceButtonsSettings.eastPrompt.promptSprite;
             southFaceButton.sprite = platformFaceButtonsSettings.southPrompt.promptSprite;
             westFaceButton.sprite = platformFaceButtonsSettings.westPrompt.promptSprite;
-
-            currentPlatform = platformFaceButtonsSettings.platformType;
+            currentPlatformFaceButtons = platformFaceButtonsSettings;
         }
 
         public void AddFaceInput(string faceButtonName)
@@ -61,18 +73,18 @@ namespace TowerTanks.Scripts
 
         private void RefreshFaceButtons()
         {
-            northFaceButton.color = activeFaceInputs[platformFaceButtons.northPrompt.name] > 0 ? Color.white : disabledFaceInputColor;
-            eastFaceButton.color = activeFaceInputs[platformFaceButtons.eastPrompt.name] > 0 ? Color.white : disabledFaceInputColor;
-            southFaceButton.color = activeFaceInputs[platformFaceButtons.southPrompt.name] > 0 ? Color.white : disabledFaceInputColor;
-            westFaceButton.color = activeFaceInputs[platformFaceButtons.westPrompt.name] > 0 ? Color.white : disabledFaceInputColor;
+            northFaceButton.color = activeFaceInputs[currentPlatformFaceButtons.northPrompt.name] > 0 ? Color.white : disabledFaceInputColor;
+            eastFaceButton.color = activeFaceInputs[currentPlatformFaceButtons.eastPrompt.name] > 0 ? Color.white : disabledFaceInputColor;
+            southFaceButton.color = activeFaceInputs[currentPlatformFaceButtons.southPrompt.name] > 0 ? Color.white : disabledFaceInputColor;
+            westFaceButton.color = activeFaceInputs[currentPlatformFaceButtons.westPrompt.name] > 0 ? Color.white : disabledFaceInputColor;
         }
 
         public void ClearFaceButtons()
         {
-            activeFaceInputs[platformFaceButtons.northPrompt.name] = 0;
-            activeFaceInputs[platformFaceButtons.eastPrompt.name] = 0;
-            activeFaceInputs[platformFaceButtons.southPrompt.name] = 0;
-            activeFaceInputs[platformFaceButtons.westPrompt.name] = 0;
+            activeFaceInputs[currentPlatformFaceButtons.northPrompt.name] = 0;
+            activeFaceInputs[currentPlatformFaceButtons.eastPrompt.name] = 0;
+            activeFaceInputs[currentPlatformFaceButtons.southPrompt.name] = 0;
+            activeFaceInputs[currentPlatformFaceButtons.westPrompt.name] = 0;
 
             RefreshFaceButtons();
         }

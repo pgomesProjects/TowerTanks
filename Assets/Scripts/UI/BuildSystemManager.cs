@@ -28,6 +28,16 @@ namespace TowerTanks.Scripts
             private float rotateCooldownTimer;
             private float currentRotateTimer;
 
+            public WorldRoom(PlayerRoomSelection playerSelector)
+            {
+                this.playerSelector = playerSelector;
+                roomObject = null;
+                cursorTransform = playerSelector.GetCurrentPlayerInput().GetComponent<GamepadCursor>().GetCursorTransform();
+                roomTransform = null;
+                canRotateRoom = true;
+                currentRoomState = RoomState.MOUNTED;
+            }
+
             public WorldRoom(PlayerRoomSelection playerSelector, Room roomObject, Transform roomTransform)
             {
                 this.playerSelector = playerSelector;
@@ -182,9 +192,6 @@ namespace TowerTanks.Scripts
             worldRoomObjects = new List<WorldRoom>();
             tankBuildHistory = new Stack<PlayerAction>();
             defaultPlayerTank = FindObjectOfType<TankController>();
-
-            //Play the default build music
-            GameManager.Instance.AudioManager.Play("Build_1", null, true);
         }
 
         // Start is called before the first frame update
@@ -195,6 +202,9 @@ namespace TowerTanks.Scripts
 
             if (GameManager.Instance.tankDesign != null)
                 defaultPlayerTank.Build(GameManager.Instance.tankDesign);
+
+            //Play the default build music
+            GameManager.Instance.AudioManager.Play("Build_1", null, true);
         }
 
         private void OnEnable()
@@ -229,6 +239,29 @@ namespace TowerTanks.Scripts
             MoveRoomInScene(room, Vector2.zero);
 
             GameManager.Instance.DisplayTutorial(1, false, 3);
+        }
+
+        /// <summary>
+        /// Adds a world room to the list without any rooms connected to it.
+        /// </summary>
+        /// <param name="playerSelector">The player to follow.</param>
+        public void AddEmptyPlayerRoom(PlayerRoomSelection playerSelector)
+        {
+            WorldRoom room = new WorldRoom(playerSelector);
+            worldRoomObjects.Add(room);
+        }
+
+        /// <summary>
+        /// Makes sure all players building can build and all players that can't build are sent to the tank.
+        /// </summary>
+        public void ValidatePlayers()
+        {
+            foreach(WorldRoom worldRoom in worldRoomObjects)
+            {
+                //If they have no rooms, place them in the tank
+                if (worldRoom.playerSelector.GetNumberOfRoomsGiven() == 0)
+                    PlacePlayerInTank(worldRoom.playerSelector.GetCurrentPlayerInput());
+            }
         }
 
         private void Update()
@@ -336,20 +369,15 @@ namespace TowerTanks.Scripts
             //Update all other rooms so that overlapping rooms cannot be placed:
             foreach(WorldRoom room in worldRoomObjects) //Iterate through each held room
             {
+                if (room.roomObject == null) continue;                    //If there is no valid room, return
                 if (!room.roomObject.mounted) room.roomObject.SnapMove(); //Snap room to closest gridpoint, updating ghost couplers and placeability
             }
 
             //If all of the rooms are mounted from the player
             if (playerRoom.currentRoomState == WorldRoom.RoomState.MOUNTED)
             {
-                //Spawn the player in the tank
-                TankController defaultTank = FindObjectOfType<TankController>();
-                Vector3 playerPos = defaultTank.GetPlayerSpawnPointPosition();
-                playerPos.x += Random.Range(-0.25f, 0.25f);
-
-                PlayerMovement playerObject = playerRoom.playerSelector.GetCurrentPlayerData().SpawnPlayerInScene(playerPos);
-                playerObject.SetAssignedTank(defaultTank);
-                PlayerData.ToPlayerData(playerInput).SetPlayerState(PlayerData.PlayerState.InTank);
+                //Place the player in the tank
+                PlacePlayerInTank(playerInput);
 
                 //If all rooms from all players are mounted, note that all of them are ready and start the ready up manager
                 if (AllRoomsMounted())
@@ -374,6 +402,25 @@ namespace TowerTanks.Scripts
             
 
             return false;
+        }
+
+        /// <summary>
+        /// Places the player in the tank in the scene.
+        /// </summary>
+        /// <param name="playerInput">The player input component of the player.</param>
+        private void PlacePlayerInTank(PlayerInput playerInput)
+        {
+            //Spawn the player in the tank
+            TankController defaultTank = FindObjectOfType<TankController>();
+            Vector3 playerPos = defaultTank.GetPlayerSpawnPointPosition();
+            playerPos.x += Random.Range(-0.25f, 0.25f);
+
+            Debug.Log("Placing Player " + (playerInput.playerIndex + 1).ToString() + " In The Tank");
+
+            PlayerData playerData = PlayerData.ToPlayerData(playerInput);
+            PlayerMovement playerObject = playerData.SpawnPlayerInScene(playerPos);
+            playerObject.SetAssignedTank(defaultTank);
+            playerData.SetPlayerState(PlayerData.PlayerState.InTank);
         }
 
         /// <summary>

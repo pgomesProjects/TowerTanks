@@ -15854,7 +15854,7 @@ MonoBehaviour:
   gunType: 2
   muzzleVelocity: 65
   recoil: 0
-  rotateSpeed: 20
+  rotateSpeed: 10
   gimbalRange: 25
   rateOfFire: 5
   reciprocationDistance: 0
