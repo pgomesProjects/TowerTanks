@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
 using UnityEngine.InputSystem;
 using Sirenix.OdinInspector;
+using TowerTanks.Scripts.OdinTools;
+using Random = UnityEngine.Random;
 
 namespace TowerTanks.Scripts
 {
@@ -14,6 +16,7 @@ namespace TowerTanks.Scripts
         private List<RoomInfo> currentRooms;
         private int roomsPlaced;
         private int maxRoomsToPlace;
+        
 
         public PlayerRoomSelection(PlayerData currentPlayer)
         {
@@ -108,6 +111,7 @@ namespace TowerTanks.Scripts
 
         private List<SelectableRoomObject> roomButtons;
         private List<PlayerRoomSelection> roomSelections;
+        Dictionary<int, List<RoomInfo>> hatchRoomIDToInfo = new Dictionary<int, List<RoomInfo>>();
 
         private void Awake()
         {
@@ -175,16 +179,61 @@ namespace TowerTanks.Scripts
             //Clear any existing rooms
             foreach (Transform rooms in roomListTransform)
                 Destroy(rooms.gameObject);
-
-            //Spawn in random rooms and display their names
+            
+            //choose random rooms
+            int[] randomRooms = new int[numberOfRoomsToGenerate];
+            System.Random random = new System.Random();
             for (int i = 0; i < numberOfRoomsToGenerate; i++)
             {
-                int roomIndexRange = Random.Range(0, GameManager.Instance.roomList.Length);
-                SelectableRoomObject newRoom = Instantiate(roomIconPrefab, roomListTransform);
-                newRoom.DisplayRoomInfo(GameManager.Instance.roomList[roomIndexRange]);
-                newRoom.SetRoomID(roomIndexRange);
+                var randIndex = Random.Range(0, GameManager.Instance.roomList.Length);
+                randomRooms[i] = randIndex;
+            }
+            List<int> hatchRooms = randomRooms.OrderBy(x => random.Next()).Take(2).ToList(); // chooses 2 random rooms to have hatches
+            //Spawn in random rooms and display their names
+            var offset = 0;
+            for (int i = 0; i < numberOfRoomsToGenerate; i++)
+            {
+                int roomIndex = randomRooms[i];
+                SelectableRoomObject newRoom = Instantiate(roomIconPrefab, roomListTransform); 
+                if (hatchRooms.Contains(roomIndex))
+                {
+                    Debug.Log("Hatch Room!");
+                    //spawn room at 0,0
+                    newRoom.roomHasHatch = true;
+                    var littleguy = Instantiate(GameManager.Instance.roomList[roomIndex].roomObject, new Vector3(0 + offset, -25, 0), Quaternion.identity, GameObject.Find("Rooms").transform);
+                    littleguy.isAHatchRoom = true;
+                    offset += 10;
+                    littleguy.GenerateRandomHatch();
+                    
+                    RoomInfo newlyHatchedRoom = Instantiate(GameManager.Instance.roomList[roomIndex]);
+                    newlyHatchedRoom.roomObject = littleguy;
+                    StartCoroutine(WaitForRoomInit());
+                    IEnumerator WaitForRoomInit()
+                    {
+                        yield return new WaitForSeconds(.05f);
+                        newlyHatchedRoom.sprite = RuntimePolaroid.CaptureSpriteFromObject(littleguy.gameObject);
+                        newRoom.DisplayRoomInfo(newlyHatchedRoom);
+                    }
+
+                    if (!hatchRoomIDToInfo.Keys.Contains(roomIndex))
+                    {
+                        List<RoomInfo> n = new List<RoomInfo>() { newlyHatchedRoom };
+                        hatchRoomIDToInfo.Add(roomIndex, n);
+                    }
+                    else
+                    {
+                        hatchRoomIDToInfo[roomIndex].Add(newlyHatchedRoom);
+                    }
+                    
+                    hatchRooms.Remove(roomIndex);
+                }
+                else
+                {
+                    newRoom.DisplayRoomInfo(GameManager.Instance.roomList[roomIndex]);
+                }
+                newRoom.SetRoomID(roomIndex);
                 newRoom.OnSelected.AddListener(OnRoomSelected);
-                newRoom.gameObject.name = GameManager.Instance.roomList[roomIndexRange].name;
+                newRoom.gameObject.name = GameManager.Instance.roomList[roomIndex].name;
                 roomButtons.Add(newRoom);
             }
 
@@ -193,6 +242,7 @@ namespace TowerTanks.Scripts
             foreach (PlayerData player in GameManager.Instance.MultiplayerManager.GetAllPlayers())
             {
                 roomSelections.Add(new PlayerRoomSelection(player));
+                
                 player.SetPlayerState(PlayerData.PlayerState.PickingRooms);
             }
 
@@ -224,11 +274,21 @@ namespace TowerTanks.Scripts
         /// </summary>
         /// <param name="playerSelected">The player selecting the room.</param>
         /// <param name="currentRoomID">The ID of the room selected.</param>
-        private void OnRoomSelected(PlayerInput playerSelected, int currentRoomID)
+        private List<RoomInfo> hatchRoomsSelected;
+        private void OnRoomSelected(PlayerInput playerSelected, int currentRoomID, bool hasHatch)
         {
             roomsSelected++;
             PlayerRoomSelection currentSelector = GetPlayerSelectionData(playerSelected);
-            currentSelector.AddRoomInfo(GameManager.Instance.roomList[currentRoomID]);
+            if (hatchRoomIDToInfo.Keys.Contains(currentRoomID) && hatchRoomIDToInfo[currentRoomID].Count > 0 && hasHatch)
+            {
+                currentSelector.AddRoomInfo(hatchRoomIDToInfo[currentRoomID][0]);
+                hatchRoomIDToInfo[currentRoomID].RemoveAt(0);
+            }
+            else
+            {
+                currentSelector.AddRoomInfo(GameManager.Instance.roomList[currentRoomID]);
+            }
+            
 
             //If the player has selected the maximum amount of rooms they can, don't let them pick any more
             if (currentSelector.AllRoomsSelected())

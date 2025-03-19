@@ -21,8 +21,9 @@ namespace TowerTanks.Scripts
 
         private Color defaultColor;
         private int roomID;
+        public bool roomHasHatch;
 
-        internal UnityEvent<PlayerInput, int> OnSelected = new UnityEvent<PlayerInput, int>();
+        internal UnityEvent<PlayerInput, int, bool> OnSelected = new UnityEvent<PlayerInput, int, bool>();
 
         private void Awake()
         {
@@ -69,7 +70,7 @@ namespace TowerTanks.Scripts
             {
                 selectableImage.color = selectColor;
                 isSelected = true;
-                OnSelected?.Invoke(playerInput, roomID);
+                OnSelected?.Invoke(playerInput, roomID, roomHasHatch);
             }
         }
 

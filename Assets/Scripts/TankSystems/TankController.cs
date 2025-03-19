@@ -49,6 +49,7 @@ namespace TowerTanks.Scripts
         public GameObject surrenderFlag;
         private Animator tankAnimator;
         public GameObject corpsePrefab;
+        [HideInInspector] public Coupler topHatch;
         public List<Coupler> hatches = new List<Coupler>();
         private Vector2[] cargoNodes;
 
@@ -1106,7 +1107,7 @@ namespace TowerTanks.Scripts
                     roomScript.UpdateRoomType(type);
                 }
                 roomScript.targetTank = this;
-                roomScript.Mount();
+                roomScript.Mount();///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 
                 roomScript.ProcessManifest(tankDesign.buildingSteps[i].cellManifest);
 
