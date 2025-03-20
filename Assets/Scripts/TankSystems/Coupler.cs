@@ -28,6 +28,10 @@ namespace TowerTanks.Scripts
         [Header("Settings:")]
         [SerializeField, Range(0, 1), Tooltip("")] private float ghostOpacity = 0.5f;
 
+        [SerializeField] private Collider2D lockedCollider;
+        [SerializeField] private GameObject lockedVisual;
+        public bool locked { get; private set; }
+
         //Runtime Variables:
         /// <summary>
         /// Coupler prefab spawns as a shadow until mounted.
@@ -82,6 +86,23 @@ namespace TowerTanks.Scripts
             //Cleanup:
             if (r != null) { Color newColor = r.color; newColor.a = 1; r.color = newColor; }    //Remove ghost transparency
             mounted = true;                                                                     //Indicate that coupler is mounted
+        }
+        
+        [Button]
+        public void LockCoupler()
+        {
+            lockedCollider.enabled = true;
+            lockedVisual.SetActive(true);
+            gameObject.layer = LayerMask.NameToLayer("StopPlayer");
+            locked = true;
+        }
+        [Button]
+        public void UnlockCoupler()
+        {
+            lockedCollider.enabled = false;
+            lockedVisual.SetActive(false);
+            gameObject.layer = LayerMask.NameToLayer("Coupler");
+            locked = false;
         }
 
         //RUNTIME METHODS:
