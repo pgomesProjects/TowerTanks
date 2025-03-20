@@ -59,10 +59,16 @@ namespace TowerTanks.Scripts
         public void UseThrottle(int direction) //called from operator -> sends message to tankController to change gears in all throttles
         {
             if (tank != null) tank.ChangeAllGear(direction);
+            else
+            {
+                ChangeGear(direction);
+            }
         }
 
         public void MatchCurrentGear()
         {
+            if (tank == null) return;
+
             //Update throttle to match the tank's current gear
             previousAngle = gear * (maxAngle / speedSettings);
             gear = -tank.treadSystem.gear;

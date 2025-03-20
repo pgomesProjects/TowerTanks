@@ -31,10 +31,13 @@ namespace TowerTanks.Scripts
 
         public virtual void Update()
         {
-            if (interactableController.isBroken || interactableController.operatorID != null)
+            if (myTankAI?.tank != null)
             {
-                myTankAI.pausedInteractables.Add(myInteractableID);
-                myTankAI.RetrieveToken(myInteractableID);
+                if (interactableController.isBroken || interactableController.operatorID != null)
+                {
+                    myTankAI.pausedInteractables.Add(myInteractableID);
+                    myTankAI.RetrieveToken(myInteractableID);
+                }
             }
         }
 
@@ -52,6 +55,7 @@ namespace TowerTanks.Scripts
 
         private void OnDestroy()
         {
+            if (myTankAI == null) return;
             if (!myTankAI.tokenActivatedInteractables.Contains(myInteractableID)) return;
             myTankAI.RetrieveToken(myInteractableID);
             myTankAI.DistributeToken(mySpecificType);

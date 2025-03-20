@@ -54,6 +54,7 @@ namespace TowerTanks.Scripts
         [Tooltip("Direction this interactable is facing. (1 = right; -1 = left)")]                                  public float direction = 1;
         [Tooltip("Unique identifier associating this interactable with a stack item")]                              internal int stackId = 0;
         [Tooltip("Whether this Interactable is currently broken or not.")]                                          public bool isBroken = false;
+        [Tooltip("Installs this interactable in current structure on Start().")]                                    public bool installOnStart = false;
 
         [Header("Visual Settings:")]
         public Animator overlayAnimator;
@@ -88,6 +89,12 @@ namespace TowerTanks.Scripts
             if (overlay != null) overlay.enabled = false;
             if (overlayAnimator != null) overlayAnimator.enabled = false;
         }
+
+        public void Start()
+        {
+            if (installOnStart) DebugPlace();
+        }
+
         public virtual void OnDestroy()
         {
             if (hasOperator)

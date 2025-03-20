@@ -130,7 +130,11 @@ namespace TowerTanks.Scripts
 
             if (isBroken) return;
             if (cooldown <= 0)
-                Fire(overrideConditions, tank.tankType);
+            {
+                TankId.TankType type = TankId.TankType.NEUTRAL;
+                if (tank != null) type = tank.tankType;
+                Fire(overrideConditions, type);
+            }
         }
 
         public override void Exit(bool sameZone)
@@ -395,12 +399,15 @@ namespace TowerTanks.Scripts
                 else newProjectile.Fire(barrel.position, fireVelocity);
                 newProjectile.factionId = inheritance;
 
-                if (!tank.overrideWeaponRecoil)
+                if (tank != null)
                 {
-                    //Handle knockback:
-                    Vector2 knockbackForce = newProjectile.hitProperties.mass * muzzleVelocity * -barrel.right; //Calculate knockback force based on mass and muzzle velocity of projectile
-                                                                                                                //if (parentCell.room.targetTank.treadSystem.ramming) knockbackForce *= 0.5f;
-                    parentCell.room.targetTank.treadSystem.HandleImpact(knockbackForce, barrel.position);       //Apply knockback to own treadsystem at barrel position in reverse direction of projectile
+                    if (!tank.overrideWeaponRecoil)
+                    {
+                        //Handle knockback:
+                        Vector2 knockbackForce = newProjectile.hitProperties.mass * muzzleVelocity * -barrel.right; //Calculate knockback force based on mass and muzzle velocity of projectile
+                                                                                                                    //if (parentCell.room.targetTank.treadSystem.ramming) knockbackForce *= 0.5f;
+                        parentCell.room.targetTank.treadSystem.HandleImpact(knockbackForce, barrel.position);       //Apply knockback to own treadsystem at barrel position in reverse direction of projectile
+                    }
                 }
 
                 //If Special, Remove from List
