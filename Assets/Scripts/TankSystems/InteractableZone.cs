@@ -50,7 +50,9 @@ namespace TowerTanks.Scripts
                 PlayerMovement player = collider.GetComponent<PlayerMovement>();
                 if (player != null)
                 {
-                    //Debug.Log("Found " + player);
+                    //If the player is locked into another interactable, return
+                    if (player.currentInteractable != null) return;
+
                     players.Add(player.gameObject);
                     player.currentZone = this;
                     player.GetCharacterHUD()?.SetButtonPrompt(GameAction.Interact, true);
@@ -65,6 +67,9 @@ namespace TowerTanks.Scripts
                 PlayerMovement player = collider.GetComponent<PlayerMovement>();
                 if (player != null && player.currentZone != this && !players.Contains(player.gameObject) && !interactable.hasOperator)
                 {
+                    //If the player is locked into another interactable, return
+                    if (player.currentInteractable != null) return;
+
                     players.Add(player.gameObject);
                     player.currentZone = this;
                     player.GetCharacterHUD()?.SetButtonPrompt(GameAction.Interact, true);
@@ -79,7 +84,9 @@ namespace TowerTanks.Scripts
                 PlayerMovement player = collider.GetComponent<PlayerMovement>();
                 if (player != null)
                 {
-                    //Debug.Log("Lost " + player);
+                    //If the player is locked into another interactable, return
+                    if (player.currentInteractable != null) return;
+
                     if (players.Contains(player.gameObject))
                     {
                         players.Remove(player.gameObject);
