@@ -1319,6 +1319,8 @@ namespace TowerTanks.Scripts
 
         public TreadSystem GetTreadSystem() => treadSystem;
 
+        public Quaternion GetTankRotation() => towerJoint.rotation;
+
         //INTERFACE METHODS:
         #region IStructure
         public IStructure.StructureType GetStructureType() => structureType;
