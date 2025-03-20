@@ -775,7 +775,11 @@ namespace TowerTanks.Scripts
             //Un-ghost couplers:
             List<Cell> ladderCells = new List<Cell>(); //Initialize list to keep track of cells which need ladders added to them
             //targetTank
-            
+
+            foreach (Coupler coupler in hatches)
+            {
+                coupler.collisionSwitcher.CheckRotation(); //removes hatch collision based on the final orientation
+            }
             
             MountCouplers(ghostCouplers);
             GenerateTopmostHatch();

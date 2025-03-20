@@ -30,6 +30,9 @@ namespace TowerTanks.Scripts
 
         [SerializeField] private Collider2D lockedCollider;
         [SerializeField] private GameObject lockedVisual;
+
+        public PlatformCollisionSwitcher collisionSwitcher { get; private set; }
+
         public bool locked { get; private set; }
 
         //Runtime Variables:
@@ -110,7 +113,7 @@ namespace TowerTanks.Scripts
         {
             //Get objects & components:
             r = GetComponent<SpriteRenderer>(); //Get spriteRenderer component
-
+            collisionSwitcher = GetComponent<PlatformCollisionSwitcher>();
             //Setup components:
             Color newColor = r.color; newColor.a = ghostOpacity; r.color = newColor; //Have coupler spawn as a ghost
         }
