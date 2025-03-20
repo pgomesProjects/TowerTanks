@@ -72,21 +72,6 @@ namespace TowerTanks.Scripts
             set => promptInfo.promptSprite = value;
         }
 
-        public string GetPromptActionType()
-        {
-            switch (promptInfo.actionType)
-            {
-                case ActionType.Press:
-                    return "Press";
-                case ActionType.Hold:
-                    return "Hold";
-                case ActionType.Rotate:
-                    return "Rotate";
-                default:
-                    return "";
-            }
-        }
-
         public string GetPromptText() => promptInfo.name;
         public void SetPromptText(string newPromptText) => promptInfo.name = newPromptText;
     }
@@ -106,16 +91,8 @@ namespace TowerTanks.Scripts
         ReadyUp,
         AdvanceTutorial,
         MoveG,
-        MoveD
-    }
-
-    public enum PlatformType
-    {
-        PC,
-        Gamepad,
-        PlayStation,
-        Switch,
-        Xbox
+        MoveD,
+        PumpShield
     }
 
     [CreateAssetMenu(fileName = "New Button Settings", menuName = "ScriptableObjects/Button Prompt Settings")]
@@ -140,7 +117,7 @@ namespace TowerTanks.Scripts
             buttonPrompts.Add(new ButtonPrompt(gameAction));
         }
 
-        public PlatformPrompt GetButtonPrompt(GameAction gameAction, PlatformType platform)
+        public PlatformPrompt GetPlatformPrompt(GameAction gameAction, PlatformType platform)
         {
             foreach(ButtonPrompt prompt in buttonPrompts)
             {
@@ -155,6 +132,33 @@ namespace TowerTanks.Scripts
             }
 
             return null;
+        }
+
+        public string GetPromptActionType(GameAction gameAction)
+        {
+            foreach (ButtonPrompt prompt in buttonPrompts)
+            {
+                //If the action is found in the list
+                if (prompt.action == gameAction)
+                {
+                    //Return the appropriate type for the action
+                    switch (prompt.actionType)
+                    {
+                        case ActionType.Press:
+                            return "Press";
+                        case ActionType.Hold:
+                            return "Hold";
+                        case ActionType.Rotate:
+                            return "Rotate";
+                        case ActionType.RapidPress:
+                            return "Spam";
+                        default:
+                            return string.Empty;
+                    }
+                }
+            }
+
+            return string.Empty;
         }
     }
 }

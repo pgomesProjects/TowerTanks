@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -12,8 +13,14 @@ public static class Bootstrapper
         Object.DontDestroyOnLoad(Object.Instantiate(Resources.Load("DebugCanvas")));
         Object.DontDestroyOnLoad(Object.Instantiate(Resources.Load("AnalyticsManager")));
 
+#if UNITY_EDITOR
+        FocusGameView();
+#endif
+
         Cursor.lockState = CursorLockMode.Confined;
         GetCurrentSettings();
+        GameSettings.gamePlatform = GameSettings.GetRunningPlatform();
+        Debug.Log("Current Platform: " + GameSettings.gamePlatform);
         GameSettings.RefreshSettings();
     }
 
@@ -22,6 +29,16 @@ public static class Bootstrapper
     {
         DebugManager.instance.enableRuntimeUI = false;
     }
+
+#if UNITY_EDITOR
+    private static void FocusGameView()
+    {
+        var assembly = typeof(EditorWindow).Assembly;
+        var type = assembly.GetType("UnityEditor.GameView");
+        var gameview = EditorWindow.GetWindow(type);
+        gameview.Focus();
+    }
+#endif
 
     private static void GetCurrentSettings()
     {

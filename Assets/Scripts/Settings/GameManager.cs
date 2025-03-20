@@ -1,12 +1,10 @@
 using Sirenix.OdinInspector;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Diagnostics;
-using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -65,14 +63,33 @@ namespace TowerTanks.Scripts
         [Tooltip("When On, Surrendered tanks can be 'Claimed', making them the new Player Tank.")]              public bool tankClaiming;
         [Space()]
 
+        [Header("Player Tank Info:")]
+        public TankDesign tankDesign;
+        public CargoManifest cargoManifest;
+        private static CargoManifest defaultManifest;
+
+        public static float shopChance;
+        public float _shopChance;
+
+        [Button(ButtonSizes.Medium, ButtonStyle.FoldoutButton)]
+        private void DebugChangePlatform(PlatformType platform)
+        {
+            //If the platform is different from the current one, change it
+            if (platform != GameSettings.gamePlatform)
+            {
+                GameSettings.gamePlatform = platform;
+                OnPlatformUpdated?.Invoke();
+            }
+        }
+
+
         //Global Static Variables
         public static float gameTimeScale = 1.0f;
         private static float gameDeltaTime;
         private static float gameElapsedTime;
         private static float gameFixedDeltaTimeStep;
 
-        public static float shopChance;
-        public float _shopChance;
+        public static Action OnPlatformUpdated;
 
         public static float GameDeltaTime
         {
@@ -88,11 +105,6 @@ namespace TowerTanks.Scripts
         private float target;
         private float loadMaxDelta = 3f;
         private bool loadingScene = false;
-
-        [Header("Player Tank Info:")]
-        public TankDesign tankDesign;
-        public CargoManifest cargoManifest;
-        private static CargoManifest defaultManifest;
 
         public bool CheatsMenuActive { get; private set; }
 
@@ -117,6 +129,13 @@ namespace TowerTanks.Scripts
             GameSettings.skipTutorials = ignoreTutorials;
 
             //LoadBearingCheck();
+            DebugPrintPromptTypes();
+        }
+
+        public void DebugPrintPromptTypes()
+        {
+            foreach(var action in buttonPromptSettings.buttonPrompts)
+                Debug.Log(action.action + " | Type: " + action.actionType);
         }
 
         private void LoadBearingCheck()

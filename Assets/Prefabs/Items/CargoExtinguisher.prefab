@@ -10697,7 +10697,7 @@ MonoBehaviour:
     m_Bits: 32768
   throwForce: 400
   isContinuous: 1
-  fuel: 400
+  fuel: 800
   fuelDrainRate: 30
   nozzle: {fileID: 2649729051069445483}
   isSpraying: 0

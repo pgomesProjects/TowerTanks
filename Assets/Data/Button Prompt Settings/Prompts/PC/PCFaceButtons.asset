@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0dedc56931841e4b865ac58ae8b864e, type: 3}
+  m_Name: PCFaceButtons
+  m_EditorClassIdentifier: 
+  platformType: 0
+  northPrompt: {fileID: 11400000, guid: 865aae41af60f9f4ebd7aebfe2b9549f, type: 2}
+  westPrompt: {fileID: 11400000, guid: 10b118a1e3f0af0408f78c53b83fd997, type: 2}
+  eastPrompt: {fileID: 11400000, guid: ed23ac22d704224479705423a3956bc6, type: 2}
+  southPrompt: {fileID: 11400000, guid: 64f3e7bec28f8444c9d50391633db43c, type: 2}

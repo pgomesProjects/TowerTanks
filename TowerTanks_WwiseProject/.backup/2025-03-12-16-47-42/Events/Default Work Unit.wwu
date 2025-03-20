@@ -1,0 +1,746 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" SchemaVersion="123">
+	<Events>
+		<WorkUnit Name="Default Work Unit" ID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" PersistMode="Standalone">
+			<PropertyList>
+				<Property Name="Color" Type="int16" Value="13"/>
+				<Property Name="OverrideColor" Type="bool" Value="True"/>
+			</PropertyList>
+			<ChildrenList>
+				<Event Name="cannon_fire" ID="{D2DE6CE8-E7A4-4F5B-BE10-F2F5D8E3A2E2}">
+					<ChildrenList>
+						<Action Name="" ID="{F2F6D7D8-77E6-4A42-973E-FBFF0FF2B08C}" ShortID="271064216">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_cannon-fires" ID="{0FD32079-BCEC-4F44-A946-CE747D14EA32}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="button_cancel" ID="{AEEA5AB5-3C7D-40DE-8036-F16A9C2F48EC}">
+					<ChildrenList>
+						<Action Name="" ID="{1574ADFF-5C86-45AC-BF3D-08B032B85597}" ShortID="290316376">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_UI_button_cancel" ID="{8E261CF9-D111-440B-893E-182EB631606C}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="button_hover" ID="{ABCC24D7-34F6-4669-B4E9-E751FF535FCF}">
+					<ChildrenList>
+						<Action Name="" ID="{5CD52E8C-2164-4EE8-8558-88C644897271}" ShortID="771857376">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_UI_button_hover" ID="{53A35B02-1B5E-437E-8388-1404FAE0C9FC}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="muffled_cannon_fire" ID="{19CE2F4C-A2EC-47FD-B2A4-D4F519A72B95}">
+					<ChildrenList>
+						<Action Name="" ID="{987F7A13-02EE-4827-81AF-CD745CADDA33}" ShortID="449476843">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_muffled_cannon_fire" ID="{CF0C094A-55C4-4E0D-A44E-458BAF527190}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="metal_footstep" ID="{1F1329A9-B5A7-4549-B2F0-97EE22BC9347}">
+					<ChildrenList>
+						<Action Name="" ID="{08BFD467-1525-4B6C-A02A-9849BDF7D86F}" ShortID="199845092">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_metal_footstep" ID="{C61D5E36-C0FD-49CD-9E61-0215EF718E8A}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="text_beep" ID="{046075E0-D4E9-494D-B0D5-6CF418F4F4BD}">
+					<ChildrenList>
+						<Action Name="" ID="{4AA3E4CD-73A0-41E4-99DC-13D1B86F7BA8}" ShortID="908587461">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_UI_text_beep" ID="{FDBB1941-0CC5-4B4A-B299-E8E433CF1F77}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="cannon_lock_in_place" ID="{AC92CB7F-47BF-44DB-BB1D-2C55FF5EF038}">
+					<ChildrenList>
+						<Action Name="" ID="{9DCE212A-F8CE-4ADE-B8A9-A9B66CEAC9DC}" ShortID="620477340">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_cannon-lock-in-place" ID="{3CD59B57-5421-4AB9-A8B8-5FB1443F3F9D}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="cannon_reload" ID="{E6EE0A5A-19DC-4674-931A-5304D7DA7F10}">
+					<ChildrenList>
+						<Action Name="" ID="{936629FE-597B-4D73-8011-EFB18B7D42EC}" ShortID="979764957">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_cannon-reload" ID="{1361EC5F-6709-45FD-A7A9-F7CEF7BCCE66}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="character_use" ID="{1B81058F-C12F-4937-8329-6958F1C3820A}">
+					<ChildrenList>
+						<Action Name="" ID="{21BDD1C4-78D8-49E5-96D2-EFAE772BC3EE}" ShortID="683510995">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_character-use" ID="{AD89274F-05F9-4418-A220-132D02DB7ABC}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="engine_dying" ID="{E8062E9A-439F-46E6-BFD2-35DFDCDDE250}">
+					<ChildrenList>
+						<Action Name="" ID="{D82E5012-0B56-4C8B-9CB4-06D8475080F0}" ShortID="546094989">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_engine-dying" ID="{176F3DED-AE08-416C-A217-36EACB0E008A}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="engine_dying_2" ID="{78173B5F-2234-4626-8B88-25E34DFD9239}">
+					<ChildrenList>
+						<Action Name="" ID="{CB52DC88-D367-43F2-8401-E8D8EA9D9864}" ShortID="1043417570">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_engine-dying-2" ID="{7A5627ED-10F4-4C3E-996E-62933B0899A8}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="fire_burning" ID="{A31D5596-720E-4C94-85A8-42220EB03011}">
+					<ChildrenList>
+						<Action Name="" ID="{3AE2B09B-37DA-49A2-A821-A95A4FE806BC}" ShortID="464586090">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_fire-burning" ID="{ED854C0F-E35A-430E-AD3F-7142134842E0}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="large_explosion" ID="{B0E2F9CD-8B6C-423D-BA85-4817A123FEBA}">
+					<ChildrenList>
+						<Action Name="" ID="{B7A1A58B-43DD-4BB4-B7B1-BF1E9FBEC371}" ShortID="459587726">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_large-explosion" ID="{45C0989F-AD96-42E8-9FAC-A237C72C4640}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="loading_coal" ID="{52E4DE9D-2612-42BC-BCE6-0D9AA83EF438}">
+					<ChildrenList>
+						<Action Name="" ID="{48B4F3C2-3F26-4A15-B729-A83442917372}" ShortID="446550622">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_loading-coal" ID="{DD291164-8D22-4759-A3F1-D2729F48D5D8}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="medium_explosion" ID="{6AB4C6D4-D5C0-49C2-BD18-76D449821BDB}">
+					<ChildrenList>
+						<Action Name="" ID="{83626B92-36C1-44DF-A4F4-A3C1FDC82066}" ShortID="135896047">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_medium-explosion" ID="{E5D35382-484C-4B8F-9BC9-D93AAF86D33A}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="projectile_in_air" ID="{E18FDAAA-EC61-4508-83D6-A7FD5B68DAA3}">
+					<ChildrenList>
+						<Action Name="" ID="{8D30A297-ACB0-45D4-AB7F-F5EF9537D7E8}" ShortID="35477838">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_projectile-in-air" ID="{4E6173C7-DEEE-47B4-822F-C422CD01F98F}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="small_explosion" ID="{A4A16DEB-B2F5-42E1-9EC8-FB95C1B75CA4}">
+					<ChildrenList>
+						<Action Name="" ID="{A70B6136-28B8-40A6-AE39-742F31DE7900}" ShortID="545481289">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_small-explosion" ID="{D8194BB9-DD63-4DC6-AC27-74F88E8B0BC8}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="tank_engine" ID="{6ACD2F28-CECC-4A3E-8ED6-193E19E045D8}">
+					<ChildrenList>
+						<Action Name="" ID="{930F3217-F65C-43F5-9720-17FA88519A20}" ShortID="1073461785">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_tank-engine" ID="{B3FD02D0-3A6D-4DC0-975A-1BCA00BA6277}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="tank_impact" ID="{17F53DE3-AF24-42EB-BC87-C2A9662EE9D1}">
+					<ChildrenList>
+						<Action Name="" ID="{CB10CDBE-6DC6-40DA-AD83-94DD93128370}" ShortID="531475001">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_tank-impact" ID="{B4352004-57EE-4107-8E6C-EA6BD09D673D}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="tank_rolling" ID="{9EBE84C3-AACD-4C88-9596-A45B07376C70}">
+					<ChildrenList>
+						<Action Name="" ID="{31BA94D4-54B5-4095-81C3-3CD0AAB182F1}" ShortID="159377237">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_tank-rolling" ID="{905E8179-80B4-4215-BC7E-9856BA26E409}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="text_scroll" ID="{62672F9E-027D-4468-A178-DDBF9627C2E2}">
+					<ChildrenList>
+						<Action Name="" ID="{A9C9A921-144B-467C-BACC-447E6DD9A93F}" ShortID="299173377">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_text-scroll" ID="{582C61BA-3172-4794-AE0C-FA3921A9567B}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="throttle_click" ID="{962427E6-A262-4AF1-B8BD-1B92B5B07A12}">
+					<ChildrenList>
+						<Action Name="" ID="{28C3E3C9-C262-4930-85CA-505445973D1B}" ShortID="16600100">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_throttle-click" ID="{351884D9-8A9C-46B5-9593-001463376AA1}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="throttle_shift" ID="{9CA753AD-D849-4445-AAC7-DBC1D1121806}">
+					<ChildrenList>
+						<Action Name="" ID="{B32A97F0-9421-49A7-B86E-DA8BA9CA4383}" ShortID="149791291">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_throttle-shift" ID="{5384198C-E785-4EAB-AB8A-DD473AD06C94}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="wrench" ID="{8E5DA4BE-911D-4180-8475-AB50D5E117E0}">
+					<ChildrenList>
+						<Action Name="" ID="{76283221-DFC6-424E-8933-CDF89B6379C0}" ShortID="572932943">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_wrench" ID="{CA7ED59F-A2C8-43CB-83B7-965EAB01EA47}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="ladder_climb" ID="{D9B8CBC5-2F10-40B6-A6C5-14C2BB9FEAD7}">
+					<ChildrenList>
+						<Action Name="" ID="{C831C54B-0BCA-4B2F-A232-437E126DE9ED}" ShortID="926868918">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_ladder_climb" ID="{9C5389D6-2866-4382-8177-8949AA94612C}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Global_Pause" ID="{802B3562-B902-49B6-A6A7-97296444FA72}">
+					<ChildrenList>
+						<Action Name="" ID="{D3298FD2-F338-473C-9218-A144584B4903}" ShortID="951757064">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="8"/>
+								<Property Name="Scope" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList/>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Global_Unpause" ID="{D2E5F99E-C066-40B3-A904-1D343DC49DA9}">
+					<ChildrenList>
+						<Action Name="" ID="{6310805F-F040-415C-B6F4-68D4534EB7C5}" ShortID="68808927">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="10"/>
+								<Property Name="MasterResume" Type="bool" Value="True"/>
+								<Property Name="Scope" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList/>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="main_menu_ambience" ID="{8E257765-A532-44DE-939A-64179F12AA6D}">
+					<ChildrenList>
+						<Action Name="" ID="{68FB9872-F9BF-44A5-8A6E-2A07B64BD473}" ShortID="541271387">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TTTT_Menu_Sketch_Mix" ID="{1E434762-F2CC-4409-A759-3BCFD3480C6A}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="wind_ambience" ID="{C8F86EE0-B3B8-4F6E-914E-A708AED3AE7D}">
+					<ChildrenList>
+						<Action Name="" ID="{EC5AEAF5-B6EA-450D-A6B2-4D2041AA00F1}" ShortID="180171069">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_outside-ambience" ID="{EBFFBEC8-287E-4201-BE6F-97A446CA678D}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="blaring_alarm" ID="{32DB5705-A07D-47A0-9A62-61E902CEDE4A}">
+					<ChildrenList>
+						<Action Name="" ID="{72A1C43E-7E91-4EDC-8632-1A7D8B68F6A4}" ShortID="812352267">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_blaring-alarm" ID="{5CF46254-3ADA-45CB-9DFA-487914AC47A1}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="combat_music" ID="{EFF23527-200A-4A30-87B9-C1CF628AAF2B}">
+					<ChildrenList>
+						<Action Name="" ID="{38F84D8D-DB76-4024-97FC-A2380DFC5719}" ShortID="860043601">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Combat" ID="{10545CE1-3232-4C48-9A09-09C5DF3ACEC2}" WorkUnitID="{0F4E5390-01B4-4906-A0D7-41B6390F15ED}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="item_pickup" ID="{196A0EF4-A5F5-4A78-A653-76AFC3A8B73E}">
+					<ChildrenList>
+						<Action Name="" ID="{3448C038-E793-41BB-91B8-2890C611ABD2}" ShortID="253207205">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_item_pickup" ID="{14AFAD6C-BA5B-4D4C-899C-CF944170430E}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="cannon_aim" ID="{D6EF2E29-9C77-4726-9087-FF7AA942CC8D}">
+					<ChildrenList>
+						<Action Name="" ID="{2B960D6E-663D-4263-98AC-060EAFEC0010}" ShortID="440166710">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_cannon-aim-system" ID="{D269794B-EBEF-4ED4-8AE4-2F52AB1DD8FE}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="death_stinger" ID="{523B71FA-9405-422B-90CF-33DC261857B4}">
+					<ChildrenList>
+						<Action Name="" ID="{25F6F437-53DD-4351-A4B3-267287E01E16}" ShortID="738423685">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TTTT_DeathStinger_Mix_Final_2_13_22" ID="{E10B7A00-91F6-4DD7-AAE5-397C90E7EF19}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="build_undo" ID="{925159B6-F55E-49D7-8B2C-4A5112659E5B}">
+					<ChildrenList>
+						<Action Name="" ID="{7F61C781-C01C-440D-8FF5-F62340EBDB3D}" ShortID="239298932">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_buildUndo" ID="{81862C49-CA5D-4EAD-A6DB-3AEFAC7DA578}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="invalid_alert" ID="{E1B14A8D-8F54-4AF5-8A1B-9ED3308EDC78}">
+					<ChildrenList>
+						<Action Name="" ID="{A279DFAF-F7C3-4112-89D0-DD75574BF454}" ShortID="845910865">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_invalidAlert" ID="{75B49762-1676-4FA3-9CDA-C0C3A9210664}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="room_connect" ID="{55BFBF14-931B-410C-A337-F862ECA73117}">
+					<ChildrenList>
+						<Action Name="" ID="{12900B57-F4E1-4F38-B1A2-40A8FD139CEC}" ShortID="252008327">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_room-connect" ID="{A3899EA3-F474-40F0-92F6-6CF820DC8A68}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="rotate_room" ID="{EC3DDBB4-7FB2-4619-830E-0DC7B33C2930}">
+					<ChildrenList>
+						<Action Name="" ID="{3183E076-619B-4CBC-8F9A-4E430A2CB814}" ShortID="117545689">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_rotate-room" ID="{4A4528C7-8ABF-4900-BED4-CF8E815CECC0}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="build_room" ID="{8A28287C-D8A1-4CC0-934B-2132F9786DF4}">
+					<ChildrenList>
+						<Action Name="" ID="{BC1F91CC-6279-4CE3-ACBC-17BB498722FE}" ShortID="64741277">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_build-room" ID="{E3B20AC6-944E-4C63-9B81-2D3ED6B48A39}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="jetpack_rocket_loop" ID="{0199D9E5-3AFA-4337-A6F6-B40AC7EFB6E6}">
+					<ChildrenList>
+						<Action Name="" ID="{E66830FF-273A-4982-9D6B-29828FDCF30E}" ShortID="6140439">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_jetpack_rocket_loop" ID="{76567B73-C098-4156-BE95-439287CCD02E}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="jetpack_startup" ID="{E0347EB4-54E5-4FF7-85BE-472252C23DBA}">
+					<ChildrenList>
+						<Action Name="" ID="{14293F1F-9D9F-4B93-B685-E6D9623FE52D}" ShortID="344962850">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_jetpack-startup" ID="{68C35D55-FCFA-4EC7-9848-125037ED2F00}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="jetpack_refuel" ID="{FB6F1FAF-4C04-4D7F-9632-9943CC9FA0B2}">
+					<ChildrenList>
+						<Action Name="" ID="{7FF3F24D-0306-447C-B5B3-FD32541B76F6}" ShortID="41256422">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_jetpack_refuel_v1" ID="{8CA79DB5-B695-49EF-8C83-07F97EFF229B}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="tank_alarm" ID="{F4B0D818-4D6B-4B8B-AB95-B111A6ADA2A0}">
+					<ChildrenList>
+						<Action Name="" ID="{7B81901B-BD84-464C-9A55-4575769D1CD4}" ShortID="723285869">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_tank-alarm" ID="{47448F89-7072-47AE-9910-9A5733009409}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="cannon_rotate" ID="{3442E508-B6C4-47FE-8890-CA74D9251E62}">
+					<ChildrenList>
+						<Action Name="" ID="{1E8471E5-BDEC-47E4-98B4-876A9F37D044}" ShortID="1046141095">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_cannon_rotate_v2" ID="{BAA18089-E804-4BB0-8F87-ABDA45CC5C5F}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="tank_creaking" ID="{CFD9E23D-B554-4030-9CB4-CDCBAE47BF37}">
+					<ChildrenList>
+						<Action Name="" ID="{FD118BA4-F62A-4261-8907-45642060C3C7}" ShortID="517627909">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_tank-creaking" ID="{E265F373-D1AC-472F-86AA-EA692E677BD4}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="steam_exhaust" ID="{A6951C9E-8870-4DF5-8644-705652A6AAF0}">
+					<ChildrenList>
+						<Action Name="" ID="{9D0CEF06-F675-431A-BF8C-157359E63186}" ShortID="300818046">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_steam-exhaust" ID="{28EA6071-4C6E-4F48-AA9D-CED281B4AD15}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="steam_exhaust_loop" ID="{FE7A8EAE-7228-4C8A-B011-AABDE40F2AC6}">
+					<ChildrenList>
+						<Action Name="" ID="{3A7D1CCC-304B-431E-97AC-D943760F2296}" ShortID="91728631">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_steam_exhaust_loop" ID="{CCEC4BD7-AF11-4C37-A376-8DAC346AC4C0}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="coal_pickup" ID="{AB01405B-8643-4F64-A588-689F15E18622}">
+					<ChildrenList>
+						<Action Name="" ID="{2AB577C5-4DCD-4981-B122-5BB21E091EC1}" ShortID="569256672">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_coal_pickup" ID="{36544B48-5F79-417E-BE85-F2665064F50D}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="coal_load" ID="{F1546671-8424-4414-A7AA-E773BA3308EE}">
+					<ChildrenList>
+						<Action Name="" ID="{C6010C65-C7F1-4BCF-A3D6-25AF1CBB148C}" ShortID="520460688">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_coal-load_Engine" ID="{0BC92B9F-8B1F-44A6-9373-EAF2586DE534}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+						<Action Name="" ID="{582E78AF-D3E5-4016-B00B-B812618BE996}" ShortID="349910775">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_coal-load_Fire" ID="{581051D8-D36E-453A-A629-F95B89397D4D}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="engine_running" ID="{C4767801-2B34-42E9-B7FA-EECBC82CA28F}">
+					<ChildrenList>
+						<Action Name="" ID="{2C081648-22D7-4AF5-8966-C2CA96D57EE8}" ShortID="937518844">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_engine_running" ID="{AE55B66C-60EE-4714-BCC7-47D1C62E6B78}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="footstep_metal" ID="{6D2887CC-A316-4778-9CEE-792A2164D87C}">
+					<ChildrenList>
+						<Action Name="" ID="{925E846D-4CC8-4E0F-A131-89DC732D2584}" ShortID="83727750">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_footstep_metal" ID="{B9EB4E38-8610-4D4A-98AB-E2A78704E76F}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="footstep_dirt" ID="{352697E8-E592-4FCA-BE27-1FE04293C5B4}">
+					<ChildrenList>
+						<Action Name="" ID="{758B4EB2-FDA6-4AE2-A1FD-0046B2A5C383}" ShortID="328482229">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_foostep_dirt" ID="{51B6321F-DEA7-46BB-80D4-31B305B3F655}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="cannon_fire_recycled" ID="{6FCCF39D-806F-45C8-8D76-24434DFCF154}">
+					<ChildrenList>
+						<Action Name="" ID="{945257CF-D62B-422B-A032-F79072B29572}" ShortID="522728268">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_cannon_fire (recycled)" ID="{1D7405C0-9D78-4BBF-8BEA-FF7B2EA3B068}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="cannon_fire_new" ID="{F51EEE53-E391-42DA-A04C-05A9461C9E2B}">
+					<ChildrenList>
+						<Action Name="" ID="{580B7EBB-B87A-4ACA-9296-0BF080F2573E}" ShortID="232766559">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_cannon_fire (new)" ID="{61ECB6EC-2227-4A40-8817-837AAF6B74DF}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="machine_gun_fire" ID="{C14D2096-D636-4DF0-B379-3ACC9792C0FF}">
+					<ChildrenList>
+						<Action Name="" ID="{F375860A-2279-4B9C-95F3-6414F146DD3E}" ShortID="439017325">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_machine_gun_fire" ID="{151F9BD6-5C40-4836-AC2E-2F9847D2C5A8}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="bullet_impact_dirt" ID="{054C3506-B4B9-4EC3-96AA-A1AE33050767}">
+					<ChildrenList>
+						<Action Name="" ID="{A8072DF8-0920-4969-8376-9BE6521A90E7}" ShortID="901897914">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_bullet_impact_dirt" ID="{FFE82E7D-2D18-4472-A8A0-4A5A222B4245}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="bullet_impact" ID="{47D98DC5-2021-4DED-9F68-93683FA25CD5}">
+					<ChildrenList>
+						<Action Name="" ID="{1E971E7D-63A1-4E5A-A1B2-99A2CF24F6AC}" ShortID="616469712">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_SFX_bullet_impact" ID="{AFFE189C-C83B-4613-B8CF-72F058DDEDC5}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Into_the_Breach" ID="{453FF2BB-8FF6-4613-A342-768610111B9B}">
+					<ChildrenList>
+						<Action Name="" ID="{EBBFBAB0-8E1C-4BDC-9B4C-5554A2A65B13}" ShortID="147863005">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_BGM_Into_the_Breach" ID="{037E6CDC-AC4B-403D-AB1D-3FA4B008DBEA}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Into_the_Breach_Combat" ID="{3E7B3363-CECC-43B7-AACF-914165D0DC06}">
+					<ChildrenList>
+						<Action Name="" ID="{04C9E19D-F0C8-4DD5-9A1E-082225B8F00E}" ShortID="316663883">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_BGM_Into_the_Breach_Combat" ID="{B0E3109A-6324-4CCD-B606-D24722669B48}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Into_the_Breach_2" ID="{3F5FE250-E8DA-43C3-8A7E-B1462882DA9E}">
+					<ChildrenList>
+						<Action Name="" ID="{18AB1C68-8D02-42CE-9C6F-684EB4E2CA86}" ShortID="235286743">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_BGM_Into_the_Breach_2" ID="{D4FF624D-1241-40A1-B58E-2A7F93F43306}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Into_the_Breach_Combat_2" ID="{27C4FC18-1358-42B2-9E71-AC888FF3C503}">
+					<ChildrenList>
+						<Action Name="" ID="{27AE5620-9871-4E5F-81DC-E142271BFD2A}" ShortID="1494428">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_BGM_Into_the_Breach_Combat_2" ID="{C3CE5C33-C017-4953-A78D-203DC7036DB5}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Into_the_Breach_Build" ID="{4977EAE0-CB26-4B5C-B9AC-C2EF70CEB0FF}">
+					<ChildrenList>
+						<Action Name="" ID="{2D6B4A90-CBCE-47C7-9596-BDF8E126B24D}" ShortID="23809241">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_BGM_Into_the_Breach_Build" ID="{7CC01D63-C9A7-4F09-8465-C11C174E0DB4}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Into_the_Breach_3" ID="{0861D965-F8E3-45A3-86C9-D8C7BD8690B7}">
+					<ChildrenList>
+						<Action Name="" ID="{34CECC96-7133-4D3F-A33B-1A4346229AA1}" ShortID="828590376">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_BGM_Into_the_Breach_3" ID="{434C8AE1-39EC-4993-BC69-E04A5108602B}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Into_the_Breach_Combat_3" ID="{3121B30E-C89C-414E-A12E-EC4F484A97D0}">
+					<ChildrenList>
+						<Action Name="" ID="{9955ADEA-331A-45A1-987B-3025BC0D453A}" ShortID="517626477">
+							<PropertyList>
+								<Property Name="FadeInCurve" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="TT_BGM_Into_the_Breach_Combat_3" ID="{00F2A27D-09B6-429F-BF0E-47960315F4C1}" WorkUnitID="{797175A3-2DFE-49F8-B4F0-5D354E6BCCCF}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+			</ChildrenList>
+		</WorkUnit>
+	</Events>
+</WwiseDocument>

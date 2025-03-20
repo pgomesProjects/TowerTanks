@@ -188,6 +188,7 @@ namespace TowerTanks.Scripts
             {
                 enemies.Remove(tank);
                 currentEncounter.Remove(EventType.ENEMY);
+                GameManager.Instance.currentSessionStats.enemiesKilled++;
             }
             if (enemies.Count == 0)
             {

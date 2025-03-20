@@ -1948,7 +1948,7 @@
                 {
                     "name": "",
                     "id": "b54b882e-842b-42c1-a9c8-28f3494bc87b",
-                    "path": "<Keyboard>/space",
+                    "path": "<Keyboard>/enter",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard and Mouse",
@@ -3568,6 +3568,11 @@
                     "devicePath": "<Joystick>",
                     "isOptional": false,
                     "isOR": false
+                },
+                {
+                    "devicePath": "<VirtualMouse>",
+                    "isOptional": true,
+                    "isOR": false
                 }
             ]
         },
@@ -3594,6 +3599,11 @@
                 {
                     "devicePath": "<Mouse>",
                     "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<VirtualMouse>",
+                    "isOptional": true,
                     "isOR": false
                 }
             ]
