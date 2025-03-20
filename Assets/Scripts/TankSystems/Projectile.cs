@@ -37,6 +37,7 @@ namespace TowerTanks.Scripts
         [Tooltip("Damage projectile has left to deal (projectile is destroyed when this is reduced to zero during a hit).")] internal float remainingDamage; //Actual damage value which may be decreased by tunnelling effects
         private List<Collider2D> shieldsIgnored = new List<Collider2D>();
         private float shieldsIgnoreCooldownTimer = 0;
+        public bool isIndoors = false;
 
         //RUNTIME METHODS:
         private void Awake()
@@ -138,7 +139,7 @@ namespace TowerTanks.Scripts
             transform.position = position;
             //transform.rotation = Quaternion.AngleAxis(Vector3.Angle(Vector2.right, velocity), Vector3.back);
 
-            //Energy Shield Checks
+            //Pre-Fire Collision Checks
             Collider2D[] hits = Physics2D.OverlapCircleAll(position, radius, layerMask);
             if (hits.Length > 0)
             {
@@ -148,6 +149,12 @@ namespace TowerTanks.Scripts
                     {
                         shieldsIgnored.Add(_hit);
                         shieldsIgnoreCooldownTimer = 2f;
+                    }
+
+                    int cellLayerId = LayerMask.NameToLayer("Cell");
+                    if (_hit.gameObject.layer == cellLayerId && isIndoors)
+                    {
+                        layerMask &= ~(1 << cellLayerId);
                     }
                 }
             }

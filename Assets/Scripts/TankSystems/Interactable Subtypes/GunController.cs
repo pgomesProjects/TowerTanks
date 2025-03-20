@@ -34,7 +34,8 @@ namespace TowerTanks.Scripts
         [Space(), HideInInspector]
         public float fireCooldownTimer;
         private bool isCooldownActive;
-        [Tooltip("Radius of Degrees of the Cone of Fire for this weapon's projectiles"), SerializeField, Min(0)] private float spread;
+        [Tooltip("Radius of Degrees of the Cone of Fire for this weapon's projectiles"), SerializeField, Min(0)]    private float spread;
+        [Tooltip("If true, this weapon can shoot projectiles through cells."), SerializeField]                      public bool canFireIndoors;
 
         //Gun Specific Settings
 
@@ -395,6 +396,7 @@ namespace TowerTanks.Scripts
 
                 //Fire projectile:
                 Projectile newProjectile = Instantiate(projectile).GetComponent<Projectile>();
+                if (canFireIndoors) newProjectile.isIndoors = true;
                 if (gunType != GunType.MORTAR) newProjectile.Fire(barrel.position, barrel.right * muzzleVelocity);
                 else newProjectile.Fire(barrel.position, fireVelocity);
                 newProjectile.factionId = inheritance;
