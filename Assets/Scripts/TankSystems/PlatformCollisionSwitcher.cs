@@ -18,6 +18,11 @@ namespace TowerTanks.Scripts
 
         private void Start()
         {
+            CheckRotation();
+        }
+
+        public void CheckRotation()
+        {
             if (transform.localEulerAngles.z != 0)
             {
                 Destroy(platformEffector);
