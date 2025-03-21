@@ -43,6 +43,7 @@ TagManager:
   - PlayerAvatars
   - RadarCam
   - SymbolContainer
+  - Hatch
   layers:
   - Default
   - TransparentFX
@@ -74,7 +75,7 @@ TagManager:
   - RadarCam
   - Ghost
   - Dummy
-  - 
+  - StopPlayer
   - 
   m_SortingLayers:
   - name: Background
