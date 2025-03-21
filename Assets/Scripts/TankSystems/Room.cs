@@ -76,7 +76,7 @@ namespace TowerTanks.Scripts
         private float maxBurnTime = 24f;
         private float minBurnTime = 12f;
         private float burnTimer = 0;
-        public bool isAHatchRoom;
+        public Dictionary<Vector2, Vector2> hatchPlacements = new Dictionary<Vector2, Vector2>(); //Key should be cell local position, value should be hatch direction (up, down, left, right)
 
         //RUNTIME METHODS:
         private void Awake()
@@ -503,7 +503,7 @@ namespace TowerTanks.Scripts
             ChangeRoomColor(canBeMounted ? roomData.roomTypeColors[(int)type] : Color.red);
         }
 
-        public void MountCouplers(List<Coupler> couplersToMount)
+        public void MountCouplers(List<Coupler> couplersToMount, bool mountingHatches = false)
         {
             //Remove null couplers from list:
             if (couplersToMount.Count > 0)
@@ -524,7 +524,27 @@ namespace TowerTanks.Scripts
                 couplers.Add(coupler);               
                 coupler.roomB.couplers.Add(coupler); 
                 coupler.cellA.couplers.Add(coupler); 
-                coupler.cellB.couplers.Add(coupler); 
+                coupler.cellB.couplers.Add(coupler);
+
+                if (!mountingHatches)
+                {
+                    List<int> hatchesToDestroy = new List<int>();
+                    for (int i = 0; i < coupler.roomB.hatches.Count; i++)
+                    {
+                        if (!ValidateHatch(coupler.roomB.hatches[i], coupler.roomB.hatches[i].transform.eulerAngles.z))
+                        {
+                            hatchesToDestroy.Add(i);
+                            Debug.Log("Removed hatch");
+                        }
+                    }
+                    foreach (int i in hatchesToDestroy)
+                    {
+                        Destroy(coupler.roomB.hatches[i].gameObject);
+                        coupler.roomB.hatchPlacements.Remove(coupler.cellB.transform.localPosition);
+                        coupler.roomB.hatches.RemoveAt(i);
+                    }
+                }
+                
 
                 //Add ladders & platforms:
                 if (coupler.transform.localRotation.z == 0) //Coupler is horizontal
@@ -623,6 +643,8 @@ namespace TowerTanks.Scripts
             Vector2 cellPos = chosenCell.transform.position; //converts position to a vector2
             Vector2 hatchPos = cellPos + (0.625f * chosenDirection);      
             
+            //hatchPlacements.Add(chosenCell.transform.localPosition, chosenDirection); //inverse transform point gets the local position of the cell relative to the room
+            
             Coupler newHatch = Instantiate(roomData.hatchPrefab).GetComponent<Coupler>();
             newHatch.transform.parent = transform;
             newHatch.transform.position = hatchPos;
@@ -666,6 +688,7 @@ namespace TowerTanks.Scripts
                 }
                     
                 ////////////////////////////////////////////////////////////////////
+                //CreateHatch(targetTank.upMostCell, Vector2.up);
                 Coupler hatch = Instantiate(roomData.hatchPrefab).GetComponent<Coupler>();
                 targetTank.topHatch = hatch;
                 targetTank.hatches.Add(hatch);
@@ -685,9 +708,47 @@ namespace TowerTanks.Scripts
             }
         }
 
-        private void CreateHatch()
+        /// <summary>
+        /// For adding a hatch to a cell
+        /// </summary>
+        /// <param name="hatchCell"> The cell to add a hatch to</param>
+        /// <param name="hatchDirection">The direction to install this hatch from the cell</param>
+        /// <param name="mountAtThisTime">Should we also mount the hatch right after? (This is usually true, but sometimes you want it to be false)</param>
+        public void CreateHatch(Vector2 localHatchCellLocation, Vector2 hatchDirection, bool mountAtThisTime = true, bool saveHatchToDesign = false)
         {
+            Vector2 cellPosition = transform.TransformPoint(localHatchCellLocation);
+            Vector2 hatchPos = cellPosition + (0.625f * hatchDirection);      
             
+            //atchPlacements.Add(localHatchCellLocation, hatchDirection);
+            
+            Coupler newHatch = Instantiate(roomData.hatchPrefab).GetComponent<Coupler>();
+            newHatch.transform.parent = transform;
+            newHatch.transform.position = hatchPos;
+            newHatch.transform.localPosition = RoundToGrid(newHatch.transform.localPosition, 0.125f);
+
+            if (hatchDirection.x == 0)
+            {
+                newHatch.transform.localEulerAngles = Vector3.zero;
+                newHatch.vertical = true;
+            }
+            else
+            {
+                newHatch.transform.localEulerAngles = Vector3.forward * 90;
+                newHatch.vertical = false;
+            }
+
+            Collider2D hatchCell = Physics2D.OverlapCircle(cellPosition, .3f, 1 << LayerMask.NameToLayer("Cell"));
+            newHatch.roomA = this;
+            newHatch.roomB = this;
+            if (hatchCell.TryGetComponent(out Cell cell))
+            {
+                newHatch.cellA = cell;
+                newHatch.cellB = cell;
+            }
+            hatches.Add(newHatch);
+            
+            if (saveHatchToDesign) hatchPlacements.Add(cell.transform.localPosition, hatchDirection);
+            if (mountAtThisTime) MountCouplers(new List<Coupler>{newHatch});
         }
         /// <summary>
         /// Rotates unmounted room around its pivot.
@@ -751,18 +812,6 @@ namespace TowerTanks.Scripts
             if (rotTracker < 0) rotTracker = 3; //Underflow at 0
         }
         
-        public List<Cell> ValidHatchCells()
-        {
-            List<Cell> validHatchCells = new List<Cell>();
-            foreach (Cell cell in cells)
-            {
-                //if (cell == )
-                //{
-                //    validHatchCells.Add(cell);
-                //}
-            }
-            return validHatchCells;
-        }
         /// <summary>
         /// Attaches this room to another room or the tank base (based on current position of the room and couplers).
         /// </summary>
@@ -783,7 +832,40 @@ namespace TowerTanks.Scripts
             
             MountCouplers(ghostCouplers);
             GenerateTopmostHatch();
-            MountCouplers(hatches);
+
+            List<Coupler> hatchesToDestroy = new List<Coupler>(); // this is done to prevent removing elements from the same list we are iterating over
+            foreach (var hatch in hatches)
+            {
+                if (hatch == targetTank.topHatch) continue; //we dont add tophatch to hatch placements because the top hatch is generated at the start of the tank's existence, no need to save it in the design
+                
+                Vector2 chosenDirection = Vector2.zero;
+                Vector2 direction = hatch.transform.position - hatch.cellA.transform.position;
+                if (direction.x != 0) //if doesnt work, try Mathf.approximately
+                {
+                    chosenDirection = direction.x < 0 ? Vector2.left : Vector2.right;
+                }
+                else
+                {
+                    chosenDirection = direction.y < 0 ? Vector2.down : Vector2.up;
+                }
+                
+                if (!ValidateHatch(hatch, hatch.transform.eulerAngles.z) || hatch.transform.position == targetTank.topHatch.transform.position)
+                {
+                    hatchesToDestroy.Add(hatch);
+                    Debug.Log("Destroyed hatch due to having no room");
+                    continue;
+                }
+                hatchPlacements.Add(hatch.cellA.transform.localPosition, chosenDirection); //this saves the hatches
+                //to the tank design, it's done here because at this point the hatch is at its final rotation
+            }
+
+            foreach (var hatch in hatchesToDestroy)
+            {
+                hatches.Remove(hatch);
+                Destroy(hatch.gameObject);
+            }
+            
+            MountCouplers(hatches, mountingHatches:true);
             //if (hatches.Count > 0) MountCouplers(null, true);
             PlaceExtraLadders();
 
@@ -804,6 +886,35 @@ namespace TowerTanks.Scripts
             targetTank.treadSystem.ReCalculateMass();              //Re-calculate tank mass and center of mass
 
             return mounted;
+        }
+
+        bool ValidateHatch(Coupler hatch, float orientation)
+        {
+            Vector2 chosenDirection;
+            if (Mathf.Approximately(orientation, 0) || Mathf.Approximately(orientation, 180))
+            {
+                chosenDirection = Vector2.up * .9f;
+            }
+            else chosenDirection = Vector2.right * .9f;
+
+            Vector2 upPosition = new Vector2(hatch.transform.position.x + chosenDirection.x,
+                hatch.transform.position.y + chosenDirection.y);
+            Vector2 downPosition = new Vector2(hatch.transform.position.x - chosenDirection.x,
+                hatch.transform.position.y - chosenDirection.y);
+            
+            bool hitOne = Physics2D.Raycast(hatch.transform.position, chosenDirection, .4f, 1 << LayerMask.NameToLayer("Cell")) || 
+                          Physics2D.Raycast(upPosition, chosenDirection, .4f, 1 << LayerMask.NameToLayer("Cell")) || 
+                          Physics2D.Raycast(downPosition, chosenDirection, .4f, 1 << LayerMask.NameToLayer("Cell"));
+            
+            bool hitTwo = Physics2D.Raycast(hatch.transform.position, -chosenDirection, .4f, 1 << LayerMask.NameToLayer("Cell"))|| 
+                          Physics2D.Raycast(upPosition, -chosenDirection, .4f, 1 << LayerMask.NameToLayer("Cell")) || 
+                          Physics2D.Raycast(downPosition, -chosenDirection, .4f, 1 << LayerMask.NameToLayer("Cell")); // this is fkn stupid but im only doing it for now because boxcast returns nothing for no fkn reason and its some stupid unity issue. so we have 6 raycasts instead. enjoy.
+            
+            if (hitOne && hitTwo)
+            {
+                return false;
+            }
+            return true;
         }
 
         /// <summary>

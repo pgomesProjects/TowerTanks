@@ -238,7 +238,7 @@ GameObject:
   - component: {fileID: 1611326026125025806}
   m_Layer: 18
   m_Name: Hatch
-  m_TagString: Untagged
+  m_TagString: Hatch
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

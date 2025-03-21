@@ -113,7 +113,7 @@ namespace TowerTanks.Scripts
 
         private List<SelectableRoomObject> roomButtons;
         private List<PlayerRoomSelection> roomSelections;
-        Dictionary<int, List<RoomInfo>> hatchRoomIDToInfo = new Dictionary<int, List<RoomInfo>>();
+        Dictionary<int, List<RoomInfo>> hatchRoomIDToInfo = new();
 
         private void Awake()
         {
@@ -203,7 +203,6 @@ namespace TowerTanks.Scripts
                     //spawn room at 0,0
                     newRoom.roomHasHatch = true;
                     var littleguy = Instantiate(GameManager.Instance.roomList[roomIndex].roomObject, new Vector3(0 + offset, -25, 0), Quaternion.identity, GameObject.Find("Rooms").transform);
-                    littleguy.isAHatchRoom = true;
                     offset += 10;
                     littleguy.GenerateRandomHatch();
                     

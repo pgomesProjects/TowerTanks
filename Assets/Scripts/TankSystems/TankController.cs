@@ -1109,6 +1109,11 @@ namespace TowerTanks.Scripts
                 roomScript.targetTank = this;
                 roomScript.Mount();///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 
+                foreach (var hatchPlacement in tankDesign.buildingSteps[i].hatchPlacements)
+                {
+                    roomScript.CreateHatch(hatchPlacement.Key, hatchPlacement.Value, saveHatchToDesign:true);
+                }
+                
                 roomScript.ProcessManifest(tankDesign.buildingSteps[i].cellManifest);
 
                 if (!CampaignManager.Instance.HasCampaignStarted && tankType == TankId.TankType.PLAYER) //Add the room to the stats if joining the combat scene first
@@ -1217,6 +1222,7 @@ namespace TowerTanks.Scripts
                     design.buildingSteps[roomCount].roomType = roomScript.type; //The room's current type
                     design.buildingSteps[roomCount].localSpawnVector = node.transform.localPosition; //The room's local position relative to the tank
                     design.buildingSteps[roomCount].rotate = roomScript.rotTracker; //How many times the room has been rotated before being placed
+                    design.buildingSteps[roomCount].hatchPlacements = roomScript.hatchPlacements; //Locations of hatches to place in the room
 
                     //Get missing cells:
                     design.buildingSteps[roomCount].cellManifest = roomScript.cellManifest; //Get cell manifest from room
