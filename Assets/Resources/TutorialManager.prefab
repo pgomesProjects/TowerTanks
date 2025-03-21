@@ -44,3 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 727f3f491de090549a23b745c93a716d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tutorialStructure: {fileID: 0}
+  tutorialStep: 0
+  locks: []
+  couplerMask:
+    serializedVersion: 2
+    m_Bits: 1074003968

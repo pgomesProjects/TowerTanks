@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 namespace TowerTanks.Scripts
 {
@@ -8,6 +9,7 @@ namespace TowerTanks.Scripts
     {
         public StructureController tutorialStructure;
 
+        [InlineButton("NextTutorialStep", "Next")]
         public int tutorialStep = 0;
         public List<Transform> locks = new List<Transform>();
         public LayerMask couplerMask;
@@ -52,12 +54,46 @@ namespace TowerTanks.Scripts
                     foreach(Collider2D collider in colliders)
                     {
                         Coupler coupler = collider.GetComponent<Coupler>();
-                        if (coupler != null) coupler.LockCoupler();
+                        if (coupler != null)
+                        {
+                            coupler.LockCoupler();
+                            break;
+                        }
                     }
                 }
 
                 _lock.gameObject.SetActive(false);
             }
+
+            locks[0].gameObject.SetActive(true);
+        }
+
+        private void UnlockCoupler(int index)
+        {
+            locks[index].gameObject.SetActive(false);
+            locks[index + 1].gameObject.SetActive(true);
+            Transform target = locks[index];
+
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(target.position, 1f, couplerMask);
+
+            if (colliders.Length > 0)
+            {
+                foreach (Collider2D collider in colliders)
+                {
+                    Coupler coupler = collider.GetComponent<Coupler>();
+                    if (coupler == null) coupler = collider.GetComponentInParent<Coupler>();
+                    if (coupler != null)
+                    {
+                        if (coupler.locked) coupler.UnlockCoupler();
+                    }
+                }
+            }
+        }
+
+        public void NextTutorialStep()
+        {
+            UnlockCoupler(tutorialStep);
+            tutorialStep += 1;
         }
     }
 }
