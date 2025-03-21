@@ -15,6 +15,11 @@ namespace TowerTanks.Scripts
         [Tooltip("If true, dispenser will not spawn items if too many already exist.")]     public int maxItems = 1;
         private List<GameObject> activeItems = new List<GameObject>();
 
+        public void OnEnable()
+        {
+            dispenseTimer = dispenseCooldown;
+        }
+
         protected override void FixedUpdate()
         {
             base.FixedUpdate();

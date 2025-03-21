@@ -63,6 +63,7 @@ namespace TowerTanks.Scripts
         //Runtime Variables:
         [Tooltip("Which broad purpose this room serves.")]                                                                    public RoomType type;
         [Tooltip("Whether or not this room has been attached to another room yet.")]                                          internal bool mounted = false;
+        [Tooltip("If true, this room will not mount normally when initialized.")]                                             public bool ignoreMount = false;
         [Tooltip("The only structure this room can be mounted to (who's home grid will be used during mounting).")]           internal IStructure targetStructure; 
         [Tooltip("The tank this room is mounted to.")]                                                                        internal TankController targetTank; //NOTE: This is important for distinguishing between rooms auto-spawned for prefab tanks, and rooms which are spawned in scrap menu for mounting on an existing tank
         [Tooltip("Value between 0 and 3 indicating which cardinal direction room is rotated in (in NESW order).")]            internal int rotTracker = 0; //NOTE: This is used for saving room rotation in json files

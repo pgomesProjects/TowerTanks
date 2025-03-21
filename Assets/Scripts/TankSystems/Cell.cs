@@ -368,7 +368,7 @@ namespace TowerTanks.Scripts
         /// </summary>
         public float Damage(float damage, bool triggerHitEffect = false)
         {
-            if (room.mounted != true) return 0;
+            if (room.mounted != true && room.ignoreMount != true) return 0;
 
             //If the current scene is the build scene, return
             if (GameManager.Instance.currentSceneState == SCENESTATE.BuildScene)
@@ -380,7 +380,7 @@ namespace TowerTanks.Scripts
                 RollBreakChance(damage);
             }
 
-            if (room.targetStructure.GetStructureType() == IStructure.StructureType.TANK)
+            if (room.targetStructure?.GetStructureType() == IStructure.StructureType.TANK)
             {
                 if (room.isCore || room.targetTank.isFragile) //Damage is being dealt to core cell
                 {
@@ -412,7 +412,11 @@ namespace TowerTanks.Scripts
             else
             {
                 //Deal Damage Normally
-                if (room.targetStructure.GetIsInvincible()) damage = 0;
+                if (room.targetStructure != null)
+                {
+                    if (room.targetStructure.GetIsInvincible()) damage = 0;
+                }
+
                 health = Mathf.Max(0, health - damage); //Deal damage to cell
                 if (health <= 0)
                 {

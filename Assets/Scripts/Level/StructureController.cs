@@ -41,11 +41,26 @@ namespace TowerTanks.Scripts
                 }
                 else //Room has been added to tank for pre-mounting
                 {
+                    if (room.ignoreMount)
+                    {
+                        room.targetStructure = null;
+                        continue;
+                    }
+
                     //Pre-mount room:
                     room.UpdateRoomType(room.type);              //Apply preset room type
                     room.SnapMove(room.transform.localPosition); //Snap room to position on tank grid
                     room.Mount();                                //Mount room to tank immediately
                 }
+            }
+        }
+
+        private void Start()
+        {
+            TankInteractable[] interactables = GetComponentsInChildren<TankInteractable>();
+            foreach(TankInteractable interactable in interactables)
+            {
+                if (interactable.installOnStart) interactable.DebugPlace();
             }
         }
 
@@ -168,7 +183,13 @@ namespace TowerTanks.Scripts
 
         public void AddInteractableId(GameObject interactable)
         {
+            InteractableId newId = new InteractableId();
+            newId.interactable = interactable;
+            newId.script = interactable.GetComponent<TankInteractable>();
+            newId.groupType = newId.script.interactableType;
 
+            newId.stackName = newId.script.stackName;
+            interactableList.Add(newId);
         } //Add Interactable to Structure's List of Interactables
 
         public void LoadRandomWeapons(int weaponCount)

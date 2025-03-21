@@ -8,11 +8,33 @@ namespace TowerTanks.Scripts
     public class TutorialManager : MonoBehaviour
     {
         public StructureController tutorialStructure;
-
-        [InlineButton("NextTutorialStep", "Next")]
-        public int tutorialStep = 0;
         public List<Transform> locks = new List<Transform>();
         public LayerMask couplerMask;
+
+        [Header("Tutorial Step Variables:")]
+        [InlineButton("NextTutorialStep", "Next")]
+        public int tutorialStep = 0;
+
+        [Header("STEP 0: GATHER")]
+        public InteractableZone zone_0;
+        [Header("STEP 1: GATHER")]
+        public Dispenser dispenser_1;
+        public InteractableZone zone_1;
+        [Header("STEP 2: THROTTLES")]
+        public ThrottleController[] throttles_2;
+        [Header("STEP 3: ENGINES")]
+        public EngineController[] engines_3;
+        [Header("STEP 4: WEAPONS")]
+        public GameObject[] walls_4;
+        [Header("STEP 5: ITEMS")]
+        public Dispenser dispenser_5;
+        //scale_5
+        [Header("STEP 6: TOOLS")]
+        public Dispenser[] dispensers_6;
+        public ThrottleController throttle_6;
+        [Header("STEP 7: UNINSTALL")]
+        public Dispenser dispenser_7;
+        //tank core_7
 
         // Start is called before the first frame update
         void Start()
@@ -24,7 +46,64 @@ namespace TowerTanks.Scripts
         // Update is called once per frame
         void Update()
         {
+            CheckTutorialState();
+        }
 
+        private void CheckTutorialState()
+        {
+            switch (tutorialStep)
+            {
+                case 0: //Gather
+                    if (zone_0.playerIsColliding) NextTutorialStep();
+                    break;
+
+                case 1: //Gather
+                    if (zone_1.playerIsColliding) NextTutorialStep();
+                    break;
+
+                case 2: //Throttles
+                    bool ready_2 = true;
+                    foreach (ThrottleController throttle in throttles_2)
+                    {
+                        if (throttle.gear != 2) ready_2 = false;
+                    }
+                    if (ready_2) NextTutorialStep();
+                    break;
+
+                case 3: //Engines
+                    bool ready_3 = true;
+                    foreach (EngineController engine in engines_3)
+                    {
+                        if (!engine.isPowered) ready_3 = false;
+                    }
+                    if (ready_3) NextTutorialStep();
+                    break;
+
+                case 4: //Weapons
+                    bool ready_4 = true;
+                    foreach (GameObject wall in walls_4)
+                    {
+                        if (wall != null) ready_4 = false;
+                    }
+                    if (ready_4) NextTutorialStep();
+                    break;
+
+                case 5: //Items
+                    break;
+
+                case 6: //Tools & Fire
+                    bool extinguished_6 = true;
+                    foreach (Cell cell in throttle_6.parentCell.room.cells)
+                    {
+                        if (cell.isOnFire) extinguished_6 = false;
+                    }
+                    if (extinguished_6 && dispensers_6[1].enabled != true) dispensers_6[1].enabled = true;
+                    if (throttle_6.gear == 2) NextTutorialStep();
+                    break;
+
+                case 7: //Uninstall
+                    break;
+            }
         }
 
         private void GetLocks()
@@ -94,6 +173,36 @@ namespace TowerTanks.Scripts
         {
             UnlockCoupler(tutorialStep);
             tutorialStep += 1;
+            TutorialStateTransition(tutorialStep);
+        }
+
+        private void TutorialStateTransition(int index)
+        {
+            switch (tutorialStep)
+            {
+                case 0: //Gather
+                    break;
+                case 1: //Gather
+                    dispenser_1.enabled = true;
+                    break;
+                case 2: //Throttles
+                    break;
+                case 3: //Engines
+                    break;
+                case 4: //Weapons
+                    break;
+                case 5: //Items
+                    dispenser_5.enabled = true;
+                    break;
+                case 6: //Tools & Fire
+                    throttle_6.parentCell.Ignite();
+                    throttle_6.Break();
+                    dispensers_6[0].enabled = true;
+                    break;
+                case 7: //Uninstall
+                    dispenser_7.enabled = true;
+                    break;
+            }
         }
     }
 }
