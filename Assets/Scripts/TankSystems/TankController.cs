@@ -851,7 +851,8 @@ namespace TowerTanks.Scripts
                 if (tankType == TankId.TankType.ENEMY)
                 {
                     //If we're checking for enemies destroyed, add 1 to the Objective
-                    LevelManager.Instance?.AddObjectiveValue(ObjectiveType.DefeatEnemies, 1);
+                    if (LevelManager.Instance != null) LevelManager.Instance.AddObjectiveValue(ObjectiveType.DefeatEnemies, 1);
+                    
 
                     //Random Interactable Drops
                     if (interactablePool.Count > 0)
