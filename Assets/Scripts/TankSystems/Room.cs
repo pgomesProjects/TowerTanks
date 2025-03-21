@@ -849,7 +849,7 @@ namespace TowerTanks.Scripts
                     chosenDirection = direction.y < 0 ? Vector2.down : Vector2.up;
                 }
                 
-                if (!ValidateHatch(hatch, hatch.transform.eulerAngles.z) || hatch.transform.position == targetTank.topHatch.transform.position)
+                if (!ValidateHatch(hatch, hatch.transform.eulerAngles.z) || ( targetTank != null && targetTank.topHatch != null && hatch.transform.position == targetTank.topHatch.transform.position))
                 {
                     hatchesToDestroy.Add(hatch);
                     Debug.Log("Destroyed hatch due to having no room");
