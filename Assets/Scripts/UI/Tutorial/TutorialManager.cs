@@ -262,7 +262,7 @@ namespace TowerTanks.Scripts
                 case 3: //Engines
                     HidePanel(4);
                     HidePanel(5);
-                    StartCoroutine(EnablePrompt(1f, 3, GameAction.Cancel));
+                    StartCoroutine(EnablePrompt(1f, 4, GameAction.Cancel));
                     break;
                 case 4: //Weapons
                     HidePanel(6);
