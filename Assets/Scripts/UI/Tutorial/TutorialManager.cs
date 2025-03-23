@@ -9,6 +9,7 @@ namespace TowerTanks.Scripts
     {
         public StructureController tutorialStructure;
         public List<Transform> locks = new List<Transform>();
+        public Animator[] panelAnimators;
         public LayerMask couplerMask;
 
         [Header("Tutorial Step Variables:")]
@@ -36,6 +37,16 @@ namespace TowerTanks.Scripts
         public Dispenser dispenser_7;
         public ThrottleController throttle_7;
         //tank core_7
+
+        private void Awake()
+        {
+            panelAnimators = transform.parent.Find("Zones/Hidden").GetComponentsInChildren<Animator>();
+            foreach(Animator animator in panelAnimators)
+            {
+                animator.enabled = true;
+                animator.transform.GetComponentInChildren<SpriteRenderer>().enabled = true;
+            }
+        }
 
         // Start is called before the first frame update
         void Start()
@@ -190,27 +201,43 @@ namespace TowerTanks.Scripts
                     break;
                 case 1: //Gather
                     dispenser_1.enabled = true;
+                    HidePanel(0);
+                    HidePanel(1);
+                    HidePanel(2);
                     break;
                 case 2: //Throttles
+                    HidePanel(3);
                     break;
                 case 3: //Engines
+                    HidePanel(4);
+                    HidePanel(5);
                     break;
                 case 4: //Weapons
+                    HidePanel(6);
                     break;
                 case 5: //Items
                     dispenser_5.enabled = true;
+                    HidePanel(7);
                     break;
                 case 6: //Tools & Fire
                     throttle_6.parentCell.Ignite();
                     throttle_6.Break();
                     dispensers_6[0].enabled = true;
+                    HidePanel(8);
                     break;
                 case 7: //Uninstall
                     dispenser_7.enabled = true;
+                    HidePanel(9);
                     break;
                 case 8: //Garage
                     break;
             }
+        }
+
+        private void HidePanel(int index)
+        {
+            panelAnimators[index].Play("FadeOutPanel", 0, 0);
+            
         }
     }
 }
