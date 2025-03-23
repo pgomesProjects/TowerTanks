@@ -28,12 +28,13 @@ namespace TowerTanks.Scripts
         public GameObject[] walls_4;
         [Header("STEP 5: ITEMS")]
         public Dispenser dispenser_5;
-        //scale_5
+        public HopperHitbox hopper_5;
         [Header("STEP 6: TOOLS")]
         public Dispenser[] dispensers_6;
         public ThrottleController throttle_6;
         [Header("STEP 7: UNINSTALL")]
         public Dispenser dispenser_7;
+        public ThrottleController throttle_7;
         //tank core_7
 
         // Start is called before the first frame update
@@ -89,6 +90,7 @@ namespace TowerTanks.Scripts
                     break;
 
                 case 5: //Items
+                    if (hopper_5.itemsSold >= 4) NextTutorialStep();
                     break;
 
                 case 6: //Tools & Fire
@@ -102,6 +104,10 @@ namespace TowerTanks.Scripts
                     break;
 
                 case 7: //Uninstall
+                    if (throttle_7 == null) NextTutorialStep();
+                    break;
+
+                case 8: //Garage
                     break;
             }
         }
@@ -150,7 +156,7 @@ namespace TowerTanks.Scripts
         private void UnlockCoupler(int index)
         {
             locks[index].gameObject.SetActive(false);
-            locks[index + 1].gameObject.SetActive(true);
+            if (tutorialStep < (locks.Count - 1)) locks[index + 1].gameObject.SetActive(true);
             Transform target = locks[index];
 
             Collider2D[] colliders = Physics2D.OverlapCircleAll(target.position, 1f, couplerMask);
@@ -201,6 +207,8 @@ namespace TowerTanks.Scripts
                     break;
                 case 7: //Uninstall
                     dispenser_7.enabled = true;
+                    break;
+                case 8: //Garage
                     break;
             }
         }

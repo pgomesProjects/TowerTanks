@@ -318,12 +318,14 @@ namespace TowerTanks.Scripts
                                 //Uninstall an Interactable from a cell
                                 GameManager.Instance.AudioManager.Play("ConnectRoom", currentJob.interactable.gameObject);
                                 Vector2 particlePos = new Vector2(currentJob.interactable.transform.position.x, currentJob.interactable.transform.position.y - 0.5f);
-                                GameManager.Instance.ParticleSpawner.SpawnParticle(6, particlePos, 0.35f, currentJob.interactable.tank.treadSystem.transform);
-                                GameManager.Instance.ParticleSpawner.SpawnParticle(19, particlePos, 0.1f, currentJob.interactable.tank.treadSystem.transform);
+                                Transform treads = currentJob.interactable.tank?.treadSystem.transform;
+                                
+                                GameManager.Instance.ParticleSpawner.SpawnParticle(6, particlePos, 0.35f, treads);
+                                GameManager.Instance.ParticleSpawner.SpawnParticle(19, particlePos, 0.1f, treads);
 
                                 HapticsSettings setting = GameManager.Instance.SystemEffects.GetHapticsSetting("QuickJolt");
                                 GameManager.Instance.SystemEffects.ApplyControllerHaptics(this.GetPlayerData().playerInput, setting); //Apply haptics
-                                GameManager.Instance.ParticleSpawner.SpawnParticle(28, currentJob.interactable.transform.position, 0.3f, currentJob.interactable.tank.treadSystem.transform);
+                                GameManager.Instance.ParticleSpawner.SpawnParticle(28, currentJob.interactable.transform.position, 0.3f, treads);
                                 currentJob.interactable.parentCell.AddInteractablesFromCell(true);
 
                                 durabilityLoss *= 4f;

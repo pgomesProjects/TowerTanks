@@ -6,6 +6,8 @@ namespace TowerTanks.Scripts
 {
     public class HopperHitbox : MonoBehaviour
     {
+        public int itemsSold = 0;
+
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if (collision.CompareTag("Cargo"))
@@ -15,6 +17,7 @@ namespace TowerTanks.Scripts
                 if (cargoItem != null)
                 {
                     cargoItem.Sell(1f);
+                    itemsSold += 1;
                     //GameManager.Instance.AudioManager.Play("JetpackRefuel");
                 }
             }
