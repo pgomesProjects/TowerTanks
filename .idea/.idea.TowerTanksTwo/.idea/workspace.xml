@@ -6,9 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="3c968ca7-04a3-4544-9248-81fe969a7824" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TowerTanksTwo/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TowerTanksTwo/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerMovement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerMovement.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/TankSystems/Room.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TankSystems/Room.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" beforeDir="false" afterPath="$PROJECT_DIR$/UserSettings/Layouts/CurrentMaximizeLayout.dwlt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -105,7 +103,7 @@
       <workItem from="1742377600029" duration="517000" />
       <workItem from="1742401789163" duration="26614000" />
       <workItem from="1742577539479" duration="229000" />
-      <workItem from="1742843809686" duration="981000" />
+      <workItem from="1742843809686" duration="4811000" />
     </task>
     <servers />
   </component>

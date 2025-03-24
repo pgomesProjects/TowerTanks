@@ -113,6 +113,7 @@ namespace TowerTanks.Scripts
                 Gizmos.color = Color.green;
                 Gizmos.DrawWireCube(bounds.center, bounds.size);
             }
+            
         }
         /// <summary>
         /// Called whenever collider clone on treadsystem collides with something.
@@ -891,16 +892,22 @@ namespace TowerTanks.Scripts
         bool ValidateHatch(Coupler hatch, float orientation)
         {
             Vector2 chosenDirection;
+            Vector2 chosenOrientation;
             if (Mathf.Approximately(orientation, 0) || Mathf.Approximately(orientation, 180))
             {
-                chosenDirection = Vector2.up * .9f;
+                chosenOrientation = Vector2.right;
+                chosenDirection = Vector2.up;
             }
-            else chosenDirection = Vector2.right * .9f;
+            else
+            {
+                chosenOrientation = Vector2.up;
+                chosenDirection = Vector2.right;
+            }
 
-            Vector2 upPosition = new Vector2(hatch.transform.position.x + chosenDirection.x,
-                hatch.transform.position.y + chosenDirection.y);
-            Vector2 downPosition = new Vector2(hatch.transform.position.x - chosenDirection.x,
-                hatch.transform.position.y - chosenDirection.y);
+            Vector2 upPosition = new Vector2(hatch.transform.position.x + chosenOrientation.x * .45f,
+                hatch.transform.position.y + chosenOrientation.y * .45f);
+            Vector2 downPosition = new Vector2(hatch.transform.position.x - chosenOrientation.x * .45f,
+                hatch.transform.position.y - chosenOrientation.y * .45f);
             
             bool hitOne = Physics2D.Raycast(hatch.transform.position, chosenDirection, .4f, 1 << LayerMask.NameToLayer("Cell")) || 
                           Physics2D.Raycast(upPosition, chosenDirection, .4f, 1 << LayerMask.NameToLayer("Cell")) || 
