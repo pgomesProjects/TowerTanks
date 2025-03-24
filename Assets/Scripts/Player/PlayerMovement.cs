@@ -509,14 +509,15 @@ namespace TowerTanks.Scripts
 
         protected override void ClimbLadder()
         {
-
             Collider2D onCoupler = Physics2D.OverlapBox(transform.position, Vector3.one * .33f, transform.eulerAngles.z,
                 1 << LayerMask.NameToLayer("Coupler"));
             Collider2D onLadder = Physics2D.OverlapBox(transform.position, Vector3.one * .33f, transform.eulerAngles.z,
                 1 << LayerMask.NameToLayer("Ladder"));
             RaycastHit2D hitGround = Physics2D.Raycast(transform.position, -transform.up, transform.localScale.y * .7f,
                 1 << LayerMask.NameToLayer("Ground"));
-            RaycastHit2D hitStop = Physics2D.Raycast(transform.position, transform.up, transform.localScale.y * .7f,
+            RaycastHit2D hitStopUp = Physics2D.Raycast(transform.position, transform.up, transform.localScale.y * .7f,
+                1 << LayerMask.NameToLayer("StopPlayer"));
+            RaycastHit2D hitStopDown = Physics2D.Raycast(transform.position, -transform.up, transform.localScale.y * .7f,
                 1 << LayerMask.NameToLayer("StopPlayer"));
             Collider2D ladderUnderMe = Physics2D.OverlapBox(transform.position - transform.up, Vector3.one * .33f, transform.eulerAngles.z,
                 1 << LayerMask.NameToLayer("Ladder"));
@@ -530,7 +531,7 @@ namespace TowerTanks.Scripts
             // If you hit ground, and you're trying to move down, stop climbing.
             // If you're not on a coupler or ladder, and you're trying to move up, stop climbing.
             // This makes it so you can climb up through couplers, if the coupler is at the end of the ladder.
-            if (((hitGround && !ladderUnderMe) && moveInput.y < 0) || (!onCoupler && !onLadder && moveInput.y > 0) || hitStop && moveInput.y > 0)
+            if ((hitGround && !ladderUnderMe && moveInput.y < 0) || (!onCoupler && !onLadder && moveInput.y > 0) || (hitStopUp && moveInput.y > 0) || (hitStopDown && moveInput.y < 0))
             {
                 displacement = Vector3.zero;
                 if (inGroundNextFrame)
@@ -693,7 +694,7 @@ namespace TowerTanks.Scripts
                 currentLadder != null && currentState != CharacterState.CLIMBING && currentState != CharacterState.OPERATING 
                 && (!jetpackInputHeld || CheckSurfaceCollider(LayerMask.NameToLayer("Ground"))))
             {
-                if (!CheckSurfaceCollider(LayerMask.NameToLayer("StopPlayer"))) SetLadder();
+                SetLadder();
                 //if up is pressed above the deadzone,
                 //if down is pressed under the deadzone and we aren't grounded, if we are near a ladder and we aren't already climbing,
                 // and if we arent trying to jetpack mid-air currently.

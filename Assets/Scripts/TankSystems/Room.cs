@@ -908,7 +908,7 @@ namespace TowerTanks.Scripts
             
             bool hitTwo = Physics2D.Raycast(hatch.transform.position, -chosenDirection, .4f, 1 << LayerMask.NameToLayer("Cell"))|| 
                           Physics2D.Raycast(upPosition, -chosenDirection, .4f, 1 << LayerMask.NameToLayer("Cell")) || 
-                          Physics2D.Raycast(downPosition, -chosenDirection, .4f, 1 << LayerMask.NameToLayer("Cell")); // this is fkn stupid but im only doing it for now because boxcast returns nothing for no fkn reason and its some stupid unity issue. so we have 6 raycasts instead. enjoy.
+                          Physics2D.Raycast(downPosition, -chosenDirection, .4f, 1 << LayerMask.NameToLayer("Cell")); // only doing this for now because for some reason using a 2d boxcast returns nothing. can't figure out why. so we have 6 raycasts instead. enjoy.
             
             if (hitOne && hitTwo)
             {
