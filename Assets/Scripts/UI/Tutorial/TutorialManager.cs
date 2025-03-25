@@ -39,9 +39,11 @@ namespace TowerTanks.Scripts
         [Header("STEP 2: THROTTLES")]
         public ThrottleController[] throttles_2;
         bool playerOnThrottle_2 = false;
+        public GameObject[] lights_2;
         [Header("STEP 3: ENGINES")]
         public EngineController[] engines_3;
         bool playerOnEngine_3 = false;
+        public GameObject[] lights_3;
         [Header("STEP 4: WEAPONS")]
         public GameObject[] walls_4;
         public GunController[] weapons_4;
@@ -49,6 +51,7 @@ namespace TowerTanks.Scripts
         [Header("STEP 5: ITEMS")]
         public Dispenser dispenser_5;
         public HopperHitbox hopper_5;
+        public GameObject[] lights_5;
         [Header("STEP 6: TOOLS")]
         public Dispenser[] dispensers_6;
         public ThrottleController throttle_6;
@@ -110,6 +113,15 @@ namespace TowerTanks.Scripts
                         if (throttle.gear != 2) ready_2 = false;
                         if (throttle.hasOperator) playerOnThrottle_2 = true;
                     }
+
+                    for (int i = 0; i < lights_2.Length; i++)
+                    {
+                        if (throttles_2[i].gear == 2) 
+                        { 
+                            if (!lights_2[i].activeInHierarchy) lights_2[i].SetActive(true);
+                        }
+                        else lights_2[i].SetActive(false);
+                    }
                     if (ready_2) NextTutorialStep();
                     if (playerOnThrottle_2 && screenPanels[4].triggered == false) StartCoroutine(EnablePrompt(1f, 4, GameAction.MoveG));
                     break;
@@ -120,6 +132,15 @@ namespace TowerTanks.Scripts
                     {
                         if (!engine.isPowered) ready_3 = false;
                         if (engine.hasOperator) playerOnEngine_3 = true;
+                    }
+
+                    for (int i = 0; i < lights_3.Length; i++)
+                    {
+                        if (engines_3[i].isPowered)
+                        {
+                            if (!lights_3[i].activeInHierarchy) lights_3[i].SetActive(true);
+                        }
+                        else lights_3[i].SetActive(false);
                     }
                     if (ready_3) NextTutorialStep();
                     if (playerOnEngine_3 && screenPanels[5].triggered == false) StartCoroutine(EnablePrompt(1f, 5, GameAction.Interact, "HOLD"));
@@ -146,6 +167,10 @@ namespace TowerTanks.Scripts
 
                 case 5: //Items
                     if (hopper_5.itemsSold >= 4) NextTutorialStep();
+                    for (int i = 0; i < 4; i++)
+                    {
+                        if (i < hopper_5.itemsSold && !lights_5[i].activeInHierarchy) lights_5[i].SetActive(true);
+                    }
                     break;
 
                 case 6: //Tools & Fire
@@ -209,13 +234,13 @@ namespace TowerTanks.Scripts
                 _lock.gameObject.SetActive(false);
             }
 
-            locks[0].gameObject.SetActive(true);
+            //locks[0].gameObject.SetActive(true);
         }
 
         private void UnlockCoupler(int index)
         {
             locks[index].gameObject.SetActive(false);
-            if (tutorialStep < (locks.Count - 1)) locks[index + 1].gameObject.SetActive(true);
+            //if (tutorialStep < (locks.Count - 1)) locks[index + 1].gameObject.SetActive(true);
             Transform target = locks[index];
 
             Collider2D[] colliders = Physics2D.OverlapCircleAll(target.position, 1f, couplerMask);
