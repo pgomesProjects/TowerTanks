@@ -378,17 +378,11 @@ namespace TowerTanks.Scripts
             if (!isCharacterLoaded || !isAlive)
                 return;
 
-            bool jetpackStatus = jetpackCanBeUsed;
-
             //If the jetpack is held and there's fuel and the player isn't operating anything, the jetpack is active
             if (jetpackInputHeld && currentFuel > 0 || isOperator)
                 jetpackCanBeUsed = false;
             else
                 jetpackCanBeUsed = true;
-
-            //If the status has changed, update the button prompts
-            if(jetpackStatus != jetpackCanBeUsed)
-                characterHUD?.SetButtonPrompt(GameAction.Jetpack, jetpackCanBeUsed);
         }
 
         public void UpdateCharacterDirection()
@@ -479,18 +473,12 @@ namespace TowerTanks.Scripts
             {
                 PropelJetpack();
                 if (jetpackCanBeUsed)
-                {
                     jetpackCanBeUsed = false;
-                    characterHUD.SetButtonPrompt(GameAction.Jetpack, jetpackCanBeUsed);
-                }
                 jetpackVisuals.SetActive(true);
                 jetpackSmoke.Play();
             }
             else if (!jetpackCanBeUsed)
-            {
                 jetpackCanBeUsed = true;
-                characterHUD.SetButtonPrompt(GameAction.Jetpack, jetpackCanBeUsed);
-            }
             else
             {
                 jetpackVisuals.SetActive(false);
@@ -1252,14 +1240,6 @@ namespace TowerTanks.Scripts
 
             if (TankManager.Instance != null)
                 SetAssignedTank(TankManager.Instance.playerTank);
-        }
-
-        protected override IEnumerator ResetAtEndOfFrame()
-        {
-            StartCoroutine(base.ResetAtEndOfFrame());
-            yield return new WaitForEndOfFrame();
-            characterHUD?.SetButtonPrompt(GameAction.Jetpack, true);
-            jetpackCanBeUsed = true;
         }
 
         #endregion

@@ -279,9 +279,6 @@ namespace TowerTanks.Scripts
         public override void LockIn(GameObject playerID)
         {
             base.LockIn(playerID);
-
-            operatorID.GetCharacterHUD().SetButtonPrompt(GameAction.AddFuel, true);
-            operatorID.GetCharacterHUD().SetButtonPrompt(GameAction.ReleaseSteam, true);
         }
 
         public override void CancelUse()
@@ -294,8 +291,6 @@ namespace TowerTanks.Scripts
         public override void Exit(bool sameZone)
         {
             RemoveTimingGauge();
-            operatorID.GetCharacterHUD().SetButtonPrompt(GameAction.AddFuel, false);
-            operatorID.GetCharacterHUD().SetButtonPrompt(GameAction.ReleaseSteam, false);
 
             if (GameManager.Instance.AudioManager.IsPlaying("SteamExhaustLoop", this.gameObject)) GameManager.Instance.AudioManager.Stop("SteamExhaustLoop", this.gameObject);
             base.Exit(sameZone);
@@ -323,7 +318,6 @@ namespace TowerTanks.Scripts
             float max = ((targetCharge + targetChargeOffset)) / maxChargeTime;
 
             currentGauge = GameManager.Instance.UIManager.AddTimingGauge(gameObject, new Vector2(0f, -0.56f), maxChargeTime, min, max, true);
-            operatorID?.GetCharacterHUD()?.SetButtonPrompt(GameAction.ReleaseSteam, false);
         }
 
         public void CheckCharge()
@@ -359,7 +353,6 @@ namespace TowerTanks.Scripts
                 //Ends the timing gauge and destroys it
                 currentGauge.EndTimingGauge();
                 currentGauge = null;
-                operatorID?.GetCharacterHUD()?.SetButtonPrompt(GameAction.ReleaseSteam, true);
             }
         }
 

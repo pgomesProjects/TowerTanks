@@ -3946,7 +3946,7 @@ PrefabInstance:
       objectReference: {fileID: 1411317894}
     - target: {fileID: 851944784021042181, guid: fcae0090d5846ed46947fbab7ef56af0, type: 3}
       propertyPath: tanks.Array.data[0].buildOnStart
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 851944784021042232, guid: fcae0090d5846ed46947fbab7ef56af0, type: 3}
       propertyPath: m_Name

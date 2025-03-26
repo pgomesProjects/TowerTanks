@@ -50,16 +50,10 @@ namespace TowerTanks.Scripts
         public override void LockIn(GameObject playerID)
         {
             base.LockIn(playerID);
-
-            //Add the pump shield prompt to the HUD
-            operatorID.GetCharacterHUD().SetButtonPrompt(GameAction.PumpShield, true);
         }
 
         public override void Exit(bool sameZone)
         {
-            //Remove the pump shield prompt on the HUD
-            operatorID.GetCharacterHUD().SetButtonPrompt(GameAction.PumpShield, false);
-
             base.Exit(sameZone);
         }
 

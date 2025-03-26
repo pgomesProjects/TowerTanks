@@ -120,8 +120,6 @@ namespace TowerTanks.Scripts
         public override void LockIn(GameObject playerID)
         {
             base.LockIn(playerID);
-
-            ShowFirePrompt(true);
         }
 
         public override void Use(bool overrideConditions = false)
@@ -135,7 +133,6 @@ namespace TowerTanks.Scripts
 
         public override void Exit(bool sameZone)
         {
-            ShowFirePrompt(false);
             if (GameManager.Instance.AudioManager.IsPlaying("CannonRotate", gameObject)) GameManager.Instance.AudioManager.Stop("CannonRotate", gameObject);
             base.Exit(sameZone);
         }
@@ -181,7 +178,6 @@ namespace TowerTanks.Scripts
             else if (isCooldownActive && !(gunType == GunType.MACHINEGUN))
             {
                 isCooldownActive = false;
-                ShowFirePrompt(true);
             }
 
             //Gun Specific
@@ -218,7 +214,6 @@ namespace TowerTanks.Scripts
                             if (isCooldownActive)
                             {
                                 isCooldownActive = false;
-                                ShowFirePrompt(true);
                             }
                         }
                     }
@@ -354,7 +349,6 @@ namespace TowerTanks.Scripts
                     }
 
                     GameManager.Instance.UIManager.AddTaskBar(gameObject, new Vector2(0f, -45f), overheatTime / (1 / overheatCooldownMultiplier), true);
-                    ShowFirePrompt(false);
                     isCooldownActive = true;
                 }
 
@@ -434,7 +428,6 @@ namespace TowerTanks.Scripts
                     GameManager.Instance.AudioManager.Play("CannonThunk", gameObject); //Play firing audioclips
                     CameraManipulator.main?.ShakeTankCamera(tank, GameManager.Instance.SystemEffects.GetScreenShakeSetting("Jolt"));
                     GameManager.Instance.UIManager.AddTaskBar(gameObject, new Vector2(-15f, -50f), rateOfFire, true);
-                    ShowFirePrompt(false);
                     isCooldownActive = true;
 
                     //Haptics
@@ -477,7 +470,6 @@ namespace TowerTanks.Scripts
                     GameManager.Instance.AudioManager.Play("ProjectileInAirSFX", gameObject);
                     CameraManipulator.main?.ShakeTankCamera(tank, GameManager.Instance.SystemEffects.GetScreenShakeSetting("Jolt"));
                     GameManager.Instance.UIManager.AddTaskBar(gameObject, new Vector2(-40f, -45f), rateOfFire, true);
-                    ShowFirePrompt(false);
                     isCooldownActive = true;
 
                     //Haptics
@@ -491,12 +483,6 @@ namespace TowerTanks.Scripts
                 //Set Cooldown
                 fireCooldownTimer = rateOfFire;
             }
-        }
-
-        private void ShowFirePrompt(bool showPrompt)
-        {
-            if(operatorID != null)
-                operatorID.GetCharacterHUD()?.SetButtonPrompt(GameAction.Fire, showPrompt);
         }
 
         public void RotateBarrel(float force, bool withSound)
