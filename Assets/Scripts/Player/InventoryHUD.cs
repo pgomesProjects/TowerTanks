@@ -77,13 +77,15 @@ namespace TowerTanks.Scripts
         /// Initializes the pip bar.
         /// </summary>
         /// <param name="maxPips">The number of pips to show.</param>
-        public void InitializeBar(int maxPips)
+        /// <param name="percent">The percent to start with (0 = min, 1 = max).</param>
+        public void InitializeBar(int maxPips, float percent)
         {
             //If the bar type shown is not pip, return
             if (currentItem.barType != BarType.PIP)
                 return;
 
             pipBar.InitializeBar(maxPips);
+            pipBar.UpdatePipBar(percent);
         }
 
         /// <summary>
