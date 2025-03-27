@@ -12480,6 +12480,7 @@ GameObject:
   - component: {fileID: 7839714823246331604}
   - component: {fileID: 7880325982354102578}
   - component: {fileID: 5071256527686166742}
+  - component: {fileID: 3657225760481294133}
   m_Layer: 0
   m_Name: InterDefense_EnergyShield
   m_TagString: Untagged
@@ -12567,6 +12568,31 @@ MonoBehaviour:
   scalingFactor: 1
   m_posOffsetData: {fileID: 0}
   listenerMask: 1
+--- !u!114 &3657225760481294133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7839714823246331611}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b87d562573897314389f339ea389bde2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myTankAI: {fileID: 0}
+  myInteractableID:
+    stackName: 
+    interactable: {fileID: 0}
+    script: {fileID: 0}
+    brain: {fileID: 0}
+    groupType: 0
+  mySpecificType: 1
+  interactableController: {fileID: 0}
+  tokenActivated: 0
+  maxShieldCooldown: 3
+  minShieldCooldown: 0.2
+  randomOffset: 1
 --- !u!1 &7942794571031921534
 GameObject:
   m_ObjectHideFlags: 0

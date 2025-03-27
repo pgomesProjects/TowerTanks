@@ -15,7 +15,8 @@ namespace TowerTanks.Scripts
             {INTERACTABLE.Mortar, typeof(SimpleMortarBrain)},
             {INTERACTABLE.MachineGun, typeof(SimpleMachineGunBrain)},
             {INTERACTABLE.Throttle, typeof(InteractableBrain)},
-            {INTERACTABLE.Boiler, typeof(BoilerBrain)}
+            {INTERACTABLE.Boiler, typeof(BoilerBrain)},
+            {INTERACTABLE.EnergyShield, typeof(EnergyShieldBrain)}
         };
 
         /// <summary>
