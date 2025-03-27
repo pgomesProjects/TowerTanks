@@ -690,6 +690,12 @@ namespace TowerTanks.Scripts
             }
         }
 
+        /// <summary>
+        /// Gets the miles per hour of the tank.
+        /// </summary>
+        /// <returns>f(x) = magnitude * 2.23693629 (conversion from meters to mph).</returns>
+        public float GetMPH() => r.velocity.magnitude * 2.23693629f;
+
         public void OnDestroy()
         {
             if (GameManager.Instance.AudioManager.IsPlaying("TankIdle", this.gameObject)) GameManager.Instance.AudioManager.Stop("TankIdle", this.gameObject);
