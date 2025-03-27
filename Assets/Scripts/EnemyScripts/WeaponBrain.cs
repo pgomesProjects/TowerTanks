@@ -213,8 +213,7 @@ namespace TowerTanks.Scripts
                     aimingPastOurTarget = false;
                 }
                 
-
-                var distFactor = Mathf.InverseLerp(0, 5, HowFarFromTarget()); // How close are we to our target? Returns 0 if we are right on it, returns 1 if we are 10 units away, will return a float for values inbetween
+                var distFactor = Mathf.InverseLerp(0, overrideTarget ? 4 : 10, HowFarFromTarget()); // How close are we to our target? Returns 0 if we are right on it, returns 1 if we are 10 units away, will return a float for values inbetween
                 var moveSpeed = Mathf.Lerp(minTurnSpeed, maxTurnSpeed, AimingCurve.Evaluate(distFactor));
                 //if (AimingAtGround()) moveSpeed = maxTurnSpeed;
                 
