@@ -256,13 +256,16 @@ namespace TowerTanks.Scripts
 
         public void Sell(float percentage) //percentage = multiplier 1f = 1x sale, 0.5f = half-price, etc
         {
-            //Apply Percentage Multiplier
-            int saleAmount = Mathf.RoundToInt(amount * percentage);
+            if (LevelManager.Instance != null)
+            {
+                //Apply Percentage Multiplier
+                int saleAmount = Mathf.RoundToInt(amount * percentage);
 
-            if (type == CargoType.AMMO) { saleAmount = 25; }
+                if (type == CargoType.AMMO) { saleAmount = 25; }
 
-            //Add to Total Resources
-            LevelManager.Instance.UpdateResources(saleAmount);
+                //Add to Total Resources
+                LevelManager.Instance.UpdateResources(saleAmount);
+            }
 
             //Other Effects
             GameManager.Instance.AudioManager.Play("UseWrench", gameObject);

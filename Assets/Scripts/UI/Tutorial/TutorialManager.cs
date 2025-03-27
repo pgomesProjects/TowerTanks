@@ -4,6 +4,7 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.InputSystem;
 
 namespace TowerTanks.Scripts
 {
@@ -12,7 +13,13 @@ namespace TowerTanks.Scripts
         public StructureController tutorialStructure;
         public List<Transform> locks = new List<Transform>();
         public Animator[] panelAnimators;
+        public Transform[] cameraPoints;
+        public Transform cameraTracker;
+        public Animator cameraAnimator;
 
+        public Transform[] respawnPoints;
+        public Transform spawnPoint;
+        
         public LayerMask couplerMask;
 
         [Header("Tutorial Step Variables:")]
@@ -63,6 +70,10 @@ namespace TowerTanks.Scripts
         private void Awake()
         {
             panelAnimators = transform.parent.Find("Zones/Hidden").GetComponentsInChildren<Animator>();
+            cameraPoints = transform.parent.Find("CameraTargets").GetComponentsInChildren<Transform>();
+            respawnPoints = transform.parent.Find("RespawnPoints").GetComponentsInChildren<Transform>();
+            cameraAnimator = GameObject.Find("TutorialVCam").GetComponent<Animator>();
+
             foreach(Animator animator in panelAnimators)
             {
                 animator.enabled = true;
@@ -91,6 +102,16 @@ namespace TowerTanks.Scripts
         void Update()
         {
             CheckTutorialState();
+        }
+
+        private void OnEnable()
+        {
+            GameManager.Instance.MultiplayerManager.OnPlayerConnected += OnPlayerJoined;
+        }
+
+        private void OnDisable()
+        {
+            GameManager.Instance.MultiplayerManager.OnPlayerConnected -= OnPlayerJoined;
         }
 
         private void CheckTutorialState()
@@ -279,24 +300,36 @@ namespace TowerTanks.Scripts
                     HidePanel(1);
                     HidePanel(2);
                     StartCoroutine(EnablePrompt(1f, 1, GameAction.Jetpack, "HOLD"));
+                    UpdateCameraTarget(1);
+                    UpdateRespawnPoint(1);
                     break;
                 case 2: //Throttles
                     HidePanel(3);
                     StartCoroutine(EnablePrompt(1f, 3, GameAction.Interact));
+                    UpdateCameraTarget(2);
+                    UpdateRespawnPoint(2);
                     break;
                 case 3: //Engines
                     HidePanel(4);
                     HidePanel(5);
                     StartCoroutine(EnablePrompt(1f, 4, GameAction.Cancel));
+                    UpdateCameraTarget(3);
+                    UpdateRespawnPoint(3);
                     break;
                 case 4: //Weapons
                     HidePanel(6);
+                    UpdateCameraTarget(4);
+                    cameraAnimator.Play("ZoomOut", 0, 0);
+                    UpdateRespawnPoint(4);
                     break;
                 case 5: //Items
                     dispenser_5.enabled = true;
                     HidePanel(7);
                     StartCoroutine(EnablePrompt(1f, 8, GameAction.Repair));
                     StartCoroutine(EnablePrompt(4f, 9, GameAction.Cancel));
+                    UpdateCameraTarget(5);
+                    cameraAnimator.Play("ZoomIn", 0, 0);
+                    UpdateRespawnPoint(5);
                     break;
                 case 6: //Tools & Fire
                     throttle_6.parentCell.Ignite();
@@ -304,11 +337,15 @@ namespace TowerTanks.Scripts
                     dispensers_6[0].enabled = true;
                     HidePanel(8);
                     StartCoroutine(EnablePrompt(3f, 10, GameAction.Interact, "HOLD"));
+                    UpdateCameraTarget(6);
+                    UpdateRespawnPoint(6);
                     break;
                 case 7: //Uninstall
                     dispenser_7.enabled = true;
                     HidePanel(9);
                     StartCoroutine(EnablePrompt(3f, 11, GameAction.Interact, "HOLD"));
+                    UpdateCameraTarget(7);
+                    UpdateRespawnPoint(7);
                     break;
                 case 8: //Garage
                     break;
@@ -343,6 +380,22 @@ namespace TowerTanks.Scripts
         {
             yield return new WaitForSeconds(delay);
             screenPanels[panelIndex].tvAnimator.Play("ScreenOn", 0, 0);
+        }
+
+        private void OnPlayerJoined(PlayerInput playerInput)
+        {
+            PlayerData player = PlayerData.ToPlayerData(playerInput);
+            player.SpawnPlayerInScene(spawnPoint.position);
+        }
+
+        private void UpdateCameraTarget(int index)
+        {
+            cameraTracker.position = cameraPoints[index + 1].position;
+        }
+
+        private void UpdateRespawnPoint(int index)
+        {
+            spawnPoint.position = respawnPoints[index + 1].position;
         }
     }
 }

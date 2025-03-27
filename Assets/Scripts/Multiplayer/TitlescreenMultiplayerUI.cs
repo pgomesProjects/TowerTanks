@@ -30,6 +30,7 @@ namespace TowerTanks.Scripts
 
         public override void OnPlayerJoined(PlayerInput playerInput)
         {
+            if (playerDisplayContainer == null) return;
             playerDisplayContainer.GetChild(playerInput.playerIndex).GetComponent<PlayerDisplay>().ShowPlayerInfo(GameManager.Instance.MultiplayerManager.GetPlayerColors()[playerInput.playerIndex], playerInput.currentControlScheme);
             UpdateJoinText(playerInput.playerIndex);
         }

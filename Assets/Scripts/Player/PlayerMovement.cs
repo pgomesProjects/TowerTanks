@@ -484,7 +484,7 @@ namespace TowerTanks.Scripts
                 if (jetpackCanBeUsed)
                 {
                     jetpackCanBeUsed = false;
-                    characterHUD.SetButtonPrompt(GameAction.Jetpack, jetpackCanBeUsed);
+                    characterHUD?.SetButtonPrompt(GameAction.Jetpack, jetpackCanBeUsed);
                 }
                 jetpackVisuals.SetActive(true);
                 jetpackSmoke.Play();

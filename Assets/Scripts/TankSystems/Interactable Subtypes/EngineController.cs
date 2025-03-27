@@ -280,8 +280,8 @@ namespace TowerTanks.Scripts
         {
             base.LockIn(playerID);
 
-            operatorID.GetCharacterHUD().SetButtonPrompt(GameAction.AddFuel, true);
-            operatorID.GetCharacterHUD().SetButtonPrompt(GameAction.ReleaseSteam, true);
+            operatorID.GetCharacterHUD()?.SetButtonPrompt(GameAction.AddFuel, true);
+            operatorID.GetCharacterHUD()?.SetButtonPrompt(GameAction.ReleaseSteam, true);
         }
 
         public override void CancelUse()
@@ -294,8 +294,8 @@ namespace TowerTanks.Scripts
         public override void Exit(bool sameZone)
         {
             RemoveTimingGauge();
-            operatorID.GetCharacterHUD().SetButtonPrompt(GameAction.AddFuel, false);
-            operatorID.GetCharacterHUD().SetButtonPrompt(GameAction.ReleaseSteam, false);
+            operatorID.GetCharacterHUD()?.SetButtonPrompt(GameAction.AddFuel, false);
+            operatorID.GetCharacterHUD()?.SetButtonPrompt(GameAction.ReleaseSteam, false);
 
             if (GameManager.Instance.AudioManager.IsPlaying("SteamExhaustLoop", this.gameObject)) GameManager.Instance.AudioManager.Stop("SteamExhaustLoop", this.gameObject);
             base.Exit(sameZone);
