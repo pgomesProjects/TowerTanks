@@ -91,9 +91,10 @@ namespace TowerTanks.Scripts
                 {
                     radar = true;
                     cam.transform.tag = "RadarCam";
-                    //cam.clearFlags = CameraClearFlags.SolidColor;                                                       //Change the background type to only show a solid color
-                    //cam.backgroundColor = Color.black;                                                                  //Set the background color to black
-                    //cam.cullingMask = 1 << LayerMask.NameToLayer("RadarCam") | 1 << LayerMask.NameToLayer("Minimap");   //Set the camera to only render the radar cam and the minimap cam
+                    cam.depth = 1;                                                                                      //Change the radar's priority
+                    cam.clearFlags = CameraClearFlags.SolidColor;                                                       //Change the background type to only show a solid color
+                    cam.backgroundColor = Color.black;                                                                  //Set the background color to black
+                    cam.cullingMask = 1 << LayerMask.NameToLayer("RadarCam") | 1 << LayerMask.NameToLayer("Minimap");   //Set the camera to only render the radar cam and the minimap cam
                     CinemachineTransposer transposer = vcam.AddCinemachineComponent<CinemachineTransposer>();           //Use a simpler transposer to track tank in radar screen
                     transposer.m_XDamping = 0; transposer.m_YDamping = 0; transposer.m_ZDamping = 0;                    //Turn off all camera damping
                 }
@@ -111,7 +112,7 @@ namespace TowerTanks.Scripts
                 }
 
                 //Parallax setup:
-                if (/*!isRadar*/true)
+                if (!isRadar)
                 {
                     int chunkLayerCounter = 0;
                     for (int i = 0; i < main.parallaxPrefabs.Length; i++)
@@ -213,7 +214,6 @@ namespace TowerTanks.Scripts
 
                     if (firstEngagement) //First time tank has engaged with the camera
                     {
-                        FindObjectOfType<CombatHUD>()?.DisplayEnemyTankInformation(tanks[0]); //Display the enemy information in the CombatHUD
                         firstEngagement = false;                                              //Make sure that the system does not call this logic again
                     }
                 }
@@ -484,6 +484,7 @@ namespace TowerTanks.Scripts
         [Tooltip("Cam system used to control the radar camera.")]                                         private TankCamSystem radarSystem;
         [SerializeField, Tooltip("Prefabs for parallax systems instantiated for each camera.")]           private GameObject[] parallaxPrefabs;
         [SerializeField, Tooltip("Noise profile asset describing behavior of camera shake events.")]      private NoiseSettings shakeNoiseProfile;
+        [SerializeField, Tooltip("The grid for the radar camera.")]                                       private GameObject radarGrid;
 
         //Settings:
         [Header("General Settings:")]
@@ -574,7 +575,11 @@ namespace TowerTanks.Scripts
         private void Start()
         {
             //Late generation:
-            if (useRadar) radarSystem = new TankCamSystem(TankManager.Instance.playerTank, tankCameraColor, true); //Initialize radar system
+            if (useRadar)
+            {
+                radarSystem = new TankCamSystem(TankManager.Instance.playerTank, tankCameraColor, true); //Initialize radar system
+                Instantiate(radarGrid, radarSystem.vcam.transform);                                      //Add a grid to the radar
+            }
 
             //Setup:
             normalizedEngagementArea = GetNormalizedRect(engagementZoneTargeter, zoneVisCanvas); //Get area for engagement cameras to occupy

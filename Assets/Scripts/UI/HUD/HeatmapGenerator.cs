@@ -39,7 +39,6 @@ namespace TowerTanks.Scripts
 
     public class HeatmapGenerator : MonoBehaviour
     {
-        [SerializeField, Tooltip("The tank to make a heatmap of.")] private TankController tankDesign;
         [SerializeField, Tooltip("The container of the heatmap.")] private RectTransform heatMapContainer;
         [SerializeField, Tooltip("The pixel prefab.")] private RawImage pixel;
         [SerializeField, Tooltip("The size of the pixels.")] private float pixelSize = 100f;
@@ -48,26 +47,17 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("The color to represent a cell at full health.")] private Color startingColor = Color.white;
         [SerializeField, Tooltip("The color to represent a cell at zero health.")] private Color endingColor = Color.red;
 
+        private TankController tankDesign;
         private List<HeatmapPixel> heatMapPixels = new List<HeatmapPixel>();
 
         [Button]
         public void BuildTankHeatmap() => BuildHeatmap();
 
-        private void Awake()
-        {
-            TankManager.OnPlayerTankAssigned += AssignTank;
-        }
-
-        private void OnDisable()
-        {
-            TankManager.OnPlayerTankAssigned -= AssignTank;
-        }
-
         /// <summary>
         /// Assigns a tank to the heatmap.
         /// </summary>
         /// <param name="tankDesign">The tank to build.</param>
-        private void AssignTank(TankController tankDesign)
+        public void AssignTank(TankController tankDesign)
         {
             this.tankDesign = tankDesign;
             BuildHeatmap();
@@ -148,6 +138,11 @@ namespace TowerTanks.Scripts
             lostConnectionScreen.gameObject.SetActive(true);
         }
 
+        /// <summary>
+        /// The function called when a cell's health is updated.
+        /// </summary>
+        /// <param name="cell">The cell to update.</param>
+        /// <param name="percent">The percentage of the cell's health (0 = destroyed, 1 = full).</param>
         private void OnCellHealthUpdated(Cell cell, float percent)
         {
             //Get the pixel and update its health
