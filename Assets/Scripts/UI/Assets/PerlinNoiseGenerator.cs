@@ -26,7 +26,8 @@ namespace TowerTanks.Scripts
             noiseTexture.filterMode = FilterMode.Point;
             noiseTexture.wrapMode = TextureWrapMode.Clamp;
 
-            //Attach the texture to the image
+            //Create a new material and attach the new texture to it
+            targetImage.material = new Material(Shader.Find("UI/Default"));
             targetImage.material.mainTexture = noiseTexture;
         }
 
