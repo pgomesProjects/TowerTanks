@@ -120,6 +120,7 @@ namespace TowerTanks.Scripts
         public override void LockIn(GameObject playerID)
         {
             base.LockIn(playerID);
+            operatorID.GetCharacterHUD()?.InventoryHUD.InitializeBar(1f);
         }
 
         public override void Use(bool overrideConditions = false)
@@ -167,13 +168,17 @@ namespace TowerTanks.Scripts
             }
         }
 
-        private void FixedUpdate()
+        protected override void FixedUpdate()
         {
             base.FixedUpdate();
             //Cooldown
             if (fireCooldownTimer > 0)
             {
                 fireCooldownTimer -= Time.fixedDeltaTime;
+
+                //If there is an operator and the gun isn't a machine gun, update the item bar
+                if(operatorID != null && gunType != GunType.MACHINEGUN)
+                    operatorID.GetCharacterHUD()?.InventoryHUD.UpdateItemBar(1f - (fireCooldownTimer / rateOfFire));
             }
             else if (isCooldownActive && !(gunType == GunType.MACHINEGUN))
             {
@@ -205,6 +210,9 @@ namespace TowerTanks.Scripts
                     if (overheatTimer > 0 && spinTimer <= 0) //Track overheat timer
                     {
                         overheatTimer -= (Time.fixedDeltaTime * (1 / overheatCooldownMultiplier));
+
+                        if (operatorID != null && isOverheating)
+                            operatorID.GetCharacterHUD()?.InventoryHUD.UpdateItemBar(1f - (overheatTimer / overheatTime));
                     }
                     else
                     {
@@ -343,6 +351,7 @@ namespace TowerTanks.Scripts
 
                 if (overheatTimer > overheatTime && !isOverheating)
                 {
+                    overheatTimer = overheatTime;
                     isOverheating = true;
                     if (GameManager.Instance.AudioManager.IsPlaying("SteamExhaust", gameObject) == false) {
                         GameManager.Instance.AudioManager.Play("SteamExhaust", gameObject);

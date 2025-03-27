@@ -5444,7 +5444,9 @@ MonoBehaviour:
   type: 2
   contents: []
   amount: 50
+  inventoryItem: {fileID: 11400000, guid: 8681fc16865c50d46bad7d2a2af05dfa, type: 2}
   ignoreInit: 0
+  holdRotationOffset: 0
   isOnTank: 0
   onTankMask:
     serializedVersion: 2

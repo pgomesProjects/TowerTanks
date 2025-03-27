@@ -43,6 +43,10 @@ namespace TowerTanks.Scripts
         /// <param name="inventoryItem">The inventory item.</param>
         public void AddToInventory(InventoryItem inventoryItem)
         {
+            //If the item is null, returninvent
+            if (inventoryItem == null)
+                return;
+
             //Update the alt-text and the icon color
             altText.text = inventoryItem.icon == null ? inventoryItem.name : "";
             icon.color = new Color(1, 1, 1, inventoryItem.icon == null ? 0 : 1);
@@ -106,8 +110,11 @@ namespace TowerTanks.Scripts
         {
             altText.text = "";
             icon.color = new Color(1, 1, 1, 0);
-            progressBar.gameObject.SetActive(false);
-            pipBar.gameObject.SetActive(false);
+
+            if(progressBar != null)
+                progressBar.gameObject.SetActive(false);
+            if(pipBar != null)
+                pipBar.gameObject.SetActive(false);
         }
     }
 }

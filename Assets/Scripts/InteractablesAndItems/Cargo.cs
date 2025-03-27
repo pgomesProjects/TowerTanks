@@ -13,6 +13,7 @@ namespace TowerTanks.Scripts
         public GameObject[] contents; //What objects can be inside this?
         public int amount; //how many are in it?
 
+        public InventoryItem inventoryItem;
         internal PlayerMovement currentHolder;
         private Rigidbody2D rb;
         private BoxCollider2D box2D;
@@ -121,7 +122,7 @@ namespace TowerTanks.Scripts
             if (trail.enabled == true) trail.enabled = false;
         }
 
-        public void Pickup(PlayerMovement player)
+        public virtual void Pickup(PlayerMovement player)
         {
             if (currentHolder == null)
             {
@@ -132,17 +133,23 @@ namespace TowerTanks.Scripts
                 player.currentObject = this;
                 cooldown = 0.3f;
 
+                //Add the item to the inventory
+                player.GetCharacterHUD()?.InventoryHUD.AddToInventory(inventoryItem);
+
                 GameManager.Instance.AudioManager.Play("UseSFX");
             }
         }
 
-        public void Drop(PlayerMovement player, bool throwing, Vector2 direction)
+        public virtual void Drop(PlayerMovement player, bool throwing, Vector2 direction)
         {
             transform.position = player.transform.position;
             rb.isKinematic = false;
             if (box2D != null) box2D.enabled = true;
             if (circle2D != null) circle2D.enabled = true;
             if (capsule2D != null) capsule2D.enabled = true;
+
+            //Clear the item from the inventory
+            player.GetCharacterHUD()?.InventoryHUD.ClearInventory();
 
             if (throwing)
             {

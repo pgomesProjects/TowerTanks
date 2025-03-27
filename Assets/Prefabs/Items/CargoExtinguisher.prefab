@@ -10689,6 +10689,7 @@ MonoBehaviour:
   type: 3
   contents: []
   amount: 50
+  inventoryItem: {fileID: 11400000, guid: 3474c6c62836424459a19124f8badb03, type: 2}
   ignoreInit: 0
   holdRotationOffset: 0
   isOnTank: 0

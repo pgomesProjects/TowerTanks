@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 72845628c9c9a4845ae13697b2829c0c, type: 3}
-  m_Name: New Inventory Item
+  m_Name: Boiler
   m_EditorClassIdentifier: 
-  name: Test Item
+  name: Boiler
   icon: {fileID: 0}
   barType: 0

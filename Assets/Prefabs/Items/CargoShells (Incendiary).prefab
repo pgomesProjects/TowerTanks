@@ -911,7 +911,9 @@ MonoBehaviour:
   - {fileID: 2446699370988271855, guid: b442068e42cdd1248879a0fdf7930b2e, type: 3}
   - {fileID: 2367129227070595597, guid: 85691ddecc678de4d8ae87a0b48575ba, type: 3}
   amount: 3
+  inventoryItem: {fileID: 11400000, guid: 589cfd34bf9ad4e4787b3e2f44cd6528, type: 2}
   ignoreInit: 0
+  holdRotationOffset: 0
   isOnTank: 0
   onTankMask:
     serializedVersion: 2
