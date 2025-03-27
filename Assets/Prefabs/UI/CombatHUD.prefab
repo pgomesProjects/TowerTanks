@@ -4563,6 +4563,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4653194585202519219}
     m_Modifications:
+    - target: {fileID: 2437759899623008681, guid: b205b2f782278b543a6a2aa3d91eaa43, type: 3}
+      propertyPath: m_Color.b
+      value: 0.13950692
+      objectReference: {fileID: 0}
+    - target: {fileID: 2437759899623008681, guid: b205b2f782278b543a6a2aa3d91eaa43, type: 3}
+      propertyPath: m_Color.g
+      value: 0.13950692
+      objectReference: {fileID: 0}
+    - target: {fileID: 2437759899623008681, guid: b205b2f782278b543a6a2aa3d91eaa43, type: 3}
+      propertyPath: m_Color.r
+      value: 0.14150941
+      objectReference: {fileID: 0}
+    - target: {fileID: 2437759900432881728, guid: b205b2f782278b543a6a2aa3d91eaa43, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2437759900608954995, guid: b205b2f782278b543a6a2aa3d91eaa43, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2437759900697437494, guid: b205b2f782278b543a6a2aa3d91eaa43, type: 3}
       propertyPath: m_Name
       value: TankInfo

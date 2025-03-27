@@ -51,9 +51,12 @@ namespace TowerTanks.Scripts
 
             await Task.Delay(Mathf.CeilToInt(gameOverDelay * 1000));
 
-            gameOverMenu.SetActive(false);
-            sessionStatsMenu.gameObject.SetActive(true);
-            Time.timeScale = 0.0f;
+            if (Application.isPlaying)
+            {
+                gameOverMenu?.SetActive(false);
+                sessionStatsMenu?.gameObject.SetActive(true);
+                Time.timeScale = 0.0f;
+            }
         }
 
         /// <summary>

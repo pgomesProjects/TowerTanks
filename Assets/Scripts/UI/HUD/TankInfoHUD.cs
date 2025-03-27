@@ -8,6 +8,7 @@ namespace TowerTanks.Scripts
     public class TankInfoHUD : MonoBehaviour
     {
         [SerializeField, Tooltip("The text for the tank name.")] private TextMeshProUGUI tankNameText;
+        [SerializeField, Tooltip("The lost connection screen.")] private RectTransform lostConnectionScreen;
         private HeatmapGenerator tankHeatmap;
         private Speedometer tankSpeedometer;
 
@@ -20,6 +21,7 @@ namespace TowerTanks.Scripts
         private void OnEnable()
         {
             TankManager.OnPlayerTankAssigned += InitializeTankInfo;
+            TankManager.OnPlayerTankDying += RemoveTankInfo;
         }
 
         private void OnDisable()
@@ -38,6 +40,13 @@ namespace TowerTanks.Scripts
             tankHeatmap?.AssignTank(playerTank);
 
             tankSpeedometer?.AssignTank(playerTank);
+            lostConnectionScreen.gameObject.SetActive(false);
+        }
+
+        private void RemoveTankInfo()
+        {
+            lostConnectionScreen.gameObject.SetActive(true);
+            tankHeatmap?.ClearMap();
         }
     }
 }

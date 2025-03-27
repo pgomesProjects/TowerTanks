@@ -669,8 +669,10 @@ namespace TowerTanks.Scripts
                     EventSpawnerManager spawner = GameObject.Find("LevelManager")?.GetComponent<EventSpawnerManager>();
                     if (tankType == TankId.TankType.ENEMY) spawner.EnemyDestroyed(this);
                     if (tankType == TankId.TankType.NEUTRAL) spawner.EncounterEnded(EventSpawnerManager.EventType.FRIENDLY);
+                    if (tankType == TankId.TankType.PLAYER) TankManager.OnPlayerTankDying?.Invoke();
                     totalDeathSequenceTimer = Random.Range(2.0f, 3.0f);
                     isDying = true;
+
                 }
             }
             OnCoreDamaged?.Invoke(currentCoreHealth / coreHealth);

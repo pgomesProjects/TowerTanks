@@ -130,7 +130,6 @@ MonoBehaviour:
   heatMapContainer: {fileID: 7479550105898649873}
   pixel: {fileID: 113076670207268954, guid: a8c0c74946a1b56429d1ff6962dbe7a4, type: 3}
   pixelSize: 40
-  lostConnectionScreen: {fileID: 2437759900432881729}
   startingColor: {r: 1, g: 1, b: 1, a: 1}
   endingColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &2437759900432881728
@@ -302,6 +301,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tankNameText: {fileID: 4514458162097106930}
+  lostConnectionScreen: {fileID: 2437759900432881729}
 --- !u!1 &2437759900793090028
 GameObject:
   m_ObjectHideFlags: 0

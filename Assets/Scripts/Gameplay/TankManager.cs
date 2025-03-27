@@ -14,6 +14,7 @@ namespace TowerTanks.Scripts
         internal TankController playerTank;
 
         public static System.Action<TankController> OnPlayerTankAssigned;
+        public static System.Action OnPlayerTankDying;
 
         [PropertySpace]
         public List<EnemyTankDesign> enemyTankDesigns = new List<EnemyTankDesign>();

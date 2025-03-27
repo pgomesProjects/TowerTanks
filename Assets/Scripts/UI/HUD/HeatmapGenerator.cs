@@ -42,7 +42,6 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("The container of the heatmap.")] private RectTransform heatMapContainer;
         [SerializeField, Tooltip("The pixel prefab.")] private RawImage pixel;
         [SerializeField, Tooltip("The size of the pixels.")] private float pixelSize = 100f;
-        [SerializeField, Tooltip("The lost connection screen.")] private RectTransform lostConnectionScreen;
 
         [SerializeField, Tooltip("The color to represent a cell at full health.")] private Color startingColor = Color.white;
         [SerializeField, Tooltip("The color to represent a cell at zero health.")] private Color endingColor = Color.red;
@@ -74,8 +73,6 @@ namespace TowerTanks.Scripts
             //If there is no design, return
             if (tankDesign == null)
                 return;
-
-            lostConnectionScreen.gameObject.SetActive(false);
 
             Cell[] tankCells = tankDesign.GetComponentsInChildren<Cell>();
 
@@ -128,14 +125,12 @@ namespace TowerTanks.Scripts
         /// <summary>
         /// Clears the heatmap.
         /// </summary>
-        private void ClearMap()
+        public void ClearMap()
         {
             //Clear the heatmap container
             foreach (Transform trans in heatMapContainer)
                 Destroy(trans.gameObject);
             heatMapPixels.Clear();
-
-            lostConnectionScreen.gameObject.SetActive(true);
         }
 
         /// <summary>
@@ -160,10 +155,6 @@ namespace TowerTanks.Scripts
                 cell.OnCellHealthUpdated -= OnCellHealthUpdated;
                 Destroy(currentPixel.rawImage);
                 heatMapPixels.Remove(currentPixel);
-
-                //If there are no more pixels, show the lost connection screen
-                if (heatMapPixels.Count == 0)
-                    lostConnectionScreen.gameObject.SetActive(true);
             }
         }
 
