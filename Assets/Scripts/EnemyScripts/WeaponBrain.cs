@@ -181,7 +181,7 @@ namespace TowerTanks.Scripts
                 var trajectoryPoints = Trajectory.GetTrajectory(gunScript.barrel.position, gunScript.barrel.right * gunScript.muzzleVelocity, myProjectile.gravity, 150);
                 aimHit = Trajectory.GetHitPoint(trajectoryPoints);
 
-                if (DirectionToTargetBlocked()) 
+                if (DirectionToTargetBlocked() && overrideTarget == null) 
                 {
                     targetPoint = gunScript.transform.position + gunScript.transform.right * 20f; // this will aim the weapon forward instead of at the target
                 }
@@ -214,7 +214,7 @@ namespace TowerTanks.Scripts
                 }
                 
 
-                var distFactor = Mathf.InverseLerp(0, 10, HowFarFromTarget()); // How close are we to our target? Returns 0 if we are right on it, returns 1 if we are 10 units away, will return a float for values inbetween
+                var distFactor = Mathf.InverseLerp(0, 5, HowFarFromTarget()); // How close are we to our target? Returns 0 if we are right on it, returns 1 if we are 10 units away, will return a float for values inbetween
                 var moveSpeed = Mathf.Lerp(minTurnSpeed, maxTurnSpeed, AimingCurve.Evaluate(distFactor));
                 //if (AimingAtGround()) moveSpeed = maxTurnSpeed;
                 

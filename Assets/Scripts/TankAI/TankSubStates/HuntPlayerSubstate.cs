@@ -71,7 +71,6 @@ namespace TowerTanks.Scripts
 
         public void OnEnter()
         {
-            
             for (int i = 0; i < weaponPriorityList.Count; i++)
             {
                 if (targetWeapon != null) break;
@@ -124,9 +123,8 @@ namespace TowerTanks.Scripts
                     }
                 }
             }
-            if (targetBrain != null)
+            if (targetBrain != null) //set the brain up to hunt for the player
             {
-                targetBrain.updateAimTarget = targetBrain.StartCoroutine(targetBrain.UpdateTargetPoint(_tankAI.aiSettings.tankAccuracy));
                 var players = GameObject.FindObjectsOfType<PlayerMovement>();
 
                 if (_tankAI.TankIsRightOfTarget())
@@ -144,17 +142,17 @@ namespace TowerTanks.Scripts
             
                 if (targetPlayer == null)
                 {
-                    _tankAI.fsm.ExitSubstate(); // force exit the substate if we can't find a player
+                    _tankAI.fsm.ExitSubstate(); // force exit the substate if we can't find a player (this is kinda messy and i will replace this later, works for now)
                     return;
                 }
             }
             targetBrain?.OverrideTargetPoint(targetPlayer.transform);
             if (targetBrain != null)
             {
-                if (targetBrain.updateAimTarget != null) targetBrain.StopCoroutine(targetBrain.updateAimTarget);
+                if (targetBrain.updateAimTarget != null) targetBrain.StopCoroutine(targetBrain.updateAimTarget); //restart the aim routine because we have a new target now
                 targetBrain.updateAimTarget = targetBrain.StartCoroutine(targetBrain.UpdateTargetPoint(_tankAI.aiSettings.tankAccuracy));
             }
-            else couldntOverride = true;
+            else couldntOverride = true; //we could not find any weapon to hunt the player with somehow
         }
 
         public void OnExit()

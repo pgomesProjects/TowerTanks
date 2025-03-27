@@ -89,7 +89,7 @@ namespace TowerTanks.Scripts
 
             AnyAt(surrenderState, NoValidGuns); //this being an "any transition" means that it can be triggered from any state
             
-            bool MortarOverrideAndPlayerInTank() => targetTank != null &&
+            bool MortarOverrideAndPlayerInTank() => targetTank != null && //todo: get rid of this and make mortars lead shots onto players as well
                                                     huntSubState.targetBrain?.mySpecificType == INTERACTABLE.Mortar &&
                                                     huntSubState.targetPlayer != null &&
                                                     huntSubState.targetPlayer.transform.IsChildOf(targetTank.transform);
@@ -185,12 +185,12 @@ namespace TowerTanks.Scripts
                                             !i.script.isBroken && i.script.operatorID == null)
                 .ToList();
 
-            if (!commonInteractables.Any())
+            if (!commonInteractables.Any())// if we have no interactables available of the type we are trying to distribute to
             {
                 return null;
             }
 
-            InteractableId interactable = commonInteractables[Random.Range(0, commonInteractables.Count)];
+            InteractableId interactable = commonInteractables[Random.Range(0, commonInteractables.Count)]; //chooses a random one of the available interactables
 
             if (interactable != null)
             {
@@ -205,7 +205,7 @@ namespace TowerTanks.Scripts
             return null;
         }
 
-        public void RetrieveToken(InteractableId interactableToTakeFrom)
+        public void RetrieveToken(InteractableId interactableToTakeFrom) // gets a token back from an interactable
         {
             if (tokenActivatedInteractables.Contains(interactableToTakeFrom))
             {
@@ -266,21 +266,42 @@ namespace TowerTanks.Scripts
             }
             
         }
+
+        public bool InteractableIsAvailableForDistribution(INTERACTABLE intType)
+        {
+            return tank.interactableList.Any(i => i.brain != null &&
+                                                  i.brain.mySpecificType == intType &&
+                                                  !tokenActivatedInteractables.Contains(i) &&
+                                                  !i.script.isBroken &&
+                                                  i.script.operatorID == null);
+        }
         
+        /// <summary>
+        /// Distributes tokens by weight. 
+        /// </summary>
+        /// <param name="weights">Dictionary of weights. Key is interactable type, value is the weight</param>
         public void DistributeAllWeightedTokens(Dictionary<INTERACTABLE, float> weights)
         {
-            var tokensToDistribute = aiSettings.GetTokenDistribution(weights);
+            var uneditedWeights = weights;
+            Dictionary<INTERACTABLE, float> modifiedWeights = new();
+
+            foreach (var distribution in uneditedWeights)
+            {
+                if (CheckIfAvailable(distribution.Key))
+                {
+                    modifiedWeights.Add(distribution.Key, distribution.Value); //doing this means we will skip over
+                    //weights in the dictionary that aren't available to give to anyway. So, as interactables become less available as the fight goes on,
+                    //the distribution will change a bit. We have some distributions set at low weights, that end up giving 0 tokens at start, so as space frees up those
+                    //values will change to having room for one or two tokens.
+                }
+            }
+            var tokensToDistribute = aiSettings.GetTokenDistribution(modifiedWeights);
 
             foreach (var tokenDistribution in tokensToDistribute)
             {
                 // Check if the interactable type is present on the tank
-                bool interactablePresent = tank.interactableList.Any(i => i.brain != null &&
-                                                                         i.brain.mySpecificType == tokenDistribution.Key &&
-                                                                         !tokenActivatedInteractables.Contains(i) &&
-                                                                         !i.script.isBroken &&
-                                                                         i.script.operatorID == null);
 
-                if (interactablePresent)
+                if (InteractableIsAvailableForDistribution(tokenDistribution.Key))
                 {
                     for (int i = 0; i < tokenDistribution.Value; i++)
                     {
