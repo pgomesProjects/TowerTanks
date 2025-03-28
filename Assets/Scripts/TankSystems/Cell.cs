@@ -55,7 +55,7 @@ namespace TowerTanks.Scripts
         public enum TankPosition { TOP = 1, BOTTOM = -1 };
 
         //Settings:
-        [Button("Debug Destroy Cell")] public void DebugDestroyCell() { Kill(); }
+        [Button("Debug Destroy Cell")] public void DebugDestroyCell() { OnCellHealthUpdated(this, 0f); Kill(); }
         [Button("Debug Pull Cell")] public void DebugPullCell() { Pull(); }
         [Button("Debug Damage Cell")] public void DebugDamageCell() { Damage(50f); }
 
@@ -81,6 +81,8 @@ namespace TowerTanks.Scripts
         [Tooltip("True once cell has been set up and is ready to go.")]                                             private bool initialized = false;
         [Tooltip("Player which is currently building an interactable in this cell.")]                               internal PlayerMovement playerBuilding;
         [Tooltip("Cell's position in parent room manifest, used to indicate which cells in a room are destroyed.")] internal int manifestIndex;
+
+        public System.Action<Cell, float> OnCellHealthUpdated;
 
         //RUNTIME METHODS:
         private void Awake()
@@ -352,12 +354,17 @@ namespace TowerTanks.Scripts
 
             if (room.isCore || room.targetTank.isFragile) //Damage is being dealt to core cell
             {
+                //Invoke the cell health updated function on each cell
+                foreach (Cell cell in room.cells)
+                    cell.OnCellHealthUpdated?.Invoke(cell, (room.targetTank.currentCoreHealth - damage) / room.targetTank.coreHealth);
+
                 if (!room.targetTank.isInvincible) room.targetTank.Damage(damage); //Deal all core cell damage directly to tank instead of destroying cells (unless tank is invincible)
             }
             else //Damage is being dealt to normal cell
             { 
                 //Deal damage:
                 health = Mathf.Max(0, health - damage); //Deal damage to cell
+                OnCellHealthUpdated?.Invoke(this, health / maxHealth);
                 if (health <= 0)
                 {
                     Kill(false, true);     //Kill cell if mortal damage has been dealt
@@ -546,6 +553,8 @@ namespace TowerTanks.Scripts
                         foreach (Cell cell in connectedCells) //Iterate through each cell in disconnected neighborhood
                         {
                             //(Ryan) Add Dummy Logic here
+                            Debug.Log("Cells Are Being Killed");
+                            cell.OnCellHealthUpdated(cell, 0f); //Remove from the heatmap
                             cell.Kill(true); //Destroy cell (proxy setting prevents them from each having to separately check for breakoff)
                         }
                     }
@@ -693,6 +702,9 @@ namespace TowerTanks.Scripts
                     GameManager.Instance.AudioManager.Play("ItemPickup", gameObject);
                 }
                 else difference = amount;
+
+                OnCellHealthUpdated?.Invoke(this, health / maxHealth);
+
                 HitEffects(1.5f);
                 GameManager.Instance.AudioManager.Play("UseWrench", gameObject);
                 GameManager.Instance.ParticleSpawner.SpawnParticle(6, transform.position, 0.4f, this.transform);
@@ -709,6 +721,10 @@ namespace TowerTanks.Scripts
                     GameManager.Instance.ParticleSpawner.SpawnParticle(6, transform.position, 0.4f, this.transform);
                     GameManager.Instance.ParticleSpawner.SpawnParticle(7, transform.position, 0.3f, this.transform);
                 }
+
+                //Invoke the cell health updated function on each cell
+                foreach (Cell cell in room.cells)
+                    cell.OnCellHealthUpdated?.Invoke(cell, room.targetTank.currentCoreHealth / room.targetTank.coreHealth);
             }
 
             return difference;

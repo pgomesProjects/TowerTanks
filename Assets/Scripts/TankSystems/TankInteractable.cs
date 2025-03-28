@@ -154,11 +154,14 @@ namespace TowerTanks.Scripts
 
         public virtual void LockIn(GameObject playerID) //Called from InteractableZone.cs when a user locks in to the interactable
         {
-            hasOperator = true;
             operatorID = playerID.GetComponent<PlayerMovement>();
 
             if (operatorID != null)
             {
+                //If the operator is already in an interactable, return
+                if (operatorID.currentInteractable != null) return;
+
+                hasOperator = true;
                 operatorID.currentInteractable = this;
                 operatorID.isOperator = true;
                 operatorID.gameObject.GetComponent<Rigidbody2D>().isKinematic = true;

@@ -823,11 +823,13 @@ namespace TowerTanks.Scripts
                     //Destroy all cells
                     //cell.Kill();
 
+                    //Update the heatmap
+                    if(tankType == TankId.TankType.PLAYER)
+                        cell.OnCellHealthUpdated?.Invoke(cell, 0f);
+
                     //Blow up the core
                     if (cell.room.isCore)
-                    {
                         GameManager.Instance.ParticleSpawner.SpawnParticle(5, cell.transform.position, 0.15f, null);
-                    }
                 }
 
                 //Spawn Cargo
