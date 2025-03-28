@@ -532,11 +532,11 @@ namespace TowerTanks.Scripts
                     List<int> hatchesToDestroy = new List<int>();
                     for (int i = 0; i < coupler.roomB.hatches.Count; i++)
                     {
-                        if (!ValidateHatch(coupler.roomB.hatches[i], coupler.roomB.hatches[i].transform.eulerAngles.z))
+                        if (coupler.roomB.hatches[i] != null && !ValidateHatch(coupler.roomB.hatches[i], coupler.roomB.hatches[i].transform.eulerAngles.z))
                         {
                             hatchesToDestroy.Add(i);
                             Debug.Log("Removed hatch");
-                        }
+                        } else if (coupler.roomB.hatches[i] == null) coupler.roomB.hatches.RemoveAt(i);
                     }
                     foreach (int i in hatchesToDestroy)
                     {
