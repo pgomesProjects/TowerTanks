@@ -49,6 +49,7 @@ namespace TowerTanks.Scripts
         public GameObject surrenderFlag;
         private Animator tankAnimator;
         public GameObject corpsePrefab;
+        [HideInInspector] public Coupler topHatch;
         public List<Coupler> hatches = new List<Coupler>();
         private Vector2[] cargoNodes;
 
@@ -850,7 +851,8 @@ namespace TowerTanks.Scripts
                 if (tankType == TankId.TankType.ENEMY)
                 {
                     //If we're checking for enemies destroyed, add 1 to the Objective
-                    LevelManager.Instance?.AddObjectiveValue(ObjectiveType.DefeatEnemies, 1);
+                    if (LevelManager.Instance != null) LevelManager.Instance.AddObjectiveValue(ObjectiveType.DefeatEnemies, 1);
+                    
 
                     //Random Interactable Drops
                     if (interactablePool.Count > 0)
@@ -1108,7 +1110,12 @@ namespace TowerTanks.Scripts
                     roomScript.UpdateRoomType(type);
                 }
                 roomScript.targetTank = this;
-                roomScript.Mount();
+                roomScript.Mount();///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                
+                foreach (var hatchPlacement in tankDesign.buildingSteps[i].hatchPlacements)
+                {
+                    roomScript.CreateHatch(hatchPlacement.Key, hatchPlacement.Value, saveHatchToDesign:true);
+                }
                 
                 roomScript.ProcessManifest(tankDesign.buildingSteps[i].cellManifest);
 
@@ -1218,6 +1225,7 @@ namespace TowerTanks.Scripts
                     design.buildingSteps[roomCount].roomType = roomScript.type; //The room's current type
                     design.buildingSteps[roomCount].localSpawnVector = node.transform.localPosition; //The room's local position relative to the tank
                     design.buildingSteps[roomCount].rotate = roomScript.rotTracker; //How many times the room has been rotated before being placed
+                    design.buildingSteps[roomCount].hatchPlacements = roomScript.hatchPlacements; //Locations of hatches to place in the room
 
                     //Get missing cells:
                     design.buildingSteps[roomCount].cellManifest = roomScript.cellManifest; //Get cell manifest from room

@@ -223,10 +223,15 @@ namespace TowerTanks.Scripts
         /// Spawns a room in the world that the players can move around.
         /// </summary>
         /// <param name="roomToSpawn">The room to spawn into the world.</param>
-        /// <param name="playerSelector">The player to follow.</param>
+        /// <param name="playerSelector">The player to follow.</param>ww
         public void SpawnRoom(RoomInfo roomToSpawn, PlayerRoomSelection playerSelector)
         {
-            Room roomObject = Instantiate(roomToSpawn.roomObject, roomParentTransform);
+            Room roomObject;
+            if (roomToSpawn.roomObject.hatches.Count > 0) // we check this for a complex reason that has to do with room initialization breaking on hatch rooms otherwise. hatch rooms are already in the scene, so we dont want to spawn it again.
+            {
+                roomObject = roomToSpawn.roomObject;
+            }
+            else roomObject = Instantiate(roomToSpawn.roomObject, roomParentTransform); //not a hatch room, is a prefab that we want to spawn in
             WorldRoom room = new WorldRoom(playerSelector, roomObject, roomObject.transform);
             room.SetRoomRotateCooldown(roomRotateDelay);
             roomObject.heldDuringPlacement = true;
@@ -388,12 +393,13 @@ namespace TowerTanks.Scripts
 
                 return true;
             }
-            //If the player has not mounted all of their rooms, give them their next room
-            else
+            //If the player has not mounted all of their rooms, this gives them their next room
+            if (playerRoom.playerSelector.GetRoomToPlace().hatches.Count > 0) //we check this for a complex reason that has to do with room initialization breaking on hatch rooms otherwise. hatch rooms are already in the scene, so we dont want to spawn it again
             {
-                playerRoom.SetRoomObject(Instantiate(playerRoom.playerSelector.GetRoomToPlace(), roomParentTransform));
-                MoveRoomInScene(playerRoom, Vector2.zero);
-            }
+                playerRoom.SetRoomObject(playerRoom.playerSelector.GetRoomToPlace());
+            } else playerRoom.SetRoomObject(Instantiate(playerRoom.playerSelector.GetRoomToPlace(), roomParentTransform));
+            MoveRoomInScene(playerRoom, Vector2.zero);
+            
 
             return false;
         }

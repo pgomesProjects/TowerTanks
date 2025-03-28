@@ -338,7 +338,7 @@ namespace TowerTanks.Scripts
 
         public bool CheckGround()
         {
-            LayerMask bothLayers = (1 << LayerMask.NameToLayer("Ground")) | (1 << LayerMask.NameToLayer("Coupler"));
+            LayerMask bothLayers = (1 << LayerMask.NameToLayer("Ground")) | (1 << LayerMask.NameToLayer("Coupler")| (1 << LayerMask.NameToLayer("StopPlayer")));
 
             return Physics2D.OverlapBox(new Vector2(transform.position.x, //if our position is over that ground
                     transform.position.y - groundedBoxOffset),

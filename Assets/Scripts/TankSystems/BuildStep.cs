@@ -33,5 +33,8 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("How many times to rotate the room clockwise before placing")] public int rotate = 0;
         [SerializeField, Tooltip("List of cells in the room which have an interactable, along with references to the interactable they have.")] public CellInterAssignment[] cellInteractables = { };
         [SerializeField, Tooltip("List of bools which indicates whether or not each corresponding cell in room is present.")] public bool[] cellManifest = { };
+        [SerializeField, Tooltip("A list of cell positions with directions to spawn hatches at. Used for randomized" +
+                                 " room hatches. Key should be cell local position, value should be hatch direction (Vector2.up, Vector2.down, etc.)")]
+        public Dictionary<Vector2, Vector2> hatchPlacements = new(); //Key should be cell location, value should be hatch direction (up, down, left, right)
     }
 }

@@ -18,10 +18,20 @@ namespace TowerTanks.Scripts
 
         private void Start()
         {
-            if (transform.localEulerAngles.z != 0)
+            CheckRotation();
+        }
+
+        public void CheckRotation()
+        {
+            if (!Mathf.Approximately(transform.eulerAngles.z, 0) && !Mathf.Approximately(transform.eulerAngles.z, 180))
             {
                 Destroy(platformEffector);
                 Destroy(platformCollider);
+            }
+
+            if (Mathf.Approximately(transform.eulerAngles.z, 180) && platformEffector)
+            {
+                platformEffector.rotationalOffset = 180;
             }
         }
 
