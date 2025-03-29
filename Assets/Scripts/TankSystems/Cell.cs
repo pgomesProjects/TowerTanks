@@ -953,7 +953,7 @@ namespace TowerTanks.Scripts
             //Generate clone:
             compositeClone = new GameObject(name + "_" + name + "_Collider").AddComponent<BoxCollider2D>(); //Create clone for cell (size does not need to be modified bc cell size = BoxCollider2D default size)
             compositeClone.gameObject.layer = LayerMask.NameToLayer("TankCollider");                        //Place clone on ground layer so it doesn't mess with player collision
-            compositeClone.transform.parent = room.targetTank.treadSystem.colliderSystem;                   //Child collider object to treadSystem container
+            compositeClone.transform.parent = room.targetTank?.treadSystem.colliderSystem;                   //Child collider object to treadSystem container
             compositeClone.transform.position = transform.position;                                         //Move collider to match position with cell
             compositeClone.transform.rotation = transform.rotation;                                         //Rotate collider to match rotation with cell
 
