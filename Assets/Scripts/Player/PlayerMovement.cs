@@ -88,6 +88,7 @@ namespace TowerTanks.Scripts
         private float maxSlope = 100;
 
         [SerializeField] private float maxYVelocity, maxXVelocity;
+        
 
         #endregion
 
@@ -705,7 +706,11 @@ namespace TowerTanks.Scripts
 
             if (moveInput.y < -couplerStickDeadzone && CheckSurfaceCollider(18) != null)
             {
-                if (CheckSurfaceCollider(18).gameObject.TryGetComponent(out PlatformCollisionSwitcher collSwitcher))
+                Collider2D platform = CheckSurfaceCollider(18);
+                bool onEnemyTank = platform.transform.root.TryGetComponent(out TankController tc) &&
+                                   tc.tankType == TankId.TankType.ENEMY; //we dont want to be able to go into hatches on enemy tanks
+                
+                if (platform.gameObject.TryGetComponent(out PlatformCollisionSwitcher collSwitcher) && !onEnemyTank)
                 {
                     StartCoroutine(
                         collSwitcher.DisableCollision(GetComponent<Collider2D>())); //Disable collision with platform

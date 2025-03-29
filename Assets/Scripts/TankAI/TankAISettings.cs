@@ -45,35 +45,51 @@ namespace TowerTanks.Scripts
         [DictionaryDrawerSettings(KeyLabel = "Interactable", ValueLabel = "Weight")]
         public Dictionary<INTERACTABLE, float> engageStateInteractableWeights = new();
 
-
+        
+        /// <summary>
+        /// Will return a dictionary containing how many tokens to give to interactables.
+        /// KEY: Interactable Type
+        /// VALUE: Tokens to give to this type
+        /// </summary>
+        /// <param name="weights"></param>
+        /// <returns></returns>
         public Dictionary<INTERACTABLE, int> GetTokenDistribution(Dictionary<INTERACTABLE, float> weights)
         {
             float totalWeight = weights.Values.Sum();
             Dictionary<INTERACTABLE, int> tokensToDistribute = new Dictionary<INTERACTABLE, int>();
-
-            // distributes tokens proportionally based on weights
-            foreach (var kvp in weights)
+    
+            if (totalWeight == 0)
             {
-                if (kvp.Value > 0)
+                // if no weights are assigned, return a dictionary with zero tokens
+                foreach (var kvp in weights)
                 {
-                    float percentage = kvp.Value / totalWeight;
-                    int tokens = Mathf.FloorToInt(tankEconomy * percentage);
-                    tokensToDistribute[kvp.Key] = tokens;
+                    tokensToDistribute[kvp.Key] = 0;
                 }
+                return tokensToDistribute;
             }
 
-            int remainingTokens = tankEconomy - tokensToDistribute.Values.Sum();
+            // we are now saving the integer and remainder of each raw token distribution to implement fair share allocation
+            Dictionary<INTERACTABLE, (int integerPart, float remainder)> tokenParts = new();
+            int allocatedTokens = 0;
 
-            // accounts for any leftover tokens from rounding down
-            while (remainingTokens > 0)
+            foreach (var kvp in weights)
             {
-                foreach (var kvp in weights.OrderByDescending(kvp => kvp.Value)) // distributes leftover tokens to the interactables with the highest weights
-                {
-                    if (kvp.Value == 0) continue;
-                    if (remainingTokens <= 0) break;
-                    tokensToDistribute[kvp.Key]++;
-                    remainingTokens--;
-                }
+                float exactTokens = (kvp.Value / totalWeight) * tankEconomy;
+                int integerPart = Mathf.FloorToInt(exactTokens);
+                float remainder = exactTokens - integerPart; // Store remainder
+
+                tokenParts[kvp.Key] = (integerPart, remainder);
+                tokensToDistribute[kvp.Key] = integerPart; // Start with using the integer part to give tokens
+                allocatedTokens += integerPart;
+            }
+
+            // if there are remaining tokens leftover from rounding, distribute them based on the largest remainders
+            int remainingTokens = tankEconomy - allocatedTokens;
+            var sortedByRemainder = tokenParts.OrderByDescending(kvp => kvp.Value.remainder).Select(kvp => kvp.Key).ToList();
+
+            for (int i = 0; i < remainingTokens; i++)
+            {
+                tokensToDistribute[sortedByRemainder[i]]++;
             }
 
             return tokensToDistribute;

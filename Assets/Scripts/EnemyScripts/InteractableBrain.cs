@@ -48,7 +48,6 @@ namespace TowerTanks.Scripts
         
         public void ReturnToken()
         {
-            myTankAI.RetrieveToken(myInteractableID);
             tokenActivated = false;
             enabled = false;
         }

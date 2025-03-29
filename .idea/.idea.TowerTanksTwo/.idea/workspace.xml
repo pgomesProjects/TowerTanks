@@ -6,7 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="3c968ca7-04a3-4544-9248-81fe969a7824" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TowerTanksTwo/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TowerTanksTwo/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/TankSystems/Room.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/TankSystems/Room.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Resources/TankAISettings/Tier 3 AI Settings (Long Range).asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/TankAISettings/Tier 3 AI Settings (Long Range).asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/EnemyScripts/WeaponBrain.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/EnemyScripts/WeaponBrain.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Gameplay/TankManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Gameplay/TankManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerMovement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player/PlayerMovement.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

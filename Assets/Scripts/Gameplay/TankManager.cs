@@ -11,7 +11,7 @@ namespace TowerTanks.Scripts
         public static TankManager Instance;
         public GameObject tankPrefab;
         public Transform tankSpawnPoint;
-        internal TankController playerTank;
+        public TankController playerTank;
 
         public static System.Action<TankController> OnPlayerTankAssigned;
 
