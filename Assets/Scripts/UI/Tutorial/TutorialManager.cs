@@ -5,6 +5,7 @@ using Sirenix.OdinInspector;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.InputSystem;
+using Cinemachine;
 
 namespace TowerTanks.Scripts
 {
@@ -13,14 +14,21 @@ namespace TowerTanks.Scripts
         public StructureController tutorialStructure;
         public List<Transform> locks = new List<Transform>();
         public Animator[] panelAnimators;
-        public Transform[] cameraPoints;
-        public Transform cameraTracker;
-        public Animator cameraAnimator;
 
         public Transform[] respawnPoints;
         public Transform spawnPoint;
+
+        private PlayerData[] playerData;
+        public int playerCount = 0;
         
         public LayerMask couplerMask;
+
+        [Header("Camera Settings:")]
+        public Transform[] cameraPoints;
+        private Vector2 cameraTarget = Vector2.zero;
+        public Transform cameraTracker;
+        public Animator cameraAnimator;
+        private bool camIsLocked = true;
 
         [Header("Tutorial Step Variables:")]
         [InlineButton("NextTutorialStep", "Next")]
@@ -88,6 +96,7 @@ namespace TowerTanks.Scripts
             }
 
             Sprite button = GameManager.Instance.buttonPromptSettings.GetPlatformPrompt(GameAction.Interact, PlatformType.Gamepad).PromptSprite;
+            
         }
 
         // Start is called before the first frame update
@@ -96,12 +105,14 @@ namespace TowerTanks.Scripts
             GetLocks();
             LockCouplers();
             TutorialStateTransition(0);
+            UpdatePlayerValues();
         }
 
         // Update is called once per frame
         void Update()
         {
             CheckTutorialState();
+            UpdateCameraPosition();
         }
 
         private void OnEnable()
@@ -119,25 +130,25 @@ namespace TowerTanks.Scripts
             switch (tutorialStep)
             {
                 case 0: //Gather
-                    if (zone_0.playerIsColliding) NextTutorialStep();
+                    if (zone_0.playerIsColliding && (zone_0.players.Count == playerCount)) NextTutorialStep();
                     break;
 
                 case 1: //Gather
-                    if (zone_1_2.playerIsColliding && screenPanels[2].triggered == false) StartCoroutine(EnablePrompt(1f, 2, GameAction.MoveG));
-                    if (zone_1.playerIsColliding) NextTutorialStep();
+                    if ((zone_1_2.playerIsColliding) && screenPanels[2].triggered == false) StartCoroutine(EnablePrompt(1f, 2, GameAction.MoveG));
+                    if (zone_1.playerIsColliding && (zone_1.players.Count == playerCount)) NextTutorialStep();
                     break;
 
                 case 2: //Throttles
                     bool ready_2 = true;
                     foreach (ThrottleController throttle in throttles_2)
                     {
-                        if (throttle.gear != 2) ready_2 = false;
+                        if (Mathf.Abs(throttle.gear) != 2) ready_2 = false;
                         if (throttle.hasOperator) playerOnThrottle_2 = true;
                     }
 
                     for (int i = 0; i < lights_2.Length; i++)
                     {
-                        if (throttles_2[i].gear == 2) 
+                        if (Mathf.Abs(throttles_2[i].gear) == 2) 
                         { 
                             if (!lights_2[i].activeInHierarchy) lights_2[i].SetActive(true);
                         }
@@ -205,7 +216,7 @@ namespace TowerTanks.Scripts
                         dispensers_6[1].enabled = true;
                         StartCoroutine(EnablePrompt(3f, 10, GameAction.Interact, "HOLD"));
                     }
-                    if (throttle_6.gear == 2) NextTutorialStep();
+                    if (Mathf.Abs(throttle_6.gear) == 2) NextTutorialStep();
                     break;
 
                 case 7: //Uninstall
@@ -386,16 +397,66 @@ namespace TowerTanks.Scripts
         {
             PlayerData player = PlayerData.ToPlayerData(playerInput);
             player.SpawnPlayerInScene(spawnPoint.position);
+
+            UpdatePlayerValues();
         }
 
         private void UpdateCameraTarget(int index)
         {
-            cameraTracker.position = cameraPoints[index + 1].position;
+            camIsLocked = false;
+            cameraTarget = cameraPoints[index + 1].position;
+        }
+
+        private void UpdateCameraPosition()
+        {
+            if (cameraTarget == Vector2.zero) return;
+            if (playerData.Length == 0) return;
+
+            //Get furthest player behind
+            PlayerData lastPlayer = null;
+            float distance = 0;
+            float lockThreshold = 3f;
+            foreach (PlayerData player in playerData)
+            {
+                Vector2 pointA = (player.GetCurrentPlayerObject().transform.position);
+                Vector2 pointB = cameraTarget;
+
+                float distanceCheck = Vector2.Distance(pointA, pointB);
+                if (distanceCheck > distance)
+                {
+                    lastPlayer = player;
+                    distance = distanceCheck;
+                }
+            }
+
+            if (distance <= lockThreshold) camIsLocked = true;
+
+            if (!camIsLocked)
+            {
+                //find average between last player & camera target
+                Vector2 pointA = lastPlayer.GetCurrentPlayerObject().transform.position;
+                Vector2 pointB = cameraTarget;
+
+                Vector2 average = (pointA + pointB) / 2f;
+
+                //Assign tracker position
+                cameraTracker.position = average;
+            }
+            else
+            {
+                cameraTracker.position = cameraTarget;
+            }
         }
 
         private void UpdateRespawnPoint(int index)
         {
             spawnPoint.position = respawnPoints[index + 1].position;
+        }
+
+        private void UpdatePlayerValues()
+        {
+            playerData = GameManager.Instance.MultiplayerManager.GetAllPlayers();
+            playerCount = playerData.Length;
         }
     }
 }
