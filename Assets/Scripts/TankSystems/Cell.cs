@@ -607,7 +607,7 @@ namespace TowerTanks.Scripts
                         {
                             //(Ryan) Add Dummy Logic here
                             //Debug.Log("Cells Are Being Killed");
-                            cell.OnCellHealthUpdated(cell, 0f); //Remove from the heatmap
+                            cell.OnCellHealthUpdated?.Invoke(cell, 0f); //Remove from the heatmap
                             cell.Kill(true); //Destroy cell (proxy setting prevents them from each having to separately check for breakoff)
                         }
                     }
