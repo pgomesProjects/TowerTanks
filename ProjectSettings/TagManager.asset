@@ -44,6 +44,7 @@ TagManager:
   - RadarCam
   - SymbolContainer
   - Hatch
+  - SuctionZone
   layers:
   - Default
   - TransparentFX

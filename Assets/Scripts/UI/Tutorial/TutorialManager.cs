@@ -359,6 +359,9 @@ namespace TowerTanks.Scripts
                     UpdateRespawnPoint(7);
                     break;
                 case 8: //Garage
+                    HidePanel(10);
+                    UpdateCameraTarget(8);
+                    cameraAnimator.Play("ZoomOut", 0, 0);
                     break;
             }
         }
@@ -410,7 +413,11 @@ namespace TowerTanks.Scripts
         private void UpdateCameraPosition()
         {
             if (cameraTarget == Vector2.zero) return;
-            if (playerData.Length == 0) return;
+            if (playerData.Length == 0)
+            {
+                cameraTracker.position = cameraTarget;
+                return;
+            }
 
             //Get furthest player behind
             PlayerData lastPlayer = null;
