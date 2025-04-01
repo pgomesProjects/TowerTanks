@@ -1061,7 +1061,9 @@ namespace TowerTanks.Scripts
                 
                 foreach (var hatchPlacement in tankDesign.buildingSteps[i].hatchPlacements)
                 {
-                    roomScript.CreateHatch(hatchPlacement.Key, hatchPlacement.Value, saveHatchToDesign:true);
+                    var target = roomScript.transform.GetChild(0).Find(hatchPlacement.Key).GetComponent<Cell>(); 
+                    roomScript.CreateHatch(target, hatchPlacement.Value, saveHatchToDesign:true);
+                    
                 }
                 
                 roomScript.ProcessManifest(tankDesign.buildingSteps[i].cellManifest);

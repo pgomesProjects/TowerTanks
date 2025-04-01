@@ -79,7 +79,7 @@ namespace TowerTanks.Scripts
         private float maxBurnTime = 24f;
         private float minBurnTime = 12f;
         private float burnTimer = 0;
-        public Dictionary<Vector2, Vector2> hatchPlacements = new Dictionary<Vector2, Vector2>(); //Key should be cell local position, value should be hatch direction (up, down, left, right)
+        public Dictionary<string, Vector2> hatchPlacements = new(); //Key should be cell name, value should be hatch direction (up, down, left, right)
 
         //RUNTIME METHODS:
         private void Awake()
@@ -546,7 +546,7 @@ namespace TowerTanks.Scripts
                     foreach (int i in hatchesToDestroy)
                     {
                         Destroy(coupler.roomB.hatches[i].gameObject);
-                        coupler.roomB.hatchPlacements.Remove(coupler.cellB.transform.localPosition);
+                        coupler.roomB.hatchPlacements.Remove(coupler.cellB.name);
                         coupler.roomB.hatches.RemoveAt(i);
                     }
                 }
@@ -722,12 +722,10 @@ namespace TowerTanks.Scripts
         /// <param name="hatchCell"> The cell to add a hatch to</param>
         /// <param name="hatchDirection">The direction to install this hatch from the cell</param>
         /// <param name="mountAtThisTime">Should we also mount the hatch right after? (This is usually true, but sometimes you want it to be false)</param>
-        public void CreateHatch(Vector2 localHatchCellLocation, Vector2 hatchDirection, bool mountAtThisTime = true, bool saveHatchToDesign = false)
+        public void CreateHatch(Cell hatchCell, Vector2 hatchDirection, bool mountAtThisTime = true, bool saveHatchToDesign = false)
         {
-            Vector2 cellPosition = transform.TransformPoint(localHatchCellLocation);
+            Vector2 cellPosition = hatchCell.transform.position;
             Vector2 hatchPos = cellPosition + (0.625f * hatchDirection);      
-            
-            //atchPlacements.Add(localHatchCellLocation, hatchDirection);
             
             Coupler newHatch = Instantiate(roomData.hatchPrefab).GetComponent<Coupler>();
             newHatch.transform.parent = transform;
@@ -744,18 +742,15 @@ namespace TowerTanks.Scripts
                 newHatch.transform.localEulerAngles = Vector3.forward * 90;
                 newHatch.vertical = false;
             }
-
-            Collider2D hatchCell = Physics2D.OverlapCircle(cellPosition, .3f, 1 << LayerMask.NameToLayer("Cell"));
+            
             newHatch.roomA = this;
             newHatch.roomB = this;
-            if (hatchCell.TryGetComponent(out Cell cell))
-            {
-                newHatch.cellA = cell;
-                newHatch.cellB = cell;
-            }
+            newHatch.cellA = hatchCell;
+            newHatch.cellB = hatchCell;
+            
             hatches.Add(newHatch);
             
-            if (saveHatchToDesign) hatchPlacements.Add(cell.transform.localPosition, hatchDirection);
+            if (saveHatchToDesign) hatchPlacements.Add(hatchCell.name, hatchDirection);
             if (mountAtThisTime) MountCouplers(new List<Coupler>{newHatch});
         }
         /// <summary>
@@ -848,14 +843,14 @@ namespace TowerTanks.Scripts
                 
                 Vector2 chosenDirection = Vector2.zero;
                 Vector2 direction = hatch.transform.position - hatch.cellA.transform.position;
-                if (direction.x != 0) //if doesnt work, try Mathf.approximately
-                {
-                    chosenDirection = direction.x < 0 ? Vector2.left : Vector2.right;
-                }
-                else
-                {
-                    chosenDirection = direction.y < 0 ? Vector2.down : Vector2.up;
-                }
+                Debug.Log($"Hatch direction: {direction}");
+                
+                if (direction.x > .5f) chosenDirection = Vector2.right;
+                else if (direction.x < -.5f) chosenDirection = Vector2.left;
+                
+                if (direction.y > .5f) chosenDirection = Vector2.up;
+                else if (direction.y < -.5f) chosenDirection = Vector2.down;
+                
                 
                 if (!ValidateHatch(hatch, hatch.transform.eulerAngles.z) || ( targetTank != null && targetTank.topHatch != null && hatch.transform.position == targetTank.topHatch.transform.position))
                 {
@@ -863,7 +858,7 @@ namespace TowerTanks.Scripts
                     Debug.Log("Destroyed hatch due to having no room");
                     continue;
                 }
-                hatchPlacements.Add(hatch.cellA.transform.localPosition, chosenDirection); //this saves the hatches
+                hatchPlacements.Add(hatch.cellA.name, chosenDirection); //this saves the hatches
                 //to the tank design, it's done here because at this point the hatch is at its final rotation
             }
 
