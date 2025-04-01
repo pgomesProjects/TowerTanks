@@ -26,6 +26,17 @@ namespace TowerTanks.Scripts
                 this.specialAmmo = specialAmmo; //Assign ammo (if applicable)
             }
         }
+        [Serializable]
+        public struct CellHatchAssignment
+        {
+            public string cellName;
+            public Vector2 hatchDirection;
+            public CellHatchAssignment(string cell, Vector2 direction)
+            {
+                cellName = cell;
+                hatchDirection = direction;
+            }
+        }
 
         [SerializeField, Tooltip("Name of the room to build during this step")] public string roomID = "";
         [SerializeField, Tooltip("What type of room to build")] public Room.RoomType roomType;
@@ -33,8 +44,6 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("How many times to rotate the room clockwise before placing")] public int rotate = 0;
         [SerializeField, Tooltip("List of cells in the room which have an interactable, along with references to the interactable they have.")] public CellInterAssignment[] cellInteractables = { };
         [SerializeField, Tooltip("List of bools which indicates whether or not each corresponding cell in room is present.")] public bool[] cellManifest = { };
-        [SerializeField, Tooltip("A list of cells with directions to spawn hatches at. Used for randomized" +
-                                 " room hatches. Key should be cell name, value should be hatch direction (Vector2.up, Vector2.down, etc.)")]
-        public Dictionary<string, Vector2> hatchPlacements = new(); //Key should be cell name, value should be hatch direction (up, down, left, right)
+        [SerializeField] public List<CellHatchAssignment> hatches = new();
     }
 }

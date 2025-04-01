@@ -1059,11 +1059,10 @@ namespace TowerTanks.Scripts
                 roomScript.targetTank = this;
                 roomScript.Mount();///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 
-                foreach (var hatchPlacement in tankDesign.buildingSteps[i].hatchPlacements)
+                foreach (var hatchPlacement in tankDesign.buildingSteps[i].hatches)
                 {
-                    var target = roomScript.transform.GetChild(0).Find(hatchPlacement.Key).GetComponent<Cell>(); 
-                    roomScript.CreateHatch(target, hatchPlacement.Value, saveHatchToDesign:true);
-                    
+                    var target = roomScript.transform.GetChild(0).Find(hatchPlacement.cellName).GetComponent<Cell>(); 
+                    roomScript.CreateHatch(target, hatchPlacement.hatchDirection, saveHatchToDesign:true);
                 }
                 
                 roomScript.ProcessManifest(tankDesign.buildingSteps[i].cellManifest);
@@ -1174,7 +1173,12 @@ namespace TowerTanks.Scripts
                     design.buildingSteps[roomCount].roomType = roomScript.type; //The room's current type
                     design.buildingSteps[roomCount].localSpawnVector = node.transform.localPosition; //The room's local position relative to the tank
                     design.buildingSteps[roomCount].rotate = roomScript.rotTracker; //How many times the room has been rotated before being placed
-                    design.buildingSteps[roomCount].hatchPlacements = roomScript.hatchPlacements; //Locations of hatches to place in the room
+
+                    foreach (var hatchPlacement in roomScript.hatchPlacements)
+                    {
+                        design.buildingSteps[roomCount].hatches
+                            .Add(new BuildStep.CellHatchAssignment(hatchPlacement.Key, hatchPlacement.Value));
+                    }
 
                     //Get missing cells:
                     design.buildingSteps[roomCount].cellManifest = roomScript.cellManifest; //Get cell manifest from room
