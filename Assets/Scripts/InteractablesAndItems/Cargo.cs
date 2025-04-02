@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace TowerTanks.Scripts
 {
-    public class Cargo : MonoBehaviour
+    public class Cargo : MonoBehaviour, ISuckable
     {
         public string cargoID = ""; //default identifier for this item
         public enum CargoType { SCRAP, AMMO, EXPLOSIVE, TOOL }
@@ -296,5 +296,13 @@ namespace TowerTanks.Scripts
                 currentHolder.currentObject = null;
             }
         }
+
+        //INTERFACE METHODS:
+        public void Suck(Vector2 force, Vector2 suctionPoint)
+        {
+
+        }
+
+        public Rigidbody2D GetRigidbody2D() => rb;
     }
 }

@@ -35,6 +35,13 @@ namespace TowerTanks.Scripts
     {
         void ApplyMagnetForce(Vector2 force, Vector2 hitPoint);
     }
+    public interface ISuckable
+    {
+        void Suck(Vector2 force, Vector2 suctionPoint);
+
+        Rigidbody2D GetRigidbody2D();
+    }
+
     public interface IStructure
     {
         public enum StructureType { TANK, BUILDING };

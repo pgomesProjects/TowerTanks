@@ -34,6 +34,7 @@ MonoBehaviour:
   - {fileID: 7281501281902775960, guid: 2e51fe5fceaee5e41916aae7949336c8, type: 3}
   - {fileID: 5187944172739883115, guid: 978f43829255d8d4c8791407597e5ce3, type: 3}
   - {fileID: 8786575114440579556, guid: ec2891b163a8bd9498d286636eaf3c4b, type: 3}
+  - {fileID: 7281501281902775960, guid: a1cd0b3104f2b3d46b2cb33e03dfbe48, type: 3}
   roomTypeColors:
   - {r: 0.69803923, g: 0.69803923, b: 0.69803923, a: 1}
   - {r: 0.6735294, g: 0.7652856, b: 0.8980392, a: 1}

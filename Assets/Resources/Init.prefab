@@ -225,6 +225,7 @@ MonoBehaviour:
   - {fileID: 8072893013890943906, guid: 9db0351e829fb35458967d2f96877466, type: 3}
   - {fileID: 567104992841369455, guid: 978f43829255d8d4c8791407597e5ce3, type: 3}
   - {fileID: 4934123908763884095, guid: ec2891b163a8bd9498d286636eaf3c4b, type: 3}
+  - {fileID: 4269306372615721137, guid: a1cd0b3104f2b3d46b2cb33e03dfbe48, type: 3}
   defaultInteractable: {fileID: 7429021088721720667, guid: 2e51fe5fceaee5e41916aae7949336c8, type: 3}
   fadeInTime: 1
   fadeOutTime: 0.5

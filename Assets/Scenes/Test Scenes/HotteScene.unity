@@ -3931,7 +3931,7 @@ PrefabInstance:
     - target: {fileID: 851944784021042181, guid: fcae0090d5846ed46947fbab7ef56af0, type: 3}
       propertyPath: tanks.Array.data[0].design
       value: 
-      objectReference: {fileID: 4900000, guid: 0a28da0727ec03748acf085175eb0317, type: 3}
+      objectReference: {fileID: 4900000, guid: 3cc646a6c3488a44c9aeb9411378bd14, type: 3}
     - target: {fileID: 851944784021042181, guid: fcae0090d5846ed46947fbab7ef56af0, type: 3}
       propertyPath: tanks.Array.data[0].TankName
       value: The Supreme Potato
@@ -4810,7 +4810,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &8204606652085396195 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2173430913259255272, guid: 6737c50766a366e44bde6a7c03e708ad, type: 3}

@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 namespace TowerTanks.Scripts
 {
-    public enum INTERACTABLE { Throttle, EnergyShield, Boiler, Cannon, MachineGun, Mortar, Armor, ShopTerminal };
+    public enum INTERACTABLE { Throttle, EnergyShield, Boiler, Cannon, MachineGun, Mortar, Armor, ShopTerminal, Vacuum };
     public enum SCENESTATE { Menu, BuildScene, CombatScene };
 
     public class GameManager : SerializedMonoBehaviour

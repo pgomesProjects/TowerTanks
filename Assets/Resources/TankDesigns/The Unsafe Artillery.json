@@ -1,5 +1,5 @@
 {
-    "TankName": "The Supreme Potato",
+    "TankName": "The Unsafe Artillery",
     "aiSettings": "None",
     "coreInteractables": [
         {
@@ -187,6 +187,143 @@
             "rotate": 1,
             "cellInteractables": [],
             "cellManifest": [
+                true,
+                true
+            ]
+        },
+        {
+            "roomID": "Room_Line4A",
+            "roomType": 0,
+            "localSpawnVector": {
+                "x": 0.0,
+                "y": 5.0,
+                "z": 0.0
+            },
+            "rotate": 3,
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_1",
+                    "interRef": "InterLogistics_Vacuum",
+                    "flipped": false,
+                    "specialAmmo": []
+                }
+            ],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
+            ]
+        },
+        {
+            "roomID": "Room_Line4A",
+            "roomType": 0,
+            "localSpawnVector": {
+                "x": 0.0,
+                "y": 9.5,
+                "z": 0.0
+            },
+            "rotate": 3,
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_3",
+                    "interRef": "InterLogistics_Vacuum",
+                    "flipped": false,
+                    "specialAmmo": []
+                }
+            ],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
+            ]
+        },
+        {
+            "roomID": "Room_Line4C",
+            "roomType": 0,
+            "localSpawnVector": {
+                "x": 0.0,
+                "y": 14.0,
+                "z": 0.0
+            },
+            "rotate": 3,
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_3",
+                    "interRef": "InterLogistics_Vacuum",
+                    "flipped": false,
+                    "specialAmmo": []
+                }
+            ],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
+            ]
+        },
+        {
+            "roomID": "Room_Block4A",
+            "roomType": 0,
+            "localSpawnVector": {
+                "x": 0.0,
+                "y": 19.25,
+                "z": 0.0
+            },
+            "rotate": 0,
+            "cellInteractables": [],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
+            ]
+        },
+        {
+            "roomID": "Room_Block4A",
+            "roomType": 0,
+            "localSpawnVector": {
+                "x": 2.25,
+                "y": 18.25,
+                "z": 0.0
+            },
+            "rotate": 0,
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_2",
+                    "interRef": "InterLogistics_Vacuum",
+                    "flipped": false,
+                    "specialAmmo": []
+                }
+            ],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
+            ]
+        },
+        {
+            "roomID": "Room_Elbow4A_Flipped",
+            "roomType": 0,
+            "localSpawnVector": {
+                "x": -1.75,
+                "y": 18.75,
+                "z": 0.0
+            },
+            "rotate": 1,
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_3",
+                    "interRef": "InterLogistics_Vacuum",
+                    "flipped": false,
+                    "specialAmmo": []
+                }
+            ],
+            "cellManifest": [
+                true,
+                true,
                 true,
                 true
             ]

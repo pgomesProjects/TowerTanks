@@ -6,7 +6,7 @@ using UnityEngine.Serialization;
 
 namespace TowerTanks.Scripts
 {
-    public abstract class Character : SerializedMonoBehaviour, IDamageable
+    public abstract class Character : SerializedMonoBehaviour, IDamageable, ISuckable
     {
         #region Fields and Properties
 
@@ -650,5 +650,13 @@ namespace TowerTanks.Scripts
             if(characterHUD != null)
                 Destroy(characterHUD.gameObject);
         }
+
+        //INTERFACE METHODS:
+        public void Suck(Vector2 force, Vector2 suctionPoint)
+        {
+
+        }
+
+        public Rigidbody2D GetRigidbody2D() => rb;
     }
 }
