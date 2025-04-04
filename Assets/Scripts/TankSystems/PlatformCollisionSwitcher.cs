@@ -26,7 +26,7 @@ namespace TowerTanks.Scripts
             if (!Mathf.Approximately(transform.eulerAngles.z, 0) && !Mathf.Approximately(transform.eulerAngles.z, 180))
             {
                 Destroy(platformEffector);
-                Destroy(platformCollider);
+                //Destroy(platformCollider);
             }
 
             if (Mathf.Approximately(transform.eulerAngles.z, 180) && platformEffector)

@@ -68,6 +68,8 @@ namespace TowerTanks.Scripts
         private float tankDistanceToFullDismount;
         private bool softTankDismount; // if we have left the tank, but are still in it's vicinity
         private bool fullTankDismount; //if we have left the tank and have left it's vicinity
+        internal LayerMask couplerLayer;
+        internal LayerMask hatchLayer;
 
         //objects
         [Header("Interactables")]
@@ -161,6 +163,8 @@ namespace TowerTanks.Scripts
         #region Unity Methods
         protected virtual void Awake()
         {
+            couplerLayer = LayerMask.NameToLayer("Coupler");
+            hatchLayer = LayerMask.NameToLayer("Hatch");
             ladderLayer = 1 << LayerMask.NameToLayer("Ladder");
             rb = GetComponent<Rigidbody2D>();
             characterHitbox = GetComponent<CapsuleCollider2D>();
@@ -218,7 +222,7 @@ namespace TowerTanks.Scripts
                 var t = CheckSurfaceCollider(LayerMask.NameToLayer("Ground"));
                 if (t != null)
                 {
-                    if (t.transform.parent.gameObject.layer != LayerMask.NameToLayer("Cell") && !CheckSurfaceCollider(LayerMask.NameToLayer("Coupler")))
+                    if (t.transform.parent.gameObject.layer != LayerMask.NameToLayer("Cell") && !CheckSurfaceCollider(couplerLayer) && !CheckSurfaceCollider(hatchLayer))
                     {
                         FullyDismountTank();
                     }
@@ -338,7 +342,7 @@ namespace TowerTanks.Scripts
 
         public bool CheckGround()
         {
-            LayerMask bothLayers = (1 << LayerMask.NameToLayer("Ground")) | (1 << LayerMask.NameToLayer("Coupler")| (1 << LayerMask.NameToLayer("StopPlayer")));
+            LayerMask bothLayers = (1 << LayerMask.NameToLayer("Ground")) | (1 << LayerMask.NameToLayer("Coupler")) | (1 << LayerMask.NameToLayer("StopPlayer")) | (1 << LayerMask.NameToLayer("Hatch"));
 
             return Physics2D.OverlapBox(new Vector2(transform.position.x, //if our position is over that ground
                     transform.position.y - groundedBoxOffset),
@@ -348,7 +352,7 @@ namespace TowerTanks.Scripts
 
         }
         
-        protected Collider2D CheckSurfaceCollider(int layer)
+        protected Collider2D CheckSurfaceCollider(LayerMask layer)
         {
             return Physics2D.OverlapBox(new Vector2(transform.position.x, //if our position is over that ground
                     transform.position.y - groundedBoxOffset),
