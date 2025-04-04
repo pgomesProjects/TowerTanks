@@ -25,7 +25,8 @@
                 true,
                 true,
                 true
-            ]
+            ],
+            "hatches": []
         },
         {
             "roomID": "Room_Elbow4B",
@@ -55,7 +56,8 @@
                 true,
                 true,
                 true
-            ]
+            ],
+            "hatches": []
         },
         {
             "roomID": "Room_Tee4C",
@@ -79,7 +81,8 @@
                 true,
                 true,
                 true
-            ]
+            ],
+            "hatches": []
         },
         {
             "roomID": "Room_Line2A",
@@ -101,7 +104,8 @@
             "cellManifest": [
                 true,
                 true
-            ]
+            ],
+            "hatches": []
         },
         {
             "roomID": "Room_Line2B",
@@ -116,7 +120,8 @@
             "cellManifest": [
                 true,
                 true
-            ]
+            ],
+            "hatches": []
         },
         {
             "roomID": "Room_Elbow4B_Flipped",
@@ -127,26 +132,14 @@
                 "z": 0.0
             },
             "rotate": 1,
-            "cellInteractables": [
-                {
-                    "cellName": "Cell_2",
-                    "interRef": "Consumable_Armor",
-                    "flipped": false,
-                    "specialAmmo": []
-                }
+            "cellInteractables": [],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
             ],
-          "cellManifest": [
-            true,
-            true,
-            true,
-            true
-          ],
-          "hatches": [
-            {
-              "cellName": "Cell_3",
-              "hatchDirection": { "x": -1.0, "y": 0.0 }
-            }
-          ]
+            "hatches": []
         }
     ],
     "cargoNodes": []

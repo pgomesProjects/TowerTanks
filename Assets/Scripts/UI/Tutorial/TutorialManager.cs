@@ -20,7 +20,9 @@ namespace TowerTanks.Scripts
 
         private PlayerData[] playerData;
         public int playerCount = 0;
-        
+
+        public TankController tutorialTank;
+
         public LayerMask couplerMask;
 
         [Header("Camera Settings:")]
@@ -113,6 +115,7 @@ namespace TowerTanks.Scripts
         {
             CheckTutorialState();
             UpdateCameraPosition();
+            CheckTankPosition();
         }
 
         private void OnEnable()
@@ -304,6 +307,7 @@ namespace TowerTanks.Scripts
             {
                 case 0: //Gather
                     StartCoroutine(EnablePrompt(2f, 0, GameAction.Jetpack));
+                    UpdateCameraTarget(0);
                     break;
                 case 1: //Gather
                     dispenser_1.enabled = true;
@@ -464,6 +468,11 @@ namespace TowerTanks.Scripts
         {
             playerData = GameManager.Instance.MultiplayerManager.GetAllPlayers();
             playerCount = playerData.Length;
+        }
+
+        private void CheckTankPosition()
+        {
+
         }
     }
 }
