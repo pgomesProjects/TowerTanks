@@ -1,0 +1,80 @@
+{
+  "TankName": "The Dinky Dingy",
+  "aiSettings": "Tier 0 AI Settings (Balanced)",
+  "coreInteractables": [],
+  "buildingSteps": [
+    {
+      "roomID": "Room_Elbow3A_Flipped",
+      "roomType": 0,
+      "localSpawnVector": {
+        "x": -3.5,
+        "y": 1.5,
+        "z": 0.0
+      },
+      "rotate": 0,
+      "cellInteractables": [],
+      "cellManifest": [
+        true,
+        true,
+        true
+      ],
+      "hatches": []
+    },
+    {
+      "roomID": "Room_Tee4C",
+      "roomType": 0,
+      "localSpawnVector": {
+        "x": 0.0,
+        "y": 1.25,
+        "z": 0.0
+      },
+      "rotate": 0,
+      "cellInteractables": [
+        {
+          "cellName": "Cell_0",
+          "interRef": "InterWeapon_Cannon",
+          "flipped": true,
+          "specialAmmo": []
+        },
+        {
+          "cellName": "Cell_2",
+          "interRef": "InterCommand_Throttle",
+          "flipped": false,
+          "specialAmmo": []
+        }
+      ],
+      "cellManifest": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "hatches": []
+    },
+    {
+      "roomID": "Room_Elbow3A",
+      "roomType": 0,
+      "localSpawnVector": {
+        "x": 2.25,
+        "y": 2.25,
+        "z": 0.0
+      },
+      "rotate": 2,
+      "cellInteractables": [
+        {
+          "cellName": "Cell_2",
+          "interRef": "InterEngineer_Boiler",
+          "flipped": false,
+          "specialAmmo": []
+        }
+      ],
+      "cellManifest": [
+        true,
+        true,
+        true
+      ],
+      "hatches": []
+    }
+  ],
+  "cargoNodes": []
+}
