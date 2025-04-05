@@ -434,6 +434,7 @@ MonoBehaviour:
   prefabRef: {fileID: 1789302742507130491}
   uiImage: {fileID: 21300000, guid: c6eb2e535c1b66940a02dd291293dad2, type: 2}
   ghostPrefab: {fileID: 1613188616573593858, guid: 59f4630d96cc0fc4f93d23e2409baf3b, type: 3}
+  inventoryItem: {fileID: 11400000, guid: 4fe45851322f6114fa8fa8bdaf3002ef, type: 2}
   isContinuous: 1
   canAim: 1
   direction: 1

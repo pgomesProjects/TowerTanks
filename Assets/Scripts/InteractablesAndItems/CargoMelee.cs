@@ -18,6 +18,7 @@ namespace TowerTanks.Scripts
         private Animator meleeAnimator;
         private bool canSwing;
         private bool doingJob;
+        private int maxDurability;
 
         protected override void Awake()
         {
@@ -31,8 +32,20 @@ namespace TowerTanks.Scripts
         {
             base.Start();
 
+            maxDurability = durability;
             canSwing = true;
             doingJob = false;
+        }
+
+        public override void Pickup(PlayerMovement player)
+        {
+            base.Pickup(player);
+            currentHolder.GetCharacterHUD()?.InventoryHUD.InitializeBar((float)((float)durability / maxDurability));
+        }
+
+        public override void Drop(PlayerMovement player, bool throwing, Vector2 direction)
+        {
+            base.Drop(player, throwing, direction);
         }
 
         protected override void Update()
@@ -138,6 +151,7 @@ namespace TowerTanks.Scripts
                         }
                     }
 
+                    RefreshDurabilityBar();
                     //Check Durability
                     CheckDurability();
                 }
@@ -155,8 +169,16 @@ namespace TowerTanks.Scripts
                 }
                 GameManager.Instance.ParticleSpawner.SpawnParticle(25, transform.position, 0.4f, null);
                 GameManager.Instance.AudioManager.Play("TankImpact", this.gameObject);
+
+                currentHolder.GetCharacterHUD()?.InventoryHUD.ClearInventory();
                 Destroy(this.gameObject);
             }
+        }
+
+        private void RefreshDurabilityBar()
+        {
+            //Update the durability on the inventory HUD
+            currentHolder.GetCharacterHUD()?.InventoryHUD.UpdateItemBar((float)((float)durability / maxDurability));
         }
 
         public override void AssignValue(int value)

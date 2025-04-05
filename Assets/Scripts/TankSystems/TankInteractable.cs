@@ -30,6 +30,7 @@ namespace TowerTanks.Scripts
         [Tooltip("Reference to this interactable's prefab.")]           public GameObject prefabRef;
         [Tooltip("Image used to represent this interactable in UI.")]   public Sprite uiImage;
         [Tooltip("Ghost object used when building this interactable.")] public GameObject ghostPrefab;
+        [Tooltip("The inventory information for the interactable.")]    public InventoryItem inventoryItem;
 
         //ADD SPATIAL CONSTRAINT SYSTEM
         [Button("Debug Place")] public void DebugPlace()
@@ -174,14 +175,14 @@ namespace TowerTanks.Scripts
                 operatorID.gameObject.GetComponent<Rigidbody2D>().isKinematic = true;
                 if (operatorID.currentObject != null) operatorID.currentObject.Drop(operatorID, false, Vector2.zero);
 
+                //Add the interactable to the inventory
+                operatorID.GetCharacterHUD()?.InventoryHUD.AddToInventory(inventoryItem);
+
                 Debug.Log(operatorID + " is in!");
                 GameManager.Instance.AudioManager.Play("UseSFX");
 
                 if (cooldown <= 0) cooldown = introBuffer;
             }
-
-            //Show that the player can cancel to leave
-            operatorID.GetCharacterHUD()?.SetButtonPrompt(GameAction.Cancel, true);
         }
 
         public virtual void Exit(bool sameZone) //Called from operator (PlayerMovement.cs) when they press Cancel
@@ -202,11 +203,11 @@ namespace TowerTanks.Scripts
                     operatorID.currentZone = interactZone;
                 }
 
+                //Remove the interactable from the inventory
+                operatorID.GetCharacterHUD()?.InventoryHUD.ClearInventory();
+
                 hasOperator = false;
                 Debug.Log(operatorID + " is out!");
-
-                //Remove the cancel option
-                operatorID.GetCharacterHUD()?.SetButtonPrompt(GameAction.Cancel, false);
 
                 operatorID = null;
 

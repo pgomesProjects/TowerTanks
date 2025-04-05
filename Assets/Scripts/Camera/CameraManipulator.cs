@@ -82,6 +82,7 @@ namespace TowerTanks.Scripts
                 //Setup specific vcam settings:
                 if (!isRadar) //Settings for engagement cams
                 {
+                    cam.cullingMask &= ~(1 << LayerMask.NameToLayer("Minimap"));                                            //Remove the minimap layer from the camera 
                     CinemachineFramingTransposer transposer = vcam.AddCinemachineComponent<CinemachineFramingTransposer>(); //Add framing transposer to camera so that it's behavior can be fine-tuned
                     transposer.m_TrackedObjectOffset.z = -10;                                                               //Set camera z value so it can actually see the tank
                     transposer.m_XDamping = 0; transposer.m_YDamping = 0; transposer.m_ZDamping = 0;                        //Turn off all camera dampingqaqsdad eeeeeeeeeeeeeeeeeeeedd
@@ -90,8 +91,12 @@ namespace TowerTanks.Scripts
                 {
                     radar = true;
                     cam.transform.tag = "RadarCam";
-                    CinemachineTransposer transposer = vcam.AddCinemachineComponent<CinemachineTransposer>(); //Use a simpler transposer to track tank in radar screen
-                    transposer.m_XDamping = 0; transposer.m_YDamping = 0; transposer.m_ZDamping = 0;          //Turn off all camera damping
+                    cam.depth = 1;                                                                                      //Change the radar's priority
+                    cam.clearFlags = CameraClearFlags.SolidColor;                                                       //Change the background type to only show a solid color
+                    cam.backgroundColor = Color.black;                                                                  //Set the background color to black
+                    cam.cullingMask = 1 << LayerMask.NameToLayer("RadarCam") | 1 << LayerMask.NameToLayer("Minimap");   //Set the camera to only render the radar cam and the minimap cam
+                    CinemachineTransposer transposer = vcam.AddCinemachineComponent<CinemachineTransposer>();           //Use a simpler transposer to track tank in radar screen
+                    transposer.m_XDamping = 0; transposer.m_YDamping = 0; transposer.m_ZDamping = 0;                    //Turn off all camera damping
                 }
 
                 //Generate additional objects:
@@ -107,22 +112,25 @@ namespace TowerTanks.Scripts
                 }
 
                 //Parallax setup:
-                int chunkLayerCounter = 0;
-                for(int i = 0; i < main.parallaxPrefabs.Length; i++)
+                if (!isRadar)
                 {
-                    parallaxControllers.Add(Instantiate(main.parallaxPrefabs[i]).GetComponent<MultiCameraParallaxController>());                //Instantiate a parallax background for this camera and get a reference
-                    parallaxControllers[i].transform.parent = main.transform;                                                                   //Child parallax object to camera container
-                    parallaxControllers[i].gameObject.name = "Parallax_" + cam.name + "_[" + i + "]";                                           //Rename parallax object for clarity
-                    parallaxControllers[i].AddCameraToParallax(cam);                                                                            //Add this camera to controller so it is tracked properly
-                    parallaxControllers[i].transform.position = Vector3.zero;                                                                   //Zero out position of parallax system
-                    if (parallaxControllers[i].useDesertPalette) cam.backgroundColor = parallaxControllers[i].desertColorPalette[0];            //Use alternate background color if bool is checked
-                    foreach (Transform child in parallaxControllers[i].transform) child.gameObject.layer = LayerMask.NameToLayer(camLayerName); //Put each parallax layer on a layer which can only be seen by this camera
-
-                    if(parallaxControllers[i].GetType() == typeof(ChunkCameraParallaxController))                                               //Check if the parallax background is a chunk parallax
+                    int chunkLayerCounter = 0;
+                    for (int i = 0; i < main.parallaxPrefabs.Length; i++)
                     {
-                        ChunkCameraParallaxController chunkParallaxController = (ChunkCameraParallaxController)parallaxControllers[i];          //Cast the parallax controller to the chunk parallax controller
-                        chunkParallaxController.PositionLayers(main.chunkCameraPositions[chunkLayerCounter]);                                   //Reposition all of the chunk pieces
-                        chunkLayerCounter++;                                                                                                    //Iterate on the chunk layer counter
+                        parallaxControllers.Add(Instantiate(main.parallaxPrefabs[i]).GetComponent<MultiCameraParallaxController>());                //Instantiate a parallax background for this camera and get a reference
+                        parallaxControllers[i].transform.parent = main.transform;                                                                   //Child parallax object to camera container
+                        parallaxControllers[i].gameObject.name = "Parallax_" + cam.name + "_[" + i + "]";                                           //Rename parallax object for clarity
+                        parallaxControllers[i].AddCameraToParallax(cam);                                                                            //Add this camera to controller so it is tracked properly
+                        parallaxControllers[i].transform.position = Vector3.zero;                                                                   //Zero out position of parallax system
+                        if (parallaxControllers[i].useDesertPalette) cam.backgroundColor = parallaxControllers[i].desertColorPalette[0];            //Use alternate background color if bool is checked
+                        foreach (Transform child in parallaxControllers[i].transform) child.gameObject.layer = LayerMask.NameToLayer(camLayerName); //Put each parallax layer on a layer which can only be seen by this camera
+
+                        if (parallaxControllers[i].GetType() == typeof(ChunkCameraParallaxController))                                               //Check if the parallax background is a chunk parallax
+                        {
+                            ChunkCameraParallaxController chunkParallaxController = (ChunkCameraParallaxController)parallaxControllers[i];          //Cast the parallax controller to the chunk parallax controller
+                            chunkParallaxController.PositionLayers(main.chunkCameraPositions[chunkLayerCounter]);                                   //Reposition all of the chunk pieces
+                            chunkLayerCounter++;                                                                                                    //Iterate on the chunk layer counter
+                        }
                     }
                 }
 
@@ -206,7 +214,6 @@ namespace TowerTanks.Scripts
 
                     if (firstEngagement) //First time tank has engaged with the camera
                     {
-                        FindObjectOfType<CombatHUD>()?.DisplayEnemyTankInformation(tanks[0]); //Display the enemy information in the CombatHUD
                         firstEngagement = false;                                              //Make sure that the system does not call this logic again
                     }
                 }
@@ -477,6 +484,7 @@ namespace TowerTanks.Scripts
         [Tooltip("Cam system used to control the radar camera.")]                                         private TankCamSystem radarSystem;
         [SerializeField, Tooltip("Prefabs for parallax systems instantiated for each camera.")]           private GameObject[] parallaxPrefabs;
         [SerializeField, Tooltip("Noise profile asset describing behavior of camera shake events.")]      private NoiseSettings shakeNoiseProfile;
+        [SerializeField, Tooltip("The grid for the radar camera.")]                                       private GameObject radarGrid;
 
         //Settings:
         [Header("General Settings:")]
@@ -567,7 +575,11 @@ namespace TowerTanks.Scripts
         private void Start()
         {
             //Late generation:
-            if (useRadar) radarSystem = new TankCamSystem(TankManager.Instance.playerTank, tankCameraColor, true); //Initialize radar system
+            if (useRadar)
+            {
+                radarSystem = new TankCamSystem(TankManager.Instance.playerTank, tankCameraColor, true); //Initialize radar system
+                Instantiate(radarGrid, radarSystem.vcam.transform);                                      //Add a grid to the radar
+            }
 
             //Setup:
             normalizedEngagementArea = GetNormalizedRect(engagementZoneTargeter, zoneVisCanvas); //Get area for engagement cameras to occupy

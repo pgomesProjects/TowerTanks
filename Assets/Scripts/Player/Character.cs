@@ -482,7 +482,6 @@ namespace TowerTanks.Scripts
         {
             currentHealth = 0;
             characterHUD?.DamageAvatar(1f - (currentHealth / characterSettings.maxHealth), 0.01f);
-            characterHUD?.ClearButtonPrompts();
             bool hasTank = GetAssignedTank() != null;
             OnCharacterDeath(hasTank);
         }
@@ -537,7 +536,6 @@ namespace TowerTanks.Scripts
             currentHealth = characterSettings.maxHealth;
             currentFuel = characterSettings.fuelAmount;
             characterHUD?.UpdateFuelBar((currentFuel / characterSettings.fuelAmount) * 100f);
-            characterHUD?.ClearButtonPrompts();
             currentState = CharacterState.NONCLIMBING;
             currentJob.jobType = CharacterJobType.NONE;
 

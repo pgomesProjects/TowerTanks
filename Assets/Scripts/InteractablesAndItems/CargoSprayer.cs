@@ -12,21 +12,33 @@ namespace TowerTanks.Scripts
         public Transform nozzle;
         public bool isSpraying;
 
+        private float maxFuel;
         private float sprayRate = 0.05f;
         private float sprayTimer = 0;
 
         private ParticleSystem spray;
 
         // Start is called before the first frame update
-        void Start()
+        protected override void Start()
         {
             base.Start();
-
+            maxFuel = fuel;
             spray = nozzle.GetComponentInChildren<ParticleSystem>();
         }
 
+        public override void Pickup(PlayerMovement player)
+        {
+            base.Pickup(player);
+            currentHolder.GetCharacterHUD()?.InventoryHUD.InitializeBar(fuel / maxFuel);
+        }
+
+        public override void Drop(PlayerMovement player, bool throwing, Vector2 direction)
+        {
+            base.Drop(player, throwing, direction);
+        }
+
         // Update is called once per frame
-        void Update()
+        protected override void Update()
         {
             base.Update();
 
@@ -83,6 +95,8 @@ namespace TowerTanks.Scripts
             if (isSpraying)
             {
                 fuel -= Time.fixedDeltaTime * fuelDrainRate;
+                currentHolder.GetCharacterHUD()?.InventoryHUD.InitializeBar(fuel / maxFuel);
+
                 if (fuel <= 0) {
                     GameManager.Instance.AudioManager.Play("ExplosionSFX", this.gameObject);
                     if (GameManager.Instance.AudioManager.IsPlaying("SteamExhaustLoop", this.gameObject))
@@ -91,6 +105,7 @@ namespace TowerTanks.Scripts
                         GameManager.Instance.AudioManager.Play("SteamExhaust", this.gameObject);
                     }
                     fuel = 0;
+                    currentHolder.GetCharacterHUD()?.InventoryHUD.ClearInventory();
                     Destroy(this.gameObject);
                 }
             }
@@ -133,7 +148,7 @@ namespace TowerTanks.Scripts
             }
         }
 
-        public void OnDestroy()
+        protected override void OnDestroy()
         {
             base.OnDestroy();
             if (spray != null) spray.Stop();

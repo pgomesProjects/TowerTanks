@@ -25,44 +25,24 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("The fill of the respawn timer.")] private Image respawnBar;
         [SerializeField, Tooltip("The text for the respawn timer.")] private TextMeshProUGUI respawnText;
 
-        [Space]
-        [SerializeField, Tooltip("The RectTransform of the minigame screen.")] private RectTransform miniGameRectTransform;
-        [SerializeField, Tooltip("The duration of the minigame screen animation.")] private float miniGameScreenStartDuration;
-
         private Color playerColor;
         private Color startingColor;
+
         private RectTransform hudRectTransform;
         private Vector3 hudPosition;
         private float shakeTimer = 0f;
         private float currentShakeDuration;
         private float currentShakeAmount;
 
-        private float startingMinigameScreenYPos;
-        private bool isMinigameActive;
-
-        private FaceButtons playerFaceButtons;
         private CanvasGroup playerHUDCanvasGroup;
-
-        [Button]
-        private void DebugStartMinigame()
-        {
-            StartMinigame();
-        }
-
-        [Button]
-        private void DebugStopMinigame()
-        {
-            StopMinigame();
-        }
+        public InventoryHUD InventoryHUD { get; private set; }
 
         private void Awake()
         {
             hudRectTransform = GetComponent<RectTransform>();
             playerHUDCanvasGroup = GetComponent<CanvasGroup>();
-            playerFaceButtons = GetComponentInChildren<FaceButtons>();
+            InventoryHUD = GetComponentInChildren<InventoryHUD>();
             startingColor = playerAvatar.color;
-            startingMinigameScreenYPos = miniGameRectTransform.anchoredPosition.y;
-            isMinigameActive = false;
             ShowRespawnTimer(false);
         }
 
@@ -84,11 +64,6 @@ namespace TowerTanks.Scripts
             StartCoroutine(SetHUDPosition());
         }
 
-        public void SetHUDActive(bool isHUDActive)
-        {
-            playerHUDCanvasGroup.alpha = isHUDActive ? 1 : 0;
-        }
-
         private IEnumerator SetHUDPosition()
         {
             yield return null;
@@ -101,6 +76,9 @@ namespace TowerTanks.Scripts
             CheckForHUDShake();
         }
 
+        /// <summary>
+        /// Shakes the player HUD if the timer is active.
+        /// </summary>
         private void CheckForHUDShake()
         {
             if (shakeTimer > 0)
@@ -138,6 +116,11 @@ namespace TowerTanks.Scripts
             fuelBar.UpdateProgressValue(fuelBarPercentage);
         }
 
+        /// <summary>
+        /// Shakes the player HUD.
+        /// </summary>
+        /// <param name="shakeDuration">The duration of the shake.</param>
+        /// <param name="shakeAmount">The amplitude of the shake.</param>
         public void ShakePlayerHUD(float shakeDuration, float shakeAmount)
         {
             currentShakeDuration = shakeDuration;
@@ -183,53 +166,27 @@ namespace TowerTanks.Scripts
             playerAvatar.color = targetColor;
         }
 
-        public void StartMinigame()
-        {
-            isMinigameActive = true;
-            LeanTween.moveY(miniGameRectTransform, 0f, miniGameScreenStartDuration);
-        }
+        public void ShowRespawnTimer(bool showTimer) => respawnTransform.gameObject.SetActive(showTimer);
 
-        public void StopMinigame()
-        {
-            isMinigameActive = false;
-            LeanTween.moveY(miniGameRectTransform, startingMinigameScreenYPos, miniGameScreenStartDuration);
-        }
-
-        public void ShowRespawnTimer(bool showTimer)
-        {
-            respawnTransform.gameObject.SetActive(showTimer);
-        }
-
+        /// <summary>
+        /// Updates the respawn bar.
+        /// </summary>
+        /// <param name="respawnFill">The amount of fill for the respawn far.</param>
+        /// <param name="time">The time left to show in the middle of the respawn bar.</param>
         public void UpdateRespawnBar(float respawnFill, float time)
         {
             respawnBar.fillAmount = respawnFill;
             respawnText.text = (Mathf.Ceil(time)).ToString();
         }
 
+        /// <summary>
+        /// Shows the player HUD in a state where the player is permanently dead.
+        /// </summary>
         public void KillPlayerHUD()
         {
             playerDeathImage.color = new Color(1, 1, 1, 1);
         }
 
-        public void SetButtonPrompt(GameAction gameAction, bool promptSet)
-        {
-            PlatformPrompt promptInfo = GameManager.Instance.buttonPromptSettings.GetPlatformPrompt(gameAction, GameSettings.gamePlatform);
-
-            if (promptInfo == null || playerFaceButtons == null)
-                return;
-
-            if(promptInfo.GetPromptText() != null) 
-            {
-                if (promptSet)
-                    playerFaceButtons.AddFaceInput(promptInfo.GetPromptText());
-                else
-                    playerFaceButtons.RemoveFaceInput(promptInfo.GetPromptText());
-            }
-        }
-
-        public void ClearButtonPrompts()
-        {
-            playerFaceButtons?.ClearFaceButtons();
-        }
+        public void SetHUDActive(bool isHUDActive) => playerHUDCanvasGroup.alpha = isHUDActive ? 1 : 0;
     }
 }
