@@ -402,6 +402,7 @@ namespace TowerTanks.Scripts
 
                             //Placement validity check:
                             if (hitCell1 == null || hitCell2 == null) { continue; } //Ignore if open cell sides still do not fully overlap with the same room (despite it all)
+
                             if (hitCell1 != hitCell2) //Validity checks for when system is trying to place a coupler on wall composed of two cells
                             {
                                 if (hitCell1.room != hitCell2.room) { continue; }                                                    //Ignore if hitting two cells from different rooms

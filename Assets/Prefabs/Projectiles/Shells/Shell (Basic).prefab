@@ -61,6 +61,7 @@ MonoBehaviour:
   gravity: 30
   particleScale: 0.25
   factionId: 0
+  isIndoors: 0
 --- !u!70 &7900677867697848049
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -4944,7 +4945,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6191415546622147764}
   - component: {fileID: 1327601252380874937}
-  m_Layer: 30
+  m_Layer: 31
   m_Name: MinimapIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
