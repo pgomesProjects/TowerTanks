@@ -680,9 +680,8 @@ namespace TowerTanks.Scripts
 
         public void GenerateTopmostHatch()
         {
-            if (targetStructure == null) return;
-            if (targetStructure.GetStructureType() != IStructure.StructureType.TANK) return;
-            if (targetTank == null) targetTank = couplers[0].GetConnectedRoom(this).targetTank;
+            if (couplers[0].GetConnectedRoom(this).targetTank == null) return; //returns if we are not a tank, just a structure
+            
             if (targetTank == null) return;
             if (cells.Any(cell => cell.transform.position.y > targetTank.rooms.SelectMany(room => room.cells).Max(tankCell => tankCell.transform.position.y))) // if any cell on this room is above the previous topmost cell
             {
@@ -834,12 +833,13 @@ namespace TowerTanks.Scripts
             }
             
             MountCouplers(ghostCouplers);
+            SetTargetTankIfExistent();
             GenerateTopmostHatch();
 
             List<Coupler> hatchesToDestroy = new List<Coupler>(); // this is done to prevent removing elements from the same list we are iterating over
             foreach (var hatch in hatches)
             {
-                if (hatch == targetTank.topHatch) continue; //we dont add tophatch to hatch placements because the top hatch is generated at the start of the tank's existence, no need to save it in the design
+                if (targetTank != null && hatch == targetTank.topHatch) continue; //we dont add tophatch to hatch placements because the top hatch is generated at the start of the tank's existence, no need to save it in the design
                 
                 Vector2 chosenDirection = Vector2.zero;
                 Vector2 direction = hatch.transform.position - hatch.cellA.transform.position;
@@ -889,6 +889,11 @@ namespace TowerTanks.Scripts
             targetTank?.treadSystem.ReCalculateMass();              //Re-calculate tank mass and center of mass
 
             return mounted;
+        }
+
+        private void SetTargetTankIfExistent()
+        {
+            if (targetTank == null) targetTank = couplers[0].GetConnectedRoom(this)?.targetTank;
         }
 
         bool ValidateHatch(Coupler hatch, float orientation)
