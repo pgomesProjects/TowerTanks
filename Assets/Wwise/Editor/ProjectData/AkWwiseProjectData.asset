@@ -24,7 +24,7 @@ MonoBehaviour:
     ParentPath: Virtual Acoustics\Default Work Unit
     guid: 79d6e6cdcbdfcd4d9d052b236bc85600
     GuidInternal: 
-    m_lastTime: -8585224173815215769
+    m_lastTime: -8584583340284751009
     List: []
   AuxBusWwu:
   - PhysicalPath: Master-Mixer Hierarchy\Default Work Unit.wwu
@@ -38,7 +38,7 @@ MonoBehaviour:
     ParentPath: Master-Mixer Hierarchy\Default Work Unit
     guid: 358467ebf0a09540b65ba3cce55d6389
     GuidInternal: 
-    m_lastTime: -8585027497262019357
+    m_lastTime: -8584583340306027528
     List:
     - name: Master Audio Bus
       guid: d8a41415a61d2a41a17e75ca0c2149f3
@@ -101,7 +101,7 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: df5fafb8b92e944290f5318847f0e90d
     GuidInternal: 
-    m_lastTime: -8585027497239147222
+    m_lastTime: -8584583340285248305
     List:
     - name: mainbank
       guid: 3a7f49372b0b1a428cab0adbe8b1c2b4
@@ -129,7 +129,7 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: 83957ce1e688d54e8b6b22beb20598dd
     GuidInternal: 
-    m_lastTime: -8585027497264014475
+    m_lastTime: -8584583340316515532
     List:
     - name: blaring_alarm
       guid: 0557db327da0a0479a6261e902cede4a
@@ -146,8 +146,76 @@ MonoBehaviour:
         guid: 0557db327da0a0479a6261e902cede4a
       Path: Events\Default Work Unit\blaring_alarm
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 8.25
+      minDuration: 8.25
+    - name: build_room
+      guid: 7c28288aa1d8c04c934b2132f9786df4
+      id: 2462051799
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: build_room
+        ObjectType: 3
+        guid: 7c28288aa1d8c04c934b2132f9786df4
+      Path: Events\Default Work Unit\build_room
+      maxAttenuation: 0
+      maxDuration: 1.125
+      minDuration: 1
+    - name: build_undo
+      guid: b65951925ef5d7498b2c4a5112659e5b
+      id: 185536228
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: build_undo
+        ObjectType: 3
+        guid: b65951925ef5d7498b2c4a5112659e5b
+      Path: Events\Default Work Unit\build_undo
+      maxAttenuation: 0
+      maxDuration: 0.5627292
+      minDuration: 0.5627292
+    - name: bullet_impact
+      guid: c58dd9472120ed4d9f6893683fa25cd5
+      id: 3921814510
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: bullet_impact
+        ObjectType: 3
+        guid: c58dd9472120ed4d9f6893683fa25cd5
+      Path: Events\Default Work Unit\bullet_impact
+      maxAttenuation: 100
+      maxDuration: 0.38316792
+      minDuration: 0.14125258
+    - name: bullet_impact_dirt
+      guid: 06354c05b9b4c34e96aaa1ae33050767
+      id: 3326819226
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: bullet_impact_dirt
+        ObjectType: 3
+        guid: 06354c05b9b4c34e96aaa1ae33050767
+      Path: Events\Default Work Unit\bullet_impact_dirt
+      maxAttenuation: 100
+      maxDuration: 0.66758657
+      minDuration: 0.24214727
     - name: button_cancel
       guid: b55aeaae7d3cde408036f16a9c2f48ec
       id: 3130542990
@@ -163,8 +231,8 @@ MonoBehaviour:
         guid: b55aeaae7d3cde408036f16a9c2f48ec
       Path: Events\Default Work Unit\button_cancel
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0.311625
+      minDuration: 0.311625
     - name: button_hover
       guid: d724ccabf6346946b4e9e751ff535fcf
       id: 1701177942
@@ -180,8 +248,8 @@ MonoBehaviour:
         guid: d724ccabf6346946b4e9e751ff535fcf
       Path: Events\Default Work Unit\button_hover
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0.30254167
+      minDuration: 0.30254167
     - name: cannon_aim
       guid: 292eefd6779c26479087ff7aa942cc8d
       id: 1221570156
@@ -197,8 +265,8 @@ MonoBehaviour:
         guid: 292eefd6779c26479087ff7aa942cc8d
       Path: Events\Default Work Unit\cannon_aim
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 2.912625
+      minDuration: 2.912625
     - name: cannon_fire
       guid: e86cded2a4e75b4fbe10f2f5d8e3a2e2
       id: 155513425
@@ -213,9 +281,43 @@ MonoBehaviour:
         ObjectType: 3
         guid: e86cded2a4e75b4fbe10f2f5d8e3a2e2
       Path: Events\Default Work Unit\cannon_fire
-      maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxAttenuation: 200
+      maxDuration: 1.6188124
+      minDuration: 1.6188124
+    - name: cannon_fire_new
+      guid: 53ee1ef591e3da42a04c05a9461c9e2b
+      id: 1779807686
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: cannon_fire_new
+        ObjectType: 3
+        guid: 53ee1ef591e3da42a04c05a9461c9e2b
+      Path: Events\Default Work Unit\cannon_fire_new
+      maxAttenuation: 200
+      maxDuration: 3.25
+      minDuration: 0.68627083
+    - name: cannon_fire_recycled
+      guid: 9df3cc6f6f80c8458d7624434dfcf154
+      id: 3193012965
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: cannon_fire_recycled
+        ObjectType: 3
+        guid: 9df3cc6f6f80c8458d7624434dfcf154
+      Path: Events\Default Work Unit\cannon_fire_recycled
+      maxAttenuation: 200
+      maxDuration: 0.9704583
+      minDuration: 0.65329164
     - name: cannon_lock_in_place
       guid: 7fcb92acbf47db44bb1d2c55ff5ef038
       id: 1967707158
@@ -230,9 +332,9 @@ MonoBehaviour:
         ObjectType: 3
         guid: 7fcb92acbf47db44bb1d2c55ff5ef038
       Path: Events\Default Work Unit\cannon_lock_in_place
-      maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxAttenuation: 100
+      maxDuration: 1.3653333
+      minDuration: 1.3653333
     - name: cannon_reload
       guid: 5a0aeee6dc197446931a5304d7da7f10
       id: 3265936618
@@ -247,9 +349,26 @@ MonoBehaviour:
         ObjectType: 3
         guid: 5a0aeee6dc197446931a5304d7da7f10
       Path: Events\Default Work Unit\cannon_reload
-      maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxAttenuation: 100
+      maxDuration: 1.374
+      minDuration: 1.374
+    - name: cannon_rotate
+      guid: 08e54234c4b6fe478890ca74d9251e62
+      id: 946664204
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: cannon_rotate
+        ObjectType: 3
+        guid: 08e54234c4b6fe478890ca74d9251e62
+      Path: Events\Default Work Unit\cannon_rotate
+      maxAttenuation: 100
+      maxDuration: 3.5301666
+      minDuration: 3.5301666
     - name: character_use
       guid: 8f05811b2fc1374983296958f1c3820a
       id: 3289544510
@@ -265,8 +384,42 @@ MonoBehaviour:
         guid: 8f05811b2fc1374983296958f1c3820a
       Path: Events\Default Work Unit\character_use
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0.35539582
+      minDuration: 0.35539582
+    - name: coal_load
+      guid: 716654f124841444a7aae773ba3308ee
+      id: 1134111855
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: coal_load
+        ObjectType: 3
+        guid: 716654f124841444a7aae773ba3308ee
+      Path: Events\Default Work Unit\coal_load
+      maxAttenuation: 100
+      maxDuration: 1.375
+      minDuration: 1.375
+    - name: coal_pickup
+      guid: 5b4001ab4386644fa588689f15e18622
+      id: 2581980243
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: coal_pickup
+        ObjectType: 3
+        guid: 5b4001ab4386644fa588689f15e18622
+      Path: Events\Default Work Unit\coal_pickup
+      maxAttenuation: 100
+      maxDuration: 0.875
+      minDuration: 0.75
     - name: combat_music
       guid: 2735f2ef0a20304a87b9c1cf628aaf2b
       id: 1932095129
@@ -282,8 +435,8 @@ MonoBehaviour:
         guid: 2735f2ef0a20304a87b9c1cf628aaf2b
       Path: Events\Default Work Unit\combat_music
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
     - name: death_stinger
       guid: fa713b5205942b4290cf33dc261857b4
       id: 1015288770
@@ -299,8 +452,8 @@ MonoBehaviour:
         guid: fa713b5205942b4290cf33dc261857b4
       Path: Events\Default Work Unit\death_stinger
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 16.666666
+      minDuration: 16.666666
     - name: engine_dying
       guid: 9a2e06e89f43e646bfd235dfdcdde250
       id: 3121770429
@@ -315,9 +468,9 @@ MonoBehaviour:
         ObjectType: 3
         guid: 9a2e06e89f43e646bfd235dfdcdde250
       Path: Events\Default Work Unit\engine_dying
-      maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxAttenuation: 100
+      maxDuration: 0.875
+      minDuration: 0.875
     - name: engine_dying_2
       guid: 5f3b1778342226468b8825e34dfd9239
       id: 1498048058
@@ -332,9 +485,26 @@ MonoBehaviour:
         ObjectType: 3
         guid: 5f3b1778342226468b8825e34dfd9239
       Path: Events\Default Work Unit\engine_dying_2
-      maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxAttenuation: 100
+      maxDuration: 4.9838333
+      minDuration: 4.9838333
+    - name: engine_running
+      guid: 017876c4342be942b7faeecbc82ca28f
+      id: 369266163
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: engine_running
+        ObjectType: 3
+        guid: 017876c4342be942b7faeecbc82ca28f
+      Path: Events\Default Work Unit\engine_running
+      maxAttenuation: 100
+      maxDuration: 0
+      minDuration: 0
     - name: fire_burning
       guid: 96551da30e72944c85a842220eb03011
       id: 1318321645
@@ -349,6 +519,40 @@ MonoBehaviour:
         ObjectType: 3
         guid: 96551da30e72944c85a842220eb03011
       Path: Events\Default Work Unit\fire_burning
+      maxAttenuation: 0
+      maxDuration: 0
+      minDuration: 0
+    - name: footstep_dirt
+      guid: e897263592e5ca4fbe271fe04293c5b4
+      id: 1840676193
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: footstep_dirt
+        ObjectType: 3
+        guid: e897263592e5ca4fbe271fe04293c5b4
+      Path: Events\Default Work Unit\footstep_dirt
+      maxAttenuation: 0
+      maxDuration: -1
+      minDuration: -1
+    - name: footstep_metal
+      guid: cc87286d16a378479cee792a2164d87c
+      id: 1285772719
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: footstep_metal
+        ObjectType: 3
+        guid: cc87286d16a378479cee792a2164d87c
+      Path: Events\Default Work Unit\footstep_metal
       maxAttenuation: 0
       maxDuration: -1
       minDuration: -1
@@ -367,8 +571,8 @@ MonoBehaviour:
         guid: 62352b8002b9b649a6a797296444fa72
       Path: Events\Default Work Unit\Global_Pause
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
     - name: Global_Unpause
       guid: 9ef9e5d266c0b340a9041d343dc49da9
       id: 2496259136
@@ -384,8 +588,144 @@ MonoBehaviour:
         guid: 9ef9e5d266c0b340a9041d343dc49da9
       Path: Events\Default Work Unit\Global_Unpause
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
+    - name: Into_the_Breach
+      guid: bbf23f45f68f1346a342768610111b9b
+      id: 1818101133
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: Into_the_Breach
+        ObjectType: 3
+        guid: bbf23f45f68f1346a342768610111b9b
+      Path: Events\Default Work Unit\Into_the_Breach
+      maxAttenuation: 0
+      maxDuration: 0
+      minDuration: 0
+    - name: Into_the_Breach_2
+      guid: 50e25f3fdae8c3438a7eb1462882da9e
+      id: 3947822154
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: Into_the_Breach_2
+        ObjectType: 3
+        guid: 50e25f3fdae8c3438a7eb1462882da9e
+      Path: Events\Default Work Unit\Into_the_Breach_2
+      maxAttenuation: 0
+      maxDuration: 0
+      minDuration: 0
+    - name: Into_the_Breach_3
+      guid: 65d96108e3f8a34586c9d8c7bd8690b7
+      id: 3947822155
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: Into_the_Breach_3
+        ObjectType: 3
+        guid: 65d96108e3f8a34586c9d8c7bd8690b7
+      Path: Events\Default Work Unit\Into_the_Breach_3
+      maxAttenuation: 0
+      maxDuration: 0
+      minDuration: 0
+    - name: Into_the_Breach_Build
+      guid: e0ea774926cb5c4bb9acc2ef70ceb0ff
+      id: 2264166104
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: Into_the_Breach_Build
+        ObjectType: 3
+        guid: e0ea774926cb5c4bb9acc2ef70ceb0ff
+      Path: Events\Default Work Unit\Into_the_Breach_Build
+      maxAttenuation: 0
+      maxDuration: 0
+      minDuration: 0
+    - name: Into_the_Breach_Combat
+      guid: 63337b3eccceb743aacf914165d0dc06
+      id: 1784725048
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: Into_the_Breach_Combat
+        ObjectType: 3
+        guid: 63337b3eccceb743aacf914165d0dc06
+      Path: Events\Default Work Unit\Into_the_Breach_Combat
+      maxAttenuation: 0
+      maxDuration: 0
+      minDuration: 0
+    - name: Into_the_Breach_Combat_2
+      guid: 18fcc4275813b2429e71ac888ff3c503
+      id: 3620024679
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: Into_the_Breach_Combat_2
+        ObjectType: 3
+        guid: 18fcc4275813b2429e71ac888ff3c503
+      Path: Events\Default Work Unit\Into_the_Breach_Combat_2
+      maxAttenuation: 0
+      maxDuration: 0
+      minDuration: 0
+    - name: Into_the_Breach_Combat_3
+      guid: 0eb321319cc84e41a12eec4f484a97d0
+      id: 3620024678
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: Into_the_Breach_Combat_3
+        ObjectType: 3
+        guid: 0eb321319cc84e41a12eec4f484a97d0
+      Path: Events\Default Work Unit\Into_the_Breach_Combat_3
+      maxAttenuation: 0
+      maxDuration: 0
+      minDuration: 0
+    - name: invalid_alert
+      guid: 8d4ab1e1548ff54a8a1b9ed3308edc78
+      id: 2191775701
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: invalid_alert
+        ObjectType: 3
+        guid: 8d4ab1e1548ff54a8a1b9ed3308edc78
+      Path: Events\Default Work Unit\invalid_alert
+      maxAttenuation: 0
+      maxDuration: 0.28125
+      minDuration: 0.28125
     - name: item_pickup
       guid: f40e6a19f5a5784aa65376afc3a8b73e
       id: 566396871
@@ -401,8 +741,59 @@ MonoBehaviour:
         guid: f40e6a19f5a5784aa65376afc3a8b73e
       Path: Events\Default Work Unit\item_pickup
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0.87220836
+      minDuration: 0.87220836
+    - name: jetpack_refuel
+      guid: af1f6ffb044c7f4d96329943cc9fa0b2
+      id: 1266436627
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: jetpack_refuel
+        ObjectType: 3
+        guid: af1f6ffb044c7f4d96329943cc9fa0b2
+      Path: Events\Default Work Unit\jetpack_refuel
+      maxAttenuation: 100
+      maxDuration: 0.6244375
+      minDuration: 0.6244375
+    - name: jetpack_rocket_loop
+      guid: e5d99901fa3a3743a6f6b40ac7efb6e6
+      id: 3943443513
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: jetpack_rocket_loop
+        ObjectType: 3
+        guid: e5d99901fa3a3743a6f6b40ac7efb6e6
+      Path: Events\Default Work Unit\jetpack_rocket_loop
+      maxAttenuation: 100
+      maxDuration: 4.25
+      minDuration: 4.25
+    - name: jetpack_startup
+      guid: b47e34e0e554f74f85be472252c23dba
+      id: 756560803
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: jetpack_startup
+        ObjectType: 3
+        guid: b47e34e0e554f74f85be472252c23dba
+      Path: Events\Default Work Unit\jetpack_startup
+      maxAttenuation: 100
+      maxDuration: 1.125
+      minDuration: 0.875
     - name: ladder_climb
       guid: c5cbb8d9102fb640a6c514c2bb9fead7
       id: 1707141479
@@ -417,9 +808,9 @@ MonoBehaviour:
         ObjectType: 3
         guid: c5cbb8d9102fb640a6c514c2bb9fead7
       Path: Events\Default Work Unit\ladder_climb
-      maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxAttenuation: 100
+      maxDuration: 0.39514583
+      minDuration: 0.39514583
     - name: large_explosion
       guid: cdf9e2b06c8b3d42ba854817a123feba
       id: 531217250
@@ -434,9 +825,9 @@ MonoBehaviour:
         ObjectType: 3
         guid: cdf9e2b06c8b3d42ba854817a123feba
       Path: Events\Default Work Unit\large_explosion
-      maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxAttenuation: 200
+      maxDuration: 8.200666
+      minDuration: 8.200666
     - name: loading_coal
       guid: 9ddee4521226bc42bce60d9aa83ef438
       id: 164337995
@@ -451,9 +842,26 @@ MonoBehaviour:
         ObjectType: 3
         guid: 9ddee4521226bc42bce60d9aa83ef438
       Path: Events\Default Work Unit\loading_coal
-      maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxAttenuation: 100
+      maxDuration: 3.0376875
+      minDuration: 3.0376875
+    - name: machine_gun_fire
+      guid: 96204dc136d6f04db3793acc9792c0ff
+      id: 2515943394
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: machine_gun_fire
+        ObjectType: 3
+        guid: 96204dc136d6f04db3793acc9792c0ff
+      Path: Events\Default Work Unit\machine_gun_fire
+      maxAttenuation: 200
+      maxDuration: 3.4258068
+      minDuration: 3.4258068
     - name: main_menu_ambience
       guid: 6577258e32a5de44939a64179f12aa6d
       id: 1707782163
@@ -469,8 +877,8 @@ MonoBehaviour:
         guid: 6577258e32a5de44939a64179f12aa6d
       Path: Events\Default Work Unit\main_menu_ambience
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 108
+      minDuration: 108
     - name: medium_explosion
       guid: d4c6b46ac0d5c249bd1876d449821bdb
       id: 2121623384
@@ -485,9 +893,9 @@ MonoBehaviour:
         ObjectType: 3
         guid: d4c6b46ac0d5c249bd1876d449821bdb
       Path: Events\Default Work Unit\medium_explosion
-      maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxAttenuation: 200
+      maxDuration: 5.6
+      minDuration: 5.6
     - name: metal_footstep
       guid: a929131fa7b54945b2f097ee22bc9347
       id: 3615561815
@@ -502,9 +910,9 @@ MonoBehaviour:
         ObjectType: 3
         guid: a929131fa7b54945b2f097ee22bc9347
       Path: Events\Default Work Unit\metal_footstep
-      maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxAttenuation: 100
+      maxDuration: 0.30911565
+      minDuration: 0.30911565
     - name: muffled_cannon_fire
       guid: 4c2fce19eca2fd47b2a4d4f519a72b95
       id: 3902994021
@@ -520,8 +928,8 @@ MonoBehaviour:
         guid: 4c2fce19eca2fd47b2a4d4f519a72b95
       Path: Events\Default Work Unit\muffled_cannon_fire
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 2.4096458
+      minDuration: 2.4096458
     - name: projectile_in_air
       guid: aada8fe161ec084583d6a7fd5b68daa3
       id: 137332291
@@ -536,9 +944,43 @@ MonoBehaviour:
         ObjectType: 3
         guid: aada8fe161ec084583d6a7fd5b68daa3
       Path: Events\Default Work Unit\projectile_in_air
+      maxAttenuation: 200
+      maxDuration: 6
+      minDuration: 6
+    - name: room_connect
+      guid: 14bfbf551b930c41a337f862eca73117
+      id: 228008419
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: room_connect
+        ObjectType: 3
+        guid: 14bfbf551b930c41a337f862eca73117
+      Path: Events\Default Work Unit\room_connect
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0.625
+      minDuration: 0.625
+    - name: rotate_room
+      guid: b4db3decb27f1946830e0dc7b33c2930
+      id: 2075466706
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: rotate_room
+        ObjectType: 3
+        guid: b4db3decb27f1946830e0dc7b33c2930
+      Path: Events\Default Work Unit\rotate_room
+      maxAttenuation: 0
+      maxDuration: 0.5
+      minDuration: 0.375
     - name: small_explosion
       guid: eb6da1a4f5b2e1429ec8fb95c1b75ca4
       id: 3519998062
@@ -553,9 +995,77 @@ MonoBehaviour:
         ObjectType: 3
         guid: eb6da1a4f5b2e1429ec8fb95c1b75ca4
       Path: Events\Default Work Unit\small_explosion
+      maxAttenuation: 200
+      maxDuration: 1.715625
+      minDuration: 1.715625
+    - name: steam_exhaust
+      guid: 9e1c95a67088f54d8644705652a6aaf0
+      id: 2561646952
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: steam_exhaust
+        ObjectType: 3
+        guid: 9e1c95a67088f54d8644705652a6aaf0
+      Path: Events\Default Work Unit\steam_exhaust
+      maxAttenuation: 100
+      maxDuration: 1.0979792
+      minDuration: 1
+    - name: steam_exhaust_loop
+      guid: ae8e7afe28728a4cb011aabde40f2ac6
+      id: 3673494633
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: steam_exhaust_loop
+        ObjectType: 3
+        guid: ae8e7afe28728a4cb011aabde40f2ac6
+      Path: Events\Default Work Unit\steam_exhaust_loop
+      maxAttenuation: 100
+      maxDuration: 0
+      minDuration: 0
+    - name: tank_alarm
+      guid: 18d8b0f46b4d8b4bab95b111a6ada2a0
+      id: 3127992739
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: tank_alarm
+        ObjectType: 3
+        guid: 18d8b0f46b4d8b4bab95b111a6ada2a0
+      Path: Events\Default Work Unit\tank_alarm
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 2.625
+      minDuration: 2.625
+    - name: tank_creaking
+      guid: 3de2d9cf54b530409cb4cdcbae47bf37
+      id: 620130432
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83957ce1e688d54e8b6b22beb20598dd
+      - ElementName: tank_creaking
+        ObjectType: 3
+        guid: 3de2d9cf54b530409cb4cdcbae47bf37
+      Path: Events\Default Work Unit\tank_creaking
+      maxAttenuation: 100
+      maxDuration: 2.375
+      minDuration: 1.875
     - name: tank_engine
       guid: 282fcd6accce3e4a8ed6193e19e045d8
       id: 212754890
@@ -570,9 +1080,9 @@ MonoBehaviour:
         ObjectType: 3
         guid: 282fcd6accce3e4a8ed6193e19e045d8
       Path: Events\Default Work Unit\tank_engine
-      maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxAttenuation: 100
+      maxDuration: 0
+      minDuration: 0
     - name: tank_impact
       guid: e33df51724afeb42bc87c2a9662ee9d1
       id: 70658946
@@ -587,9 +1097,9 @@ MonoBehaviour:
         ObjectType: 3
         guid: e33df51724afeb42bc87c2a9662ee9d1
       Path: Events\Default Work Unit\tank_impact
-      maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxAttenuation: 100
+      maxDuration: 1.374
+      minDuration: 1.374
     - name: tank_rolling
       guid: c384be9ecdaa884c9596a45b07376c70
       id: 299811467
@@ -604,9 +1114,9 @@ MonoBehaviour:
         ObjectType: 3
         guid: c384be9ecdaa884c9596a45b07376c70
       Path: Events\Default Work Unit\tank_rolling
-      maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxAttenuation: 100
+      maxDuration: 0
+      minDuration: 0
     - name: text_beep
       guid: e0756004e9d44d49b0d56cf418f4f4bd
       id: 2012015775
@@ -622,8 +1132,8 @@ MonoBehaviour:
         guid: e0756004e9d44d49b0d56cf418f4f4bd
       Path: Events\Default Work Unit\text_beep
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0.05075
+      minDuration: 0.05075
     - name: text_scroll
       guid: 9e2f67627d026844a178ddbf9627c2e2
       id: 3510154964
@@ -639,8 +1149,8 @@ MonoBehaviour:
         guid: 9e2f67627d026844a178ddbf9627c2e2
       Path: Events\Default Work Unit\text_scroll
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0.041854165
+      minDuration: 0.041854165
     - name: throttle_click
       guid: e627249662a2f14ab8bd1b92b5b07a12
       id: 1141416880
@@ -655,9 +1165,9 @@ MonoBehaviour:
         ObjectType: 3
         guid: e627249662a2f14ab8bd1b92b5b07a12
       Path: Events\Default Work Unit\throttle_click
-      maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxAttenuation: 100
+      maxDuration: 0.47510415
+      minDuration: 0.47510415
     - name: throttle_shift
       guid: ad53a79c49d84544aac7dbc1d1121806
       id: 1821032580
@@ -672,9 +1182,9 @@ MonoBehaviour:
         ObjectType: 3
         guid: ad53a79c49d84544aac7dbc1d1121806
       Path: Events\Default Work Unit\throttle_shift
-      maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxAttenuation: 100
+      maxDuration: 0.12495834
+      minDuration: 0.12495834
     - name: wind_ambience
       guid: e06ef8c8b8b36e4f914ea708aed3ae7d
       id: 2737219330
@@ -690,8 +1200,8 @@ MonoBehaviour:
         guid: e06ef8c8b8b36e4f914ea708aed3ae7d
       Path: Events\Default Work Unit\wind_ambience
       maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxDuration: 0
+      minDuration: 0
     - name: wrench
       guid: bea45d8e1d9180418475ab50d5e117e0
       id: 1797317650
@@ -706,9 +1216,9 @@ MonoBehaviour:
         ObjectType: 3
         guid: bea45d8e1d9180418475ab50d5e117e0
       Path: Events\Default Work Unit\wrench
-      maxAttenuation: 0
-      maxDuration: -1
-      minDuration: -1
+      maxAttenuation: 100
+      maxDuration: 1.374
+      minDuration: 1.374
   RtpcWwu:
   - PhysicalPath: Game Parameters\Default Work Unit.wwu
     PathAndIcons:
@@ -721,7 +1231,7 @@ MonoBehaviour:
     ParentPath: Game Parameters\Default Work Unit
     guid: 7fd26d170457f64b9c4075e46d49e907
     GuidInternal: 
-    m_lastTime: -8585027497264014475
+    m_lastTime: -8584583340316505490
     List:
     - name: CombatLayer0Volume
       guid: 999f4b2c35a11740af640b4d29de9d1c
@@ -779,6 +1289,20 @@ MonoBehaviour:
         ObjectType: 13
         guid: c48637483ae14c428c182e313b0e7b44
       Path: Game Parameters\Default Work Unit\CombatLayer3Volume
+    - name: EnginePitch
+      guid: d1d110144cd527409fb057e4263f1d0f
+      id: 3939064495
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 7fd26d170457f64b9c4075e46d49e907
+      - ElementName: EnginePitch
+        ObjectType: 13
+        guid: d1d110144cd527409fb057e4263f1d0f
+      Path: Game Parameters\Default Work Unit\EnginePitch
     - name: GlobalCombatVolume
       guid: 53438bf090580f42b430afda94d9dae7
       id: 2834886298
@@ -807,6 +1331,20 @@ MonoBehaviour:
         ObjectType: 13
         guid: 6ca2f68d1366e2438bc4629f3f26b67d
       Path: Game Parameters\Default Work Unit\MusicVolume
+    - name: SFXPitch
+      guid: 1b05c5982f34284eaf5eabe51b369ca2
+      id: 2857378200
+      PathAndIcons:
+      - ElementName: Game Parameters
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 7fd26d170457f64b9c4075e46d49e907
+      - ElementName: SFXPitch
+        ObjectType: 13
+        guid: 1b05c5982f34284eaf5eabe51b369ca2
+      Path: Game Parameters\Default Work Unit\SFXPitch
     - name: SFXVolume
       guid: 4c28cd2500dd434baa92da149ffc67fe
       id: 988953028
@@ -833,7 +1371,7 @@ MonoBehaviour:
     ParentPath: States\Default Work Unit
     guid: a0b7341f178cca44b4803208de1bf889
     GuidInternal: 
-    m_lastTime: -8585224173815275760
+    m_lastTime: -8584583340285209080
     List: []
   SwitchWwu:
   - PhysicalPath: Switches\Default Work Unit.wwu
@@ -847,7 +1385,7 @@ MonoBehaviour:
     ParentPath: Switches\Default Work Unit
     guid: 6d9d81080ab4cc4e872aa2d178ddb83f
     GuidInternal: 
-    m_lastTime: -8585200968918198011
+    m_lastTime: -8584583340285188944
     List: []
   TriggerWwu:
   - PhysicalPath: Triggers\Default Work Unit.wwu
@@ -861,11 +1399,11 @@ MonoBehaviour:
     ParentPath: Triggers\Default Work Unit
     guid: 178f1c8b56862740bb45115316763d0e
     GuidInternal: 
-    m_lastTime: -8585224173815225771
+    m_lastTime: -8584583340284761008
     List: []
-  ExpandedFileSystemItemIds: 
-  ExpandedWaapiItemIds: 
+  ExpandedFileSystemItemIds: 050000000600000007000000290000002a000000
+  ExpandedWaapiItemIds: 050000000600000007000000290000002a000000
   AutoSyncSelection: 0
   autoPopulateEnabled: 1
-  currentDataSource: 0
+  currentDataSource: 1
   CurrentPluginConfig: 

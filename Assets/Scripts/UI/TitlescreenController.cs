@@ -5,322 +5,302 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class TitlescreenController : MonoBehaviour
+namespace TowerTanks.Scripts
 {
-    private GameObject currentMenuState;
-
-    public enum MenuState {START, MAIN, OPTIONS, CREDITS, DIFFICULTYSETTINGS, SKIPTUTORIAL}
-
-    [SerializeField] private GameObject startMenu;
-    [SerializeField] private GameObject mainMenu;
-    [SerializeField] private GameObject optionsMenu;
-    [SerializeField] private GameObject creditsMenu;
-    [SerializeField] private GameObject difficultySettingsMenu;
-    [SerializeField] private GameObject skipTutorialMenu;
-
-    [Header("Menu Animators")]
-    [SerializeField] private GameObject levelFader;
-    [SerializeField] private Animator startScreenAnimator;
-    [SerializeField] private Animator mainMenuAnimator;
-
-    [Header("Menu First Selected Items")]
-    [SerializeField] private Selectable[] mainMenuButtons;
-    [SerializeField] private Selectable optionsMenuSelected;
-    [SerializeField] private Selectable difficultySettingsMenuSelected;
-    [SerializeField] private Selectable skipTutorialMenuSelected;
-
-    private bool inMenu = false;
-    [SerializeField] private string sceneToLoad;
-
-    private PlayerControlSystem playerControlSystem;
-
-    private void Awake()
+    public class TitlescreenController : MonoBehaviour
     {
-        playerControlSystem = new PlayerControlSystem();
-        playerControlSystem.UI.Start.performed += StartScreenToMain;
-        playerControlSystem.UI.Cancel.performed += _ => CancelAction();
-        playerControlSystem.UI.DebugMode.performed += _ => DebugMode();
+        private GameObject currentMenuState;
 
-        levelFader.SetActive(true);
-    }
+        public enum MenuState { START, MAIN, OPTIONS, CREDITS, DIFFICULTYSETTINGS }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        GameManager.Instance.AudioManager.Play("MainMenuAmbience");
-        GameManager.Instance.AudioManager.Play("MainMenuWindAmbience");
+        [SerializeField] private GameObject startMenu;
+        [SerializeField] private GameObject mainMenu;
+        [SerializeField] private GameObject optionsMenu;
+        [SerializeField] private GameObject creditsMenu;
+        [SerializeField] private GameObject difficultySettingsMenu;
 
-        currentMenuState = startMenu;
+        [Header("Menu Animators")]
+        [SerializeField] private MoveAnimation startScreenAnimator;
+        [SerializeField] private MoveAnimation mainMenuAnimator;
 
-        if (GameSettings.mainMenuEntered)
+        [Header("Menu First Selected Items")]
+        [SerializeField] private Selectable[] mainMenuButtons;
+        [SerializeField] private Selectable optionsMenuSelected;
+        [SerializeField] private Selectable difficultySettingsMenuSelected;
+
+        private bool inMenu = false;
+        [SerializeField] private string sceneToLoad;
+
+        private PlayerControlSystem playerControlSystem;
+
+        private void Awake()
         {
-            inMenu = true;
-            GoToMain();
+            playerControlSystem = new PlayerControlSystem();
+            playerControlSystem.UI.Start.performed += _ => StartScreenToMain();
+            playerControlSystem.UI.Cancel.performed += _ => CancelAction();
+            playerControlSystem.UI.DebugMode.performed += _ => DebugMode();
         }
-    }
 
-    private void OnEnable()
-    {
-        playerControlSystem.Enable();
-    }
-
-    private void OnDisable()
-    {
-        playerControlSystem.Disable();
-    }
-
-    private void StartGame()
-    {
-        GameManager.Instance.AudioManager.Stop("MainMenuAmbience");
-        GameManager.Instance.AudioManager.Stop("MainMenuWindAmbience");
-        LevelFader.instance.FadeToLevel(sceneToLoad);
-    }
-
-    public void ShowDifficulty()
-    {
-        SwitchMenu(MenuState.DIFFICULTYSETTINGS);
-        difficultySettingsMenuSelected.Select();
-    }
-
-    public void ShowDifficultyText(GameObject difficultyText)
-    {
-        difficultyText.SetActive(true);
-        PlayButtonSFX("Hover");
-    }
-
-    public void HideDifficultyText(GameObject difficultyText)
-    {
-        difficultyText.SetActive(false);
-    }
-
-    public void SetDifficulty(float difficulty)
-    {
-        GameSettings.difficulty = difficulty;
-        SwitchMenu(MenuState.SKIPTUTORIAL);
-        skipTutorialMenuSelected.Select();
-    }
-
-    public void SetSkipTutorial(bool tutorial)
-    {
-        GameSettings.skipTutorial = tutorial;
-        StartGame();
-    }
-
-    private void StartScreenToMain(InputAction.CallbackContext ctx)
-    {
-        if(!inMenu)
+        // Start is called before the first frame update
+        void Start()
         {
-            inMenu = true;
-            GameSettings.mainMenuEntered = true;
-            PlayButtonSFX("Click");
-            FindObjectOfType<MultiplayerManager>().SetUIControlScheme();
-            StartCoroutine(WaitStartScreenToMain());
-        }
-    }
+            GameManager.Instance.AudioManager.Play("MainMenuAmbience");
+            GameManager.Instance.AudioManager.Play("MainMenuWindAmbience");
 
-    private IEnumerator WaitStartScreenToMain()
-    {
-        startScreenAnimator.Play("StartScreenHide");
-        yield return new WaitForSeconds(0.5f);
-        GoToMain();
-        mainMenuAnimator.Play("MainMenuShow");
+            currentMenuState = startMenu;
 
-        startMenu.GetComponent<RectTransform>().localPosition = Vector3.zero;
-
-    }
-
-    private void CancelAction()
-    {
-        //If the player is not in the main menu, go back to the main menu
-        if (currentMenuState != mainMenu && currentMenuState != startMenu)
-        {
-            //If the current menu is the skip tutorial box, go back to the difficulty menu
-            if(currentMenuState == skipTutorialMenu)
+            if (GameSettings.mainMenuEntered)
             {
-                ShowDifficulty();
+                inMenu = true;
+                GoToMain();
             }
             else
             {
-                Back();
+                LevelTransition.Instance?.EndTransition(1f, LevelTransition.LevelTransitionType.FADE);
             }
         }
-        //If they are in the main menu, go back to start
-        else
+
+        private void OnEnable()
         {
-            SwitchMenu(MenuState.START);
-            inMenu = false;
+            playerControlSystem.Enable();
         }
 
-        PlayButtonSFX("Cancel");
-    }
-
-    private void DebugMode()
-    {
-        if (!inMenu && !GameSettings.debugMode)
+        private void OnDisable()
         {
-            GameSettings.debugMode = true;
-            DontDestroyOnLoad(Instantiate(Resources.Load("DebugCanvas")));
-            GameManager.Instance.AudioManager.Play("DebugBeep");
-        }
-    }
-
-    public void GoToMain()
-    {
-        SwitchMenu(MenuState.MAIN);
-    }
-
-    public void Options()
-    {
-        SwitchMenu(MenuState.OPTIONS);
-        optionsMenuSelected.Select();
-    }
-
-    public void Credits()
-    {
-        SwitchMenu(MenuState.CREDITS);
-    }
-
-    public void Back()
-    {
-        SwitchMenu(MenuState.MAIN);
-    }
-
-    private void SwitchMenu(MenuState menu)
-    {
-        GameObject newMenu;
-
-        switch (menu)
-        {
-            case MenuState.START:
-                newMenu = startMenu;
-                break;
-            case MenuState.MAIN:
-                newMenu = mainMenu;
-                break;
-            case MenuState.OPTIONS:
-                newMenu = optionsMenu;
-                break;
-            case MenuState.CREDITS:
-                newMenu = creditsMenu;
-                break;
-            case MenuState.DIFFICULTYSETTINGS:
-                newMenu = difficultySettingsMenu;
-                break;
-            case MenuState.SKIPTUTORIAL:
-                newMenu = skipTutorialMenu;
-                break;
-            default:
-                newMenu = mainMenu;
-                break;
+            playerControlSystem.Disable();
         }
 
-        if(menu != MenuState.SKIPTUTORIAL)
+        public void StartGame()
+        {
+            GameManager.Instance.AudioManager.Stop("MainMenuAmbience");
+            GameManager.Instance.AudioManager.Stop("MainMenuWindAmbience");
+            GameManager.Instance.LoadScene(sceneToLoad, LevelTransition.LevelTransitionType.FADE);
+        }
+
+        public void ShowDifficulty()
+        {
+            SwitchMenu(MenuState.DIFFICULTYSETTINGS);
+            difficultySettingsMenuSelected.Select();
+        }
+
+        public void ShowDifficultyText(GameObject difficultyText)
+        {
+            difficultyText.SetActive(true);
+            PlayButtonSFX("Hover");
+        }
+
+        public void HideDifficultyText(GameObject difficultyText)
+        {
+            difficultyText.SetActive(false);
+        }
+
+        public void SetDifficulty(float difficulty)
+        {
+            GameSettings.difficulty = difficulty;
+            StartGame();
+        }
+
+        private void StartScreenToMain()
+        {
+            if (!inMenu)
+            {
+                inMenu = true;
+                GameSettings.mainMenuEntered = true;
+                PlayButtonSFX("Click");
+                GameManager.Instance.MultiplayerManager.SetUIControlScheme();
+                StartCoroutine(WaitStartScreenToMain());
+            }
+        }
+
+        private IEnumerator WaitStartScreenToMain()
+        {
+            startScreenAnimator.Play();
+            yield return new WaitForSeconds(startScreenAnimator.duration);
+            GoToMain();
+            mainMenuAnimator.Play();
+        }
+
+        private void CancelAction()
+        {
+            //If the player is not in the main menu, go back to the main menu
+            if (currentMenuState != mainMenu && currentMenuState != startMenu)
+            {
+                Back();
+            }
+            //If they are in the main menu, go back to start
+            else
+            {
+                SwitchMenu(MenuState.START);
+                inMenu = false;
+            }
+
+            PlayButtonSFX("Cancel");
+        }
+
+        private void DebugMode()
+        {
+            if (!inMenu && !GameSettings.debugMode)
+            {
+                GameSettings.debugMode = true;
+                DontDestroyOnLoad(Instantiate(Resources.Load("DebugCanvas")));
+                GameManager.Instance.AudioManager.Play("DebugBeep");
+            }
+        }
+
+        public void GoToMain()
+        {
+            GameManager.Instance.MultiplayerManager.SwitchAllPlayerActionMaps("UI");
+            SwitchMenu(MenuState.MAIN);
+        }
+
+        public void Options()
+        {
+            SwitchMenu(MenuState.OPTIONS);
+            optionsMenuSelected.Select();
+        }
+
+        public void Credits()
+        {
+            SwitchMenu(MenuState.CREDITS);
+        }
+
+        public void Back()
+        {
+            SwitchMenu(MenuState.MAIN);
+        }
+
+        private void SwitchMenu(MenuState menu)
+        {
+            GameObject newMenu;
+
+            switch (menu)
+            {
+                case MenuState.START:
+                    newMenu = startMenu;
+                    break;
+                case MenuState.MAIN:
+                    newMenu = mainMenu;
+                    break;
+                case MenuState.OPTIONS:
+                    newMenu = optionsMenu;
+                    break;
+                case MenuState.CREDITS:
+                    newMenu = creditsMenu;
+                    break;
+                case MenuState.DIFFICULTYSETTINGS:
+                    newMenu = difficultySettingsMenu;
+                    break;
+                default:
+                    newMenu = mainMenu;
+                    break;
+            }
+
+            GameObject prevMenu = currentMenuState;
+
+            DeselectButton();
+
             currentMenuState.SetActive(false);
+            currentMenuState = newMenu;
+            currentMenuState.SetActive(true);
 
-        GameObject prevMenu = currentMenuState;
-
-        DeselectButton();
-
-        currentMenuState = newMenu;
-        currentMenuState.SetActive(true);
-
-        if(menu == MenuState.MAIN)
-            SelectButtonOnMain(prevMenu);
-    }
-
-    private void DeselectButton()
-    {
-        EventSystem.current.SetSelectedGameObject(null);
-    }
-
-    private void SelectButtonOnMain(GameObject menu)
-    {
-        foreach (var button in mainMenuButtons)
-        {
-            button.GetComponent<Animator>().Play("ButtonDeselectAni");
-            button.GetComponent<Animator>().CrossFade("ButtonDeselectAni", 0f, 0, 1f);
+            if (menu == MenuState.MAIN)
+                SelectButtonOnMain(prevMenu);
         }
 
-        if (menu == optionsMenu)
+        private void DeselectButton()
         {
-            mainMenuButtons[1].Select();
-        }
-        else if (menu == creditsMenu)
-        {
-            mainMenuButtons[2].Select();
-        }
-        else
-        {
-            mainMenuButtons[0].Select();
-        }
-    }
-
-    public void ButtonBounce(RectTransform rectTransform)
-    {
-        StartCoroutine(ButtonBounceAnimation(rectTransform));
-    }
-
-    private IEnumerator ButtonBounceAnimation(RectTransform rectTransform)
-    {
-        Vector3 startPos = rectTransform.localPosition;
-        Vector3 endPos = startPos;
-        endPos.y += 10;
-
-        float seconds = 0.067f;
-
-        float timeElapsed = 0;
-        while (timeElapsed < seconds)
-        {
-            //Smooth lerp duration algorithm
-            float t = timeElapsed / seconds;
-            t = t * t * (3f - 2f * t);
-
-            rectTransform.localPosition = Vector3.Lerp(startPos, endPos, t);
-            timeElapsed += Time.deltaTime;
-
-            yield return null;
+            EventSystem.current.SetSelectedGameObject(null);
         }
 
-        rectTransform.localPosition = endPos;
-
-        timeElapsed = 0;
-        while (timeElapsed < seconds)
+        private void SelectButtonOnMain(GameObject menu)
         {
-            //Smooth lerp duration algorithm
-            float t = timeElapsed / seconds;
-            t = t * t * (3f - 2f * t);
+            foreach (var button in mainMenuButtons)
+            {
+                button.GetComponent<Animator>().Play("ButtonDeselectAni");
+                button.GetComponent<Animator>().CrossFade("ButtonDeselectAni", 0f, 0, 1f);
+            }
 
-            rectTransform.localPosition = Vector3.Lerp(endPos, startPos, t);
-            timeElapsed += Time.deltaTime;
-
-            yield return null;
+            if (menu == optionsMenu)
+            {
+                mainMenuButtons[1].Select();
+            }
+            else if (menu == creditsMenu)
+            {
+                mainMenuButtons[2].Select();
+            }
+            else
+            {
+                mainMenuButtons[0].Select();
+            }
         }
 
-        rectTransform.localPosition = startPos;
-    }
+        public void ButtonBounce(RectTransform rectTransform)
+        {
+            StartCoroutine(ButtonBounceAnimation(rectTransform));
+        }
 
-    public void ButtonOnSelectColor(Animator anim)
-    {
-        anim.SetBool("IsSelected", true);
-        PlayButtonSFX("Hover");
-    }
+        private IEnumerator ButtonBounceAnimation(RectTransform rectTransform)
+        {
+            Vector3 startPos = rectTransform.localPosition;
+            Vector3 endPos = startPos;
+            endPos.y += 10;
 
-    public void ButtonOnDeselectColor(Animator anim)
-    {
-        anim.SetBool("IsSelected", false);
+            float seconds = 0.067f;
 
-    }
+            float timeElapsed = 0;
+            while (timeElapsed < seconds)
+            {
+                //Smooth lerp duration algorithm
+                float t = timeElapsed / seconds;
+                t = t * t * (3f - 2f * t);
 
-    public void PlayButtonSFX(string name)
-    {
-        GameManager.Instance.AudioManager.Play("Button" + name);
-    }
+                rectTransform.localPosition = Vector3.Lerp(startPos, endPos, t);
+                timeElapsed += Time.deltaTime;
 
-    public void QuitGame()
-    {
-        Application.Quit();
+                yield return null;
+            }
+
+            rectTransform.localPosition = endPos;
+
+            timeElapsed = 0;
+            while (timeElapsed < seconds)
+            {
+                //Smooth lerp duration algorithm
+                float t = timeElapsed / seconds;
+                t = t * t * (3f - 2f * t);
+
+                rectTransform.localPosition = Vector3.Lerp(endPos, startPos, t);
+                timeElapsed += Time.deltaTime;
+
+                yield return null;
+            }
+
+            rectTransform.localPosition = startPos;
+        }
+
+        public void ButtonOnSelectColor(Animator anim)
+        {
+            anim.SetBool("IsSelected", true);
+            PlayButtonSFX("Hover");
+        }
+
+        public void ButtonOnDeselectColor(Animator anim)
+        {
+            anim.SetBool("IsSelected", false);
+
+        }
+
+        public void PlayButtonSFX(string name)
+        {
+            GameManager.Instance.AudioManager.Play("Button" + name);
+        }
+
+        public void QuitGame()
+        {
+            Application.Quit();
 #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
+            UnityEditor.EditorApplication.isPlaying = false;
 #endif
+        }
     }
 }

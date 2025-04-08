@@ -15,3 +15,5 @@ MonoBehaviour:
   objectName: text_scroll
   id: 3510154964
   guid: 62672F9E-027D-4468-A178-DDBF9627C2E2
+  IsInUserDefinedSoundBank: 1
+  IsAutoBankLoaded: 0

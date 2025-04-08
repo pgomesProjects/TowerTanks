@@ -1046,7 +1046,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 73a18d7bfd391214eb6d06a3bbe7be7a, type: 2}
+  - {fileID: 2100000, guid: 58cc551cfabc56f4487925b041b1b9a2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1090,13 +1090,70 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67f385c7fec67324cacb1fb18f86b2ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: playerButtonPrompts
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[TowerTanks.Scripts.Deprecated.PlayerController+PlayerActions,
+        TowerTanks.Scripts],[TowerTanks.Scripts.Deprecated.PlayerButtonPrompt, TowerTanks.Scripts]],
+        mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[TowerTanks.Scripts.Deprecated.PlayerController+PlayerActions,
+        TowerTanks.Scripts]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 5
+    - Name: $v
+      Entry: 7
+      Data: TowerTanks.Scripts.Deprecated.PlayerButtonPrompt, TowerTanks.Scripts
+    - Name: buttonSprite
+      Entry: 6
+      Data: 
+    - Name: buttonText
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   speed: 12
   distance: 0
   throwForceRange: {x: 5, y: 50}
   throwForce: 22
   ladderMask:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 131071
   downSpeedMultiplier: 2
   timeToUseWrench: 3
   fireRemoverSpeed: 30

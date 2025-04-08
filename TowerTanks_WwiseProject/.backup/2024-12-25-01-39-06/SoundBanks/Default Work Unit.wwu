@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{B8AF5FDF-2EB9-4294-90F5-318847F0E90D}" SchemaVersion="110">
+	<SoundBanks>
+		<WorkUnit Name="Default Work Unit" ID="{B8AF5FDF-2EB9-4294-90F5-318847F0E90D}" PersistMode="Standalone">
+			<ChildrenList>
+				<SoundBank Name="mainbank" ID="{37497F3A-0B2B-421A-8CAB-0ADBE8B1C2B4}">
+					<ObjectInclusionList>
+						<ObjectRef Name="tank_creaking" ID="{CFD9E23D-B554-4030-9CB4-CDCBAE47BF37}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Global_Unpause" ID="{D2E5F99E-C066-40B3-A904-1D343DC49DA9}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="ladder_climb" ID="{D9B8CBC5-2F10-40B6-A6C5-14C2BB9FEAD7}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="button_cancel" ID="{AEEA5AB5-3C7D-40DE-8036-F16A9C2F48EC}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="room_connect" ID="{55BFBF14-931B-410C-A337-F862ECA73117}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="wrench" ID="{8E5DA4BE-911D-4180-8475-AB50D5E117E0}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="death_stinger" ID="{523B71FA-9405-422B-90CF-33DC261857B4}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="large_explosion" ID="{B0E2F9CD-8B6C-423D-BA85-4817A123FEBA}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="loading_coal" ID="{52E4DE9D-2612-42BC-BCE6-0D9AA83EF438}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="cannon_fire_new" ID="{F51EEE53-E391-42DA-A04C-05A9461C9E2B}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="small_explosion" ID="{A4A16DEB-B2F5-42E1-9EC8-FB95C1B75CA4}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="tank_impact" ID="{17F53DE3-AF24-42EB-BC87-C2A9662EE9D1}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="jetpack_rocket_loop" ID="{0199D9E5-3AFA-4337-A6F6-B40AC7EFB6E6}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Into_the_Breach_Combat" ID="{3E7B3363-CECC-43B7-AACF-914165D0DC06}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="coal_load" ID="{F1546671-8424-4414-A7AA-E773BA3308EE}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="throttle_shift" ID="{9CA753AD-D849-4445-AAC7-DBC1D1121806}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="text_scroll" ID="{62672F9E-027D-4468-A178-DDBF9627C2E2}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="cannon_lock_in_place" ID="{AC92CB7F-47BF-44DB-BB1D-2C55FF5EF038}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="main_menu_ambience" ID="{8E257765-A532-44DE-939A-64179F12AA6D}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="projectile_in_air" ID="{E18FDAAA-EC61-4508-83D6-A7FD5B68DAA3}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="metal_footstep" ID="{1F1329A9-B5A7-4549-B2F0-97EE22BC9347}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="cannon_fire_recycled" ID="{6FCCF39D-806F-45C8-8D76-24434DFCF154}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Into_the_Breach" ID="{453FF2BB-8FF6-4613-A342-768610111B9B}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="rotate_room" ID="{EC3DDBB4-7FB2-4619-830E-0DC7B33C2930}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="engine_dying_2" ID="{78173B5F-2234-4626-8B88-25E34DFD9239}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="button_hover" ID="{ABCC24D7-34F6-4669-B4E9-E751FF535FCF}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="cannon_reload" ID="{E6EE0A5A-19DC-4674-931A-5304D7DA7F10}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="engine_dying" ID="{E8062E9A-439F-46E6-BFD2-35DFDCDDE250}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="cannon_aim" ID="{D6EF2E29-9C77-4726-9087-FF7AA942CC8D}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="blaring_alarm" ID="{32DB5705-A07D-47A0-9A62-61E902CEDE4A}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="muffled_cannon_fire" ID="{19CE2F4C-A2EC-47FD-B2A4-D4F519A72B95}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="cannon_rotate" ID="{3442E508-B6C4-47FE-8890-CA74D9251E62}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="character_use" ID="{1B81058F-C12F-4937-8329-6958F1C3820A}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="text_beep" ID="{046075E0-D4E9-494D-B0D5-6CF418F4F4BD}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Global_Pause" ID="{802B3562-B902-49B6-A6A7-97296444FA72}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="medium_explosion" ID="{6AB4C6D4-D5C0-49C2-BD18-76D449821BDB}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="build_undo" ID="{925159B6-F55E-49D7-8B2C-4A5112659E5B}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="combat_music" ID="{EFF23527-200A-4A30-87B9-C1CF628AAF2B}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="tank_engine" ID="{6ACD2F28-CECC-4A3E-8ED6-193E19E045D8}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="item_pickup" ID="{196A0EF4-A5F5-4A78-A653-76AFC3A8B73E}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="throttle_click" ID="{962427E6-A262-4AF1-B8BD-1B92B5B07A12}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="invalid_alert" ID="{E1B14A8D-8F54-4AF5-8A1B-9ED3308EDC78}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="tank_rolling" ID="{9EBE84C3-AACD-4C88-9596-A45B07376C70}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="steam_exhaust_loop" ID="{FE7A8EAE-7228-4C8A-B011-AABDE40F2AC6}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="fire_burning" ID="{A31D5596-720E-4C94-85A8-42220EB03011}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="build_room" ID="{8A28287C-D8A1-4CC0-934B-2132F9786DF4}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="jetpack_refuel" ID="{FB6F1FAF-4C04-4D7F-9632-9943CC9FA0B2}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="bullet_impact" ID="{47D98DC5-2021-4DED-9F68-93683FA25CD5}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="machine_gun_fire" ID="{C14D2096-D636-4DF0-B379-3ACC9792C0FF}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="steam_exhaust" ID="{A6951C9E-8870-4DF5-8644-705652A6AAF0}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="bullet_impact_dirt" ID="{054C3506-B4B9-4EC3-96AA-A1AE33050767}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="cannon_fire" ID="{D2DE6CE8-E7A4-4F5B-BE10-F2F5D8E3A2E2}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="coal_pickup" ID="{AB01405B-8643-4F64-A588-689F15E18622}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="wind_ambience" ID="{C8F86EE0-B3B8-4F6E-914E-A708AED3AE7D}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="jetpack_startup" ID="{E0347EB4-54E5-4FF7-85BE-472252C23DBA}" WorkUnitID="{E17C9583-88E6-4ED5-8B6B-22BEB20598DD}" Origin="Manual" Filter="7"/>
+					</ObjectInclusionList>
+					<ObjectExclusionList/>
+					<GameSyncExclusionList/>
+				</SoundBank>
+			</ChildrenList>
+		</WorkUnit>
+	</SoundBanks>
+</WwiseDocument>

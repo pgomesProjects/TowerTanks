@@ -15,7 +15,7 @@ public class ButtonFlash : MonoBehaviour, ISelectHandler, IDeselectHandler
     private Color defaultColor;
     private bool flashButton = false;
 
-    private void Start()
+    private void Awake()
     {
         buttonText = GetComponentInChildren<TextMeshProUGUI>();
         defaultColor = buttonText.color;

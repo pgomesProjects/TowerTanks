@@ -15,3 +15,5 @@ MonoBehaviour:
   objectName: fire_burning
   id: 1318321645
   guid: A31D5596-720E-4C94-85A8-42220EB03011
+  IsInUserDefinedSoundBank: 1
+  IsAutoBankLoaded: 0

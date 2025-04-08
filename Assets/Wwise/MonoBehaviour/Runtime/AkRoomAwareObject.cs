@@ -13,7 +13,7 @@ Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
 this file in accordance with the end user license agreement provided with the
 software or, alternatively, in accordance with the terms contained
 in a written agreement between you and Audiokinetic Inc.
-Copyright (c) 2023 Audiokinetic Inc.
+Copyright (c) 2024 Audiokinetic Inc.
 *******************************************************************************/
 
 /// <summary>
@@ -63,6 +63,8 @@ public class AkRoomAwareObject : UnityEngine.MonoBehaviour
 			roomPriorityList[i].Exit(this);
 		}
 
+		roomPriorityList.Clear();
+
 		AkRoomAwareManager.UnregisterRoomAwareObject(this);
 
 		SetGameObjectInRoom(null);
@@ -70,7 +72,10 @@ public class AkRoomAwareObject : UnityEngine.MonoBehaviour
 
 	private void OnDestroy()
 	{
-		ColliderToRoomAwareObjectMap.Remove(m_Collider);
+		if (m_Collider)
+		{
+			ColliderToRoomAwareObjectMap.Remove(m_Collider);
+		}
 	}
 
 	public void SetGameObjectInHighestPriorityActiveAndEnabledRoom()
@@ -80,7 +85,7 @@ public class AkRoomAwareObject : UnityEngine.MonoBehaviour
 
 	private void SetGameObjectInRoom(AkRoom room)
 	{
-		AkSoundEngine.SetGameObjectInRoom(gameObject, AkRoom.GetAkRoomID(room));
+		AkUnitySoundEngine.SetGameObjectInRoom(gameObject, AkRoom.GetAkRoomID(room));
 	}
 
 	/// <summary>

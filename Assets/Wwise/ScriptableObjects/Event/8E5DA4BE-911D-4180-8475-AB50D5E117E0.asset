@@ -15,3 +15,5 @@ MonoBehaviour:
   objectName: wrench
   id: 1797317650
   guid: 8E5DA4BE-911D-4180-8475-AB50D5E117E0
+  IsInUserDefinedSoundBank: 1
+  IsAutoBankLoaded: 0

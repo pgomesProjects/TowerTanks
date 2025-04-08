@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0eb8512060a03b4f94dcd5c55a26c9a, type: 3}
+  m_Name: RoomKit_Proto
+  m_EditorClassIdentifier: 
+  backWallSprite: {fileID: 21300000, guid: 1bbf546d786084e48940a5407eea8722, type: 3}
+  backWallScale: 0.12
+  spriteShapeProfile: {fileID: 8868930450414127114, guid: b9bc4a53f8cde4e4e8012d6548e73b10, type: 3}
+  defaultMaterial: {fileID: 2100000, guid: c216ee7a144f7fd41918b80aa94fca0b, type: 2}

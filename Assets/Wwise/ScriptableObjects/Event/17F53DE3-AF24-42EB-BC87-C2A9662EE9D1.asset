@@ -15,3 +15,5 @@ MonoBehaviour:
   objectName: tank_impact
   id: 70658946
   guid: 17F53DE3-AF24-42EB-BC87-C2A9662EE9D1
+  IsInUserDefinedSoundBank: 1
+  IsAutoBankLoaded: 0

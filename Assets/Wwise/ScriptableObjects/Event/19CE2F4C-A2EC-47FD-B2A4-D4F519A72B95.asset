@@ -15,3 +15,5 @@ MonoBehaviour:
   objectName: muffled_cannon_fire
   id: 3902994021
   guid: 19CE2F4C-A2EC-47FD-B2A4-D4F519A72B95
+  IsInUserDefinedSoundBank: 1
+  IsAutoBankLoaded: 0

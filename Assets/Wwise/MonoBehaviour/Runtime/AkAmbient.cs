@@ -13,7 +13,7 @@ Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
 this file in accordance with the end user license agreement provided with the
 software or, alternatively, in accordance with the terms contained
 in a written agreement between you and Audiokinetic Inc.
-Copyright (c) 2023 Audiokinetic Inc.
+Copyright (c) 2024 Audiokinetic Inc.
 *******************************************************************************/
 
 public enum MultiPositionTypeLabel
@@ -64,18 +64,21 @@ public class AkAmbient : AkEvent
 				return;
 			}
 #endif
-        if (multiPositionTypeLabel == MultiPositionTypeLabel.MultiPosition_Mode)
+		if (multiPositionTypeLabel == MultiPositionTypeLabel.MultiPosition_Mode)
 		{
-            var gameObj = gameObject.GetComponents<AkGameObj>();
-			for (var i = 0; i < gameObj.Length; i++)
+			var gameObj = gameObject.GetComponents<AkGameObj>();
+			for (var i = 1; i < gameObj.Length; i++)
+			{
 				gameObj[i].enabled = false;
-
+			}
 			AkMultiPosEvent eventPosList;
 
 			if (multiPosEventTree.TryGetValue(data.Id, out eventPosList))
 			{
 				if (!eventPosList.list.Contains(this))
+				{
 					eventPosList.list.Add(this);
+				}
 			}
 			else
 			{
@@ -86,8 +89,7 @@ public class AkAmbient : AkEvent
 
 			var positionArray = BuildMultiDirectionArray(eventPosList);
 			//Set multiple positions
-			AkSoundEngine.SetMultiplePositions(eventPosList.list[0].gameObject, positionArray, (ushort) positionArray.Count,
-				MultiPositionType);
+			AkUnitySoundEngine.SetMultiplePositions(eventPosList.list[0].gameObject, positionArray, (ushort) positionArray.Count, MultiPositionType);
 		}
 		base.OnEnable();
 	}
@@ -100,7 +102,9 @@ public class AkAmbient : AkEvent
 		{
 			var gameObj = gameObject.GetComponents<AkGameObj>();
 			for (var i = 0; i < gameObj.Length; i++)
+			{
 				gameObj[i].enabled = true;
+			}
 		}
 		else if (multiPositionTypeLabel == MultiPositionTypeLabel.Large_Mode)
 		{
@@ -110,16 +114,12 @@ public class AkAmbient : AkEvent
 				return;
 			}
 #endif
-			var gameObj = gameObject.GetComponents<AkGameObj>();
-			for (var i = 0; i < gameObj.Length; i++)
-				gameObj[i].enabled = false;
-
 			var positionArray = BuildAkPositionArray();
-			AkSoundEngine.SetMultiplePositions(gameObject, positionArray, (ushort)positionArray.Count, MultiPositionType);
+			AkUnitySoundEngine.SetMultiplePositions(gameObject, positionArray, (ushort)positionArray.Count, MultiPositionType);
 		}
 	}
 
-	private void OnDisable()
+	private new void OnDisable()
 	{
 #if UNITY_EDITOR
         if (UnityEngine.Application.isBatchMode)
@@ -132,16 +132,19 @@ public class AkAmbient : AkEvent
 			var eventPosList = multiPosEventTree[data.Id];
 
 			if (eventPosList.list.Count == 1)
+			{
 				multiPosEventTree.Remove(data.Id);
+			}
 			else
 			{
 				eventPosList.list.Remove(this);
 
 				var positionArray = BuildMultiDirectionArray(eventPosList);
-				AkSoundEngine.SetMultiplePositions(eventPosList.list[0].gameObject, positionArray, (ushort) positionArray.Count,
-					MultiPositionType);
+				AkUnitySoundEngine.SetMultiplePositions(eventPosList.list[0].gameObject, positionArray, (ushort) positionArray.Count, MultiPositionType);
 			}
 		}
+        
+        base.OnDisable();
 	}
 
 	public override void HandleEvent(UnityEngine.GameObject in_gameObject)
@@ -154,16 +157,22 @@ public class AkAmbient : AkEvent
 		{
 			var multiPositionSoundEmitter = multiPosEventTree[data.Id];
 			if (multiPositionSoundEmitter.eventIsPlaying)
+			{
 				return;
+			}
 
 			multiPositionSoundEmitter.eventIsPlaying = true;
 
 			soundEmitterObject = multiPositionSoundEmitter.list[0].gameObject;
 
 			if (enableActionOnEvent)
+			{
 				data.ExecuteAction(soundEmitterObject, actionOnEventType, (int)transitionDuration * 1000, curveInterpolation);
+			}
 			else
-				playingId = data.Post(soundEmitterObject, (uint)AkCallbackType.AK_EndOfEvent, multiPositionSoundEmitter.FinishedPlaying);
+			{
+				data.Post(soundEmitterObject, (uint)AkCallbackType.AK_EndOfEvent, multiPositionSoundEmitter.FinishedPlaying);
+			}
 		}
 	}
 

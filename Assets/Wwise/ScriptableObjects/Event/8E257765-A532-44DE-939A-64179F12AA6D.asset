@@ -15,3 +15,5 @@ MonoBehaviour:
   objectName: main_menu_ambience
   id: 1707782163
   guid: 8E257765-A532-44DE-939A-64179F12AA6D
+  IsInUserDefinedSoundBank: 1
+  IsAutoBankLoaded: 0

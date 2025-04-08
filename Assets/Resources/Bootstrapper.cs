@@ -1,4 +1,6 @@
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public static class Bootstrapper
 {
@@ -7,55 +9,46 @@ public static class Bootstrapper
     {
         //Before the scene loads, spawn an Init prefab and make sure it never gets destroyed, even between scenes
         Object.DontDestroyOnLoad(Object.Instantiate(Resources.Load("Init")));
-        if (GameSettings.debugMode)
-        {
-            Object.DontDestroyOnLoad(Object.Instantiate(Resources.Load("DebugCanvas")));
-        }
-        //Hide the cursor during gameplay
-        Cursor.visible = GameSettings.debugMode;
-        SettingsOnStart();
+        Object.DontDestroyOnLoad(Object.Instantiate(Resources.Load("CampaignManager")));
+        Object.DontDestroyOnLoad(Object.Instantiate(Resources.Load("DebugCanvas")));
+        Object.DontDestroyOnLoad(Object.Instantiate(Resources.Load("AnalyticsManager")));
+
+#if UNITY_EDITOR
+        FocusGameView();
+#endif
+
+        Cursor.lockState = CursorLockMode.Confined;
+        GetCurrentSettings();
+        GameSettings.gamePlatform = GameSettings.GetRunningPlatform();
+        Debug.Log("Current Platform: " + GameSettings.gamePlatform);
+        GameSettings.RefreshSettings();
     }
 
-    private static void SettingsOnStart()
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+    private static void InitializeAfterSceneLoad()
     {
-        GameSettings.CheckBGM();
-        GameSettings.CheckSFX();
-        GameSettings.CheckFullscreen();
-        ResolutionOnStart();
-        GameSettings.CheckScreenshake();
+        DebugManager.instance.enableRuntimeUI = false;
     }
 
-    private static void ResolutionOnStart()
+#if UNITY_EDITOR
+    private static void FocusGameView()
     {
-        int currentResolutionIndex = -1;
+        var assembly = typeof(EditorWindow).Assembly;
+        var type = assembly.GetType("UnityEditor.GameView");
+        var gameview = EditorWindow.GetWindow(type);
+        gameview.Focus();
+    }
+#endif
 
-
-        //If the game is currently fullscreen, check the size of the whole screen
-        if (PlayerPrefs.GetInt("IsFullscreen", 1) == 1)
-        {
-            for (int i = 0; i < GameSettings.possibleResolutions.GetLength(0); i++)
-            {
-                if (Screen.currentResolution.width == GameSettings.possibleResolutions[i, 0]
-                    && Screen.currentResolution.height == GameSettings.possibleResolutions[i, 1])
-                    currentResolutionIndex = i;
-            }
-        }
-        else
-        {
-            for (int i = 0; i < GameSettings.possibleResolutions.GetLength(0); i++)
-            {
-                if (Screen.width == GameSettings.possibleResolutions[i, 0]
-                    && Screen.height == GameSettings.possibleResolutions[i, 1])
-                    currentResolutionIndex = i;
-            }
-        }
-
-        //Set to 1080p if none apply
-        if (currentResolutionIndex == -1)
-            currentResolutionIndex = 1;
-
-        PlayerPrefs.SetInt("CurrentRes", currentResolutionIndex);
-
-        GameSettings.CheckResolution();
+    private static void GetCurrentSettings()
+    {
+        ConfigurationSettings currentSettings = new ConfigurationSettings();
+        currentSettings.SetMasterVolume(PlayerPrefs.GetFloat("MasterVolume", GameSettings.defaultSettings.masterVolume));
+        currentSettings.SetBGMVolume(PlayerPrefs.GetFloat("BGMVolume", GameSettings.defaultSettings.bgmVolume));
+        currentSettings.SetSFXVolume(PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSettings.sfxVolume));
+        currentSettings.SetResolution(PlayerPrefs.GetInt("CurrentRes", GameSettings.defaultSettings.resolution));
+        currentSettings.SetFullscreen(PlayerPrefs.GetInt("IsFullscreen", GameSettings.defaultSettings.isFullScreen));
+        currentSettings.SetScreenshakeOn(PlayerPrefs.GetInt("Screenshake", GameSettings.defaultSettings.screenshakeOn));
+        GameSettings.currentSettings = currentSettings;
     }
 }

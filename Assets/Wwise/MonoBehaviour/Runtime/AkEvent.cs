@@ -13,7 +13,7 @@ Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
 this file in accordance with the end user license agreement provided with the
 software or, alternatively, in accordance with the terms contained
 in a written agreement between you and Audiokinetic Inc.
-Copyright (c) 2023 Audiokinetic Inc.
+Copyright (c) 2024 Audiokinetic Inc.
 *******************************************************************************/
 
 /// <summary>
@@ -28,11 +28,12 @@ public class AkEventCallbackMsg
 	/// GameObject from whom the callback function was called
 	public UnityEngine.GameObject sender;
 
-	///AkSoundEngine.PostEvent callback flags. See the AkCallbackType enumeration for a list of all callbacks
+	///AkUnitySoundEngine.PostEvent callback flags. See the AkCallbackType enumeration for a list of all callbacks
 	public AkCallbackType type;
 }
 
 [UnityEngine.AddComponentMenu("Wwise/AkEvent")]
+[UnityEngine.ExecuteInEditMode]
 [UnityEngine.RequireComponent(typeof(AkGameObj))]
 /// @brief Helper class that knows a Wwise Event and when to trigger it in Unity. As of 2017.2.0, the AkEvent inspector has buttons for play/stop, play multiple, stop multiple, and stop all.
 /// Play/Stop will play or stop the event such that it can be previewed both in edit mode and play mode. When multiple objects are selected, Play Multiple and Stop Multiple will play or stop the associated AkEvent for each object.
@@ -70,19 +71,35 @@ public class AkEvent : AkDragDropTriggerHandler
 				GameObject.SendMessage(FunctionName, eventCallbackMsg);
 		}
 	}
-
+	
+	private UnityEngine.GameObject otherGameObject;
 	public bool useCallbacks = false;
+	public bool stopSoundOnDestroy = true;
 	public System.Collections.Generic.List<CallbackData> Callbacks = new System.Collections.Generic.List<CallbackData>();
 
-	public uint playingId = AkSoundEngine.AK_INVALID_PLAYING_ID;
+	public uint playingId => data.PlayingId;
 
 	/// Game object onto which the Event will be posted.  By default, when empty, it is posted on the same object on which the component was added.
 	public UnityEngine.GameObject soundEmitterObject;
 
-	/// Duration of the fade.  See AK::SoundEngine::ExecuteEventOnAction()
+	/// Duration of the fade, in milliseconds. See <a href="https://www.audiokinetic.com/library/edge/?source=SDK&id=namespace_a_k_1_1_sound_engine_ac55e3d6ac464b0579a8487c88a755d8c.html" target="_blank">AK::SoundEngine::ExecuteEventOnAction()</a>.
 	public float transitionDuration = 0.0f;
 
 	private AkEventCallbackMsg EventCallbackMsg = null;
+	
+	protected override void Awake()
+	{
+		base.Awake();
+#if UNITY_EDITOR
+		var reference = AkWwiseTypes.DragAndDropObjectReference;
+		if (reference)
+		{
+			UnityEngine.GUIUtility.hotControl = 0;
+			data.ObjectReference = reference;
+			AkWwiseTypes.DragAndDropObjectReference = null;
+		}
+#endif
+	}
 
 	protected override void Start()
 	{
@@ -92,7 +109,9 @@ public class AkEvent : AkDragDropTriggerHandler
 #endif
 
 		if (useCallbacks)
+		{
 			EventCallbackMsg = new AkEventCallbackMsg { sender = gameObject };
+		}
 
 		soundEmitterObject = gameObject;
 
@@ -105,13 +124,19 @@ public class AkEvent : AkDragDropTriggerHandler
 		EventCallbackMsg.info = in_info;
 
 		for (var i = 0; i < Callbacks.Count; ++i)
+		{
 			Callbacks[i].CallFunction(EventCallbackMsg);
+		}
 	}
 
 	public override void HandleEvent(UnityEngine.GameObject in_gameObject)
 	{
 		var gameObj = useOtherObject && in_gameObject != null ? in_gameObject : gameObject;
 		soundEmitterObject = gameObj;
+		if (useOtherObject)
+		{
+			otherGameObject = in_gameObject;
+		}
 
 		if (enableActionOnEvent)
 		{
@@ -124,18 +149,29 @@ public class AkEvent : AkDragDropTriggerHandler
 			uint flags = 0;
 			for (var i = 0; i < Callbacks.Count; ++i)
 			{
-				if (Callbacks[i].GameObject && !string.IsNullOrEmpty(Callbacks[i].FunctionName))
+				if (Callbacks[i].GameObject)
+				{
 					flags |= Callbacks[i].Flags.value;
+				}
 			}
 
 			if (flags != 0)
 			{
-				playingId = data.Post(gameObj, flags, Callback);
+				data.Post(gameObj, flags, Callback);
 				return;
 			}
 		}
 
-		playingId = data.Post(gameObj);
+		data.Post(gameObj);
+	}
+	
+	protected void OnDisable()
+	{
+		if (stopSoundOnDestroy)
+		{
+			var gameObj = useOtherObject && otherGameObject != null ? otherGameObject : gameObject;
+			data.ExecuteAction(gameObj, AkActionOnEventType.AkActionOnEventType_Stop, (int)transitionDuration * 1000, curveInterpolation);
+		}
 	}
 
 	public void Stop(int _transitionDuration)
@@ -149,10 +185,10 @@ public class AkEvent : AkDragDropTriggerHandler
 	}
 
 	#region Obsolete
-	[System.Obsolete(AkSoundEngine.Deprecation_2018_1_2)]
-	public int eventID { get { return (int)(data == null ? AkSoundEngine.AK_INVALID_UNIQUE_ID : data.Id); } }
+	[System.Obsolete(AkUnitySoundEngine.Deprecation_2018_1_2)]
+	public int eventID { get { return (int)(data == null ? AkUnitySoundEngine.AK_INVALID_UNIQUE_ID : data.Id); } }
 
-	[System.Obsolete(AkSoundEngine.Deprecation_2018_1_6)]
+	[System.Obsolete(AkUnitySoundEngine.Deprecation_2018_1_6)]
 	public byte[] valueGuid
 	{
 		get
@@ -165,7 +201,7 @@ public class AkEvent : AkDragDropTriggerHandler
 		}
 	}
 
-	[System.Obsolete(AkSoundEngine.Deprecation_2018_1_6)]
+	[System.Obsolete(AkUnitySoundEngine.Deprecation_2018_1_6)]
 	public AkEventCallbackData m_callbackData { get { return m_callbackDataInternal; } }
 	#endregion
 
@@ -174,7 +210,7 @@ public class AkEvent : AkDragDropTriggerHandler
 	[UnityEngine.HideInInspector]
 	[UnityEngine.SerializeField]
 	[UnityEngine.Serialization.FormerlySerializedAs("eventID")]
-	private int eventIdInternal = (int)AkSoundEngine.AK_INVALID_UNIQUE_ID;
+	private int eventIdInternal = (int)AkUnitySoundEngine.AK_INVALID_UNIQUE_ID;
 	[UnityEngine.HideInInspector]
 	[UnityEngine.SerializeField]
 	[UnityEngine.Serialization.FormerlySerializedAs("valueGuid")]

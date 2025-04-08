@@ -13,8 +13,9 @@ Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
 this file in accordance with the end user license agreement provided with the
 software or, alternatively, in accordance with the terms contained
 in a written agreement between you and Audiokinetic Inc.
-Copyright (c) 2023 Audiokinetic Inc.
+Copyright (c) 2024 Audiokinetic Inc.
 *******************************************************************************/
+using UnityEngine;
 
 [UnityEditor.InitializeOnLoad]
 public class AkPortalManager
@@ -40,6 +41,11 @@ public class AkPortalManager
 
 	static AkPortalManager()
 	{
+		if (UnityEditor.AssetDatabase.IsAssetImportWorkerProcess())
+		{
+			return;
+		}
+
 		//This constructor is called before any game object is created when there is a compilation which makes the 'FindObjectsOfType' function return null.
 		//So we register the init function to be called at hte first update.
 		UnityEditor.EditorApplication.update += Init;
@@ -69,12 +75,20 @@ public class AkPortalManager
 	public void Populate()
 	{
 		//Add all environments in the scene to the environment list 
-		var akEnv = UnityEngine.Object.FindObjectsOfType<AkEnvironment>();
+#if UNITY_6000_0_OR_NEWER
+		var akEnv = Object.FindObjectsByType<AkEnvironment>(FindObjectsSortMode.None);
+#else
+		var akEnv = Object.FindObjectsOfType<AkEnvironment>();
+#endif
 		s_portalManager.EnvironmentList.Clear();
 		s_portalManager.EnvironmentList.AddRange(akEnv);
 
 		//Add all portals in the scene to the portal list 
-		var akPortals = UnityEngine.Object.FindObjectsOfType<AkEnvironmentPortal>();
+#if UNITY_6000_0_OR_NEWER
+		var akPortals = Object.FindObjectsByType<AkEnvironmentPortal>(FindObjectsSortMode.None);
+#else
+		var akPortals = Object.FindObjectsOfType<AkEnvironmentPortal>();
+#endif
 		s_portalManager.PortalList.Clear();
 		s_portalManager.PortalList.AddRange(akPortals);
 

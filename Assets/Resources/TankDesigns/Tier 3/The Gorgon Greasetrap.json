@@ -1,0 +1,271 @@
+{
+    "TankName": "The Gorgon Greasetrap",
+    "aiSettings": "Tier 3 AI Settings (Long Range)",
+    "coreInteractables": [],
+    "buildingSteps": [
+        {
+            "roomID": "Room_Elbow4B_Flipped",
+            "roomType": 1,
+            "localSpawnVector": {
+                "x": -3.5,
+                "y": 1.25,
+                "z": 0.0
+            },
+            "rotate": 0,
+            "cellInteractables": [],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
+            ]
+        },
+        {
+            "roomID": "Room_Elbow4B",
+            "roomType": 1,
+            "localSpawnVector": {
+                "x": 3.5,
+                "y": 1.25,
+                "z": 0.0
+            },
+            "rotate": 2,
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_2",
+                    "interRef": "InterEngineer_Boiler",
+                    "flipped": false,
+                    "specialAmmo": []
+                }
+            ],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
+            ]
+        },
+        {
+            "roomID": "Room_Line4A",
+            "roomType": 1,
+            "localSpawnVector": {
+                "x": 0.0,
+                "y": 1.25,
+                "z": 0.0
+            },
+            "rotate": 3,
+            "cellInteractables": [],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
+            ]
+        },
+        {
+            "roomID": "Room_Line4B",
+            "roomType": 0,
+            "localSpawnVector": {
+                "x": 1.25,
+                "y": 2.5,
+                "z": 0.0
+            },
+            "rotate": 3,
+            "cellInteractables": [],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
+            ]
+        },
+        {
+            "roomID": "Room_Line4A",
+            "roomType": 0,
+            "localSpawnVector": {
+                "x": 0.0,
+                "y": 5.75,
+                "z": 0.0
+            },
+            "rotate": 3,
+            "cellInteractables": [],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
+            ]
+        },
+        {
+            "roomID": "Room_Elbow4A",
+            "roomType": 1,
+            "localSpawnVector": {
+                "x": -3.5,
+                "y": 5.75,
+                "z": 0.0
+            },
+            "rotate": 0,
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_0",
+                    "interRef": "InterWeapon_Cannon",
+                    "flipped": true,
+                    "specialAmmo": []
+                },
+                {
+                    "cellName": "Cell_1",
+                    "interRef": "InterWeapon_MachineGun",
+                    "flipped": true,
+                    "specialAmmo": []
+                }
+            ],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
+            ]
+        },
+        {
+            "roomID": "Room_Block4A",
+            "roomType": 0,
+            "localSpawnVector": {
+                "x": -1.75,
+                "y": 7.5,
+                "z": 0.0
+            },
+            "rotate": 0,
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_1",
+                    "interRef": "InterDefense_EnergyShield",
+                    "flipped": false,
+                    "specialAmmo": []
+                },
+                {
+                    "cellName": "Cell_2",
+                    "interRef": "InterCommand_Throttle",
+                    "flipped": false,
+                    "specialAmmo": []
+                }
+            ],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
+            ]
+        },
+        {
+            "roomID": "Room_Elbow4B_Flipped",
+            "roomType": 1,
+            "localSpawnVector": {
+                "x": -3.5,
+                "y": 9.25,
+                "z": 0.0
+            },
+            "rotate": 0,
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_0",
+                    "interRef": "InterWeapon_Cannon",
+                    "flipped": true,
+                    "specialAmmo": []
+                },
+                {
+                    "cellName": "Cell_1",
+                    "interRef": "InterWeapon_MachineGun",
+                    "flipped": true,
+                    "specialAmmo": []
+                }
+            ],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
+            ]
+        },
+        {
+            "roomID": "Room_Block4A",
+            "roomType": 0,
+            "localSpawnVector": {
+                "x": 1.75,
+                "y": 7.5,
+                "z": 0.0
+            },
+            "rotate": 0,
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_0",
+                    "interRef": "InterEngineer_Boiler",
+                    "flipped": false,
+                    "specialAmmo": []
+                },
+                {
+                    "cellName": "Cell_1",
+                    "interRef": "InterCommand_Throttle",
+                    "flipped": false,
+                    "specialAmmo": []
+                },
+                {
+                    "cellName": "Cell_3",
+                    "interRef": "InterEngineer_Boiler",
+                    "flipped": false,
+                    "specialAmmo": []
+                }
+            ],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
+            ]
+        },
+        {
+            "roomID": "Room_Z4A",
+            "roomType": 1,
+            "localSpawnVector": {
+                "x": 0.0,
+                "y": 10.25,
+                "z": 0.0
+            },
+            "rotate": 0,
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_0",
+                    "interRef": "InterWeapon_Cannon",
+                    "flipped": true,
+                    "specialAmmo": []
+                }
+            ],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
+            ]
+        }
+    ],
+    "cargoNodes": [
+        {
+            "x": 1.600000023841858,
+            "y": 7.0
+        },
+        {
+            "x": 2.200000047683716,
+            "y": 7.0
+        },
+        {
+            "x": 2.0,
+            "y": 7.650000095367432
+        },
+        {
+            "x": -1.2999999523162842,
+            "y": 7.0
+        },
+        {
+            "x": -2.0,
+            "y": 7.0
+        }
+    ]
+}

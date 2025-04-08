@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0dedc56931841e4b865ac58ae8b864e, type: 3}
+  m_Name: PlaystationFaceButtons
+  m_EditorClassIdentifier: 
+  platformType: 2
+  northPrompt: {fileID: 11400000, guid: b765af2297be51e4d9168beaaba87ac7, type: 2}
+  westPrompt: {fileID: 11400000, guid: 83524a41dc5588547a56ae5090a7f8a1, type: 2}
+  eastPrompt: {fileID: 11400000, guid: 40b85dd048e72de448606913c508eefc, type: 2}
+  southPrompt: {fileID: 11400000, guid: 56288b07223172d4fafaae8f02aa8b7c, type: 2}

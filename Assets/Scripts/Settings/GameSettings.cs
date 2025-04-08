@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TowerTanks.Scripts;
+using UnityEngine.InputSystem;
 
 public enum DIFFICULTYMODE { EASY, NORMAL, HARD }
 
@@ -10,69 +12,138 @@ public struct Difficulty
     public float multiplier;
 }
 
+public enum GAMESCENE { TITLE = 0, BUILDING = 1, COMBAT = 3 };
+
+public enum PlatformType
+{
+    PC,
+    Gamepad,
+    PlayStation,
+    Switch,
+    Xbox
+}
+
 public static class GameSettings
 {
     public static bool debugMode = false;
+    public static bool customPlayerNames = false;
+    public static bool sendUserData = false;
+    public static bool skipTutorials = false;
 
     public static string controlSchemeUI = "Gamepad";
+    public static PlatformType gamePlatform;
 
-    public static float defaultBGMVolume = 0.5f;
-    public static float defaultSFXVolume = 0.5f;
-
-    public static int[,] possibleResolutions = new int[,] { { 2560, 1440 }, { 1920, 1080 }, { 1280, 720 } };
+    public static ConfigurationSettings defaultSettings = new ConfigurationSettings();
+    public static ConfigurationSettings currentSettings;
 
     public static bool mainMenuEntered = false;
-    public static bool skipTutorial = true;
+    public static bool showGamepadCursors = true;
 
     //0.5 = Easy, 1 = Normal, 1.5 = Hard
     public static float difficulty = 1f;
 
+    public static PlayerSystemSpecs systemSpecs = new PlayerSystemSpecs();
+
     public static void CheckBGM()
     {
-        Debug.Log("BGM Volume: " + PlayerPrefs.GetFloat("BGMVolume", defaultBGMVolume));
-        AkSoundEngine.SetRTPCValue("MusicVolume", PlayerPrefs.GetFloat("BGMVolume", defaultBGMVolume) * 100f);
+        AkSoundEngine.SetRTPCValue("MusicVolume", currentSettings.masterVolume * currentSettings.bgmVolume * 100f);
     }
 
     public static void CheckSFX()
     {
-        Debug.Log("SFX Volume: " + PlayerPrefs.GetFloat("SFXVolume", defaultSFXVolume));
-        AkSoundEngine.SetRTPCValue("SFXVolume", PlayerPrefs.GetFloat("SFXVolume", defaultSFXVolume) * 100f);
-    }
-
-    public static void CheckResolution()
-    {
-        Screen.SetResolution(
-            possibleResolutions[PlayerPrefs.GetInt("CurrentRes", -1), 0],
-            possibleResolutions[PlayerPrefs.GetInt("CurrentRes", -1), 1],
-            Screen.fullScreenMode);
-
-        Debug.Log("Current Resolution: " + possibleResolutions[PlayerPrefs.GetInt("CurrentRes", -1), 0] + " x " + possibleResolutions[PlayerPrefs.GetInt("CurrentRes", -1), 1]);
+        AkSoundEngine.SetRTPCValue("SFXVolume", currentSettings.masterVolume * currentSettings.sfxVolume * 100f);
     }
 
     public static void CheckFullscreen()
     {
-        switch(PlayerPrefs.GetInt("IsFullscreen", 1)){
-            case 0:
-                Debug.Log("Game Is Windowed");
-                Screen.fullScreenMode = FullScreenMode.Windowed;
-                break;
-            case 1:
-                Debug.Log("Game Is Fullscreen");
-                Screen.fullScreenMode = FullScreenMode.ExclusiveFullScreen;
-                break;
+        Screen.fullScreenMode = currentSettings.isFullScreen == 1? FullScreenMode.ExclusiveFullScreen : FullScreenMode.Windowed;
+    }
+
+    public static void CheckResolution()
+    {
+        Screen.SetResolution(ConfigurationSettings.possibleResolutions[currentSettings.resolution, 0], ConfigurationSettings.possibleResolutions[currentSettings.resolution, 1], Screen.fullScreenMode);
+    }
+
+    public static void RefreshSettings()
+    {
+        CheckBGM();
+        CheckSFX();
+        CheckFullscreen();
+        CheckResolution();
+    }
+
+    public static void ApplyDefaultSettings()
+    {
+        PlayerPrefs.SetFloat("MasterVolume", defaultSettings.masterVolume);
+        PlayerPrefs.SetFloat("BGMVolume", defaultSettings.bgmVolume);
+        PlayerPrefs.SetFloat("SFXVolume", defaultSettings.sfxVolume);
+        PlayerPrefs.SetInt("CurrentRes", defaultSettings.resolution);
+        PlayerPrefs.SetInt("IsFullscreen", defaultSettings.isFullScreen);
+        PlayerPrefs.SetInt("Screenshake", defaultSettings.screenshakeOn);
+        currentSettings = defaultSettings;
+    }
+
+    public static void CopyToClipboard(string text)
+    {
+        TextEditor textEditor = new TextEditor();
+        textEditor.text = text;
+        textEditor.SelectAll();
+        textEditor.Copy();
+        Debug.Log("Copied " + text + " to clipboard.");
+    }
+
+    /// <summary>
+    /// Gets the platform based on the device running it.
+    /// </summary>
+    /// <returns>The type for the platform the game is being run on.</returns>
+    public static PlatformType GetRunningPlatform()
+    {
+        switch (Application.platform)
+        {
+            //PlayStation
+            case RuntimePlatform.PS4:
+            case RuntimePlatform.PS5:
+                return PlatformType.PlayStation;
+            //Switch
+            case RuntimePlatform.Switch:
+                return PlatformType.Switch;
+            //Xbox
+            case RuntimePlatform.XboxOne:
+            case RuntimePlatform.GameCoreXboxSeries:
+                return PlatformType.Xbox;
+            //PC
+            default:
+                return PlatformType.PC;
         }
     }
 
-    public static void CheckScreenshake()
+    /// <summary>
+    /// Gets the platform based on the device.
+    /// </summary>
+    /// <param name="device">The input device being used.</param>
+    /// <returns>The type for the platform of the input device.</returns>
+    public static PlatformType GetDevicePlatform(InputDevice device)
     {
-        switch (PlayerPrefs.GetInt("Screenshake", 1))
+        //Base the platform on the device names (Note: all device names can be found in the Unity Input Debugger window)
+        switch (device.name)
         {
-            case 0:
-                Debug.Log("Screen Shake: Off");
-                break;
-            case 1:
-                Debug.Log("Screen Shake: On");
-                break;
+            //PC
+            case "Keyboard":
+            case "Mouse":
+                return PlatformType.PC;
+            //PlayStation
+            case "DualShock4GamepadHID":
+            case "DualSenseGamepadHID":
+                return PlatformType.PlayStation;
+            //Switch
+            case "SwitchProControllerHID":
+                return PlatformType.Switch;
+            //Xbox
+            case "XInputControllerWindows":
+                return PlatformType.Xbox;
+            //If none apply, return generic gamepad
+            default:
+                return PlatformType.Gamepad;
         }
     }
 }

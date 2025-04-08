@@ -13,7 +13,7 @@ Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
 this file in accordance with the end user license agreement provided with the
 software or, alternatively, in accordance with the terms contained
 in a written agreement between you and Audiokinetic Inc.
-Copyright (c) 2023 Audiokinetic Inc.
+Copyright (c) 2024 Audiokinetic Inc.
 *******************************************************************************/
 
 public abstract class AkObstructionOcclusion : UnityEngine.MonoBehaviour
@@ -48,7 +48,7 @@ public abstract class AkObstructionOcclusion : UnityEngine.MonoBehaviour
 
 	protected void InitIntervalsAndFadeRates()
 	{
-		refreshTime = UnityEngine.Random.Range(0.0f, refreshInterval);
+		refreshTime = refreshInterval + UnityEngine.Random.Range(0.0f, refreshInterval);
 		fadeRate = 1 / fadeTime;
 	}
 
@@ -84,7 +84,7 @@ public abstract class AkObstructionOcclusion : UnityEngine.MonoBehaviour
 
 	private void CastRays()
 	{
-		if (refreshTime > refreshInterval)
+		if (refreshTime >= refreshInterval)
 		{
 			refreshTime -= refreshInterval;
 

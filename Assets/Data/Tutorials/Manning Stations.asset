@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbf9a243000ae4742a753411665e3bc0, type: 3}
+  m_Name: Manning Stations
+  m_EditorClassIdentifier: 
+  header: Manning Stations
+  tutorialPages:
+  - tutorialImage: {fileID: 21300000, guid: a1cd9ad967aa7c646b5e094b92d7ad6f, type: 3}
+    tutorialText: '<br><br>IMPORTANT: You''ll need to man your tank''s Stations in
+      order for it to function!<br><br>MAN STATION: [Interact] '
+  - tutorialImage: {fileID: 21300000, guid: 5e9c84b5df19b474787df101b86888af, type: 3}
+    tutorialText: 'Engine Controls:<br><br>ADD POWER: [Interact] (Hold and Release)<br><br>RELEASE
+      STEAM: [Repair] (Hold)'
+  - tutorialImage: {fileID: 21300000, guid: b7293e5361b1c7b42bcb4a0fb21af643, type: 3}
+    tutorialText: 'Throttle Controls:<br><br>STEER: [MoveG] or [MoveD]'
+  - tutorialImage: {fileID: 21300000, guid: 5f9ad540ea94bd94a83ebb2f9e46437d, type: 3}
+    tutorialText: 'Weapon Controls:<br><br>AIM: [MoveG] (Rotate Stick in a Circle)<br><br>FIRE:
+      [Interact]'
+  - tutorialImage: {fileID: 21300000, guid: 68765316d996b5d4b86e594f61e431d6, type: 3}
+    tutorialText: 'For All:<br><br>EXIT STATION: [Cancel]'

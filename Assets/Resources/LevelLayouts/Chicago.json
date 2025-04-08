@@ -1,0 +1,20 @@
+{
+    "chunks": [
+        "TestChunkFLAT",
+        "TestChunkFLAT",
+        "TestChunkFLAT",
+        "CityBlock1",
+        "TestChunkFLAT",
+        "MetalBridge",
+        "TestChunkFLAT",
+        "TestChunkSlopeUP",
+        "TestChunkSlopeUP",
+        "CityBlock1",
+        "TestChunkFLAT",
+        "MetalRampDOWN",
+        "MetalRampDOWN",
+        "MetalRampDOWN",
+        "TestChunkFLAT",
+        "TestChunkFLAT"
+    ]
+}

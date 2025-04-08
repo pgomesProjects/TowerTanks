@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbf9a243000ae4742a753411665e3bc0, type: 3}
+  m_Name: To Arms!
+  m_EditorClassIdentifier: 
+  header: To Arms!
+  tutorialPages:
+  - tutorialImage: {fileID: 21300000, guid: 7610aa51fe0a4b34e9828f3c098ba41e, type: 3}
+    tutorialText: 'Mission Complete!<br><br>Advance to the red flag to continue to
+      the next mission!<br><br>TIP: You can view any previous tutorials in the Pause
+      Menu. (Press START)'
+  - tutorialImage: {fileID: 21300000, guid: 7312eb3ae081223498124af7caf4bb66, type: 3}
+    tutorialText: Bug Reports:<br><br>If you see or find any issues, please report
+      them using our Bug Report feature. (Press SELECT)
+  - tutorialImage: {fileID: 21300000, guid: 9986e86bca4d0974d91bee2037214a81, type: 3}
+    tutorialText: <br><br>Thank you for playing!

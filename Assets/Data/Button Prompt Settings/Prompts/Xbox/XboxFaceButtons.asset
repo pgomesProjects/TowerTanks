@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0dedc56931841e4b865ac58ae8b864e, type: 3}
+  m_Name: XboxFaceButtons
+  m_EditorClassIdentifier: 
+  platformType: 4
+  northPrompt: {fileID: 11400000, guid: 5e406fcb69062db41a421e0d4d19a8f2, type: 2}
+  westPrompt: {fileID: 11400000, guid: 5d26e4cf75489704cadae8ed199063e0, type: 2}
+  eastPrompt: {fileID: 11400000, guid: 75300faeb85f18741b2bb8c6ba328cce, type: 2}
+  southPrompt: {fileID: 11400000, guid: bc4e35659886ae048bd1aadff11c3905, type: 2}

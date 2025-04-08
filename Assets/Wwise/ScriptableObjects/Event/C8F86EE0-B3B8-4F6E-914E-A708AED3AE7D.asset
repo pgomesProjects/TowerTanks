@@ -15,3 +15,5 @@ MonoBehaviour:
   objectName: wind_ambience
   id: 2737219330
   guid: C8F86EE0-B3B8-4F6E-914E-A708AED3AE7D
+  IsInUserDefinedSoundBank: 1
+  IsAutoBankLoaded: 0

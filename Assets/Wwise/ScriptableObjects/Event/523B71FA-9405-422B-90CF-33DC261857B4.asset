@@ -15,3 +15,5 @@ MonoBehaviour:
   objectName: death_stinger
   id: 1015288770
   guid: 523B71FA-9405-422B-90CF-33DC261857B4
+  IsInUserDefinedSoundBank: 1
+  IsAutoBankLoaded: 0

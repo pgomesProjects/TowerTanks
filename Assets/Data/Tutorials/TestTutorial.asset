@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbf9a243000ae4742a753411665e3bc0, type: 3}
+  m_Name: TestTutorial
+  m_EditorClassIdentifier: 
+  header: Testing The Tutorial
+  tutorialPages:
+  - tutorialImage: {fileID: 0}
+    tutorialText: This is an example tutorial!
+  - tutorialImage: {fileID: 21300000, guid: 67d27db3441fab94d8d5f3c2defded90, type: 3}
+    tutorialText: This is to show that the tutorial stuff is working. Now press [Jetpack]
+      to close it.

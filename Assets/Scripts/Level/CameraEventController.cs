@@ -6,7 +6,7 @@ using Cinemachine;
 
 public class CameraEventController : MonoBehaviour
 {
-    public static CameraEventController instance;
+    public static CameraEventController Instance;
 
     [SerializeField, Tooltip("The camera for in-game events.")] private CinemachineVirtualCamera _gameCamera;
     [SerializeField, Tooltip("The camera for cinematic transitions.")] private CinemachineVirtualCamera _cinematicCamera;
@@ -31,7 +31,7 @@ public class CameraEventController : MonoBehaviour
 
     private void Awake()
     {
-        instance = this;
+        Instance = this;
 
         //Adds each camera to the list of cameras.
         cameras.Add(_gameCamera);
@@ -94,7 +94,7 @@ public class CameraEventController : MonoBehaviour
     public void ShakeCamera(float intensity, float seconds, float hapticsAmplitude = 0.75f)
     {
         //If the users have Screenshake turned on
-        if(PlayerPrefs.GetInt("Screenshake", 1) == 1)
+        if(GameSettings.currentSettings.screenshakeOn == 1)
         {
             //Set the amplitude gain of the camera
             CinemachineBasicMultiChannelPerlin cinemachineBasicMultiChannelPerlin = _currentActiveCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();

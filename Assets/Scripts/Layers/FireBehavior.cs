@@ -2,96 +2,90 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FireBehavior : MonoBehaviour
+namespace TowerTanks.Scripts.Deprecated
 {
-    [SerializeField, Tooltip("The amount of time it takes for the fire to deal damage.")] private float fireTickSeconds;
-    [SerializeField] private int damagePerTick = 5;
-    [SerializeField, Tooltip("The multiplier for the speed that the fire takes to be put out when more players put out the fire.")] private float multiplierSpeed;
-    public GameObject fireParticle;
-    private GameObject[] currentParticles;
-    private float currentTimer;
-    private bool layerOnFire;
-    private List<PlayerController> playersPuttingOutFire = new List<PlayerController>();
-
-    private void OnEnable()
+    public class FireBehavior : MonoBehaviour
     {
-        CreateFires(1);
-        layerOnFire = true;
-        currentTimer = 0;
-        GameManager.Instance.AudioManager.Play("FireBurningSFX", gameObject);
-    }
+        [SerializeField, Tooltip("The amount of time it takes for the fire to deal damage.")] private float fireTickSeconds;
+        [SerializeField] private int damagePerTick = 5;
+        [SerializeField, Tooltip("The multiplier for the speed that the fire takes to be put out when more players put out the fire.")] private float multiplierSpeed;
+        public GameObject fireParticle;
+        private GameObject[] currentParticles;
+        private float currentTimer;
+        private bool layerOnFire;
+        private List<PlayerController> playersPuttingOutFire = new List<PlayerController>();
 
-    private void OnDisable()
-    {
-        layerOnFire = false;
-        if(LevelManager.instance.levelPhase == GAMESTATE.TUTORIAL)
+        private void OnEnable()
         {
-            if(TutorialController.main.currentTutorialState == TUTORIALSTATE.PUTOUTFIRE)
+            CreateFires(1);
+            layerOnFire = true;
+            currentTimer = 0;
+            GameManager.Instance.AudioManager.Play("FireBurningSFX", gameObject);
+        }
+
+        private void OnDisable()
+        {
+            layerOnFire = false;
+            GameManager.Instance.AudioManager.Stop("FireBurningSFX", gameObject);
+            playersPuttingOutFire.Clear();
+        }
+
+        private void CreateFires(int firesToCreate)
+        {
+            float randomX = Random.Range(-5f, 5f);
+            float randomY = Random.Range(-2f, 2f);
+
+            for (int f = 0; f < firesToCreate; f++)
             {
-                TutorialController.main.OnTutorialTaskCompletion();
+                var childFire = Instantiate(fireParticle, new Vector3(transform.position.x + randomX, transform.position.y + randomY, transform.position.z), Quaternion.identity, this.transform);
+                childFire.transform.localScale = Vector3.one;
             }
         }
 
-        GameManager.Instance.AudioManager.Stop("FireBurningSFX", gameObject);
-
-        playersPuttingOutFire.Clear();
-    }
-
-    private void CreateFires(int firesToCreate)
-    {
-        float randomX = Random.Range(-5f, 5f);
-        float randomY = Random.Range(-2f, 2f);
-
-        for (int f = 0; f < firesToCreate; f++)
+        // Update is called once per frame
+        void Update()
         {
-            var childFire = Instantiate(fireParticle, new Vector3(transform.position.x + randomX, transform.position.y + randomY, transform.position.z), Quaternion.identity, this.transform);
-            childFire.transform.localScale = Vector3.one;
-        }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (layerOnFire)
-        {
-            currentTimer += Time.deltaTime;
-
-            if(currentTimer > fireTickSeconds)
+            if (layerOnFire)
             {
-                if(LevelManager.instance.levelPhase == GAMESTATE.GAMEACTIVE)
-                    GetComponentInParent<LayerManager>().DealDamage(damagePerTick, false);
-                currentTimer = 0;
+                currentTimer += Time.deltaTime;
+
+                if (currentTimer > fireTickSeconds)
+                {
+                    if (LevelManager.Instance.levelPhase != GAMESTATE.GAMEOVER)
+                        GetComponentInParent<LayerManager>().DealDamage(damagePerTick, false);
+                    currentTimer = 0;
+                }
             }
         }
-    }
 
-    public void AddPlayerPuttingOutFire(PlayerController currentPlayer)
-    {
-        if (!playersPuttingOutFire.Contains(currentPlayer))
+        public void AddPlayerPuttingOutFire(PlayerController currentPlayer)
         {
-            playersPuttingOutFire.Add(currentPlayer);
-            UpdatePlayerActionSpeed();
+            if (!playersPuttingOutFire.Contains(currentPlayer))
+            {
+                playersPuttingOutFire.Add(currentPlayer);
+                UpdatePlayerActionSpeed();
+            }
         }
-    }
 
-    public void RemovePlayerPuttingOutFire(PlayerController currentPlayer)
-    {
-        if (playersPuttingOutFire.Contains(currentPlayer))
+        public void RemovePlayerPuttingOutFire(PlayerController currentPlayer)
         {
-            playersPuttingOutFire.Remove(currentPlayer);
-            UpdatePlayerActionSpeed();
+            if (playersPuttingOutFire.Contains(currentPlayer))
+            {
+                playersPuttingOutFire.Remove(currentPlayer);
+                UpdatePlayerActionSpeed();
+            }
         }
+
+        private void UpdatePlayerActionSpeed()
+        {
+            float currentMultiplier = 1f;
+            for (int i = 1; i < playersPuttingOutFire.Count; i++)
+                currentMultiplier *= multiplierSpeed;
+
+            foreach (var player in playersPuttingOutFire)
+                player.SetActionSpeed(player.GetFireRemoverSpeed() * currentMultiplier);
+        }
+
+        public bool IsLayerOnFire() => layerOnFire;
     }
-
-    private void UpdatePlayerActionSpeed()
-    {
-        float currentMultiplier = 1f;
-        for (int i = 1; i < playersPuttingOutFire.Count; i++)
-            currentMultiplier *= multiplierSpeed;
-
-        foreach(var player in playersPuttingOutFire)
-            player.SetActionSpeed(player.GetFireRemoverSpeed() * currentMultiplier);
-    }
-
-    public bool IsLayerOnFire() => layerOnFire;
 }

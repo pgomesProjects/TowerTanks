@@ -30,6 +30,21 @@ TagManager:
   - PlayerContainer
   - Dumpster
   - Scrap
+  - CursorCanvas
+  - SpawnPoint
+  - DebugPlayer
+  - Destructible
+  - Cargo
+  - CharacterVisual
+  - Ground
+  - EnergyShield
+  - GameUI
+  - PlayerName
+  - PlayerAvatars
+  - RadarCam
+  - SymbolContainer
+  - Hatch
+  - SuctionZone
   layers:
   - Default
   - TransparentFX
@@ -46,23 +61,23 @@ TagManager:
   - Confiner
   - TankCollider
   - Particles
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Cell
+  - Connector
+  - Treads
+  - Coupler
+  - InteractHitbox
+  - Projectiles
+  - Camera
+  - LadderEnd
+  - EnergyShield
+  - TankCamA
+  - TankCamB
+  - TankCamC
+  - RadarCam
+  - Ghost
+  - Dummy
+  - StopPlayer
+  - Hatch
   m_SortingLayers:
   - name: Background
     uniqueID: 4048462669

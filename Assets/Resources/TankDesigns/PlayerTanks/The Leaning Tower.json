@@ -1,0 +1,192 @@
+{
+    "TankName": "The Leaning Tower",
+    "aiSettings": "None",
+    "coreInteractables": [],
+    "buildingSteps": [
+        {
+            "roomID": "Room_Line4A",
+            "roomType": 0,
+            "localSpawnVector": {
+                "x": 0.0,
+                "y": 1.25,
+                "z": 0.0
+            },
+            "rotate": 3,
+            "cellInteractables": [],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
+            ]
+        },
+        {
+            "roomID": "Room_Block4A",
+            "roomType": 0,
+            "localSpawnVector": {
+                "x": 0.0,
+                "y": 6.25,
+                "z": 0.0
+            },
+            "rotate": 0,
+            "cellInteractables": [],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
+            ]
+        },
+        {
+            "roomID": "Room_Line2A",
+            "roomType": 0,
+            "localSpawnVector": {
+                "x": 0.0,
+                "y": 8.0,
+                "z": 0.0
+            },
+            "rotate": 0,
+            "cellInteractables": [],
+            "cellManifest": [
+                true,
+                true
+            ]
+        },
+        {
+            "roomID": "Room_Tee4A",
+            "roomType": 0,
+            "localSpawnVector": {
+                "x": 0.0,
+                "y": 11.5,
+                "z": 0.0
+            },
+            "rotate": 2,
+            "cellInteractables": [],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
+            ]
+        },
+        {
+            "roomID": "Room_Line4A",
+            "roomType": 0,
+            "localSpawnVector": {
+                "x": 0.0,
+                "y": 12.75,
+                "z": 0.0
+            },
+            "rotate": 3,
+            "cellInteractables": [],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
+            ]
+        },
+        {
+            "roomID": "Room_Line4A",
+            "roomType": 0,
+            "localSpawnVector": {
+                "x": 0.0,
+                "y": 17.25,
+                "z": 0.0
+            },
+            "rotate": 3,
+            "cellInteractables": [],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
+            ]
+        },
+        {
+            "roomID": "Room_Tee4A",
+            "roomType": 0,
+            "localSpawnVector": {
+                "x": 0.0,
+                "y": 23.0,
+                "z": 0.0
+            },
+            "rotate": 2,
+            "cellInteractables": [],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
+            ]
+        },
+        {
+            "roomID": "Room_Z4B",
+            "roomType": 0,
+            "localSpawnVector": {
+                "x": -2.25,
+                "y": 17.25,
+                "z": 0.0
+            },
+            "rotate": 0,
+            "cellInteractables": [],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
+            ]
+        },
+        {
+            "roomID": "Room_Tee4C_Flipped",
+            "roomType": 0,
+            "localSpawnVector": {
+                "x": 1.25,
+                "y": 16.5,
+                "z": 0.0
+            },
+            "rotate": 1,
+            "cellInteractables": [],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
+            ]
+        },
+        {
+            "roomID": "Room_Elbow4B_Flipped",
+            "roomType": 0,
+            "localSpawnVector": {
+                "x": -3.5,
+                "y": 1.25,
+                "z": 0.0
+            },
+            "rotate": 0,
+            "cellInteractables": [],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
+            ]
+        },
+        {
+            "roomID": "Room_Elbow4B",
+            "roomType": 0,
+            "localSpawnVector": {
+                "x": 3.5,
+                "y": 1.25,
+                "z": 0.0
+            },
+            "rotate": 2,
+            "cellInteractables": [],
+            "cellManifest": [
+                true,
+                true,
+                true,
+                true
+            ]
+        }
+    ]
+}

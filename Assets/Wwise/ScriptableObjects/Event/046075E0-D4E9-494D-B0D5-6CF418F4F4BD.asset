@@ -15,3 +15,5 @@ MonoBehaviour:
   objectName: text_beep
   id: 2012015775
   guid: 046075E0-D4E9-494D-B0D5-6CF418F4F4BD
+  IsInUserDefinedSoundBank: 1
+  IsAutoBankLoaded: 0

@@ -1,0 +1,50 @@
+{
+ "ProjectInfo": {
+  "Project": {
+   "Name": "TowerTanks_WwiseProject",
+   "GUID": "{BA05CB12-A567-445D-80D6-FDC238A55C7F}",
+   "Generator": "2024.1.1.8691"
+  },
+  "CacheRoot": "../../../../TowerTanks_WwiseProject/.cache",
+  "Platforms": [
+   {
+    "Name": "Android",
+    "GUID": "{795485E3-920E-44CF-AA7A-45148A9F6456}",
+    "BasePlatform": "Android",
+    "BasePlatformGUID": "{A2D401DE-B8B6-4FEB-8142-137C34D507CA}",
+    "Path": "../../../../TowerTanks_WwiseProject/GeneratedSoundBanks/Android"
+   },
+   {
+    "Name": "Linux",
+    "GUID": "{C732FEFC-5961-4EE5-8012-42FE8C84922B}",
+    "BasePlatform": "Linux",
+    "BasePlatformGUID": "{BD0BDF13-3125-454F-8BFD-319537169F81}",
+    "Path": "../../../../TowerTanks_WwiseProject/GeneratedSoundBanks/Linux"
+   },
+   {
+    "Name": "Mac",
+    "GUID": "{EBA0A4C7-AD3F-49AA-89F2-39F1625CD53A}",
+    "BasePlatform": "Mac",
+    "BasePlatformGUID": "{9C6217D5-DD11-4795-87C1-6CE02853C540}",
+    "Path": "../../../../TowerTanks_WwiseProject/GeneratedSoundBanks/Mac"
+   },
+   {
+    "Name": "Windows",
+    "GUID": "{80506664-EBEB-463A-86A6-FA1BC5514E71}",
+    "BasePlatform": "Windows",
+    "BasePlatformGUID": "{6E0CB257-C6C8-4C5C-8366-2740DFC441EB}",
+    "Path": "../../../../TowerTanks_WwiseProject/GeneratedSoundBanks/Windows"
+   }
+  ],
+  "Languages": [
+   {
+    "Name": "English(US)",
+    "Id": "684519430",
+    "GUID": "{290B6272-BDF3-44E8-81BE-D0DD8B4B3D0E}",
+    "Default": "true",
+    "UseAsStandIn": "true"
+   }
+  ],
+  "FileHash": "{DC3834E2-1F3E-CB5F-8EBC-7943CD98C99C}"
+ }
+}

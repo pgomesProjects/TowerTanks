@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c3d0e18fcfe0f14cb54f2ce2f22c0b4, type: 3}
+  m_Name: RoomData
+  m_EditorClassIdentifier: 
+  couplerWidth: 0.9
+  couplerPrefab: {fileID: 2058727034134722118, guid: 0034e2d779710bf418d9ad96f180d0dc, type: 3}
+  hatchPrefab: {fileID: 2058727034134722118, guid: 28f931da14025d94b8cf65788261533b, type: 3}
+  ladderPrefab: {fileID: 5516058462407545099, guid: 8f0cd5126ff980641b7d284066d1773e, type: 3}
+  shortLadderPrefab: {fileID: 5516058462407545099, guid: d8c2898d313769d4782269306132f4d5, type: 3}
+  platformPrefab: {fileID: 5516058462407545099, guid: adc83aaa1ecb6254c954e63987b3d7e5, type: 3}
+  slotIndicator: {fileID: 2807317277340653817, guid: 5ff77f9a52b053b41b8982b424ac56a4, type: 3}
+  dummyMaterials:
+  - {fileID: 6200000, guid: 76d758e1d4585dc46a44b7f2afbcb6d3, type: 2}
+  - {fileID: 6200000, guid: 44b8c9fd0719a9a4995830c6d405751e, type: 2}
+  fireBackLayer: {fileID: 2015639804448943819, guid: 92be10804df6ee7459966241ab346be2, type: 3}
+  roomAnimator: {fileID: 5763303651882044135, guid: ef82c30fdcc0fb94e9483164d82ef80e, type: 3}
+  interactableList:
+  - {fileID: 917774235452588900, guid: 34b0c3d4656ef5045ac437235b33d2f3, type: 3}
+  - {fileID: 1789302742507130491, guid: 4c9471e38aa55d54d9cac81b6976812c, type: 3}
+  - {fileID: 5015744295796166023, guid: 9db0351e829fb35458967d2f96877466, type: 3}
+  - {fileID: 7839714823246331611, guid: ce809443ce2449f44a4109181a1d60ce, type: 3}
+  - {fileID: 8306713773444683921, guid: 81dde3955239f28438ad5263ed2c4a16, type: 3}
+  - {fileID: 7281501281902775960, guid: 4b503e72c2ea1f74a90e1375e08df7b7, type: 3}
+  - {fileID: 7281501281902775960, guid: 2e51fe5fceaee5e41916aae7949336c8, type: 3}
+  - {fileID: 5187944172739883115, guid: 978f43829255d8d4c8791407597e5ce3, type: 3}
+  - {fileID: 8786575114440579556, guid: ec2891b163a8bd9498d286636eaf3c4b, type: 3}
+  - {fileID: 7281501281902775960, guid: a1cd0b3104f2b3d46b2cb33e03dfbe48, type: 3}
+  roomTypeColors:
+  - {r: 0.69803923, g: 0.69803923, b: 0.69803923, a: 1}
+  - {r: 0.6735294, g: 0.7652856, b: 0.8980392, a: 1}
+  - {r: 0.8980392, g: 0.83556694, b: 0.6735294, a: 1}
+  - {r: 0.8867924, g: 0.57446295, b: 0.5824981, a: 1}

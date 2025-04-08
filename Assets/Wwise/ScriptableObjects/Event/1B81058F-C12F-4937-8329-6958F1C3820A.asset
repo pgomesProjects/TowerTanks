@@ -15,3 +15,5 @@ MonoBehaviour:
   objectName: character_use
   id: 3289544510
   guid: 1B81058F-C12F-4937-8329-6958F1C3820A
+  IsInUserDefinedSoundBank: 1
+  IsAutoBankLoaded: 0

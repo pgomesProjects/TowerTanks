@@ -12,7 +12,7 @@ Licensees holding valid licenses to the AUDIOKINETIC Wwise Technology may use
 this file in accordance with the end user license agreement provided with the
 software or, alternatively, in accordance with the terms contained
 in a written agreement between you and Audiokinetic Inc.
-Copyright (c) 2023 Audiokinetic Inc.
+Copyright (c) 2024 Audiokinetic Inc.
 *******************************************************************************/
 
 #if ! (UNITY_DASHBOARD_WIDGET || UNITY_WEBPLAYER || UNITY_WII || UNITY_WIIU || UNITY_NACL || UNITY_FLASH || UNITY_BLACKBERRY) // Disable under unsupported platforms.
@@ -23,6 +23,18 @@ namespace AK.Wwise
 	///@brief This type represents the base for all Wwise Types that require a GUID.
 	public abstract class BaseType
 	{
+		// System.Web.Util.HashCodeCombiner.CombineHashCodes(System.Int32, System.Int32): http://referencesource.microsoft.com/#System.Web/Util/HashCodeCombiner.cs,21fb74ad8bb43f6b
+		// System.Array.CombineHashCodes(System.Int32, System.Int32): http://referencesource.microsoft.com/#mscorlib/system/array.cs,87d117c8cc772cca
+		public static int CombineHashCodes(int[] hashCodes)
+		{
+			int hash = 5381;
+
+			foreach (var hashCode in hashCodes)
+				hash = ((hash << 5) + hash) ^ hashCode;
+
+			return hash;
+		}
+
 		public abstract WwiseObjectReference ObjectReference { get; set; }
 
 		public abstract WwiseObjectType WwiseObjectType { get; }
@@ -34,11 +46,11 @@ namespace AK.Wwise
 
 		public uint Id
 		{
-			get { return IsValid() ? ObjectReference.Id : AkSoundEngine.AK_INVALID_UNIQUE_ID; }
+			get { return IsValid() ? ObjectReference.Id : AkUnitySoundEngine.AK_INVALID_UNIQUE_ID; }
 		}
 		public static uint InvalidId
 		{
-			get { return AkSoundEngine.AK_INVALID_UNIQUE_ID; }
+			get { return AkUnitySoundEngine.AK_INVALID_UNIQUE_ID; }
 		}
 
 		public virtual bool IsValid()
@@ -58,7 +70,7 @@ namespace AK.Wwise
 		protected void Verify(AKRESULT result)
 		{
 #if UNITY_EDITOR
-			if (result != AKRESULT.AK_Success && AkSoundEngine.IsInitialized())
+			if (result != AKRESULT.AK_Success && AkUnitySoundEngine.IsInitialized())
 				UnityEngine.Debug.LogWarning("Unsuccessful call made on " + GetType().Name + ".");
 #endif
 		}
@@ -75,14 +87,27 @@ namespace AK.Wwise
 		}
 #endif
 
+		public override int GetHashCode()
+		{
+			int[] hashCodes = new[]
+			{
+				ObjectReference.GetHashCode(),
+				WwiseObjectType.GetHashCode(),
+				Name.GetHashCode(),
+				Id.GetHashCode()
+			};
+
+			return CombineHashCodes(hashCodes);
+		}
+
 		#region Obsolete
-		[System.Obsolete(AkSoundEngine.Deprecation_2018_1_2)]
+		[System.Obsolete(AkUnitySoundEngine.Deprecation_2018_1_2)]
 		public int ID
 		{
 			get { return (int)Id; }
 		}
 
-		[System.Obsolete(AkSoundEngine.Deprecation_2018_1_6)]
+		[System.Obsolete(AkUnitySoundEngine.Deprecation_2018_1_6)]
 		public byte[] valueGuid
 		{
 			get

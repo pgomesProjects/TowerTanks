@@ -3,75 +3,121 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-[System.Serializable]
-public class MenuEvent : UnityEvent<int> { }
-
-
-
-public class OptionsMenuController : MonoBehaviour
+namespace TowerTanks.Scripts
 {
-    [SerializeField] private MenuController bgmController;
-    [SerializeField] private MenuController sfxController;
-    [SerializeField] private MenuController resController;
-    [SerializeField] private MenuController fullscreenController;
-    [SerializeField] private MenuController shakeController;
+    [System.Serializable]
+    public class MenuEvent : UnityEvent<int> { }
 
-    private void OnEnable()
+    public class OptionsMenuController : MonoBehaviour
     {
-        SetupMenu();
-    }
+        [SerializeField] private MenuController masterController;
+        [SerializeField] private MenuController bgmController;
+        [SerializeField] private MenuController sfxController;
+        [SerializeField] private MenuController resController;
+        [SerializeField] private MenuController fullscreenController;
+        [SerializeField] private MenuController shakeController;
+        [SerializeField] private MenuController rumbleController;
 
-    private void SetupMenu()
-    {
-        float setVal;
+        [Space()]
+        [SerializeField, Tooltip("The test rumble used in the settings.")] private HapticsSettings testRumble;
 
-        //BGM Settings
-        setVal = PlayerPrefs.GetFloat("BGMVolume", GameSettings.defaultBGMVolume) * 10f;
-        bgmController.SetIndex((int)setVal);
+        private void OnEnable()
+        {
+            SetupMenu();
+        }
 
-        //SFX Settings
-        setVal = PlayerPrefs.GetFloat("SFXVolume", GameSettings.defaultSFXVolume) * 10f;
-        sfxController.SetIndex((int)setVal);
+        private void SetupMenu()
+        {
+            float setVal;
 
-        //Res Settings
-        resController.SetIndex(PlayerPrefs.GetInt("CurrentRes", -1));
+            //Master Settings
+            setVal = GameSettings.currentSettings.masterVolume * 10f;
+            masterController.SetIndex((int)setVal);
 
-        //Fullscreen Settings
-        fullscreenController.SetIndex(PlayerPrefs.GetInt("IsFullscreen", 1));
+            //BGM Settings
+            setVal = GameSettings.currentSettings.bgmVolume * 10f;
+            bgmController.SetIndex((int)setVal);
 
-        //Screenshake Settings
-        shakeController.SetIndex(PlayerPrefs.GetInt("Screenshake", 1));
-    }
+            //SFX Settings
+            setVal = GameSettings.currentSettings.sfxVolume * 10f;
+            sfxController.SetIndex((int)setVal);
 
-    public void ChangeBGM(int val)
-    {
-        PlayerPrefs.SetFloat("BGMVolume", val * 0.1f);
-        GameSettings.CheckBGM();
-        GameManager.Instance.AudioManager.UpdateMusicVolume();
-    }
+            //Res Settings
+            resController.SetIndex(GameSettings.currentSettings.resolution);
 
-    public void ChangeSFX(int val)
-    {
-        PlayerPrefs.SetFloat("SFXVolume", val * 0.1f);
-        GameSettings.CheckSFX();
-        GameManager.Instance.AudioManager.UpdateSFXVolume();
-    }
+            //Fullscreen Settings
+            fullscreenController.SetIndex(GameSettings.currentSettings.isFullScreen);
 
-    public void ChangeRes(int val)
-    {
-        PlayerPrefs.SetInt("CurrentRes", val);
-        GameSettings.CheckResolution();
-    }
+            //Screenshake Settings
+            shakeController.SetIndex(GameSettings.currentSettings.screenshakeOn);
 
-    public void ChangeFullscreen(int val)
-    {
-        PlayerPrefs.SetInt("IsFullscreen", val);
-        GameSettings.CheckFullscreen();
-    }
+            //Rumble Settings
+            rumbleController.SetIndex(GameSettings.currentSettings.rumbleOn);
+        }
 
-    public void ChangeScreenshake(int val)
-    {
-        PlayerPrefs.SetInt("Screenshake", val);
-        GameSettings.CheckScreenshake();
+        public void ChangeMaster(int val)
+        {
+            PlayerPrefs.SetFloat("MasterVolume", val * 0.1f);
+            GameSettings.currentSettings.SetMasterVolume(val * 0.1f);
+            GameSettings.CheckBGM();
+            GameManager.Instance.AudioManager.UpdateMasterVolume();
+        }
+
+        public void ChangeBGM(int val)
+        {
+            PlayerPrefs.SetFloat("BGMVolume", val * 0.1f);
+            GameSettings.currentSettings.SetBGMVolume(val * 0.1f);
+            GameSettings.CheckBGM();
+            GameManager.Instance.AudioManager.UpdateMusicVolume();
+        }
+
+        public void ChangeSFX(int val)
+        {
+            PlayerPrefs.SetFloat("SFXVolume", val * 0.1f);
+            GameSettings.currentSettings.SetSFXVolume(val * 0.1f);
+            GameSettings.CheckSFX();
+            GameManager.Instance.AudioManager.UpdateSFXVolume();
+        }
+
+        public void ChangeRes(int val)
+        {
+            PlayerPrefs.SetInt("CurrentRes", val);
+            GameSettings.currentSettings.SetResolution(val);
+            GameSettings.CheckResolution();
+        }
+
+        public void ChangeFullscreen(int val)
+        {
+            PlayerPrefs.SetInt("IsFullscreen", val);
+            GameSettings.currentSettings.SetFullscreen(val);
+            GameSettings.CheckFullscreen();
+        }
+
+        public void ChangeScreenshake(int val)
+        {
+            PlayerPrefs.SetInt("Screenshake", val);
+            GameSettings.currentSettings.SetScreenshakeOn(val);
+        }
+
+        public void ChangeRumble(int val)
+        {
+            PlayerPrefs.SetInt("Rumble", val);
+            GameSettings.currentSettings.SetRumbleOn(val);
+
+            //If the value is 1, provide a test rumble
+            if (val == 1)
+            {
+                int playerIndex = 0;
+
+                if(PauseController.Instance != null)
+                {
+                    playerIndex = PauseController.Instance.GetCurrentPlayerPaused();
+                    if (playerIndex < 0)
+                        playerIndex = 0;
+                }
+
+                GameManager.Instance.SystemEffects.ApplyControllerHaptics(GameManager.Instance.MultiplayerManager.GetPlayerDataAt(playerIndex).playerInput, testRumble);
+            }
+        }
     }
 }

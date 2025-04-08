@@ -15,3 +15,5 @@ MonoBehaviour:
   objectName: medium_explosion
   id: 2121623384
   guid: 6AB4C6D4-D5C0-49C2-BD18-76D449821BDB
+  IsInUserDefinedSoundBank: 1
+  IsAutoBankLoaded: 0

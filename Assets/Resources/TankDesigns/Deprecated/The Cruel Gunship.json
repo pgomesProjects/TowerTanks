@@ -1,0 +1,190 @@
+{
+    "TankName": "The Cruel Gunship",
+    "coreInteractables": [],
+    "buildingSteps": [
+        {
+            "roomID": "Room_Line4B",
+            "roomType": 3,
+            "localSpawnVector": {
+                "x": -0.9799995422363281,
+                "y": 1.260000228881836,
+                "z": 0.0
+            },
+            "rotate": 0,
+            "cellInteractables": []
+        },
+        {
+            "roomID": "Room_Tee4A",
+            "roomType": 4,
+            "localSpawnVector": {
+                "x": -3.479999542236328,
+                "y": 1.260000228881836,
+                "z": 0.0
+            },
+            "rotate": 1,
+            "cellInteractables": []
+        },
+        {
+            "roomID": "Room_Line2B",
+            "roomType": 2,
+            "localSpawnVector": {
+                "x": -4.729999542236328,
+                "y": 1.260000228881836,
+                "z": 0.0
+            },
+            "rotate": 0,
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_0",
+                    "interRef": "InterEngineer_Boiler",
+                    "flipped": false
+                }
+            ]
+        },
+        {
+            "roomID": "Room_Block4A",
+            "roomType": 2,
+            "localSpawnVector": {
+                "x": 1.7700004577636719,
+                "y": 3.010000467300415,
+                "z": 0.0
+            },
+            "rotate": 0,
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_1",
+                    "interRef": "InterLogistics_Refuel",
+                    "flipped": false
+                },
+                {
+                    "cellName": "Cell_2",
+                    "interRef": "InterEngineer_Boiler",
+                    "flipped": false
+                }
+            ]
+        },
+        {
+            "roomID": "Room_Block4A",
+            "roomType": 2,
+            "localSpawnVector": {
+                "x": -0.4799995422363281,
+                "y": 3.010000467300415,
+                "z": 0.0
+            },
+            "rotate": 0,
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_1",
+                    "interRef": "InterLogistics_Refuel",
+                    "flipped": false
+                },
+                {
+                    "cellName": "Cell_2",
+                    "interRef": "InterEngineer_Boiler",
+                    "flipped": false
+                }
+            ]
+        },
+        {
+            "roomID": "Room_Line2A",
+            "roomType": 3,
+            "localSpawnVector": {
+                "x": -2.229999542236328,
+                "y": 2.510000228881836,
+                "z": 0.0
+            },
+            "rotate": 0,
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_0",
+                    "interRef": "InterWeapon_Cannon",
+                    "flipped": true
+                }
+            ]
+        },
+        {
+            "roomID": "Room_Line4A",
+            "roomType": 1,
+            "localSpawnVector": {
+                "x": 3.520000457763672,
+                "y": 0.010000228881835938,
+                "z": 0.0
+            },
+            "rotate": 3,
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_0",
+                    "interRef": "InterCommand_Throttle",
+                    "flipped": false
+                }
+            ]
+        },
+        {
+            "roomID": "Room_Elbow3A",
+            "roomType": 3,
+            "localSpawnVector": {
+                "x": 0.2700004577636719,
+                "y": 4.760000228881836,
+                "z": 0.0
+            },
+            "rotate": 3,
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_0",
+                    "interRef": "InterWeapon_Cannon",
+                    "flipped": true
+                },
+                {
+                    "cellName": "Cell_2",
+                    "interRef": "InterWeapon_Mortar",
+                    "flipped": true
+                }
+            ]
+        },
+        {
+            "roomID": "Room_Elbow3A",
+            "roomType": 3,
+            "localSpawnVector": {
+                "x": 2.770000457763672,
+                "y": 4.760000228881836,
+                "z": 0.0
+            },
+            "rotate": 3,
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_2",
+                    "interRef": "InterWeapon_Mortar",
+                    "flipped": true
+                }
+            ]
+        },
+        {
+            "roomID": "Room_Line2A",
+            "roomType": 4,
+            "localSpawnVector": {
+                "x": -5.979999542236328,
+                "y": 1.010000228881836,
+                "z": 0.0
+            },
+            "rotate": 0,
+            "cellInteractables": []
+        },
+        {
+            "roomID": "Room_Elbow4A_Flipped",
+            "roomType": 5,
+            "localSpawnVector": {
+                "x": 4.770000457763672,
+                "y": 1.010000228881836,
+                "z": 0.0
+            },
+            "rotate": 3,
+            "cellInteractables": [
+                {
+                    "cellName": "Cell_2",
+                    "interRef": "InterLogistics_Refuel",
+                    "flipped": false
+                }
+            ]
+        }
+    ]
+}

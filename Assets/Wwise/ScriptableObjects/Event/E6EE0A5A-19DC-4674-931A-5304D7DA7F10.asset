@@ -15,3 +15,5 @@ MonoBehaviour:
   objectName: cannon_reload
   id: 3265936618
   guid: E6EE0A5A-19DC-4674-931A-5304D7DA7F10
+  IsInUserDefinedSoundBank: 1
+  IsAutoBankLoaded: 0

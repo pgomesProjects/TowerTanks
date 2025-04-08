@@ -15,3 +15,5 @@ MonoBehaviour:
   objectName: Global_Unpause
   id: 2496259136
   guid: D2E5F99E-C066-40B3-A904-1D343DC49DA9
+  IsInUserDefinedSoundBank: 1
+  IsAutoBankLoaded: 0
