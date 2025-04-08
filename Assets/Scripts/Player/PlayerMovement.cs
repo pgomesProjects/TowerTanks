@@ -89,7 +89,6 @@ namespace TowerTanks.Scripts
 
         [SerializeField] private float maxYVelocity, maxXVelocity;
         
-
         #endregion
 
         #region Unity Methods
@@ -97,6 +96,8 @@ namespace TowerTanks.Scripts
         protected override void Awake()
         {
             base.Awake();
+
+            
 
             if (isDebugPlayer)
             {
@@ -165,7 +166,7 @@ namespace TowerTanks.Scripts
                 ShakePlayer();
             var lastLadder = currentLadder;
             currentLadder = Physics2D.OverlapCircle(transform.position, ladderDetectionRadius, ladderLayer)?.gameObject;
-            if (!currentLadder && !CheckSurfaceCollider(18))
+            if (!currentLadder && !CheckSurfaceCollider(couplerLayer) && !CheckSurfaceCollider(hatchLayer))
             { //if no ladder is detected on us, and we arent on a coupler (layer 18), check below. this is for ladders that go up out of a tank
                 currentLadder = Physics2D.OverlapCircle(transform.position - transform.up, ladderDetectionRadius, ladderLayer)?.gameObject;
             }
@@ -513,7 +514,8 @@ namespace TowerTanks.Scripts
         protected override void ClimbLadder()
         {
             Collider2D onCoupler = Physics2D.OverlapBox(transform.position, Vector3.one * .33f, transform.eulerAngles.z,
-                1 << LayerMask.NameToLayer("Coupler"));
+                (1 << LayerMask.NameToLayer("Coupler")) |
+                          (1 << LayerMask.NameToLayer("Hatch"))); 
             Collider2D onLadder = Physics2D.OverlapBox(transform.position, Vector3.one * .33f, transform.eulerAngles.z,
                 1 << LayerMask.NameToLayer("Ladder"));
             RaycastHit2D hitGround = Physics2D.Raycast(transform.position, -transform.up, transform.localScale.y * .7f,
@@ -704,9 +706,18 @@ namespace TowerTanks.Scripts
                 //SetLadder();
             }
 
-            if (moveInput.y < -couplerStickDeadzone && CheckSurfaceCollider(18) != null)
+            if (moveInput.y < -couplerStickDeadzone && (CheckSurfaceCollider(couplerLayer) || CheckSurfaceCollider(hatchLayer))) //todo: change to "checkCoupler" method
             {
-                Collider2D platform = CheckSurfaceCollider(18);
+                Collider2D platform = null;
+                if (CheckSurfaceCollider(couplerLayer))
+                {
+                    platform = CheckSurfaceCollider(couplerLayer);
+                }
+                if (CheckSurfaceCollider(hatchLayer))
+                {
+                    platform = CheckSurfaceCollider(hatchLayer);
+                }
+                
                 bool onEnemyTank = platform.transform.root.TryGetComponent(out TankController tc) &&
                                    tc.tankType == TankId.TankType.ENEMY; //we dont want to be able to go into hatches on enemy tanks
                 

@@ -11,10 +11,10 @@ namespace TowerTanks.Scripts
     public class CharacterLegFloater : MonoBehaviour
     {
         [SerializeField] Rigidbody2D rb;
-        [SerializeField] private float rayLength;
-        public float standingRideHeight;
-        [SerializeField] private float rideSpringStrength;
-        [SerializeField] private float rideSpringDamper;
+        [SerializeField] private float rayLength = 0.1f;
+        public float standingRideHeight = 0.98f;
+        [SerializeField] private float rideSpringStrength = 100;
+        [SerializeField] private float rideSpringDamper = 15;
         [SerializeField] private Transform raycastOrigin;
 
         private LayerMask currentDetectLayers;
@@ -24,14 +24,11 @@ namespace TowerTanks.Scripts
         private bool disabled = false;
 
         private Vector2 prevPosition;
-
-
-
-
         private void Start()
         {
             currentDetectLayers = (1 << LayerMask.NameToLayer("Ground"))
-                                  | (1 << LayerMask.NameToLayer("Coupler"));
+                                  | (1 << LayerMask.NameToLayer("Coupler"))
+                                  | (1 << LayerMask.NameToLayer("Hatch"));
             thisPlayer = GetComponent<PlayerMovement>();
             prevPosition = rb.position;
         }

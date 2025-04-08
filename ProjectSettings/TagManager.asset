@@ -77,7 +77,7 @@ TagManager:
   - Ghost
   - Dummy
   - StopPlayer
-  - 
+  - Hatch
   m_SortingLayers:
   - name: Background
     uniqueID: 4048462669

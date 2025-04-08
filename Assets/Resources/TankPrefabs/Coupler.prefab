@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6083970079903534373}
   - component: {fileID: 6579365447052491093}
   - component: {fileID: 5859649651534039345}
-  m_Layer: 18
+  m_Layer: 8
   m_Name: WallSouth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -238,7 +238,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 1
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.4}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -249,7 +249,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1, y: 1.8}
   m_EdgeRadius: 0
 --- !u!251 &4551921159794480408
 PlatformEffector2D:
@@ -656,7 +656,7 @@ GameObject:
   - component: {fileID: 2056206309117542176}
   - component: {fileID: 8299105832068437351}
   - component: {fileID: 1879667027732300017}
-  m_Layer: 18
+  m_Layer: 8
   m_Name: WallNorth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
