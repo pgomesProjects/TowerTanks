@@ -1,5 +1,81 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4113116533672107133
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 641975958061573031}
+  - component: {fileID: 1935452677097619686}
+  - component: {fileID: 6904139703690017533}
+  m_Layer: 5
+  m_Name: EngagementZoneTargeter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &641975958061573031
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4113116533672107133}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 713482070217651378}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -960, y: -540}
+  m_SizeDelta: {x: 1920, y: 1080}
+  m_Pivot: {x: 0, y: 0}
+--- !u!222 &1935452677097619686
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4113116533672107133}
+  m_CullTransparentMesh: 1
+--- !u!114 &6904139703690017533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4113116533672107133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.8584906, g: 0.18357651, b: 0.18357651, a: 0.2}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &4452029258714001646
 GameObject:
   m_ObjectHideFlags: 0
@@ -33,6 +109,7 @@ RectTransform:
   m_Children:
   - {fileID: 7899264417418681116}
   - {fileID: 9019250299501529046}
+  - {fileID: 641975958061573031}
   m_Father: {fileID: 3030082561400441972}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -187,9 +264,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3030082561400441972}
-  - component: {fileID: 5916412110653472940}
+  - component: {fileID: 1619288457016717428}
   m_Layer: 0
-  m_Name: Level Camera Suite
+  m_Name: Level Camera Suite (old)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -211,7 +288,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5916412110653472940
+--- !u!114 &1619288457016717428
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -220,20 +297,33 @@ MonoBehaviour:
   m_GameObject: {fileID: 5440465345709929839}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 651a0fc062b82714abc1582980d823d5, type: 3}
+  m_Script: {fileID: 11500000, guid: ce03d4337310a1f489148e0232a7c6f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shakeNoiseProfile: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
+  camSystems: []
   parallaxPrefabs:
-  - {fileID: 3696405528154087446, guid: dff00cf4d6cad774c89cafa4d6a00da3, type: 3}
-  - {fileID: 3696405528154087446, guid: 2e6fa989fcf68194b8fc6210a215df86, type: 3}
+  - {fileID: 0}
+  shakeNoiseProfile: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
   radarGrid: {fileID: 6134430218256561537, guid: 754a3414c8e61884c95052e37f777d2b, type: 3}
-  radarCamTargeter: {fileID: 9019250299501529046}
-  minOpponentCamTargeter: {fileID: 0}
-  maxOpponentCamTargeter: {fileID: 0}
-  bufferValues: {x: 0, y: 0, z: 0, w: 0}
+  maxTankCams: 3
+  useRadar: 1
+  engagementZoneTargeter: {fileID: 641975958061573031}
+  radarZoneTargeter: {fileID: 9019250299501529046}
+  tankCamUpperBuffer: 2.05
+  tankCamLowerBuffer: 1
+  tankCamSideBuffer: 1.5
+  engagementCamSeparation: 25
+  horizontalOffsetSmoothing: 6
+  tankCameraColor: {r: 0.26666668, g: 0.6156863, b: 0.86666673, a: 1}
+  engagementDistance: 150
+  shareCamDistance: 30
+  shareCamStickDistance: 40
+  cameraDisappearTime: 4
+  radarEdgeBuffer: {x: 2.5, y: 0}
   radarRange: 150
-  radarTerrainCrossSectionalHeight: 0
+  boundColliderEdgeRadius: 1
+  testShakeIntensity: 0
+  testShakeDuration: 0
 --- !u!1 &7846537676312662459
 GameObject:
   m_ObjectHideFlags: 0

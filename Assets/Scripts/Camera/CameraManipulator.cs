@@ -85,7 +85,7 @@ namespace TowerTanks.Scripts
                     cam.cullingMask &= ~(1 << LayerMask.NameToLayer("Minimap"));                                            //Remove the minimap layer from the camera 
                     CinemachineFramingTransposer transposer = vcam.AddCinemachineComponent<CinemachineFramingTransposer>(); //Add framing transposer to camera so that it's behavior can be fine-tuned
                     transposer.m_TrackedObjectOffset.z = -10;                                                               //Set camera z value so it can actually see the tank
-                    transposer.m_XDamping = 0; transposer.m_YDamping = 0; transposer.m_ZDamping = 0;                        //Turn off all camera dampingqaqsdad eeeeeeeeeeeeeeeeeeeedd
+                    transposer.m_XDamping = 0; transposer.m_YDamping = 0; transposer.m_ZDamping = 0;                        //Turn off all camera damping
                 }
                 else //Settings for radar cam
                 {
