@@ -78,6 +78,7 @@ TagManager:
   - Dummy
   - StopPlayer
   - Minimap
+  - Hatch
   m_SortingLayers:
   - name: Background
     uniqueID: 4048462669
