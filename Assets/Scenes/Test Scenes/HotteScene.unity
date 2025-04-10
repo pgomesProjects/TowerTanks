@@ -2257,6 +2257,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 922020007535679231, guid: 3bec6eaa40f860f4786a837e8ad0f4d7, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 465.4609
+      objectReference: {fileID: 0}
+    - target: {fileID: 922020007535679231, guid: 3bec6eaa40f860f4786a837e8ad0f4d7, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 534.3434
+      objectReference: {fileID: 0}
+    - target: {fileID: 922020007535679231, guid: 3bec6eaa40f860f4786a837e8ad0f4d7, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 450
+      objectReference: {fileID: 0}
+    - target: {fileID: 922020007535679231, guid: 3bec6eaa40f860f4786a837e8ad0f4d7, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -828
+      objectReference: {fileID: 0}
     - target: {fileID: 3030082561400441972, guid: 3bec6eaa40f860f4786a837e8ad0f4d7, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -2303,19 +2319,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4169744352977157446, guid: 3bec6eaa40f860f4786a837e8ad0f4d7, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 1443
+      value: 1709.4099
       objectReference: {fileID: 0}
     - target: {fileID: 4169744352977157446, guid: 3bec6eaa40f860f4786a837e8ad0f4d7, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 663.9611
+      value: 746.0526
       objectReference: {fileID: 0}
     - target: {fileID: 4169744352977157446, guid: 3bec6eaa40f860f4786a837e8ad0f4d7, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -483
+      value: -749.4099
       objectReference: {fileID: 0}
     - target: {fileID: 4169744352977157446, guid: 3bec6eaa40f860f4786a837e8ad0f4d7, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -903.96106
+      value: -986.05255
       objectReference: {fileID: 0}
     - target: {fileID: 5440465345709929839, guid: 3bec6eaa40f860f4786a837e8ad0f4d7, type: 3}
       propertyPath: m_Name
@@ -3136,19 +3152,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23bec43f57e14ed43b60076d04799daa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1411317900
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1411317892}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13b806837cf311042abce1c691c01645, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  centerTransform: {fileID: 1018531887}
 --- !u!1 &1444257514
 GameObject:
   m_ObjectHideFlags: 0
@@ -5276,6 +5279,10 @@ PrefabInstance:
       propertyPath: playerTank
       value: 
       objectReference: {fileID: 1018531887}
+    - target: {fileID: 4843668872084516695, guid: 53a0bd872ca3a494b810685048a309ff, type: 3}
+      propertyPath: obstacleChance
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4843668872084516695, guid: 53a0bd872ca3a494b810685048a309ff, type: 3}
       propertyPath: groundParentTransform
       value: 

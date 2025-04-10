@@ -772,7 +772,7 @@ MonoBehaviour:
     weight: 10
   - obstacle: {fileID: 2880273055600732949, guid: 38c534f27b881694b81cbcead9c56314, type: 3}
     weight: 0
-  obstacleChance: 20
+  obstacleChance: 0
   landmarks:
   - {fileID: 1657263657352873313, guid: ad97cb9004420144aa9809a184ab9c84, type: 3}
   - {fileID: 2238501236492524393, guid: 0f6e7299cc1ae924f82817b32d82bacb, type: 3}

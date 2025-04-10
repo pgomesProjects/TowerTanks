@@ -32,10 +32,17 @@ namespace TowerTanks.Scripts
         }
         private void Start()
         {
-            if (tank != null && tank.tankType == TankId.TankType.PLAYER) //This target is for the player tank
+            if (tank != null) //This target is for tank
             {
-                CombatCameraController.main.playerTankCam.AttachTarget(this); //Attach target to main camera feed
-                CombatCameraController.main.radarCam.AttachTarget(this);      //Attach target to radar camera feed
+                if (tank.tankType == TankId.TankType.PLAYER) //This target is the player tank
+                {
+                    CombatCameraController.main.playerTankCam.AttachTarget(this); //Attach target to main camera feed
+                    CombatCameraController.main.radarCam.AttachTarget(this);      //Attach target to radar camera feed
+                }
+                else //This target is a non-player tank
+                {
+                    CombatCameraController.main.opponentTankCam.AttachTarget(this); //Attach target to opponent viewer camera feed
+                }
             }
         }
         private void OnDestroy()
@@ -63,10 +70,10 @@ namespace TowerTanks.Scripts
                 //Get size from tank values and center from current tank bounds (accounts for orientation):
                 Vector2 size = new Vector2(tank.tankSizeValues.y + tank.tankSizeValues.w, tank.tankSizeValues.x + tank.tankSizeValues.z); //Get size of tank (different from current bounds because it doesn't account for rotation) from tank size values chart
                 Vector2 position = tank.treadSystem.GetTankBounds().center;                                                               //Use real current bounds to get center mass of tank (so that correct positional adjustments will be made
-                
+
                 //Expand bounds to account for potential rotation:
                 //NOTE: This feature needs to be added but can for now be substituted by adding a buffer
-                bounds = new Bounds(position, size); //Return bounds of calculated position and size
+                //bounds = new Bounds(position, size); //Return bounds of calculated position and size
             }
 
             //Cleanup:

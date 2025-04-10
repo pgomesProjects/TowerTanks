@@ -388,8 +388,11 @@ MonoBehaviour:
   maxOpponentCamTargeter: {fileID: 8589448851219015231}
   mainCamConfiner: {fileID: 4169744352977157446}
   bufferValues: {x: 2, y: 1, z: 0, w: 1}
+  minCellSizeOnScreen: 0
+  maxLeadSpeed: 0
   radarRange: 150
   radarTerrainCrossSectionalHeight: 0
+  opponentVisDistance: 100
 --- !u!1 &7846537676312662459
 GameObject:
   m_ObjectHideFlags: 0

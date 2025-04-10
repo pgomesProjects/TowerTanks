@@ -1871,6 +1871,7 @@ GameObject:
   - component: {fileID: 7640934136196105169}
   - component: {fileID: 7793904838642235008}
   - component: {fileID: 816067974370409419}
+  - component: {fileID: 8781209383196968432}
   m_Layer: 0
   m_Name: Tank1
   m_TagString: Untagged
@@ -1939,9 +1940,11 @@ MonoBehaviour:
     gameObject: {fileID: 0}
     design: {fileID: 0}
     buildOnStart: 0
+  _thisTankAI: {fileID: 0}
   tankFlag: {fileID: 5685120059937764489}
   surrenderFlag: {fileID: 7747998499048427212}
   corpsePrefab: {fileID: 1822410957947985641, guid: a0ef6e4884eb9704c9ff17411afc1462, type: 3}
+  topHatch: {fileID: 0}
   hatches: []
   roomKit: {fileID: 11400000, guid: 530fa040df4a8014d8d7b5abd56e4bdf, type: 2}
   diageticElements:
@@ -1977,7 +1980,6 @@ MonoBehaviour:
   tank: {fileID: 0}
   targetTank: {fileID: 0}
   tokenActivatedInteractables: []
-  aiSettings: {fileID: 11400000, guid: 4ac42c6fcaa804d4babc900169c2e83e, type: 2}
   players: []
   pausedInteractables: []
 --- !u!114 &7640934136196105169
@@ -2046,6 +2048,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &8781209383196968432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1677695872598849025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13b806837cf311042abce1c691c01645, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  centerTransform: {fileID: 1677695872800944109}
 --- !u!1 &1677695872621142252
 GameObject:
   m_ObjectHideFlags: 0
@@ -2503,6 +2518,7 @@ MonoBehaviour:
   jammedSprite: {fileID: 718222718007857193}
   centerGear: {fileID: 1098652911147423295}
   centerGearSpeedScale: 0.08
+  gizmosOn: 1
   engineRPM: 0
   isJammed: 0
 --- !u!50 &1677695872800944110

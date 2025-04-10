@@ -23,10 +23,11 @@ namespace TowerTanks.Scripts
         public class CamSystem
         {
             //Objects & Components:
-            [Tooltip("The primary object which this camera system will be following.")]    public CamTarget target;
-            [Tooltip("Camera component which renders this specific target.")]              internal Camera cam;
-            [Tooltip("Virtual camera which points at the target")]                         internal CinemachineVirtualCamera vcam;
-            [Tooltip("Scripts controlling the parallax background sfor this cam system.")] private List<MultiCameraParallaxController> parallaxControllers = new List<MultiCameraParallaxController>();
+            [Tooltip("The primary object which this camera system will be following.")]       public CamTarget target;
+            [Tooltip("List of objects which are temporarily targeted by the camera system.")] public List<CamTarget> subTargets = new List<CamTarget>();
+            [Tooltip("Camera component which renders this specific target.")]                 internal Camera cam;
+            [Tooltip("Virtual camera which points at the target")]                            internal CinemachineVirtualCamera vcam;
+            [Tooltip("Scripts controlling the parallax background sfor this cam system.")]    private List<MultiCameraParallaxController> parallaxControllers = new List<MultiCameraParallaxController>();
 
             //Runtime Variables:
             [Tooltip("Indicate what this camera system is for.")] public CamSystemType type;
@@ -56,12 +57,12 @@ namespace TowerTanks.Scripts
                 transposer.m_FollowOffset.z = -10;                                                         //Set camera z value so it can actually see the tank
                 transposer.m_XDamping = 0; transposer.m_YDamping = 0; transposer.m_ZDamping = 0;           //Turn off all camera damping
 
-                //Radar setup:
+                //Type-specific setup:
+                if (type == CamSystemType.Opponent || type == CamSystemType.Radar) cam.depth = 1; //Raise camera priority if it needs to be rendered over player camera
                 if (type == CamSystemType.Radar) //Only perform the following setup for the radar cam
                 {
                     //Extra camera setup:
-                    cam.transform.tag = "RadarCam";
-                    cam.depth = 1;                                                                                    //Change the radar's priority
+                    cam.transform.tag = "RadarCam";                                                                   //Tag the camera radar so stuff knows what it is
                     cam.clearFlags = CameraClearFlags.SolidColor;                                                     //Change the background type to only show a solid color
                     cam.backgroundColor = Color.black;                                                                //Set the background color to black
                     cam.cullingMask = 1 << LayerMask.NameToLayer("TankCamC") | 1 << LayerMask.NameToLayer("Minimap"); //Set the camera to only render the radar cam and the minimap cam
@@ -108,40 +109,49 @@ namespace TowerTanks.Scripts
             /// <param name="deltaTime">Time (in seconds) since last update.</param>
             public void Update(float deltaTime)
             {
+                //Check enabled status:
+                if (type == CamSystemType.Opponent) //Opponent camera may be enabled or disabled depending on conditions
+                {
+                    if (target != null) //Target is present
+                    {
+                        float targetDistance = Mathf.Abs(main.playerTankCam.target.GetTargetTransform().position.x - target.GetTargetTransform().position.x); //Get distance between player cam target and opponent
+                        if (targetDistance <= main.opponentVisDistance) //Target is within visibility range
+                        {
+                            if (!cam.enabled) cam.enabled = true; //Enable camera if it isn't already
+                        }
+                        else if (cam.enabled) //Target is outside visibility range and cam is enabled
+                        {
+                            cam.enabled = false; //Disable camera
+                        }
+                    }
+                    else if (cam.enabled) cam.enabled = false; //Disable camera if there is no current target
+                }
+                if (!cam.enabled) return; //Do nothing else if camera is not enabled
+
                 //Modify viewport rect:
                 Rect camRect = new(); //Initialize container to store final camera rect
-                switch (type)
+                if (type == CamSystemType.Radar) //The player camera output always takes up the entire screen
                 {
-                    case CamSystemType.Player: //The player camera output always takes up the entire screen
-                        camRect = new(Vector2.zero, Vector2.one); //Always use a rect which fills the entire screen
-                        break;
-                    case CamSystemType.Radar: //The radar camera is usually fixed in place
-                        camRect = main.radarRect; //Always use the preset radar rect
-                        break;
-                    case CamSystemType.Opponent: //The opponent camera rect position changes depending on certain factors
-
-                        break;
+                    camRect = main.radarRect; //Always use the preset radar rect
+                }
+                else if (type == CamSystemType.Player) //The radar camera is usually fixed in place
+                {
+                    camRect = new(Vector2.zero, Vector2.one); //Always use a rect which fills the entire screen
+                }
+                else if (type == CamSystemType.Opponent) //The opponent camera rect position changes depending on certain factors
+                {
+                    camRect = main.minOpponentRect; //MODIFY THIS LATER
                 }
                 cam.rect = camRect; //Apply changes in cam rect
 
                 //Get minimum bounds for target:
-                Bounds targetBounds = target.GetTargetBounds(); //Get bounds from target
+                Bounds targetBounds = target.GetTargetBounds();                                                    //Get bounds from target
+                foreach (CamTarget subTarget in subTargets) targetBounds.Encapsulate(subTarget.GetTargetBounds()); //Encapsulate other subtargets camera is following
                 targetBounds.size += new Vector3(main.bufferValues.y + main.bufferValues.w, main.bufferValues.x + main.bufferValues.z);               //Add universal buffer size to bounds
                 targetBounds.center += new Vector3((main.bufferValues.y - main.bufferValues.w) / 2, (main.bufferValues.x - main.bufferValues.z) / 2); //Adjust centerpoint of bounds so that asymmetrical settings do not offset bounding box
 
-                //Adjust zoom:
-                CinemachineTransposer transposer = vcam.GetCinemachineComponent<CinemachineTransposer>(); //Get transposer component so that offset values can be modified
-                if (type == CamSystemType.Radar) //Zooming for the radar camera
-                {
-
-                }
-                else if (type == CamSystemType.Player) //Zooming for the main player camera
-                {
-                    
-                }
-
                 //Frame target:
-                
+                CinemachineTransposer transposer = vcam.GetCinemachineComponent<CinemachineTransposer>(); //Get transposer component so that offset values can be modified
                 if (type == CamSystemType.Radar) //Framing for the radar camera
                 {
                     //Adjust zoom:
@@ -168,7 +178,16 @@ namespace TowerTanks.Scripts
                 }
                 else if (type == CamSystemType.Opponent) //Framing for the opponent subcamera
                 {
+                    //Adjust zoom:
+                    float widthOrthoSize = (targetBounds.size.x / 2) / cam.aspect;      //Determine ortho size as would be defined by width of bounds
+                    float heightOrthoSize = targetBounds.size.y / 2;                    //Determine ortho size as would be defined by height of bounds
+                    float targetOrthoSize = Mathf.Max(widthOrthoSize, heightOrthoSize); //Pick whichever dimension needs more space as the determinant of ortho size
+                    vcam.m_Lens.OrthographicSize = targetOrthoSize;                     //Set ortho size
 
+                    //Edit position of tank in frame:
+                    float followOffsetY = cam.orthographicSize + (targetBounds.min.y - target.GetTargetTransform().position.y); //Get vertical component of follow offset seperately
+                    float followOffsetX = (targetBounds.center.x - target.GetTargetTransform().position.x);                     //Just get the horizontal distance between followpoint and actual center of bounds
+                    transposer.m_FollowOffset = new Vector3(followOffsetX, followOffsetY, -10);                                 //Move tank to position pinned to bottom of frame but centered horizontally
                 }
             }
 
@@ -202,18 +221,25 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("Noise profile asset describing behavior of camera shake events.")] private NoiseSettings shakeNoiseProfile;
         [SerializeField, Tooltip("Prefabs for parallax systems instantiated for each camera.")]      private GameObject[] parallaxPrefabs;
         [SerializeField, Tooltip("The grid for the radar camera.")]                                  private GameObject radarGrid;
-
-        //Settings:
-        [Header("Camera Zone Positioning:")]
+        [Space()]
         [SerializeField, Tooltip("UI object used to position radar zone camera in scene.")]                           private RectTransform radarCamTargeter;
         [SerializeField, Tooltip("UI object used to position smallest version of opponent subcamera in scene.")]      private RectTransform minOpponentCamTargeter;
         [SerializeField, Tooltip("UI object used to position largest version of opponent subcamera in scene.")]       private RectTransform maxOpponentCamTargeter;
         [SerializeField, Tooltip("Dynamic UI object used to determine where player tank is allowed to be in frame.")] private RectTransform mainCamConfiner;
-        [Header("Main Tank Camera Settings:")]
+
+        //Settings:
+        [Header("General Settings:")]
+        [SerializeField, Tooltip("Target FPS for all active cameras"), Min(1)]                                                         private float fps;
         [SerializeField, Tooltip("Use this to add hard space (in units) between extremities of framed objects and the frame itself.")] private Vector4 bufferValues;
+        [Header("Main Tank Camera Settings:")]
+        [SerializeField, Tooltip("The minimum-allowed size (relative to screen size) that cells are allowed to be on screen.")]                        private float minCellSizeOnScreen;
+        [SerializeField, Tooltip("When the player tank is traveling at this speed, lead values will be maxxed out (zoom and position).")]              private float maxLeadSpeed;
+        [SerializeField, Tooltip("Curve describing affect of lead zoom and positional offset depending on percentage of maxLeadSpeed tank is going.")] private AnimationCurve leadCurve;
         [Header("Radar Settings:")]
         [SerializeField, Tooltip("How far ahead of the player tank the radar can see."), Min(0)]                                                                      private float radarRange;
         [SerializeField, Tooltip("Percentage of vertical space on radar taken up by terrain (all visible topography will be squashed to fit in this area)."), Min(0)] private float radarTerrainCrossSectionalHeight;
+        [Header("Opponent Viewer Settings:")]
+        [SerializeField, Tooltip("Distance from player at which opponent viewer cam becomes enabled.")] private float opponentVisDistance;
 
         //Runtime Variables:
         private List<List<List<Vector2>>> chunkCameraPositions = new List<List<List<Vector2>>>(); //List of all positions for the chunk parallax layers to spawn objects on
@@ -235,10 +261,12 @@ namespace TowerTanks.Scripts
             //Get runtime variables:
             camLayers = Enumerable.Range(0, 32).Select(index => LayerMask.LayerToName(index)).Where(l => !string.IsNullOrEmpty(l) && l.Contains("Cam")).ToArray(); //Get all layers (by name) with "Cam" in the name
             zoneVisCanvas = GetComponentInChildren<Canvas>();                                                                                                      //Get canvas containing camera zone visualization boxes
-        
+            
             //Hide visualizers:
             radarCamTargeter.GetComponent<Image>().enabled = false; //Disable image for radar zone camera targeter
             //mainCamConfiner.GetComponent<Image>().enabled = false;  //Disable image for confinement zone camera targeter
+            minOpponentCamTargeter.GetComponent<Image>().enabled = false; //Disable image for opponent camera targeter
+            maxOpponentCamTargeter.GetComponent<Image>().enabled = false; //Disable image for opponent camera targeter
 
             //Set up parallax infrastructure:
             int chunkLayerCounter = 0;
@@ -275,13 +303,16 @@ namespace TowerTanks.Scripts
             }
 
             //Generate camera systems:
-            playerTankCam = new CamSystem(CamSystemType.Player); //Generate a main camera system
-            radarCam = new CamSystem(CamSystemType.Radar);       //Generate a camera system for the radar
+            playerTankCam = new CamSystem(CamSystemType.Player);     //Generate a main camera system
+            radarCam = new CamSystem(CamSystemType.Radar);           //Generate a camera system for the radar
+            opponentTankCam = new CamSystem(CamSystemType.Opponent); //Generate a camera system for the opponent viewer
         }
         private void Update()
         {
+            //Update cameras:
             playerTankCam.Update(Time.deltaTime);
             radarCam.Update(Time.deltaTime);
+            opponentTankCam.Update(Time.deltaTime);
 
             //Debug:
             if (Application.isEditor) //Editor-specific updates
