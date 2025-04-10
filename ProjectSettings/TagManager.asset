@@ -77,7 +77,6 @@ TagManager:
   - Ghost
   - Dummy
   - StopPlayer
-  - Minimap
   - Hatch
   m_SortingLayers:
   - name: Background

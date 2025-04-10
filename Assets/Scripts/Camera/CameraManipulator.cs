@@ -82,7 +82,7 @@ namespace TowerTanks.Scripts
                 //Setup specific vcam settings:
                 if (!isRadar) //Settings for engagement cams
                 {
-                    cam.cullingMask &= ~(1 << LayerMask.NameToLayer("Minimap"));                                            //Remove the minimap layer from the camera 
+                    cam.cullingMask &= ~(1 << LayerMask.NameToLayer("RadarCam"));                                           //Remove the radar cam layer from the camera 
                     CinemachineFramingTransposer transposer = vcam.AddCinemachineComponent<CinemachineFramingTransposer>(); //Add framing transposer to camera so that it's behavior can be fine-tuned
                     transposer.m_TrackedObjectOffset.z = -10;                                                               //Set camera z value so it can actually see the tank
                     transposer.m_XDamping = 0; transposer.m_YDamping = 0; transposer.m_ZDamping = 0;                        //Turn off all camera dampingqaqsdad eeeeeeeeeeeeeeeeeeeedd
@@ -94,7 +94,7 @@ namespace TowerTanks.Scripts
                     cam.depth = 1;                                                                                      //Change the radar's priority
                     cam.clearFlags = CameraClearFlags.SolidColor;                                                       //Change the background type to only show a solid color
                     cam.backgroundColor = Color.black;                                                                  //Set the background color to black
-                    cam.cullingMask = 1 << LayerMask.NameToLayer("RadarCam") | 1 << LayerMask.NameToLayer("Minimap");   //Set the camera to only render the radar cam and the minimap cam
+                    cam.cullingMask = 1 << LayerMask.NameToLayer("RadarCam");                                           //Set the camera to only render the radar cam
                     CinemachineTransposer transposer = vcam.AddCinemachineComponent<CinemachineTransposer>();           //Use a simpler transposer to track tank in radar screen
                     transposer.m_XDamping = 0; transposer.m_YDamping = 0; transposer.m_ZDamping = 0;                    //Turn off all camera damping
                 }

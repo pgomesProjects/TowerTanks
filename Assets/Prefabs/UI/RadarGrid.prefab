@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6134430218256561551}
   - component: {fileID: 6134430218256561536}
-  m_Layer: 31
+  m_Layer: 27
   m_Name: RadarGrid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
