@@ -73,7 +73,7 @@ namespace TowerTanks.Scripts
 
                 //Expand bounds to account for potential rotation:
                 //NOTE: This feature needs to be added but can for now be substituted by adding a buffer
-                //bounds = new Bounds(position, size); //Return bounds of calculated position and size
+                bounds = new Bounds(position, size); //Return bounds of calculated position and size
             }
 
             //Cleanup:
