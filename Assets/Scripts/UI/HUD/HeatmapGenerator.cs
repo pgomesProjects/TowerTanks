@@ -303,8 +303,6 @@ namespace TowerTanks.Scripts
             if (currentPixel == null)
                 return;
 
-            Debug.Log("Cell Health Updated To " + percent);
-
             //Update the pixel's health
             currentPixel.UpdatePixelHealth(percent);
 
