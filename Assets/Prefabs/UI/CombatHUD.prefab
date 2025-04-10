@@ -1227,6 +1227,7 @@ MonoBehaviour:
   selectColor: {r: 1, g: 0.4669811, b: 0.4669811, a: 1}
   roomSprite: {fileID: 0}
   roomAltText: {fileID: 0}
+  roomHasHatch: 0
 --- !u!1 &4653194584504739715
 GameObject:
   m_ObjectHideFlags: 0
@@ -2821,6 +2822,7 @@ MonoBehaviour:
   selectColor: {r: 1, g: 0.4669811, b: 0.4669811, a: 1}
   roomSprite: {fileID: 0}
   roomAltText: {fileID: 0}
+  roomHasHatch: 0
 --- !u!1 &4653194585714277386
 GameObject:
   m_ObjectHideFlags: 0
@@ -3055,6 +3057,7 @@ MonoBehaviour:
   selectColor: {r: 1, g: 0.4669811, b: 0.4669811, a: 1}
   roomSprite: {fileID: 0}
   roomAltText: {fileID: 0}
+  roomHasHatch: 0
 --- !u!1 &4653194585847369238
 GameObject:
   m_ObjectHideFlags: 0
@@ -4671,6 +4674,18 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 2c7b0e4920383724187a69838ab213b6, type: 3}
+    - target: {fileID: 4701931487392334425, guid: b205b2f782278b543a6a2aa3d91eaa43, type: 3}
+      propertyPath: cellRadius
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4701931487392334425, guid: b205b2f782278b543a6a2aa3d91eaa43, type: 3}
+      propertyPath: treadRadius
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4701931487392334425, guid: b205b2f782278b543a6a2aa3d91eaa43, type: 3}
+      propertyPath: treadSpacing
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b205b2f782278b543a6a2aa3d91eaa43, type: 3}
 --- !u!224 &1382099575655331483 stripped

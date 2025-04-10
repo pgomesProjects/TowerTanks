@@ -220,9 +220,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   heatMapContainer: {fileID: 2519248316711406708}
   heatMapImage: {fileID: 4221853831996582063}
-  padding: {x: 0, y: 0}
-  startingColor: {r: 1, g: 1, b: 1, a: 1}
-  endingColor: {r: 1, g: 0, b: 0, a: 1}
+  padding: {x: 5, y: 5}
+  treadSize: {x: 7, y: 2}
+  treadSpacing: 1
+  healthyColor: {r: 0, g: 1, b: 0, a: 1}
+  damagedColor: {r: 1, g: 0.7249701, b: 0, a: 1}
+  deadColor: {r: 0.735849, g: 0.20478818, b: 0.20478818, a: 1}
+  coreRoom: {fileID: 3076244680111811852, guid: 41d970ec662df1f4489d206e0ff2298f, type: 3}
 --- !u!1 &2437759900432881728
 GameObject:
   m_ObjectHideFlags: 0

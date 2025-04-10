@@ -89,6 +89,8 @@ namespace TowerTanks.Scripts
         private float jamEffectTimer = 0f; //Timer used to space out jam particle effect spawns
         public bool isJammed = false;     //Whether or not treads are currently jammed 
 
+        public System.Action<float> OnTreadHealthUpdated;
+
         //RUNTIME METHODS:
         private void Awake()
         {
@@ -146,6 +148,8 @@ namespace TowerTanks.Scripts
                         jammedSprite.gameObject.SetActive(false);
                     }
                 }
+
+                OnTreadHealthUpdated?.Invoke(treadHealth / treadMaxHealth);
             }
 
             //Jam effects:
@@ -422,6 +426,8 @@ namespace TowerTanks.Scripts
                 Jam();           //Jam treads
             }
 
+            OnTreadHealthUpdated?.Invoke(treadHealth / treadMaxHealth);
+
             return damage;
         }
 
@@ -442,6 +448,8 @@ namespace TowerTanks.Scripts
                
                 HitEffects(1.5f);
                 GameManager.Instance.AudioManager.Play("UseWrench", gameObject);
+
+                OnTreadHealthUpdated?.Invoke(treadHealth / treadMaxHealth);
             }
         }
 
@@ -695,6 +703,11 @@ namespace TowerTanks.Scripts
         /// </summary>
         /// <returns>f(x) = magnitude * 2.23693629 (conversion from meters to mph).</returns>
         public float GetMPH() => r.velocity.magnitude * 2.23693629f;
+        /// <summary>
+        /// Gets the health percentage of the treads.
+        /// </summary>
+        /// <returns>A percentage between 0 and 1.</returns>
+        public float GetTreadHealthPercentage() => treadHealth / treadMaxHealth;
 
         public void OnDestroy()
         {

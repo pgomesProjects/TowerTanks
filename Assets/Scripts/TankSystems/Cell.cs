@@ -386,18 +386,18 @@ namespace TowerTanks.Scripts
             {
                 if (room.isCore || room.targetTank.isFragile) //Damage is being dealt to core cell
                 {
+                    if (!room.targetTank.isInvincible) room.targetTank.Damage(damage); //Deal all core cell damage directly to tank instead of destroying cells (unless tank is invincible)
+
                     //Invoke the cell health updated function on each cell
                     foreach (Cell cell in room.cells)
-                        cell.OnCellHealthUpdated?.Invoke(cell, (room.targetTank.currentCoreHealth - damage) / room.targetTank.coreHealth);
-
-                    if (!room.targetTank.isInvincible) room.targetTank.Damage(damage); //Deal all core cell damage directly to tank instead of destroying cells (unless tank is invincible)
+                        cell.OnCellHealthUpdated?.Invoke(cell, GetCellHealthPercentage());
                 }
                 else //Damage is being dealt to normal cell
                 {
                     if (room.targetStructure.GetIsInvincible()) damage = 0;
                     //Deal damage:
                     health = Mathf.Max(0, health - damage); //Deal damage to cell
-                    OnCellHealthUpdated?.Invoke(this, health / maxHealth);
+                    OnCellHealthUpdated?.Invoke(this, GetCellHealthPercentage());
                     if (health <= 0)
                     {
                         Kill(false, true);     //Kill cell if mortal damage has been dealt
@@ -758,7 +758,7 @@ namespace TowerTanks.Scripts
                 }
                 else difference = amount;
 
-                OnCellHealthUpdated?.Invoke(this, health / maxHealth);
+                OnCellHealthUpdated?.Invoke(this, GetCellHealthPercentage());
 
                 HitEffects(1.5f);
                 GameManager.Instance.AudioManager.Play("UseWrench", gameObject);
@@ -779,7 +779,7 @@ namespace TowerTanks.Scripts
 
                 //Invoke the cell health updated function on each cell
                 foreach (Cell cell in room.cells)
-                    cell.OnCellHealthUpdated?.Invoke(cell, room.targetTank.currentCoreHealth / room.targetTank.coreHealth);
+                    cell.OnCellHealthUpdated?.Invoke(cell, GetCellHealthPercentage());
             }
 
             return difference;
@@ -970,6 +970,18 @@ namespace TowerTanks.Scripts
             compositeClone.GetComponent<CollisionTransmitter>().collisionEnter -= room.OnTankCollision; //Unsubscribe from clone collision transmission
             Destroy(compositeClone.gameObject);                                                         //Fully delete composite clone object
             compositeClone = null;                                                                      //Clear reference to destroyed object
+        }
+
+        /// <summary>
+        /// Gets the health percentage of the cell.
+        /// </summary>
+        /// <returns>A percentage between 0 and 1.</returns>
+        public float GetCellHealthPercentage()
+        {
+            if (room.isCore)
+                return room.targetTank.currentCoreHealth / room.targetTank.coreHealth;
+            else
+                return health / maxHealth;
         }
     }
 }

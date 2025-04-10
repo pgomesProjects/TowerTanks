@@ -99,7 +99,7 @@ namespace TowerTanks.Scripts
             if (overlayAnimator != null) overlayAnimator.enabled = false;
         }
 
-        public void Start()
+        protected virtual void Start()
         {
             if (installOnStart) DebugPlace();
         }

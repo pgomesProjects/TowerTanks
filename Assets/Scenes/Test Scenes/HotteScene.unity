@@ -5078,6 +5078,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8338977993625620981, guid: 6737c50766a366e44bde6a7c03e708ad, type: 3}
+      propertyPath: tankTestContainer
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8416009233283108141, guid: 6737c50766a366e44bde6a7c03e708ad, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

@@ -1032,7 +1032,7 @@ namespace TowerTanks.Scripts
             if (kit == null) kit = assetKit; //Next, if no target kit is given, try using room's preset local asset kit (might be different from tank default)
             if (kit == null) //Room has not been given its own unique asset kit
             {
-                if (targetStructure == null || targetStructure.GetRoomAssetKit() == null) { Debug.LogError("Room cannot find an asset kit to use, defaulting to placeholder assets."); return; } //Do not proceed if an asset kit cannot be acquired from the parent tank controller
+                if (targetStructure == null || targetStructure.GetRoomAssetKit() == null) { Debug.LogWarning("Room cannot find an asset kit to use, defaulting to placeholder assets."); return; } //Do not proceed if an asset kit cannot be acquired from the parent tank controller
                 kit = targetStructure.GetRoomAssetKit(); //Get default kit from room's structure
             }
             assetKit = kit; //Save kit data to indicate which set of assets are active on room

@@ -175,12 +175,6 @@ namespace TowerTanks.Scripts
             }
         }
 
-        private void OnEnable()
-        {
-            if (playerTank != null)
-                OnPlayerTankAssigned?.Invoke(playerTank);
-        }
-
         //UTILITY METHODS:
         public void MoveSpawnPoint(Vector3 newPosition)
         {
