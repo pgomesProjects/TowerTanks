@@ -24,7 +24,7 @@ MonoBehaviour:
   m_MinSize: {x: 400, y: 200}
   m_MaxSize: {x: 32384, y: 16192}
   vertical: 0
-  controlID: 113222
+  controlID: 58466
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -53,8 +53,10 @@ MonoBehaviour:
   m_OverlayCanvas:
     m_LastAppliedPresetName: Default
     m_SaveData: []
-  m_SerializedViewNames: []
-  m_SerializedViewValues: []
+  m_SerializedViewNames:
+  - UnityEditor.DeviceSimulation.SimulatorWindow
+  m_SerializedViewValues:
+  - E:\Priority Projects\Unity\TowerTanks\Library\PlayModeViewStates\114efd771cb70f845ae9ee1cdc22cccb
   m_PlayModeViewName: GameView
   m_ShowGizmos: 0
   m_TargetDisplay: 0
@@ -141,7 +143,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 1
-  controlID: 113223
+  controlID: 58467
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -166,7 +168,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 113087
+  controlID: 58438
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -186,8 +188,8 @@ MonoBehaviour:
     y: 0
     width: 2193
     height: 847
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 201, y: 221}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 6}
   m_Panes:
   - {fileID: 6}
@@ -441,9 +443,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 0.73969287, y: 7.109584, z: 0.029046666}
+    m_Target: {x: 1092.4253, y: 1111.7855, z: -9.754628}
     speed: 2
-    m_Value: {x: 0.73969287, y: 7.109584, z: 0.029046666}
+    m_Value: {x: 1092.4253, y: 1111.7855, z: -9.754628}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -494,9 +496,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 12.956944
+    m_Target: 1813.3442
     speed: 2
-    m_Value: 12.956944
+    m_Value: 1813.3442
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -2423,8 +2425,8 @@ MonoBehaviour:
     y: 0
     width: 603
     height: 847
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 202, y: 221}
+  m_MaxSize: {x: 4002, y: 4021}
   m_ActualView: {fileID: 9}
   m_Panes:
   - {fileID: 9}
@@ -2463,7 +2465,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 90a617ff821644ff6ebfcaff76bfcaff5446d4ff9046d4ff9446d4ffb846d4ff7c56d4ff8056d4fffa56d4ff0657d4ff1057d4ff7857d4ffc057d4ff0458d4ffbe59d4ff6a5ad4fffe5ad4ff025bd4ff085bd4ff7a5dd4ff5e5ed4ffcc5ed4ff8c5fd4ffaa5fd4ffae5fd4ffb45fd4ff5860d4ff8061d4ffac62d4ffb262d4ffd262d4ff2863d4ff5063d4ff6663d4ff7c63d4ffb263d4ffbc63d4ffec63d4fff263d4ff6a64d4ffb664d4fffa64d4ff3e65d4ff7866d4ff3867d4ff5667d4ff5a67d4ff6067d4ffd867d4fff667d4fffa67d4ff0068d4ff0468d4ff9868d4ff2c69d4ffc069d4ff546ad4ff586ad4ff5e6ad4ff8674d4ff7a75d4fff0b6d5ff96b7d5ffaab7d5ffb0b7d5ffb4b7d5ffeab7d5ff484ae9fff84bfeff284cfeff824cfeff2e4dfeff0c4efeff2a4efeff2e4efeff344efeffd84efeff6c4ffeff0050feffc451feff7654feff7c54feff8058feff5222ffff6823ffff6228ffff042effffd047ffffd447ffffe647ffff964affff4474ffff5a77ffff40d7ffff94d7ffffc2d7ffffc8d7ffff9cdbfffff0dbfffff4dbfffffadbffff2eddffff34ddffff38ddffff4cddffff7ae5ffff7ee5ffff84e5ffffbce6ffffc2e6ffffc6e6ffffdae6ffffc0f5ffff04f7ffff96faffffeefafffff4faffff06fbfffff4ffffff98c50000e2c50000f8c50000b29301001e940100
+      m_ExpandedIDs: 6067b1fffa2db2fff66bd8ff406cd8ff446cd8ff4a6cd8ffc46fd8fff66fd8fffc6fd8ff1273d8ff7a87d8ff4e50dcff5254dcff4e42e5ff8642e5ff9c45e5ff3056e5ff3456e5ff3a56e5ff3c56e5ffda59e5fff05ce5ffb253f2ffb653f2ffbc53f2ffbe53f2ff5057f2ff5657f2ff3c5af2ffb474f7ff1875f7ffdc78f7ff3e8bfeff408bfeffda8dfeff9e91feff5222ffff6823ffff6228ffff042effffd047ffffd447ffffe647ffff964affff4474ffff5a77ffff40d7ffff94d7ffffc2d7ffffc8d7ffff9cdbfffff0dbfffff4dbfffffadbffff2eddffff34ddffff38ddffff4cddffff7ae5ffff7ee5ffff84e5ffffbce6ffffc2e6ffffc6e6ffffdae6ffffc0f5ffff04f7ffff96faffffeefafffff4faffff06fbfffff4ffffff98c50000e2c50000f8c50000b02901001e2a010058f501000237020000b90200c0090300101f0300621f0300
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -2512,7 +2514,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 8096}
   vertical: 0
-  controlID: 113224
+  controlID: 58468
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -2532,8 +2534,8 @@ MonoBehaviour:
     y: 0
     width: 781
     height: 452
-  m_MinSize: {x: 390, y: 390}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 391, y: 411}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 14}
   m_Panes:
   - {fileID: 12}
@@ -2653,7 +2655,7 @@ MonoBehaviour:
     m_SaveData: []
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: -3489930
+  m_LastSelectedObjectID: -2592772
 --- !u!114 &14
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -2730,8 +2732,8 @@ MonoBehaviour:
     y: 0
     width: 904
     height: 452
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 202, y: 221}
+  m_MaxSize: {x: 4002, y: 4021}
   m_ActualView: {fileID: 2}
   m_Panes:
   - {fileID: 2}
@@ -2747,7 +2749,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: ProjectSettingsWindow
+  m_Name: ProjectBrowser
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -2756,16 +2758,16 @@ MonoBehaviour:
     y: 0
     width: 1111
     height: 452
-  m_MinSize: {x: 310, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
-  m_ActualView: {fileID: 19}
+  m_MinSize: {x: 230, y: 250}
+  m_MaxSize: {x: 10000, y: 10000}
+  m_ActualView: {fileID: 18}
   m_Panes:
   - {fileID: 18}
   - {fileID: 19}
   - {fileID: 20}
   - {fileID: 21}
-  m_Selected: 1
-  m_LastSelected: 0
+  m_Selected: 0
+  m_LastSelected: 1
 --- !u!114 &18
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -2795,7 +2797,7 @@ MonoBehaviour:
     m_LastAppliedPresetName: Default
     m_SaveData: []
   m_SearchFilter:
-    m_NameFilter: 
+    m_NameFilter: Camera
     m_ClassNames: []
     m_AssetLabels: []
     m_AssetBundleNames: []
@@ -2807,22 +2809,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Prefabs/Camera
+    - Assets/Prefabs
     m_Globs: []
-    m_OriginalText: 
+    m_OriginalText: Camera
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Prefabs/Camera
+  - Assets/Prefabs/Tanks/InteractablePool
   m_LastFoldersGridSize: 16
   m_LastProjectPath: E:\Priority Projects\Unity\TowerTanks
   m_LockTracker:
     m_IsLocked: 1
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 271}
-    m_SelectedIDs: f0910100
-    m_LastClickedID: 102896
-    m_ExpandedIDs: ffffffff000000006a9101007291010074910100769101004c9201004e92010000ca9a3bffffff7f
+    scrollPos: {x: 0, y: 255}
+    m_SelectedIDs: c66a0100
+    m_LastClickedID: 92870
+    m_ExpandedIDs: ffffffff00000000646a0100666a0100686a01006a6a01006c6a01006e6a010000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -2850,7 +2852,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: ffffffff000000006a9101007291010074910100769101004c9201004e92010000ca9a3bffffff7f
+    m_ExpandedIDs: ffffffff00000000646a0100666a0100686a01006a6a01006c6a01006e6a010000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -2875,9 +2877,9 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 
-    m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 1
+    m_SelectedInstanceIDs: fc6fd8ff
+    m_LastClickedInstanceID: -2592772
+    m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: c623000032400000644000008aa4000012470000be450000742400009476000000000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -4850,7 +4852,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 200}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 113111
+  controlID: 58462
 --- !u!114 &23
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -4870,8 +4872,8 @@ MonoBehaviour:
     y: 0
     width: 644
     height: 951
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 276, y: 71}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 24}
   m_Panes:
   - {fileID: 24}
@@ -4911,7 +4913,7 @@ MonoBehaviour:
     m_CachedPref: 239
     m_ControlHash: -371814159
     m_PrefName: Preview_InspectorPreview
-  m_LastInspectedObjectInstanceID: -3489930
+  m_LastInspectedObjectInstanceID: -2592772
   m_LastVerticalScrollValue: 0
   m_GlobalObjectId: 
   m_InspectorMode: 0
@@ -4937,8 +4939,8 @@ MonoBehaviour:
     y: 951
     width: 644
     height: 348
-  m_MinSize: {x: 100, y: 100}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 101, y: 121}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 26}
   m_Panes:
   - {fileID: 26}

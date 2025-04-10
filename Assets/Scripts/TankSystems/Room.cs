@@ -1168,11 +1168,17 @@ namespace TowerTanks.Scripts
         /// </summary>
         public Bounds GetRoomBounds()
         {
-            Bounds bounds = new Bounds();                                   //Create a bounds object to encapsulate room
-            bounds.center = cells[0].transform.position;                    //Move bounds to within room (so that encapsulation isn't thrown off)
-            bounds.size = Vector2.zero;                                     //Zero out side of bounds in case it still goes outside room
-            foreach (Cell cell in cells) bounds.Encapsulate(cell.c.bounds); //Encapsulate bounds of each cell
-            return bounds;                                                  //Return calculated bounds
+            Bounds bounds = new Bounds();                //Create a bounds object to encapsulate room
+            bounds.center = cells[0].transform.position; //Move bounds to within room (so that encapsulation isn't thrown off)
+            bounds.size = Vector2.zero;                  //Zero out side of bounds in case it still goes outside room
+            foreach (Cell cell in cells) //Iterate through each cell in room
+            {
+                foreach (Transform corner in cell.corners) //Iterate through each corner in cell
+                {
+                    bounds.Encapsulate(corner.position); //Encapsulate all four corners of cell within room
+                }
+            }
+            return bounds; //Return calculated bounds
         }
 
         public void ClearItems()

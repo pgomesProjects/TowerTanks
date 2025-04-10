@@ -270,7 +270,7 @@ namespace TowerTanks.Scripts
         private float totalDeathSequenceTimer = 0;
         private float transitionSequenceTimer = 0;
         private float transitionSequenceInterval = 0;
-        [Tooltip("Describes the size of the tank in each cardinal direction (relative to treadbase). X = height, Y = left width, Z = depth, W = right width.")] internal Vector4 tankSizeValues;
+        [Tooltip("Describes the size of the tank in each cardinal direction (relative to treadbase). X = height, Y = right width, Z = depth, W = left width.")] internal Vector4 tankSizeValues;
         [Tooltip("Describes whether the tank is currently in the pre-build stage or not.")] internal bool isPrebuilding;
 
         //UI

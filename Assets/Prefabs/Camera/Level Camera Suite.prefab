@@ -387,9 +387,17 @@ MonoBehaviour:
   minOpponentCamTargeter: {fileID: 922020007535679231}
   maxOpponentCamTargeter: {fileID: 8589448851219015231}
   mainCamConfiner: {fileID: 4169744352977157446}
-  bufferValues: {x: 2, y: 1, z: 0, w: 1}
+  cameraSmoothing: 0.2
+  fps: 0
+  bufferValues: {x: 2, y: 1, z: 0.3, w: 1}
   minCellSizeOnScreen: 0
   maxLeadSpeed: 0
+  leadCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   radarRange: 150
   radarTerrainCrossSectionalHeight: 0
   opponentVisDistance: 100

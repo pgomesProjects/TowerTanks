@@ -2337,6 +2337,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Level Camera Suite
       objectReference: {fileID: 0}
+    - target: {fileID: 5916412110653472940, guid: 3bec6eaa40f860f4786a837e8ad0f4d7, type: 3}
+      propertyPath: cameraSmoothing
+      value: 0.2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3bec6eaa40f860f4786a837e8ad0f4d7, type: 3}
 --- !u!4 &1067676808 stripped
@@ -5279,6 +5283,10 @@ PrefabInstance:
       propertyPath: playerTank
       value: 
       objectReference: {fileID: 1018531887}
+    - target: {fileID: 4843668872084516695, guid: 53a0bd872ca3a494b810685048a309ff, type: 3}
+      propertyPath: ignoreSettings
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4843668872084516695, guid: 53a0bd872ca3a494b810685048a309ff, type: 3}
       propertyPath: obstacleChance
       value: 0

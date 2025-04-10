@@ -53,19 +53,20 @@ namespace TowerTanks.Scripts
                 vcam = new GameObject("VCAM_" + type.ToString()).AddComponent<CinemachineVirtualCamera>(); //Generate object with virtual camera component and get a reference to it
                 vcam.transform.parent = main.transform;                                                    //Child camera to camera container
                 vcam.gameObject.layer = LayerMask.NameToLayer(camLayerName);                               //Assign layer to virtual camera so that only this system's camera is rendering from it
+                vcam.m_Lens.NearClipPlane = -10;                                                           //Bring near clip plane forward so that level is visible
                 CinemachineTransposer transposer = vcam.AddCinemachineComponent<CinemachineTransposer>();  //Use a transposer to finely adjust camera settings
-                transposer.m_FollowOffset.z = -10;                                                         //Set camera z value so it can actually see the tank
                 transposer.m_XDamping = 0; transposer.m_YDamping = 0; transposer.m_ZDamping = 0;           //Turn off all camera damping
 
                 //Type-specific setup:
-                if (type == CamSystemType.Opponent || type == CamSystemType.Radar) cam.depth = 1; //Raise camera priority if it needs to be rendered over player camera
+                vcam.Priority = type == CamSystemType.Opponent || type == CamSystemType.Radar ? 1 : 0; //Raise camera priority if it needs to be rendered over player camera
                 if (type == CamSystemType.Radar) //Only perform the following setup for the radar cam
                 {
                     //Extra camera setup:
                     cam.transform.tag = "RadarCam";                                                                   //Tag the camera radar so stuff knows what it is
                     cam.clearFlags = CameraClearFlags.SolidColor;                                                     //Change the background type to only show a solid color
                     cam.backgroundColor = Color.black;                                                                //Set the background color to black
-                    cam.cullingMask = 1 << LayerMask.NameToLayer("TankCamC") | 1 << LayerMask.NameToLayer("Minimap"); //Set the camera to only render the radar cam and the minimap cam
+                    cam.cullingMask = 1 << LayerMask.NameToLayer("TankCamC") | 1 << LayerMask.NameToLayer("Minimap") | 1 << LayerMask.NameToLayer("RadarCam"); //Set the camera to only render the radar cam and the minimap cam
+                    //NOTE: RADARCAM IN THE ABOVE LINE IS TEMPORARY
 
                     //Extra elements:
                     if (main.radarGrid != null) Instantiate(main.radarGrid, vcam.transform); //Add a grid visual to the radar
@@ -159,7 +160,7 @@ namespace TowerTanks.Scripts
 
                     //Edit position of tank in frame:
                     Vector2 followOffset = new Vector2((cam.aspect * cam.orthographicSize) - targetBounds.extents.x, 0); //Calibrate follow offset so tank is glued to center of far left of radar
-                    transposer.m_FollowOffset = new Vector3(followOffset.x, followOffset.y, -10);                        //Move tank to target position in frame, keeping camera distance at consistent level
+                    transposer.m_FollowOffset = new Vector3(followOffset.x, followOffset.y, 0);                        //Move tank to target position in frame, keeping camera distance at consistent level
                 }
                 else if (type == CamSystemType.Player) //Framing for the main player camera
                 {
@@ -171,10 +172,10 @@ namespace TowerTanks.Scripts
                     vcam.m_Lens.OrthographicSize = targetOrthoSize;                                         //Set ortho size
 
                     //Edit position of tank in frame:
-                    Vector2 frameDimensions = new Vector2(cam.aspect * (cam.orthographicSize * 2), cam.orthographicSize * 2); //Determine dimensions of frame in units based on aspect ratio and orthographic size
-                    Vector2 followOffset = (frameDimensions / 2) - (confines.min * frameDimensions);                          //Get base follow offset that puts target center on lower left corner of allowed confines (finding actual world position of confines min by multiplying it by frame dimensions)
-                    followOffset += (Vector2)(targetBounds.min - target.GetTargetTransform().position);                       //Move inward from base follow offset so that entire target bounds are accounted for
-                    transposer.m_FollowOffset = new Vector3(followOffset.x, followOffset.y, -10);                             //Move tank to target position in frame, keeping camera distance at consistent level
+                    Vector2 frameDimensions = new Vector2(cam.aspect * (cam.orthographicSize * 2), cam.orthographicSize * 2);                                  //Determine dimensions of frame in units based on aspect ratio and orthographic size
+                    Vector2 followOffset = (frameDimensions / 2) - (confines.min * frameDimensions);                                                           //Get base follow offset that puts target center on lower left corner of allowed confines (finding actual world position of confines min by multiplying it by frame dimensions)
+                    followOffset += (Vector2)(targetBounds.min - target.GetTargetTransform().position);                                                        //Move inward from base follow offset so that entire target bounds are accounted for
+                    transposer.m_FollowOffset = Vector2.Lerp(transposer.m_FollowOffset, new Vector3(followOffset.x, followOffset.y, 0), main.cameraSmoothing); //Move tank to target position in frame, keeping camera distance at consistent level (smooth camera to reduce jitter)
                 }
                 else if (type == CamSystemType.Opponent) //Framing for the opponent subcamera
                 {
@@ -185,9 +186,9 @@ namespace TowerTanks.Scripts
                     vcam.m_Lens.OrthographicSize = targetOrthoSize;                     //Set ortho size
 
                     //Edit position of tank in frame:
-                    float followOffsetY = cam.orthographicSize + (targetBounds.min.y - target.GetTargetTransform().position.y); //Get vertical component of follow offset seperately
-                    float followOffsetX = (targetBounds.center.x - target.GetTargetTransform().position.x);                     //Just get the horizontal distance between followpoint and actual center of bounds
-                    transposer.m_FollowOffset = new Vector3(followOffsetX, followOffsetY, -10);                                 //Move tank to position pinned to bottom of frame but centered horizontally
+                    float followOffsetY = cam.orthographicSize + (targetBounds.min.y - target.GetTargetTransform().position.y);                              //Get vertical component of follow offset seperately
+                    float followOffsetX = (targetBounds.center.x - target.GetTargetTransform().position.x);                                                  //Just get the horizontal distance between followpoint and actual center of bounds
+                    transposer.m_FollowOffset = Vector2.Lerp(transposer.m_FollowOffset, new Vector3(followOffsetX, followOffsetY, 0), main.cameraSmoothing); //Move tank to position pinned to bottom of frame but centered horizontally (smooth camera to reduce jitter)
                 }
             }
 
@@ -229,6 +230,7 @@ namespace TowerTanks.Scripts
 
         //Settings:
         [Header("General Settings:")]
+        [SerializeField, Tooltip(""), Range(0,1)] private float cameraSmoothing;
         [SerializeField, Tooltip("Target FPS for all active cameras"), Min(1)]                                                         private float fps;
         [SerializeField, Tooltip("Use this to add hard space (in units) between extremities of framed objects and the frame itself.")] private Vector4 bufferValues;
         [Header("Main Tank Camera Settings:")]
