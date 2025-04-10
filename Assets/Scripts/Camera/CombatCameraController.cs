@@ -49,12 +49,12 @@ namespace TowerTanks.Scripts
                 cam.cullingMask = main.MakeCamMask(camLayerName);                                                                                                       //Set camera culling mask so that camera can only see vcam on designated layer
 
                 //Initialize virtual camera:
-                vcam = new GameObject("VCAM_" + type.ToString()).AddComponent<CinemachineVirtualCamera>();              //Generate object with virtual camera component and get a reference to it
-                vcam.transform.parent = main.transform;                                                                 //Child camera to camera container
-                vcam.gameObject.layer = LayerMask.NameToLayer(camLayerName);                                            //Assign layer to virtual camera so that only this system's camera is rendering from it
-                CinemachineFramingTransposer transposer = vcam.AddCinemachineComponent<CinemachineFramingTransposer>(); //Use a framing transposer to finely adjust camera settings
-                transposer.m_TrackedObjectOffset.z = -10;                                                               //Set camera z value so it can actually see the tank
-                transposer.m_XDamping = 0; transposer.m_YDamping = 0; transposer.m_ZDamping = 0;                        //Turn off all camera damping
+                vcam = new GameObject("VCAM_" + type.ToString()).AddComponent<CinemachineVirtualCamera>(); //Generate object with virtual camera component and get a reference to it
+                vcam.transform.parent = main.transform;                                                    //Child camera to camera container
+                vcam.gameObject.layer = LayerMask.NameToLayer(camLayerName);                               //Assign layer to virtual camera so that only this system's camera is rendering from it
+                CinemachineTransposer transposer = vcam.AddCinemachineComponent<CinemachineTransposer>();  //Use a transposer to finely adjust camera settings
+                transposer.m_FollowOffset.z = -10;                                                         //Set camera z value so it can actually see the tank
+                transposer.m_XDamping = 0; transposer.m_YDamping = 0; transposer.m_ZDamping = 0;           //Turn off all camera damping
 
                 //Radar setup:
                 if (type == CamSystemType.Radar) //Only perform the following setup for the radar cam
@@ -124,14 +124,51 @@ namespace TowerTanks.Scripts
                 }
                 cam.rect = camRect; //Apply changes in cam rect
 
-                //Frame targets:
+                //Get minimum bounds for target:
                 Bounds targetBounds = target.GetTargetBounds(); //Get bounds from target
                 targetBounds.size += new Vector3(main.bufferValues.y + main.bufferValues.w, main.bufferValues.x + main.bufferValues.z);               //Add universal buffer size to bounds
                 targetBounds.center += new Vector3((main.bufferValues.y - main.bufferValues.w) / 2, (main.bufferValues.x - main.bufferValues.z) / 2); //Adjust centerpoint of bounds so that asymmetrical settings do not offset bounding box
-                
-                if (type == CamSystemType.Radar) //Radar framing:
+
+                //Adjust zoom:
+                CinemachineTransposer transposer = vcam.GetCinemachineComponent<CinemachineTransposer>(); //Get transposer component so that offset values can be modified
+                if (type == CamSystemType.Radar) //Zooming for the radar camera
                 {
+
+                }
+                else if (type == CamSystemType.Player) //Zooming for the main player camera
+                {
+                    
+                }
+
+                //Frame target:
+                
+                if (type == CamSystemType.Radar) //Framing for the radar camera
+                {
+                    //Adjust zoom:
                     vcam.m_Lens.OrthographicSize = (main.radarRange / cam.aspect) / 2; //Adjust ortho size of camera so that radar is precisely rendering designated range at all times
+
+                    //Edit position of tank in frame:
+                    Vector2 followOffset = new Vector2((cam.aspect * cam.orthographicSize) - targetBounds.extents.x, 0); //Calibrate follow offset so tank is glued to center of far left of radar
+                    transposer.m_FollowOffset = new Vector3(followOffset.x, followOffset.y, -10);                        //Move tank to target position in frame, keeping camera distance at consistent level
+                }
+                else if (type == CamSystemType.Player) //Framing for the main player camera
+                {
+                    //Adjust zoom:
+                    Rect confines = main.GetNormalizedRect(main.mainCamConfiner, main.zoneVisCanvas);       //Get rectangle in screen defining area where target is allowed to be present (so it is not obscured by UI)
+                    float widthOrthoSize = ((targetBounds.size.x / 2) / cam.aspect) * (1 / confines.width); //Determine orthographic size as would be defined by width of bounds (factor in confine width inversely because making the confines larger means the camera can zoom in (smaller ortho size))
+                    float heightOrthoSize = (targetBounds.size.y / 2) * (1 / confines.height);              //Determine orthographic size as would be defined by height of bounds (factor in confine height inversely)
+                    float targetOrthoSize = Mathf.Max(widthOrthoSize, heightOrthoSize);                     //Pick whichever dimension needs more space as the determinant of ortho size
+                    vcam.m_Lens.OrthographicSize = targetOrthoSize;                                         //Set ortho size
+
+                    //Edit position of tank in frame:
+                    Vector2 frameDimensions = new Vector2(cam.aspect * (cam.orthographicSize * 2), cam.orthographicSize * 2); //Determine dimensions of frame in units based on aspect ratio and orthographic size
+                    Vector2 followOffset = (frameDimensions / 2) - (confines.min * frameDimensions);                          //Get base follow offset that puts target center on lower left corner of allowed confines (finding actual world position of confines min by multiplying it by frame dimensions)
+                    followOffset += (Vector2)(targetBounds.min - target.GetTargetTransform().position);                       //Move inward from base follow offset so that entire target bounds are accounted for
+                    transposer.m_FollowOffset = new Vector3(followOffset.x, followOffset.y, -10);                             //Move tank to target position in frame, keeping camera distance at consistent level
+                }
+                else if (type == CamSystemType.Opponent) //Framing for the opponent subcamera
+                {
+
                 }
             }
 
@@ -168,9 +205,10 @@ namespace TowerTanks.Scripts
 
         //Settings:
         [Header("Camera Zone Positioning:")]
-        [SerializeField, Tooltip("UI object used to position radar zone camera in scene.")]                      private RectTransform radarCamTargeter;
-        [SerializeField, Tooltip("UI object used to position smallest version of opponent subcamera in scene.")] private RectTransform minOpponentCamTargeter;
-        [SerializeField, Tooltip("UI object used to position largest version of opponent subcamera in scene.")]  private RectTransform maxOpponentCamTargeter;
+        [SerializeField, Tooltip("UI object used to position radar zone camera in scene.")]                           private RectTransform radarCamTargeter;
+        [SerializeField, Tooltip("UI object used to position smallest version of opponent subcamera in scene.")]      private RectTransform minOpponentCamTargeter;
+        [SerializeField, Tooltip("UI object used to position largest version of opponent subcamera in scene.")]       private RectTransform maxOpponentCamTargeter;
+        [SerializeField, Tooltip("Dynamic UI object used to determine where player tank is allowed to be in frame.")] private RectTransform mainCamConfiner;
         [Header("Main Tank Camera Settings:")]
         [SerializeField, Tooltip("Use this to add hard space (in units) between extremities of framed objects and the frame itself.")] private Vector4 bufferValues;
         [Header("Radar Settings:")]
@@ -186,6 +224,8 @@ namespace TowerTanks.Scripts
         private Rect minOpponentRect; //Normalized rectangle representing area on screen where opponent tracker subcam will render when opponent tank is most distant
         private Rect maxOpponentRect; //Normalized rectangle representing area on screen where opponent tracker subcam will render when opponent tank is ready to merge with player camera
 
+        private float mainCamleadValue; //Value between -1 and 1 determining how far forward or backward (and how far zoomed out) camera should get depending on tank speed over time
+
         //RUNTIME METHODS:
         private void Awake()
         {
@@ -197,7 +237,8 @@ namespace TowerTanks.Scripts
             zoneVisCanvas = GetComponentInChildren<Canvas>();                                                                                                      //Get canvas containing camera zone visualization boxes
         
             //Hide visualizers:
-            radarCamTargeter.GetComponent<Image>().enabled = false; //Disable image for engagement zone camera targeter
+            radarCamTargeter.GetComponent<Image>().enabled = false; //Disable image for radar zone camera targeter
+            //mainCamConfiner.GetComponent<Image>().enabled = false;  //Disable image for confinement zone camera targeter
 
             //Set up parallax infrastructure:
             int chunkLayerCounter = 0;
@@ -248,7 +289,19 @@ namespace TowerTanks.Scripts
                 UpdateOutputRects(); //Update rects while in editor so they can be changed on the fly if need be
             }
         }
-
+        private void OnDrawGizmos()
+        {
+            if (Application.isPlaying && Application.isEditor) //Only show gizmos when playing in editor
+            {
+                //Visualize buffer rect:
+                Bounds targetBounds = playerTankCam.target.GetTargetBounds(); //Store bounds so they can be drawn without having to be re-calculated
+                targetBounds.size += new Vector3(main.bufferValues.y + main.bufferValues.w, main.bufferValues.x + main.bufferValues.z);               //Add universal buffer size to bounds
+                targetBounds.center += new Vector3((main.bufferValues.y - main.bufferValues.w) / 2, (main.bufferValues.x - main.bufferValues.z) / 2); //Adjust centerpoint of bounds so that asymmetrical settings do not offset bounding box
+                Gizmos.color = Color.yellow;                                  //Draw bounds in yellow
+                Gizmos.DrawWireCube(targetBounds.center, targetBounds.size);  //Draw a wire cube representing acquired bounds
+            }
+        }
+        
         //FUNCTIONALITY METHODS:
         /// <summary>
         /// Shakes given camera system according to given settings.

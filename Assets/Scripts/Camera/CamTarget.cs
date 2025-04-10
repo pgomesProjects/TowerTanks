@@ -45,13 +45,7 @@ namespace TowerTanks.Scripts
         }
         private void OnDrawGizmos()
         {
-            if (Application.isPlaying && Application.isEditor) //Only show gizmos when playing in editor
-            {
-                //Visualize buffer rect:
-                Bounds targetBounds = GetTargetBounds();                     //Store bounds so they can be drawn without having to be re-calculated
-                Gizmos.color = Color.yellow;                                 //Draw bounds in yellow
-                Gizmos.DrawWireCube(targetBounds.center, targetBounds.size); //Draw a wire cube representing acquired bounds
-            }
+            
         }
 
         //FUNCTIONALITY METHODS:
@@ -78,5 +72,9 @@ namespace TowerTanks.Scripts
             //Cleanup:
             return bounds; //Return calculated bounds
         }
+        /// <summary>
+        /// Returns raw transform component this target is tracking.
+        /// </summary>
+        public Transform GetTargetTransform() { if (centerTransform == null) return transform; else return centerTransform; }
     }
 }

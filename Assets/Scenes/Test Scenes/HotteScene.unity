@@ -2301,6 +2301,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4169744352977157446, guid: 3bec6eaa40f860f4786a837e8ad0f4d7, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1443
+      objectReference: {fileID: 0}
+    - target: {fileID: 4169744352977157446, guid: 3bec6eaa40f860f4786a837e8ad0f4d7, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 663.9611
+      objectReference: {fileID: 0}
+    - target: {fileID: 4169744352977157446, guid: 3bec6eaa40f860f4786a837e8ad0f4d7, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -483
+      objectReference: {fileID: 0}
+    - target: {fileID: 4169744352977157446, guid: 3bec6eaa40f860f4786a837e8ad0f4d7, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -903.96106
+      objectReference: {fileID: 0}
     - target: {fileID: 5440465345709929839, guid: 3bec6eaa40f860f4786a837e8ad0f4d7, type: 3}
       propertyPath: m_Name
       value: Level Camera Suite
