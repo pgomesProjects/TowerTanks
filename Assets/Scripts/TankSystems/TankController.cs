@@ -341,7 +341,8 @@ namespace TowerTanks.Scripts
                     if (tank.gameObject == gameObject) //if I'm on the list,
                     {
                         //If this is the player tank and the campaign hasn't started (meaning that the build scene hasn't been reached), build the tank
-                        tank.buildOnStart = tankType == TankId.TankType.PLAYER && !CampaignManager.Instance.HasCampaignStarted;
+                        if(tankType == TankId.TankType.PLAYER)
+                            tank.buildOnStart = !CampaignManager.Instance.HasCampaignStarted;
 
                         if (tank.buildOnStart && tank.design != null)
                         {
