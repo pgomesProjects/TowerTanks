@@ -108,6 +108,9 @@ namespace TowerTanks.Scripts
             LockCouplers();
             TutorialStateTransition(0);
             UpdatePlayerValues();
+
+            //Play the default build music
+            GameManager.Instance.AudioManager.Play("Build_1", null, true);
         }
 
         // Update is called once per frame

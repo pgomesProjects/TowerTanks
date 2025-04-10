@@ -9,7 +9,8 @@ namespace TowerTanks.Scripts
 {
     public class TitlescreenController : MonoBehaviour
     {
-        private GameObject currentMenuState;
+        private GameObject currentMenuStateObject;
+        private MenuState currentMenuState;
 
         public enum MenuState { START, MAIN, OPTIONS, CREDITS, DIFFICULTYSETTINGS }
 
@@ -18,11 +19,20 @@ namespace TowerTanks.Scripts
         [SerializeField] private GameObject optionsMenu;
         [SerializeField] private GameObject creditsMenu;
         [SerializeField] private GameObject difficultySettingsMenu;
-
+        [Space()]
+        [Header("Idle Screen Settings")]
+        [SerializeField, Tooltip("The main menu canvas group.")] private CanvasGroup mainMenuCanvasGroup;
+        [SerializeField, Tooltip("The idle canvas group.")] private CanvasGroup idleCanvasCroup;
+        [SerializeField, Tooltip("The duration of the fade into the idle menu.")] private float idleFadeInDuration;
+        [SerializeField, Tooltip("The duration of the fade out of the idle menu.")] private float idleFadeOutDuration;
+        [Space()]
         [Header("Menu Animators")]
         [SerializeField] private MoveAnimation startScreenAnimator;
         [SerializeField] private MoveAnimation mainMenuAnimator;
-
+        [Space()]
+        [SerializeField, Tooltip("The animator for the title screen transition.")] private Animator titleScreenTransitionAnimator;
+        [SerializeField, Tooltip("The duration of the fade out of the main menu when transitioning out.")] private float mainMenuExitDuration;
+        [Space()]
         [Header("Menu First Selected Items")]
         [SerializeField] private Selectable[] mainMenuButtons;
         [SerializeField] private Selectable optionsMenuSelected;
@@ -31,12 +41,20 @@ namespace TowerTanks.Scripts
         private bool inMenu = false;
         [SerializeField] private string sceneToLoad;
 
+        private bool idleMenuAnimationActive;
+        private float startingMenuAlpha, endingMenuAlpha;
+        private float startingIdleAlpha, endingIdleAlpha;
+        private float idleAnimationElapsed;
+        private float idleAnimationDuration;
+
+        private bool mainMenuTransitionActive;
+        private float mainMenuExitElapsed;
+
         private PlayerControlSystem playerControlSystem;
 
         private void Awake()
         {
             playerControlSystem = new PlayerControlSystem();
-            playerControlSystem.UI.Start.performed += _ => StartScreenToMain();
             playerControlSystem.UI.Cancel.performed += _ => CancelAction();
             playerControlSystem.UI.DebugMode.performed += _ => DebugMode();
         }
@@ -47,7 +65,8 @@ namespace TowerTanks.Scripts
             GameManager.Instance.AudioManager.Play("MainMenuAmbience");
             GameManager.Instance.AudioManager.Play("MainMenuWindAmbience");
 
-            currentMenuState = startMenu;
+            currentMenuState = MenuState.START;
+            currentMenuStateObject = startMenu;
 
             if (GameSettings.mainMenuEntered)
             {
@@ -63,18 +82,49 @@ namespace TowerTanks.Scripts
         private void OnEnable()
         {
             playerControlSystem.Enable();
+            IdleUITracker.OnIdleScreenActivated += () => ShowIdleScreen(true);
+            IdleUITracker.OnIdleEnd += () => ShowIdleScreen(false);
+            AnyButtonPressDetection.OnAnyButtonPressed += OnMenuAction;
         }
 
         private void OnDisable()
         {
             playerControlSystem.Disable();
+            IdleUITracker.OnIdleScreenActivated -= () => ShowIdleScreen(true);
+            IdleUITracker.OnIdleEnd -= () => ShowIdleScreen(false);
+            AnyButtonPressDetection.OnAnyButtonPressed -= OnMenuAction;
         }
 
         public void StartGame()
         {
+            mainMenuTransitionActive = true;
             GameManager.Instance.AudioManager.Stop("MainMenuAmbience");
             GameManager.Instance.AudioManager.Stop("MainMenuWindAmbience");
-            GameManager.Instance.LoadScene(sceneToLoad, LevelTransition.LevelTransitionType.FADE);
+            mainMenuCanvasGroup.interactable = false;
+            mainMenuExitElapsed = 0f;
+            titleScreenTransitionAnimator.Play("ZoomIn&Pan");
+        }
+
+        private void MainMenuFadeAnimation()
+        {
+            if (mainMenuTransitionActive)
+            {
+                if (mainMenuExitElapsed < mainMenuExitDuration)
+                {
+                    mainMenuCanvasGroup.alpha = Mathf.Lerp(1f, 0f, mainMenuExitElapsed / mainMenuExitDuration);
+                    mainMenuExitElapsed += Time.deltaTime;
+                }
+                else
+                {
+                    mainMenuCanvasGroup.alpha = 0f;
+                    mainMenuTransitionActive = false;
+                }
+            }
+        }
+
+        public void LoadNextScene()
+        {
+            GameManager.Instance.LoadScene(sceneToLoad, LevelTransition.LevelTransitionType.FADE, true, true, false);
         }
 
         public void ShowDifficulty()
@@ -120,10 +170,56 @@ namespace TowerTanks.Scripts
             mainMenuAnimator.Play();
         }
 
+        public void OnMenuAction(InputControl control)
+        {
+            switch (currentMenuState)
+            {
+                case MenuState.START:
+                    StartScreenToMain();
+                    break;
+                case MenuState.MAIN:
+                    IdleUITracker.InputRecorded = true;
+                    break;
+            }
+        }
+
+        private void ShowIdleScreen(bool showScreen)
+        {
+            //Set the animation variables
+            startingMenuAlpha = showScreen ? 1f : 0f;
+            endingMenuAlpha = showScreen ? 0f : 1f;
+            startingIdleAlpha = showScreen ? 0f : 1f;
+            endingIdleAlpha = showScreen ? 1f : 0f;
+            idleAnimationDuration = showScreen ? idleFadeInDuration : idleFadeOutDuration;
+            idleAnimationElapsed = 0f;
+
+            idleMenuAnimationActive = true;
+        }
+
+        private void IdleScreenAnimation()
+        {
+            if (idleMenuAnimationActive)
+            {
+                //Lerp the alpha of the canvas groups
+                if(idleAnimationElapsed < idleAnimationDuration)
+                {
+                    mainMenuCanvasGroup.alpha = Mathf.Lerp(startingMenuAlpha, endingMenuAlpha, idleAnimationElapsed / idleAnimationDuration);
+                    idleCanvasCroup.alpha = Mathf.Lerp(startingIdleAlpha, endingIdleAlpha, idleAnimationElapsed / idleAnimationDuration);
+                    idleAnimationElapsed += Time.deltaTime;
+                }
+                else
+                {
+                    mainMenuCanvasGroup.alpha = endingMenuAlpha;
+                    idleCanvasCroup.alpha = endingIdleAlpha;
+                    idleMenuAnimationActive = false;
+                }
+            }
+        }
+
         private void CancelAction()
         {
             //If the player is not in the main menu, go back to the main menu
-            if (currentMenuState != mainMenu && currentMenuState != startMenu)
+            if (currentMenuStateObject != mainMenu && currentMenuStateObject != startMenu)
             {
                 Back();
             }
@@ -195,16 +291,24 @@ namespace TowerTanks.Scripts
                     break;
             }
 
-            GameObject prevMenu = currentMenuState;
+            GameObject prevMenu = currentMenuStateObject;
 
             DeselectButton();
 
-            currentMenuState.SetActive(false);
-            currentMenuState = newMenu;
-            currentMenuState.SetActive(true);
+            currentMenuStateObject.SetActive(false);
+            currentMenuStateObject = newMenu;
+            currentMenuStateObject.SetActive(true);
 
             if (menu == MenuState.MAIN)
                 SelectButtonOnMain(prevMenu);
+
+            currentMenuState = menu;
+        }
+
+        private void Update()
+        {
+            IdleScreenAnimation();
+            MainMenuFadeAnimation();
         }
 
         private void DeselectButton()

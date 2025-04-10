@@ -76,6 +76,12 @@ namespace TowerTanks.Scripts
                     SwitchAllPlayerActionMaps("Player");
                     break;
             }
+
+            //Do not allow players to join on the title screen
+            if ((GAMESCENE)scene.buildIndex == GAMESCENE.TITLE)
+                playerInputManager?.DisableJoining();
+            else
+                playerInputManager?.EnableJoining();
         }
 
         /// <summary>
