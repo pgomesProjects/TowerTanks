@@ -317,6 +317,7 @@ namespace TowerTanks.Scripts
                     room.Mount();                                //Mount room to tank immediately
                 }
             }
+            currentCoreHealth = coreHealth;
             treadSystem.ReCalculateMass(); //Get center of mass based on room setup
 
             //Other setup:
@@ -331,7 +332,6 @@ namespace TowerTanks.Scripts
         private void Start()
         {
             tankManager = GameObject.Find("TankManager")?.GetComponent<TankManager>();
-            
             
             if (tankManager != null)
             {
@@ -410,7 +410,6 @@ namespace TowerTanks.Scripts
                     LoadRandomWeapons(toLoad);
                 }
             }
-            currentCoreHealth = coreHealth;
             UpdateUI();
 
             //Shop Logic

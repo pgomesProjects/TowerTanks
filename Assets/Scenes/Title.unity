@@ -4616,7 +4616,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2379a95204704c46b1c0454b97c01b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idleLimit: 120
+  idleLimit: 10
 --- !u!225 &671952397
 CanvasGroup:
   m_ObjectHideFlags: 0

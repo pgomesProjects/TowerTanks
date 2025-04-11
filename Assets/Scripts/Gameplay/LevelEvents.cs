@@ -4,46 +4,17 @@ using UnityEngine;
 
 namespace TowerTanks.Scripts
 {
-    public enum ObjectiveType
-    {
-        TravelDistance,
-        DefeatEnemies,
-        SurviveForAmountOfTime
-    }
-
-    [CreateAssetMenu(fileName = "New Level Event", menuName = "Level Data / Level Event")]
+    [CreateAssetMenu(fileName = "New Level Event", menuName = "Level Data/Level Event")]
     public class LevelEvents : ScriptableObject
     {
-        public string levelName;
-        public string levelDescription;
-        public ObjectiveType objectiveType;
-        [Tooltip("The number of rounds. Enter 0 for infinite rounds.")] public int numberOfRounds;
-        public INTERACTABLE[] startingInteractables;
+        [Tooltip("The name of the level.")] public string levelName;
+        [Tooltip("The name of the objective.")] public string objectiveName;
+        [Tooltip("The description of the level.")] public string levelDescription;
+        [Tooltip("The interactables given at the start.")] public INTERACTABLE[] startingInteractables;
 
-        //Travel Distance options
-        public float metersToTravel;
+        [Tooltip("The frequency of enemies spawning.")] public Vector2 enemyFrequency;
+        [Tooltip("The sub-objectives for the level.")] public SubObjectiveEvent[] subObjectives;
 
-        //Defeat Enemies options
-        public int enemiesToDefeat;
-
-        //Survive For Amount Of Time options
-        public int secondsToSurviveFor;
-
-        public string GetObjectiveName()
-        {
-            switch (objectiveType)
-            {
-                case ObjectiveType.DefeatEnemies:
-                    return "Defeat Enemies!";
-
-                case ObjectiveType.SurviveForAmountOfTime:
-                    return "Keep Your Tank Alive!";
-
-                case ObjectiveType.TravelDistance:
-                    return "Reach The Objective!";
-            }
-
-            return "No Title Found";
-        }
+        [Tooltip("The amount of meters to travel.")] public float metersToTravel;
     }
 }

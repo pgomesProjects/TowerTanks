@@ -73,6 +73,7 @@ namespace TowerTanks.Scripts
         [Header("Animation:")]
         [SerializeField, Tooltip("Gear in the center of the treadbase.")]   private Transform centerGear;
         [SerializeField, Tooltip("Modifies speed of center gear."), Min(0)] private float centerGearSpeedScale;
+        [SerializeField, Tooltip("The refresh rate of when the tread system sends health updates.")] private float treadRefreshRate;
 
         [Button("JamTreads", Icon = SdfIconType.Wrench)]
         private void JamTreads() { Damage(treadHealth); }
@@ -89,6 +90,8 @@ namespace TowerTanks.Scripts
         private float jamEffectTimer = 0f; //Timer used to space out jam particle effect spawns
         public bool isJammed = false;     //Whether or not treads are currently jammed 
 
+        private bool treadRefreshCooldownActive;
+        private float savedTreadHealth, treadRefreshElapsed;
         public System.Action<float> OnTreadHealthUpdated;
 
         //RUNTIME METHODS:
@@ -148,8 +151,25 @@ namespace TowerTanks.Scripts
                         jammedSprite.gameObject.SetActive(false);
                     }
                 }
+            }
 
-                OnTreadHealthUpdated?.Invoke(treadHealth / treadMaxHealth);
+            //Ping Tread Health:
+            if (!treadRefreshCooldownActive)
+            {
+                if(savedTreadHealth != treadHealth) //If the saved health value is different, send an update
+                {
+                    OnTreadHealthUpdated?.Invoke(treadHealth / treadMaxHealth);
+                    savedTreadHealth = treadHealth;
+                    treadRefreshElapsed = 0f;
+                    treadRefreshCooldownActive = true;
+                }
+            }
+            else
+            {
+                if (treadRefreshElapsed >= treadRefreshRate)
+                    treadRefreshCooldownActive = false;
+                else
+                    treadRefreshElapsed += Time.deltaTime;
             }
 
             //Jam effects:
@@ -345,6 +365,7 @@ namespace TowerTanks.Scripts
 
             //Get starting variables:
             treadHealth = treadMaxHealth; //Set up tread health
+            savedTreadHealth = treadHealth;
 
             //Generate collider system:
             colliderSystem = new GameObject("ColliderSystem").transform; //Generate empty gameobject

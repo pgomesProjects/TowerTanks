@@ -135,7 +135,7 @@ namespace TowerTanks.Scripts
             //For each heatmap pixel, draw the block and subscribe the corresponding cell to it
             foreach(CellHeatmapPixel pixel in cellHeatmapPixels)
             {
-                DrawBlock(pixel.pos, pixelSize, healthyColor, cellRadius);
+                DrawBlock(pixel.pos, pixelSize, pixel.currentColor, cellRadius);
                 pixel.cell.OnCellHealthUpdated += OnCellHealthUpdated;
             }
 
@@ -321,6 +321,10 @@ namespace TowerTanks.Scripts
             ApplyHeatmapTexture();
         }
 
+        /// <summary>
+        /// The function called when a tank's treads health is updated.
+        /// </summary>
+        /// <param name="percent">The percentage of the tread's health (0 = completely jammed, 1 = full).</param>
         private void OnTreadHealthUpdated(float percent)
         {
             //If there are no tread pixels, return

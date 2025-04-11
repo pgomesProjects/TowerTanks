@@ -566,15 +566,14 @@ namespace TowerTanks.Scripts
 
         public void AddObjectiveValue(ObjectiveType type, float amount)
         {
-            if (CampaignManager.Instance.GetCurrentLevelEvent().objectiveType == type)
+            switch (type)
             {
-                if (type == ObjectiveType.DefeatEnemies)
-                {
+                case ObjectiveType.DefeatEnemies:
                     enemiesDestroyed += amount;
                     totalEnemiesDestroyed += amount;
                     OnEnemyDefeated?.Invoke(CampaignManager.Instance.GetCurrentLevelEvent());
                     StartCoroutine(ConditionChecker());
-                }
+                    break;
             }
         }
 
@@ -586,9 +585,9 @@ namespace TowerTanks.Scripts
 
         private void CheckLevelConditions()
         {
-            if (CampaignManager.Instance.GetCurrentLevelEvent().objectiveType == ObjectiveType.DefeatEnemies)
+            if (CampaignManager.Instance.GetCurrentLevelEvent().subObjectives[0].objectiveType == ObjectiveType.DefeatEnemies)
             {
-                if (enemiesDestroyed >= CampaignManager.Instance.GetCurrentLevelEvent().enemiesToDefeat)
+                if (enemiesDestroyed >= CampaignManager.Instance.GetCurrentLevelEvent().subObjectives[0].enemiesToDefeat)
                 {
                     //Spawn the End Level Flag
                     eventManager.SpawnEndOfLevel();

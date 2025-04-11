@@ -2504,6 +2504,7 @@ MonoBehaviour:
   jammedSprite: {fileID: 718222718007857193}
   centerGear: {fileID: 1098652911147423295}
   centerGearSpeedScale: 0.08
+  treadRefreshRate: 1
   engineRPM: 0
   isJammed: 0
 --- !u!50 &1677695872800944110

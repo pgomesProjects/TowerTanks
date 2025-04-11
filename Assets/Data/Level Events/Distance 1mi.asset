@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3e5e6254ce35d8c44956948c70672447, type: 3}
-  m_Name: Destroy Two Enemies
+  m_Name: Distance 1mi
   m_EditorClassIdentifier: 
   levelName: Test Level
+  objectiveName: Reach The Rendevous Point!
   levelDescription: This is a test description for a test level. This is something
     that would be used in the campaign mode map.
-  objectiveType: 1
-  numberOfRounds: 0
   startingInteractables: 0300000004000000020000000000000006000000
-  metersToTravel: 1500
-  enemiesToDefeat: 2
-  secondsToSurviveFor: 0
+  enemyFrequency: {x: 100, y: 100}
+  subObjectives:
+  - {fileID: 11400000, guid: b936cad693d041742acf1fa135242790, type: 2}
+  metersToTravel: 1609.35
