@@ -131,14 +131,14 @@ namespace TowerTanks.Scripts
         {
             GameManager.Instance.MultiplayerManager.OnPlayerConnected += SpawnPlayer;
             PlayerMovement.OnPlayerDeath += CheckForGameOver;
-            ObjectiveTracker.OnMissionComplete += CompleteMission;
+            ObjectiveTracker.OnMissionComplete += StartCompleteMissionSequence;
         }
 
         private void OnDisable()
         {
             GameManager.Instance.MultiplayerManager.OnPlayerConnected -= SpawnPlayer;
             PlayerMovement.OnPlayerDeath -= CheckForGameOver;
-            ObjectiveTracker.OnMissionComplete -= CompleteMission;
+            ObjectiveTracker.OnMissionComplete -= StartCompleteMissionSequence;
         }
 
         private void BuildPlayerTank()
@@ -597,6 +597,8 @@ namespace TowerTanks.Scripts
                 }
             }
         }
+
+        public void StartCompleteMissionSequence() => TankManager.Instance.playerTank?.Transition();
 
         public void CompleteMission()
         {
