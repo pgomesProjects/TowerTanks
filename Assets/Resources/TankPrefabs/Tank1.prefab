@@ -769,7 +769,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5378869472264753625}
   - component: {fileID: 2728227011551134190}
-  m_Layer: 30
+  m_Layer: 27
   m_Name: MinimapIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1939,9 +1939,11 @@ MonoBehaviour:
     gameObject: {fileID: 0}
     design: {fileID: 0}
     buildOnStart: 0
+  _thisTankAI: {fileID: 0}
   tankFlag: {fileID: 5685120059937764489}
   surrenderFlag: {fileID: 7747998499048427212}
   corpsePrefab: {fileID: 1822410957947985641, guid: a0ef6e4884eb9704c9ff17411afc1462, type: 3}
+  topHatch: {fileID: 0}
   hatches: []
   roomKit: {fileID: 11400000, guid: 530fa040df4a8014d8d7b5abd56e4bdf, type: 2}
   diageticElements:
@@ -1977,7 +1979,6 @@ MonoBehaviour:
   tank: {fileID: 0}
   targetTank: {fileID: 0}
   tokenActivatedInteractables: []
-  aiSettings: {fileID: 11400000, guid: 4ac42c6fcaa804d4babc900169c2e83e, type: 2}
   players: []
   pausedInteractables: []
 --- !u!114 &7640934136196105169
