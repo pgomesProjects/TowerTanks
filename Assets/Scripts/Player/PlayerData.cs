@@ -15,6 +15,7 @@ namespace TowerTanks.Scripts
         public InputActionMap playerInputMap { get; private set; }
         public InputActionMap playerGameCursorMap { get; private set; }
         public InputActionMap playerUIMap { get; private set; }
+        public PlayerAnalyticsTracker playerAnalyticsTracker { get; private set; }
         public Vector2 cursorMovementData { get; private set; }
         public Vector2 playerMovementData { get; private set; }
 
@@ -36,6 +37,7 @@ namespace TowerTanks.Scripts
             playerInputMap = playerInput.actions.FindActionMap("Player");
             playerGameCursorMap = playerInput.actions.FindActionMap("GameCursor");
             playerUIMap = playerInput.actions.FindActionMap("UI");
+            playerAnalyticsTracker = GetComponent<PlayerAnalyticsTracker>();
             SetDefaultPlayerName();
             currentPlayerState = PlayerState.NameReady;
         }
@@ -231,6 +233,7 @@ namespace TowerTanks.Scripts
             this.playerName = playerName;
             playerInput.name = playerName;
         }
+        public string GetPlayerHexCode() => "#" + ColorUtility.ToHtmlStringRGBA(GameManager.Instance.MultiplayerManager.GetPlayerColors()[playerInput.playerIndex]);
         public PlayerMovement GetCurrentPlayerObject() => currentPlayer;
         public PlayerState GetCurrentPlayerState() => currentPlayerState;
         public void SetPlayerState(PlayerState currentPlayerState)

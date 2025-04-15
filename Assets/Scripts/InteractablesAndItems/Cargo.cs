@@ -135,6 +135,8 @@ namespace TowerTanks.Scripts
 
                 //Add the item to the inventory
                 player.GetCharacterHUD()?.InventoryHUD.AddToInventory(inventoryItem);
+                //Add the item to the player tracker
+                player.GetPlayerData().playerAnalyticsTracker.StartInteraction(inventoryItem.name);
 
                 GameManager.Instance.AudioManager.Play("UseSFX");
             }
@@ -150,6 +152,8 @@ namespace TowerTanks.Scripts
 
             //Clear the item from the inventory
             player.GetCharacterHUD()?.InventoryHUD.ClearInventory();
+            //Remove the interactable from the player tracker
+            player.GetPlayerData().playerAnalyticsTracker.EndInteraction(inventoryItem.name);
 
             if (throwing)
             {

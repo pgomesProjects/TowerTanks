@@ -93,6 +93,8 @@ namespace TowerTanks.Scripts
             await Task.Delay(Mathf.CeilToInt(displayStatSpeed * 1000f));
             Instantiate(gameStatPrefab, statsContainer).AddData("Throttles Built", sessionStats.throttlesBuilt.ToString());
             await Task.Delay(Mathf.CeilToInt(displayStatSpeed * 1000f));
+            Instantiate(gameStatPrefab, statsContainer).AddData("Energy Shields Built", sessionStats.energyShieldsBuilt.ToString());
+            await Task.Delay(Mathf.CeilToInt(displayStatSpeed * 1000f));
 
             Instantiate(statHeaderPrefab, statsContainer).CreateSectionHeader(SessionStats.enemiesHeader);
             await Task.Delay(Mathf.CeilToInt(displayStatSpeed * 1000f));

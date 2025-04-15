@@ -19,6 +19,7 @@ public class SessionStats
     public int mortarsBuilt;
     public int boilersBuilt;
     public int throttlesBuilt;
+    public int energyShieldsBuilt;
 
     //Enemies
     public const string enemiesHeader = "Enemies";

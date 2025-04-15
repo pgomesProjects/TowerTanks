@@ -12,7 +12,7 @@ public struct Difficulty
     public float multiplier;
 }
 
-public enum GAMESCENE { TITLE = 0, BUILDING = 1, COMBAT = 3 };
+public enum GAMESCENE { TITLE = 0, HUB = 1, BUILDING = 2, COMBAT = 3 };
 
 public enum PlatformType
 {

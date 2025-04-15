@@ -8,7 +8,6 @@ namespace TowerTanks.Scripts
     public class AnalyticsSender : MonoBehaviour
     {
         private const string formUrl = "https://docs.google.com/forms/u/0/d/e/1FAIpQLScPMUXueh3d4zBsrcYZMrct4m3XGMK50qX0aybKJZEpnmhMLg/formResponse";
-
         public static bool dataSent = false;
 
         public void SubmitAnalytics()
@@ -36,8 +35,8 @@ namespace TowerTanks.Scripts
             WWWForm form = new WWWForm();
 
             //Input the data from the analytics into their respective fields
-            form.AddField("entry.910137412", gameAnalytics.PrintTimePlayed());
-            form.AddField("entry.1713432671", gameAnalytics.gameStartTime);
+            form.AddField("entry.910137412", gameAnalytics.PrintSessionTime());
+            form.AddField("entry.1713432671", gameAnalytics.gameStartTime.ToString("yyyy-MM-dd HH:mm:ss"));
 
             form.AddField("entry.942374160", sessionStats.maxHeight.ToString("F2"));
             form.AddField("entry.211050498", sessionStats.roomsBuilt.ToString());
@@ -69,6 +68,14 @@ namespace TowerTanks.Scripts
                     dataSent = false;
                 }
             }
+        }
+
+        private void OnApplicationQuit()
+        {
+            //Submits analytics when the application is quit
+            CampaignManager.Instance.EndCampaign();
+            SubmitAnalytics();
+            Debug.Log(AnalyticsManager.currentGameAnalytics.ToString());
         }
     }
 }

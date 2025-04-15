@@ -1267,6 +1267,10 @@ namespace TowerTanks.Scripts
                     case ThrottleController throttle:
                         GameManager.Instance.currentSessionStats.throttlesBuilt++;
                         break;
+                    //Energy Shield
+                    case EnergyShieldController energyShield:
+                        GameManager.Instance.currentSessionStats.energyShieldsBuilt++;
+                        break;
                 }
             }
         }

@@ -177,6 +177,8 @@ namespace TowerTanks.Scripts
 
                 //Add the interactable to the inventory
                 operatorID.GetCharacterHUD()?.InventoryHUD.AddToInventory(inventoryItem);
+                //Add the interactable to the player tracker
+                operatorID.GetPlayerData().playerAnalyticsTracker.StartInteraction(GameManager.Instance.TankInteractableToEnum(this).ToString());
 
                 Debug.Log(operatorID + " is in!");
                 GameManager.Instance.AudioManager.Play("UseSFX");
@@ -205,6 +207,8 @@ namespace TowerTanks.Scripts
 
                 //Remove the interactable from the inventory
                 operatorID.GetCharacterHUD()?.InventoryHUD.ClearInventory();
+                //Remove the interactable from the player tracker
+                operatorID.GetPlayerData().playerAnalyticsTracker.EndInteraction(GameManager.Instance.TankInteractableToEnum(this).ToString());
 
                 hasOperator = false;
                 Debug.Log(operatorID + " is out!");

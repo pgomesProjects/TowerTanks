@@ -187,6 +187,10 @@ namespace TowerTanks.Scripts
 
                     currentSceneState = SCENESTATE.Menu;
                     break;
+                case GAMESCENE.HUB:
+                    GameSettings.showGamepadCursors = false;
+                    currentSceneState = SCENESTATE.HubScene;
+                    break;
                 case GAMESCENE.BUILDING:
                     GameSettings.showGamepadCursors = true;
                     currentSceneState = SCENESTATE.BuildScene;

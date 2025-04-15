@@ -9,7 +9,6 @@ namespace TowerTanks.Scripts
     public class CampaignManager : MonoBehaviour
     {
         public static CampaignManager Instance;
-
         [SerializeField, Tooltip("The level event data that dictates how the level must be run.")] private LevelEvents currentLevelEvent;
 
         internal string PlayerTankName { get; private set; }
@@ -17,6 +16,7 @@ namespace TowerTanks.Scripts
         internal bool HasCampaignStarted { get; private set; }
 
         public static Action OnCampaignStarted;
+        public DateTime campaignStartTime;
 
         private void Awake()
         {
@@ -83,23 +83,26 @@ namespace TowerTanks.Scripts
                     break;
             }
 
+            campaignStartTime = DateTime.Now;
             OnCampaignStarted?.Invoke();
             HasCampaignStarted = true;
         }
 
-        public void SetLevelEvent(LevelEvents levelEvent)
-        {
-            currentLevelEvent = levelEvent;
-        }
+        public void SetLevelEvent(LevelEvents levelEvent) => currentLevelEvent = levelEvent;
 
+        /// <summary>
+        /// Ends the current campaign.
+        /// </summary>
         public void EndCampaign()
         {
-            Debug.Log("Ending Campaign...");
-
-            GameManager.Instance.ResetStaticValues();
-            FindObjectOfType<AnalyticsSender>()?.SubmitAnalytics();
-
-            HasCampaignStarted = false;
+            //If the campaign has started, end it
+            if (HasCampaignStarted)
+            {
+                Debug.Log("Ending Campaign...");
+                AnalyticsManager.currentGameAnalytics.AddCampaignTime(campaignStartTime, DateTime.Now);
+                GameManager.Instance.ResetStaticValues();
+                HasCampaignStarted = false;
+            }
         }
 
         public void SetPlayerTankName(string playerTankName) => PlayerTankName = playerTankName;
