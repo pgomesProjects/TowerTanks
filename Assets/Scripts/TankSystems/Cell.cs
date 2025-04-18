@@ -114,6 +114,7 @@ namespace TowerTanks.Scripts
         }
         private void OnDestroy()
         {
+            OnCellHealthUpdated?.Invoke(this, 0);
             Destroy(backWall); //Make sure back wall gets destroyed when cell is destroyed
         }
         

@@ -190,7 +190,7 @@ namespace TowerTanks.Scripts
             if (playerDevice is Keyboard)
                 selectButtonPressed = ((Keyboard)playerDevice).spaceKey.isPressed;
             else if (playerDevice is Gamepad)
-                selectButtonPressed = ((Keyboard)playerDevice).spaceKey.isPressed;
+                selectButtonPressed = ((Gamepad)playerDevice).buttonSouth.isPressed;
 
             // Check for the transition from not pressed to pressed
             if (!previousButtonSouthState && selectButtonPressed)

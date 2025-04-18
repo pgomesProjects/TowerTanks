@@ -1,9 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using TowerTanks.Scripts.Deprecated;
 using Sirenix.OdinInspector;
 
 namespace TowerTanks.Scripts
@@ -25,17 +23,22 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("The fill of the respawn timer.")] private Image respawnBar;
         [SerializeField, Tooltip("The text for the respawn timer.")] private TextMeshProUGUI respawnText;
 
+        public int characterIndex { get; private set; }
         private Color playerColor;
         private Color startingColor;
 
         private RectTransform hudRectTransform;
         private Vector3 hudPosition;
+        private bool isShaking;
         private float shakeTimer = 0f;
         private float currentShakeDuration;
         private float currentShakeAmount;
 
         private CanvasGroup playerHUDCanvasGroup;
         public InventoryHUD InventoryHUD { get; private set; }
+
+        [Button("Debug Shake HUD")]
+        private void DebugShakeHUD() => ShakePlayerHUD(5f, 10f);
 
         private void Awake()
         {
@@ -53,10 +56,10 @@ namespace TowerTanks.Scripts
         /// <param name="playerName">The name of the player.</param>
         public void InitializeHUD(int characterIndex, string playerName = "")
         {
+            this.characterIndex = characterIndex;
             playerColor = GameManager.Instance.MultiplayerManager.GetPlayerColors()[characterIndex];
             transform.name = playerName + "HUD";
             transform.SetSiblingIndex(Mathf.Max(characterIndex, transform.parent.childCount - 1));
-            //hudRectTransform.anchoredPosition = new Vector2((hudRectTransform.sizeDelta.x + 35f) * characterIndex, 0f);
             playerNameBackground.color = playerColor;
             playerBorder.color = playerColor;
             playerNameText.text = playerName;
@@ -64,11 +67,33 @@ namespace TowerTanks.Scripts
             StartCoroutine(SetHUDPosition());
         }
 
+        /// <summary>
+        /// Sets the HUD positions after a frame delay.
+        /// </summary>
         private IEnumerator SetHUDPosition()
         {
             yield return null;
             LayoutRebuilder.ForceRebuildLayoutImmediate(hudRectTransform);
-            hudPosition = hudRectTransform.localPosition;
+            hudPosition = hudRectTransform.anchoredPosition;
+            SortPlayerAvatars();
+        }
+
+        /// <summary>
+        /// Sorts the player avatars in the same hierarchy based on their character inde.
+        /// </summary>
+        private void SortPlayerAvatars()
+        {
+            //Get the parent of the player avatars
+            Transform parent = transform.parent;
+            if (parent == null) return;
+
+            //Sort all of the player HUDs by their character index
+            PlayerHUD[] siblings = parent.GetComponentsInChildren<PlayerHUD>();
+            System.Array.Sort(siblings, (a, b) => a.characterIndex.CompareTo(b.characterIndex));
+
+            //Adjust the indices of the player HUDs to be in order
+            for (int i = 0; i < siblings.Length; i++)
+                siblings[i].transform.SetSiblingIndex(i);
         }
 
         private void Update()
@@ -81,29 +106,35 @@ namespace TowerTanks.Scripts
         /// </summary>
         private void CheckForHUDShake()
         {
-            if (shakeTimer > 0)
+            if (isShaking)
             {
-                // Calculate shake amount using Perlin noise and animation curve
-                float shakeProgress = 1 - Mathf.Clamp01(shakeTimer / currentShakeDuration);
-                float shakeIntensity = shakeIntensityCurve.Evaluate(shakeProgress);
+                if (shakeTimer > 0)
+                {
+                    // Calculate shake amount using Perlin noise and animation curve
+                    float shakeProgress = 1 - Mathf.Clamp01(shakeTimer / currentShakeDuration);
+                    float shakeIntensity = shakeIntensityCurve.Evaluate(shakeProgress);
 
-                // Calculate separate Perlin noise values for X and Y axes
-                float noiseX = Mathf.PerlinNoise(Time.time * currentShakeAmount, 0f);
-                float noiseY = Mathf.PerlinNoise(0f, Time.time * currentShakeAmount);
+                    // Calculate separate Perlin noise values for X and Y axes
+                    float noiseX = Mathf.PerlinNoise(Time.time * currentShakeAmount, 0f);
+                    float noiseY = Mathf.PerlinNoise(0f, Time.time * currentShakeAmount);
 
-                // Map noise values to X and Y offsets
-                float offsetX = (noiseX * 2 - 1) * currentShakeAmount;
-                float offsetY = (noiseY * 2 - 1) * currentShakeAmount;
+                    // Map noise values to X and Y offsets
+                    float offsetX = (noiseX * 2 - 1) * currentShakeAmount;
+                    float offsetY = (noiseY * 2 - 1) * currentShakeAmount;
 
-                // Apply the shake to the RectTransform's position
-                hudRectTransform.localPosition = hudPosition + new Vector3(offsetX, offsetY, 0f) * shakeIntensity;
+                    // Apply the shake to the RectTransform's position
+                    hudRectTransform.anchoredPosition = hudPosition + new Vector3(offsetX, offsetY, 0f) * shakeIntensity;
 
-                // Decrease shake timer
-                shakeTimer -= Time.deltaTime;
+                    // Decrease shake timer
+                    shakeTimer -= Time.deltaTime;
 
-                //Reset position after shake duration is over
-                if (shakeTimer <= 0f)
-                    hudRectTransform.localPosition = hudPosition;
+                    //Reset position after shake duration is over
+                    if (shakeTimer <= 0f)
+                    {
+                        isShaking = false;
+                        hudRectTransform.anchoredPosition = hudPosition;
+                    }
+                }
             }
         }
 
@@ -123,6 +154,11 @@ namespace TowerTanks.Scripts
         /// <param name="shakeAmount">The amplitude of the shake.</param>
         public void ShakePlayerHUD(float shakeDuration, float shakeAmount)
         {
+            if (!isShaking)
+            {
+                hudPosition = hudRectTransform.anchoredPosition;
+                isShaking = true;
+            }
             currentShakeDuration = shakeDuration;
             currentShakeAmount = shakeAmount;
             shakeTimer = currentShakeDuration;

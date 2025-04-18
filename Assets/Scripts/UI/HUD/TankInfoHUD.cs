@@ -45,7 +45,7 @@ namespace TowerTanks.Scripts
 
         private void RemoveTankInfo()
         {
-            lostConnectionScreen.gameObject.SetActive(true);
+            lostConnectionScreen?.gameObject.SetActive(true);
             tankHeatmap?.ClearMap();
         }
     }
