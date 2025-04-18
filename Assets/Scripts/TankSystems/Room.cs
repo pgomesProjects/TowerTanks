@@ -49,7 +49,7 @@ namespace TowerTanks.Scripts
 
         //Settings:
         [Header("Template Settings:")]
-        [SerializeField, Tooltip("Room's local asset kit, determines how room looks.")]     private RoomAssetKit assetKit;
+        [Tooltip("Room's local asset kit, determines how room looks.")]     public RoomAssetKit assetKit;
         [Tooltip("Indicates whether or not this is the tank's indestructible core room.")]  public bool isCore = false;
         [Tooltip("Indicates whether this room's cells can be lit on fire or not.")]         public bool isFlammable = true;
         [Button("Rotate", ButtonSizes.Small)] private void DebugRotate() { Rotate(); UpdateRoomType(type); }
@@ -82,7 +82,7 @@ namespace TowerTanks.Scripts
         public Dictionary<string, Vector2> hatchPlacements = new(); //Key should be cell name, value should be hatch direction (up, down, left, right)
 
         //RUNTIME METHODS:
-        private void Awake()
+        public void Awake()
         {
             Initialize(); //Set everything up
         }
@@ -346,7 +346,7 @@ namespace TowerTanks.Scripts
             transform.localEulerAngles = Vector3.zero;                                //Zero out rotation relative to parent tank
 
             //Clear ghosts:
-            foreach (Coupler coupler in ghostCouplers) Destroy(coupler.gameObject); //Destroy each ghost coupler
+            foreach (Coupler coupler in ghostCouplers) DestroyObj(coupler.gameObject); //Destroy each ghost coupler
             ghostCouplers.Clear();                                                  //Clear list of references to ghosts
 
             //Check for obstruction:
@@ -447,7 +447,7 @@ namespace TowerTanks.Scripts
                 //Find coupler group:
                 Coupler coupler = ghostCouplers[x]; //Get current coupler
                 IEnumerable<Coupler> group = from otherCoupler in ghostCouplers //Look through list of couplers
-                                             where otherCoupler.transform.rotation == coupler.transform.rotation &&                                                                                             //Find coupler with matching orientation (including self)...
+                                             where coupler != null && otherCoupler.transform.rotation == coupler.transform.rotation &&                                                                                             //Find coupler with matching orientation (including self)...
                                                      (coupler.transform.rotation.z == 0 ? RoundToGrid(otherCoupler.transform.localPosition.y, 0.25f) == RoundToGrid(coupler.transform.localPosition.y, 0.25f) : //With matching latitudinal position (if horizontal)...
                                                                                           RoundToGrid(otherCoupler.transform.localPosition.x, 0.25f) == RoundToGrid(coupler.transform.localPosition.x, 0.25f))  //With matching longitudinal position (if vertical)...
                                              select otherCoupler; //Get other couplers which fit these criteria
@@ -457,13 +457,25 @@ namespace TowerTanks.Scripts
                 group = group.Where(otherCoupler => coupler.cellA.section == otherCoupler.cellA.section);                                                                            //Only include couplers in group which are on the same section of origin room
                 group = group.Where(otherCoupler => coupler.roomB == otherCoupler.roomB && coupler.cellB.section == otherCoupler.cellB.section);                                     //Make sure included couplers are connecting to the same room, and the same section of that room
                 group = group.OrderBy(otherCoupler => coupler.transform.rotation.z == 0 ? otherCoupler.transform.position.x : otherCoupler.transform.position.y);                    //Organize list from down to up and left to right
-                for (int y = 1; y < group.Count();) { Coupler redundantCoupler = group.ElementAt(y); ghostCouplers.Remove(redundantCoupler); Destroy(redundantCoupler.gameObject); } //Delete all other couplers in group
+                for (int y = 1; y < group.Count();) { Coupler redundantCoupler = group.ElementAt(y); ghostCouplers.Remove(redundantCoupler); DestroyObj(redundantCoupler.gameObject); } //Delete all other couplers in group
             }
 
             //Check to see if the room can be mounted
             ValidateMount();
 
             return newPoint;
+        }
+        
+        /// <summary>
+        /// Using this instead of Destroy() in this class, because the editor tool TankStudio needs to use DestroyImmediate instead of Destroy,
+        /// while in-game we want to use Destroy() and not DestroyImmediate. This is probably the cleanest way to inject different
+        /// destroy methods, simply by overriding DestroyObj in derived class "EditorModeRoom". This is the only modification that is required for tank building to work in
+        /// both edit mode & play mode.
+        /// </summary>
+        /// <param name="obj"></param>
+        public virtual void DestroyObj(GameObject obj)
+        {
+            Destroy(obj);
         }
 
         private void ValidateMount()
@@ -502,7 +514,7 @@ namespace TowerTanks.Scripts
             //If the room can't be mounted, ensure that the ghost couplers are cleared
             if (!canBeMounted)
             {
-                foreach (Coupler coupler in ghostCouplers) Destroy(coupler.gameObject); //Destroy each ghost coupler
+                foreach (Coupler coupler in ghostCouplers) DestroyObj(coupler.gameObject); //Destroy each ghost coupler
                 ghostCouplers.Clear();                                                  //Clear list of references to ghosts
             }
 
@@ -545,7 +557,7 @@ namespace TowerTanks.Scripts
                     }
                     foreach (int i in hatchesToDestroy)
                     {
-                        Destroy(coupler.roomB.hatches[i].gameObject);
+                        DestroyObj(coupler.roomB.hatches[i].gameObject);
                         coupler.roomB.hatchPlacements.Remove(coupler.cellB.name);
                         coupler.roomB.hatches.RemoveAt(i);
                     }
@@ -618,7 +630,7 @@ namespace TowerTanks.Scripts
                 GameObject ladder = c.ladders[0];                   //Get ladder from ladders list until it is empty, then start getting them from leading ladders list
                 ladderlist.Remove(ladder);
                 c.ladders.Remove(ladder);
-                Destroy(ladder);   
+                DestroyObj(ladder);   
                 //Destroy ladder
             }
             if (c != null) c.Kill();
@@ -755,7 +767,7 @@ namespace TowerTanks.Scripts
         /// <summary>
         /// Rotates unmounted room around its pivot.
         /// </summary>
-        public void Rotate(bool clockwise = true)
+        public virtual void Rotate(bool clockwise = true)
         {
             //Validity checks:
             if (mounted) { Debug.LogError("Tried to rotate room while mounted!"); return; } //Do not allow mounted rooms to be rotated
@@ -865,7 +877,7 @@ namespace TowerTanks.Scripts
             foreach (var hatch in hatchesToDestroy)
             {
                 hatches.Remove(hatch);
-                Destroy(hatch.gameObject);
+                DestroyObj(hatch.gameObject);
             }
             
             MountCouplers(hatches, mountingHatches:true);
@@ -947,7 +959,7 @@ namespace TowerTanks.Scripts
             {
                 GameObject ladder = ladders.Count > 0 ? ladders[0] : leadingLadders[0];                   //Get ladder from ladders list until it is empty, then start getting them from leading ladders list
                 if (ladders.Contains(ladder)) ladders.Remove(ladder); else leadingLadders.Remove(ladder); //Remove ladder from its respective list
-                Destroy(ladder);                                                                          //Destroy ladder
+                DestroyObj(ladder);                                                                          //Destroy ladder
             }
 
             //Cleanup:
@@ -979,6 +991,10 @@ namespace TowerTanks.Scripts
         public void UpdateRoomType(RoomType newType)
         {
             //Initialization:
+            if (roomData == null)
+            {
+                UnityEngine.Debug.LogError("Room data is null, cannot update room type!"); return; //Do not proceed if room data is not present
+            }
             type = newType; //Mark that room is now given type
 
             //Change room color:

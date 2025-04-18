@@ -94,7 +94,7 @@ namespace TowerTanks.Scripts
         {
             //Assign Values
             float bonusHealth = 25f;
-            if (GameManager.Instance.cellDoubleHealth) bonusHealth += bonusHealth;
+            if (GameManager.Instance && GameManager.Instance.cellDoubleHealth) bonusHealth += bonusHealth;
             if (room.type == Room.RoomType.Armor) maxHealth += bonusHealth; //Armor has Bonus hitpoints
             health = maxHealth;
         }
@@ -169,7 +169,7 @@ namespace TowerTanks.Scripts
             //Get objects & components:
             room = GetComponentInParent<Room>(); //Get room cell is connected to
             c = GetComponent<BoxCollider2D>();   //Get local collider
-            if (GameManager.Instance.cellDoubleHealth) maxHealth += maxHealth; //double cell health
+            if (GameManager.Instance && GameManager.Instance.cellDoubleHealth) maxHealth += maxHealth; //double cell health
             health = maxHealth;
             damageSprite = transform.Find("DiageticUI")?.GetComponent<SpriteRenderer>();
             deathWallMask = transform.Find("DeathWallMask").gameObject;                  //Get object used to mask out cell walls in death

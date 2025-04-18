@@ -1847,6 +1847,7 @@ MonoBehaviour:
   upMostCell: {fileID: 0}
   leftMostCell: {fileID: 0}
   rightMostCell: {fileID: 0}
+  gameManager: {fileID: 689608177952213201, guid: 220ce5fe41d0f204f818995c8d0ad3bd, type: 3}
   myTankID:
     TankName: New Tank
     tankScript: {fileID: 0}
@@ -1855,9 +1856,11 @@ MonoBehaviour:
     gameObject: {fileID: 0}
     design: {fileID: 0}
     buildOnStart: 0
+  _thisTankAI: {fileID: 0}
   tankFlag: {fileID: 5685120059937764489}
   surrenderFlag: {fileID: 7747998499048427212}
   corpsePrefab: {fileID: 1822410957947985641, guid: a0ef6e4884eb9704c9ff17411afc1462, type: 3}
+  topHatch: {fileID: 0}
   hatches: []
   roomKit: {fileID: 11400000, guid: 530fa040df4a8014d8d7b5abd56e4bdf, type: 2}
   diageticElements:
@@ -1893,8 +1896,8 @@ MonoBehaviour:
   tank: {fileID: 0}
   targetTank: {fileID: 0}
   tokenActivatedInteractables: []
-  aiSettings: {fileID: 11400000, guid: 4ac42c6fcaa804d4babc900169c2e83e, type: 2}
   players: []
+  pausedInteractables: []
 --- !u!114 &7640934136196105169
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2418,6 +2421,7 @@ MonoBehaviour:
   centerGear: {fileID: 1098652911147423295}
   centerGearSpeedScale: 0.08
   engineRPM: 0
+  isJammed: 0
 --- !u!50 &1677695872800944110
 Rigidbody2D:
   serializedVersion: 4

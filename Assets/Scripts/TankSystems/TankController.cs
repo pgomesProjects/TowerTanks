@@ -42,7 +42,8 @@ namespace TowerTanks.Scripts
         public Cell leftMostCell = null;  
         public Cell rightMostCell = null; 
         private TextMeshProUGUI nameText;
-        
+
+        public GameManager gameManager;
         private TankManager tankManager;
         [HideInInspector] public TankId myTankID;
         [HideInInspector] public TankAI _thisTankAI;
@@ -330,13 +331,10 @@ namespace TowerTanks.Scripts
         }
         private void Start()
         {
-            tankManager = GameObject.Find("TankManager")?.GetComponent<TankManager>();
-            
-            
-            if (tankManager != null)
+            if (TankManager.Instance)
             {
                 myTankID = TankManager.Instance.tanks.FirstOrDefault(tank => tank.tankScript == this);
-                foreach (TankId tank in tankManager.tanks)
+                foreach (TankId tank in TankManager.Instance.tanks)
                 {
                     if (tank.gameObject == gameObject) //if I'm on the list,
                     {
@@ -356,7 +354,7 @@ namespace TowerTanks.Scripts
 
                 if (tankType == TankId.TankType.PLAYER)
                 {
-                    tankManager.playerTank = this;
+                    TankManager.Instance.playerTank = this;
                     TankManager.OnPlayerTankAssigned?.Invoke(this);
                 }
             } 
@@ -384,7 +382,7 @@ namespace TowerTanks.Scripts
             GetTankInfo();
 
             //Player Cargo Logic
-            if (tankType == TankId.TankType.PLAYER)
+            if (tankType == TankId.TankType.PLAYER && GameManager.Instance)
             {
                 CargoManifest manifest = GameManager.Instance.cargoManifest;
                 SpawnCargo(manifest);
@@ -1000,7 +998,7 @@ namespace TowerTanks.Scripts
 
         
         //FUNCTIONALITY METHODS:
-        public void Build(TankDesign tankDesign) //Called from TankManager when constructing a specific design
+        public void Build(TankDesign tankDesign, bool usedFromEditor = false) //Called from TankManager when constructing a specific design
         {
             //Build core interactables:
             foreach (BuildStep.CellInterAssignment cellInter in tankDesign.coreInteractables) //Iterate through each interactable assignment for core cells
@@ -1019,9 +1017,9 @@ namespace TowerTanks.Scripts
             {
                 //Get variables of the step
                 GameObject room = null;
-
+            
                 //Build Normal Room
-                foreach(RoomInfo roomInfo in GameManager.Instance.roomList) //Find the prefab we want to spawn
+                foreach(RoomInfo roomInfo in gameManager.roomList) //Find the prefab we want to spawn
                 {
                     if (roomInfo.roomObject.name == tankDesign.buildingSteps[i].roomID)
                     {
@@ -1030,7 +1028,7 @@ namespace TowerTanks.Scripts
                 }
 
                 //Build Special Room
-                foreach (RoomInfo roomInfo in GameManager.Instance.specialRoomList) //Find the special prefab we want to spawn
+                foreach (RoomInfo roomInfo in gameManager.specialRoomList) //Find the special prefab we want to spawn
                 {
                     if (roomInfo.roomObject.name == tankDesign.buildingSteps[i].roomID)
                     {
@@ -1039,6 +1037,16 @@ namespace TowerTanks.Scripts
                 }
 
                 Room roomScript = Instantiate(room.GetComponent<Room>(), towerJoint, false);
+                if (usedFromEditor)
+                {
+                    EditModeRoom editModeRoom = roomScript.gameObject.AddComponent<EditModeRoom>();
+                    editModeRoom.assetKit = Resources.Load<RoomAssetKit>("RoomKits/RoomKit_Proto");
+                    DestroyImmediate(roomScript);
+                    roomScript = editModeRoom;
+                    
+                    roomScript.Awake();
+                    roomScript.Start();
+                }
                 Vector3 spawnVector = tankDesign.buildingSteps[i].localSpawnVector;
                 int rotate = tankDesign.buildingSteps[i].rotate;
 
