@@ -410,7 +410,7 @@ namespace TowerTanks.Scripts
             characterCountText.text = playerName.Length.ToString() + " / " + maximumCharacters.ToString();
         }
 
-        private void UpdatePlayerButtonNameDisplay() => playerButtonNameText.text = PlayerData.ToPlayerData(currentPlayer).GetPlayerName();
+        private void UpdatePlayerButtonNameDisplay() => playerButtonNameText.text = PlayerData.ToPlayerData(currentPlayer).playerName;
 
         public float GetAddCharacterDelay() => addCharacterDelay;
         public bool IsMaximumLengthReached() => playerName.Length >= maximumCharacters;

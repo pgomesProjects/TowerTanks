@@ -286,7 +286,7 @@ namespace TowerTanks.Scripts
         /// <param name="room">The data for the room to move.</param>
         private void MoveRoom(WorldRoom room)
         {
-            //Get the movement data from the player
+            //Get the cursor movement data from the player
             PlayerData player = PlayerData.ToPlayerData(room.playerSelector.GetCurrentPlayerInput());
             Vector2 playerMovement = player.playerMovementData;
 
@@ -318,7 +318,16 @@ namespace TowerTanks.Scripts
         /// <param name="distance">The distance to move the room.</param>
         private void MoveRoomInScene(WorldRoom room, Vector2 distance)
         {
-            room.playerSelector.GetCurrentPlayerData().GetGamepadCursor().AdjustCursorPosition(Camera.main.WorldToScreenPoint(room.roomObject.SnapMove((Vector2)Camera.main.ScreenToWorldPoint(room.cursorTransform.position) + distance)), Vector2.zero);
+            //Move the room's position by the distance and adjust the cursor to match it
+            Vector2 newRoomPosition = Camera.main.WorldToScreenPoint(room.roomObject.SnapMove((Vector2)Camera.main.ScreenToWorldPoint(room.cursorTransform.position) + distance));
+            room.playerSelector.GetCurrentPlayerData().GetGamepadCursor().AdjustCursorPosition(newRoomPosition, Vector2.zero);
+
+            //Display the amount of room connections, if any
+            int roomConnections = room.roomObject.GetRoomConnections();
+            if (roomConnections > 0)
+                room.playerSelector.GetCurrentPlayerData().GetGamepadCursor().AddCursorText(roomConnections.ToString(), Color.green);
+            else
+                room.playerSelector.GetCurrentPlayerData().GetGamepadCursor().RemoveCursorText();
         }
 
         /// <summary>

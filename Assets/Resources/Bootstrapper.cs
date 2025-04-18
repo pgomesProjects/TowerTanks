@@ -17,7 +17,6 @@ public static class Bootstrapper
         FocusGameView();
 #endif
 
-        Cursor.lockState = CursorLockMode.Confined;
         GetCurrentSettings();
         GameSettings.gamePlatform = GameSettings.GetRunningPlatform();
         Debug.Log("Current Platform: " + GameSettings.gamePlatform);

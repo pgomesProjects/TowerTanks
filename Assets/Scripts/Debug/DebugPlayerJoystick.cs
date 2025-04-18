@@ -46,7 +46,7 @@ namespace TowerTanks.Scripts
             else
                 currentRefreshRate += Time.unscaledDeltaTime;
 
-            UpdateText(currentPlayer.GetPlayerName(), currentPlayer.playerMovementData, angle);
+            UpdateText(currentPlayer.playerName, currentPlayer.playerMovementData, angle);
         }
 
         private void UpdateText(string playerName, Vector2 movementData, float angle)

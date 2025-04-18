@@ -2374,28 +2374,6 @@
                 },
                 {
                     "name": "",
-                    "id": "ef222e8b-914e-4516-963c-5d247de97e21",
-                    "path": "<Keyboard>/e",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard and Mouse",
-                    "action": "Mount",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "c485ce66-b994-4371-a1e5-4d5ca2ab266b",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard and Mouse",
-                    "action": "Mount",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "81e6b632-530f-4302-90e6-03421cada59e",
                     "path": "<Keyboard>/space",
                     "interactions": "",
@@ -2412,6 +2390,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
+                    "action": "Mount",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1d0d0716-5abc-45b4-a313-b79208336b94",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard and Mouse",
                     "action": "Mount",
                     "isComposite": false,
                     "isPartOfComposite": false

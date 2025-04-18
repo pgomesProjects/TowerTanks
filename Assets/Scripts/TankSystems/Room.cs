@@ -1169,6 +1169,16 @@ namespace TowerTanks.Scripts
         /// </summary>
         private Cell GetCellFromManifestNumber(int manifestNum) { return cells.Where(cell => cell.manifestIndex == manifestNum).FirstOrDefault(); }
         /// <summary>
+        /// Returns the number of couplers connected to the tank.
+        /// </summary>
+        public int GetRoomConnections()
+        {
+            if (!mounted)
+                return ghostCouplers.Count;
+            else
+                return couplers.Count;
+        }
+        /// <summary>
         /// Returns bounding box which encapsulates this room.
         /// </summary>
         public Bounds GetRoomBounds()

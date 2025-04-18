@@ -60,7 +60,7 @@ namespace TowerTanks.Scripts
 
             currentInteractionName = string.Empty;
 
-            Debug.Log(playerData.GetPlayerName() + " " + interactionName + " Interaction Time: " + (interactions[interactionName][interactions[interactionName].Count - 1].Item2 - interactions[interactionName][interactions[interactionName].Count - 1].Item1).TotalSeconds.ToString("F0") + " seconds");
+            Debug.Log(playerData.playerName + " " + interactionName + " Interaction Time: " + (interactions[interactionName][interactions[interactionName].Count - 1].Item2 - interactions[interactionName][interactions[interactionName].Count - 1].Item1).TotalSeconds.ToString("F0") + " seconds");
         }
 
         /// <summary>

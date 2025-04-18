@@ -208,3 +208,16 @@ MonoBehaviour:
       promptInfo: {fileID: 11400000, guid: 5110a643805b40b458d16ff1ca25912d, type: 2}
     - platform: 4
       promptInfo: {fileID: 11400000, guid: 5d26e4cf75489704cadae8ed199063e0, type: 2}
+  - action: 15
+    actionType: 0
+    prompts:
+    - platform: 0
+      promptInfo: {fileID: 11400000, guid: ed23ac22d704224479705423a3956bc6, type: 2}
+    - platform: 1
+      promptInfo: {fileID: 11400000, guid: d699ad21a4d0ed343a2c33f44230645e, type: 2}
+    - platform: 2
+      promptInfo: {fileID: 11400000, guid: 40b85dd048e72de448606913c508eefc, type: 2}
+    - platform: 3
+      promptInfo: {fileID: 11400000, guid: f17a2b5f433a1964f9e8e0686d91d87b, type: 2}
+    - platform: 4
+      promptInfo: {fileID: 11400000, guid: 75300faeb85f18741b2bb8c6ba328cce, type: 2}

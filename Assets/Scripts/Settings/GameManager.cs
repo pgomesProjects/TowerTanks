@@ -43,6 +43,7 @@ namespace TowerTanks.Scripts
         [SerializeField, Tooltip("The canvas for the loading screen.")] private GameObject loaderCanvas;
         [SerializeField, Tooltip("The loading progress bar.")] private Image progressBar;
         [Tooltip("The settings for all of the button prompts.")] public ButtonPromptSettings buttonPromptSettings;
+        [Tooltip("The settings for all of the button prompts.")] public ButtonPromptSystem buttonPromptSystem;
 
         public SCENESTATE currentSceneState { get; private set; }
         public bool tutorialWindowActive;

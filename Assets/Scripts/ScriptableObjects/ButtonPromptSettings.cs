@@ -92,7 +92,8 @@ namespace TowerTanks.Scripts
         AdvanceTutorial,
         MoveG,
         MoveD,
-        PumpShield
+        PumpShield,
+        Undo
     }
 
     [CreateAssetMenu(fileName = "New Button Settings", menuName = "ScriptableObjects/Button Prompt Settings")]

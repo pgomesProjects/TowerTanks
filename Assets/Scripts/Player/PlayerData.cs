@@ -1,32 +1,35 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 namespace TowerTanks.Scripts
 {
     public class PlayerData : MonoBehaviour
     {
+        //Player name
+        internal string playerName { get; private set; }
+
+        //Player components
         public PlayerInput playerInput { get; private set; }
+        public PlayerAnalyticsTracker playerAnalyticsTracker { get; private set; }
+        public enum PlayerState { SettingUp, NameReady, PickingRooms, PickedRooms, IsBuilding, InTank, ReadyForCombat };
+        private PlayerState currentPlayerState;
+        private GamepadCursor playerCursor;
+        private PlayerMovement currentPlayer;
+
+
+        //Player input action maps
         public InputActionMap playerInputMap { get; private set; }
         public InputActionMap playerGameCursorMap { get; private set; }
         public InputActionMap playerUIMap { get; private set; }
-        public PlayerAnalyticsTracker playerAnalyticsTracker { get; private set; }
-        public Vector2 cursorMovementData { get; private set; }
+
+        //Movement data
         public Vector2 playerMovementData { get; private set; }
 
-        public enum PlayerState { SettingUp, NameReady, PickingRooms, PickedRooms, IsBuilding, InTank, ReadyForCombat };
-        private PlayerState currentPlayerState;
-        internal bool undoActionAvailable;
-
         private NamepadController playerNamepad;
-        private string playerName;
-        private PlayerMovement currentPlayer;
-        private GamepadCursor playerCursor;
+        internal bool undoActionAvailable;
 
         public static Action OnPlayerStateChanged;
 
@@ -47,7 +50,6 @@ namespace TowerTanks.Scripts
             playerInputMap.actionTriggered += OnPlayerInput;
             playerGameCursorMap.actionTriggered += OnGameCursorInput;
             playerUIMap.actionTriggered += OnUIInput;
-            SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
         private void OnDisable()
@@ -55,12 +57,6 @@ namespace TowerTanks.Scripts
             playerInputMap.actionTriggered -= OnPlayerInput;
             playerGameCursorMap.actionTriggered -= OnGameCursorInput;
             playerUIMap.actionTriggered -= OnUIInput;
-            SceneManager.sceneLoaded -= OnSceneLoaded;
-        }
-
-        private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
-        {
-
         }
 
         private void OnPlayerInput(InputAction.CallbackContext ctx)
@@ -70,8 +66,6 @@ namespace TowerTanks.Scripts
             {
                 case "Move": OnMove(ctx); break;
                 case "Pause": OnPause(ctx); break;
-                case "Rotate": OnRotate(ctx); break;
-                case "Mount": OnMount(ctx); break;
                 case "ReadyUp": OnReadyUp(ctx); break;
             }
         }
@@ -160,8 +154,8 @@ namespace TowerTanks.Scripts
 
         private void OnNavigate(InputAction.CallbackContext ctx)
         {
-            cursorMovementData = ctx.ReadValue<Vector2>();
-            playerNamepad?.OnNavigate(playerInput, cursorMovementData);
+            playerMovementData = ctx.ReadValue<Vector2>();
+            playerNamepad?.OnNavigate(playerInput, playerMovementData);
         }
 
         private void OnSubmit(InputAction.CallbackContext ctx)
@@ -180,16 +174,29 @@ namespace TowerTanks.Scripts
             }
         }
 
+        /// <summary>
+        /// Spawns a player object in the scene.
+        /// </summary>
+        /// <param name="playerPos">The world position of the player.</param>
+        /// <returns>The player movement component of the player that spawned.</returns>
         public PlayerMovement SpawnPlayerInScene(Vector2 playerPos)
         {
+            //Instantiate the player in the scene
             currentPlayer = Instantiate(GameManager.Instance.MultiplayerManager.GetPlayerPrefab());
             currentPlayer.gameObject.name = playerName;
-            currentPlayer.LinkPlayerInput(playerInput);
             currentPlayer.GetComponent<Rigidbody2D>().isKinematic = false;
             currentPlayer.transform.position = playerPos;
-            currentPlayer.transform.GetComponentInChildren<Renderer>().material.SetColor("_Color", GameManager.Instance.MultiplayerManager.GetPlayerColors()[playerInput.playerIndex]);
-            GameManager.Instance.SetPlayerCursorActive(playerInput.GetComponent<GamepadCursor>(), false);
+            currentPlayer.LinkPlayerInput(playerInput);
+
+            //Add the character HUD to the scene
             GameManager.Instance.AddCharacterHUD(currentPlayer);
+            //Change the player color
+            currentPlayer.transform.GetComponentInChildren<Renderer>().material.SetColor("_Color", GameManager.Instance.MultiplayerManager.GetPlayerColors()[playerInput.playerIndex]);
+            //Hide the player cursor
+            GameManager.Instance.SetPlayerCursorActive(playerInput.GetComponent<GamepadCursor>(), false);
+
+            //Change the action map
+            ChangePlayerActionMap("Player");
             return currentPlayer;
         }
 
@@ -219,15 +226,26 @@ namespace TowerTanks.Scripts
             return null;
         }
 
+        /// <summary>
+        /// Changes the action map of the player.
+        /// </summary>
+        /// <param name="actionMapName">The name of the action map.</param>
         public void ChangePlayerActionMap(string actionMapName)
         {
-            playerInput.currentActionMap.Disable();
-            playerInput.SwitchCurrentActionMap(actionMapName);
-            playerInput.currentActionMap.Enable();
+            //Try to switch the action map
+            try
+            {
+                playerInput.currentActionMap.Disable();
+                playerInput.SwitchCurrentActionMap(actionMapName);
+                playerInput.currentActionMap.Enable();
+            }
+            catch
+            {
+                Debug.LogError("Action Map '" + actionMapName + "' could not be found");
+            }
         }
 
         public void SetDefaultPlayerName() => SetPlayerName("Player " + (playerInput.playerIndex + 1).ToString());
-        public string GetPlayerName() => playerName;
         public void SetPlayerName(string playerName)
         {
             this.playerName = playerName;

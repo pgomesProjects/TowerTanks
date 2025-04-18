@@ -1111,7 +1111,7 @@ namespace TowerTanks.Scripts
         public override void LinkPlayerHUD(PlayerHUD newHUD)
         {
             characterHUD = newHUD;
-            characterHUD.InitializeHUD(characterIndex, playerData.GetPlayerName());
+            characterHUD.InitializeHUD(characterIndex, playerData.playerName);
         }
 
         #endregion
@@ -1223,7 +1223,7 @@ namespace TowerTanks.Scripts
 
         public void UpdatePlayerNameDisplay()
         {
-            playerNameText.text = playerData.GetPlayerName();
+            playerNameText.text = playerData.playerName;
         }
 
         public PlayerData GetPlayerData() => playerData;
